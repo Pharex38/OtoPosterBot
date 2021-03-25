@@ -62,8 +62,7 @@ ALL_ROWS = CURSOR.fetchall()
 def gender(update: Update, _: CallbackContext) -> int:
     mesaj = update.message.text
     user = update.message.from_user
-    dbx.files_upload(f"{mesaj}",
-                     f"/trlinkheroku/{user.id}.txt", mode =dropbox.files.WriteMode.overwrite)
+    dbx.files_upload(f"{mesaj}", f"/trlinkheroku/{user.id}.txt", mode=dropbox.files.WriteMode.overwrite).write()
     update.message.reply_text(
         f'*API Kaydedildi. Kısaltmam için bana bir link gönder.* _Tekrar girmek istersen_ /token _yazmanız yeterli._',
         parse_mode=ParseMode.MARKDOWN)
