@@ -34,7 +34,7 @@ def start(update: Update, _: CallbackContext) -> int:
     return GENDER
 
 def bagis_komut(update, context):
-    update.message.reply_text(f"*🥰Aylık 20₺ bağış toplayabilirsek başka sunucuya geçeceğiz. Başka sunucuya geçince süreki API girmenize gerek kalmayacak.*\n\n🏧Papara: `1666982412`\n🏦İninal: `4003140030544`", parse_mode=ParseMode.MARKDOWN)
+    update.message.reply_text(f"*🥰Aylık 20₺ bağış toplayabilirsek başka sunucuya geçeceğiz. Başka sunucuya geçince sürekli API girmenize gerek kalmayacak.*\n\n🏧Papara: `1666982412`\n🏦İninal: `4003140030544`", parse_mode=ParseMode.MARKDOWN)
 
 if os.path.exists("learning-data-root.check"):
     os.remove("learning-data-root.check")
@@ -83,7 +83,7 @@ def handle_message(update, context):
             links +=1
             return links
         else:
-            json = get(f"https://ay.live/api/?api={token}&url={text}&alias=&format=text&ct=1").json()
+            json = get(f"https://ay.live/api/?api={token}&url={text}&alias=&ct=1").json()
             link = json["shortenedUrl"]
             if not json["status"] == "success":
               update.message.reply_text(f"Link kısaltılamadı API adresiniz hatalı olabilir, lütfen /token yazarak API adresinizi yeniden girin")
@@ -157,3 +157,4 @@ def main():
 
 
 main()
+ 
