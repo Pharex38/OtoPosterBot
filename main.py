@@ -1,9 +1,6 @@
-import dropbox
 from requests import get
-
 SUDOUID = 1302980840
 from telegram import *
-
 BRAIN = []
 from telegram.ext import (
     Updater,
@@ -17,33 +14,27 @@ import os
 import sqlite3 as sql
 from logging import basicConfig, getLogger, INFO
 
-
-dbx = dropbox.Dropbox("skdnURzPRVEAAAAAAAAAAQQxFAzADVvTxDzEV3EQZzBVF2F7eTMHyQkg8_BQXmdh")
-
 GENDER, PHOTO, LOCATION, TOKEN = range(4)
 basicConfig(format="%(asctime)s - @TrLinkShortener - %(levelname)s - %(message)s",
-            level=INFO)
+                level=INFO)
 LOGS = getLogger(__name__)
 
 LOGS.info("Bot Çalışıyor...")
 
-API_KEY = "1770444646:AAHizFumNg2TDzFwaQwYVF4g9yd-fTDA6r0"
-
+API_KEY = os.environ['BOT_TOKEN']
 
 def yardim_komut(update, context):
     user = update.message.from_user
-    update.message.reply_text(
-        f"_Merhaba_ *{user.first_name}*_, Link Kısaltma botuna hoşgeldin. Bu bot ile TRLink API adresini kullanarak Link Kısaltabilirsin._ *API adresini girmek için /token yaz.\n\n🛸 Sahip : @Pharex \n❤️ Fix & Eklentiler: @bberc* \n\n ❗ _Bu bot ile kısaltılan linkler +18 kategorisinde kısaltılır farklı bir kategori de link paylaşıyorsanız CPM'iniz düşebilir._",
-        parse_mode=ParseMode.MARKDOWN)
-
+    update.message.reply_text(f"_Merhaba_ *{user.first_name}*_, Link Kısaltma botuna hoşgeldin. Bu bot ile TRLink API adresini kullanarak Link Kısaltabilirsin._ *API adresini girmek için /token yaz.\n\n🛸 Sahip : @Pharex \n❤️ Fix & Eklentiler: @bberc* \n\n ❗ _Bu bot ile kısaltılan linkler +18 kategorisinde kısaltılır farklı bir kategori de link paylaşıyorsanız CPM'iniz düşebilir._ \n\n*Çok isterseniz /bagis atabilirsiniz.*", parse_mode=ParseMode.MARKDOWN)
 
 def start(update: Update, _: CallbackContext) -> int:
     update.message.reply_text(
-        '_Lütfen_ [burdan](https://tr.link/member/tools/quick) _aldığınız API adresinizi gönderin_',
-        parse_mode=ParseMode.MARKDOWN)
-
+        '_Lütfen_ [burdan](https://tr.link/member/tools/quick) _aldığınız API adresinizi gönderin_', parse_mode=ParseMode.MARKDOWN)
+        
     return GENDER
 
+def bagis_komut(update, context):
+    update.message.reply_text(f"*🥰Aylık 20₺ bağış toplayabilirsek başka sunucuya geçicez. Başka sunucya geçince API adresleriniz artık sıfırlanmayacak.*\n\n🏧Papara: `1666982412`\n🏦İninal: `4003140030544`", parse_mode=ParseMode.MARKDOWN)
 
 if os.path.exists("learning-data-root.check"):
     os.remove("learning-data-root.check")
@@ -62,26 +53,21 @@ ALL_ROWS = CURSOR.fetchall()
 def gender(update: Update, _: CallbackContext) -> int:
     mesaj = update.message.text
     user = update.message.from_user
-    dbx.files_upload(f"{mesaj}", f"/trlinkheroku/{user.id}.txt", mode=dropbox.files.WriteMode.overwrite).write()
-    update.message.reply_text(
-        f'*API Kaydedildi. Kısaltmam için bana bir link gönder.* _Tekrar girmek istersen_ /token _yazmanız yeterli._',
-        parse_mode=ParseMode.MARKDOWN)
+    open(f"txtler/{user.id}.txt", "w+").write(mesaj)
+    update.message.reply_text(f'*API Kaydedildi. Kısaltmam için bana bir link gönder.* _Tekrar girmek istersen_ /token _yazmanız yeterli._', parse_mode=ParseMode.MARKDOWN)
 
     return ConversationHandler.END
-
 
 for i in ALL_ROWS:
     BRAIN.append(i[0])
 sql.connect("learning-data-root.check").close()
 links = 0
-
-
 def handle_message(update, context):
     user = update.message.from_user
     try:
-        token = dbx.files_download(f"/trlinkheroku/{user.id}").read()
+        token = open(f"txtler/{user.id}.txt", "r").read()
     except:
-        update.message.reply_text('Öncelikle bir api key kaydedin.')
+        update.message.reply_text('Lütfen önce /token yazarak bir API adresi girin')
         return
     text = str(update.message.text)
     if text.startswith("https") or text.startswith("www") or text.startswith("http"):
@@ -91,25 +77,27 @@ def handle_message(update, context):
                 update.message.reply_text('`Bir hata oluştu!`', parse_mode=ParseMode.MARKDOWN)
                 return
             link = json["shortenedUrl"]
-            update.message.reply_text(f'*Linkiniz:\n*'
-
-                                      f'🔹 `{link}`', parse_mode=ParseMode.MARKDOWN)
-            links += 1
+            update.message.reply_text(f'*Linkiniz:\n*'   
+                                    
+                                    f'🔹 `{link}`', parse_mode=ParseMode.MARKDOWN)
+            links +=1
             return links
         else:
-            link = get(f"https://ay.live/api/?api={token}&url={text}&alias=&format=text&ct=1").text
-            if link == None:
-                update.message.reply_text('<s>🥴 Trlink mesajıma cevap vermedi!</s>', parse_mode=ParseMode.HTML)
+            json = get(f"https://ay.live/api/?api={token}&url={text}&alias=&format=text&ct=1").json()
+            link = json["shortenedUrl"]
+            if not json["status"] == "success":
+              update.message.reply_text(f"Link kısaltılamadı API adresiniz hatalı olabilir, lütfen /token yazarak API adresinizi yeniden girin")
+            if json == None:
+                update.message.reply_text('<s>🥴 TRLink mesajıma cevap vermedi!</s>', parse_mode=ParseMode.HTML)
                 return
-            update.message.reply_text(f'*Linkiniz:\n\n*'
-
-                                      f'🔹 `{link}`', parse_mode=ParseMode.MARKDOWN)
-            links += 1
+            update.message.reply_text(f'*Linkiniz:\n\n*'   
+                                    
+                                    f'🔹 `{link}`', parse_mode=ParseMode.MARKDOWN)
+            links +=1
             return links
     else:
         update.message.reply_text(f"_Lütfen kısaltmam için bir link gönder_", parse_mode=ParseMode.MARKDOWN)
-
-
+            
 def kontrok(update, context):
     global links
     kullanici = update.message.from_user
@@ -118,14 +106,14 @@ def kontrok(update, context):
     for usre in os.listdir("./txtler/"):
         if not usre.endswith(".py") or usre.startswith("_"):
             continue
-        users.append(f"{usre.replace('.txt', '')}")
+        users.append(f"{usre.replace('.txt','')}")
     if uid == BRAIN or uid == SUDOUID:
         update.message.reply_text("""
 🆔 *Update Sonrası Kullanıcılar:* `{users}`
 🆔 *Update Sonrası Kısaltılan Link:* `{links}`""", parse_mode=ParseMode.MARKDOWN)
     else:
         update.message.reply_text("Bunları seninle paylaşamam!!")
-
+  
 
 def error(update, context):
     LOGS.info(f"\n\nGerçekleşen hata : Update {update} caused error {context.error}")
@@ -137,7 +125,9 @@ def cancel(update: Update, _: CallbackContext) -> int:
     return ConversationHandler.END
 
 
+
 def main():
+
     updater = Updater(API_KEY, use_context=True)
 
     dp = updater.dispatcher
@@ -147,13 +137,14 @@ def main():
         states={
             GENDER: [MessageHandler(Filters.text, gender)],
 
-        },
+            },
         fallbacks=[CommandHandler('iptal', cancel)],
     )
 
     dp.add_handler(CommandHandler("start", yardim_komut))
     dp.add_handler(CommandHandler("stats", kontrok))
-    #    dp.add_handler(CommandHandler("token", token_command))
+    dp.add_handler(CommandHandler("bagis", bagis_komut))
+#    dp.add_handler(CommandHandler("token", token_command))
 
     dp.add_handler(conv_handler)
 
@@ -166,3 +157,4 @@ def main():
 
 
 main()
+ 
