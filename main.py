@@ -59,7 +59,7 @@ def gender(update: Update, _: CallbackContext) -> int:
     dbx = dropbox.Dropbox("8GjpeZnq5ugAAAAAAAAAARzI-XjW4-_k6v-TD0P_BZ17wyriIC-JzLFoT8IimFiR")
     mesaj = update.message.text
     user = update.message.from_user
-    dosya =f"/{user.id}"
+    dosya =f"{user.id}"
     dosyakonum =f"/trlinkheroku/{dosya}"
     with open(dosya, "w+") as f:
       dbx.downloas_files(f.write(), dosyakonum, mode =dropbox.files.WriteMode.OverWrite)
