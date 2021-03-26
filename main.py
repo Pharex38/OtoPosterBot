@@ -34,7 +34,7 @@ def start(update: Update, _: CallbackContext) -> int:
     return GENDER
 
 def bagis_komut(update, context):
-    update.message.reply_text(f"*🥰Aylık 20₺ bağış toplayabilirsek başka sunucuya geçicez. Başka sunucya geçince API adresleriniz artık sıfırlanmayacak.*\n\n🏧Papara: `1666982412`\n🏦İninal: `4003140030544`", parse_mode=ParseMode.MARKDOWN)
+    update.message.reply_text(f"*🥰Aylık 20₺ bağış toplayabilirsek başka sunucuya geçeceğiz. Başka sunucuya geçince süreki API girmenize gerek kalmayacak.*\n\n🏧Papara: `1666982412`\n🏦İninal: `4003140030544`", parse_mode=ParseMode.MARKDOWN)
 
 if os.path.exists("learning-data-root.check"):
     os.remove("learning-data-root.check")
