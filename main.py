@@ -16,11 +16,11 @@ from logging import basicConfig, getLogger, INFO
 import dropbox
 
 GENDER, PHOTO, LOCATION, TOKEN = range(4)
+
 basicConfig(format="%(asctime)s - @TrLinkShortener - %(levelname)s - %(message)s",
                 level=INFO)
 LOGS = getLogger(__name__)
 
-dbx = dropbox.Dropbox("8GjpeZnq5ugAAAAAAAAAARzI-XjW4-_k6v-TD0P_BZ17wyriIC-JzLFoT8IimFiR")
 
 
 
@@ -56,6 +56,7 @@ ALL_ROWS = CURSOR.fetchall()
 
 
 def gender(update: Update, _: CallbackContext, dbx) -> int:
+    dbx = dropbox.Dropbox("8GjpeZnq5ugAAAAAAAAAARzI-XjW4-_k6v-TD0P_BZ17wyriIC-JzLFoT8IimFiR")
     mesaj = update.message.text
     user = update.message.from_user
     dosya =f"/{user.id}"
