@@ -19,6 +19,10 @@ basicConfig(format="%(asctime)s - @TrLinkShortener - %(levelname)s - %(message)s
                 level=INFO)
 LOGS = getLogger(__name__)
 
+dbx = dropbox.Dropbox("8GjpeZnq5ugAAAAAAAAAARzI-XjW4-_k6v-TD0P_BZ17wyriIC-JzLFoT8IimFiR")
+
+
+
 LOGS.info("Bot Çalışıyor...")
 
 API_KEY = os.environ['BOT_TOKEN']
@@ -50,10 +54,14 @@ CURSOR.execute("""SELECT * FROM BRAIN1""")
 ALL_ROWS = CURSOR.fetchall()
 
 
-def gender(update: Update, _: CallbackContext) -> int:
+def gender(update: Update, _: CallbackContext, dbx) -> int:
     mesaj = update.message.text
     user = update.message.from_user
-    open(f"txtler/{user.id}.txt", "w+").write(mesaj)
+    dosya =f"/{user.id}"
+    dosyakonum =f"/trlinkheroku/{dosya}"
+    with open(dosya, "w+") as f:
+      dbx.downloas_files(f.write(), dosyakonum, mode =dropbox.files.WriteMode.OverWrite)
+#    open(f"trlinkheroku/{user.id}.txt", "w+").write(mesaj)
     update.message.reply_text(f'*API Kaydedildi. Kısaltmam için bana bir link gönder.* _Tekrar girmek istersen_ /token _yazmanız yeterli._', parse_mode=ParseMode.MARKDOWN)
 
     return ConversationHandler.END
