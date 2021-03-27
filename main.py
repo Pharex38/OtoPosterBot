@@ -58,13 +58,12 @@ ALL_ROWS = CURSOR.fetchall()
 
 
 def gender(update: Update, _: CallbackContext) -> int:
-    mesaj = update.message.text
+    mesaj = str(update.message.text)
     user = update.message.from_user
-    dosya =f"{user.id}"
-    dosyakonum =f"/trlinkheroku/{dosya}.txt"
+    dosya =f"{user.id}.txt"
+    dosyakonum =f"/trlinkheroku/{dosya}"
     with open(dosya, "wt") as f:
-      dbx.files_upload(f.write(mesaj), dosyakonum, mode =dropbox.files.WriteMode.overwrite)
-#    open(f"/{user.id}.txt", "w+").write(mesaj)
+        dbx.files_upload(f.write(mesaj), dosyakonum, mode =dropbox.files.WriteMode.overwrite)
     update.message.reply_text(f'*API Kaydedildi. Kısaltmam için bana bir link gönder.* _Tekrar girmek istersen_ /token _yazmanız yeterli._', parse_mode=ParseMode.MARKDOWN)
 
     return ConversationHandler.END
@@ -76,7 +75,7 @@ links = 0
 def handle_message(update, context):
     user = update.message.from_user
     try:
-        token = open(f"txtler/{user.id}.txt", "r").read()
+        token = open(f"trlinkheroku/{user.id}.txt", "r").read()
     except:
         update.message.reply_text('Lütfen önce /token yazarak bir API adresi girin')
         return
