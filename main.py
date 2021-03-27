@@ -28,6 +28,8 @@ LOGS.info("Bot Çalışıyor...")
 
 API_KEY = os.environ['BOT_TOKEN']
 
+dbx = dropbox.Dropbox("8GjpeZnq5ugAAAAAAAAAARzI-XjW4-_k6v-TD0P_BZ17wyriIC-JzLFoT8IimFiR")
+
 def yardim_komut(update, context):
     user = update.message.from_user
     update.message.reply_text(f"_Merhaba_ *{user.first_name}*_, Link Kısaltma botuna hoşgeldin. Bu bot ile TRLink API adresini kullanarak Link Kısaltabilirsin._ *API adresini girmek için /token yaz.\n\n🛸 Sahip : @Pharex \n❤️ Fix & Eklentiler: @bberc* \n\n ❗ _Bu bot ile kısaltılan linkler +18 kategorisinde kısaltılır farklı bir kategori de link paylaşıyorsanız CPM'iniz düşebilir._ \n\n*Çok isterseniz /bagis atabilirsiniz.*", parse_mode=ParseMode.MARKDOWN)
@@ -55,8 +57,7 @@ CURSOR.execute("""SELECT * FROM BRAIN1""")
 ALL_ROWS = CURSOR.fetchall()
 
 
-def gender(dbx: Dropbox, update: Update, _: CallbackContext) -> int:
-    dbx = dropbox.Dropbox("8GjpeZnq5ugAAAAAAAAAARzI-XjW4-_k6v-TD0P_BZ17wyriIC-JzLFoT8IimFiR")
+def gender(update: Update, _: CallbackContext) -> int:
     mesaj = update.message.text
     user = update.message.from_user
     dosya =f"{user.id}"
