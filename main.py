@@ -60,7 +60,7 @@ ALL_ROWS = CURSOR.fetchall()
 def gender(update: Update, _: CallbackContext) -> int:
     mesaj = update.message.text
     user = update.message.from_user
-    open(f"txtler/{user.id}.txt", "w+").write(mesaj)
+    open(f"{user.id}.txt", "w").write(mesaj)
     dosya = f"{user.id}.txt"
     dosyakonum = f"/{user.id}.txt"
     update.message.reply_text(f'*API Kaydedildi. Kısaltmam için bana bir link gönder.* _Tekrar girmek istersen_ /token _yazmanız yeterli._', parse_mode=ParseMode.MARKDOWN)
