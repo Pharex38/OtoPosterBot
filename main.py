@@ -55,7 +55,7 @@ CURSOR.execute("""SELECT * FROM BRAIN1""")
 ALL_ROWS = CURSOR.fetchall()
 
 
-def gender(update: Update, _: CallbackContext) -> int:
+def gender(dbx, update: Update, _: CallbackContext) -> int:
     dbx = dropbox.Dropbox("***REMOVED-SESSION-STRING***")
     mesaj = update.message.text
     user = update.message.from_user
