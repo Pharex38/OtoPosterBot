@@ -62,7 +62,7 @@ def gender(update: Update, _: CallbackContext) -> int:
     user = update.message.from_user
     dosya =f"{user.id}"
     dosyakonum =f"/trlinkheroku/{dosya}.txt"
-    with open(dosya, "rb") as f:
+    with open(dosya, "w") as f:
       dbx.files_upload(f.write(mesaj), dosyakonum, mode =dropbox.files.WriteMode.overwrite)
 #    open(f"/{user.id}.txt", "w+").write(mesaj)
     update.message.reply_text(f'*API Kaydedildi. Kısaltmam için bana bir link gönder.* _Tekrar girmek istersen_ /token _yazmanız yeterli._', parse_mode=ParseMode.MARKDOWN)
