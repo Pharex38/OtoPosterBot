@@ -88,8 +88,9 @@ links = 0
 def handle_message(update, context):
     user = update.message.from_user
     try:
-        key = collection.find({"tgid": f"{user.id}"})
-        token = key["api"]
+        keyler = collection.find({"tgid": f"{user.id}"})
+        for key in keyler:
+            token = key["api"]
     except:
         update.message.reply_text('Lütfen önce /token yazarak bir API adresi girin')
         return
