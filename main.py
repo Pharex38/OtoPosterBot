@@ -89,10 +89,10 @@ def handle_message(update, context):
     token = []
     user = update.message.from_user
     keyler = collection.find_one({"_id": user.id})
+    text = str(update.message.text)
     for key in keyler:
         tokes = key["api"]
         token.append(tokes)
-    text = str(update.message.text)
     if text.startswith("https") or text.startswith("www") or text.startswith("http"):
         if text.startswith("https://mega.nz/"):
             json = get(f"https://ay.live/api/?api={token}&url={text}&alias=&format=text&ct=1").json()
