@@ -117,8 +117,8 @@ def handle_message(update, context):
                                       f'🔹 `{link}`', parse_mode=ParseMode.MARKDOWN)
             links += 1
             return links
-    else:
-        update.message.reply_text(f"_Lütfen kısaltmam için bir link gönder_", parse_mode=ParseMode.MARKDOWN)
+        else:
+            update.message.reply_text(f"_Lütfen kısaltmam için bir link gönder_", parse_mode=ParseMode.MARKDOWN)
 
 
 def kontrok(update, context):
