@@ -1,8 +1,8 @@
 import pymongo
 from pymongo import MongoClient
 
-client = MongoClient("mongodb+srv://Pharex:545456@cluster0.teii1.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
-db = cluster["txt"]
+client = pymongo.MongoClient("mongodb+srv://Pharex:545456@cluster0.teii1.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+db = cluster["TRLinkShortener"]
 collection = db["txt"]
 
 api = {"_id": 1, "api": "13c86bc3b625bf15995d018810d38737e6e70197"}
