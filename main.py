@@ -92,7 +92,7 @@ def handle_message(update, context):
         keyler = collection.find({"_id": user.id})
         for key in keyler:
             token = key["api"]
-            tokens.append(token)
+        tokens.append(token)
     except:
         update.message.reply_text('Lütfen önce /token yazarak bir API adresi girin')
         return
