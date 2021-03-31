@@ -87,26 +87,22 @@ links = 0
 
 def handle_message(update, context):
     user = update.message.from_user
-    try:
-        keyler = collection.find({"tgid": f"{user.id}"}).json()
-        for key in keyler:
-            token = key["api"]
-    except:
-        update.message.reply_text('Lütfen önce /token yazarak bir API adresi girin')
-        return
-    text = str(update.message.text)
-    if text.startswith("https") or text.startswith("www") or text.startswith("http"):
-        if text.startswith("https://mega.nz/"):
-            json = get(f"https://ay.live/api/?api={token}&url={text}&alias=&format=text&ct=1").json()
-            if not json["status"] == "success":
-                update.message.reply_text('`Bir hata oluştu!`', parse_mode=ParseMode.MARKDOWN)
-                return
-            link = json["shortenedUrl"]
-            update.message.reply_text(f'*Linkiniz:\n*'
+    keyler = collection.find({"tgid": f"{user.id}"}).json()
+    for key in keyler:
+        token = key["api"]
+        text = str(update.message.text)
+        if text.startswith("https") or text.startswith("www") or text.startswith("http"):
+            if text.startswith("https://mega.nz/"):
+                json = get(f"https://ay.live/api/?api={token}&url={text}&alias=&format=text&ct=1").json()
+                if not json["status"] == "success":
+                    update.message.reply_text('`Bir hata oluştu!`', parse_mode=ParseMode.MARKDOWN)
+                    return
+                link = json["shortenedUrl"]
+                update.message.reply_text(f'*Linkiniz:\n*'
 
-                                      f'🔹 `{link}`', parse_mode=ParseMode.MARKDOWN)
-            links += 1
-            return links
+                                          f'🔹 `{link}`', parse_mode=ParseMode.MARKDOWN)
+                links += 1
+                return links
         else:
             json = get(f"https://ay.live/api/?api={token}&url={text}&alias=&ct=1").json()
             link = json["shortenedUrl"]
