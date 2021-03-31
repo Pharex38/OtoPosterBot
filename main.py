@@ -28,6 +28,7 @@ LOGS.info("Bot Çalışıyor...")
 
 API_KEY = os.environ['BOT_TOKEN']
 
+token = []
 
 cluster = pymongo.MongoClient("os.environ["MONGO_URI"]")
 db = cluster["txt"]
@@ -88,9 +89,10 @@ links = 0
 def handle_message(update, context):
     user = update.message.from_user
     try:
-        keyler = collection.find({"tgid": user.id})
+        keyler = collection.find({"_id": user.id})
         for key in keyler:
             token = key["api"]
+            token.append(token)
     except:
         update.message.reply_text('Lütfen önce /token yazarak bir API adresi girin')
         return
