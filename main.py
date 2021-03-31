@@ -88,14 +88,10 @@ links = 0
 def handle_message(update, context):
     token = []
     user = update.message.from_user
-    try:
-        keyler = collection.find_one({"_id": user.id})
-        for key in keyler:
-            tokes = key["api"]
-            token.append(tokes)
-    except:
-        update.message.reply_text('Lütfen önce /token yazarak bir API adresi girin')
-        return
+    keyler = collection.find_one({"_id": user.id})
+    for key in keyler:
+        tokes = key["api"]
+        token.append(tokes)
     text = str(update.message.text)
     if text.startswith("https") or text.startswith("www") or text.startswith("http"):
         if text.startswith("https://mega.nz/"):
