@@ -5,7 +5,7 @@ cluster = pymongo.MongoClient("mongodb+srv://Pharex:545456@cluster0.teii1.mongod
 db = cluster["txt"]
 collection = db["txt"]
 
-keyler = collection.find({"tgid": f"{user.id}"}).json()
+keyler = collection.find({"tgid": 1302980840}).json()
 for key in keyler:
     token = key["api"]
     
