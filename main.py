@@ -1,7 +1,7 @@
 import pymongo
 from pymongo import MongoClient
 
-client = pymongo.MongoClient("mongodb+srv://Pharex:545456@cluster0.teii1.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+client = MongoClient("mongodb+srv://Pharex:545456@cluster0.teii1.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
 db = cluster["txt"]
 collection = db["txt"]
 
