@@ -1,7 +1,7 @@
 import pymongo
 from pymongo import MongoClient
 
-client = pymongo.MongoClient("os.environ["MONGO_URI"]")
+client = MongoClient("os.environ["MONGO_URI"]")
 db = cluster["txt"]
 collection = db["txt"]
 
