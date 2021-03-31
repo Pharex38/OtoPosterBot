@@ -89,7 +89,7 @@ def handle_message(update, context):
     token = []
     user = update.message.from_user
     keyler = collection.find_one({"_id": user.id})
-    text = str(update.message.text)
+    text = update.message.text
     for key in keyler:
         tokes = key["api"]
         token.append(tokes)
