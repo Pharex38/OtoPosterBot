@@ -5,6 +5,6 @@ cluster = pymongo.MongoClient("mongodb+srv://Pharex:545456@cluster0.teii1.mongod
 db = cluster["TRLinkShortener"]
 collection = db["txt"]
 
-api = {"_id": 1, "api": "13c86bc3b625bf15995d018810d38737e6e70197"}
+post = {"_id": 1, "name": "sa"}
 
-collection.insert_one(api)
+collection.insert_one(post)
