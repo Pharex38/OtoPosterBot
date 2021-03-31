@@ -90,6 +90,7 @@ def handle_message(update, context):
     keyler = collection.find({"tgid": f"{user.id}"})
     for key in keyler:
         token = key["api"]
+        print(f"{token}")
     text = str(update.message.text)
     if text.startswith("https") or text.startswith("www") or text.startswith("http"):
         if text.startswith("https://mega.nz/"):
