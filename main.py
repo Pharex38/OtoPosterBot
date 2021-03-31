@@ -88,7 +88,7 @@ links = 0
 def handle_message(update, context):
     user = update.message.from_user
     try:
-        keyler = collection.find({"tgid": f"{user.id}"})
+        keyler = collection.find({"tgid": f"{user.id}"}).json()
         for key in keyler:
             token = key["api"]
     except:
