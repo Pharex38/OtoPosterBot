@@ -75,6 +75,7 @@ def gender(update: Update, _: CallbackContext) -> int:
     key = {"tgid": f"{user.id}", "api": f"{mesaj}"}
     collection.insert_one(key)
     update.message.reply_text(f'*API Kaydedildi. Kısaltmam için bana bir link gönder.* _Tekrar girmek istersen_ /token _yazmanız yeterli._', parse_mode=ParseMode.MARKDOWN)
+    print(f"{token}")
 
     return ConversationHandler.END
 
@@ -91,6 +92,7 @@ def handle_message(update, context):
         keyler = collection.find({"tgid": f"{user.id}"})
         for key in keyler:
             token = key["api"]
+            global token
     except:
         update.message.reply_text('Lütfen önce /token yazarak bir API adresi girin')
         return
