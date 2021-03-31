@@ -89,7 +89,7 @@ def handle_message(update, context):
     user = update.message.from_user
     global token
     try:
-        keyler = collection.find({"_id": user.id})
+        keyler = collection.find_one({"_id": user.id})
         for key in keyler:
             token = key["api"]
     except:
