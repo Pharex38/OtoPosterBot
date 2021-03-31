@@ -86,7 +86,6 @@ links = 0
 
 
 def handle_message(update, context):
-    global token
     user = update.message.from_user
     try:
         keyler = collection.find({"tgid": f"{user.id}"})
