@@ -1,8 +1,8 @@
 import pymongo
 from pymongo import MongoClient
 
-client = MongoClient("os.environ["MONGO_URI"]")
-db = cluster["txt"]
+client = pymongo.MongoClient("os.environ["MONGO_URI"]")
+db = cluster["TRLinkShortener"]
 collection = db["txt"]
 
 api = {"_id": 1, "api": "***REMOVED-SHORTENER-KEY***"}
