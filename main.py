@@ -91,7 +91,6 @@ def handle_message(update, context):
     keyler = collection.find({"_id": user.id})
     text = update.message.text
     for key in keyler:
-<<<<<<< HEAD
         token = key["api"]
         if text.startswith("https") or text.startswith("www") or text.startswith("http"):
             if text.startswith("https://mega.nz/"):
@@ -119,7 +118,6 @@ def handle_message(update, context):
                                           f'🔹 `{link}`', parse_mode=ParseMode.MARKDOWN)
                 links += 1
                 return links
-=======
         tokes = key["api"]
         token.append(tokes)
     if text.startswith("https") or text.startswith("www") or text.startswith("http"):
@@ -134,7 +132,6 @@ def handle_message(update, context):
                                       f'🔹 `{link}`', parse_mode=ParseMode.MARKDOWN)
             links += 1
             return links
->>>>>>> parent of 2b8d125 (Update main.py)
         else:
             json = get(f"https://ay.live/api/?api={token}&url={text}&alias=&ct=1").json()
             link = json["shortenedUrl"]
