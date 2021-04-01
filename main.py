@@ -96,11 +96,11 @@ def handle_message(update, context):
                 json = get(f"https://ay.live/api/?api={token}&url={text}&alias=&format=text&ct=1").json()
                 if not json["status"] == "success":
                     update.message.reply_text('`Bir hata oluştu!`', parse_mode=ParseMode.MARKDOWN)
-                   return
+                    return
                 link = json["shortenedUrl"]
                 update.message.reply_text(f'*Linkiniz:\n*'
 
-                                      f'🔹 `{link}`', parse_mode=ParseMode.MARKDOWN)
+                                          f'🔹 `{link}`', parse_mode=ParseMode.MARKDOWN)
                 links += 1
                 return links
             else:
