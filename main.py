@@ -88,40 +88,6 @@ links = 0
 def handle_message(update, context):
     token = []
     user = update.message.from_user
-<<<<<<< HEAD
-    keyler = collection.find({"_id": user.id})
-    text = update.message.text
-    for key in keyler:
-        token = key["api"]
-        if text.startswith("https") or text.startswith("www") or text.startswith("http"):
-            if text.startswith("https://mega.nz/"):
-                json = get(f"https://ay.live/api/?api={token}&url={text}&alias=&format=text&ct=1").json()
-                if not json["status"] == "success":
-                    update.message.reply_text('`Bir hata oluştu!`', parse_mode=ParseMode.MARKDOWN)
-                    return
-                link = json["shortenedUrl"]
-                update.message.reply_text(f'*Linkiniz:\n*'
-
-                                          f'🔹 `{link}`', parse_mode=ParseMode.MARKDOWN)
-                links += 1
-                return links
-            else:
-                json = get(f"https://ay.live/api/?api={token}&url={text}&alias=&ct=1").json()
-                link = json["shortenedUrl"]
-                if not json["status"] == "success":
-                    update.message.reply_text(
-                    f"Link kısaltılamadı API adresiniz hatalı olabilir, lütfen /token yazarak API adresinizi yeniden girin")
-                if json == None:
-                    update.message.reply_text('<s>🥴 TRLink mesajıma cevap vermedi!</s>', parse_mode=ParseMode.HTML)
-                    return
-                update.message.reply_text(f'*Linkiniz:\n\n*'
-
-                                          f'🔹 `{link}`', parse_mode=ParseMode.MARKDOWN)
-                links += 1
-                return links
-        tokes = key["api"]
-        token.append(tokes)
-=======
     try:
         keyler = collection.find_one({"_id": user.id})
         for key in keyler:
@@ -131,7 +97,6 @@ def handle_message(update, context):
         update.message.reply_text('Lütfen önce /token yazarak bir API adresi girin')
         return
     text = str(update.message.text)
->>>>>>> parent of d979f18 (Update main.py)
     if text.startswith("https") or text.startswith("www") or text.startswith("http"):
         if text.startswith("https://mega.nz/"):
             json = get(f"https://ay.live/api/?api={token}&url={text}&alias=&format=text&ct=1").json()
