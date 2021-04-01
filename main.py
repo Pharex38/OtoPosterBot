@@ -88,7 +88,7 @@ links = 0
 
 def handle_message(update, context):
     user = update.message.from_user
-    cursor = collection.find_one({"_id": user.id})
+    cursor = collection.find({"_id": user.id})
     list_cur = list(cursor)
     json_data = dumps(list_cur, indent=None)
     f = open(f"{user.id}.json", "w")
