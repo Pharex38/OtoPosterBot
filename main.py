@@ -93,7 +93,7 @@ def handle_message(update, context):
     json_data = dumps(list_cur, indent=None)
     f = open(f"{user.id}.json", "w")
     f.write(json_data)
-    tokeb = open(f"{user.id}.json", "r+").read()
+    tokeb = open(f"{user.id}.json", "r+").json()
     token = tokeb['api']
     text = str(update.message.text)
     if text.startswith("https") or text.startswith("www") or text.startswith("http"):
