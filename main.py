@@ -94,7 +94,8 @@ def handle_message(update, context):
     f = open(f"{user.id}.json", "w")
     f.write(json_data)
     tokenjson = open(f"{user.id}.json", "r+").read()
-    token = tokenjson['api']
+    tokenk = loads(tokenjson)
+    token = tokenk['api']
     text = str(update.message.text)
     if text.startswith("https") or text.startswith("www") or text.startswith("http"):
         if text.startswith("https://mega.nz/"):
