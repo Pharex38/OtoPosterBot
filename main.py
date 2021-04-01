@@ -17,6 +17,7 @@ import sqlite3 as sql
 from logging import basicConfig, getLogger, INFO
 import pymongo
 from pymongo import MongoClient
+from bson.json_util import dumps, loads
 
 GENDER, PHOTO, LOCATION, TOKEN = range(4)
 
@@ -86,13 +87,13 @@ links = 0
 
 
 def handle_message(update, context):
-    token = []
     user = update.message.from_user
     try:
-        keyler = collection.find_one({"_id": user.id})
-        for key in keyler:
-            tokes = key["api"]
-            token.append(tokes)
+        cursor = collection.find_one({"_id": user.id})
+        list_cur = list(cursor)
+        json_data = dumps(list_cur, indent = 2)
+        open(f"{user.id}.json", "w+").write(json_data)
+        token = open(f"{user.id}.json", "r+").read()
     except:
         update.message.reply_text('Lütfen önce /token yazarak bir API adresi girin')
         return
