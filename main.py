@@ -91,7 +91,7 @@ def handle_message(update, context):
     cursor = collection.find_one({"_id": user.id})
     list_cur = list(cursor)
     json_data = dumps(list_cur, indent=2)
-    f = open(f"/{user.id}.json", "w")
+    f = open(f"/{user.id}.json", "w+")
     f.write(json_data)
     token = open(f"{user.id}.json", "r+").read()
     print(user.id.json)
