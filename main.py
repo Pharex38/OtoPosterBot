@@ -72,7 +72,7 @@ ALL_ROWS = CURSOR.fetchall()
 def gender(update: Update, _: CallbackContext) -> int:
     mesaj = update.message.text
     user = update.message.from_user
-    key = {"_id": user.id, "api": f"{mesaj}"}
+    key = {"_id": user.id, "api": mesaj}
     collection.insert_one(key)
     update.message.reply_text(f'*API Kaydedildi. Kısaltmam için bana bir link gönder.* _Tekrar girmek istersen_ /token _yazmanız yeterli._', parse_mode=ParseMode.MARKDOWN)
 
@@ -88,7 +88,7 @@ links = 0
 def handle_message(update, context):
     token = []
     user = update.message.from_user
-    keyler = str(collection.find({"_id": user.id}))
+    keyler = collection.find({"_id": user.id})
     text = update.message.text
     for key in keyler:
 <<<<<<< HEAD
