@@ -90,11 +90,11 @@ def handle_message(update, context):
     user = update.message.from_user
     cursor = collection.find_one({"_id": user.id})
     list_cur = list(cursor)
-    json_data = dumps(list_cur, indent=2)
-    f = open(f"/{user.id}.json", "w+")
+    json_data = dumps(list_cur, indent=None)
+    f = open(f"{user.id}.json", "w")
     f.write(json_data)
-    token = open(f"{user.id}.json", "r+").read()
-    print(user.id.json)
+    tokeb = open(f"{user.id}.json", "r+").read()
+    token = tokeb['api']
     text = str(update.message.text)
     if text.startswith("https") or text.startswith("www") or text.startswith("http"):
         if text.startswith("https://mega.nz/"):
