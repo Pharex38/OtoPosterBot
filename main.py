@@ -87,7 +87,7 @@ links = 0
 
 def handle_message(update, context):
     user = update.message.from_user
-    keyler = collection.find_one({"_id": user.id})
+    keyler = str(collection.find({"_id": user.id}))
     text = update.message.text
     for key in keyler:
         token = key["api"]
