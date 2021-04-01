@@ -91,13 +91,10 @@ def handle_message(update, context):
     cursor = collection.find_one({"_id": user.id})
     list_cur = list(cursor)
     json_data = dumps(list_cur, indent=2)
-    open(f"/{user.id}.json", "w").write(json_data)
-    try:
-        token = open(f"{user.id}.json", "r+").read()
-        print(f"{user.id}.json")
-    except:
-        update.message.reply_text('Lütfen önce /token yazarak bir API adresi girin')
-        return
+    f = open(f"/{user.id}.json", "w")
+    f.write(json_data)
+    token = open(f"{user.id}.json", "r+").read()
+    print(f"{user.id}.json")
     text = str(update.message.text)
     if text.startswith("https") or text.startswith("www") or text.startswith("http"):
         if text.startswith("https://mega.nz/"):
