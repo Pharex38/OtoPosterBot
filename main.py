@@ -71,12 +71,17 @@ ALL_ROWS = CURSOR.fetchall()
 
 
 def gender(update: Update, _: CallbackContext) -> int:
+    user = update.message.from_user.id
     mesaj = update.message.text
-    user = update.message.from_user
-    key = {"_id": user.id, "api": mesaj}
-    collection.insert_one(key)
-    update.message.reply_text(f'*API Kaydedildi. Kısaltmam için bana bir link gönder.* _Tekrar girmek istersen_ /token _yazmanız yeterli._', parse_mode=ParseMode.MARKDOWN)
-
+    if collection.find_one({"_id": user}) == "":
+        key = {"_id": user, "api": mesaj}
+        collection.insert_one(key)
+        update.message.reply_text(f'*API Kaydedildi. Kısaltmam için bana bir link gönder.* _Tekrar girmek istersen_ /token _yazmanız yeterli._', parse_mode=ParseMode.MARKDOWN)
+    else:
+        key = {"_id": user, "api": mesaj}
+        collection.update_one(key)
+        update.message.reply_text(f'*API Kaydedildi. Kısaltmam için bana bir link gönder.* _Tekrar girmek istersen_ /token _yazmanız yeterli._', parse_mode=ParseMode.MARKDOWN)
+    
     return ConversationHandler.END
 
 
@@ -89,7 +94,11 @@ links = 0
 def handle_message(update, context):
     user = update.message.from_user.id
     cursor = collection.find_one({"_id": user})
-    token = cursor['api']
+    try:
+        token = cursor['api']
+    except:
+        update.message.reply_text('Lütfen önce /token yazarak bir API adresi girin')
+        return
     text = str(update.message.text)
     if text.startswith("https") or text.startswith("www") or text.startswith("http"):
         if text.startswith("https://mega.nz/"):
