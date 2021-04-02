@@ -105,9 +105,6 @@ def handle_message(update, context):
             return links
         else:
             link = get(f"https://ay.live/api/?api={token}&url={text}&alias=&ct=1").text
-            if json == None:
-                update.message.reply_text('<s>🥴 TRLink mesajıma cevap vermedi!</s>', parse_mode=ParseMode.HTML)
-                return
             update.message.reply_text(f'*Linkiniz:\n\n*'
 
                                       f'🔹 `{link}`', parse_mode=ParseMode.MARKDOWN)
