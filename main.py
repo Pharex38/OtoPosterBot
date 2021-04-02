@@ -126,13 +126,14 @@ def kontrok(update, context):
     global links
     kullanici = update.message.from_user
     uid = kullanici.id
-    users = []
+    users = {}
     for usre in os.listdir("./txtler/"):
         if not usre.endswith(".py") or usre.startswith("_"):
             continue
         users.append(f"{usre.replace('.txt', '')}")
-    if uid == BRAIN or uid == SUDOUID:
-        update.message.reply_text("""
+    users = len(users)
+    if uid == BRAIN[0] or uid == SUDOUID:
+        update.message.reply_text(f"""
 🆔 *Update Sonrası Kullanıcılar:* `{users}`
 🆔 *Update Sonrası Kısaltılan Link:* `{links}`""", parse_mode=ParseMode.MARKDOWN)
     else:
