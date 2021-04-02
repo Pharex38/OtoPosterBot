@@ -78,10 +78,9 @@ def gender(update: Update, _: CallbackContext) -> int:
         collection.insert_one(key)
         update.message.reply_text(f'*API Kaydedildi. Kısaltmam için bana bir link gönder.* _Tekrar girmek istersen_ /token _yazmanız yeterli._', parse_mode=ParseMode.MARKDOWN)
     else:
-        key = {"_id": user, "api": mesaj}
-        collection.update_one(key)
+        collection.update_one({"_id": user}, {"$set":{"api": mesaj}})
         update.message.reply_text(f'*API Kaydedildi. Kısaltmam için bana bir link gönder.* _Tekrar girmek istersen_ /token _yazmanız yeterli._', parse_mode=ParseMode.MARKDOWN)
-    
+
     return ConversationHandler.END
 
 
