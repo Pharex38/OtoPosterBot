@@ -73,9 +73,7 @@ ALL_ROWS = CURSOR.fetchall()
 def gender(update: Update, _: CallbackContext) -> int:
     user = update.message.from_user.id
     mesaj = update.message.text
-    try:
-        collection.find_one({"_id": user}) == ""
-    except:
+    if not collection.find_one({"_id": user}) == "":
         key = {"_id": user, "api": mesaj}
         collection.insert_one(key)
         update.message.reply_text(f'*API Kaydedildi. Kısaltmam için bana bir link gönder.* _Tekrar girmek istersen_ /token _yazmanız yeterli._', parse_mode=ParseMode.MARKDOWN)
