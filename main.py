@@ -13,4 +13,4 @@ text = "www.yandex.com"
 link = get(f"https://ay.live/api/?api={token}&url={text}&alias=&ct=1").json()
 mesaj = link['shortenedUrl']
 
-print(link)
+print(mesaj)
