@@ -7,9 +7,11 @@ cluster = pymongo.MongoClient("mongodb+srv://Pharex:545456@cluster0.teii1.mongod
 db = cluster["txt"]
 collection = db["txt"]
 
-cursor = collection.find_one({"_id": 1302980840})
+user = 1302980840
+
+cursor = collection.find_one({"_id": user})
 token = cursor['api']
 text = "www.google.com"
-link = get(f"https://ay.live/api/?api={token}&url={text}&alias=&ct=1").json()
-top = link['shortenedUrl']
-print(f"{top}")
+link = get(f"https://ay.live/api/?api={token}&url={text}&alias=&format=text&ct=1").text
+
+print(link)
