@@ -12,4 +12,4 @@ token = cursor['api']
 text = "www.google.com"
 link = get(f"https://ay.live/api/?api={token}&url={text}&alias=&ct=1").json()
 top = link['shortenedUrl']
-print(top)
+print(f"{top}")
