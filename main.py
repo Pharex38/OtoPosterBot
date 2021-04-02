@@ -11,5 +11,5 @@ cursor = collection.find_one({"_id": 1302980840})
 token = cursor['api']
 text = "www.google.com"
 link = get(f"https://ay.live/api/?api={token}&url={text}&alias=&ct=1").json
-
-print(link['shortenedUrl'])
+top = link['shortenedUrl']
+print(top)
