@@ -7,5 +7,5 @@ cluster = pymongo.MongoClient("mongodb+srv://Pharex:545456@cluster0.teii1.mongod
 db = cluster["txt"]
 collection = db["txt"]
 
-cursor = collection.find_one({"_id": 1302980840}).fetch()
+cursor = collection.find({"_id": 1302980840}).fetch()
 print(cursor)
