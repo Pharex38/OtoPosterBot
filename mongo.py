@@ -87,10 +87,9 @@ links = 0
 
 
 def handle_message(update, context):
-    user = update.message.from_user
-    cursor = collection.find({"_id": user.id}).fetch()
-    token = 
-    token = tokenjson['api']
+    user = update.message.from_user.id
+    cursor = collection.find_one({"_id": user})
+    token = cursor['api']
     text = str(update.message.text)
     if text.startswith("https") or text.startswith("www") or text.startswith("http"):
         if text.startswith("https://mega.nz/"):

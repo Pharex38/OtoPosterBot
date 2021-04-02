@@ -9,8 +9,7 @@ collection = db["txt"]
 
 cursor = collection.find_one({"_id": 1302980840})
 token = cursor['api']
-print(token)
-link = get(f"https://ay.live/api/?api=13c86bc3b625bf15995d018810d38737e6e70197&url=https://www.google.com&alias=&ct=1").json()
-mesaj = link['shortenedUrl']
+text = "www.google.com"
+link = get(f"https://ay.live/api/?api={token}&url={text}&alias=&format=text&ct=1").text()
 
-print(mesaj)
+print(link)
