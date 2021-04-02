@@ -8,4 +8,6 @@ db = cluster["txt"]
 collection = db["txt"]
 
 cursor = collection.find_one({"_id": 1302980840})
+token = cursor['api']
+
 print(cursor)
