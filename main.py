@@ -104,11 +104,7 @@ def handle_message(update, context):
             links += 1
             return links
         else:
-            json = get(f"https://ay.live/api/?api={token}&url={text}&alias=&ct=1").json()
-            link = json["shortenedUrl"]
-            if not json["status"] == "success":
-                update.message.reply_text(
-                    f"Link kısaltılamadı API adresiniz hatalı olabilir, lütfen /token yazarak API adresinizi yeniden girin")
+            link = get(f"https://ay.live/api/?api={token}&url={text}&alias=&ct=1").text
             if json == None:
                 update.message.reply_text('<s>🥴 TRLink mesajıma cevap vermedi!</s>', parse_mode=ParseMode.HTML)
                 return
