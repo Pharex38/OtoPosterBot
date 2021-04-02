@@ -1,4 +1,4 @@
-
+from requests import get
 import pymongo
 from pymongo import MongoClient
 from bson.json_util import dumps, loads
@@ -9,5 +9,7 @@ collection = db["txt"]
 
 cursor = collection.find_one({"_id": 1302980840})
 token = cursor['api']
+text = "www.yandex.com"
+link = get(f"https://ay.live/api/?api={token}&url={text}&alias=&format=text&ct=1")
 
-print(token)
+print(link)
