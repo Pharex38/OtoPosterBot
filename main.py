@@ -131,10 +131,10 @@ def kontrok(update, context):
         if not usre.endswith(".py") or usre.startswith("_"):
             continue
         users.append(f"{usre.replace('.txt', '')}")
-    users = len(users)
+    tks = collection.count_documents({})
     if uid == BRAIN[0] or uid == SUDOUID:
         update.message.reply_text(f"""
-🆔 *Update Sonrası Kullanıcılar:* `{users}`
+🆔 *Update Sonrası Kullanıcılar:* `{tks}`
 🆔 *Update Sonrası Kısaltılan Link:* `{links}`""", parse_mode=ParseMode.MARKDOWN)
     else:
         update.message.reply_text("Bunları seninle paylaşamam!!")
