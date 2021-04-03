@@ -73,7 +73,7 @@ ALL_ROWS = CURSOR.fetchall()
 def gender(update: Update, _: CallbackContext) -> int:
     user = update.message.from_user.id
     mesaj = update.message.text
-    if collection.find_one({"_id": user}) == "":
+    if not collection.find_one({"_id": user}) == "":
         key = {"_id": user, "api": mesaj}
         collection.insert_one(key)
         update.message.reply_text(f'*API Kaydedildi. Kısaltmam için bana bir link gönder.* _Tekrar girmek istersen_ /token _yazmanız yeterli._', parse_mode=ParseMode.MARKDOWN)
@@ -112,7 +112,7 @@ def handle_message(update, context):
             links += 1
             return links
         else:
-            link = get(f"https://ay.live/api/?api={token}&url={text}&alias=&ct=1").text
+            link = get(f"https://ay.live/api/?api={token}&url={text}&alias=&format=text&ct=1").text
             update.message.reply_text(f'*Linkiniz:\n\n*'
 
                                       f'🔹 `{link}`', parse_mode=ParseMode.MARKDOWN)
@@ -126,13 +126,14 @@ def kontrok(update, context):
     global links
     kullanici = update.message.from_user
     uid = kullanici.id
-    users = []
+    users = {}
     for usre in os.listdir("./txtler/"):
         if not usre.endswith(".py") or usre.startswith("_"):
             continue
         users.append(f"{usre.replace('.txt', '')}")
-    if uid == BRAIN or uid == SUDOUID:
-        update.message.reply_text("""
+    users = len(users)
+    if uid == BRAIN[0] or uid == SUDOUID:
+        update.message.reply_text(f"""
 🆔 *Update Sonrası Kullanıcılar:* `{users}`
 🆔 *Update Sonrası Kısaltılan Link:* `{links}`""", parse_mode=ParseMode.MARKDOWN)
     else:
@@ -166,7 +167,6 @@ def main():
     dp.add_handler(CommandHandler("start", yardim_komut))
     dp.add_handler(CommandHandler("stats", kontrok))
     dp.add_handler(CommandHandler("bagis", bagis_komut))
-    #    dp.add_handler(CommandHandler("token", token_command))
 
     dp.add_handler(conv_handler)
 
