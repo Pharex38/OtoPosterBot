@@ -15,7 +15,7 @@ bot = telebot.TeleBot(API_KEY)
 @bot.message_handler(commands=['start'])
 def start(m):
     chat = m.chat.id
-    msg = message.message.id
+    msg = message.id
     print(msg)
 
 
