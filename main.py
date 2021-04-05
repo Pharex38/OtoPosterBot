@@ -17,6 +17,7 @@ def start(m):
     chat = m.chat.id
     msg = m.message.message_id
     print(msg)
+    bot.send_message(chat, "Merhaba!")
 
 
 bot.polling()
