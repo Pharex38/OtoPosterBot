@@ -15,3 +15,6 @@ def start(m):
     chat = m.chat.id
     msg = message.message.id
     print(msg)
+
+
+bot.polling()
