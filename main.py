@@ -1,4 +1,5 @@
 import telebot
+from os import environ
 from telebot import *
 from telegram import *
 from logging import basicConfig, getLogger, INFO
@@ -7,7 +8,7 @@ LOGS = getLogger(__name__)
 
 LOGS.info("Bot Çalışıyor...")
 
-API_KEY = os.environ['BOT_TOKEN']
+API_KEY = environ['BOT_TOKEN']
 
 
 @bot.message_handler(commands=['start'])
