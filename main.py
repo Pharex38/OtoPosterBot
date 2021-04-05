@@ -18,7 +18,7 @@ def start(m):
     chat = m.chat.id
     msg = m.reply_to_message.message_id
     print(msg)
-    while len(int(msg)) < 100:
+    while 100 > len(mesajlar):
         msg += 1
         mesajlar.append(msg)
         bot.delete_message(chat, msg)
