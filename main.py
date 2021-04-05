@@ -10,6 +10,7 @@ LOGS.info("Bot Çalışıyor...")
 
 API_KEY = environ['BOT_TOKEN']
 
+bot = telebot.TeleBot(API_KEY)
 
 @bot.message_handler(commands=['start'])
 def start(m):
