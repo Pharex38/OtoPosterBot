@@ -14,9 +14,15 @@ bot = telebot.TeleBot(API_KEY)
 
 @bot.message_handler(commands=['start'])
 def start(m):
+    mesajlar = []
     chat = m.chat.id
     msg = m.reply_to_message.message_id
     print(msg)
+    while len(msg) < 100:
+        msg += 1
+        mesajlar.append(msg)
+        bot.delete_message(chat, msg)
+        
     bot.send_message(chat, f"{msg}")
 
 
