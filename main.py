@@ -23,9 +23,9 @@ def start(m):
     while 100 > len(mesajlar):
         msg += 1
         mesajlar.append(msg)
-        bot.delete_message(chat, msg)
-        if msg == None:
-            break
+        if not == None:
+            bot.delete_message(chat, msg)
+        
     bot.send_message(chat, f"{msg}")
 
 
