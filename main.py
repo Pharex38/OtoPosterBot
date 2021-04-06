@@ -23,7 +23,7 @@ def start(m):
     while 100 > len(mesajlar):
         msg += 1
         mesajlar.append(msg)
-        if not == None:
+        if not msg == None:
             bot.delete_message(chat, msg)
         
     bot.send_message(chat, f"{msg}")
