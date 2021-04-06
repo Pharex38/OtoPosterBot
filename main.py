@@ -16,8 +16,11 @@ bot = telebot.TeleBot(API_KEY)
 def start(m):
     mesajlar = []
     chat = m.chat.id
-    msg = m.reply_to_message.message_id
+    try:
+        msg = m.reply_to_message.message_id
     print(msg)
+    except:
+        bot.send_message(chat, f"Lütfen bir mesajı yanıtlayın.")
     while 100 > len(mesajlar):
         msg += 1
         mesajlar.append(msg)
