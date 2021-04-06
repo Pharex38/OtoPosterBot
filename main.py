@@ -30,7 +30,6 @@ def start(m):
         print(mesajlar)
         try:
             bot.delete_message(chat, msg)
-            bot.send_message(chat, f"Mesaj Temizlendi.")
         except:
             pass
         else:
