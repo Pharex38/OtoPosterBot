@@ -23,7 +23,7 @@ def start(m):
         msg = m.reply_to_message.message_id
     except:
         bot.send_message(chat, f"Lütfen bir mesajı yanıtlayın.")
-    while 100 > len(mesajlar):
+    while 250 > len(mesajlar):
         msg += 1
         mesajlar.append(msg)
         try:
