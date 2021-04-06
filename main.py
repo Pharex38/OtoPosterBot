@@ -30,7 +30,7 @@ def start(m):
             bot.delete_message(chat, msg)
             bot.send_message(chat, f"{len(Mesajlar)} Mesaj Temizlendi.")
         except:
-            pass
+            break
         
     bot.send_message(chat, "bitti")
 
