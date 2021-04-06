@@ -28,10 +28,11 @@ def start(m):
         mesajlar.append(msg)
         try:
             bot.delete_message(chat, msg)
+            bot.send_message(chat, f"{len(Mesajlar)} Mesaj Temizlendi.")
         except:
             pass
         
-    bot.send_message(chat, f"{Mesajlar} Mesaj Temizlendi.")
+    
 
 
 bot.polling()
