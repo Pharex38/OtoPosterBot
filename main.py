@@ -15,7 +15,7 @@ basicConfig(format="%(asctime)s - @TRLinkShortener - %(levelname)s - %(message)s
 
 bot = telebot.TeleBot(API_KEY)
 
-@bot.message_handler(commands=['start'])
+@bot.message_handler(commands=['start'], content_types=["text"])
 def start(s):
     chat = s.chat.id
     user = s.from_user.first_name
