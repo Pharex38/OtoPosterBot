@@ -31,7 +31,7 @@ def start(m):
         except:
             pass
         
-    bot.send_message(chat, f"{msg}")
+    bot.send_message(chat, f"{Mesajlar} Mesaj Temizlendi.")
 
 
 bot.polling()
