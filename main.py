@@ -18,7 +18,6 @@ def start(m):
     chat = m.chat.id
     try:
         msg = m.reply_to_message.message_id
-    print(msg)
     except:
         bot.send_message(chat, f"Lütfen bir mesajı yanıtlayın.")
     while 100 > len(mesajlar):
