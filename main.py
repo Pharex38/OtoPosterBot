@@ -35,7 +35,8 @@ def start(m):
             pass
         else:
             sayi += 1
-        bot.send_message(chat, f"{sayi} adet mesaj temizlendi.")
+        
+    bot.send_message(chat, f"{sayi} adet mesaj temizlendi.")
 
 
 bot.polling()
