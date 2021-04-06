@@ -26,7 +26,7 @@ def start(m):
         try:
             bot.delete_message(chat, msg)
         except:
-            bot.send_message(chat, "Bitti")
+            pass
         
     bot.send_message(chat, f"{msg}")
 
