@@ -32,7 +32,7 @@ def start(m):
         except:
             pass
         
-    
+    bot.send_message(chat, "bitti")
 
 
 bot.polling()
