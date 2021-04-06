@@ -24,7 +24,8 @@ def start(m):
         msg += 1
         mesajlar.append(msg)
         bot.delete_message(chat, msg)
-        
+        if msg == None:
+          break
     bot.send_message(chat, f"{msg}")
 
 
