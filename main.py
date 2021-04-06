@@ -18,6 +18,7 @@ bot = telebot.TeleBot(API_KEY)
 @bot.message_handler(commands=['start'])
 def start(m):
     mesajlar = []
+    sayi = 0
     chat = m.chat.id
     try:
         msg = m.reply_to_message.message_id
@@ -32,8 +33,9 @@ def start(m):
             bot.send_message(chat, f"Mesaj Temizlendi.")
         except:
             pass
-        
-    bot.send_message(chat, "bitti")
+        else:
+            sayı += 1
+        bot.send_message(chat, f"{sayı} adet mesaj temizlendi.")
 
 
 bot.polling()
