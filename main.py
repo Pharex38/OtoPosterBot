@@ -10,6 +10,9 @@ LOGS.info("Bot Çalışıyor...")
 
 API_KEY = environ['BOT_TOKEN']
 
+basicConfig(format="%(asctime)s - @TRLinkShortener - %(levelname)s - %(message)s",
+            level=INFO)
+
 bot = telebot.TeleBot(API_KEY)
 
 @bot.message_handler(commands=['start'])
