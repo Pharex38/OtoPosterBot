@@ -16,7 +16,13 @@ basicConfig(format="%(asctime)s - @TRLinkShortener - %(levelname)s - %(message)s
 bot = telebot.TeleBot(API_KEY)
 
 @bot.message_handler(commands=['start'])
-def start(m):
+def start(s):
+    chat = s.chat.id
+    user = s.from_user.first_name
+    bot.send_message(chat, f"_Merhaba_ *{user}*, _Bu bot ile grup veya kanalınızdaki gönderileri kolayca temizleyebilirsiniz._ \n\n*Botu kanalınıza yönetici olarak ekleyin ve /temizle yazın*", parse_mode=ParseMode.MARKDOWN)
+
+@bot.message_handler(commands=['temizle'])
+def temizle(m):
     global sayı
     mesajlar = []
     sayi = 0
