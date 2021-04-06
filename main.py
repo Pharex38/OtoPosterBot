@@ -26,11 +26,12 @@ def start(m):
     while 250 > len(mesajlar):
         msg += 1
         mesajlar.append(msg)
+        print(mesajlar)
         try:
             bot.delete_message(chat, msg)
-            bot.send_message(chat, f"{len(Mesajlar)} Mesaj Temizlendi.")
+            bot.send_message(chat, f"Mesaj Temizlendi.")
         except:
-            break
+            pass
         
     bot.send_message(chat, "bitti")
 
