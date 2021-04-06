@@ -44,5 +44,28 @@ def temizle(m):
         
     bot.send_message(chat, f"{sayi} adet mesaj temizlendi.")
 
+@bot.channel_post_handler(commands=['temizle'])
+def temizlik(m):
+    global sayı
+    mesajlar = []
+    sayi = 0
+    chat = m.chat.id
+    try:
+        msg = m.reply_to_message.message_id
+    except:
+        bot.send_message(chat, f"Lütfen bir mesajı yanıtlayın.")
+    while 500 > len(mesajlar):
+        msg += 1
+        mesajlar.append(msg)
+        print(mesajlar)
+        try:
+            bot.delete_message(chat, msg)
+        except:
+            pass
+        else:
+            sayi += 1
+        
+    bot.send_message(chat, f"{sayi} adet mesaj temizlendi.")
+
 
 bot.polling()
