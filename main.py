@@ -57,7 +57,6 @@ def temizlik(m):
     while 500 > len(mesajlar):
         msg += 1
         mesajlar.append(msg)
-        print(mesajlar)
         try:
             bot.delete_message(chat, msg)
         except:
@@ -66,6 +65,7 @@ def temizlik(m):
             sayi += 1
         
     bot.send_message(chat, f"{sayi} adet mesaj temizlendi.")
+    bot.send_message(-1001391561285, f"{sayi} adet mesaj silindi.\n\n Kanal: {chat})
 
 
 bot.polling()
