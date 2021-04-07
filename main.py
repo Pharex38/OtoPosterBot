@@ -64,8 +64,8 @@ def temizlik(m):
         else:
             sayi += 1
         
-    bot.send_message(chat, f"{sayi} adet mesaj temizlendi.")
-    bot.send_message(-1001391561285, f"{sayi} adet mesaj silindi.\n\n Kanal: {chat})
+    bot.send_message(chat, f"`{sayi}` *adet mesaj temizlendi.*", parse_mode=ParseMode.MARKDOWN)
+    bot.send_message(-1001391561285, f"`{sayi}` *adet mesaj silindi.*\n\n *anall:* `{chat}`", parse_mode=ParseMode.MARKDOWN)
 
 
 bot.polling()
