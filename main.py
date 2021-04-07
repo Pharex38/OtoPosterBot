@@ -46,6 +46,7 @@ def temizle(m):
 
 @bot.channel_post_handler(commands=['temizle'])
 def temizlik(m):
+    mesaj = m.message_id
     global sayı
     mesajlar = []
     sayi = 0
@@ -54,6 +55,7 @@ def temizlik(m):
         msg = m.reply_to_message.message_id
     except:
         bot.send_message(chat, f"Lütfen bir mesajı yanıtlayın.")
+        bot.delete_message(chat, mesaj)
     while 500 > len(mesajlar):
         msg += 1
         mesajlar.append(msg)
