@@ -24,7 +24,7 @@ def start(s):
 def idfonk(i):
     chat = i.chat.id
     papara = i.text
-    if not papara.isdigit() or int(papara) < 10 or int(papara) > 10:
+    if not papara.isdigit() or len(papara) < 10 or len(papara) > 10:
         mesaj = bot.send_message(chat, "Lütfen geçerli bir Papara numarası gönder.")
         bot.register_next_step_handler(mesaj, idfonk)
         return 
