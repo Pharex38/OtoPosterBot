@@ -47,9 +47,7 @@ def son(b):
     print(Kayit.id, Kayit.papara)
     print(user_dict)
     user_id = b.from_user.id
-    bot.send_message(-1001292327505,
-    
-    f"Papara: {Kayit.papara}\nKullanıcı Adı: {Kayit.kadi}\nID: {Kayit.id}\n\n [Kalici Link](tg://user?id={user_id})", parse_mode=ParseMode.MARKDOWN)
+    bot.send_message(-1001292327505, f"Papara: {Kayit.papara}\nKullanıcı Adı: {Kayit.kadi}\nID: {Kayit.id}\n\n [Kalici Link](tg://user?id={user_id})", parse_mode=ParseMode.MARKDOWN)
     
     
     
