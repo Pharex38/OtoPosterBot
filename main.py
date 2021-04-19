@@ -25,7 +25,7 @@ def idfonk(i):
     chat = i.chat.id
     papara = i.text
     if not papara.isdigit():
-        bot.send_message(chat, "Lütfen geçerli bir Papara numarası gönder.")
+        mesaj = bot.send_message(chat, "Lütfen geçerli bir Papara numarası gönder.")
         bot.register_next_step_handler(mesaj, idfonk)
         return 
     mesaj = bot.send_message(chat, "Kullanıcının ID'si nedir?")
