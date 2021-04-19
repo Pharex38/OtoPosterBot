@@ -35,7 +35,7 @@ def idfonk(i):
 def isim(a):
     chat = a.chat.id
     id = a.text
-    if not id.isdigit() or len(id) < 10 or len(id) > 10:
+    if not id.isdigit() or len(id) < 9 or len(id) > 11:
         mesaj = bot.send_message(chat, "Lütfen geçerli bir ID gönder.")
         bot.register_next_step_handler(mesaj, isim)
         return
