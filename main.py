@@ -6,7 +6,7 @@ bot = telebot.TeleBot(environ['BOT_TOKEN'])
 
 print("Çalışıyor...")
 
-@bot.message_handler([commands='start'])
+@bot.message_handler(commands=['start'])
 def start(s):
     chat = s.chat.id
     mesaj = bot.send_message(chat, "Kullanıcının Papara numarası nedir?")
