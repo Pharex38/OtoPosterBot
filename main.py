@@ -45,7 +45,7 @@ def son(b):
     print(isim)
     user = Kayit(isim)
     user_dict[chat] = user
-    print(Kayit.id, Kayit.kadi, Kayit.papara)
+    print(Kayit.id, Kayit.papara)
     print(user_dict)
     bot.send_message(-1001292327505, f"deneme {Kayit.papara}")
     
