@@ -28,7 +28,7 @@ def isim(a):
     bot.register_next_step_handler(mesaj, son)
 
 def son(b):
-    chat b.chat.id
+    chat = b.chat.id
     mesaj = bot.send_message(chat "Tamamdır")
     isim = b.text
     print(isim)
