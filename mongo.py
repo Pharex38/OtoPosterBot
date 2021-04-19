@@ -1,0 +1,17 @@
+from requests import get
+import pymongo
+from pymongo import MongoClient
+from bson.json_util import dumps, loads
+
+cluster = pymongo.MongoClient("os.environ["MONGO_URI"]")
+db = cluster["txt"]
+collection = db["txt"]
+
+user = 1302980840
+
+cursor = collection.find_one({"_id": user})
+token = cursor['api']
+text = "www.google.com"
+link = get(f"https://ay.live/api/?api={token}&url={text}&alias=&format=text&ct=1").text
+
+print(link)
