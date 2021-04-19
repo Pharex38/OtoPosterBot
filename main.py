@@ -36,6 +36,7 @@ def isim(a):
     id = a.text
     print(id)
     Kayit.id = id
+    user_dict[chat_id] = user
     bot.register_next_step_handler(mesaj, son)
 
 def son(b):
