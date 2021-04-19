@@ -11,21 +11,26 @@ print("Çalışıyor...")
 def start(s):
     chat = s.chat.id
     mesaj = bot.send_message(chat, "Kullanıcının Papara numarası nedir?")
-    papara = s.text
-    print(papara)
     bot.register_next_step_handler(mesaj, idfonk)
 
 def idfonk(i):
     chat = i.chat.id
     mesaj = bot.send_message(chat, "Kullanıcının ID'si nedir?")
-    id = i.text
-    print(id)
+    papara = i.text
+    print(papara)
     bot.register_next_step_handler(mesaj, isim)
     
 def isim(a):
     chat = a.chat.id
     mesaj = bot.send_message(chat, "Kullanıcının ismi nedir?")
-    isim = a.text
+    id = a.text
+    print(id)
+    bot.register_next_step_handler(mesaj, son)
+
+def son(b):
+    chat b.chat.id
+    mesaj = bot.send_message(chat "Tamamdır")
+    isim = b.text
     print(isim)
     
 bot.enable_save_next_step_handlers(delay=2)
