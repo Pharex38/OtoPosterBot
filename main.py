@@ -46,7 +46,7 @@ def isim(a):
 def son(b):
     chat = b.chat.id
     isim = b.text
-    link = bot.createChatInviteLink(-1254179689, member_limit=1)
+    link = bot.create_chat_invite_link(-1254179689, member_limit=1)
     if not isim.startswith("@"):
         bot.send_message(chat, f"Tamamdır Link: {link}")
         Kayit.kadi = isim
