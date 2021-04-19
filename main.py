@@ -46,6 +46,7 @@ def son(b):
     user = Kayit(isim)
     user_dict[chat] = user
     print(Kayit)
+    print(user_dict)
     bot.send_message(-1001292327505, "deneme")
     
 bot.enable_save_next_step_handlers(delay=2)
