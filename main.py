@@ -8,8 +8,6 @@ bot = telebot.TeleBot(API_KEY)
 
 print("Çalışıyor...")
 
-user_dict = {}
-
 class Kayit:
     def __init__(self):
         self.papara = None
@@ -25,9 +23,12 @@ def start(s):
 
 def idfonk(i):
     chat = i.chat.id
-    mesaj = bot.send_message(chat, "Kullanıcının ID'si nedir?")
     papara = i.text
-    print(papara)
+    if not papara.isdigit():
+        bot.send_message(chat, "Lütfen geçerli bir Papara numarası gönder.")
+        bot.register_next_step_handler(mesaj, idfonk)
+        return 
+    mesaj = bot.send_message(chat, "Kullanıcının ID'si nedir?")
     Kayit.papara = papara
     bot.register_next_step_handler(mesaj, isim)
     
@@ -35,7 +36,6 @@ def isim(a):
     chat = a.chat.id
     mesaj = bot.send_message(chat, "Kullanıcının ismi nedir?")
     id = a.text
-    print(id)
     Kayit.id = id
     bot.register_next_step_handler(mesaj, son)
 
@@ -43,15 +43,12 @@ def son(b):
     chat = b.chat.id
     mesaj = bot.send_message(chat, "Tamamdır")
     isim = b.text
-    print(isim)
     Kayit.kadi = isim
-    print(Kayit.id, Kayit.papara)
-    print(user_dict)
-    user_id = b.from_user.id
+    user_id = Kayit.id
+    
     bot.send_message(-1001292327505, f"Papara: {Kayit.papara}\nKullanıcı Adı: {Kayit.kadi}\nID: {Kayit.id}\n\n [Kalici Link](tg://user?id={user_id})", parse_mode=ParseMode.MARKDOWN)
-    
-    
-    
+
+
 bot.enable_save_next_step_handlers(delay=2)
 
 bot.load_next_step_handlers()
