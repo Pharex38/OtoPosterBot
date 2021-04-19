@@ -46,7 +46,7 @@ def isim(a):
 def son(b):
     chat = b.chat.id
     isim = b.text
-    if not isim.startswith(@):
+    if not isim.startswith("@"):
         mesaj = bot.send_message(chat, "Tamamdır")
         Kayit.kadi = isim
         user_id = Kayit.id
