@@ -1,5 +1,4 @@
 import telebot
-import environ
 from os import environ
 
 API_KEY = environ['BOT_TOKEN']
