@@ -7,6 +7,8 @@ bot = telebot.TeleBot(API_KEY)
 
 print("Çalışıyor...")
 
+user_dict = {}
+
 class Kayit:
     def __init__(self, kadi):
         self.papara = None
@@ -41,7 +43,8 @@ def son(b):
     mesaj = bot.send_message(chat, "Tamamdır")
     isim = b.text
     print(isim)
-    Kayit(kadi) = isim
+    user = Kayit(isim)
+    user_dict[chat_id] = user
     print(Kayit)
     bot.send_message(-1001292327505, "deneme")
     
