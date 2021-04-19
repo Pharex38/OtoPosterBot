@@ -7,6 +7,13 @@ bot = telebot.TeleBot(API_KEY)
 
 print("Çalışıyor...")
 
+class Kayit:
+    def __init__(self, kadi):
+        self.papara = None
+        self.id = None
+        self.kadi = kadi
+    
+
 @bot.message_handler(commands=['start'])
 def start(s):
     chat = s.chat.id
@@ -18,6 +25,7 @@ def idfonk(i):
     mesaj = bot.send_message(chat, "Kullanıcının ID'si nedir?")
     papara = i.text
     print(papara)
+    Kayit.papara = papara
     bot.register_next_step_handler(mesaj, isim)
     
 def isim(a):
@@ -25,6 +33,7 @@ def isim(a):
     mesaj = bot.send_message(chat, "Kullanıcının ismi nedir?")
     id = a.text
     print(id)
+    Kayit.id = id
     bot.register_next_step_handler(mesaj, son)
 
 def son(b):
@@ -32,6 +41,8 @@ def son(b):
     mesaj = bot.send_message(chat, "Tamamdır")
     isim = b.text
     print(isim)
+    Kayit(kadi) = isim
+    bot.send_message(-1001292327505, )
     
 bot.enable_save_next_step_handlers(delay=2)
 
