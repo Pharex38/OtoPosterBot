@@ -48,12 +48,12 @@ def son(b):
     isim = b.text
     link = bot.createChatInviteLink(-1254179689, member_limit=1)
     if not isim.startswith("@"):
-        mesaj = bot.send_message(chat, f"Tamamdır Link: {link}")
+        bot.send_message(chat, f"Tamamdır Link: {link}")
         Kayit.kadi = isim
         user_id = Kayit.id
         bot.send_message(-1001476303153, f"Papara: {Kayit.papara}\nKullanıcı Adı: @{Kayit.kadi}\nID: {Kayit.id}\n\n [Kalici Link](tg://user?id={user_id})", parse_mode=ParseMode.MARKDOWN)
     else:
-        mesaj = bot.send_message(chat, f"Tamamdır Link: {link}")
+        bot.send_message(chat, f"Tamamdır Link: {link}")
         Kayit.kadi = isim
         user_id = Kayit.id
         bot.send_message(-1001476303153, f"Papara: {Kayit.papara}\nKullanıcı Adı: {Kayit.kadi}\nID: {Kayit.id}\n\n [Kalici Link](tg://user?id={user_id})", parse_mode=ParseMode.MARKDOWN)
