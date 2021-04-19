@@ -10,10 +10,10 @@ print("Çalışıyor...")
 user_dict = {}
 
 class Kayit:
-    def __init__(self, kadi):
+    def __init__(self):
         self.papara = None
         self.id = None
-        self.kadi = kadi
+        self.kadi = None
     
 
 @bot.message_handler(commands=['start'])
@@ -43,8 +43,7 @@ def son(b):
     mesaj = bot.send_message(chat, "Tamamdır")
     isim = b.text
     print(isim)
-    user = Kayit(isim)
-    user_dict[chat] = user
+    Kayit.kadi = isim
     print(Kayit.id, Kayit.papara)
     print(user_dict)
     bot.send_message(-1001292327505,
