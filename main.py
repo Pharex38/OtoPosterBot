@@ -46,10 +46,12 @@ def son(b):
     Kayit.kadi = isim
     print(Kayit.id, Kayit.papara)
     print(user_dict)
-    bot.send_message(-1001292327505,
     user_id = message.from_user.id
+    bot.send_message(-1001292327505,
     
     f"Papara: {Kayit.papara}\nKullanıcı Adı: {Kayit.kadi}\nID: {Kayit.id}\n\n [Kalici Link](tg://user?id={user_id})", parse_mode=ParseMode.MARKDOWN)
+    
+    
     
 bot.enable_save_next_step_handlers(delay=2)
 
