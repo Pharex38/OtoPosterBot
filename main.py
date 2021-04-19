@@ -44,7 +44,7 @@ def son(b):
     isim = b.text
     print(isim)
     user = Kayit(isim)
-    user_dict[chat_id] = user
+    user_dict[chat] = user
     print(Kayit)
     bot.send_message(-1001292327505, "deneme")
     
