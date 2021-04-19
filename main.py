@@ -2,7 +2,9 @@ import telebot
 import environ
 from os import environ
 
-bot = telebot.TeleBot(environ['BOT_TOKEN'])
+API_KEY = environ['BOT_TOKEN']
+
+bot = telebot.TeleBot(API_KEY)
 
 print("Çalışıyor...")
 
