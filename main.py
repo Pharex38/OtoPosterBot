@@ -42,7 +42,8 @@ def son(b):
     isim = b.text
     print(isim)
     Kayit(kadi) = isim
-    bot.send_message(-1001292327505, )
+    print(Kayit)
+    bot.send_message(-1001292327505, "deneme")
     
 bot.enable_save_next_step_handlers(delay=2)
 
