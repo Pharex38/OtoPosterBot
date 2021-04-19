@@ -29,7 +29,7 @@ def isim(a):
 
 def son(b):
     chat = b.chat.id
-    mesaj = bot.send_message(chat "Tamamdır")
+    mesaj = bot.send_message(chat, "Tamamdır")
     isim = b.text
     print(isim)
     
