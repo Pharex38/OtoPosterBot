@@ -39,7 +39,7 @@ def isim(a):
         mesaj = bot.send_message(chat, "Lütfen geçerli bir ID gönder.")
         bot.register_next_step_handler(mesaj, isim)
         return
-    mesaj = bot.send_message(chat, "Kullanıcının ismi nedir?")
+    mesaj = bot.send_message(chat, "Kullanıcı adı nedir?")
     Kayit.id = id
     bot.register_next_step_handler(mesaj, son)
 
