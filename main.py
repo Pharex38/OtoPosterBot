@@ -1,181 +1,65 @@
-from requests import get
-
-SUDOUID = 1302980840
+import telebot
+from os import environ
 from telegram import *
 
-BRAIN = []
-from telegram.ext import (
-    Updater,
-    CommandHandler,
-    MessageHandler,
-    Filters,
-    ConversationHandler,
-    CallbackContext,
-)
-import os
-import sqlite3 as sql
-from logging import basicConfig, getLogger, INFO
-import pymongo
-from pymongo import MongoClient
-from bson.json_util import dumps, loads
+API_KEY = environ['BOT_TOKEN']
 
-GENDER, PHOTO, LOCATION, TOKEN = range(4)
+bot = telebot.TeleBot(API_KEY)
 
-basicConfig(format="%(asctime)s - @TRLinkShortener - %(levelname)s - %(message)s",
-            level=INFO)
-LOGS = getLogger(__name__)
+print("Çalışıyor...")
 
-LOGS.info("Bot Çalışıyor...")
+class Kayit:
+    def __init__(self):
+        self.papara = None
+        self.id = None
+        self.kadi = None
+    
 
-API_KEY = os.environ['BOT_TOKEN']
+@bot.message_handler(commands=['start'])
+def start(s):
+    chat = s.chat.id
+    mesaj = bot.send_message(chat, "Kullanıcının Papara numarası nedir?")
+    bot.register_next_step_handler(mesaj, idfonk)
 
-
-cluster = pymongo.MongoClient("mongodb+srv://Pharex:545456@cluster0.teii1.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
-db = cluster["txt"]
-collection = db["txt"]
-
-
-def yardim_komut(update, context):
-    user = update.message.from_user
-    update.message.reply_text(
-        f"_Merhaba_ *{user.first_name}*_, Link Kısaltma botuna hoşgeldin. Bu bot ile TRLink API adresini kullanarak Link Kısaltabilirsin._ *API adresini girmek için /token yaz.\n\n🛸 Sahip : @Pharex \n❤️ Fix & Eklentiler: @bberc* \n\n ❗ _Bu bot ile kısaltılan linkler +18 kategorisinde kısaltılır farklı bir kategori de link paylaşıyorsanız CPM'iniz düşebilir._ \n\n*Çok isterseniz /bagis atabilirsiniz.*",
-        parse_mode=ParseMode.MARKDOWN)
-
-
-def start(update: Update, _: CallbackContext) -> int:
-    update.message.reply_text(
-        '_Lütfen_ [burdan](https://tr.link/member/tools/quick) _aldığınız API adresinizi gönderin_',
-        parse_mode=ParseMode.MARKDOWN)
-
-    return GENDER
-
-
-def bagis_komut(update, context):
-    update.message.reply_text(
-        f"*🥰Aylık 20₺ bağış toplayabilirsek başka sunucuya geçeceğiz. Başka sunucuya geçince sürekli API girmenize gerek kalmayacak.*\n\n🏧Papara: `1666982412`\n🏦İninal: `4003140030544`",
-        parse_mode=ParseMode.MARKDOWN)
-
-
-if os.path.exists("learning-data-root.check"):
-    os.remove("learning-data-root.check")
-else:
-    LOGS.info("Braincheck dosyası yok, getiriliyor...")
-
-URL = 'https://gitlab.com/must4f/VaveylaData/-/raw/main/learning-data-root.check'
-with open('learning-data-root.check', 'wb') as load:
-    load.write(get(URL).content)
-DB = sql.connect("learning-data-root.check")
-CURSOR = DB.cursor()
-CURSOR.execute("""SELECT * FROM BRAIN1""")
-ALL_ROWS = CURSOR.fetchall()
-
-
-def gender(update: Update, _: CallbackContext) -> int:
-    user = update.message.from_user.id
-    mesaj = update.message.text
-    if not collection.find_one({"_id": user}) == "":
-        key = {"_id": user, "api": mesaj}
-        collection.insert_one(key)
-        update.message.reply_text(f'*API Kaydedildi. Kısaltmam için bana bir link gönder.* _Tekrar girmek istersen_ /token _yazmanız yeterli._', parse_mode=ParseMode.MARKDOWN)
-    else:
-        collection.update_one({"_id": user}, {"$set":{"api": mesaj}})
-        update.message.reply_text(f'*API Kaydedildi. Kısaltmam için bana bir link gönder.* _Tekrar girmek istersen_ /token _yazmanız yeterli._', parse_mode=ParseMode.MARKDOWN)
-
-    return ConversationHandler.END
-
-
-for i in ALL_ROWS:
-    BRAIN.append(i[0])
-sql.connect("learning-data-root.check").close()
-links = 0
-
-
-def handle_message(update, context):
-    user = update.message.from_user.id
-    cursor = collection.find_one({"_id": user})
-    try:
-        token = cursor['api']
-    except:
-        update.message.reply_text('Lütfen önce /token yazarak bir API adresi girin')
+def idfonk(i):
+    chat = i.chat.id
+    papara = i.text
+    if not papara.isdigit() or len(papara) < 10 or len(papara) > 10:
+        mesaj = bot.send_message(chat, "Lütfen geçerli bir Papara numarası gönder.")
+        bot.register_next_step_handler(mesaj, idfonk)
+        return 
+    mesaj = bot.send_message(chat, "Kullanıcının ID'si nedir?")
+    Kayit.papara = papara
+    bot.register_next_step_handler(mesaj, isim)
+    
+def isim(a):
+    chat = a.chat.id
+    id = a.text
+    if not id.isdigit() or len(id) < 9 or len(id) > 11:
+        mesaj = bot.send_message(chat, "Lütfen geçerli bir ID gönder.")
+        bot.register_next_step_handler(mesaj, isim)
         return
-    text = str(update.message.text)
-    if text.startswith("https") or text.startswith("www") or text.startswith("http"):
-        if text.startswith("https://mega.nz/"):
-            json = get(f"https://ay.live/api/?api={token}&url={text}&alias=&format=text&ct=1").json()
-            if not json["status"] == "success":
-                update.message.reply_text('`Bir hata oluştu!`', parse_mode=ParseMode.MARKDOWN)
-                return
-            link = json["shortenedUrl"]
-            update.message.reply_text(f'*Linkiniz:\n*'
+    mesaj = bot.send_message(chat, "Kullanıcı adı nedir?")
+    Kayit.id = id
+    bot.register_next_step_handler(mesaj, son)
 
-                                      f'🔹 `{link}`', parse_mode=ParseMode.MARKDOWN)
-            links += 1
-            return links
-        else:
-            link = get(f"https://ay.live/api/?api={token}&url={text}&alias=&format=text&ct=1").text
-            update.message.reply_text(f'*Linkiniz:\n\n*'
-
-                                      f'🔹 `{link}`', parse_mode=ParseMode.MARKDOWN)
-            links += 1
-            return links
+def son(b):
+    chat = b.chat.id
+    isim = b.text
+    if not isim.startswith("@"):
+        mesaj = bot.send_message(chat, "Tamamdır")
+        Kayit.kadi = isim
+        user_id = Kayit.id
+        bot.send_message(-1001476303153, f"Papara: {Kayit.papara}\nKullanıcı Adı: @{Kayit.kadi}\nID: {Kayit.id}\n\n [Kalici Link](tg://user?id={user_id})", parse_mode=ParseMode.MARKDOWN)
     else:
-        update.message.reply_text(f"_Lütfen kısaltmam için bir link gönder_", parse_mode=ParseMode.MARKDOWN)
+        mesaj = bot.send_message(chat, "Tamamdır")
+        Kayit.kadi = isim
+        user_id = Kayit.id
+        bot.send_message(-1001476303153, f"Papara: {Kayit.papara}\nKullanıcı Adı: {Kayit.kadi}\nID: {Kayit.id}\n\n [Kalici Link](tg://user?id={user_id})", parse_mode=ParseMode.MARKDOWN)
 
 
-def kontrok(update, context):
-    global links
-    kullanici = update.message.from_user
-    uid = kullanici.id
-    users = {}
-    for usre in os.listdir("./txtler/"):
-        if not usre.endswith(".py") or usre.startswith("_"):
-            continue
-        users.append(f"{usre.replace('.txt', '')}")
-    tks = collection.count_documents({})
-    if uid == BRAIN[0] or uid == SUDOUID:
-        update.message.reply_text(f"""
-🆔 *Update Sonrası Kullanıcılar:* `{tks}`
-🆔 *Update Sonrası Kısaltılan Link:* `{links}`""", parse_mode=ParseMode.MARKDOWN)
-    else:
-        update.message.reply_text("Bunları seninle paylaşamam!!")
+bot.enable_save_next_step_handlers(delay=2)
 
+bot.load_next_step_handlers()
 
-def error(update, context):
-    LOGS.info(f"\n\nGerçekleşen hata : Update {update} caused error {context.error}")
-
-
-def cancel(update: Update, _: CallbackContext) -> int:
-    update.message.reply_text('İptal Edildi.')
-
-    return ConversationHandler.END
-
-
-def main():
-    updater = Updater(API_KEY, use_context=True)
-
-    dp = updater.dispatcher
-
-    conv_handler = ConversationHandler(
-        entry_points=[CommandHandler('token', start)],
-        states={
-            GENDER: [MessageHandler(Filters.text, gender)],
-
-        },
-        fallbacks=[CommandHandler('iptal', cancel)],
-    )
-
-    dp.add_handler(CommandHandler("start", yardim_komut))
-    dp.add_handler(CommandHandler("stats", kontrok))
-    dp.add_handler(CommandHandler("bagis", bagis_komut))
-
-    dp.add_handler(conv_handler)
-
-    dp.add_handler(MessageHandler(Filters.text, handle_message))
-
-    dp.add_error_handler(error)
-
-    updater.start_polling()
-    updater.idle()
-
-
-main()
+bot.polling()
