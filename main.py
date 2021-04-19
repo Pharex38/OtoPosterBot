@@ -1,5 +1,6 @@
 import telebot
 from os import environ
+from telegram import *
 
 API_KEY = environ['BOT_TOKEN']
 
