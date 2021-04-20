@@ -4,7 +4,7 @@ from os import environ
 
 mega = Mega()
 hesap = mega.login(falperenkocakaplan@gmail.com, 54545621a)
-API_KEY = environ['BOT_TOKEN']
+API_KEY = "***REMOVED-BOT-TOKEN***"
 
 bot = telebot.TeleBot("API_KEY")
 
