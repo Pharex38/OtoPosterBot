@@ -9,7 +9,7 @@ baslik = entry.title
 
 API_KEY = environ['BOT_TOKEN']
 bot = telebot.TeleBot(API_KEY)
-
+open(son
 print(baslik)
 
 @bot.message_handler(commands=['basla'])
@@ -18,11 +18,11 @@ def haber(h):
     chat = h.chat.id
     sonhaber = open("sonhaber.txt", "r+").read()
     while deger:
-        if baslik != sonhaber:
+        if baslik == sonhaber:
+            pass
+        else:
             open("sonhaber.txt", "w+").write(baslik)
             bot.send_message(chat, baslik)
-        else:
-            pass
 
 
 bot.polling()
