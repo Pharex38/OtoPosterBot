@@ -1,5 +1,6 @@
 import feedparser
 import telebot
+from os import environ
 
 afeed = feedparser.parse("https://www.aa.com.tr/tr/rss/default?cat=guncel")
 
