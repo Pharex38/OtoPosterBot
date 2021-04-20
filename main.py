@@ -14,9 +14,10 @@ print(baslik)
 
 @bot.message_handler(commands=['basla'])
 def haber(h):
+    chat = h.chat.id
+    bot.send_message(chat, baslik)
     open("sonhaber.txt", "w+").write(baslik)
     deger = True
-    chat = h.chat.id
     sonhaber = open("sonhaber.txt", "r+").read()
     while deger:
         if baslik == sonhaber:
