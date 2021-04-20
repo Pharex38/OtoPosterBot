@@ -4,5 +4,6 @@ import telebot
 afeed = feedparser.parse("https://www.aa.com.tr/tr/rss/default?cat=guncel")
 
 haber = afeed.keys
+entry = afeed.entries[1]
 
-print(haber)
+print entry.keys()
