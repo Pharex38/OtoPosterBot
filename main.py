@@ -1,6 +1,6 @@
 from YaDiskClient.YaDiskClient import YaDisk
 import telethon
-from os impoet environ
+from os import environ
 
 disk = YaDisk(alperekocakaplan31, 5454562121a)
 API_KEY = environ['BOT_TOKEN']
