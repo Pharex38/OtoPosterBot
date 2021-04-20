@@ -5,6 +5,6 @@ afeed = feedparser.parse("https://www.aa.com.tr/tr/rss/default?cat=guncel")
 
 haber = afeed.keys
 entry = afeed.entries[1]
-baslik = entry.title()
+baslik = str(entry.title())
 
 print(baslik)
