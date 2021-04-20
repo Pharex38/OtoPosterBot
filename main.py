@@ -11,3 +11,11 @@ API_KEY = environ['BOT_TOKEN']
 bot = telebot.TeleBot(API_KEY)
 
 print(baslik)
+
+@bot.message_handler(commands=['basla'])
+def haber(h):
+    chat = h.chat.id
+    bot.send_message(chat, baslik)
+
+
+bot.polling()
