@@ -2,7 +2,7 @@ from YaDiskClient.YaDiskClient import YaDisk
 import telethon
 from os import environ
 
-disk = yadisk.YaDisk(alperekocakaplan31, 5454562121a)
+disk = YaDiskClient.YaDisk(alperekocakaplan31, 5454562121a)
 API_KEY = environ['BOT_TOKEN']
 
 bot = telebot.TeleBot("API_KEY")
