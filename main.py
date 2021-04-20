@@ -12,7 +12,7 @@ bot = telebot.TeleBot("API_KEY")
 def start(m):
     chat = m.chat.id
     detay = hesap.get_user()
-    bot.send_message(chat, gui)
+    bot.send_message(chat, detay)
 
 
 bot.polling()
