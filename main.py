@@ -1,5 +1,5 @@
 from mega import Mega
-import telethon
+import telebot
 from os import environ
 
 mega = Mega()
