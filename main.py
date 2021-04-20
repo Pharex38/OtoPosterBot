@@ -1,4 +1,4 @@
-from YaDiskClient.YaDiskClient import YaDisk
+from YaDiskClient import YaDisk
 import telethon
 from os import environ
 
