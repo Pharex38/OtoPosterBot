@@ -8,10 +8,12 @@ API_KEY = environ['BOT_TOKEN']
 
 bot = telebot.TeleBot("API_KEY")
 
+detay = hesap.get_user()
+print(detay)
+
 @bot.message_handler(commands=['start'])
 def start(m):
     chat = m.chat.id
-    detay = hesap.get_user()
     bot.send_message(chat, detay)
 
 
