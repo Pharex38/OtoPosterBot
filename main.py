@@ -9,7 +9,7 @@ baslik = entry.title
 
 API_KEY = environ['BOT_TOKEN']
 bot = telebot.TeleBot(API_KEY)
-open("sonhaber.txt", "w+").write("0")
+
 print(baslik)
 
 @bot.message_handler(commands=['basla'])
