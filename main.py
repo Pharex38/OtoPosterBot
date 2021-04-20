@@ -18,6 +18,7 @@ def haber(h):
     chat = h.chat.id
     sonhaber = open("sonhaber.txt", "r+").read()
     while deger:
+        print(baslik)
         if baslik == sonhaber:
             pass
         else:
