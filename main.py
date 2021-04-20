@@ -25,5 +25,9 @@ def haber(h):
             open("sonhaber.txt", "w+").write(baslik)
             bot.send_message(chat, baslik)
 
+@bot.message_handler(commands=['dur'])
+def dur(d):
+    chat = d.chat.id
+    deger = False
 
 bot.polling()
