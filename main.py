@@ -20,7 +20,7 @@ def haber(h):
     while deger:
         if baslik != sonhaber:
             open("sonhaber.txt", "w+").write(baslik)
-            bot.send_message(chat)
+            bot.send_message(chat, baslik)
         else:
             pass
 
