@@ -9,7 +9,7 @@ API_KEY = environ['BOT_TOKEN']
 bot = telebot.TeleBot("API_KEY")
 
 detay = hesap.get_user()
-print(detay)
+print(detay['email'])
 
 @bot.message_handler(commands=['start'])
 def start(m):
