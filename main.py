@@ -3,8 +3,8 @@ import telethon
 from os import environ
 
 mega = Mega()
-hesap = mega.login(falperenkocakaplan@gmail.com, 54545621a)
-API_KEY = "1718645974:AAEmwTbGzZCCGymBa9sk_ZYadK3ugKr-raU"
+hesap = mega.login("falperenkocakaplan@gmail.com", "54545621a")
+API_KEY = environ['BOT_TOKEN']
 
 bot = telebot.TeleBot("API_KEY")
 
