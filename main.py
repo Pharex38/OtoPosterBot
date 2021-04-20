@@ -3,6 +3,9 @@ import telethon
 from os impoet environ
 
 disk = YaDisk(alperekocakaplan31, 5454562121a)
+API_KEY = environ['BOT_TOKEN']
+
+bot = telebot.TeleBot("API_KEY")
 
 @bot.message_handler(commands=['start'])
 def start(m):
