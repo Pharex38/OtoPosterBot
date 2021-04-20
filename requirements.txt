@@ -1,7 +1,5 @@
-requests
-python-telegram-bot==13.3
-urllib3==1.26.3
+
 pymongo
 dnspython
 pyTelegramBotAPI
-YaDiskClient
+mega.py
