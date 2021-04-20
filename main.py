@@ -1,20 +1,8 @@
-from mega import Mega
+import feedparser
 import telebot
-from os import environ
 
-mega = Mega()
-hesap = mega.login("falperenkocakaplan@gmail.com", "54545621a")
-API_KEY = environ['BOT_TOKEN']
+afeed = feedparser.parse("https://www.aa.com.tr/tr/rss/default?cat=guncel")
 
-bot = telebot.TeleBot("API_KEY")
+haber = afeed.keys
 
-detay = hesap.get_user()
-print(detay['email'])
-
-@bot.message_handler(commands=['start'])
-def start(m):
-    chat = m.chat.id
-    bot.send_message(chat, detay)
-
-
-bot.polling()
+print(haber)
