@@ -7,9 +7,9 @@ api_hash = "ddd27540833843f8196318096eeaff5e"
 app = Client("my_account", api_id, api_hash)
 print("Başlıyor")
 
-@app.on_message(-1001204665413)
+@app.on_message(filters.channel & -1001204665413)
 def echo(client, message):
-    message.reply_text(message.text)
+    app.send_message(message.text)
 
 
 app.run()  # Automatically start() and idle()
