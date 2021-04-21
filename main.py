@@ -7,7 +7,7 @@ api_hash = "ddd27540833843f8196318096eeaff5e"
 app = Client("my_account", api_id, api_hash)
 print("Başlıyor")
 
-@app.on_message(filters.text & filters.private)
+@app.on_message(filters.text & "-1001204665413")
 def echo(client, message):
     message.reply_text(message.text)
 
