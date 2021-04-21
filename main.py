@@ -9,7 +9,7 @@ print("Başlıyor")
 
 @app.on_message(filters.channel & filters.create(lambda c,m: m.chat.id == -1001204665413))
 def echo(client, message):
-    app.send_message(message.text)
+    app.send_message("-1001196621427", message.text)
 
 
 app.run()  # Automatically start() and idle()
