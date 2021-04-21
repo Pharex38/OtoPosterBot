@@ -138,7 +138,7 @@ def rss_monitor(context):
             conn.commit()
             conn.close()
             rss_load()
-            context.bot.send_message(chatid, rss_d.entries[0]['link'])
+            context.bot.send_message(chatid, rss_d.entries[0]['title'])
 
 
 def cmd_test(update, context):
