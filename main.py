@@ -7,7 +7,8 @@ api_hash = "***REMOVED-API-HASH***"
 app = Client("my_account", api_id, api_hash)
 print("Başlıyor")
 
-@app.on_message(filters.channel & -1001204665413)
+@app.on_message(filters.channel & 
+Filters.create(lambda c,m: m.chat.id == -1001204665413)))
 def echo(client, message):
     app.send_message(message.text)
 
