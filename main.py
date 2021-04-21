@@ -1,4 +1,5 @@
 from pyrogram import *
+from pyrogram.handlers import MessageHandler
 
 api_id = ***REMOVED-API-ID***
 api_hash = "***REMOVED-API-HASH***"
