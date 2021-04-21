@@ -15,4 +15,3 @@ def my_handler(client, message):
     message.forward("me")
 
 
-app.run()
