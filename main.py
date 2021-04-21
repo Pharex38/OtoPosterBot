@@ -1,202 +1,185 @@
-from requests import get
-
-SUDOUID = 1302980840
-from telegram import *
-
-BRAIN = []
-from telegram.ext import (
-    Updater,
-    CommandHandler,
-    MessageHandler,
-    Filters,
-    ConversationHandler,
-    CallbackContext,
-)
+import feedparser
+import logging
+import sqlite3
 import os
-import sqlite3 as sql
-from logging import basicConfig, getLogger, INFO
-import pymongo
-from pymongo import MongoClient
-from bson.json_util import dumps, loads
+from telegram.ext import Updater, CommandHandler
+from pathlib import Path
 
-GENDER, PHOTO, LOCATION, TOKEN = range(4)
+Path("config").mkdir(parents=True, exist_ok=True)
 
-basicConfig(format="%(asctime)s - @TRLinkShortener - %(levelname)s - %(message)s",
-            level=INFO)
-LOGS = getLogger(__name__)
-
-LOGS.info("Bot Çalışıyor...")
-
-API_KEY = os.environ['BOT_TOKEN']
-
-
-cluster = pymongo.MongoClient("os.environ["MONGO_URI"]")
-db = cluster["txt"]
-collection = db["txt"]
-
-
-def yardim_komut(update, context):
-    user = update.message.from_user
-    update.message.reply_text(
-        f"_Merhaba_ *{user.first_name}*_, Link Kısaltma botuna hoşgeldin. Bu bot ile TRLink API adresini kullanarak Link Kısaltabilirsin._ *API adresini girmek için /token yaz.\n\n🛸 Sahip : @Pharex \n❤️ Fix & Eklentiler: @bberc* \n\n ❗ _Bu bot ile kısaltılan linkler +18 kategorisinde kısaltılır farklı bir kategori de link paylaşıyorsanız CPM'iniz düşebilir._ \n\n*Çok isterseniz /bagis atabilirsiniz.*",
-        parse_mode=ParseMode.MARKDOWN)
-
-
-def start(update: Update, _: CallbackContext) -> int:
-    update.message.reply_text(
-        '_Lütfen_ [burdan](https://tr.link/member/tools/quick) _aldığınız API adresinizi gönderin_',
-        parse_mode=ParseMode.MARKDOWN)
-
-    return GENDER
-
-
-def bagis_komut(update, context):
-    update.message.reply_text(
-        f"*🥰Aylık 20₺ bağış toplayabilirsek başka sunucuya geçeceğiz. Başka sunucuya geçince sürekli API girmenize gerek kalmayacak.*\n\n🏧Papara: `1666982412`\n🏦İninal: `4003140030544`",
-        parse_mode=ParseMode.MARKDOWN)
-
-
-if os.path.exists("learning-data-root.check"):
-    os.remove("learning-data-root.check")
+# Docker env
+if os.environ.get('BOT_TOKEN'):
+    Token = os.environ['BOT_TOKEN']
+    chatid = os.environ['CHATID']
+    delay = int(os.environ['DELAY'])
 else:
-    LOGS.info("Braincheck dosyası yok, getiriliyor...")
+    Token = "X"
+    chatid = "X"
+    delay = 60
 
-URL = 'https://gitlab.com/must4f/VaveylaData/-/raw/main/learning-data-root.check'
-with open('learning-data-root.check', 'wb') as load:
-    load.write(get(URL).content)
-DB = sql.connect("learning-data-root.check")
-CURSOR = DB.cursor()
-CURSOR.execute("""SELECT * FROM BRAIN1""")
-ALL_ROWS = CURSOR.fetchall()
+if Token == "X":
+    print("Token not set!")
+
+rss_dict = {}
+
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+                    level=logging.INFO)
+
+# SQLITE
 
 
-def gender(update: Update, _: CallbackContext) -> int:
-    user = update.message.from_user.id
-    mesaj = update.message.text
-    if not collection.find_one({"_id": user}) == "":
-        key = {"_id": user, "api": mesaj}
-        collection.insert_one(key)
-        update.message.reply_text(f'*API Kaydedildi. Kısaltmam için bana bir link gönder.* _Tekrar girmek istersen_ /token _yazmanız yeterli._', parse_mode=ParseMode.MARKDOWN)
+def sqlite_connect():
+    global conn
+    conn = sqlite3.connect('config/rss.db', check_same_thread=False)
+
+
+def sqlite_load_all():
+    sqlite_connect()
+    c = conn.cursor()
+    c.execute('SELECT * FROM rss')
+    rows = c.fetchall()
+    conn.close()
+    return rows
+
+
+def sqlite_write(name, link, last):
+    sqlite_connect()
+    c = conn.cursor()
+    q = [(name), (link), (last)]
+    c.execute('''INSERT INTO rss('name','link','last') VALUES(?,?,?)''', q)
+    conn.commit()
+    conn.close()
+
+
+# RSS________________________________________
+def rss_load():
+    # if the dict is not empty, empty it.
+    if bool(rss_dict):
+        rss_dict.clear()
+
+    for row in sqlite_load_all():
+        rss_dict[row[0]] = (row[1], row[2])
+
+
+def cmd_rss_list(update, context):
+    if bool(rss_dict) is False:
+
+        update.effective_message.reply_text("The database is empty")
     else:
-        collection.update_one({"_id": user}, {"$set":{"api": mesaj}})
-        update.message.reply_text(f'*API Kaydedildi. Kısaltmam için bana bir link gönder.* _Tekrar girmek istersen_ /token _yazmanız yeterli._', parse_mode=ParseMode.MARKDOWN)
-
-    return ConversationHandler.END
-
-
-for i in ALL_ROWS:
-    BRAIN.append(i[0])
-sql.connect("learning-data-root.check").close()
-links = 0
+        for title, url_list in rss_dict.items():
+            update.effective_message.reply_text(
+                "Title: " + title +
+                "\nrss url: " + url_list[0] +
+                "\nlast checked article: " + url_list[1])
 
 
-def handle_message(update, context):
-    user = update.message.from_user.id
-    cursor = collection.find_one({"_id": user})
+def cmd_rss_add(update, context):
+    # try if there are 2 arguments passed
     try:
-        token = cursor['api']
-    except:
-        update.message.reply_text('Lütfen önce /token yazarak bir API adresi girin')
-        return
-<<<<<<< HEAD
-    mesaj = bot.send_message(chat, "Kullanıcı adı nedir?")
-    Kayit.id = id
-    bot.register_next_step_handler(mesaj, son)
-
-def son(b):
-    chat = b.chat.id
-    isim = b.text
-    link = bot.create_chat_invite_link(chat_id=-1001254179689, member_limit=1)
-    if not isim.startswith("@"):
-        bot.send_message(chat, f"Tamamdır Link: {link}")
-        Kayit.kadi = isim
-        user_id = Kayit.id
-        bot.send_message(-1001476303153, f"Papara: {Kayit.papara}\nKullanıcı Adı: @{Kayit.kadi}\nID: {Kayit.id}\n\n [Kalici Link](tg://user?id={user_id})", parse_mode=ParseMode.MARKDOWN)
-    else:
-        bot.send_message(chat, f"Tamamdır Link: {link}")
-        Kayit.kadi = isim
-        user_id = Kayit.id
-        bot.send_message(-1001476303153, f"Papara: {Kayit.papara}\nKullanıcı Adı: {Kayit.kadi}\nID: {Kayit.id}\n\n [Kalici Link](tg://user?id={user_id})", parse_mode=ParseMode.MARKDOWN)
-=======
-    text = str(update.message.text)
-    if text.startswith("https") or text.startswith("www") or text.startswith("http"):
-        if text.startswith("https://mega.nz/"):
-            json = get(f"https://ay.live/api/?api={token}&url={text}&alias=&format=text&ct=1").json()
-            if not json["status"] == "success":
-                update.message.reply_text('`Bir hata oluştu!`', parse_mode=ParseMode.MARKDOWN)
-                return
-            link = json["shortenedUrl"]
-            update.message.reply_text(f'*Linkiniz:\n*'
-
-                                      f'🔹 `{link}`', parse_mode=ParseMode.MARKDOWN)
-            links += 1
-            return links
-        else:
-            link = get(f"https://ay.live/api/?api={token}&url={text}&alias=&format=text&ct=1").text
-            update.message.reply_text(f'*Linkiniz:\n\n*'
-
-                                      f'🔹 `{link}`', parse_mode=ParseMode.MARKDOWN)
-            links += 1
-            return links
-    else:
-        update.message.reply_text(f"_Lütfen kısaltmam için bir link gönder_", parse_mode=ParseMode.MARKDOWN)
+        context.args[1]
+    except IndexError:
+        update.effective_message.reply_text(
+            "ERROR: The format needs to be: /add title http://www.URL.com")
+        raise
+    # try if the url is a valid RSS feed
+    try:
+        rss_d = feedparser.parse(context.args[1])
+        rss_d.entries[0]['title']
+    except IndexError:
+        update.effective_message.reply_text(
+            "ERROR: The link does not seem to be a RSS feed or is not supported")
+        raise
+    sqlite_write(context.args[0], context.args[1],
+                 str(rss_d.entries[0]['link']))
+    rss_load()
+    update.effective_message.reply_text(
+        "added \nTITLE: %s\nRSS: %s" % (context.args[0], context.args[1]))
 
 
-def kontrok(update, context):
-    global links
-    kullanici = update.message.from_user
-    uid = kullanici.id
-    users = {}
-    for usre in os.listdir("./txtler/"):
-        if not usre.endswith(".py") or usre.startswith("_"):
-            continue
-        users.append(f"{usre.replace('.txt', '')}")
-    tks = collection.count_documents({})
-    if uid == BRAIN[0] or uid == SUDOUID:
-        update.message.reply_text(f"""
-🆔 *Update Sonrası Kullanıcılar:* `{tks}`
-🆔 *Update Sonrası Kısaltılan Link:* `{links}`""", parse_mode=ParseMode.MARKDOWN)
-    else:
-        update.message.reply_text("Bunları seninle paylaşamam!!")
+def cmd_rss_remove(update, context):
+    conn = sqlite3.connect('config/rss.db')
+    c = conn.cursor()
+    q = (context.args[0],)
+    try:
+        c.execute("DELETE FROM rss WHERE name = ?", q)
+        conn.commit()
+        conn.close()
+    except sqlite3.Error as e:
+        print('Error %s:' % e.args[0])
+    rss_load()
+    update.effective_message.reply_text("Removed: " + context.args[0])
 
 
-def error(update, context):
-    LOGS.info(f"\n\nGerçekleşen hata : Update {update} caused error {context.error}")
+def cmd_help(update, context):
+    update.effective_message.reply_markdown_v2(
+        "RSS to Telegram bot" +
+        "\n\nAfter successfully adding a RSS link, the bot starts fetching the feed every "
+        + str(delay) + " seconds\. \(This can be set\)" +
+        "\n\nTitles are used to easily manage RSS feeds and need to contain only one word" +
+        "\n\ncommands:" +
+        "\n/help Posts this help message" +
+        "\n/add title http://www\.RSS\-URL\.com" +
+        "\n/remove \!Title\! removes the RSS link" +
+        "\n/list Lists all the titles and the RSS links from the DB" +
+        "\n/test Inbuilt command that fetches a post from Reddits RSS\." +
+        "\n\nThe current chatId is: " + str(update.message.chat.id) +
+        "\n\nIf you like the project, star it on [DockerHub](https://hub.docker.com/r/bokker/rss.to.telegram)")
 
 
-def cancel(update: Update, _: CallbackContext) -> int:
-    update.message.reply_text('İptal Edildi.')
+def rss_monitor(context):
+    for name, url_list in rss_dict.items():
+        rss_d = feedparser.parse(url_list[0])
+        if (url_list[1] != rss_d.entries[0]['link']):
+            conn = sqlite3.connect('config/rss.db')
+            q = [(name), (url_list[0]), (str(rss_d.entries[0]['link']))]
+            c = conn.cursor()
+            c.execute(
+                '''INSERT INTO rss('name','link','last') VALUES(?,?,?)''', q)
+            conn.commit()
+            conn.close()
+            rss_load()
+            context.bot.send_message(chatid, rss_d.entries[0]['title'])
 
-    return ConversationHandler.END
+
+def cmd_test(update, context):
+    url = "https://www.reddit.com/r/funny/new/.rss"
+    rss_d = feedparser.parse(url)
+    rss_d.entries[0]['link']
+    update.effective_message.reply_text(
+        rss_d.entries[0]['title'] + "\n" +
+        rss_d.entries[0]['link'])
+
+
+def init_sqlite():
+    conn = sqlite3.connect('config/rss.db')
+    c = conn.cursor()
+    c.execute('''CREATE TABLE rss (name text, link text, last text)''')
 
 
 def main():
-    updater = Updater(API_KEY, use_context=True)
-
+    updater = Updater(token=Token, use_context=True)
+    job_queue = updater.job_queue
     dp = updater.dispatcher
 
-    conv_handler = ConversationHandler(
-        entry_points=[CommandHandler('token', start)],
-        states={
-            GENDER: [MessageHandler(Filters.text, gender)],
+    dp.add_handler(CommandHandler("add", cmd_rss_add))
+    dp.add_handler(CommandHandler("help", cmd_help))
+    dp.add_handler(CommandHandler("test", cmd_test, ))
+    dp.add_handler(CommandHandler("list", cmd_rss_list))
+    dp.add_handler(CommandHandler("remove", cmd_rss_remove))
 
-        },
-        fallbacks=[CommandHandler('iptal', cancel)],
-    )
+    # try to create a database if missing
+    try:
+        init_sqlite()
+    except sqlite3.OperationalError:
+        pass
+    rss_load()
 
-    dp.add_handler(CommandHandler("start", yardim_komut))
-    dp.add_handler(CommandHandler("stats", kontrok))
-    dp.add_handler(CommandHandler("bagis", bagis_komut))
-
-    dp.add_handler(conv_handler)
-
-    dp.add_handler(MessageHandler(Filters.text, handle_message))
->>>>>>> parent of 9a1524c (Merge branch 'main' of https://github.com/Pharex38/trlnk into main)
-
-    dp.add_error_handler(error)
+    job_queue.run_repeating(rss_monitor, delay)
 
     updater.start_polling()
     updater.idle()
+    conn.close()
 
 
-main()
+if __name__ == '__main__':
+    main()
