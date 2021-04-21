@@ -6,7 +6,6 @@ api_hash = "ddd27540833843f8196318096eeaff5e"
 
 app = Client("my_account", api_id, api_hash)
 print("Başlıyor")
-app.start()
 
 @app.on_message(filters.text & filters.private)
 def echo(client, message):
