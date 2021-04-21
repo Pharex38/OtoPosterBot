@@ -4,3 +4,4 @@ dnspython
 pyTelegramBotAPI
 mega.py
 feedparser
+pyrogram
