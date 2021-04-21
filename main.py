@@ -10,9 +10,9 @@ app.start()
 
 app.send_message("me", "Greetings from **Pyrogram**!")
 
-def my_function(client, message):
+@app.on_message()
+def my_handler(client, message):
     message.forward("me")
 
-my_handler = MessageHandler(my_function)
-app.add_handler(my_handler)
 
+app.run()
