@@ -1,4 +1,4 @@
-from pyrogram import Client
+from pyrogram import *
 
 api_id = ***REMOVED-API-ID***
 api_hash = "***REMOVED-API-HASH***"
