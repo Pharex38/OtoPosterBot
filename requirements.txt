@@ -1,6 +1,6 @@
-requests
-python-telegram-bot==13.3
-urllib3==1.26.3
-dropbox
+python-telegram-bot
 pymongo
 dnspython
+pyTelegramBotAPI
+mega.py
+feedparser
