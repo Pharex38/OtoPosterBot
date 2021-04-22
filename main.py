@@ -35,4 +35,6 @@ def dosya(d):
     print(dosya)
     bot.send_document(chat, dosya)
 
+
+
 bot.polling()
