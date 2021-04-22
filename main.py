@@ -17,7 +17,7 @@ def start(s):
     email = details['email']
     isim = details['name']
     chat = s.chat.id
-    bot.send_message(chat, email)
+    bot.send_message(chat, f"Mail: {email}\nİsim: {isim}")
 
 
 bot.polling()
