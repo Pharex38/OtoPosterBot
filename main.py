@@ -8,10 +8,10 @@ BOT_TOKEN = "1762080925:AAGqS8tM8AW9PP1sFABWctHaQqnWCbxBmZM"
 app = Client("RadyoBot", api_id, api_hash, bot_token=BOT_TOKEN)
 print("Başlıyor")
 
-@app.on_message(filters.text)
+@app.on_message(filters.command=(['start']))
 def echo(client, message):
     chat = message.chat.id
-    app.send_message(chat, message.text)
+    app.send_message(chat, "Merhaba!")
 
 
 app.run()  # Automatically start() and idle()
