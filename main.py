@@ -4,7 +4,7 @@ from os import environ
 
 mega = Mega()
 email = "falperenkocakaplan@gmail.com"
-password = "5454562121a"
+password = "54545621a"
 m = mega.login(email, password)
 details = m.get_user()
 print(details)
