@@ -2,10 +2,10 @@ from pyrogram import *
 from pyrogram.handlers import MessageHandler
 from os import environ
 
-api_id = ***REMOVED-API-ID***
-api_hash = "***REMOVED-API-HASH***"
+api_id = 1762080925
+api_hash = "***REMOVED-BOT-TOKEN***"
 BOT_TOKEN = environ['BOT_TOKEN']
-app = Client("RadyoBot", bot_token=BOT_TOKEN)
+app = Client("RadyoBot", app_id, app_hash)
 print("Başlıyor")
 
 @app.on_message(filters.text)
