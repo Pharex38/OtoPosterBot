@@ -12,7 +12,7 @@ print(details)
 API_KEY = environ['BOT_TOKEN']
 bot = telebot.TeleBot(API_KEY)
 
-@bot.message_handler
+@bot.message_handler(commands=['start'])
 def start(s):
     chat = s.chat.id
     bot.send_message(chat, details)
