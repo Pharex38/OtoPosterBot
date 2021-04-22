@@ -15,6 +15,7 @@ bot = telebot.TeleBot(API_KEY)
 @bot.message_handler(commands=['start'])
 def start(s):
     email = details['email']
+    isim = details['name']
     chat = s.chat.id
     bot.send_message(chat, email)
 
