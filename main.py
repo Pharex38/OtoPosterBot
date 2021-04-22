@@ -14,8 +14,8 @@ API_KEY = environ['BOT_TOKEN']
 bot = telebot.TeleBot(API_KEY)
 
 den = m.download_url("https://mega.nz/file/DfoxyArC#jfgaNkO-AnKY69c59UtP5rw24treol-hmcq4JzPPGew")
-indir = m.download(den, '/Dosyalar', den)
-print(indir)
+#indir = m.download(den, '/Dosyalar', den)
+print(den)
 
 @bot.message_handler(commands=['start'])
 def start(s):
