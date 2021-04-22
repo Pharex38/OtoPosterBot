@@ -4,8 +4,8 @@ from os import environ
 
 api_id = 1762080925
 api_hash = "***REMOVED-BOT-TOKEN***"
-BOT_TOKEN = environ['BOT_TOKEN']
-app = Client("RadyoBot", api_id, api_hash)
+BOT_TOKEN = "***REMOVED-BOT-TOKEN***"
+app = Client("RadyoBot", api_id, api_hash, bot_token=BOT_TOKEN)
 print("Başlıyor")
 
 @app.on_message(filters.text)
