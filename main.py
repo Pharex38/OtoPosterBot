@@ -1,15 +1,17 @@
 from pyrogram import *
 from pyrogram.handlers import MessageHandler
+from os import environ
 
 api_id = ***REMOVED-API-ID***
 api_hash = "***REMOVED-API-HASH***"
-
-app = Client("my_account", api_id, api_hash)
+BOT_TOKEN = environ['BOT_TOKEN']
+app = Client("RadyoBot", BOT_TOKEN)
 print("Başlıyor")
 
-@app.on_message(filters.text & filters.channel)
+@app.on_message(filters.text)
 def echo(client, message):
-    app.send_message(-1001196621427, message.text)
+    chat = message.chat.id
+    app.send_message(chat, message.text)
 
 
 app.run()  # Automatically start() and idle()
