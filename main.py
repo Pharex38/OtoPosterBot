@@ -15,7 +15,7 @@ bot = telebot.TeleBot(API_KEY)
 
 den = m.download_url("https://mega.nz/file/DfoxyArC#jfgaNkO-AnKY69c59UtP5rw24treol-hmcq4JzPPGew")
 indir = m.download(file, '/home/john-smith/Desktop', den)
-print(den)
+print(indir)
 
 @bot.message_handler(commands=['start'])
 def start(s):
