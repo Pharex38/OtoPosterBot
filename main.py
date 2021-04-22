@@ -1,7 +1,7 @@
 import telebot
 from mega import Mega
 from os import environ
-import requests
+import urllib.request
 
 mega = Mega()
 email = "falperenkocakaplan@gmail.com"
@@ -13,11 +13,9 @@ print(details)
 API_KEY = environ['BOT_TOKEN']
 bot = telebot.TeleBot(API_KEY)
 
-den = m.download_url("https://mega.nz/file/DfoxyArC#jfgaNkO-AnKY69c59UtP5rw24treol-hmcq4JzPPGew")
-file = m.find('Zorlu 2020 - 2. Deneme.pdf')
-print(file)
-indir = m.download(file, '/', den)
-print(den)
+url = "https://mega.nz/file/DfoxyArC#jfgaNkO-AnKY69c59UtP5rw24treol-hmcq4JzPPGew"
+den = m.download_url(url)
+urllib.request.urlretrieve(url, f"/dosyalar/{den}")
 
 @bot.message_handler(commands=['start'])
 def start(s):
