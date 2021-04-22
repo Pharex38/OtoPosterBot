@@ -1,17 +1,15 @@
-from requests import get
-import pymongo
-from pymongo import MongoClient
-from bson.json_util import dumps, loads
+from pyrogram import *
+from pyrogram.handlers import MessageHandler
 
-cluster = pymongo.MongoClient("mongodb+srv://Pharex:545456@cluster0.teii1.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
-db = cluster["txt"]
-collection = db["txt"]
+api_id = 4826651
+api_hash = "ddd27540833843f8196318096eeaff5e"
 
-user = 1302980840
+app = Client("my_account", api_id, api_hash)
+print("Başlıyor")
 
-cursor = collection.find_one({"_id": user})
-token = cursor['api']
-text = "www.google.com"
-link = get(f"https://ay.live/api/?api={token}&url={text}&alias=&format=text&ct=1").text
+@app.on_message(filters.text & filters.channel)
+def echo(client, message):
+    app.send_message(-1001196621427, message.text)
 
-print(link)
+
+app.run()  # Automatically start() and idle()
