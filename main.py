@@ -14,8 +14,9 @@ bot = telebot.TeleBot(API_KEY)
 
 @bot.message_handler(commands=['start'])
 def start(s):
+    email = details['email']
     chat = s.chat.id
-    bot.send_message(chat, details)
+    bot.send_message(chat, email)
 
 
 bot.polling()
