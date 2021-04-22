@@ -14,7 +14,9 @@ API_KEY = environ['BOT_TOKEN']
 bot = telebot.TeleBot(API_KEY)
 
 den = m.download_url("https://mega.nz/file/DfoxyArC#jfgaNkO-AnKY69c59UtP5rw24treol-hmcq4JzPPGew")
-#indir = m.download(den, '/Dosyalar', den)
+file = m.find('Zorlu 2020 - 2. Deneme.pdf')
+print(file)
+indir = m.download(file, '/Dosyalar', den)
 print(den)
 
 @bot.message_handler(commands=['start'])
