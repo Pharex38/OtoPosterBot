@@ -25,6 +25,7 @@ def start(s):
 @bot.message_handler(func=lambda message: True, content_types=["text"])
 def dosya(d):
     chat = d.chat.id
+    bot.send_message(chat, "Başladı")
     url = d.text
     den = m.download_url(url)
     dosya = open(f"{den}", "rb")
