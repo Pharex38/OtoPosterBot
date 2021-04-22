@@ -2,8 +2,8 @@ from pyrogram import *
 from pyrogram.handlers import MessageHandler
 from os import environ
 
-api_id = 1762080925
-api_hash = "***REMOVED-BOT-TOKEN***"
+api_id = ***REMOVED-API-ID***
+api_hash = "***REMOVED-API-HASH***"
 BOT_TOKEN = "***REMOVED-BOT-TOKEN***"
 app = Client("RadyoBot", api_id, api_hash, bot_token=BOT_TOKEN)
 print("Başlıyor")
