@@ -1,15 +1,21 @@
-from pyrogram import *
-from pyrogram.handlers import MessageHandler
+import telebot
+from mega import Mega
+from os import environ
 
-api_id = 4826651
-api_hash = "ddd27540833843f8196318096eeaff5e"
+mega = Mega()
+email = "falperenkocakaplan@gmail.com"
+password = "5454562121a"
+m = mega.login(email, password)
+details = m.get_user()
+print(details)
 
-app = Client("my_account", api_id, api_hash)
-print("Başlıyor")
+API_KEY = environ['BOT_TOKEN']
+bot = telebot.TeleBot(API_KEY)
 
-@app.on_message(filters.text & filters.channel)
-def echo(client, message):
-    app.send_message(-1001196621427, message.text)
+@bot.message_handler
+def start(s):
+    chat = s.chat.id
+    bot.send_message(chat, details)
 
 
-app.run()  # Automatically start() and idle()
+bot.polling()
