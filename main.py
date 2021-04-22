@@ -27,10 +27,7 @@ def dosya(d):
     chat = d.chat.id
     url = d.text
     den = m.download_url(url)
-    m.import_public_url(url)
-    file = m.find(den)
-    m.download(file, '/Dosyalar')
-    dosya = open(f"/Dosyalar/{den}", "rb")
+    dosya = open(f"{den}", "rb")
     bot.send_document(chat, dosya)
 
 bot.polling()
