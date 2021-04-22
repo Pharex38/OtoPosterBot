@@ -6,4 +6,4 @@ mega.py
 feedparser
 pyrogram
 requests
-TgCrypto
+py-tgcalls
