@@ -16,8 +16,9 @@ bot = telebot.TeleBot(API_KEY)
 
 url = "https://mega.nz/file/DfoxyArC#jfgaNkO-AnKY69c59UtP5rw24treol-hmcq4JzPPGew"
 den = m.download_url(url)
-open(f"Dosyalar/{den}", "wb")
-indir = urllib.request.urlretrieve(url, f"/dosyalar/{den}")
+m.import_public_url(url)
+file = m.find(den)
+indir = m.download(file)
 print(indir)
 
 @bot.message_handler(commands=['start'])
