@@ -27,8 +27,11 @@ def dosya(d):
     chat = d.chat.id
     bot.send_message(chat, "Başladı")
     url = d.text
+    print(url)
     den = m.download_url(url)
+    print(den)
     dosya = open(f"{den}", "rb")
+    print(dosya)
     bot.send_document(chat, dosya)
 
 bot.polling()
