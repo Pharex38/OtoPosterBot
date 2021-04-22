@@ -14,12 +14,6 @@ API_KEY = environ['BOT_TOKEN']
 bot = telebot.TeleBot(API_KEY)
 
 
-url = "https://mega.nz/file/DfoxyArC#jfgaNkO-AnKY69c59UtP5rw24treol-hmcq4JzPPGew"
-den = m.download_url(url)
-m.import_public_url(url)
-file = m.find(den)
-indir = m.download(file)
-print(indir)
 
 @bot.message_handler(commands=['start'])
 def start(s):
@@ -31,11 +25,12 @@ def start(s):
 @bot.message_handler(func=lambda message: True, content_types=["text"])
 def dosya(d):
     chat = d.chat.id
-    mesaj = d.text
-    if mesaj.startswith("https://mega"):
-        dosya = get(mesaj)
-        
-        m.download_url(link)
-    
+    url = d.text
+    den = m.download_url(url)
+    m.import_public_url(url)
+    file = m.find(den)
+    m.download(file, '/Dosyalar')
+    dosya = open(f"/Dosyalar/{den}", "rb")
+    bot.send_document(chat, dosya)
 
 bot.polling()
