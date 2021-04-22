@@ -8,7 +8,7 @@ BOT_TOKEN = "***REMOVED-BOT-TOKEN***"
 app = Client("RadyoBot", api_id, api_hash, bot_token=BOT_TOKEN)
 print("Başlıyor")
 
-@app.on_message(filters.command=(['start']))
+@app.on_message(filters.command(['start']))
 def echo(client, message):
     chat = message.chat.id
     app.send_message(chat, "Merhaba!")
