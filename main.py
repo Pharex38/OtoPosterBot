@@ -21,6 +21,7 @@ def start(s):
     isim = details['name']
     chat = s.chat.id
     bot.send_message(chat, f"Mail: {email}\nİsim: {isim}")
+    #
 
 @bot.message_handler(func=lambda message: True, content_types=["text"])
 def dosya(d):
