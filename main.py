@@ -7,6 +7,7 @@ api_id = ***REMOVED-API-ID***
 api_hash = "***REMOVED-API-HASH***"
 BOT_TOKEN = "***REMOVED-BOT-TOKEN***"
 app = Client("RadyoBot", api_id, api_hash, bot_token=BOT_TOKEN)
+pytgcalls = PyTgCalls(app, log_mode=PyLogs.verbose)
 print("Başlıyor")
 
 @app.on_message(filters.command(['start']))
