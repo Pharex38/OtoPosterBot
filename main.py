@@ -36,10 +36,13 @@ def dosya(client, message):
     global chat
     sayi = 0
     chat = message.chat.id
-    indir = message.download(progress=progress)
-    print(indir)
-    
-    app.send_message(chat, "Bitti")
+    indirilen = message.download(progress=progress)
+    print(indirilen)
+    yuklenen = m.upload(indirilen)
+    print(yuklenen)
+    link = m.get_upload_link(yuklenen)
+    print(link)
+    app.send_message(chat, f"Bitti: \nLinkiniz: {link}")
 
 
 app.run()
