@@ -29,7 +29,7 @@ def progress(current, total):
 def sayac(islem, chat, mids):
     app.edit_message_text(chat, mids, f"{islem}%")
  
-@app.on_message(filters.command(['start']))
+@app.on_message(filters.command(['start', 'help']))
 def echo(client, message):
     user = message.from_user
     chat = message.chat.id
@@ -42,7 +42,7 @@ def linkten(client, message):
     mid = message.message_id
     mids = mid+1
     if len(mesaj) < 1:
-        app.send_message(cid, f"❌Hatalı kullanım! ✅Kullanım: /indir <link>")
+        app.send_message(cid, f"❌Hatalı kullanım! \n\n✅Doğru Kullanım: /indir <link>")
         return
     elif mesaj[0].startswith("https://mega") or mesaj[0].startswith("http://mega"):
         m.send_message(cid, f"`🔁Dosya indiriliyor...`")
@@ -64,7 +64,7 @@ def giris(client, message):
     mids = mid+1
     if len(mesaj) < 2:
         print(len(mesaj))
-        app.send_message(cid, "❌Hatalı kullanım!")
+        app.send_message(cid, "❌Hatalı kullanım!\n\n✅Doğru Kullanım: /giris <email> <sifre>")
         return
     email = mesaj[0]
     sifre = mesaj[1]
