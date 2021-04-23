@@ -36,6 +36,7 @@ def hesap(client, message):
     alan = m.get_storage_space(kilo=True)
     quota = m.get_quota()
     details = m.get_user()
+    dosyalar = m.get_files()
     print(details)
     app.send_message(cid, f"**Hesap Bilgileriniz;**\n\nE-mail: {details['email']}\nBulut Alanı: {alan}\nQuota: {quota}")
 
