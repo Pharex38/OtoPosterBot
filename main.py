@@ -40,7 +40,7 @@ def hesap(client, message):
     isim = details['name']
     print(dosyalar)
     print(details)
-    app.send_message(cid, f"**Hesap Bilgileriniz;**\n\nİsim: {isim} "\nE-mail: {details['email']}\nBulut Alanı: {alan}\nQuota: {quota}")
+    app.send_message(cid, f"**Hesap Bilgileriniz;**\n\nİsim: {isim} \nE-mail: {details['email']} \nBulut Alanı: {alan}\nQuota: {quota}")
 
 
 @app.on_message(filters.document)
