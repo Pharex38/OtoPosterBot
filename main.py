@@ -19,7 +19,8 @@ print(yol)
 def progress(current, total):
     islem = current * 100 / total
     print("islemm")
-    print(islem)
+    open(f"islem.txt", "w").write(islem)
+    
  
 @app.on_message(filters.command(['start']))
 def echo(client, message):
@@ -40,8 +41,10 @@ def dosya(client, message):
     chat = message.chat.id
     indir = message.download(progress=progress)
     print(indir)
-   
-    app.send_message(chat, "sa")
+    islem = open("islem.txt", "r").read()
+    while islem < 100:
+        app.send_message(chat, f"{islem}%")
+    app.send_message(chat, "Bitti")
 
 
 app.run()
