@@ -26,10 +26,10 @@ def oynat(client, o):
     komut = subprocess.call(f'ffmpeg -y -i http://stream2.taksimbilisim.com:8010/ -f s16le -ac 1 -acodec pcm_s16le -ar 128 {yol}/yayin.raw', shell=True)
     print(komut)
     app.send_message(chat, "Oynatılıyor.")
+    pytgcalls.start()
     pytgcalls.join_group_call(-1001391561285, 'yayin.raw')
     app.send_message(chat, "Çalıyor.")
 
 
 
-pytgcalls.run()
 app.run()  # Automatically start() and idle()
