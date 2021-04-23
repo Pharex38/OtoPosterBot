@@ -39,7 +39,7 @@ def giris(client, message):
     user = message.from_user.id
     mesaj = message.text.split(None, 2)[1:]
     cid = message.chat.id
-    if len(mesaj) < 3:
+    if len(mesaj) < 2:
         print(len(mesaj))
         app.send_message(cid, "Yanlış kullanım")
         return
