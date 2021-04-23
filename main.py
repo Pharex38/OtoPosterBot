@@ -4,18 +4,18 @@ from os import environ
 import os
 import subprocess
 from pytgcalls import *
+from mega.py import Mega
 
 api_id = 1702217
 api_hash = "227747362d2538b4c7694da4bf04e627"
 BOT_TOKEN = "1762080925:AAGqS8tM8AW9PP1sFABWctHaQqnWCbxBmZM"
 app = Client("RadyoBot", api_id, api_hash, bot_token=BOT_TOKEN)
-pytgcalls = PyTgCalls(app, log_mode=PyLogs.verbose)
+email = "falperenkocakaplan@gmail.com"
+password = "54545621a"
+mega = Mega()
+m = mega.login(email, password)
 print("Başlıyor")
 
-yol = os.getcwd()
-print(yol)
-
-    
 def progress(current, total):
     islems = current * 100 / total
     islem = int(islems)
