@@ -33,8 +33,7 @@ def sayac(islem, chat, mids):
 def echo(client, message):
     user = message.from_user
     chat = message.chat.id
-    app.send_message(chat, f"♦️ __Merhaba {user.first_name}, bu bot üzerinden Mega.nz hesabın ile giriş yaparak dosya yükleyebilir veya indirebilirsin.__\n\n**Nasıl Dosya Yüklenir?**\n  __Dosyayı bota göndermen yeterli. Mega hesabın ile giriş yaptıysan otomatik olarak dosyayı buluta yükleyip ardından dosya bağlantısını sana gönderecek!__\n**Nasıl Mega'dan Dosya İndirilir?**\n  __Mega linkini direkt olarak bota gönderirsen bot dosyayı indirip sana Telegram üzerinden yollayacak.__\n\n**Komutlar ve Kullanımları;**\n- /giris <email> <sifre>\nMega.nz hesabınıza giriş yapmak için kullanabilirsiniz.\n- /hesap\nMega.nz hesap bilgilerinizi gösterir.\n- /indir <link>\nGirdiğiniz Mega.nz bağlantısındaki dosyayı indirir.
-"")
+    app.send_message(chat, f"♦️ __Merhaba {user.first_name}, bu bot üzerinden Mega.nz hesabın ile giriş yaparak dosya yükleyebilir veya indirebilirsin.__\n\n**Nasıl Dosya Yüklenir?**\n  __Dosyayı bota göndermen yeterli. Mega hesabın ile giriş yaptıysan otomatik olarak dosyayı buluta yükleyip ardından dosya bağlantısını sana gönderecek!__\n**Nasıl Mega'dan Dosya İndirilir?**\n  __Mega linkini direkt olarak bota gönderirsen bot dosyayı indirip sana Telegram üzerinden yollayacak.__\n\n**Komutlar ve Kullanımları;**\n- /giris <email> <sifre>\nMega.nz hesabınıza giriş yapmak için kullanabilirsiniz.\n- /hesap\nMega.nz hesap bilgilerinizi gösterir.\n- /indir <link>\nGirdiğiniz Mega.nz bağlantısındaki dosyayı indirir.")
 
 @app.on_message(filters.command(['indir']))
 def linkten(client, message):
