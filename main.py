@@ -73,7 +73,7 @@ def giris(client, message):
     try:
         mega.login(email, sifre)
     except:
-        app.edit_message_text(cid, mids, "❌Email veya şifreniz hatalı!")
+        app.edit_message_text(cid, mids, "__❌Email veya şifreniz hatalı!__")
     else:
         bnb = collection.find_one({"_id": user})
         if bnb == None:
