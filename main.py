@@ -17,8 +17,8 @@ print(yol)
 
     
 def progress(current, total):
-    islem = current * 100 / total
     global islem
+    islem = current * 100 / total
     print(islem)
     
  
