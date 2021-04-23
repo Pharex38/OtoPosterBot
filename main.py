@@ -17,7 +17,7 @@ print(yol)
 
     
 def progress(current, total):
-    print(f"{current * 100 / total}%")
+    print(f"{current * 100 / total:.1f}%")
  
 @app.on_message(filters.command(['start']))
 def echo(client, message):
