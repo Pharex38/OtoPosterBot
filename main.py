@@ -18,9 +18,14 @@ print(yol)
     
 def progress(current, total):
     global islem
-    islem = current * 100 / total
+    islems = current * 100 / total
+    islem = int(islems)
     print(islem)
-    
+
+def sayac(islem, chat):
+    while islem < 100:
+        app.send_message(chat, f"{islem}%")
+ 
  
 @app.on_message(filters.command(['start']))
 def echo(client, message):
@@ -34,10 +39,8 @@ def dosya(client, message):
     chat = message.chat.id
     indir = message.download(block=True, progress=progress)
     print(indir)
-    while sayi < 7:
-        sayi += 1
-        app.send_message(chat, f"{islem}%")
-        
+    sayac(islem, chat)
+    
     app.send_message(chat, "Bitti")
 
 
