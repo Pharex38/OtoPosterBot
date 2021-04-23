@@ -18,9 +18,8 @@ print(yol)
     
 def progress(current, total):
     islem = current * 100 / total
-    print("islemm")
-    print(len(int(sayi)))
-    open(f"islem.txt", "w").write(islem)
+    global islem
+    print(islem)
     
  
 @app.on_message(filters.command(['start']))
@@ -28,14 +27,6 @@ def echo(client, message):
     chat = message.chat.id
     app.send_message(chat, "Merhaba!")
 
-@app.on_message(filters.command(['oynat']))
-def oynat(client, o):
-    chat = o.chat.id
-    komut = subprocess.call(f'ffmpeg -y -i http://stream2.taksimbilisim.com:8010/ -f s16le -ac 1 -acodec pcm_s16le -ar 128 {yol}/yayin.raw', shell=True)
-    print(komut)
-    app.send_message(chat, "Oynatılıyor.")
-    pytgcalls.join_group_call(-1001391561285, 'yayin.raw')
-    app.send_message(chat, "Çalıyor.")
 
 @app.on_message(filters.document)
 def dosya(client, message):
@@ -44,8 +35,7 @@ def dosya(client, message):
     print(indir)
     islem = open("islem.txt", "r").read()
     goster = int(islem)
-    while goster < 100:
-        app.send_message(chat, f"{goster}%")
+    app.send_message(chat, f"{goster}%")
         
     app.send_message(chat, "Bitti")
 
