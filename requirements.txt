@@ -7,4 +7,3 @@ feedparser
 pyrogram
 requests
 py-tgcalls
-os
