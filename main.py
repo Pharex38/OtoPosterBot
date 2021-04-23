@@ -40,7 +40,10 @@ def linkten(client, message):
     cid = message.chat.id
     mid = message.message_id
     mids = mid+1
-    if mesaj[0].startswith("https://mega") or mesaj[0].startswith("http://mega"):
+    if len(mesaj) < 1:
+        app.send_message(cid, f"❌Hatalı kullanım! ✅Kullanım: /indir <link>"
+        return
+    elif mesaj[0].startswith("https://mega") or mesaj[0].startswith("http://mega"):
         m.send_message(cid, f"`Dosya indiriliyor...`")
         m = mega.login()
         indirilen = m.download_url(mesaj)
