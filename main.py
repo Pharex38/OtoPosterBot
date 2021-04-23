@@ -34,7 +34,7 @@ def echo(client, message):
 def dosya(client, message):
     sayi = 0
     chat = message.chat.id
-    indir = message.download(progress=progress(current, total, chat)
+    indir = message.download(progress=progress(current, total, chat))
     print(indir)
     
     app.send_message(chat, "Bitti")
