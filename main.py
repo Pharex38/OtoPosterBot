@@ -52,7 +52,7 @@ def hesap(client, message):
     isim = details['name']
     print(dosyalar)
     print(details)
-    app.edit_message_text(cid, mids,f"**Hesap Bilgileriniz;**\n\nİsim: {isim} \nE-mail: {details['email']} \nKullanımda bulut Alanı: {alan}\nQuota: {quota}")
+    app.edit_message_text(cid, mids,f"**Hesap Bilgileriniz;**\n\nİsim: {isim} \nE-mail: {details['email']} \nKullanımda bulut Alanı: {alan}GB\nQuota: {quota}")
 
 
 @app.on_message(filters.document)
