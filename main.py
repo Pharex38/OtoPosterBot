@@ -30,12 +30,11 @@ def oynat(client, o):
     app.send_message(chat, "Çalıyor.")
 
 @app.on_message(filters.document)
-def dosya(d):
-    chat = d.chat.id
-    file = d.message_id
+def dosya(client, message):
+    chat = message.chat.id
     d.download
     print(indir)
-    app.send_message(chat, indir)
+    app.send_message(chat, "sa")
     
 
 app.run()  # Automatically start() and idle()
