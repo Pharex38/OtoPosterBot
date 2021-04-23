@@ -22,7 +22,7 @@ def progress(current, total):
     print(islem)
     sayac(islem, chat)
  
- def sayac(islem, chat):
+def sayac(islem, chat):
     app.send_message(chat, f"{islem}%")
  
 @app.on_message(filters.command(['start']))
