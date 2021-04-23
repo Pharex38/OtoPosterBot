@@ -33,9 +33,7 @@ def dosya(client, message):
     chat = message.chat.id
     indir = message.download(progress=progress)
     print(indir)
-    islem = open("islem.txt", "r").read()
-    goster = int(islem)
-    app.send_message(chat, f"{goster}%")
+    app.send_message(chat, f"{islem}%")
         
     app.send_message(chat, "Bitti")
 
