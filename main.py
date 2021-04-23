@@ -21,7 +21,7 @@ def progress(current, total):
     sayi = round(islem,2)
     print("islemm")
     print(len(sayi))
-    open(f"islem.txt", "w").write(round))
+    open(f"islem.txt", "w").write(sayi)
     
  
 @app.on_message(filters.command(['start']))
