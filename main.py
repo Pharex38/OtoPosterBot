@@ -40,6 +40,7 @@ def giris(client, message):
     mesaj = message.text.split(None, 2)[1:]
     cid = message.chat.id
     if len(mesaj) < 3:
+        print(len(mesaj))
         app.send_message(cid, "Yanlış kullanım")
         return
     email = mesaj[0]
