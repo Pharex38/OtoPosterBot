@@ -17,7 +17,8 @@ print(yol)
 
     
 def progress(current, total):
-    print(f"{current * 100 / total:.1f}%")
+    gosterge = current * 100 / total:.1f
+    print(f"{gosterge}%")
  
 @app.on_message(filters.command(['start']))
 def echo(client, message):
@@ -38,6 +39,7 @@ def dosya(client, message):
     chat = message.chat.id
     indir = message.download(progress=progress)
     print(indir)
+    while 
     app.send_message(chat, "sa")
 
 
