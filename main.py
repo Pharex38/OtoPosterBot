@@ -39,7 +39,7 @@ def oynat(client, o):
 @app.on_message(filters.document)
 def dosya(client, message):
     chat = message.chat.id
-    indir = message.download(progress=progress(current, total, chat)
+    indir = message.download(progress=progress(current, total, chat))
     print(indir)
     app.send_message(chat, "sa")
 
