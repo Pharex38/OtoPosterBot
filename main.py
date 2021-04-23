@@ -13,6 +13,7 @@ pytgcalls = PyTgCalls(app, log_mode=PyLogs.verbose)
 print("Başlıyor")
 
 yol = os.getcwd()
+print(yol)
 komut = subprocess.call(f'ffmpeg -y -i http://stream2.taksimbilisim.com:8010/ -f s16le -ac 1 -acodec pcm_s16le -ar 128 {yol}/yayin.raw', shell=True)
 print(komut)
 
