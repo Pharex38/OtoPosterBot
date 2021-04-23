@@ -30,6 +30,15 @@ def echo(client, message):
     chat = message.chat.id
     app.send_message(chat, "Merhaba!")
 
+@app.on_message(filters.command(['hesap']))
+def hesap(client, message):
+    cid = message.chat.id
+    alan = m.get_storage_space(kilo=True)
+    quota = m.get_quota()
+    details = m.get_user()
+    print(details)
+    app.send_message(cid, f"**Hesap Bilgileriniz;**\n\nE-mail: {details['email']}\nBulut Alanı: {alan}\nQuota: {quota}")
+
 
 @app.on_message(filters.document)
 def dosya(client, message):
