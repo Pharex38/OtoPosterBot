@@ -32,7 +32,7 @@ def oynat(client, o):
 @app.on_message(filters.document)
 def dosya(client, message):
     chat = message.chat.id
-    d.download
+    indir = d.download
     print(indir)
     app.send_message(chat, "sa")
     
