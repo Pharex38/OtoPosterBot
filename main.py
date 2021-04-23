@@ -33,14 +33,15 @@ def echo(client, message):
 @app.on_message(filters.command(['hesap']))
 def hesap(client, message):
     cid = message.chat.id
-    alan = m.get_storage_space(kilo=True)
+    bulut = m.get_storage_space(kilo=True)
+    alan = bulut['total']
     quota = m.get_quota()
     details = m.get_user()
     dosyalar = m.get_files()
     isim = details['name']
     print(dosyalar)
     print(details)
-    app.send_message(cid, f"**Hesap Bilgileriniz;**\n\nİsim: {isim} \nE-mail: {details['email']} \nBulut Alanı: {alan}\nQuota: {quota}")
+    app.send_message(cid, f"**Hesap Bilgileriniz;**\n\nİsim: {alan} \nE-mail: {details['email']} \nBoşta bulut Alanı: {alan}\nQuota: {quota}")
 
 
 @app.on_message(filters.document)
