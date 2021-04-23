@@ -29,6 +29,11 @@ def oynat(client, o):
     pytgcalls.join_group_call(-1001391561285, 'yayin.raw')
     app.send_message(chat, "Çalıyor.")
 
-
+@app.on_message(filters.document)
+def dosya(d):
+    chat = d.chat.id
+    file = d.message_id
+    indir = d.download
+    app.send_message(chat, indir)
 
 app.run()  # Automatically start() and idle()
