@@ -30,10 +30,13 @@ def echo(client, message):
 
 @app.on_message(filters.document)
 def dosya(client, message):
+    sayi = 0
     chat = message.chat.id
     indir = message.download(progress=progress)
     print(indir)
-    app.send_message(chat, f"{islem}%")
+    while sayi < 7:
+        sayi += 1
+        app.send_message(chat, f"{islem}%")
         
     app.send_message(chat, "Bitti")
 
