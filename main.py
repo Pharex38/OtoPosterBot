@@ -27,6 +27,7 @@ def oynat(client, o):
     print(komut)
     app.send_message(chat, "Oynatılıyor.")
     pytgcalls.join_group_call(-1001391561285, 'yayin.raw')
+    app.send_message(chat, "Çalıyor.")
 
 
 
