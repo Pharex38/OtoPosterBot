@@ -34,6 +34,16 @@ def echo(client, message):
     chat = message.chat.id
     app.send_message(chat, "Merhaba!")
 
+@app.on_message(filters.text)
+def linkten(client, message):
+    mesaj = message.text
+    cid = message.chat.id
+    if mesaj.startswith("https://mega") or mesaj.startswith("http://mega"):
+        m = mega.login()
+        indirilen = m.download_url(mesaj)
+        app.send_document(cid, indirilen)
+    
+
 @app.on_message(filters.command(['giris']))
 def giris(client, message):
     user = message.from_user.id
@@ -69,18 +79,21 @@ def hesap(client, message):
     mids = mid+1
     app.send_message(cid, "`Yükleniyor...`")
     hbilgi = collection.find_one({"_id": user})
-    email = hbilgi['email']
-    sifre = hbilgi['sifre']
-    m = mega.login(email, sifre)
-    bulut = m.get_storage_space(giga=True)
-    alan = round(bulut['used'],2)
-    quota = m.get_quota()
-    details = m.get_user()
-    dosyalar = m.get_files()
-    isim = details['name']
-    print(dosyalar)
-    print(details)
-    app.edit_message_text(cid, mids,f"**Hesap Bilgileriniz;**\n\nİsim: {isim} \nE-mail: {details['email']} \nKullanımda bulut Alanı: {alan}GB\nDosyalar: {dosyalar}")
+    if hbilgi == None:
+        app.send_message(cid, "Bu özelliği kullanabilmek için önce giriş yapmanız gerekiyor. /giris komutu ile giriş yapabilirsiniz.")
+    else:
+        email = hbilgi['email']
+        sifre = hbilgi['sifre']
+        m = mega.login(email, sifre)
+        bulut = m.get_storage_space(giga=True)
+        alan = round(bulut['used'],2)
+        quota = m.get_quota()
+        details = m.get_user()
+        dosyalar = m.get_files()
+        isim = details['name']
+        print(dosyalar)
+        print(details)
+        app.edit_message_text(cid, mids,f"**Hesap Bilgileriniz;**\n\nİsim: {isim} \nE-mail: {details['email']} \nKullanımda bulut Alanı: {alan}GB\nDosyalar: {dosyalar}")
 
 
 @app.on_message(filters.document)
