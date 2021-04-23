@@ -23,7 +23,7 @@ def progress(current, total):
     print(islem)
 
 def sayac(islem, chat):
-    while islem < 100:
+    while islem < 110:
         app.send_message(chat, f"{islem}%")
  
  
