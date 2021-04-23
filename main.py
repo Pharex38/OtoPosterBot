@@ -34,14 +34,21 @@ def echo(client, message):
     chat = message.chat.id
     app.send_message(chat, "Merhaba!")
 
-@app.on_message(filters.text)
+@app.on_message(filters.command(['indir']))
 def linkten(client, message):
-    mesaj = message.text
+    mesaj = message.text.split(None, 2)[1:]
     cid = message.chat.id
-    if mesaj.startswith("https://mega") or mesaj.startswith("http://mega"):
+    mid = message.message_id
+    mids = mid+1
+    if mesaj[0].startswith("https://mega") or mesaj[0].startswith("http://mega"):
+        m.send_message(cid, f"`Dosya indiriliyor...`")
         m = mega.login()
         indirilen = m.download_url(mesaj)
+        app.edit_message_text(cid, mids, f"`Dosya indirildi, Telegrama Yükleniyor...`")
         app.send_document(cid, indirilen)
+        app.edit_message_text(cid, mids, f"__**Başarılı!**__")
+    else:
+        app.send_message(cid)
     
 
 @app.on_message(filters.command(['giris']))
