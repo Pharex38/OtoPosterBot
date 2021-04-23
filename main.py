@@ -30,7 +30,7 @@ def echo(client, message):
     chat = message.chat.id
     app.send_message(chat, "Merhaba!")
 
-@app.on_message(filter.command(['giris']))
+@app.on_message(filters.command(['giris']))
 def giris(client, message):
     mesaj = message.text
     cid = message.chat.id
