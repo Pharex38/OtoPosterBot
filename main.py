@@ -41,12 +41,12 @@ def dosya(client, message):
     mids = mid+1
     app.send_message(chat, "Dosya indirliyor...")
     indirilen = message.download(progress=progress)
-    print(indirilen)
+    app.edit_message_text(chat, mids, "`Dosya Mega'ya yükleniyor...`")
     yuklenen = m.upload(indirilen)
     print(yuklenen)
     link = m.get_upload_link(yuklenen)
     print(link)
-    app.send_message(chat, f"Bitti: \nLinkiniz: {link}")
+    app.send_message(chat, f"**İşlem Tamamlandı:** \n\nLinkiniz: {link}")
 
 
 app.run()
