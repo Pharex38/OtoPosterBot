@@ -118,7 +118,7 @@ def dosya(client, message):
         print(yuklenen)
         link = m.get_upload_link(yuklenen)
         print(link)
-        app.send_message(chat, f"**İşlem Tamamlandı:** \n\nLinkiniz: {link}")
+        app.edit_message_text(chat, mids, f"**İşlem Tamamlandı:** \n\nLinkiniz: {link}")
 
 
 app.run()
