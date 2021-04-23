@@ -41,7 +41,7 @@ def dosya(client, message):
     chat = message.chat.id
     indir = message.download(progress=progress)
     print(indir)
-    islem = open("islem.txt", "r").read()
+    islem = int(open("islem.txt", "r").read())
     while islem < 100:
         app.send_message(chat, f"{islem}%")
     app.send_message(chat, "Bitti")
