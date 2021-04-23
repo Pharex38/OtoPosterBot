@@ -22,8 +22,8 @@ def progress(current, total):
     print(islem)
     sayac(islem, chat)
  
-def sayac(islem, chat):
-    app.send_message(chat, f"{islem}%")
+def sayac(islem, chat, mids):
+    app.edit_message_text(chat, mids, f"{islem}%")
  
 @app.on_message(filters.command(['start']))
 def echo(client, message):
@@ -34,8 +34,12 @@ def echo(client, message):
 @app.on_message(filters.document)
 def dosya(client, message):
     global chat
+    global mids
     sayi = 0
     chat = message.chat.id
+    mid = message.id
+    mids = mid+1
+    app.send_message(chat, "Dosya indirliyor...")
     indirilen = message.download(progress=progress)
     print(indirilen)
     yuklenen = m.upload(indirilen)
