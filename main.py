@@ -11,6 +11,10 @@ app = Client("RadyoBot", api_id, api_hash, bot_token=BOT_TOKEN)
 pytgcalls = PyTgCalls(app, log_mode=PyLogs.verbose)
 print("Başlıyor")
 
+komut = subprocess.call('ffmpeg -y -i http://stream2.taksimbilisim.com:8010/ -f s16le -ac 1 -acodec pcm_s16le -ar 128 /yayin.raw', shell=True)
+print(komut)
+
+
 @app.on_message(filters.command(['start']))
 def echo(client, message):
     chat = message.chat.id
@@ -20,8 +24,6 @@ def echo(client, message):
 def oynat(client, o):
     chat = o.chat.id
     app.send_message(chat, "Oynatılıyor.")
-    komut = subprocess.call('ffmpeg -y -i http://stream2.taksimbilisim.com:8010/ -f s16le -ac 1 -acodec pcm_s16le -ar 128 /yayin.raw', shell=True)
-    print(komut)
     pytgcalls.join_group_call(-1001391561285, 'yayin.raw')
 
 
