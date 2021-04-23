@@ -39,7 +39,7 @@ def hesap(client, message):
     dosyalar = m.get_files()
     print(dosyalar)
     print(details)
-    app.send_message(cid, f"**Hesap Bilgileriniz;**\n\nE-mail: {details['email']}\nBulut Alanı: {alan}\nQuota: {quota}")
+    app.send_message(cid, f"**Hesap Bilgileriniz;**\n\nİsim: {details["name"]}\nE-mail: {details['email']}\nBulut Alanı: {alan}\nQuota: {quota}")
 
 
 @app.on_message(filters.document)
