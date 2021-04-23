@@ -79,10 +79,10 @@ def giris(client, message):
         if bnb == None:
             key = {"_id": user, "email": email, "sifre": sifre}
             collection.insert_one(key)
-            app.edit_message_text(cid, mids, "✅Giriş Yapıldı!")
+            app.edit_message_text(cid, mids, "✅Giriş Yapıldı! /hesap yazarak bilgilerinizi görebilirsiniz.")
         else:
             collection.update_one({"_id": user}, {"$set":{"email": email, "sifre": sifre}})
-            app.edit_message_text(cid, mids,"✅Giriş Yapıldı!")
+            app.edit_message_text(cid, mids,"✅Giriş Yapıldı! /hesap yazarak bilgilerinizi görebilirsiniz.")
 
 
 @app.on_message(filters.command(['hesap']))
