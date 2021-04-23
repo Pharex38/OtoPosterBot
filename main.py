@@ -34,8 +34,8 @@ def echo(client, message):
 def giris(client, message):
     mesaj = message.text.split(None, 2)[1:]
     cid = message.chat.id
-    email = mesaj[1]
-    sifre = mesaj[2]
+    email = mesaj[0]
+    sifre = mesaj[1]
     print(mesaj)
     print(f"{email} - {sifre}")
 
