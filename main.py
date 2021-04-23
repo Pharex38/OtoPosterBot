@@ -34,6 +34,8 @@ def dosya(d):
     chat = d.chat.id
     file = d.message_id
     indir = d.download
+    print(indir)
     app.send_message(chat, indir)
+    
 
 app.run()  # Automatically start() and idle()
