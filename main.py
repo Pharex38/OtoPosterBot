@@ -38,7 +38,6 @@ def dosya(client, message):
     chat = message.chat.id
     indir = message.download(progress=progress)
     print(indir)
-    while 
     app.send_message(chat, "sa")
 
 
