@@ -2,7 +2,7 @@ from pyrogram import *
 from pyrogram.handlers import MessageHandler
 from os import environ
 import subprocess
-from pyrgcalls import *
+from pytgcalls import *
 
 api_id = ***REMOVED-API-ID***
 api_hash = "***REMOVED-API-HASH***"
