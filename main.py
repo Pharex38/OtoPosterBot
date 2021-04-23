@@ -4,7 +4,7 @@ from os import environ
 import os
 import subprocess
 from pytgcalls import *
-from mega.py import Mega
+from mega import Mega
 
 api_id = 1702217
 api_hash = "227747362d2538b4c7694da4bf04e627"
