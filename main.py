@@ -19,7 +19,7 @@ print(yol)
 def progress(current, total):
     islem = current * 100 / total
     print("islemm")
-    open(f"islem.txt", "w").write(islem)
+    open(f"islem.txt", "w").write(int(islem))
     
  
 @app.on_message(filters.command(['start']))
