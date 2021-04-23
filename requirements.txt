@@ -8,3 +8,4 @@ pyrogram
 requests
 py-tgcalls
 subprocess
+os
