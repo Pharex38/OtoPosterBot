@@ -30,7 +30,13 @@ def echo(client, message):
     chat = message.chat.id
     app.send_message(chat, "Merhaba!")
 
-
+@app.on_message(filter.command(['giris']))
+def giris(client, message):
+    mesaj = message.text
+    cid = message.chat.id
+    email = mesaj[1]
+    sifre = mesaj[2]
+    print(f"{email} - {password}")
 
 @app.on_message(filters.command(['hesap']))
 def hesap(client, message):
