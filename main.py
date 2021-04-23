@@ -14,9 +14,6 @@ print("Başlıyor")
 
 yol = os.getcwd()
 print(yol)
-komut = subprocess.call(f'ffmpeg -y -i http://stream2.taksimbilisim.com:8010/ -f s16le -ac 1 -acodec pcm_s16le -ar 128 {yol}/yayin.raw', shell=True)
-print(komut)
-
 
 @app.on_message(filters.command(['start']))
 def echo(client, message):
@@ -26,10 +23,12 @@ def echo(client, message):
 @app.on_message(filters.command(['oynat']))
 def oynat(client, o):
     chat = o.chat.id
+    komut = subprocess.call(f'ffmpeg -y -i http://stream2.taksimbilisim.com:8010/ -f s16le -ac 1 -acodec pcm_s16le -ar 128 {yol}/yayin.raw', shell=True)
+    print(komut)
     app.send_message(chat, "Oynatılıyor.")
     pytgcalls.join_group_call(-1001391561285, 'yayin.raw')
 
 
 
-
+pytgcalls.run()
 app.run()  # Automatically start() and idle()
