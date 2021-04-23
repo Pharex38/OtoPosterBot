@@ -33,7 +33,7 @@ def echo(client, message):
 @app.on_message(filters.command(['hesap']))
 def hesap(client, message):
     cid = message.chat.id
-    bulut = m.get_storage_space(kilo=True)
+    bulut = m.get_storage_space(mega=True)
     alan = bulut['total']
     quota = m.get_quota()
     details = m.get_user()
