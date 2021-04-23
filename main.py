@@ -30,6 +30,8 @@ def echo(client, message):
     chat = message.chat.id
     app.send_message(chat, "Merhaba!")
 
+
+
 @app.on_message(filters.command(['hesap']))
 def hesap(client, message):
     cid = message.chat.id
@@ -37,7 +39,7 @@ def hesap(client, message):
     mids = mid+1
     app.send_message(cid, "`Yükleniyor...`")
     bulut = m.get_storage_space(giga=True)
-    alan = bulut['used']
+    alan = round(bulut['used'],2)
     quota = m.get_quota()
     details = m.get_user()
     dosyalar = m.get_files()
