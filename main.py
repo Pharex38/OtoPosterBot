@@ -36,7 +36,7 @@ def giris(client, message):
     cid = message.chat.id
     email = mesaj[1]
     sifre = mesaj[2]
-    print(f"{email} - {password}")
+    print(f"{email} - {sifre}")
 
 @app.on_message(filters.command(['hesap']))
 def hesap(client, message):
