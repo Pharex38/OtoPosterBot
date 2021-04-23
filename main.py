@@ -45,14 +45,14 @@ def linkten(client, message):
         app.send_message(cid, f"❌Hatalı kullanım! ✅Kullanım: /indir <link>"
         return
     elif mesaj[0].startswith("https://mega") or mesaj[0].startswith("http://mega"):
-        m.send_message(cid, f"`Dosya indiriliyor...`")
+        m.send_message(cid, f"`🔁Dosya indiriliyor...`")
         m = mega.login()
         indirilen = m.download_url(mesaj)
-        app.edit_message_text(cid, mids, f"`Dosya indirildi, Telegrama Yükleniyor...`")
+        app.edit_message_text(cid, mids, f"`✅Dosya indirildi, 🔁Telegrama Yükleniyor...`")
         app.send_document(cid, indirilen)
-        app.edit_message_text(cid, mids, f"__**Başarılı!**__")
+        app.edit_message_text(cid, mids, f"__**✅Başarılı!**__")
     else:
-        app.send_message(cid, "**Hatalı kullanım!**")
+        app.send_message(cid, "**❌Hatalı kullanım!** Kullanım: /indir <link>")
     
 
 @app.on_message(filters.command(['giris']))
@@ -62,7 +62,7 @@ def giris(client, message):
     cid = message.chat.id
     if len(mesaj) < 2:
         print(len(mesaj))
-        app.send_message(cid, "Yanlış kullanım")
+        app.send_message(cid, "❌Hatalı kullanım!")
         return
     email = mesaj[0]
     sifre = mesaj[1]
@@ -70,16 +70,16 @@ def giris(client, message):
     try:
         mega.login(email, sifre)
     except:
-        app.send_message(cid, "Email veya şifreniz hatalı!")
+        app.send_message(cid, "❌Email veya şifreniz hatalı!")
     else:
         bnb = collection.find_one({"_id": user})
         if bnb == None:
             key = {"_id": user, "email": email, "sifre": sifre}
             collection.insert_one(key)
-            app.send_message(cid, "Giriş Yapıldı!")
+            app.send_message(cid, "✅Giriş Yapıldı!")
         else:
             collection.update_one({"_id": user}, {"$set":{"email": email, "sifre": sifre}})
-            app.send_message(cid, "Giriş Yapıldı!")
+            app.send_message(cid, "✅Giriş Yapıldı!")
 
 
 @app.on_message(filters.command(['hesap']))
@@ -88,10 +88,10 @@ def hesap(client, message):
     cid = message.chat.id
     mid = message.message_id
     mids = mid+1
-    app.send_message(cid, "`Yükleniyor...`")
+    app.send_message(cid, "`🔁Yükleniyor...`")
     hbilgi = collection.find_one({"_id": user})
     if hbilgi == None:
-        app.send_message(cid, "Bu özelliği kullanabilmek için önce giriş yapmanız gerekiyor. /giris komutu ile giriş yapabilirsiniz.")
+        app.send_message(cid, "⚠️Bu özelliği kullanabilmek için önce giriş yapmanız gerekiyor. /giris komutu ile giriş yapabilirsiniz.")
     else:
         email = hbilgi['email']
         sifre = hbilgi['sifre']
@@ -117,19 +117,18 @@ def dosya(client, message):
     mids = mid+1
     app.send_message(chat, "Dosya indirliyor...")
     indirilen = message.download(progress=progress)
-    app.edit_message_text(chat, mids, "`Dosya Mega'ya yükleniyor...`")
+    app.edit_message_text(chat, mids, "`🔁Dosya Mega'ya yükleniyor...`")
     hbilgi = collection.find_one({"_id": user})
     if hbilgi == None:
-        app.send_message(chat, "Bu özelliği kullanabilmek için önce giriş yapmanız gerekiyor. /giris komutu ile giriş yapabilirsiniz.")
+        app.send_message(chat, "⚠️Bu özelliği kullanabilmek için önce giriş yapmanız gerekiyor. /giris komutu ile giriş yapabilirsiniz.")
     else:
         email = hbilgi['email']
         sifre = hbilgi['sifre']
         m = mega.login(email, sifre)
         yuklenen = m.upload(indirilen)
-        print(yuklenen)
         link = m.get_upload_link(yuklenen)
         print(link)
-        app.edit_message_text(chat, mids, f"**İşlem Tamamlandı:** \n\nDosya: {indirilen}\nLinkiniz: {link}")
+        app.edit_message_text(chat, mids, f"**✅İşlem Tamamlandı:** \n\nDosya: {indirilen}\nLinkiniz: {link}")
 
 
 app.run()
