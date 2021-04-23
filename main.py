@@ -33,7 +33,7 @@ def oynat(client, o):
 def dosya(d):
     chat = d.chat.id
     file = d.message_id
-    indir = app.download(d)
+    d.download
     print(indir)
     app.send_message(chat, indir)
     
