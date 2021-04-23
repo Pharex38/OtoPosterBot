@@ -37,6 +37,7 @@ def hesap(client, message):
     quota = m.get_quota()
     details = m.get_user()
     dosyalar = m.get_files()
+    print(dosyalar)
     print(details)
     app.send_message(cid, f"**Hesap Bilgileriniz;**\n\nE-mail: {details['email']}\nBulut Alanı: {alan}\nQuota: {quota}")
 
