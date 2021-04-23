@@ -4,7 +4,7 @@ from os import environ
 import os
 import subprocess
 from pytgcalls import *
-from mega.py import Mega
+from mega import Mega
 
 api_id = ***REMOVED-API-ID***
 api_hash = "***REMOVED-API-HASH***"
