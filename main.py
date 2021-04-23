@@ -32,7 +32,7 @@ def echo(client, message):
 
 @app.on_message(filters.command(['giris']))
 def giris(client, message):
-    mesaj = message.text
+    mesaj = message.text.split(None, 2)[1:]
     cid = message.chat.id
     email = mesaj[1]
     sifre = mesaj[2]
