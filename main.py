@@ -17,8 +17,7 @@ print(yol)
 
     
 def progress(current, total):
-    gosterge = current * 100 / total:.1f
-    print(f"{gosterge}%")
+    print(f"{current * 100 / total}%")
  
 @app.on_message(filters.command(['start']))
 def echo(client, message):
