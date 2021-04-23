@@ -17,7 +17,7 @@ print(yol)
 
     
 def progress(current, total):
-    print total
+    global total
     global current
     print(current * 100 / total)
  
