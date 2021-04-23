@@ -19,6 +19,7 @@ def echo(client, message):
 @app.on_message(filters.command(['oynat']))
 def oynat(client, o):
     chat = o.chat.id
+    app.send_message(chat, "Oynatılıyor.")
     subprocess.call('ffmpeg -y -i http://stream2.taksimbilisim.com:8010/ -f s16le -ac 1 -acodec pcm_s16le -ar 128 /yayin.raw', shell=True)
     pytgcalls.join_group_call(-1001391561285, 'yayin.raw')
 
