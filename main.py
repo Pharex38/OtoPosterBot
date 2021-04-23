@@ -20,7 +20,7 @@ def progress(current, total):
     islems = current * 100 / total
     islem = int(islems)
     print(islem)
-    sayac(islem, chat)
+    sayac(islem, chat, mids)
  
 def sayac(islem, chat, mids):
     app.edit_message_text(chat, mids, f"{islem}%")
@@ -37,7 +37,7 @@ def dosya(client, message):
     global mids
     sayi = 0
     chat = message.chat.id
-    mid = message.id
+    mid = message.message_id
     mids = mid+1
     app.send_message(chat, "Dosya indirliyor...")
     indirilen = message.download(progress=progress)
