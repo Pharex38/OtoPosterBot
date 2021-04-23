@@ -5,6 +5,7 @@ import os
 import subprocess
 from pytgcalls import *
 from mega import Mega
+import pymongo
 
 api_id = ***REMOVED-API-ID***
 api_hash = "***REMOVED-API-HASH***"
