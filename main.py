@@ -37,7 +37,7 @@ def echo(client, message):
 def dosya(client, message):
     sayi = 0
     chat = message.chat.id
-    indir = message.download(block=True, progress=progress)
+    indir = message.download(block=False, progress=progress)
     print(indir)
     sayac(islem, chat)
     
