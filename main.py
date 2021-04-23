@@ -14,6 +14,12 @@ email = "falperenkocakaplan@gmail.com"
 password = "54545621a"
 mega = Mega()
 m = mega.login(email, password)
+
+
+cluster = pymongo.MongoClient("mongodb+srv://Pharex:545456@cluster0.teii1.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+db = cluster["Mega"]
+collection = db["Hesaplar"]
+
 print("Başlıyor")
 
 def progress(current, total):
@@ -32,12 +38,29 @@ def echo(client, message):
 
 @app.on_message(filters.command(['giris']))
 def giris(client, message):
+    user = message.from_user.id
     mesaj = message.text.split(None, 2)[1:]
     cid = message.chat.id
+    if len(mesaj) < 3:
+        app.send_message(cid, "Yanlış kullanım")
+        return
     email = mesaj[0]
     sifre = mesaj[1]
     print(mesaj)
-    print(f"{email} - {sifre}")
+    try:
+        m.login(email, sifre)
+    except:
+        app.send_message(cid, "Email veya şifreniz hatalı!")
+    else:
+        bnb = collection.find_one({"_id": user})
+        if bnb == None:
+            key = {"_id": user, "email": email, "sifre": sifre}
+            collection.insert_one(key)
+            app.send_message(cid, "Giriş Yapıldı!")
+        else:
+            collection.update_one({"_id": user}, {"$set":{"email": email, "sifre": sifre}})
+            app.send_message(cid, "Giriş Yapıldı!")
+
 
 @app.on_message(filters.command(['hesap']))
 def hesap(client, message):
