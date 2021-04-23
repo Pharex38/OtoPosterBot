@@ -17,9 +17,8 @@ print(yol)
 
     
 def progress(current, total):
-    global total
-    global current
-    print(current * 100 / total)
+    islem = current * 100 / total
+    print(islem)
  
 @app.on_message(filters.command(['start']))
 def echo(client, message):
