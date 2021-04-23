@@ -36,7 +36,6 @@ def dosya(client, message):
     chat = message.chat.id
     indir = message.download(progress=progress(current, total, chat)
     print(indir)
-    sayac(islem, chat)
     
     app.send_message(chat, "Bitti")
 
