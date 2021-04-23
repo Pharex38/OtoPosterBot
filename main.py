@@ -60,6 +60,8 @@ def giris(client, message):
     user = message.from_user.id
     mesaj = message.text.split(None, 2)[1:]
     cid = message.chat.id
+    mid = message.message_id
+    mids = mid+1
     if len(mesaj) < 2:
         print(len(mesaj))
         app.send_message(cid, "❌Hatalı kullanım!")
@@ -67,19 +69,20 @@ def giris(client, message):
     email = mesaj[0]
     sifre = mesaj[1]
     print(mesaj)
+    app.send_message(cid, f"`🔁Giriş yapılıyor...`")
     try:
         mega.login(email, sifre)
     except:
-        app.send_message(cid, "❌Email veya şifreniz hatalı!")
+        app.edit_message_text(cid, mids, "❌Email veya şifreniz hatalı!")
     else:
         bnb = collection.find_one({"_id": user})
         if bnb == None:
             key = {"_id": user, "email": email, "sifre": sifre}
             collection.insert_one(key)
-            app.send_message(cid, "✅Giriş Yapıldı!")
+            app.edit_message_text(cid, mids, "✅Giriş Yapıldı!")
         else:
             collection.update_one({"_id": user}, {"$set":{"email": email, "sifre": sifre}})
-            app.send_message(cid, "✅Giriş Yapıldı!")
+            app.edit_message_text(cid, mids,"✅Giriş Yapıldı!")
 
 
 @app.on_message(filters.command(['hesap']))
