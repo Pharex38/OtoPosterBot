@@ -16,9 +16,10 @@ yol = os.getcwd()
 print(yol)
 
     
-def progress(current, total):
+def progress(current, total, chat):
     print(current)
     print(total)
+    print(chat)
     print(current * 100 / total)
  
 @app.on_message(filters.command(['start']))
@@ -38,7 +39,7 @@ def oynat(client, o):
 @app.on_message(filters.document)
 def dosya(client, message):
     chat = message.chat.id
-    indir = message.download(progress=progress)
+    indir = message.download(progress=progress(chat))
     print(indir)
     app.send_message(chat, "sa")
 
