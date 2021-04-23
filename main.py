@@ -48,7 +48,7 @@ def linkten(client, message):
         app.send_document(cid, indirilen)
         app.edit_message_text(cid, mids, f"__**Başarılı!**__")
     else:
-        app.send_message(cid)
+        app.send_message(cid, "**Hatalı kullanım!**")
     
 
 @app.on_message(filters.command(['giris']))
