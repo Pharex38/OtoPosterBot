@@ -7,19 +7,16 @@ from pytgcalls import *
 from mega import Mega
 import pymongo
 
-api_id = ***REMOVED-API-ID***
-api_hash = "***REMOVED-API-HASH***"
-BOT_TOKEN = "***REMOVED-BOT-TOKEN***"
-app = Client("RadyoBot", api_id, api_hash, bot_token=BOT_TOKEN)
-email = "falperenkocakaplan@gmail.com"
-password = "54545621a"
+api_id = os.environ['API_ID']
+api_hash = os.environ['API_HASH']
+BOT_TOKEN = os.environ['BOT_TOKEN']
+mongo = os.environ['MONGO']
 mega = Mega()
-m = mega.login(email, password)
 
-
-cluster = pymongo.MongoClient("os.environ["MONGO_URI"]")
+cluster = pymongo.MongoClient(mongo)
 db = cluster["Mega"]
 collection = db["Hesaplar"]
+app = Client("RadyoBot", api_id, api_hash, bot_token=BOT_TOKEN)
 
 print("Başlıyor")
 
@@ -49,7 +46,7 @@ def giris(client, message):
     sifre = mesaj[1]
     print(mesaj)
     try:
-        m.login(email, sifre)
+        mega.login(email, sifre)
     except:
         app.send_message(cid, "Email veya şifreniz hatalı!")
     else:
