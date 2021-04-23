@@ -16,13 +16,14 @@ yol = os.getcwd()
 print(yol)
 
     
-def progress(current, total, chat):
-    global islem
+def progress(current, total):
     islems = current * 100 / total
     islem = int(islems)
     print(islem)
-    app.send_message(chat, f"{islem}%")
+    sayac(islem, chat)
  
+ def sayac(islem, chat):
+    app.send_message(chat, f"{islem}%")
  
 @app.on_message(filters.command(['start']))
 def echo(client, message):
@@ -32,9 +33,10 @@ def echo(client, message):
 
 @app.on_message(filters.document)
 def dosya(client, message):
+    global chat
     sayi = 0
     chat = message.chat.id
-    indir = message.download(progress=progress(current, total, chat))
+    indir = message.download(progress=progress)
     print(indir)
     
     app.send_message(chat, "Bitti")
