@@ -12,7 +12,7 @@ print(metin)
 metin = metin[1]
 print(metin)
 
-@bot.on_message(filters.private)
+@bot.on_message(~filters.channel)
 def post(client, message):
     mesaj = message.text
     print(mesaj)
