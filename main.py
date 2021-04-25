@@ -15,9 +15,12 @@ print(metin)
 
 @bot.on_message(~filters.channel)
 def post(client, message):
+    chat = message.chat.id
     mesaj = message.caption
     print(mesaj)
-
+    mesaj = mesaj.split("http")
+    mesaj = mesaj[1]
+    bot.send_message(chat, mesaj)
 
 
 bot.run()
