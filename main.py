@@ -1,6 +1,6 @@
 import pyrogram
 from pyrogram import *
-import requests
+from requests import get
 from os import environ
 
 api_id = 1702217
