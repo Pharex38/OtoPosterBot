@@ -1,6 +1,6 @@
 from pyrogram import Client
 
-api_id = 3489775
+api_id = ***REMOVED-API-ID***
 api_hash = "***REMOVED-API-HASH***"
 botapi = "***REMOVED-BOT-TOKEN***"
 bot = Client("bot", api_id, api_hash, bot_token=botapi)
