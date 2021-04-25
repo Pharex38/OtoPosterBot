@@ -6,6 +6,7 @@ from os import environ
 api_id = 1702217
 api_hash = "227747362d2538b4c7694da4bf04e627"
 botapi = "1718645974:AAHbjtjhWcRn0RZfhyrsKB-1hO4jYpNDgoQ"
+token = "13c86bc3b625bf15995d018810d38737e6e70197"
 bot = Client("bot", api_id, api_hash, bot_token=botapi)
 print("Başlıyor")
 
@@ -17,8 +18,10 @@ def post(client, message):
     medya = medya['file_id']
     print(medya)
     mesaj = mesaj.split("http")
-    mesaj = mesaj[1]
-    bot.send_photo(chat, medya, caption=f"http{mesaj}")
+    mesaja = mesaj[1]
+    json = get(f"https://ay.live/api/?api={token}&url=http{mesaja}&alias=&format=text&ct=1").json()
+    link = json['shortenedUrl']
+    bot.send_photo(chat, medya, caption=f"{mesaj[0]} {link}")
 
 
 bot.run()
