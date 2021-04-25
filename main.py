@@ -1,4 +1,5 @@
 import pyrogram
+import requests
 from pyrogram import *
 from requests import get
 from os import environ
