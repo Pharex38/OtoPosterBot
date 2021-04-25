@@ -19,7 +19,10 @@ def post(client, message):
     print(medya)
     mesaj = mesaj.split("http")
     mesaja = mesaj[1]
-    link = get(f"https://ay.live/api/?api={token}&url=http{mesaja}&alias=&format=text&ct=1").text
+    s = requests.Session()
+    link = s.get("https://ay.live/api")
+    cookies = dict(link.cookies)
+    link = s.get(f"https://ay.live/api/?api={token}&url=http{mesaja}&alias=&format=text&ct=1", cookies=cookies).text
   #  link = json['shortenedUrl']
     bot.send_photo(chat, medya, caption=f"{mesaj[0]} {link}")
 
