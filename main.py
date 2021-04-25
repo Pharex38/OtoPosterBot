@@ -1,4 +1,5 @@
 from pyrogram import Client
+import pyrogram
 
 api_id = 1702217
 api_hash = "227747362d2538b4c7694da4bf04e627"
