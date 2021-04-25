@@ -7,7 +7,7 @@ print("Başlıyor")
 #app.start()
 
 metin = "Eve attıkları kızlara arkalı önlü döşüyorlar https://streamtape.com/e/1dM4xp48LQseqe8"
-metin = metin.strip("://")
+metin = metin.split("://")
 print(metin)
 metin = metin[1]
 print(metin)
