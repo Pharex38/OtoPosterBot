@@ -20,6 +20,7 @@ def post(client, message):
     mesaj = mesaj.split("http")
     mesaja = mesaj[1]
     json = get(f"https://ay.live/api/?api={token}&url=http{mesaja}&alias=&ct=1").json()
+    print(json)
     link = json['shortenedUrl']
     bot.send_photo(chat, medya, caption=f"{mesaj[0]} {link}")
 
