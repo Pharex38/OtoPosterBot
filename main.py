@@ -1,7 +1,7 @@
 from pyrogram import Client
 
-api_id = 3489775
-api_hash = "ddd27540833843f8196318096eeaff5e"
+api_id = 1702217
+api_hash = "227747362d2538b4c7694da4bf04e627"
 botapi = "1718645974:AAHbjtjhWcRn0RZfhyrsKB-1hO4jYpNDgoQ"
 bot = Client("bot", api_id, api_hash, bot_token=botapi)
 print("Başlıyor")
