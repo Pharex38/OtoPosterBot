@@ -15,7 +15,7 @@ print(metin)
 
 @bot.on_message(~filters.channel)
 def post(client, message):
-    mesaj = message.text
+    mesaj = message.caption
     print(mesaj)
 
 
