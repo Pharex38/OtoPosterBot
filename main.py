@@ -2,8 +2,7 @@ from pyrogram import Client
 
 api_id = 3489775
 api_hash = "***REMOVED-API-HASH***"
-strings = 
-app = Client( strings, api_id, api_hash)
+app#app = Client( s, api_id, api_hash)
 print("Başlıyor")
 app.start()
 
