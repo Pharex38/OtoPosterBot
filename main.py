@@ -3,7 +3,7 @@ from pyrogram import Client
 api_id = 3489775
 api_hash = "***REMOVED-API-HASH***"
 botapi = "***REMOVED-BOT-TOKEN***"
-bot = Client( s, api_id, api_hash, bot_token=botapi)
+bot = Client("bot", api_id, api_hash, bot_token=botapi)
 print("Başlıyor")
 
 metin = "Eve attıkları kızlara arkalı önlü döşüyorlar https://streamtape.com/e/1dM4xp48LQseqe8"
