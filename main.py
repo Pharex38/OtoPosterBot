@@ -14,10 +14,11 @@ def post(client, message):
     chat = message.chat.id
     mesaj = message.caption
     medya = message.photo
+    medya = medya['file_id']
     print(medya)
     mesaj = mesaj.split("http")
     mesaj = mesaj[1]
-    bot.send_message(chat, f"http{mesaj}")
+    bot.send_photo(chat, medya, caption=f"http{mesaj}")
 
 
 bot.run()
