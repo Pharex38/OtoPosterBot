@@ -20,7 +20,7 @@ def post(client, message):
     print(mesaj)
     mesaj = mesaj.split("http")
     mesaj = mesaj[1]
-    bot.send_message(chat, mesaj)
+    bot.send_message(chat, f"http{mesaj}")
 
 
 bot.run()
