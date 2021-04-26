@@ -5,7 +5,7 @@ from requests import get
 from os import environ
 import pymongo
 from pymongo import MongoClient
-from pyrogram.raw import functions
+from pyrogram.raw import functions, base
 
 api_id = environ['API_ID']
 api_hash = environ['API_HASH']
