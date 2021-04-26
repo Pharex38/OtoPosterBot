@@ -25,42 +25,43 @@ def start(client, message):
 @bot.on_message(filters.channel)
 def post(client, message):
     chat = message.chat.id
-    mesaj = message.caption
-    mesaj = mesaj.split("KTE: ")
-    mesaja = mesaj[1].split("\n\n")
-    mesajb = mesaja[0]
-    s = requests.Session()
-    link = s.get("https://ay.live/api")
-    cookies = dict(link.cookies)
-    binb = collection.find({})
-    print(binb)
-    try:
-        medya = message.video
-        medya = medya['file_id']
-    except:
-        medya = message.photo
-        medya = medya['file_id']
-        for hesap in binb:
-            print(hesap)
-            token = hesap['token']
-            kanal = hesap['kanal']
-            json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
-            link = json['shortenedUrl']
-            try:
-                bot.send_photo(kanal, medya, caption=f"{mesaj[0]}KTE: {link}\n\n {mesaja[1]}\n\n{mesaja[2]}{mesaja[3]}")
-            except:
-                pass
-    else:
-        for hesap in binb:
-            token = hesap['token']
-            kanal = hesap['kanal']
-            json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
-            link = json['shortenedUrl']
-            try:
-                bot.send_video(kanal, medya, caption=f"{mesaj[0]}KTE: {link}\n\n {mesaja[1]}\n\n{mesaja[2]}{mesaja[3]}")
-            except:
-                print(kanal)
-    bot.send_message(chat, "Başarılı!")
+    if chat == -1001368112299:
+        mesaj = message.caption
+        mesaj = mesaj.split("KTE: ")
+        mesaja = mesaj[1].split("\n\n")
+        mesajb = mesaja[0]
+        s = requests.Session()
+        link = s.get("https://ay.live/api")
+        cookies = dict(link.cookies)
+        binb = collection.find({})
+        print(binb)
+        try:
+            medya = message.video
+            medya = medya['file_id']
+        except:
+            medya = message.photo
+            medya = medya['file_id']
+            for hesap in binb:
+                print(hesap)
+                token = hesap['token']
+                kanal = hesap['kanal']
+                json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
+                link = json['shortenedUrl']
+                try:
+                    bot.send_photo(kanal, medya, caption=f"{mesaj[0]}KTE: {link}\n\n {mesaja[1]}\n\n{mesaja[2]}{mesaja[3]}")
+                except:
+                    pass
+        else:
+            for hesap in binb:
+                token = hesap['token']
+                kanal = hesap['kanal']
+                json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
+                link = json['shortenedUrl']
+                try:
+                    bot.send_video(kanal, medya, caption=f"{mesaj[0]}KTE: {link}\n\n {mesaja[1]}\n\n{mesaja[2]}{mesaja[3]}")
+                except:
+                    print(kanal)
+        bot.send_message(chat, "Başarılı!")
 
 @bot.on_message(filters.private)
 def aydialma(client, message):
