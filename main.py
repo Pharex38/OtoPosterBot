@@ -20,7 +20,7 @@ print("Başlıyor")
 @bot.on_message(filters.command(['start']))
 def start(client, message):
     chat = message.chat.id
-    bot.send_message(chat, "Merhaba!\n\n**Nasıl Kullanılır?**\n1. Adım: Botu kanlınıza yönetici olarak ekleyin. \n2. Adım: API adresinizi ve Kanal ID girin. \n-/kaydet TRLINK_API KANAL_ID 3. Adım: Tadını çıkarın!")
+    bot.send_message(chat, "Merhaba!\n\n**Nasıl Kullanılır?**\n1. Adım: Botu kanlınıza yönetici olarak ekleyin. \n2. Adım: API adresinizi ve Kanal ID girin. \n-/kaydet TRLINK_API KANAL_ID \n3. Adım: Tadını çıkarın!\n\n__Kanalınızın ID numarasını bilmiyorsanız kanaldan bota bir post işetin bot size söyleyecek.__")
 
 @bot.on_message(~filters.private)
 def post(client, message):
