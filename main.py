@@ -26,7 +26,7 @@ def start(client, message):
 def post(client, message):
     chat = message.chat.id
     print(chat)
-    if chat == -1001352123979:
+    if chat == -1001368112299:
         mesaj = message.caption
         mesaj = mesaj.split("KTE: ")
         mesaja = mesaj[1].split("\n\n")
