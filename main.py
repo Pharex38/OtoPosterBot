@@ -11,7 +11,7 @@ token = "13c86bc3b625bf15995d018810d38737e6e70197"
 bot = Client("bot", api_id, api_hash, bot_token=botapi)
 print("Başlıyor")
 
-@bot.on_message(~filters.channel)
+@bot.on_message(~filters.group)
 def post(client, message):
     chat = message.chat.id
     mesaj = message.caption
