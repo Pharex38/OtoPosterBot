@@ -54,8 +54,8 @@ async def post(message):
 
 @bot.on(events.NewMessage)
 async def aydialma(message):
-    print(message.text)
-    print(message.fwd_from.from_id)
+    
+    mesaj = message.fwd_from.from_id)
     
     if not message.text == None and message.text.startswith("/kaydet"):
         mesaj = message.text.split(None, 2)[1:]
@@ -75,8 +75,9 @@ async def aydialma(message):
         await bot.send_message(cid, "Kaydedildi!")
     else:
         chat = message.chat_id
-        ileti = message.forward_from_chat
-        ileti = ileti['id']
+        ileti = str(message.fwd_from.from_id)
+        ileti = ileti.replace("PeerChannel(channel_id=", "").replace(")", "")
+        
         await bot.send_message(chat, f"Kanal ID: `{ileti}`")
 
 
