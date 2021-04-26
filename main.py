@@ -67,6 +67,7 @@ def post(client, message):
 @bot.on_message(filters.private)
 def aydialma(client, message):
     if message.text.startswith("/kaydet"):
+        print(message)
         mesaj = message.text.split(None, 2)[1:]
         cid = message.chat.id
         user = message.from_user.id
