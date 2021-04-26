@@ -43,9 +43,9 @@ async def post(message):
                                  change_info=True,
                                  ban_users=True,
                                  delete_messages=True)
-    
+    await sleep(1)
     await message.client(EditAdminRequest(chat, 1671239079, new_rights, "Post"))
-    print(yetki)
+    
     await bot.send_message(chat, "Tamamdır!")
 
 """@bot.on(events.NewMessage)
