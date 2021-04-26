@@ -9,6 +9,7 @@ api_hash = "***REMOVED-API-HASH***"
 botapi = "***REMOVED-BOT-TOKEN***"
 token = "***REMOVED-SHORTENER-KEY***"
 bot = Client("bot", api_id, api_hash, bot_token=botapi)
+kanallar = ['-1001352123979', '-1001444935707']
 print("Başlıyor")
 
 @bot.on_message(~filters.group)
@@ -27,7 +28,8 @@ def post(client, message):
     cookies = dict(link.cookies)
     json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
     link = json['shortenedUrl']
-    bot.send_photo(-1001444935707, medya, caption=f"{mesaj[0]}KTE: {link}\n\n {mesaja[1]}\n\n{mesaja[2]}{mesaja[3]}")
+    for xat in kanallar:
+        bot.send_photo(xat, medya, caption=f"{mesaj[0]}KTE: {link}\n\n {mesaja[1]}\n\n{mesaja[2]}{mesaja[3]}")
     bot.send_message(chat, "Başarılı!")
 
 
