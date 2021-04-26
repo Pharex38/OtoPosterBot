@@ -63,7 +63,7 @@ def post(client, message):
                 except:
                     print(kanal)
         bot.send_message(chat, "Başarılı!")
-    if message.text == "/onayla":
+    elif message.text == "/onayla":
         bot.send_message(chat, "Tamamdır!")
 
 @bot.on_message(filters.private)
