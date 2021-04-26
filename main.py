@@ -62,7 +62,8 @@ def post(client, message):
                 link = json['shortenedUrl']
                 try:
                     bot.send_video(kanal, medya, caption=f"{mesaj[0]}KTE: {link}\n\n {mesaja[1]}\n\n{mesaja[2]}{mesaja[3]}")
-                except:
+                except Exception as e:
+                    print(e)
                     print(kanal)
         bot.send_message(chat, "Başarılı!")
     elif message.text == "/onayla":
