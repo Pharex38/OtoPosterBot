@@ -50,7 +50,7 @@ async def post(message):
 
 @bot.on(events.NewMessage)
 async def aydialma(message):
-    getter = await bot.get_entity(message.chat_id)
+    getter = message.is_private
     print(getter)
     if not message.text == None and message.text.startswith("/kaydet"):
         mesaj = message.text.split(None, 2)[1:]
