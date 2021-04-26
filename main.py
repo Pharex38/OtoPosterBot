@@ -21,6 +21,7 @@ print("Başlıyor")
 def start(client, message):
     chat = message.chat.id
     bot.send_message(chat "Merhaba!\n\n-/kaydet <TRLINK API> <KANAL_ID>")
+
 @bot.on_message(~filters.private)
 def post(client, message):
     chat = message.chat.id
