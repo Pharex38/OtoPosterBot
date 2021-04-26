@@ -14,10 +14,8 @@ print("Başlıyor")
 
 @bot.on_message(~filters.group)
 def post(client, message):
-    print(message)
     chat = message.chat.id
     mesaj = message.caption
-    
     mesaj = mesaj.split("KTE: ")
     mesaja = mesaj[1].split("\n\n")
     mesajb = mesaja[0]
