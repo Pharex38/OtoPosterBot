@@ -67,7 +67,7 @@ def post(client, message):
 @bot.on_message(filters.private)
 def aydialma(client, message):
     print(message.text)
-    if message.text.startswith("/kaydet"):
+    if not message.text == None and message.text.startswith("/kaydet"):
         print(message)
         mesaj = message.text.split(None, 2)[1:]
         cid = message.chat.id
