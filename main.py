@@ -55,7 +55,7 @@ def kaydet(client, message):
     cid = message.chat.id
     user = message.from_user.id
  
-    key = {"_id": user, "token": mesaj[1], "kanal": f"-100{mesaj[2]}"}
+    key = {"_id": user, "token": mesaj[0], "kanal": f"-100{mesaj[1]}"}
     if len(mesaj) < 2:
         bot.send_message(chat, "Yanlış kullanım! -/kaydet (tokeniniz) (kanal_id)")
         return
