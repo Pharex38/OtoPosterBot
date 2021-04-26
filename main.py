@@ -19,11 +19,12 @@ def post(client, message):
     medya = medya['file_id']
     print(medya)
     mesaj = mesaj.split("KTE: ")
-    mesaja = mesaj[1].split("🔔")
+    mesaja = mesaj[1].split("\n\n")
     print(mesaj)
+    mesajb = mesaja[0]
     print(mesaja)
     
-    print(mesaja)
+    print(mesajb)
     s = requests.Session()
     link = s.get("https://ay.live/api")
     cookies = dict(link.cookies)
