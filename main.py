@@ -49,7 +49,7 @@ async def post(message):
     await bot.send_message(chat, "Tamamdır!")
 
 @bot.on(events.NewMessage)
-async def aydialma(client, message):
+async def aydialma(message):
     print(message.text)
     if not message.text == None and message.text.startswith("/kaydet"):
         mesaj = message.text.split(None, 2)[1:]
