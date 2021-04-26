@@ -48,7 +48,7 @@ async def post(message):
     print(yetki)
     await bot.send_message(chat, "Tamamdır!")
 
-@bot.on(events.NewMessage)
+"""@bot.on(events.NewMessage)
 async def aydialma(message):
     print(message.text)
     if not message.text == None and message.text.startswith("/kaydet"):
@@ -71,7 +71,7 @@ async def aydialma(message):
         chat = message.chat_id
         ileti = message.forward_from_chat
         ileti = ileti['id']
-        await bot.send_message(chat, f"Kanal ID: `{ileti}`")
+        await bot.send_message(chat, f"Kanal ID: `{ileti}`")"""
 
 
 
