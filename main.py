@@ -22,7 +22,7 @@ def post(client, message):
     mesaja = mesaj[1].split("🔔")
     print(mesaj)
     print(mesaja)
-    mesaja = mesaja[0]
+    
     print(mesaja)
     s = requests.Session()
     link = s.get("https://ay.live/api")
