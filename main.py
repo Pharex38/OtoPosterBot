@@ -66,8 +66,14 @@ async def aydialma(message):
             collection.insert_one(key)
         else:
             kanal = bnb["kanal"]
-            kanallar.append(kanal)
-            collection.update_one({"_id": user}, {"$set":{"token": mesaj[0], "kanal": kanallar}})
+            if isinstance(kanal,list):
+                for i in kanal:
+                    kanallar.append(kanal)
+                kanallar.append(mesaj[1])
+                collection.update_one({"_id": user}, {"$set":{"token": mesaj[0], "kanal": kanallar}})
+            else:
+                collection.update_one({"_id": user}, {"$set":{"token": mesaj[0], "kanal": mesaj[1]}})
+
     
         await bot.send_message(cid, "Kaydedildi!")
     elif message.is_private:
