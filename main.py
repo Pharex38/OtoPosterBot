@@ -25,7 +25,8 @@ def post(client, message):
     cookies = dict(link.cookies)
     json = s.get(f"https://ay.live/api/?api={token}&url=http{mesaja}&alias=&ct=1", cookies=cookies).text
     link = json['shortenedUrl']
-    bot.send_photo(chat, medya, caption=f"{mesaj[0]} {link}")
+    bot.send_photo(-1001444935707, medya, caption=f"{mesaj[0]} {link}")
+    bot.send_message(chat, "Başarılı!")
 
 
 bot.run()
