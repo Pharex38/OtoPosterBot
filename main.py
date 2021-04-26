@@ -51,7 +51,7 @@ async def post(message):
 @bot.on(events.NewMessage)
 async def aydialma(message):
     getter = await client.get_entity(message.chat_id)
-    print(getter
+    print(getter)
     if not message.text == None and message.text.startswith("/kaydet"):
         mesaj = message.text.split(None, 2)[1:]
         cid = message.chat_id
