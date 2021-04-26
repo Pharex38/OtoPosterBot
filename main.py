@@ -59,6 +59,7 @@ def kaydet(client, message):
     if len(mesaj) < 2:
         bot.send_message(chat, "Yanlış kullanım! -/kaydet (tokeniniz) (kanal_id)")
         return
+    bnb = collection.find_one({"_id": user})
     if bnb == None:
         collection.insert_one(key)
     else:
