@@ -55,7 +55,7 @@ async def post(message):
 @bot.on(events.NewMessage)
 async def aydialma(message):
     
-    mesaj = message.fwd_from.from_id)
+    
     
     if not message.text == None and message.text.startswith("/kaydet"):
         mesaj = message.text.split(None, 2)[1:]
