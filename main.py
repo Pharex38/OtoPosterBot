@@ -55,6 +55,7 @@ def post(client, message):
                     pass
         else:
             for hesap in binb:
+                print(hesap)
                 token = hesap['token']
                 kanal = hesap['kanal']
                 json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
