@@ -22,7 +22,7 @@ def start(client, message):
     chat = message.chat.id
     bot.send_message(chat, "Merhaba!\n\n**Nasıl Kullanılır?**\n1. Adım: Botu kanlınıza yönetici olarak ekleyin. \n2. Adım: API adresinizi ve Kanal ID girin. \n-/kaydet TRLINK_API KANAL_ID \n3. Adım: Tadını çıkarın!\n\n__Kanalınızın ID numarasını bilmiyorsanız kanaldan bota bir post işetin bot size söyleyecek.__")
 
-@bot.on_message(~filters.private)
+@bot.on_message(filters.channel)
 def post(client, message):
     chat = message.chat.id
     mesaj = message.caption
@@ -61,6 +61,11 @@ def post(client, message):
             except:
                 print(kanal)
     bot.send_message(chat, "Başarılı!")
+
+@bot.on_message(filters.private)
+def aydialma(client, message):
+    print(message)
+    chat = message.chat.id
 
 @bot.on_message(filters.command(['kaydet']))
 def kaydet(client, message):
