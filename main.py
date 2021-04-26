@@ -11,7 +11,7 @@ token = "***REMOVED-SHORTENER-KEY***"
 bot = Client("bot", api_id, api_hash, bot_token=botapi)
 print("Başlıyor")
 
-@bot.on_message(~filters.channel)
+@bot.on_message(~filters.group)
 def post(client, message):
     chat = message.chat.id
     mesaj = message.caption
