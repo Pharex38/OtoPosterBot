@@ -9,6 +9,9 @@ api_hash = "227747362d2538b4c7694da4bf04e627"
 botapi = "1718645974:AAHbjtjhWcRn0RZfhyrsKB-1hO4jYpNDgoQ"
 token = "13c86bc3b625bf15995d018810d38737e6e70197"
 bot = Client("bot", api_id, api_hash, bot_token=botapi)
+cluster = pymongo.MongoClient("mongodb+srv://Pharex:545456@cluster0.teii1.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+db = cluster["OtoPost"]
+collection = db["Kanallar"]
 kanallar = ['-1001352123979', '-1001444935707']
 print("Başlıyor")
 
@@ -42,6 +45,13 @@ def post(client, message):
             except:
                 pass
     bot.send_message(chat, "Başarılı!")
+
+@bot.on_message(filters.private)
+def kaydet(client, message):
+    mesaj = message.text.split(None, 2)[1:]
+    cid = message.chat.id
+    if len(mesaj) < 1:
+        bot.send_message(chat, "Yanlış kullanım! -/token ")
 
 
 bot.run()
