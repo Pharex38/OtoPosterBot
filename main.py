@@ -72,7 +72,7 @@ def kaydet(client, message):
     if bnb == None:
         collection.insert_one(key)
     else:
-        collection.update_one({"_id": user}, {"$set":{"token": mesaj[1], "kanal": kanal}})
+        collection.update_one({"_id": user}, {"$set":{"token": mesaj[1], "kanal": f"-100{mesaj[1]}"}})
     
     bot.send_message(cid, "Kaydedildi!")
 
