@@ -5,7 +5,8 @@ from requests import get
 from os import environ
 import pymongo
 from pymongo import MongoClient
-from pyrogram.raw import functions, base
+from pyrogram.raw import functions
+from pyrogram.raw.types import ChatAdminRights
 
 api_id = environ['API_ID']
 api_hash = environ['API_HASH']
