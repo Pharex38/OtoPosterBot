@@ -44,8 +44,11 @@ async def post(message):
                                  ban_users=True,
                                  delete_messages=True)
     await sleep(1)
-    await message.client(EditAdminRequest(chat, 1671239079, new_rights, "Post"))
-    
+    try:
+        await message.client(EditAdminRequest(chat, 1671239079, new_rights, "Post"))
+    except:
+        
+        await bot.send_message(chat, "Lütfen bota tüm yetkileri verin.")
     await bot.send_message(chat, "Tamamdır!")
 
 """@bot.on(events.NewMessage)
