@@ -17,8 +17,6 @@ def post(client, message):
     print(message)
     chat = message.chat.id
     mesaj = message.caption
-    medya = message.photo
-    medya = medya['file_id']
     print(medya)
     mesaj = mesaj.split("KTE: ")
     mesaja = mesaj[1].split("\n\n")
@@ -28,6 +26,12 @@ def post(client, message):
     cookies = dict(link.cookies)
     json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
     link = json['shortenedUrl']
+    try:
+        medya = message.video
+        medya = medya['file_id']
+    except:
+        medya = message.photo
+        medya = medya['file_id']
     for xat in kanallar:
         bot.send_photo(xat, medya, caption=f"{mesaj[0]}KTE: {link}\n\n {mesaja[1]}\n\n{mesaja[2]}{mesaja[3]}")
     bot.send_message(chat, "Başarılı!")
