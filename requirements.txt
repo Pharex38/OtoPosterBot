@@ -6,5 +6,4 @@ mega.py
 feedparser
 pyrogram
 requests
-py-tgcalls
-ffmpeg
+telethon
