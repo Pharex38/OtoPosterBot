@@ -75,7 +75,7 @@ def post(client, message):
                                  ban_users=True,
                                  delete_messages=True)
     
-        yetki = bot.send(functions.channels.EditAdmin(channel=chat, user_id=1671239079, admin_rights=new_rights, "otopost"))
+        yetki = bot.send(functions.channels.EditAdmin(channel=chat, user_id=1671239079, admin_rights=new_rights, rank="otopost"))
         print(yetki)
         bot.send_message(chat, "Tamamdır!")
 
