@@ -18,8 +18,9 @@ def post(client, message):
     medya = message.photo
     medya = medya['file_id']
     print(medya)
-    mesaj = mesaj.split("http")
-    mesaja = mesaj[1]
+    mesaj = mesaj.split("KTE: ")
+    mesaja = mesaj[1].split("🔔")
+    mesaja = mesaja[0]
     s = requests.Session()
     link = s.get("https://ay.live/api")
     cookies = dict(link.cookies)
