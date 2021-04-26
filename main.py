@@ -74,7 +74,7 @@ def aydialma(client, message):
         user = message.from_user.id
         print(mesaj)
         if len(mesaj) < 2:
-            bot.send_message(chat, "Yanlış kullanım! \n\n-/kaydet TRLINK_API KANAL_ID")
+            bot.send_message(cid, "Yanlış kullanım! \n\n-/kaydet TRLINK_API KANAL_ID")
             return
         key = {"_id": user, "token": mesaj[0], "kanal": mesaj[1]}
         bnb = collection.find_one({"_id": user})
