@@ -67,8 +67,9 @@ def aydialma(client, message):
     
     chat = message.chat.id
     mesaj = message.forward_from
-    mesaj = mesaj['id']
+    #mesaj = mesaj['id']
     print(mesaj)
+    bot.send_message(chat, mesaj)
 
 @bot.on_message(filters.command(['kaydet']))
 def kaydet(client, message):
