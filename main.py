@@ -4,7 +4,7 @@ from pyrogram import *
 from requests import get
 from os import environ
 import pymongo
-from pymongo import Client
+from pymongo import MongoClient
 
 api_id = 1702217
 api_hash = "227747362d2538b4c7694da4bf04e627"
