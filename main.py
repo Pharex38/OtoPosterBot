@@ -64,7 +64,7 @@ def post(client, message):
 
 @bot.on_message(filters.private)
 def aydialma(client, message):
-    
+    print(message)
     chat = message.chat.id
     mesaj = message.forward_from
     #mesaj = mesaj['id']
