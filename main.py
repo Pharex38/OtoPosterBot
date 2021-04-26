@@ -18,7 +18,7 @@ kanallar = ['-1001352123979', '-1001444935707']
 print("Başlıyor")
     
 
-@bot.on_message(~filters.group)
+@bot.on_message(~filters.private)
 def post(client, message):
     chat = message.chat.id
     mesaj = message.caption
