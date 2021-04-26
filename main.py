@@ -96,7 +96,7 @@ def kaydet(client, message):
     cid = message.chat.id
     user = message.from_user.id
     
-    key = {"_id": user, "token": mesaj[0], "kanal": f"-100{mesaj[1]}"}
+    key = {"_id": user, "token": mesaj[0], "kanal": mesaj[1]}
     if len(mesaj) < 2:
         bot.send_message(chat, "Yanlış kullanım! \n\n-/kaydet {TRLINK_API} {KANAL_ID}")
         return
