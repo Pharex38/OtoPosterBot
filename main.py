@@ -25,7 +25,7 @@ collection = db["Kanallar"]
 
 print("Başlıyor")
     
-@bot.on(NewMessage(pattern='(?i).*/start'))
+@bot.on(events.NewMessage(pattern='(?i).*/start'))
 def start(client, message):
     chat = message.chat_id
     bot.send_message(chat, "Merhaba!\n\n**Ne İşe Yarıyor?**\nBu bot [Link Mahzeni'nde](https://t.me/joinchat/UYu8q0gBTUdUudDL) paylaşılan postların linklerini otomatik olarak kısaltıp sizin kanalınıza iletir.\n\n**Nasıl Kullanılır?**\n1. Adım: Botu kanlınıza yönetici olarak ekleyin. \n2. Adım: API adresinizi ve Kanal ID girin. \n-/kaydet TRLINK_API KANAL_ID \n3. Adım: Kanalınzda /onayla yazın.\n4. Adım: Keyfini çıkarın.\n\n__NOT: Kanalınızın ID numarasını bilmiyorsanız kanaldan bota bir post iletin bot size söyleyecek.__", disable_web_page_preview=True)
