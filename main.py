@@ -68,7 +68,7 @@ async def aydialma(message):
             collection.update_one({"_id": user}, {"$set":{"token": mesaj[0], "kanal": mesaj[1]}})
     
         await bot.send_message(cid, "Kaydedildi!")
-    else:
+    elif message.is_private:
         chat = message.chat_id
         ileti = str(message.fwd_from.from_id)
         ileti = ileti.replace("PeerChannel(channel_id=", "").replace(")", "")
