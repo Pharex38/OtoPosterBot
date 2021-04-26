@@ -25,7 +25,8 @@ def start(client, message):
 @bot.on_message(filters.channel)
 def post(client, message):
     chat = message.chat.id
-    if chat == -1001368112299:
+    print(chat)
+    if chat == -1001352123979:
         mesaj = message.caption
         mesaj = mesaj.split("KTE: ")
         mesaja = mesaj[1].split("\n\n")
