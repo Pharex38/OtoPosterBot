@@ -15,6 +15,14 @@ collection = db["Kanallar"]
 kanallar = ['-1001352123979', '-1001444935707']
 print("Başlıyor")
 
+user = collection.find({"id": 1})
+for usre in user:
+    token = usre['token']
+    xat = usre['kanal']
+    json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
+    bot.send_photo(xat, medya, caption=f"{mesaj[0]}KTE: {link}\n\n {mesaja[1]}\n\n{mesaja[2]}{mesaja[3]}")
+    
+
 @bot.on_message(~filters.group)
 def post(client, message):
     chat = message.chat.id
@@ -46,12 +54,22 @@ def post(client, message):
                 pass
     bot.send_message(chat, "Başarılı!")
 
-@bot.on_message(filters.private)
+@bot.on_message(filters.command(['kaydet']))
 def kaydet(client, message):
     mesaj = message.text.split(None, 2)[1:]
     cid = message.chat.id
-    if len(mesaj) < 1:
-        bot.send_message(chat, "Yanlış kullanım! -/token ")
+    user = message.from_user.id
+    kanal = f"-100{mesaj[2]}"
+    key = {"_id": user, "token": mesaj[1], "kanal": kanal}
+    if len(mesaj) < 2:
+        bot.send_message(chat, "Yanlış kullanım! -/kaydet (tokeniniz) (kanal_id)")
+        return
+    if bnb == None:
+        collection.insert_one(key)
+    else:
+        collection.update_one({"_id": user}, {"$set":{"token": mesaj[1], "kanal": kanal}})
+    
+    bot.send_message(cid, "Kaydedildi!")
 
 
 bot.run()
