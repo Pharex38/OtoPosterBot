@@ -28,23 +28,31 @@ def post(client, message):
     s = requests.Session()
     link = s.get("https://ay.live/api")
     cookies = dict(link.cookies)
-    json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
-    link = json['shortenedUrl']
+    binb = collection.find({})
+    print(binb)
     try:
         medya = message.video
         medya = medya['file_id']
     except:
         medya = message.photo
         medya = medya['file_id']
-        for xat in kanallar:
+        for hesap in binb:
+            token = hesap['token']
+            kanal = hesap['kanal']
+            json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
+            link = json['shortenedUrl']
             try:
-                bot.send_photo(xat, medya, caption=f"{mesaj[0]}KTE: {link}\n\n {mesaja[1]}\n\n{mesaja[2]}{mesaja[3]}")
+                bot.send_photo(kanal, medya, caption=f"{mesaj[0]}KTE: {link}\n\n {mesaja[1]}\n\n{mesaja[2]}{mesaja[3]}")
             except:
                 pass
     else:
-        for xat in kanallar:
+        for hesap in binb:
+            token = hesap['token']
+            kanal = hesap['kanal']
+            json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
+            link = json['shortenedUrl']
             try:
-                bot.send_video(xat, medya, caption=f"{mesaj[0]}KTE: {link}\n\n {mesaja[1]}\n\n{mesaja[2]}{mesaja[3]}")
+                bot.send_video(kanal, medya, caption=f"{mesaj[0]}KTE: {link}\n\n {mesaja[1]}\n\n{mesaja[2]}{mesaja[3]}")
             except:
                 pass
     bot.send_message(chat, "Başarılı!")
