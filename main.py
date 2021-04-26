@@ -49,7 +49,8 @@ async def post(message):
     except:
         
         await bot.send_message(chat, "Lütfen bota tüm yetkileri verin.")
-    await bot.send_message(chat, "Tamamdır!")
+    else:
+        await bot.send_message(chat, "Tamamdır!")
 
 """@bot.on(events.NewMessage)
 async def aydialma(message):
