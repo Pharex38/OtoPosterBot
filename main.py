@@ -6,15 +6,15 @@ from os import environ
 import pymongo
 from pymongo import MongoClient
 
-api_id = 1702217
-api_hash = "227747362d2538b4c7694da4bf04e627"
-botapi = "1718645974:AAHbjtjhWcRn0RZfhyrsKB-1hO4jYpNDgoQ"
-token = "13c86bc3b625bf15995d018810d38737e6e70197"
+api_id = environ['API_ID']
+api_hash = environ['API_HASH']
+botapi = environ['BOT_TOKEN'] 
+mongo = environ['MONGO']
 bot = Client("bot", api_id, api_hash, bot_token=botapi)
-cluster = pymongo.MongoClient("mongodb+srv://Pharex:545456@cluster0.teii1.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+cluster = pymongo.MongoClient(mongo)
 db = cluster["OtoPost"]
 collection = db["Kanallar"]
-kanallar = ['-1001352123979', '-1001444935707']
+
 print("Başlıyor")
     
 
