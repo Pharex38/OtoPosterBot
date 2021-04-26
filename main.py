@@ -1,18 +1,24 @@
-import pyrogram
+
 import requests
-from pyrogram import *
+
 from requests import get
 from os import environ
 import pymongo
+import telethon
+from telethon import *
+import asyncio
+from asyncio import sleep
+from telethon.tl.functions.messages import ExportChatInviteRequest
+from telethon.tl.types import ChatAdminRights
+from telethon.tl.functions.channels import EditAdminRequest
 from pymongo import MongoClient
-from pyrogram.raw import functions
-from pyrogram.raw.types import ChatAdminRights
+
 
 api_id = environ['API_ID']
 api_hash = environ['API_HASH']
 botapi = environ['BOT_TOKEN'] 
 mongo = environ['MONGO']
-bot = Client("bot", api_id, api_hash, bot_token=botapi)
+bot = TelegramClient("Bot", api_id, api_hash).start(bot_token=botapi)
 cluster = pymongo.MongoClient(mongo)
 db = cluster["OtoPost"]
 collection = db["Kanallar"]
@@ -28,7 +34,7 @@ def start(client, message):
 def post(client, message):
     chat = message.chat.id
     print(chat)
-    if chat == -1001368112299 or chat == -1001352123979:
+    """if chat == -1001368112299 or chat == -1001352123979:
         mesaj = message.caption
         mesaj = mesaj.split("KTE: ")
         mesaja = mesaj[1].split("\n\n")
@@ -67,8 +73,8 @@ def post(client, message):
                 except Exception as e:
                     print(e)
                     print(kanal)
-        bot.send_message(chat, "Başarılı!")
-    elif message.text == "/onayla":
+        bot.send_message(chat, "Başarılı!")"""
+    if message.text == "/onayla":
         new_rights = ChatAdminRights(post_messages=True, add_admins=True,
                                  invite_users=True,
                                  change_info=True,
@@ -104,23 +110,6 @@ def aydialma(client, message):
         ileti = ileti['id']
         bot.send_message(chat, f"Kanal ID: `{ileti}`")
 
-"""@bot.on_message(filters.command(['kaydet']))
-def kaydet(client, message):
-    mesaj = message.text.split(None, 2)[1:]
-    cid = message.chat.id
-    user = message.from_user.id
-    
-    key = {"_id": user, "token": mesaj[0], "kanal": mesaj[1]}
-    if len(mesaj) < 2:
-        bot.send_message(chat, "Yanlış kullanım! \n\n-/kaydet {TRLINK_API} {KANAL_ID}")
-        return
-    bnb = collection.find_one({"_id": user})
-    if bnb == None:
-        collection.insert_one(key)
-    else:
-        collection.update_one({"_id": user}, {"$set":{"token": mesaj[0], "kanal": mesaj[1]}})
-    
-    bot.send_message(cid, "Kaydedildi!")"""
 
 
-bot.run()
+bot.run_until_disconnected()
