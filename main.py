@@ -34,7 +34,10 @@ def post(client, message):
             bot.send_photo(xat, medya, caption=f"{mesaj[0]}KTE: {link}\n\n {mesaja[1]}\n\n{mesaja[2]}{mesaja[3]}")
     else:
         for xat in kanallar:
-            bot.send_video(xat, medya, caption=f"{mesaj[0]}KTE: {link}\n\n {mesaja[1]}\n\n{mesaja[2]}{mesaja[3]}")
+          try:
+              bot.send_video(xat, medya, caption=f"{mesaj[0]}KTE: {link}\n\n {mesaja[1]}\n\n{mesaja[2]}{mesaja[3]}")
+          except:
+              pass
     bot.send_message(chat, "Başarılı!")
 
 
