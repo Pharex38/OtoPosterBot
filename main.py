@@ -55,7 +55,7 @@ def post(client, message):
             try:
                 bot.send_video(kanal, medya, caption=f"{mesaj[0]}KTE: {link}\n\n {mesaja[1]}\n\n{mesaja[2]}{mesaja[3]}")
             except:
-                pass
+                print(kanal)
     bot.send_message(chat, "Başarılı!")
 
 @bot.on_message(filters.command(['kaydet']))
