@@ -6,15 +6,15 @@ from os import environ
 import pymongo
 from pymongo import MongoClient
 
-api_id = ***REMOVED-API-ID***
-api_hash = "***REMOVED-API-HASH***"
-botapi = "***REMOVED-BOT-TOKEN***"
-token = "***REMOVED-SHORTENER-KEY***"
+api_id = environ['API_ID']
+api_hash = environ['API_HASH']
+botapi = environ['BOT_TOKEN'] 
+mongo = environ['MONGO']
 bot = Client("bot", api_id, api_hash, bot_token=botapi)
-cluster = pymongo.MongoClient("os.environ["MONGO_URI"]")
+cluster = pymongo.MongoClient(mongo)
 db = cluster["OtoPost"]
 collection = db["Kanallar"]
-kanallar = ['-1001352123979', '-1001444935707']
+
 print("Başlıyor")
     
 
