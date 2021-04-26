@@ -66,12 +66,29 @@ def post(client, message):
 
 @bot.on_message(filters.private)
 def aydialma(client, message):
+    if message.text.startswith("/kaydet")
+        mesaj = message.text.split(None, 2)[1:]
+        cid = message.chat.id
+        user = message.from_user.id
     
-    chat = message.chat.id
-    mesaj = message.forward_from_chat
-    mesaj = mesaj['id']
-    print(mesaj)
-    bot.send_message(chat, f"Kanal ID: `{mesaj}`")
+        key = {"_id": user, "token": mesaj[0], "kanal": f"-100{mesaj[1]}"}
+        if len(mesaj) < 2:
+            bot.send_message(chat, "Yanlış kullanım! \n\n-/kaydet {TRLINK_API} {KANAL_ID}")
+            return
+        bnb = collection.find_one({"_id": user})
+        if bnb == None:
+        collection.insert_one(key)
+        else:
+            collection.update_one({"_id": user}, {"$set":{"token": mesaj[0], "kanal": mesaj[1]}})
+    
+        bot.send_message(cid, "Kaydedildi!")
+    else:
+    
+        chat = message.chat.id
+        ileti = message.forward_from_chat
+        ileti = mesaj['id']
+        print(mesaj)
+        bot.send_message(chat, f"Kanal ID: `{mesaj}`")
 
 @bot.on_message(filters.command(['kaydet']))
 def kaydet(client, message):
