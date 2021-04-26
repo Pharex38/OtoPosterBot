@@ -68,7 +68,6 @@ def post(client, message):
 def aydialma(client, message):
     print(message.text)
     if not message.text == None and message.text.startswith("/kaydet"):
-        print(message)
         mesaj = message.text.split(None, 2)[1:]
         cid = message.chat.id
         user = message.from_user.id
@@ -85,11 +84,9 @@ def aydialma(client, message):
     
         bot.send_message(cid, "Kaydedildi!")
     else:
-    
         chat = message.chat.id
         ileti = message.forward_from_chat
         ileti = ileti['id']
-        print(ileti)
         bot.send_message(chat, f"Kanal ID: `{ileti}`")
 
 """@bot.on_message(filters.command(['kaydet']))
