@@ -3,6 +3,8 @@ import requests
 from pyrogram import *
 from requests import get
 from os import environ
+import pymongo
+from pymongo import Client
 
 api_id = ***REMOVED-API-ID***
 api_hash = "***REMOVED-API-HASH***"
@@ -14,13 +16,6 @@ db = cluster["OtoPost"]
 collection = db["Kanallar"]
 kanallar = ['-1001352123979', '-1001444935707']
 print("Başlıyor")
-
-user = collection.find({"id": 1})
-for usre in user:
-    token = usre['token']
-    xat = usre['kanal']
-    json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
-    bot.send_photo(xat, medya, caption=f"{mesaj[0]}KTE: {link}\n\n {mesaja[1]}\n\n{mesaja[2]}{mesaja[3]}")
     
 
 @bot.on_message(~filters.group)
