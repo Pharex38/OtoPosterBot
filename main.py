@@ -13,6 +13,7 @@ print("Başlıyor")
 
 @bot.on_message(~filters.group)
 def post(client, message):
+    print(message)
     chat = message.chat.id
     mesaj = message.caption
     medya = message.photo
@@ -20,11 +21,7 @@ def post(client, message):
     print(medya)
     mesaj = mesaj.split("KTE: ")
     mesaja = mesaj[1].split("\n\n")
-    print(mesaj)
     mesajb = mesaja[0]
-    print(mesaja)
-    
-    print(mesajb)
     s = requests.Session()
     link = s.get("https://ay.live/api")
     cookies = dict(link.cookies)
