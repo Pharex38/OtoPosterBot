@@ -54,13 +54,10 @@ async def post(message):
 
 @bot.on(events.NewMessage)
 async def aydialma(message):
-    
-    
-    
     if not message.text == None and message.text.startswith("/kaydet"):
         mesaj = message.text.split(None, 2)[1:]
         cid = message.chat_id
-        user = message.from_user.id
+        user = message.sender_id
         print(mesaj)
         if len(mesaj) < 2:
             await bot.send_message(cid, "Yanlış kullanım! \n\n-/kaydet TRLINK_API KANAL_ID")
@@ -78,7 +75,7 @@ async def aydialma(message):
         ileti = str(message.fwd_from.from_id)
         ileti = ileti.replace("PeerChannel(channel_id=", "").replace(")", "")
         
-        await bot.send_message(chat, f"Kanal ID: `{ileti}`")
+        await bot.send_message(chat, f"Kanal ID: `-100{ileti}`")
 
 
 
