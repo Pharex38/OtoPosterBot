@@ -20,7 +20,10 @@ def post(client, message):
     print(medya)
     mesaj = mesaj.split("KTE: ")
     mesaja = mesaj[1].split("🔔")
+    print(mesaj)
+    print(mesaja)
     mesaja = mesaja[0]
+    print(mesaja)
     s = requests.Session()
     link = s.get("https://ay.live/api")
     cookies = dict(link.cookies)
