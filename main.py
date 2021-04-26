@@ -69,7 +69,7 @@ def aydialma(client, message):
     mesaj = message.forward_from_chat
     mesaj = mesaj['id']
     print(mesaj)
-    bot.send_message(chat, mesaj)
+    bot.send_message(chat, f"Kanal ID: `{mesaj}`")
 
 @bot.on_message(filters.command(['kaydet']))
 def kaydet(client, message):
@@ -85,7 +85,7 @@ def kaydet(client, message):
     if bnb == None:
         collection.insert_one(key)
     else:
-        collection.update_one({"_id": user}, {"$set":{"token": mesaj[0], "kanal": f"-100{mesaj[1]}"}})
+        collection.update_one({"_id": user}, {"$set":{"token": mesaj[0], "kanal": mesaj[1]}})
     
     bot.send_message(cid, "Kaydedildi!")
 
