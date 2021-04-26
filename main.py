@@ -3,7 +3,6 @@ import requests
 
 from requests import get
 from os import environ
-import pymongo
 import telethon
 from telethon import *
 import asyncio
@@ -19,7 +18,7 @@ api_hash = environ['API_HASH']
 botapi = environ['BOT_TOKEN'] 
 mongo = environ['MONGO']
 bot = TelegramClient("Bot", api_id, api_hash).start(bot_token=botapi)
-cluster = pymongo.MongoClient(mongo)
+cluster = MongoClient(mongo)
 db = cluster["OtoPost"]
 collection = db["Kanallar"]
 
@@ -56,6 +55,7 @@ async def aydialma(message):
         mesaj = message.text.split(None, 2)[1:]
         cid = message.chat_id
         user = message.sender_id
+        kanallar = []
         print(mesaj)
         if len(mesaj) < 2:
             await bot.send_message(cid, "Yanlış kullanım! \n\n-/kaydet TRLINK_API KANAL_ID")
@@ -65,7 +65,9 @@ async def aydialma(message):
         if bnb == None:
             collection.insert_one(key)
         else:
-            collection.update_one({"_id": user}, {"$set":{"token": mesaj[0], "kanal": mesaj[1]}})
+            kanal = bnb["kanal"]
+            kanallar.append(kanal)
+            collection.update_one({"_id": user}, {"$set":{"token": mesaj[0], "kanal": kanallar}})
     
         await bot.send_message(cid, "Kaydedildi!")
     elif message.is_private:
