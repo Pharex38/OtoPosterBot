@@ -17,7 +17,7 @@ def post(client, message):
     print(message)
     chat = message.chat.id
     mesaj = message.caption
-    print(medya)
+    
     mesaj = mesaj.split("KTE: ")
     mesaja = mesaj[1].split("\n\n")
     mesajb = mesaja[0]
