@@ -74,7 +74,7 @@ def aydialma(message):
 
     
         bot.send_message(cid, "Kaydedildi!")
-    elif message.chat.type == private:
+    elif message.chat.type == "private":
         chat = message.chat.id
         ileti = str(message.fwd_from.from_id)
         ileti = ileti.replace("PeerChannel(channel_id=", "").replace(")", "")
