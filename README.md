@@ -1,2 +1,2 @@
-# Mega.nz Bot
+# OtoPosterBot
 ### Sahip: [Pharex](https://t.me/Pharex)
