@@ -95,16 +95,10 @@ def kanalkayit(message):
 
 @bot.channel_post_handler(content_types=['photo'])
 def poster(message):
-    
-    
     chat = message.chat.id
     if chat == -1001368112299 or chat == -1001352123979:
         print(f"başlıyor ")
         mesaj = message.caption
-       # mesaj = mesaj.split("KTE: ")
-       # mesaja = mesaj[1].split("\n\n")
-       # mesajb = mesaja[0]
-        
         # Link tespit
         sol = mesaj.find("http")
         sag = mesaj.find("\n", sol)
@@ -119,7 +113,6 @@ def poster(message):
         binb = collection.find({})
         print(binb)
         medya = message.photo.file_id
-        
         for hesap in binb:
             token = hesap['token']
             kanal = hesap['kanal']
@@ -142,9 +135,6 @@ def poster(message):
     if chat == -1001368112299 or chat == -1001352123979:
         print(f"başlıyor ")
         mesaj = message.caption
-        #mesaj = mesaj.split("KTE: ")
-        #mesaja = mesaj[1].split("\n\n")
-        #mesajb = mesaja[0]
         # Link tespit
         sol = mesaj.find("http")
         sag = mesaj.find("\n", sol)
