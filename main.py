@@ -67,7 +67,7 @@ def apikayit(message):
         bot.register_next_step_handler(msg, apikayit)
         return
     usre.api = token
-    msg = bot.edit_message_text(chat, mids,"API kaydedildi. Kanal ID gönderin lütfen.")
+    msg = bot.edit_message_text(chat, mids,"API kaydedildi. Kanalınızdam herhangi bir gönderi iletin.")
     bot.register_next_step_handler(msg, kanalkayit)
 
 def kanalkayit(message):
