@@ -64,7 +64,7 @@ def apikayit(message):
     s = requests.Session()
     link = s.get("https://ay.live/api")
     cookies = dict(link.cookies)
-    ket = s.get(f"https://tr.link/api/?api={token}&url=yourdestinationlink.com&alias=&ct=1").json()
+    ket = s.get(f"https://tr.link/api/?api={token}&url=yourdestinationlink.com&format=text&alias=&ct=1").text
     print(ket)
     if ket == None:
         msg = bot.edit_message_text("*Geçersiz Bir API adresi girdiniz!* _Lütfen [bu adresten](https://tr.link/member/tools/api) yeniden alın._", chat, mids, parse_mode='MarkDown')
