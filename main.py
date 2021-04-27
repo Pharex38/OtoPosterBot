@@ -31,12 +31,9 @@ def post(message):
     print(chat)
     bot.send_message(chat, "Tamamdır!")
 
-@bot.message_handler(func=lambda message: True)
-def aydialma(message):
-    getter = message.chat.type
-    
-    if not message.text == None and message.text.startswith("/kaydet"):
-        mesaj = message.text.split(None, 2)[1:]
+@bot.message_handler(commands=['kaydet'])
+def kaydet (message):
+    mesaj = message.text.split(None, 2)[1:]
         cid = message.chat.id
         user = message.sender_id
         kanallar = []
@@ -53,11 +50,15 @@ def aydialma(message):
 
     
         bot.send_message(cid, "Kaydedildi!")
-    elif message.chat.type == "private":
+
+@bot.message_handler(func=lambda message: True)
+def aydialma(message):
+    if message.chat.type == "private":
         chat = message.chat.id
-        ileti = str(message.forward_from_chat.id)
-        
+        ileti = message.forward_from_chat.id
         bot.send_message(chat, f"Kanal ID: `{ileti}`", parse_mode=ParseMode.MARKDOWN)
+    else:
+        pass
 
 @bot.channel_post_handler(content_types=['photo'])
 def poster(message):
