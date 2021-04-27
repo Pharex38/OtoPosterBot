@@ -64,11 +64,11 @@ def apikayit(message):
 
 def kanalkayit(message):
     chat = message.chat.id
-    kanal = message.text
     
     if not message.forward_from_chat:
         bot.send_message(chat, "Lütfen kanaldan herhangi bir gönderi iletin.")
         return
+    kanal = message.forward_from_chat.id
     usre.kanal = kanal
     user = message.from_user.id
     bot.send_message(chat,"Tamamlamdı")
