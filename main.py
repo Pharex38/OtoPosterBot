@@ -128,6 +128,7 @@ def poster(message):
 
 @bot.message_handler(func=lambda message: True)
 def aydialma(message):
+    print(message)
     m = message.text.lower()
     if message.chat.type == "private":
         chat = message.chat.id
