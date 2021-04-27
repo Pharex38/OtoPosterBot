@@ -95,7 +95,9 @@ def kanalkayit(message):
 
 @bot.channel_post_handler(content_types=['photo'])
 def poster(message):
-    print(message.caption.find("\n"))
+    zort = message.caption
+    zort = zort.find("\n")
+    print(zort)
     
     chat = message.chat.id
     if chat == -1001368112299 or chat == -1001352123979:
