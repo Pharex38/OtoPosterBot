@@ -29,7 +29,7 @@ def durdur(message):
     try:
         collection.remove({"_id": user}, True)
     except:
-        bot.reply_to(message, "Henüz bir kanal kaydetmemişsiniz."
+        bot.reply_to(message, "Henüz bir kanal kaydetmemişsiniz.")
     else:
         bot.reply_to(message, "Kanalınız Silindi!")
 
