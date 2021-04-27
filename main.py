@@ -52,6 +52,7 @@ def kaydet (message):
     if len(mesaj) < 2:
         bot.reply_to(message, "Yanlış kullanım! \n\n-/kaydet TRLINK_API KANAL_ID")
         return
+    kanal = mesaj[1]
     if not mesaj[1].startswith("-10"):
         kanal = f"-100{mesaj[1]}"
     key = {"_id": user, "token": mesaj[0], "kanal": kanal}
