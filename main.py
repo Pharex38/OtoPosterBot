@@ -34,22 +34,20 @@ def post(message):
 @bot.message_handler(commands=['kaydet'])
 def kaydet (message):
     mesaj = message.text.split(None, 2)[1:]
-        cid = message.chat.id
-        user = message.sender_id
-        kanallar = []
-        print(mesaj)
-        if len(mesaj) < 2:
-            bot.send_message(cid, "Yanlış kullanım! \n\n-/kaydet TRLINK_API KANAL_ID")
-            return
-        key = {"_id": user, "token": mesaj[0], "kanal": mesaj[1]}
-        bnb = collection.find_one({"_id": user})
-        if bnb == None:
-            collection.insert_one(key)
-        else:
-            collection.update_one({"_id": user}, {"$set":{"token": mesaj[0], "kanal": mesaj[1]}})
+    cid = message.chat.id
+    user = message.sender_id
+    if len(mesaj) < 2:
+        bot.send_message(cid, "Yanlış kullanım! \n\n-/kaydet TRLINK_API KANAL_ID")
+         return
+    key = {"_id": user, "token": mesaj[0], "kanal": mesaj[1]}
+    bnb = collection.find_one({"_id": user})
+    if bnb == None:
+        collection.insert_one(key)
+    else:
+        collection.update_one({"_id": user}, {"$set":{"token": mesaj[0], "kanal": mesaj[1]}})
 
     
-        bot.send_message(cid, "Kaydedildi!")
+    bot.send_message(cid, "Kaydedildi!")
 
 @bot.message_handler(func=lambda message: True)
 def aydialma(message):
