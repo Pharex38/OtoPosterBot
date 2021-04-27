@@ -7,6 +7,7 @@ import time
 from asyncio import sleep
 from pymongo import MongoClient
 import telebot
+from telegram import ParseMode
 
 api_id = environ['API_ID']
 api_hash = environ['API_HASH']
@@ -16,7 +17,7 @@ mongo = environ['MONGO']
 cluster = MongoClient(mongo)
 db = cluster["OtoPost"]
 collection = db["Kanallar"]
-bot = telebot.TeleBot(botapi, parse_mode=ParseMode.MARKDOWN)
+bot = telebot.TeleBot(botapi)
 print("Başlıyor")
     
 @bot.message_handler(commands=['start'])
