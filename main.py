@@ -38,7 +38,7 @@ def kaydet (message):
     user = message.sender_id
     if len(mesaj) < 2:
         bot.send_message(cid, "Yanlış kullanım! \n\n-/kaydet TRLINK_API KANAL_ID")
-         return
+        return
     key = {"_id": user, "token": mesaj[0], "kanal": mesaj[1]}
     bnb = collection.find_one({"_id": user})
     if bnb == None:
