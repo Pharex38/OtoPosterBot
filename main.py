@@ -55,6 +55,7 @@ def apkayit(message):
 
 def kanalkayit(message):
     kanal = message.text
+    user = message.from_user.id
     message.reply_to("Tamamlamdı")
     key = {"_id": user, "token": token, "kanal": kanal}
     bnb = collection.find_one({"_id": user})
@@ -78,10 +79,10 @@ def kanalkayit(message):
     if bnb == None:
         collection.insert_one(key)
     else:
-        collection.update_one({"_id": user}, {"$set":{"token": mesaj[0], "kanal": mesaj[1]}})"""
+        collection.update_one({"_id": user}, {"$set":{"token": mesaj[0], "kanal": mesaj[1]}})
 
     
-    bot.send_message(cid, "Kaydedildi!")
+    bot.send_message(cid, "Kaydedildi!")"""
 
 @bot.channel_post_handler(content_types=['photo'])
 def poster(message):
