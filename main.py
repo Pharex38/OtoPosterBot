@@ -96,7 +96,8 @@ def kanalkayit(message):
 @bot.channel_post_handler(content_types=['photo'])
 def poster(message):
     zort = message.caption
-    zort = zort.find("\n")
+    zart = zort.find("http")
+    zort = zort.find("\n", zart)
     print(zort)
     
     chat = message.chat.id
