@@ -127,7 +127,6 @@ def poster(message):
 
 @bot.message_handler(content_types=['video', 'photo', 'document', 'text'])
 def aydialma(message):
-    print(message)
     if message.chat.type == "private":
         chat = message.chat.id
         if message.forward_from_chat:
