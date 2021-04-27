@@ -12,11 +12,11 @@ api_id = environ['API_ID']
 api_hash = environ['API_HASH']
 botapi = environ['BOT_TOKEN'] 
 mongo = environ['MONGO']
-#bot = TelegramClient("Bot", api_id, api_hash).start(bot_token=botapi)
+
 cluster = MongoClient(mongo)
 db = cluster["OtoPost"]
 collection = db["Kanallar"]
-bot = telebot.TeleBot("botapi")
+bot = telebot.TeleBot(botapi)
 print("Başlıyor")
     
 @bot.message_handler(commands=['start'])
