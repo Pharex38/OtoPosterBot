@@ -1,15 +1,9 @@
 
 import requests
-
 from requests import get
 from os import environ
-import telethon
-from telethon import *
 import asyncio
 from asyncio import sleep
-from telethon.tl.functions.messages import ExportChatInviteRequest
-from telethon.tl.types import ChatAdminRights
-from telethon.tl.functions.channels import EditAdminRequest
 from pymongo import MongoClient
 import telebot
 
@@ -30,7 +24,7 @@ def start(message):
     bot.send_message(chat, "Merhaba!\n\n**Ne İşe Yarıyor?**\nBu bot [Link Mahzeni'nde](https://t.me/joinchat/UYu8q0gBTUdUudDL) paylaşılan postların linklerini otomatik olarak kısaltıp sizin kanalınıza iletir.\n\n**Nasıl Kullanılır?**\n1. Adım: Botu kanlınıza yönetici olarak ekleyin. \n2. Adım: API adresinizi ve Kanal ID girin. \n-/kaydet TRLINK_API KANAL_ID \n3. Adım: Kanalınzda /onayla yazın.\n4. Adım: Keyfini çıkarın.\n\n__NOT: Kanalınızın ID numarasını bilmiyorsanız kanaldan bota bir post iletin bot size söyleyecek.__")
 
 @bot.channel_post_handler(commands=['onayla'])
-async def post(message):
+def post(message):
     chat = message.chat_id
     print(chat)
     link = bot(functions.messages.ExportChatInviteRequest(chat))
