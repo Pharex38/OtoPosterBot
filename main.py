@@ -29,7 +29,6 @@ def start(message):
 def post(message):
     chat = message.chat.id
     print(chat)
-    
     bot.send_message(chat, "Tamamdır!")
 
 @bot.message_handler(func=lambda message: True)
@@ -50,16 +49,7 @@ def aydialma(message):
         if bnb == None:
             collection.insert_one(key)
         else:
-            kanal = bnb["kanal"]
-            if isinstance(kanal,list):
-                for i in kanal:
-                    kanallar.append(i)
-                kanallar.append(mesaj[1])
-                collection.update_one({"_id": user}, {"$set":{"token": mesaj[0], "kanal": kanallar}})
-            else:
-                kanallar.append(kanal)
-                kanallar.append(mesaj[1])             
-                collection.update_one({"_id": user}, {"$set":{"token": mesaj[0], "kanal": kanallar}})
+            collection.update_one({"_id": user}, {"$set":{"token": mesaj[0], "kanal": mesaj[1]}})
 
     
         bot.send_message(cid, "Kaydedildi!")
@@ -87,7 +77,6 @@ def poster(message):
         medya = message.photo.file_id
         
         for hesap in binb:
-            print(hesap)
             token = hesap['token']
             kanal = hesap['kanal']
             json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
@@ -121,7 +110,6 @@ def poster(message):
         medya = message.video.file_id
         
         for hesap in binb:
-            print(hesap)
             token = hesap['token']
             kanal = hesap['kanal']
             json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
@@ -130,7 +118,7 @@ def poster(message):
                 time.sleep(1)
                 bot.send_video(kanal, medya, caption=f"{mesaj[0]}KTE: {link}\n\n {mesaja[1]}\n\n{mesaja[2]}{mesaja[3]}")
             except Exception as e:
-                print(f"Hata: {kanal})
+                print(f"Hata: {kanal}")
             print("Başarılı!")
         
 
