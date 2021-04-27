@@ -106,9 +106,9 @@ def poster(message):
        # mesajb = mesaja[0]
         
         # Link tespit
-        sol = zort.find("http")
-        sag = zort.find("\n", sol)
-        mesajb = zort[sol:sag].strip()
+        sol = mesaj.find("http")
+        sag = mesaj.find("\n", sol)
+        mesajb = mesaj[sol:sag].strip()
         # Açıklama tespit
         ason = mesaj.find("\n")
         aciklama = mesaj[:ason]
@@ -146,9 +146,9 @@ def poster(message):
         #mesaja = mesaj[1].split("\n\n")
         #mesajb = mesaja[0]
         # Link tespit
-        sol = zort.find("http")
-        sag = zort.find("\n", sol)
-        mesajb = zort[sol:sag].strip()
+        sol = mesaj.find("http")
+        sag = mesaj.find("\n", sol)
+        mesajb = mesaj[sol:sag].strip()
         # Açıklama tespit
         ason = mesaj.find("\n")
         aciklama = mesaj[:ason]
