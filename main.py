@@ -11,7 +11,7 @@ from telethon.tl.functions.messages import ExportChatInviteRequest
 from telethon.tl.types import ChatAdminRights
 from telethon.tl.functions.channels import EditAdminRequest
 from pymongo import MongoClient
-
+import telebot
 
 api_id = environ['API_ID']
 api_hash = environ['API_HASH']
