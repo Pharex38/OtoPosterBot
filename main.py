@@ -26,7 +26,7 @@ def start(message):
 
 @bot.channel_post_handler(commands=['onayla'])
 def post(message):
-    chat = message.chat_id
+    chat = message.chat.id
     print(chat)
     link = bot(functions.messages.ExportChatInviteRequest(chat))
     link = str(link).split(", ")
@@ -44,11 +44,11 @@ def post(message):
 
 @bot.message_handler(func=lambda message: True)
 def aydialma(message):
-    getter = message.is_private
+    getter = message.chat.type
     print(getter)
     if not message.text == None and message.text.startswith("/kaydet"):
         mesaj = message.text.split(None, 2)[1:]
-        cid = message.chat_id
+        cid = message.chat.id
         user = message.sender_id
         kanallar = []
         print(mesaj)
@@ -73,8 +73,8 @@ def aydialma(message):
 
     
         bot.send_message(cid, "Kaydedildi!")
-    elif message.is_private:
-        chat = message.chat_id
+    elif message.chat.type == private:
+        chat = message.chat.id
         ileti = str(message.fwd_from.from_id)
         ileti = ileti.replace("PeerChannel(channel_id=", "").replace(")", "")
         
