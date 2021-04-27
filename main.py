@@ -9,8 +9,6 @@ from pymongo import MongoClient
 import telebot
 from telegram import ParseMode
 
-api_id = environ['API_ID']
-api_hash = environ['API_HASH']
 botapi = environ['BOT_TOKEN'] 
 mongo = environ['MONGO']
 
