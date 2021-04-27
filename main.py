@@ -123,6 +123,12 @@ def poster(message):
             except Exception as e:
                 print(f"Hata: {kanal}")
             print("Başarılı!")
-        
+
+@bot.message_handler(commands=['sil'])
+def durdur(message):
+    chat = message.chat.id
+    user = message.from_user.id
+    collection.remove({"_id": user})
+    bot.send_message(chat, "Kanalınız Silindi!")
 
 bot.polling()
