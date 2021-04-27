@@ -87,7 +87,7 @@ def kanalkayit(message):
     else:
         collection.update_one({"_id": user}, {"$set":{"token": usre.api, "kanal": usre.kanal}})
     
-    bot.send_message(chat,"Tamamlamdı")
+    bot.send_message(chat,"*Bilgileriniz Kaydedildi.*", parse_mode='MarkDown')
     
 
 @bot.channel_post_handler(content_types=['photo'])
