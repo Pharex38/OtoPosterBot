@@ -61,12 +61,12 @@ def kaydet (message):
 
 @bot.message_handler(func=lambda message: True)
 def aydialma(message):
-    m = message.text
+    m = message.text.lower()
     if message.chat.type == "private":
         chat = message.chat.id
         if message.forward_from_chat:
             bot.send_message(chat, f"Kanal ID: `{}`".format(message.forward_from_chat.id), parse_mode='MarkDown')
-        elif m.lower() == 'sa':
+        elif m == 'sa':
             bot.reply_to(message,'Ase')
     else:
         pass
