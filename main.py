@@ -97,6 +97,7 @@ def kanalkayit(message):
 def poster(message):
     zort = message.caption
     zart = zort.find("http")
+    print(zart)
     zort = zort.find("\n", zart)
     print(zort)
     
