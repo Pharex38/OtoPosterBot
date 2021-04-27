@@ -53,8 +53,12 @@ def kaydet (message):
 def aydialma(message):
     if message.chat.type == "private":
         chat = message.chat.id
-        ileti = message.forward_from_chat.id
-        bot.send_message(chat, f"Kanal ID: `{ileti}`", parse_mode=ParseMode.MARKDOWN)
+        try:
+            ileti = message.forward_from_chat.id
+        except:
+            pass
+        else:
+            bot.send_message(chat, f"Kanal ID: `{ileti}`", parse_mode=ParseMode.MARKDOWN)
     else:
         pass
 
