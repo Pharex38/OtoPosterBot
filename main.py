@@ -141,14 +141,14 @@ def poster(message):
                 print(f"Hata: {kanal}")
             print("Başarılı!")
 
-@bot.message_handler(content_types=['video', 'photo', 'document', 'text'])
+"""@bot.message_handler(content_types=['video', 'photo', 'document', 'text'])
 def aydialma(message):
     if message.chat.type == "private":
         chat = message.chat.id
         if message.forward_from_chat:
             bot.send_message(chat, "Kanal ID: `{}`".format(message.forward_from_chat.id), parse_mode='MarkDown')
     else:
-        pass
+        pass"""
 
 bot.enable_save_next_step_handlers(delay=2)
 
