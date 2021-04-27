@@ -93,10 +93,10 @@ def kanalkayit(message):
     
     bot.send_message(chat,"*Bilgileriniz Kaydedildi.*", parse_mode='MarkDown')
 
-
 @bot.channel_post_handler(content_types=['photo'])
 def poster(message):
-    print(message.caption)
+    print(message.caption.find("\n"))
+    
     chat = message.chat.id
     if chat == -1001368112299 or chat == -1001352123979:
         print(f"başlıyor ")
