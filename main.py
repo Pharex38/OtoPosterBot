@@ -104,10 +104,15 @@ def poster(message):
        # mesaj = mesaj.split("KTE: ")
        # mesaja = mesaj[1].split("\n\n")
        # mesajb = mesaja[0]
+        
+        # Link tespit
         sol = zort.find("http")
         sag = zort.find("\n", sol)
-    
         mesajb = zort[sol:sag].strip()
+        # Açıklama tespit
+        ason = mesaj.find("\n")
+        aciklama = mesaj[:ason]
+        # Cookies
         s = requests.Session()
         link = s.get("https://ay.live/api")
         cookies = dict(link.cookies)
@@ -140,9 +145,14 @@ def poster(message):
         #mesaj = mesaj.split("KTE: ")
         #mesaja = mesaj[1].split("\n\n")
         #mesajb = mesaja[0]
+        # Link tespit
         sol = zort.find("http")
         sag = zort.find("\n", sol)
         mesajb = zort[sol:sag].strip()
+        # Açıklama tespit
+        ason = mesaj.find("\n")
+        aciklama = mesaj[:ason]
+        # Cookies
         s = requests.Session()
         link = s.get("https://ay.live/api")
         cookies = dict(link.cookies)
