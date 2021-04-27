@@ -72,6 +72,7 @@ def apikayit(message):
 
 def kanalkayit(message):
     chat = message.chat.id
+    user = message.from_user.id
     
     if not message.forward_from_chat:
         msg = bot.send_message(chat, "Lütfen kanaldan herhangi bir gönderi iletin.")
@@ -79,8 +80,6 @@ def kanalkayit(message):
         return
     kanal = message.forward_from_chat.id
     usre.kanal = str(kanal)
-    user = message.from_user.id
-    bot.send_message(chat,"Tamamlamdı")
     key = {"_id": user, "token": usre.api, "kanal": usre.kanal}
     bnb = collection.find_one({"_id": user})
     if bnb == None:
@@ -88,6 +87,7 @@ def kanalkayit(message):
     else:
         collection.update_one({"_id": user}, {"$set":{"token": usre.api, "kanal": usre.kanal}})
     
+    bot.send_message(chat,"Tamamlamdı")
     
 
 @bot.channel_post_handler(content_types=['photo'])
