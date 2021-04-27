@@ -118,7 +118,7 @@ def poster(message):
         print(binb)
         
         medya = message.video.file_id
-        print(medya)
+        
         for hesap in binb:
             print(hesap)
             token = hesap['token']
@@ -129,7 +129,7 @@ def poster(message):
                 time.sleep(1)
                 bot.send_video(kanal, medya, caption=f"{mesaj[0]}KTE: {link}\n\n {mesaja[1]}\n\n{mesaja[2]}{mesaja[3]}")
             except Exception as e:
-                print(e)
+                print(e+kanal)
             print("Başarılı!")
         
 
