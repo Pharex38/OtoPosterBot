@@ -45,7 +45,7 @@ def post(message):
 @bot.message_handler(func=lambda message: True)
 def aydialma(message):
     getter = message.chat.type
-    print(getter)
+    
     if not message.text == None and message.text.startswith("/kaydet"):
         mesaj = message.text.split(None, 2)[1:]
         cid = message.chat.id
