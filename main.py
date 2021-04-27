@@ -95,20 +95,19 @@ def kanalkayit(message):
 
 @bot.channel_post_handler(content_types=['photo'])
 def poster(message):
-    zort = message.caption
-    sol = zort.find("http")
-    print(sol)
-    sag = zort.find("\n", sol)
     
-    print(zort[sol:sag].strip())
     
     chat = message.chat.id
     if chat == -1001368112299 or chat == -1001352123979:
         print(f"başlıyor ")
         mesaj = message.caption
-        mesaj = mesaj.split("KTE: ")
-        mesaja = mesaj[1].split("\n\n")
-        mesajb = mesaja[0]
+       # mesaj = mesaj.split("KTE: ")
+       # mesaja = mesaj[1].split("\n\n")
+       # mesajb = mesaja[0]
+        sol = zort.find("http")
+        sag = zort.find("\n", sol)
+    
+        mesajb = zort[sol:sag].strip()
         s = requests.Session()
         link = s.get("https://ay.live/api")
         cookies = dict(link.cookies)
