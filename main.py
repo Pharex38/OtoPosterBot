@@ -65,6 +65,10 @@ def apikayit(message):
 def kanalkayit(message):
     chat = message.chat.id
     kanal = message.text
+    
+    if not message.forward_from_chat:
+        bot.send_message(chat, "Lütfen kanaldan herhangi bir gönderi iletin.")
+        return
     usre.kanal = kanal
     user = message.from_user.id
     bot.send_message(chat,"Tamamlamdı")
@@ -76,25 +80,6 @@ def kanalkayit(message):
         collection.update_one({"_id": user}, {"$set":{"token": usre.api, "kanal": usre.kanal}})
     
     
-"""def kaydet (message):
-    mesaj = message.text.split(None, 2)[1:]
-    cid = message.chat.id
-    user = message.from_user.id
-    if len(mesaj) < 2:
-        bot.reply_to(message, "Yanlış kullanım! \n\n-/kaydet TRLINK_API KANAL_ID")
-        return
-    kanal = mesaj[1]
-    if not mesaj[1].startswith("-10"):
-        kanal = f"-100{mesaj[1]}"
-    key = {"_id": user, "token": mesaj[0], "kanal": kanal}
-    bnb = collection.find_one({"_id": user})
-    if bnb == None:
-        collection.insert_one(key)
-    else:
-        collection.update_one({"_id": user}, {"$set":{"token": mesaj[0], "kanal": mesaj[1]}})
-
-    
-    bot.send_message(cid, "Kaydedildi!")"""
 
 @bot.channel_post_handler(content_types=['photo'])
 def poster(message):
