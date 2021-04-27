@@ -69,7 +69,7 @@ def aydialma(message):
         
         bot.send_message(chat, f"Kanal ID: `{ileti}`", parse_mode=ParseMode.MARKDOWN)
 
-@bot.message_handler(content_types=['audio', 'document', 'photo', 'video'])
+@bot.channel_post_handler(content_types=['audio', 'document', 'photo', 'video'])
 def poster(message):
     chat = message.chat.id
     print(chat)
