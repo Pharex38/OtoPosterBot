@@ -123,7 +123,7 @@ def poster(message):
             print(f"{kanal} + {link} + {token}")
             try:
                 time.sleep(1)
-                bot.send_photo(kanal, medya, caption=f"{mesaj[0]}KTE: {link}\n\n {mesaja[1]}\n\n{mesaja[2]}{mesaja[3]}")
+                bot.send_photo(kanal, medya, caption=f"🔥 {aciklama}\n\n🔱 TIKLA 👉 {link}\n\n📛 SESİ AÇ 'a tıklamayı unutma")
             except Exception as e:
                 print(e)
                 print(f"Hata {kanal}")
@@ -137,17 +137,18 @@ def poster(message):
     if chat == -1001368112299 or chat == -1001352123979:
         print(f"başlıyor ")
         mesaj = message.caption
-        mesaj = mesaj.split("KTE: ")
-        mesaja = mesaj[1].split("\n\n")
-        mesajb = mesaja[0]
+        #mesaj = mesaj.split("KTE: ")
+        #mesaja = mesaj[1].split("\n\n")
+        #mesajb = mesaja[0]
+        sol = zort.find("http")
+        sag = zort.find("\n", sol)
+        mesajb = zort[sol:sag].strip()
         s = requests.Session()
         link = s.get("https://ay.live/api")
         cookies = dict(link.cookies)
         binb = collection.find({})
         print(binb)
-        
         medya = message.video.file_id
-        
         for hesap in binb:
             token = hesap['token']
             kanal = hesap['kanal']
@@ -156,7 +157,7 @@ def poster(message):
             print(f"{kanal} + {link} + {token}")
             try:
                 time.sleep(1)
-                bot.send_video(kanal, medya, caption=f"{mesaj[0]}KTE: {link}\n\n {mesaja[1]}\n\n{mesaja[2]}{mesaja[3]}")
+                bot.send_video(kanal, medya, caption=f"🔥 {aciklama}\n\n🔱 TIKLA 👉 {link}\n\n📛 SESİ AÇ 'a tıklamayı unutma")
             except Exception as e:
                 print(f"Hata: {kanal}")
             print("Başarılı!")
