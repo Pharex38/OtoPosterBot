@@ -15,6 +15,11 @@ db = cluster["OtoPost"]
 collection = db["Kanallar"]
 bot = telebot.TeleBot(botapi)
 print("Başlıyor")
+
+class usre:
+    def __init__(self):
+        self.api = None
+        self.kanal = None
     
 @bot.message_handler(commands=['start'])
 def start(message):
@@ -53,19 +58,22 @@ def kayit(message):
 def apikayit(message):
     token = message.text
     chat = message.chat.id
+    usre.api = token
     msg = bot.send_message(chat, "API kaydedildi. Kanal ID gönderin lütfen.")
     bot.register_next_step_handler(msg, kanalkayit)
 
 def kanalkayit(message):
+    chat = message.chat.id
     kanal = message.text
+    usre.kanal = kanal
     user = message.from_user.id
     bot.send_message(chat,"Tamamlamdı")
-    key = {"_id": user, "token": token, "kanal": kanal}
+    key = {"_id": user, "token": usre.api, "kanal": usre.kanal}
     bnb = collection.find_one({"_id": user})
     if bnb == None:
         collection.insert_one(key)
     else:
-        collection.update_one({"_id": user}, {"$set":{"token": mesaj[0], "kanal": mesaj[1]}})
+        collection.update_one({"_id": user}, {"$set":{"token": usre.api, "kanal": usre.kanal}})
     
     
 """def kaydet (message):
