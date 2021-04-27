@@ -23,11 +23,24 @@ def start(message):
     chat = message.chat.id
     bot.send_message(chat, "Merhaba!\n\n*Ne İşe Yarıyor?*\nBu bot [Link Mahzeni'nde](https://t.me/joinchat/UYu8q0gBTUdUudDL) paylaşılan postların linklerini otomatik olarak kısaltıp sizin kanalınıza iletir.\n\n*Nasıl Kullanılır?*\n1. Adım: Botu kanlınıza yönetici olarak ekleyin. \n2. Adım: API adresinizi ve Kanal ID girin. \n-/kaydet TRLINK_API KANAL_ID \n3. Adım: Kanalınzda /onayla yazın.\n4. Adım: Keyfini çıkarın.\n\n_NOT: Kanalınızın ID numarasını bilmiyorsanız kanaldan bota bir post iletin bot size söyleyecek._", parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True)
 
+@bot.message_handler(commands=['durdur'])
+def durdur(message):
+    chat = message.chat.id
+    user = message.from_user.id
+    print(chat)
+    collection.remove({"_id": user}, True)
+    bot.send_message(chat, "Kanalınız Silindi!")
+
 @bot.channel_post_handler(commands=['onayla'])
 def post(message):
     chat = message.chat.id
+    mid = message.id
+    mids = mid+1
     print(chat)
     bot.send_message(chat, "Tamamdır!")
+    time.sleep(1)
+    bot.delete_message(chat, mid)
+    bot.delete_message(chat, mids)
 
 @bot.message_handler(commands=['kaydet'])
 def kaydet (message):
@@ -63,7 +76,6 @@ def aydialma(message):
 @bot.channel_post_handler(content_types=['photo'])
 def poster(message):
     chat = message.chat.id
-    print(chat)
     if chat == -1001368112299 or chat == -1001352123979:
         print(f"başlıyor ")
         mesaj = message.caption
@@ -95,7 +107,6 @@ def poster(message):
 @bot.channel_post_handler(content_types=['video'])
 def poster(message):
     chat = message.chat.id
-    print(chat)
     if chat == -1001368112299 or chat == -1001352123979:
         print(f"başlıyor ")
         mesaj = message.caption
@@ -121,13 +132,5 @@ def poster(message):
             except Exception as e:
                 print(f"Hata: {kanal}")
             print("Başarılı!")
-
-@bot.message_handler(commands=['sil'])
-def durdur(message):
-    chat = message.chat.id
-    user = message.from_user.id
-    print(chat)
-    collection.remove({"_id": user}, True)
-    bot.send_message(chat, "Kanalınız Silindi!")
 
 bot.polling()
