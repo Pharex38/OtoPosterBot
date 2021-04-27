@@ -23,7 +23,7 @@ print("Başlıyor")
 @bot.message_handler(commands=['start'])
 def start(message):
     chat = message.chat.id
-    bot.send_message(chat, "Merhaba!\n\n**Ne İşe Yarıyor?**\nBu bot [Link Mahzeni'nde](https://t.me/joinchat/UYu8q0gBTUdUudDL) paylaşılan postların linklerini otomatik olarak kısaltıp sizin kanalınıza iletir.\n\n**Nasıl Kullanılır?**\n1. Adım: Botu kanlınıza yönetici olarak ekleyin. \n2. Adım: API adresinizi ve Kanal ID girin. \n-/kaydet TRLINK_API KANAL_ID \n3. Adım: Kanalınzda /onayla yazın.\n4. Adım: Keyfini çıkarın.\n\n__NOT: Kanalınızın ID numarasını bilmiyorsanız kanaldan bota bir post iletin bot size söyleyecek.__", parse_mode=ParseMode.MARKDOWN)
+    bot.send_message(chat, "Merhaba!\n\n*Ne İşe Yarıyor?*\nBu bot [Link Mahzeni'nde](https://t.me/joinchat/UYu8q0gBTUdUudDL) paylaşılan postların linklerini otomatik olarak kısaltıp sizin kanalınıza iletir.\n\n*Nasıl Kullanılır?*\n1. Adım: Botu kanlınıza yönetici olarak ekleyin. \n2. Adım: API adresinizi ve Kanal ID girin. \n-/kaydet TRLINK_API KANAL_ID \n3. Adım: Kanalınzda /onayla yazın.\n4. Adım: Keyfini çıkarın.\n\n_NOT: Kanalınızın ID numarasını bilmiyorsanız kanaldan bota bir post iletin bot size söyleyecek._", parse_mode=ParseMode.MARKDOWN)
 
 @bot.channel_post_handler(commands=['onayla'])
 def post(message):
@@ -74,6 +74,7 @@ def poster(message):
     chat = message.chat.id
     print(chat)
     if chat == -1001368112299 or chat == -1001352123979:
+        print(f"başlıyor ")
         mesaj = message.caption
         mesaj = mesaj.split("KTE: ")
         mesaja = mesaj[1].split("\n\n")
@@ -86,9 +87,10 @@ def poster(message):
         try:
             medya = message.video
             medya = medya['file_id']
-        except:
+        except Exception as e:
             medya = message.photo
             medya = medya['file_id']
+            print(e)
             for hesap in binb:
                 print(hesap)
                 token = hesap['token']
@@ -114,7 +116,7 @@ def poster(message):
                 except Exception as e:
                     print(e)
                     print(kanal)
-            print("Başarılı!")
+            bot.send_message(chat, "Başarılı!")
 
 
 
