@@ -26,8 +26,12 @@ def durdur(message):
     chat = message.chat.id
     user = message.from_user.id
     print(chat)
-    collection.remove({"_id": user}, True)
-    bot.reply_to(message, "Kanalınız Silindi!")
+    try:
+        collection.remove({"_id": user}, True)
+    except:
+        bot.reply_to(message, "Henüz bir kanal kaydetmemişsiniz."
+    else:
+        bot.reply_to(message, "Kanalınız Silindi!")
 
 @bot.channel_post_handler(commands=['onayla'])
 def post(message):
