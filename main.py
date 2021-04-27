@@ -69,7 +69,7 @@ def kanalkayit(message):
         bot.send_message(chat, "Lütfen kanaldan herhangi bir gönderi iletin.")
         return
     kanal = message.forward_from_chat.id
-    usre.kanal = kanal
+    usre.kanal = str(kanal)
     user = message.from_user.id
     bot.send_message(chat,"Tamamlamdı")
     key = {"_id": user, "token": usre.api, "kanal": usre.kanal}
