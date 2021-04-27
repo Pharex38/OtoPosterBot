@@ -28,7 +28,7 @@ def start(message):
 *✨ Merhaba* {}!
 
 ❔*Ne İşe Yarıyor?*
-_Bu bot [Link Mahzeni'nde](https://t.me/joinchat/UYu8q0gBTUdUudDL) paylaşılan postların linklerini otomatik olarak kısaltıp sizin kanalınıza iletir._
+_Bu bot_ [Link Mahzeni'nde](https://t.me/joinchat/UYu8q0gBTUdUudDL) _paylaşılan postların linklerini otomatik olarak kısaltıp sizin kanalınıza iletir._
 
 ❔*Nasıl Kullanılır?*
 _1. Adım: Botu kanlınıza yönetici olarak ekleyin.
