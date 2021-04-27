@@ -24,12 +24,12 @@ collection = db["Kanallar"]
 bot = telebot.TeleBot("botapi")
 print("Başlıyor")
     
-@bot.message_handler(commands=['start']))
+@bot.message_handler(commands=['start'])
 def start(message):
     chat = message.chat_id
     bot.send_message(chat, "Merhaba!\n\n**Ne İşe Yarıyor?**\nBu bot [Link Mahzeni'nde](https://t.me/joinchat/UYu8q0gBTUdUudDL) paylaşılan postların linklerini otomatik olarak kısaltıp sizin kanalınıza iletir.\n\n**Nasıl Kullanılır?**\n1. Adım: Botu kanlınıza yönetici olarak ekleyin. \n2. Adım: API adresinizi ve Kanal ID girin. \n-/kaydet TRLINK_API KANAL_ID \n3. Adım: Kanalınzda /onayla yazın.\n4. Adım: Keyfini çıkarın.\n\n__NOT: Kanalınızın ID numarasını bilmiyorsanız kanaldan bota bir post iletin bot size söyleyecek.__")
 
-@bot.channel_post_handler(commands=['onayla']))
+@bot.channel_post_handler(commands=['onayla'])
 async def post(message):
     chat = message.chat_id
     print(chat)
