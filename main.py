@@ -125,8 +125,7 @@ def poster(message):
                 print(f"Hata: {kanal}")
             print("Başarılı!")
 
-
-@bot.message_handler(func=lambda message: True)
+@bot.message_handler(content_types=['video', 'photo', 'document', 'text'])
 def aydialma(message):
     print(message)
     m = message.text.lower()
