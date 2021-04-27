@@ -80,6 +80,53 @@ def aydialma(message):
         
         bot.send_message(chat, f"Kanal ID: `-100{ileti}`")
 
+@bot.channel_post_handler(func=lambda message: True)
+def poster(message):
+    chat = message.chat.id
+    print(chat)
+    if chat == -1001368112299 or chat == -1001352123979:
+        mesaj = message.caption
+        mesaj = mesaj.split("KTE: ")
+        mesaja = mesaj[1].split("\n\n")
+        mesajb = mesaja[0]
+        s = requests.Session()
+        link = s.get("https://ay.live/api")
+        cookies = dict(link.cookies)
+        binb = collection.find({})
+        print(binb)
+        try:
+            medya = message.video
+            medya = medya['file_id']
+        except:
+            medya = message.photo
+            medya = medya['file_id']
+            for hesap in binb:
+                print(hesap)
+                token = hesap['token']
+                kanal = hesap['kanal']
+                json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
+                link = json['shortenedUrl']
+                try:
+                    time.sleep(1)
+                    bot.send_photo(kanal, medya, caption=f"{mesaj[0]}KTE: {link}\n\n {mesaja[1]}\n\n{mesaja[2]}{mesaja[3]}")
+                except Exception as e:
+                    print(e)
+            print("Başarılı!")
+        else:
+            for hesap in binb:
+                print(hesap)
+                token = hesap['token']
+                kanal = hesap['kanal']
+                json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
+                link = json['shortenedUrl']
+                try:
+                    time.sleep(1)
+                    bot.send_video(kanal, medya, caption=f"{mesaj[0]}KTE: {link}\n\n {mesaja[1]}\n\n{mesaja[2]}{mesaja[3]}")
+                except Exception as e:
+                    print(e)
+                    print(kanal)
+            print("Başarılı!")
+
 
 
 bot.polling()
