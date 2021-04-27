@@ -2,8 +2,7 @@ import requests
 from requests import get
 from os import environ
 import asyncio
-import time
-from asyncio import sleep
+from time import sleep
 from pymongo import MongoClient
 import telebot
 
@@ -13,7 +12,7 @@ mongo = environ['MONGO']
 cluster = MongoClient(mongo)
 db = cluster["OtoPost"]
 collection = db["Kanallar"]
-bot = telebot.TeleBot(botapi)
+bot = telebot.TeleBot(botapi,parse_mode='MarkDown')
 print("Başlıyor")
 
 class usre:
@@ -24,7 +23,24 @@ class usre:
 @bot.message_handler(commands=['start'])
 def start(message):
     chat = message.chat.id
-    bot.send_message(chat, "Merhaba!\n\n*Ne İşe Yarıyor?*\nBu bot [Link Mahzeni'nde](https://t.me/joinchat/UYu8q0gBTUdUudDL) paylaşılan postların linklerini otomatik olarak kısaltıp sizin kanalınıza iletir.\n\n*Nasıl Kullanılır?*\n1. Adım: Botu kanlınıza yönetici olarak ekleyin. \n2. Adım: /kaydet komutunu kullanarak bilgilerinizi kaydedin. \n3. Adım: Kanalınzda /onayla yazın.\n4. Adım: Keyfini çıkarın.\n\nBotu durdurmak için /sil yazabilirsiniz", parse_mode='MarkDown', disable_web_page_preview=True)
+    mention = "@"+message.from_user.username if message.from_user.username else message.from_user.first_name
+    bot.send_message(chat, """
+*✨ Merhaba* {}!
+
+❔*Ne İşe Yarıyor?*
+_Bu bot [Link Mahzeni'nde](https://t.me/joinchat/UYu8q0gBTUdUudDL) paylaşılan postların linklerini otomatik olarak kısaltıp sizin kanalınıza iletir._
+
+❔*Nasıl Kullanılır?*
+_1. Adım: Botu kanlınıza yönetici olarak ekleyin.
+2. Adım: /kaydet komutunu kullanarak bilgilerinizi kaydedin.
+3. Adım: Kanalınzda /onayla yazın.
+4. Adım: Keyfini çıkarın._
+
+*❤️ Yapımcı & Sahip : @pharex
+👨🏻‍🔧 Fix & Eklentiler : @bberc*
+
+`👉🏻Botu durdurmak için` /sil `yazabilirsiniz`
+""".format(mention), disable_web_page_preview=True)
 
 @bot.message_handler(commands=['sil'])
 def durdur(message):
@@ -34,9 +50,9 @@ def durdur(message):
     try:
         collection.delete_one({"_id": user})
     except:
-        bot.reply_to(message, "Henüz bir kanal kaydetmemişsiniz.")
+        bot.reply_to(message, "*Henüz bir kanal kaydetmemişsiniz.*")
     else:
-        bot.reply_to(message, "Kanalınız Silindi!")
+        bot.reply_to(message, "*Kanalınız Silindi!*")
 
 @bot.channel_post_handler(commands=['onayla'])
 def post(message):
@@ -45,14 +61,14 @@ def post(message):
     mids = mid+1
     print(chat)
     bot.reply_to(message, "Tamamdır!")
-    time.sleep(1)
+    sleep(1)
     bot.delete_message(chat, mid)
     bot.delete_message(chat, mids)
 
 @bot.message_handler(commands=['kaydet'])
 def kayit(message):
     chat = message.chat.id
-    msg = bot.send_message(chat, "_Lütfen_ [burdan](https://tr.link/member/tools/quick) _aldığınız API adresinizi gönderin_", parse_mode='MarkDown')
+    msg = bot.send_message(chat, "📝 _Lütfen_ [burdan](https://tr.link/member/tools/quick) _aldığınız API adresinizi gönderin_")
     bot.register_next_step_handler(msg, apikayit)
 
 def apikayit(message):
@@ -60,18 +76,18 @@ def apikayit(message):
     mid = message.id
     mids = mid+1
     chat = message.chat.id
-    bot.send_message(chat, "`API adresiniz kontrol ediliyor...`", parse_mode='MarkDown')
+    bot.send_message(chat, "`👁️ API adresiniz kontrol ediliyor...`", parse_mode='MarkDown')
     s = requests.Session()
     link = s.get("https://ay.live/api")
     cookies = dict(link.cookies)
     ket = s.get(f"https://tr.link/api/?api={token}&url=yourdestinationlink.com&format=text&alias=&ct=1", cookies=cookies).text
     print(ket)
     if ket == None:
-        msg = bot.edit_message_text("*Geçersiz Bir API adresi girdiniz!* _Lütfen [bu adresten](https://tr.link/member/tools/api) yeniden alın._", chat, mids, parse_mode='MarkDown')
+        msg = bot.edit_message_text("*✖️ Geçersiz Bir API adresi girdiniz!* _Lütfen [bu adresten](https://tr.link/member/tools/api) yeniden alın._", chat, mids)
         bot.register_next_step_handler(msg, apikayit)
         return
     usre.api = token
-    msg = bot.edit_message_text("*API kaydedildi!* _Kanalınızdan herhangi bir gönderi iletin._", chat, mids, parse_mode='MarkDown')
+    msg = bot.edit_message_text("*✅ API kaydedildi!* _Kanalınızdan herhangi bir gönderi iletin._", chat, mids)
     bot.register_next_step_handler(msg, kanalkayit)
 
 def kanalkayit(message):
@@ -79,7 +95,7 @@ def kanalkayit(message):
     user = message.from_user.id
     
     if not message.forward_from_chat:
-        msg = bot.send_message(chat, "Lütfen kanaldan herhangi bir gönderi iletin.")
+        msg = bot.send_message(chat, "↪️ Bunun ne olduğu hakkında bir fikrim yok! Lütfen kanaldan herhangi bir gönderi iletin.")
         bot.register_next_step_handler(msg, kanalkayit)
         return
     kanal = message.forward_from_chat.id
@@ -91,7 +107,7 @@ def kanalkayit(message):
     else:
         collection.update_one({"_id": user}, {"$set":{"token": usre.api, "kanal": usre.kanal}})
     
-    bot.send_message(chat,"*Bilgileriniz Kaydedildi.*", parse_mode='MarkDown')
+    bot.reply_to(message,"*🟢 Bilgileriniz Kaydedildi.*")
 
 @bot.channel_post_handler(content_types=['photo'])
 def poster(message):
@@ -120,7 +136,7 @@ def poster(message):
             link = json['shortenedUrl']
             print(f"{kanal} + {link} + {token}")
             try:
-                time.sleep(1)
+                sleep(1)
                 bot.send_photo(kanal, medya, caption=f"🔥 {aciklama}\n\n🔱 TIKLA 👉 {link}\n\n📛 SESİ AÇ 'a tıklamayı unutma")
             except Exception as e:
                 print(e)
@@ -135,14 +151,14 @@ def poster(message):
     if chat == -1001368112299 or chat == -1001352123979:
         print(f"başlıyor ")
         mesaj = message.caption
-        # Link tespit
+        """ Link tespit """
         sol = mesaj.find("http")
         sag = mesaj.find("\n", sol)
         mesajb = mesaj[sol:sag].strip()
-        # Açıklama tespit
+        """ Açıklama tespit """
         ason = mesaj.find("\n")
         aciklama = mesaj[:ason]
-        # Cookies
+        """    Cookies    """
         s = requests.Session()
         link = s.get("https://ay.live/api")
         cookies = dict(link.cookies)
@@ -156,14 +172,14 @@ def poster(message):
             link = json['shortenedUrl']
             print(f"{kanal} + {link} + {token}")
             try:
-                time.sleep(1)
-                bot.send_video(kanal, medya, caption=f"🔥 {aciklama}\n\n🔱 TIKLA 👉 {link}\n\n📛 SESİ AÇ 'a tıklamayı unutma")
+                sleep(1)
+                bot.send_video(kanal, medya, caption=f"🔥 {aciklama}\n\n🔱 *TIKLA* 👉 {link}\n\n*📛 SESİ AÇ 'a tıklamayı unutma*")
             except Exception as e:
-                print(f"Hata: {kanal}")
+                print(f"Hatalı Kanal: {kanal}")
             print("Başarılı!")
 
 
-bot.enable_save_next_step_handlers(delay=2)
+bot.enable_save_next_step_handlers(delay=4)
 
 bot.load_next_step_handlers()
 
