@@ -16,7 +16,7 @@ mongo = environ['MONGO']
 cluster = MongoClient(mongo)
 db = cluster["OtoPost"]
 collection = db["Kanallar"]
-bot = telebot.TeleBot(botapi, parse_mode=MARKDOWN)
+bot = telebot.TeleBot(botapi, parse_mode=ParseMode.MARKDOWN)
 print("Başlıyor")
     
 @bot.message_handler(commands=['start'])
