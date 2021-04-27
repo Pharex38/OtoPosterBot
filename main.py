@@ -78,7 +78,7 @@ def aydialma(message):
         chat = message.chat.id
         ileti = str(message.forward_from_chat.id)
         
-        bot.send_message(chat, f"Kanal ID: `-100{ileti}`")
+        bot.send_message(chat, f"Kanal ID: `{ileti}`", parse_mode=ParseMode.MARKDOWN)
 
 @bot.channel_post_handler(func=lambda message: True)
 def poster(message):
