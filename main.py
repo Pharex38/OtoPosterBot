@@ -48,7 +48,7 @@ def post(message):
 def kayit(message):
     chat = message.chat.id
     msg = bot.send_message(chat, "_Lütfen_ [burdan](https://tr.link/member/tools/quick) _aldığınız API adresinizi gönderin_", parse_mode='MarkDown')
-    bot.register_next_step_handler(msg, process_age_step)
+    bot.register_next_step_handler(msg, apikayit)
 
 def apkayit(message):
     token = message.text
