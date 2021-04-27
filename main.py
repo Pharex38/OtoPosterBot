@@ -17,19 +17,19 @@ api_id = environ['API_ID']
 api_hash = environ['API_HASH']
 botapi = environ['BOT_TOKEN'] 
 mongo = environ['MONGO']
-bot = TelegramClient("Bot", api_id, api_hash).start(bot_token=botapi)
+#bot = TelegramClient("Bot", api_id, api_hash).start(bot_token=botapi)
 cluster = MongoClient(mongo)
 db = cluster["OtoPost"]
 collection = db["Kanallar"]
-
+bot = telebot.TeleBot("botapi")
 print("Başlıyor")
     
-@bot.on(events.NewMessage(pattern='(?i).*/start'))
-async def start(message):
+@bot.message_handler(commands=['start']))
+def start(message):
     chat = message.chat_id
-    await bot.send_message(chat, "Merhaba!\n\n**Ne İşe Yarıyor?**\nBu bot [Link Mahzeni'nde](https://t.me/joinchat/UYu8q0gBTUdUudDL) paylaşılan postların linklerini otomatik olarak kısaltıp sizin kanalınıza iletir.\n\n**Nasıl Kullanılır?**\n1. Adım: Botu kanlınıza yönetici olarak ekleyin. \n2. Adım: API adresinizi ve Kanal ID girin. \n-/kaydet TRLINK_API KANAL_ID \n3. Adım: Kanalınzda /onayla yazın.\n4. Adım: Keyfini çıkarın.\n\n__NOT: Kanalınızın ID numarasını bilmiyorsanız kanaldan bota bir post iletin bot size söyleyecek.__")
+    bot.send_message(chat, "Merhaba!\n\n**Ne İşe Yarıyor?**\nBu bot [Link Mahzeni'nde](https://t.me/joinchat/UYu8q0gBTUdUudDL) paylaşılan postların linklerini otomatik olarak kısaltıp sizin kanalınıza iletir.\n\n**Nasıl Kullanılır?**\n1. Adım: Botu kanlınıza yönetici olarak ekleyin. \n2. Adım: API adresinizi ve Kanal ID girin. \n-/kaydet TRLINK_API KANAL_ID \n3. Adım: Kanalınzda /onayla yazın.\n4. Adım: Keyfini çıkarın.\n\n__NOT: Kanalınızın ID numarasını bilmiyorsanız kanaldan bota bir post iletin bot size söyleyecek.__")
 
-@bot.on(events.NewMessage(pattern='(?i).*/onayla'))
+@bot.channel_post_handler(commands=['onayla']))
 async def post(message):
     chat = message.chat_id
     print(chat)
