@@ -85,7 +85,10 @@ def poster(message):
         binb = collection.find({})
         print(binb)
         try:
-            medya = message.video
+            medya = message.video.file_id
+            print(medya)
+            medya = message.file_id
+            print(medya)
             medya = medya['file_id']
         except Exception as e:
             medya = message.photo
