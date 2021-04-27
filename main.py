@@ -46,17 +46,17 @@ def post(message):
 
 @bot.message_handler(commands=['kaydet'])
 def kayit(message):
-    message.reply_to("_Lütfen_ [burdan](https://tr.link/member/tools/quick) _aldığınız API adresinizi gönderin_", parse_mode='MarkDown')
+    message.reply_to(message, "_Lütfen_ [burdan](https://tr.link/member/tools/quick) _aldığınız API adresinizi gönderin_", parse_mode='MarkDown')
 
 def apkayit(message):
     token = message.text
     chat = message.chat.id
-    message.reply_to("API kaydedildi. Kanal ID gönderin lütfen.")
+    message.reply_to(message, "API kaydedildi. Kanal ID gönderin lütfen.")
 
 def kanalkayit(message):
     kanal = message.text
     user = message.from_user.id
-    message.reply_to("Tamamlamdı")
+    message.reply_to(message,"Tamamlamdı")
     key = {"_id": user, "token": token, "kanal": kanal}
     bnb = collection.find_one({"_id": user})
     if bnb == None:
