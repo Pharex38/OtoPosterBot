@@ -1,4 +1,3 @@
-
 import requests
 from requests import get
 from os import environ
@@ -21,7 +20,7 @@ print("Başlıyor")
 @bot.message_handler(commands=['start'])
 def start(message):
     chat = message.chat.id
-    bot.send_message(chat, "Merhaba!\n\n*Ne İşe Yarıyor?*\nBu bot [Link Mahzeni'nde](https://t.me/joinchat/UYu8q0gBTUdUudDL) paylaşılan postların linklerini otomatik olarak kısaltıp sizin kanalınıza iletir.\n\n*Nasıl Kullanılır?*\n1. Adım: Botu kanlınıza yönetici olarak ekleyin. \n2. Adım: API adresinizi ve Kanal ID girin. \n-/kaydet TRLINK_API KANAL_ID \n3. Adım: Kanalınzda /onayla yazın.\n4. Adım: Keyfini çıkarın.\n\n_NOT: Kanalınızın ID numarasını bilmiyorsanız kanaldan bota bir post iletin bot size söyleyecek._", parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True)
+    bot.send_message(chat, "Merhaba!\n\n*Ne İşe Yarıyor?*\nBu bot [Link Mahzeni'nde](https://t.me/joinchat/UYu8q0gBTUdUudDL) paylaşılan postların linklerini otomatik olarak kısaltıp sizin kanalınıza iletir.\n\n*Nasıl Kullanılır?*\n1. Adım: Botu kanlınıza yönetici olarak ekleyin. \n2. Adım: API adresinizi ve Kanal ID girin. \n-/kaydet TRLINK_API KANAL_ID \n3. Adım: Kanalınzda /onayla yazın.\n4. Adım: Keyfini çıkarın.\n\n_NOT: Kanalınızın ID numarasını bilmiyorsanız kanaldan bota bir post iletin bot size söyleyecek._", parse_mode='MarkDown', disable_web_page_preview=True)
 
 @bot.message_handler(commands=['durdur'])
 def durdur(message):
@@ -29,7 +28,7 @@ def durdur(message):
     user = message.from_user.id
     print(chat)
     collection.remove({"_id": user}, True)
-    bot.send_message(chat, "Kanalınız Silindi!")
+    bot.reply_to(message, "Kanalınız Silindi!")
 
 @bot.channel_post_handler(commands=['onayla'])
 def post(message):
@@ -37,7 +36,7 @@ def post(message):
     mid = message.id
     mids = mid+1
     print(chat)
-    bot.send_message(chat, "Tamamdır!")
+    bot.reply_to(message, "Tamamdır!")
     time.sleep(1)
     bot.delete_message(chat, mid)
     bot.delete_message(chat, mids)
@@ -48,7 +47,7 @@ def kaydet (message):
     cid = message.chat.id
     user = message.from_user.id
     if len(mesaj) < 2:
-        bot.send_message(cid, "Yanlış kullanım! \n\n-/kaydet TRLINK_API KANAL_ID")
+        bot.reply_to(message, "Yanlış kullanım! \n\n-/kaydet TRLINK_API KANAL_ID")
         return
     key = {"_id": user, "token": mesaj[0], "kanal": mesaj[1]}
     bnb = collection.find_one({"_id": user})
@@ -62,14 +61,13 @@ def kaydet (message):
 
 @bot.message_handler(func=lambda message: True)
 def aydialma(message):
+    m = message.text
     if message.chat.type == "private":
         chat = message.chat.id
-        try:
-            ileti = message.forward_from_chat.id
-        except:
-            pass
-        else:
-            bot.send_message(chat, f"Kanal ID: `{ileti}`", parse_mode=ParseMode.MARKDOWN)
+        if message.forward_from_chat:
+            bot.send_message(chat, f"Kanal ID: `{}`".format(message.forward_from_chat.id), parse_mode='MarkDown')
+        elif m.lower() == 'sa':
+            bot.reply_to(message,'Ase')
     else:
         pass
 
