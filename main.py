@@ -69,7 +69,7 @@ def aydialma(message):
         
         bot.send_message(chat, f"Kanal ID: `{ileti}`", parse_mode=ParseMode.MARKDOWN)
 
-@bot.channel_post_handler(content_types=['audio', 'document', 'photo', 'video'])
+@bot.channel_post_handler(content_types=['photo'])
 def poster(message):
     chat = message.chat.id
     print(chat)
@@ -84,43 +84,53 @@ def poster(message):
         cookies = dict(link.cookies)
         binb = collection.find({})
         print(binb)
-        try:
-            medya = message.video.file_id
-            print(medya)
-            medya = message.file_id
-            print(medya)
-            medya = medya['file_id']
-        except Exception as e:
-            medya = message.photo
-            medya = medya['file_id']
-            print(e)
-            for hesap in binb:
-                print(hesap)
-                token = hesap['token']
-                kanal = hesap['kanal']
-                json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
-                link = json['shortenedUrl']
-                try:
-                    time.sleep(1)
-                    bot.send_photo(kanal, medya, caption=f"{mesaj[0]}KTE: {link}\n\n {mesaja[1]}\n\n{mesaja[2]}{mesaja[3]}")
-                except Exception as e:
-                    print(e)
+        medya = message.photo.file_id
+        
+        for hesap in binb:
+            print(hesap)
+            token = hesap['token']
+            kanal = hesap['kanal']
+            json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
+            link = json['shortenedUrl']
+            try:
+                time.sleep(1)
+                bot.send_photo(kanal, medya, caption=f"{mesaj[0]}KTE: {link}\n\n {mesaja[1]}\n\n{mesaja[2]}{mesaja[3]}")
+            except Exception as e:
+                print(e)
+        print("Başarılı!")
+        
+        bot.send_message(chat, "Başarılı!")
+
+@bot.channel_post_handler(content_types=['video'])
+def poster(message):
+    chat = message.chat.id
+    print(chat)
+    if chat == -1001368112299 or chat == -1001352123979:
+        print(f"başlıyor ")
+        mesaj = message.caption
+        mesaj = mesaj.split("KTE: ")
+        mesaja = mesaj[1].split("\n\n")
+        mesajb = mesaja[0]
+        s = requests.Session()
+        link = s.get("https://ay.live/api")
+        cookies = dict(link.cookies)
+        binb = collection.find({})
+        print(binb)
+        
+        medya = message.video.file_id
+        print(medya)
+        for hesap in binb:
+            print(hesap)
+            token = hesap['token']
+            kanal = hesap['kanal']
+            json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
+            link = json['shortenedUrl']
+            try:
+                time.sleep(1)
+                bot.send_video(kanal, medya, caption=f"{mesaj[0]}KTE: {link}\n\n {mesaja[1]}\n\n{mesaja[2]}{mesaja[3]}")
+            except Exception as e:
+                print(e)
             print("Başarılı!")
-        else:
-            for hesap in binb:
-                print(hesap)
-                token = hesap['token']
-                kanal = hesap['kanal']
-                json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
-                link = json['shortenedUrl']
-                try:
-                    time.sleep(1)
-                    bot.send_video(kanal, medya, caption=f"{mesaj[0]}KTE: {link}\n\n {mesaja[1]}\n\n{mesaja[2]}{mesaja[3]}")
-                except Exception as e:
-                    print(e)
-                    print(kanal)
-            bot.send_message(chat, "Başarılı!")
-
-
+        
 
 bot.polling()
