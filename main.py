@@ -65,7 +65,7 @@ def aydialma(message):
     if message.chat.type == "private":
         chat = message.chat.id
         if message.forward_from_chat:
-            bot.send_message(chat, f"Kanal ID: `{}`".format(message.forward_from_chat.id), parse_mode='MarkDown')
+            bot.send_message(chat, "Kanal ID: `{}`".format(message.forward_from_chat.id), parse_mode='MarkDown')
         elif m == 'sa':
             bot.reply_to(message,'Ase')
     else:
