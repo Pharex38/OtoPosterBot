@@ -35,7 +35,7 @@ def post(message):
 def kaydet (message):
     mesaj = message.text.split(None, 2)[1:]
     cid = message.chat.id
-    user = message.sender_id
+    user = message.from_user.id
     if len(mesaj) < 2:
         bot.send_message(cid, "Yanlış kullanım! \n\n-/kaydet TRLINK_API KANAL_ID")
         return
