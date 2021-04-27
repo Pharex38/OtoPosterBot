@@ -27,7 +27,7 @@ def durdur(message):
     user = message.from_user.id
     print(chat)
     try:
-        collection.remove({"_id": user}, True)
+        collection.delete_one({"_id": user})
     except:
         bot.reply_to(message, "Henüz bir kanal kaydetmemişsiniz.")
     else:
