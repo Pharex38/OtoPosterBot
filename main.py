@@ -48,7 +48,9 @@ def kaydet (message):
     if len(mesaj) < 2:
         bot.reply_to(message, "Yanlış kullanım! \n\n-/kaydet TRLINK_API KANAL_ID")
         return
-    key = {"_id": user, "token": mesaj[0], "kanal": mesaj[1]}
+    if not mesaj[1].startswith("-10"):
+        kanal = f"-100{mesaj[1]}"
+    key = {"_id": user, "token": mesaj[0], "kanal": kanal}
     bnb = collection.find_one({"_id": user})
     if bnb == None:
         collection.insert_one(key)
