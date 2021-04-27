@@ -126,6 +126,7 @@ def poster(message):
 def durdur(message):
     chat = message.chat.id
     user = message.from_user.id
+    print(chat)
     collection.remove({"_id": user}, True)
     bot.send_message(chat, "Kanalınız Silindi!")
 
