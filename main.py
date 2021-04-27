@@ -6,7 +6,6 @@ import time
 from asyncio import sleep
 from pymongo import MongoClient
 import telebot
-from telegram import ParseMode
 
 botapi = environ['BOT_TOKEN'] 
 mongo = environ['MONGO']
@@ -58,18 +57,6 @@ def kaydet (message):
 
     
     bot.send_message(cid, "Kaydedildi!")
-
-@bot.message_handler(func=lambda message: True)
-def aydialma(message):
-    m = message.text.lower()
-    if message.chat.type == "private":
-        chat = message.chat.id
-        if message.forward_from_chat:
-            bot.send_message(chat, "Kanal ID: `{}`".format(message.forward_from_chat.id), parse_mode='MarkDown')
-        elif m == 'sa':
-            bot.reply_to(message,'Ase')
-    else:
-        pass
 
 @bot.channel_post_handler(content_types=['photo'])
 def poster(message):
@@ -130,5 +117,20 @@ def poster(message):
             except Exception as e:
                 print(f"Hata: {kanal}")
             print("Başarılı!")
+
+
+@bot.message_handler(func=lambda message: True)
+def aydialma(message):
+    m = message.text.lower()
+    if message.chat.type == "private":
+        chat = message.chat.id
+        if message.forward_from_chat:
+            bot.send_message(chat, "Kanal ID: `{}`".format(message.forward_from_chat.id), parse_mode='MarkDown')
+        elif m == 'sa':
+            bot.reply_to(message,'Ase')
+    else:
+        pass
+
+
 
 bot.polling()
