@@ -47,12 +47,14 @@ def post(message):
 @bot.message_handler(commands=['kaydet'])
 def kayit(message):
     chat = message.chat.id
-    bot.send_message(chat, "_Lütfen_ [burdan](https://tr.link/member/tools/quick) _aldığınız API adresinizi gönderin_", parse_mode='MarkDown')
+    msg = bot.send_message(chat, "_Lütfen_ [burdan](https://tr.link/member/tools/quick) _aldığınız API adresinizi gönderin_", parse_mode='MarkDown')
+    bot.register_next_step_handler(msg, process_age_step)
 
 def apkayit(message):
     token = message.text
     chat = message.chat.id
-    bot.send_message(chat, "API kaydedildi. Kanal ID gönderin lütfen.")
+    msg = bot.send_message(chat, "API kaydedildi. Kanal ID gönderin lütfen.")
+    bot.register_next_step_handler(msg, kanalkayit)
 
 def kanalkayit(message):
     kanal = message.text
@@ -64,6 +66,7 @@ def kanalkayit(message):
         collection.insert_one(key)
     else:
         collection.update_one({"_id": user}, {"$set":{"token": mesaj[0], "kanal": mesaj[1]}})
+    
     
 """def kaydet (message):
     mesaj = message.text.split(None, 2)[1:]
@@ -154,6 +157,8 @@ def aydialma(message):
     else:
         pass
 
+bot.enable_save_next_step_handlers(delay=2)
 
+bot.load_next_step_handlers()
 
 bot.polling()
