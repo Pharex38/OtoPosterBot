@@ -67,7 +67,7 @@ def kanalkayit(message):
     
     if not message.forward_from_chat:
         bot.send_message(chat, "Lütfen kanaldan herhangi bir gönderi iletin.")
-        return
+        return kanalkayit
     kanal = message.forward_from_chat.id
     usre.kanal = str(kanal)
     user = message.from_user.id
