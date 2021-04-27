@@ -57,9 +57,17 @@ def kayit(message):
 
 def apikayit(message):
     token = message.text
+    mid = message.id
+    mids = mid+1
     chat = message.chat.id
+    bot.send_message(chat, "`API adresiniz kontrol ediliyor...`")
+    key = get(f"https://tr.link/api/?api={token}&url=yourdestinationlink.com&alias=&format=text&ct=1").text
+    if key == "":
+        msg = bot.edit_message_text(chat, mids, "Geçersiz Bir API adresi girdiniz! Lütfen [bu adresten](https://tr.link/member/tools/api) yeniden alın.", parse_mode='MarkDown')
+        bot.register_next_step_handler(msg, apikayit)
+        return
     usre.api = token
-    msg = bot.send_message(chat, "API kaydedildi. Kanal ID gönderin lütfen.")
+    msg = bot.edit_message_text(chat, mids,"API kaydedildi. Kanal ID gönderin lütfen.")
     bot.register_next_step_handler(msg, kanalkayit)
 
 def kanalkayit(message):
