@@ -115,6 +115,8 @@ def poster(message):
             kanal = hesap['kanal']
             json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
             link = json['shortenedUrl']
+            print(token)
+            print(kanal)
             try:
                 time.sleep(1)
                 bot.send_photo(kanal, medya, caption=f"{mesaj[0]}KTE: {link}\n\n {mesaja[1]}\n\n{mesaja[2]}{mesaja[3]}")
@@ -147,6 +149,8 @@ def poster(message):
             kanal = hesap['kanal']
             json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
             link = json['shortenedUrl']
+            print(token)
+            print(kanal)
             try:
                 time.sleep(1)
                 bot.send_video(kanal, medya, caption=f"{mesaj[0]}KTE: {link}\n\n {mesaja[1]}\n\n{mesaja[2]}{mesaja[3]}")
