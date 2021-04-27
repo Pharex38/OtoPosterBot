@@ -97,6 +97,7 @@ def poster(message):
                 bot.send_photo(kanal, medya, caption=f"{mesaj[0]}KTE: {link}\n\n {mesaja[1]}\n\n{mesaja[2]}{mesaja[3]}")
             except Exception as e:
                 print(e)
+                print(f"Hata {kanal}")
         print("Başarılı!")
         
         bot.send_message(chat, "Başarılı!")
