@@ -146,11 +146,11 @@ def poster(message):
         binb = collection.find({})
         print(binb)
         """ Dosya tespit """
-        ret_msg = message.photo
-        fileinfo = bot.get_file(ret_msg.file_id)
+        medya = message.photo[0].file_id
+        """fileinfo = bot.get_file(ret_msg.file_id)
         downloaded = bot.download_file(fileinfo.file_path)
         with open('icerik.png', 'wb') as new_file:
-            new_file.write(downloaded)
+            new_file.write(downloaded)"""
         for hesap in binb:
             token = hesap['token']
             kanal = -1001190898326
@@ -172,7 +172,7 @@ def poster(message):
                     sablon = f"{sal[0]}{aciklama}{sal[1]}{link}{soll[1]}"
                 
                 sleep(1)
-                bot.send_photo(kanal, 'icerik.png', caption=sablon)
+                bot.send_photo(kanal, medya, caption=sablon)
             except Exception as e:
                 print(e)
                 print(f"Hata {kanal}")
