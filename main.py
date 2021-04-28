@@ -189,6 +189,7 @@ def poster(message):
         print(binb)
         medya = message.video.file_id
         for hesap in binb:
+            sablon = hesap['sablon']
             token = hesap['token']
             kanal = -1001190898326
             json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
