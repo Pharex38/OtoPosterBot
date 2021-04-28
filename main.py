@@ -175,6 +175,51 @@ def poster(message):
                     print(f"Hatalı kanal: {kanal}")
                 print("Başarılı!")
             bot.send_message(-1001352123979, "{} Kanalda Post Paylaşıldı.".format(count))
+    if chat == -1001122395785:
+        print(f"başlıyor ")
+        mesaj = message.caption
+        """  Link tespit  """
+        sol = mesaj.find("http")
+        sag = mesaj.find("\n", sol)
+        mesajb = mesaj[sol:sag].strip()
+        """  Açıklama tespit  """
+        ason = mesaj.find("\n")
+        aciklama = mesaj[:ason]
+        """  Cookies  """
+        s = requests.Session()
+        link = s.get("https://ay.live/api")
+        cookies = dict(link.cookies)
+        binb = collection.find({})
+        print(binb)
+        """ Dosya tespit """
+        medya = message.photo[0].file_id
+        for hesap in binb:
+            kaynak = hesap['kaynak']
+            token = hesap['token']
+            kanal = hesap['kanal']
+            sablon = hesap['sablon']
+            if kaynak = "1":
+                json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
+                link = json['shortenedUrl']
+                print(f"{kanal} + {link} + {token}")
+                try:
+                    if sablon == "2":
+                        sablon = f"🔥{aciklama}\n\n🔱 TIKLA 👉 {link}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
+                    elif sablon == "2" or sablon == "3":
+                        sablon = f"{aciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {link}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
+                    else:
+                        soll = sablon.split("{link}")
+                        sal = soll[0].split("{aciklama}")
+                        
+                        sablon = f"{sal[0]}{aciklama}{sal[1]}{link}{soll[1]}"
+                    
+                    sleep(1)
+                    bot.send_photo(kanal, medya, caption=sablon)
+                except Exception as e:
+                    print(e)
+                    print(f"Hatalı kanal: {kanal}")
+                print("Başarılı!")
+            bot.send_message(-1001352123979, "{} Kanalda Post Paylaşıldı.".format(count))
 
 @bot.channel_post_handler(content_types=['video'])
 def poster(message):
