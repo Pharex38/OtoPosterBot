@@ -253,7 +253,7 @@ def poster(message):
                     print(e)
                     print(f"Hatalı kanal: {kanal}")
                 print("Başarılı!")
-            bot.send_message(-1001352123979, "{} Kanalda Post Paylaşıldı.".format(count))
+        bot.send_message(-1001352123979, "{} Kanalda Post Paylaşıldı.".format(count))
 
 @bot.channel_post_handler(content_types=['video'])
 def poster(message):
