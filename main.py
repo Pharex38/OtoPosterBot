@@ -150,7 +150,7 @@ def kaynake(message):
         msg = bot.send_message(chat, "Lütfen istediğiniz kaynağın numarasını gönderin.")
         bot.register_next_step_handler(msg, kaynake)
     bnb = collection.find_one({"_id": user})
-    if bnb = None:
+    if bnb == None:
         bot.send_message(chat, "Lütfen kaynak seçmeden önce /kaydet ile bilgilerinizi kaydedin.")
     else:
         collection.update_one({"_id": user}, {"$set":{"kaynak": ktext}})
