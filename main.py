@@ -145,6 +145,7 @@ def poster(message):
         cookies = dict(link.cookies)
         binb = collection.find({})
         print(binb)
+        print(str(message.photo))
         medya = message.file_id
         for hesap in binb:
             token = hesap['token']
