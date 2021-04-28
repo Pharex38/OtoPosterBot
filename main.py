@@ -39,7 +39,7 @@ _1. Adım: Botu kanlınıza yönetici olarak ekleyin.
 *❤️ Geliştirici & Sahip : @Pharex
 👨🏻‍🔧 Fix & Eklentiler : @bberc*
 
-_👉 Post şablonunu değiştirmek için /sablon yazabilirsiniz.
+_👉 Post şablonunu değiştirmek için /sablon yazabilirsiniz._
 `👉🏻Botu durdurmak için` /sil `yazabilirsiniz`
 """.format(mention), disable_web_page_preview=True)
 
