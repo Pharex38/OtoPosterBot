@@ -36,7 +36,7 @@ _1. Adım: Botu kanlınıza yönetici olarak ekleyin.
 3. Adım: Kanalınzda /onayla yazın.
 4. Adım: Keyfini çıkarın._
 
-*❤️ Geliştiri & Sahip : @Pharex
+*❤️ Geliştirici & Sahip : @Pharex
 👨🏻‍🔧 Fix & Eklentiler : @bberc*
 
 `👉🏻Botu durdurmak için` /sil `yazabilirsiniz`
