@@ -145,7 +145,9 @@ def poster(message):
         cookies = dict(link.cookies)
         binb = collection.find({})
         print(binb)
-        fileinfo = bot.get_file(message.document.file_id)
+        """ Dosya tespit """
+        ret_msg = message.photo
+        fileinfo = bot.get_file(ret_msg.file_id)
         downloaded = bot.download_file(fileinfo.file_path)
         with open('icerik.png', 'wb') as new_file:
             new_file.write(downloaded)
@@ -197,7 +199,12 @@ def poster(message):
         cookies = dict(link.cookies)
         binb = collection.find({})
         print(binb)
-        medya = message.video.file_id
+        """ Dosya tespit """
+        ret_msg = message.video
+        fileinfo = bot.get_file(ret_msg.file_id)
+        downloaded = bot.download_file(fileinfo.file_path)
+        with open('icerik.png', 'wb') as new_file:
+            new_file.write(downloaded)
         for hesap in binb:
             sablon = hesap['sablon']
             sablon = str(sablon)
@@ -219,7 +226,7 @@ def poster(message):
                     
                     sablon = f"{sal[0]}{aciklama}{sal[1]}{link}{soll[1]}"
                 sleep(1)
-                bot.send_video(kanal, medya, caption=sablon)
+                bot.send_video(kanal,'icerik.png', caption=sablon)
             except Exception as e:
                 print(f"Hatalı Kanal: {kanal}")
             print("Başarılı!")
