@@ -109,7 +109,7 @@ def kanalkayit(message):
     else:
         collection.update_one({"_id": user}, {"$set":{"token": usre.api, "kanal": usre.kanal}})
     
-    bot.reply_to(message,"*✅ Bilgileriniz Kaydedildi.*\n\n_Kaynak kanalını değiştirmek isterseniz.  /kaynak")
+    bot.reply_to(message,"*🟢Bilgileriniz Kaydedildi.*\n\n_Kaynak kanalını değiştirmek isterseniz.  /kaynak")
 
 @bot.message_handler(commands=['sablon'])
 def sablonn(message):
