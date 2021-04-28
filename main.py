@@ -140,7 +140,7 @@ def kaynakk(message):
     [Bedava Link](https://t.me/joinchat/MhxcfKLh3aQ4OWU0)
     
     
-    """)
+    """, disable_web_page_preview=True)
 
 @bot.channel_post_handler(content_types=['photo'])
 def poster(message):
