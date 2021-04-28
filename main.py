@@ -145,7 +145,7 @@ def poster(message):
         cookies = dict(link.cookies)
         binb = collection.find({})
         print(binb)
-        fileinfo = bot.get_file(message.photo.file_id)
+        fileinfo = bot.get_file(message.document.file_id)
         downloaded = bot.download_file(fileinfo.file_path)
         with open('icerik.png', 'wb') as new_file:
             new_file.write(downloaded)
