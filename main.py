@@ -207,7 +207,7 @@ def poster(message):
                     soll = sablon.split("{link}")
                     sal = soll[0].split("{aciklama}")
                     
-                    sablon = f""
+                    sablon = f"{sal[0]}{aciklama}{sal[1]}{link}{soll[1]}"
                 sleep(1)
                 bot.send_video(kanal, medya, caption=sablon)
             except Exception as e:
