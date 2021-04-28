@@ -145,8 +145,10 @@ def poster(message):
         cookies = dict(link.cookies)
         binb = collection.find({})
         print(binb)
-        print(str(message.photo))
-        medya = message.file_id
+        fileinfo = bot.get_file(message.photo.file_id)
+        downloaded = bot.download_file(fileinfo.file_path)
+        with open('icerik.png', 'wb') as new_file:
+            new_file.write(downloaded)
         for hesap in binb:
             token = hesap['token']
             kanal = -1001190898326
@@ -168,7 +170,7 @@ def poster(message):
                     sablon = f"{sal[0]}{aciklama}{sal[1]}{link}{soll[1]}"
                 
                 sleep(1)
-                bot.send_photo(kanal, medya, caption=sablon)
+                bot.send_photo(kanal, 'icerik.png', caption=sablon)
             except Exception as e:
                 print(e)
                 print(f"Hata {kanal}")
