@@ -139,6 +139,8 @@ def kaynakk(message):
     
     *Kaynk No:2*
     [Bedava Link](https://t.me/joinchat/MhxcfKLh3aQ4OWU0)
+
+*❗Hepsinden atsın fütursuzca kanalımı sikmek istiyorum diyorsan 0 yaz*
     
     
     """, disable_web_page_preview=True)
@@ -186,7 +188,7 @@ def poster(message):
             token = hesap['token']
             kanal = hesap['kanal']
             sablon = hesap['sablon']
-            if kaynak == "1":
+            if kaynak == "1" or kaynak == "0":
                 json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
                 link = json['shortenedUrl']
                 print(f"{kanal} + {link} + {token}")
@@ -203,6 +205,7 @@ def poster(message):
                     
                     sleep(1)
                     bot.send_photo(kanal, medya, caption=sablon)
+                    count = count + 1
                 except Exception as e:
                     print(e)
                     print(f"Hatalı kanal: {kanal}")
@@ -235,7 +238,7 @@ def poster(message):
             token = hesap['token']
             kanal = hesap['kanal']
             print(kaynak)
-            if kaynak == "2":
+            if kaynak == "2" or kaynak == "0":
                 json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
                 link = json['shortenedUrl']
                 print(f"{kanal} + {link} + {token}")
@@ -251,10 +254,10 @@ def poster(message):
                         sablon = f"{sal[0]}{aciklama}{sal[1]}{link}{soll[1]}"
                     sleep(1)
                     bot.send_photo(kanal, medya, caption=sablon)
-                    count =+ 1
+                    count = count + 1
                 except Exception as e:
                     print(f"Hatalı Kanal: {kanal}")
-                    count =- 1
+                    
                 print("Başarılı!")
         bot.send_message(-1001352123979, "{} Kanalda Post Paylaşıldı.".format(count))
 
@@ -286,7 +289,7 @@ def poster(message):
             sablon = str(sablon)
             token = hesap['token']
             kanal = hesap['kanal']
-            if kaynak == "1":
+            if kaynak == "1" or kaynak == "0":
                 json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
                 link = json['shortenedUrl']
                 print(f"{kanal} + {link} + {token}")
@@ -305,7 +308,7 @@ def poster(message):
                     count =+ 1
                 except Exception as e:
                     print(f"Hatalı Kanal: {kanal}")
-                    count =- 1
+                    count = count + 1
                 print("Başarılı!")
             else:
                 pass
@@ -335,7 +338,7 @@ def poster(message):
             token = hesap['token']
             kanal = hesap['kanal']
             print(kaynak)
-            if kaynak == "2":
+            if kaynak == "2" or kaynak == "0":
                 json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
                 link = json['shortenedUrl']
                 print(f"{kanal} + {link} + {token}")
@@ -351,10 +354,10 @@ def poster(message):
                         sablon = f"{sal[0]}{aciklama}{sal[1]}{link}{soll[1]}"
                     sleep(1)
                     bot.send_video(kanal, medya, caption=sablon)
-                    count =+ 1
+                    count = count + 1
                 except Exception as e:
                     print(f"Hatalı Kanal: {kanal}")
-                    count =- 1
+                    
                 print("Başarılı!")
         bot.send_message(-1001352123979, "{} Kanalda Post Paylaşıldı.".format(count))
 
