@@ -145,7 +145,7 @@ def poster(message):
         cookies = dict(link.cookies)
         binb = collection.find({})
         print(binb)
-        medya = message.photo.file_id
+        medya = message.file_id
         for hesap in binb:
             token = hesap['token']
             kanal = -1001190898326
