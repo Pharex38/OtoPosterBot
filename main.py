@@ -336,8 +336,6 @@ def poster(message):
                     count =- 1
                 print("Başarılı!")
             bot.send_message(-1001352123979, "{} Kanalda Post Paylaşıldı.".format(count))
-            else:
-                pass
 
 
 bot.enable_save_next_step_handlers(delay=4)
