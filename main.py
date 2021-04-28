@@ -200,11 +200,7 @@ def poster(message):
         binb = collection.find({})
         print(binb)
         """ Dosya tespit """
-        ret_msg = message.video
-        fileinfo = bot.get_file(ret_msg.file_id)
-        downloaded = bot.download_file(fileinfo.file_path)
-        with open('icerik.png', 'wb') as new_file:
-            new_file.write(downloaded)
+        medya = message.video.file_id
         for hesap in binb:
             sablon = hesap['sablon']
             sablon = str(sablon)
