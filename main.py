@@ -182,6 +182,7 @@ def poster(message):
 
 @bot.channel_post_handler(content_types=['video'])
 def poster(message):
+    count = 0
     chat = message.chat.id
     if chat == -1001368112299 or chat == -1001352123979:
         print(f"başlıyor ")
@@ -223,9 +224,12 @@ def poster(message):
                     sablon = f"{sal[0]}{aciklama}{sal[1]}{link}{soll[1]}"
                 sleep(1)
                 bot.send_video(kanal, medya, caption=sablon)
+                count =+ 1
             except Exception as e:
                 print(f"Hatalı Kanal: {kanal}")
+                count =- 1
             print("Başarılı!")
+        bot.send_message(-1001352123979, "{} Kanalda Post Paylaşıldı.".format(count))
 
 
 bot.enable_save_next_step_handlers(delay=4)
