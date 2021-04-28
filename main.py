@@ -133,8 +133,11 @@ def kaynakk(message):
     user = message.from_user.id
     bot.send_message(chat, """*Kullanmak istediğiniz kaynak kanalınının numarasını gönderin:*
     
-    Kaynak No:1
-    [Link Mahzeni]()
+    *Kaynak No:1*
+    [Link Mahzeni](https://t.me/joinchat/UYu8q0gBTUdUudDL)
+    
+    *Kaynk No:2*
+    [Bedava Link](https://t.me/joinchat/MhxcfKLh3aQ4OWU0)
     
     
     """)
