@@ -131,7 +131,7 @@ def sabloniki(message):
 def kaynakk(message):
     chat = message.chat.id
     user = message.from_user.id
-    bot.send_message(chat, """*Kullanmak istediğiniz kaynak kanalınının numarasını gönderin:*
+    msg = bot.send_message(chat, """*Kullanmak istediğiniz kaynak kanalınının numarasını gönderin:*
     
     *Kaynak No:1*
     [Link Mahzeni](https://t.me/joinchat/UYu8q0gBTUdUudDL)
@@ -141,6 +141,20 @@ def kaynakk(message):
     
     
     """, disable_web_page_preview=True)
+    bot.register_next_step_handler(msg, kaynake)
+
+def kaynake(message):
+    ktext = message.text
+    chat = message.chat.id
+    if not ktext.isdigit():
+        msg = bot.send_message(chat, "Lütfen istediğiniz kaynağın numarasını gönderin.")
+        bot.register_next_step_handler(msg, kaynake)
+    bnb = collection.find_one({"_id": user})
+    if bnb = None:
+        bot.send_message(chat, "Lütfen kaynak seçmeden önce /kaydet ile bilgilerinizi kaydedin.")
+    else:
+        collection.update_one({"_id": user}, {"$set":{"kaynak": ktext}})
+        bot.send_message(chat, "Kaynak Kaydedildi!")
 
 @bot.channel_post_handler(content_types=['photo'])
 def poster(message):
