@@ -265,7 +265,7 @@ def poster(message):
             sablon = hesap['sablon']
             sablon = str(sablon)
             token = hesap['token']
-            kanal = hesap['kanal']
+            kanal = -1001444935707
             if kaynak == "1":
                 json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
                 link = json['shortenedUrl']
