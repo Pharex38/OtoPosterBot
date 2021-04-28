@@ -113,7 +113,7 @@ def kanalkayit(message):
 @bot.message_handler(commands=['sablon'])
 def sablonn(message):
     chat = message.chat.id
-    msg = bot.send_message(chat, "*Şablon No:1\n----------------*\n🔥{aciklama}\n\n🔱 TIKLA 👉 {link}\n\n📛 SESİ AÇ 'a tıklamayı unutma\n----------------\n\n*Şablon No:2*\n----------------\n🔴 {aciklama}\n\n❌ SILINMEDEN IZLE ❌\n\n👉 DEVAMI LİNKTE: {link}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgecmeth\n----------------\n\n*Şablon No:3*\n----------------\n{aciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {link}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06\n----------------\n\nÜstteki şablonlardan kullanmak isterseniz, istediğiniz şablonun numarasını gönderin.\n\n_Eğer kendi şablonunuzu oluşturmak isterseniz üstteki şablonlardaki gibi_ *{aciklama}* ve *{link}* _kelimelerinin bulunduğundan emin olun yoksa şablon çalışmaz_")
+    msg = bot.send_message(chat, "*Şablon No:1\n----------------*\n🔥{aciklama}\n\n🔱 TIKLA 👉 {link}\n\n📛 SESİ AÇ 'a tıklamayı unutma\n----------------\n\n*Şablon No:2*\n----------------\n{aciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {link}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06\n----------------\n\nÜstteki şablonlardan kullanmak isterseniz, istediğiniz şablonun numarasını gönderin.\n\n_Eğer kendi şablonunuzu oluşturmak isterseniz üstteki şablonlardaki gibi_ *{aciklama}* ve *{link}* _kelimelerinin bulunduğundan emin olun yoksa şablon çalışmaz_")
     bot.register_next_step_handler(msg, sabloniki)
 
 def sabloniki(message):
@@ -158,9 +158,7 @@ def poster(message):
             try:
                 if sablon == "1":
                     sablon = f"🔥{aciklama}\n\n🔱 TIKLA 👉 {link}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
-                elif sablon == "2":
-                    sablon = f"🔴 {aciklama}\n\n❌ SILINMEDEN IZLE ❌\n\n👉 DEVAMI LİNKTE: {link}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgecmeth"
-                elif sablon == "3":
+                elif sablon == "2" or sablon == "3":
                     sablon = f"{aciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {link}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
                 else:
                     soll = sablon.split("{link}")
@@ -172,7 +170,7 @@ def poster(message):
                 bot.send_photo(kanal, medya, caption=sablon)
             except Exception as e:
                 print(e)
-                print(f"Hata {kanal}")
+                print(f"Hatalı kanal: {kanal}")
             print("Başarılı!")
         bot.send_message(-1001352123979, "{} Kanalda Post Paylaşıldı.".format(count))
 
@@ -209,9 +207,7 @@ def poster(message):
             try:
                 if sablon == "1":
                     sablon = f"🔥{aciklama}\n\n🔱 TIKLA 👉 {link}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
-                elif sablon == "2":
-                    sablon = f"🔴 {aciklama}\n\n❌ SILINMEDEN IZLE ❌\n\n👉 DEVAMI LİNKTE: {link}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgecmeth"
-                elif sablon == "3":
+                elif sablon == "2" or sablon == 3:
                     sablon = f"{aciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {link}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
                 else:
                     soll = sablon.split("{link}")
