@@ -121,7 +121,7 @@ def sabloniki(message):
     chat = message.chat.id
     user = message.from_user.id
     bnb = collection.find_one({"_id": user})
-    if bnb = None:
+    if bnb == None:
         bot.send_message(chat, "Lütfen önce bir şablon kaydetmeden önce /kaydet yazarak bilgilerinizi girin!")
     else:
         collection.update_one({"_id": user}, {"$set":{"sablon": mesaj}})
