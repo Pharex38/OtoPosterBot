@@ -127,6 +127,18 @@ def sabloniki(message):
         collection.update_one({"_id": user}, {"$set":{"sablon": mesaj}})
         bot.send_message(chat, "Şablon kaydedildi!")
 
+@bot.message_handler(commands=['kaynak'])
+def kaynakk(message):
+    chat = message.chat.id
+    user = message.from_user.id
+    bot.send_message(chat, """*Kullanmak istediğiniz kaynak kanalınının numarasını gönderin:*
+    
+    Kaynak No:1
+    [Link Mahzeni]()
+    
+    
+    """)
+
 @bot.channel_post_handler(content_types=['photo'])
 def poster(message):
     chat = message.chat.id
@@ -174,6 +186,8 @@ def poster(message):
                     print(e)
                     print(f"Hatalı kanal: {kanal}")
                 print("Başarılı!")
+            else:
+                pass
             bot.send_message(-1001352123979, "{} Kanalda Post Paylaşıldı.".format(count))
     if chat == -1001122395785:
         print(f"başlıyor ")
@@ -270,7 +284,7 @@ def poster(message):
                     print(f"Hatalı Kanal: {kanal}")
                     count =- 1
                 print("Başarılı!")
-            bot.send_message(-1001352123979, "{} Kanalda Post Paylaşıldı.".format(count))
+                bot.send_message(-1001352123979, "{} Kanalda Post Paylaşıldı.".format(count))
             else:
                 pass
     elif chat == -1001122395785:
