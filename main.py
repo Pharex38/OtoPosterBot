@@ -121,7 +121,7 @@ def sabloniki(message):
     mesaj = message.text
     chat = message.chat.id
     user = message.from_user.id
-    if not mesaj.find("{link}") or not mesaj.find("{aciklama}"):
+    if mesaj.find("{link}") == -1 or mesaj.find("{aciklama}") == -1:
         msg = bot.send_message(chat, """ _❌ Lütfen mesajınızda "{link}" ve "{aciklama}" bulunduğudan emin olun._ """)
         bot.register_next_step_handler(msg, sabloniki)
         return
