@@ -132,14 +132,14 @@ def poster(message):
     if chat == -1001368112299 or chat == -1001352123979:
         print(f"başlıyor ")
         mesaj = message.caption
-        # Link tespit
+        """  Link tespit  """
         sol = mesaj.find("http")
         sag = mesaj.find("\n", sol)
         mesajb = mesaj[sol:sag].strip()
-        # Açıklama tespit
+        """  Açıklama tespit  """
         ason = mesaj.find("\n")
         aciklama = mesaj[:ason]
-        # Cookies
+        """  Cookies  """
         s = requests.Session()
         link = s.get("https://ay.live/api")
         cookies = dict(link.cookies)
@@ -154,9 +154,9 @@ def poster(message):
             link = json['shortenedUrl']
             print(f"{kanal} + {link} + {token}")
             try:
-                if sablon == 1:
+                if sablon == "1":
                     sablon = f"🔥{aciklama}\n\n🔱 TIKLA 👉 {link}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
-                elif sablon == 2:
+                elif sablon == "2":
                     sablon = f"🔴 {aciklama}\n\n❌ SILINMEDEN IZLE ❌\n\n👉 DEVAMI LİNKTE: {link}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgecmeth"
                 
                 sleep(1)
@@ -192,7 +192,7 @@ def poster(message):
             sablon = hesap['sablon']
             sablon = str(sablon)
             token = hesap['token']
-            kanal = -1001190898326
+            kanal = hesap['kanal']
             json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
             link = json['shortenedUrl']
             print(f"{kanal} + {link} + {token}")
@@ -201,9 +201,6 @@ def poster(message):
                     sablon = f"🔥{aciklama}\n\n🔱 TIKLA 👉 {link}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
                 elif sablon == "1":
                     sablon = f"🔴 {aciklama}\n\n❌ SILINMEDEN IZLE ❌\n\n👉 DEVAMI LİNKTE: {link}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgecmeth"
-                print(sablon)
-                open("sablon.txt", "w+").write(sablon)
-                sablon = open("sablon.txt", "r+").read()
                 sleep(1)
                 bot.send_video(kanal, medya, caption=sablon)
             except Exception as e:
