@@ -153,7 +153,7 @@ def poster(message):
             new_file.write(downloaded)"""
         for hesap in binb:
             token = hesap['token']
-            kanal = -1001190898326
+            kanal = hesap['kanal']
             sablon = hesap['sablon']
             json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
             link = json['shortenedUrl']
