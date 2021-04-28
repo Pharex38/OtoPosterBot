@@ -222,7 +222,7 @@ def poster(message):
                     
                     sablon = f"{sal[0]}{aciklama}{sal[1]}{link}{soll[1]}"
                 sleep(1)
-                bot.send_video(kanal,'icerik.png', caption=sablon)
+                bot.send_video(kanal, medya, caption=sablon)
             except Exception as e:
                 print(f"Hatalı Kanal: {kanal}")
             print("Başarılı!")
