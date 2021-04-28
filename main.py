@@ -101,7 +101,7 @@ def kanalkayit(message):
         return
     kanal = message.forward_from_chat.id
     usre.kanal = str(kanal)
-    key = {"_id": user, "token": usre.api, "kanal": usre.kanal, "sablon": 1, "kaynak": "1"}
+    key = {"_id": user, "token": usre.api, "kanal": usre.kanal, "sablon": "1", "kaynak": "1"}
     bnb = collection.find_one({"_id": user})
     if bnb == None:
         collection.insert_one(key)
