@@ -284,9 +284,9 @@ def poster(message):
                     print(f"Hatalı Kanal: {kanal}")
                     count =- 1
                 print("Başarılı!")
-                bot.send_message(-1001352123979, "{} Kanalda Post Paylaşıldı.".format(count))
             else:
                 pass
+            bot.send_message(-1001352123979, "{} Kanalda Post Paylaşıldı.".format(count))
     elif chat == -1001122395785:
         print(f"başlıyor ")
         mesaj = message.caption
