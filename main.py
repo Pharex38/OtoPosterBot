@@ -89,7 +89,7 @@ def apikayit(message):
         bot.register_next_step_handler(msg, apikayit)
         return
     usre.api = token
-    msg = bot.edit_message_text("*✅ API kaydedildi!* _Kanalınızdan herhangi bir gönderi iletin._", chat, mids)
+    msg = bot.edit_message_text("*🟢 API kaydedildi!* \n\n_Kanalınızdan herhangi bir gönderi iletin._", chat, mids)
     bot.register_next_step_handler(msg, kanalkayit)
 
 def kanalkayit(message):
@@ -109,7 +109,7 @@ def kanalkayit(message):
     else:
         collection.update_one({"_id": user}, {"$set":{"token": usre.api, "kanal": usre.kanal}})
     
-    bot.reply_to(message,"*🟢 Bilgileriniz Kaydedildi.*")
+    bot.reply_to(message,"*✅ Bilgileriniz Kaydedildi.*")
 
 @bot.message_handler(commands=['sablon'])
 def sablonn(message):
@@ -123,7 +123,7 @@ def sabloniki(message):
     user = message.from_user.id
     bnb = collection.find_one({"_id": user})
     if bnb == None:
-        bot.send_message(chat, "Lütfen önce bir şablon kaydetmeden önce /kaydet yazarak bilgilerinizi girin!")
+        bot.send_message(chat, "Lütfen şablon kaydetmeden önce /kaydet yazarak bilgilerinizi girin!")
     else:
         collection.update_one({"_id": user}, {"$set":{"sablon": mesaj}})
         bot.send_message(chat, "Şablon kaydedildi!")
@@ -309,7 +309,7 @@ def poster(message):
                 print("Başarılı!")
             else:
                 pass
-            bot.send_message(-1001352123979, "{} Kanalda Post Paylaşıldı.".format(count))
+        bot.send_message(-1001352123979, "{} Kanalda Post Paylaşıldı.".format(count))
     elif chat == -1001122395785 or chat == -1001190898326:
         print(f"başlıyor ")
         mesaj = message.caption
