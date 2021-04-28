@@ -113,7 +113,7 @@ def kanalkayit(message):
 @bot.message_handler(commands=['sablon'])
 def sablonn(message):
     chat = message.chat.id
-    msg = bot.send_message(chat, "*Şablon 1:\n----------*\n🔥{aciklama}\n\n🔱 TIKLA 👉 {link}\n\n📛 SESİ AÇ 'a tıklamayı unutma\n----------\n\n*Şablon 2:*\n----------\n🔴 {aciklama}\n\n❌ SILINMEDEN IZLE ❌\n\n👉 DEVAMI LİNKTE: {link}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n----------\n\n👉 @linkgecmeth\n\nPostlarınızda kullanılmasını istediğiniz şablonun numarasını gönderin.\n\nEğer kendi şablonunuzu oluşturmak isterseniz üstteki şablonlardaki gibi {aciklama} ve {link} kelimelerinin bulunduğundan emin olun yoksa şablon çalışmaz")
+    msg = bot.send_message(chat, "*Şablon 1:\n----------*\n🔥{aciklama}\n\n🔱 TIKLA 👉 {link}\n\n📛 SESİ AÇ 'a tıklamayı unutma\n----------\n\n*Şablon 2:*\n----------\n🔴 {aciklama}\n\n❌ SILINMEDEN IZLE ❌\n\n👉 DEVAMI LİNKTE: {link}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgecmeth\n----------\n\nPostlarınızda kullanılmasını istediğiniz şablonun numarasını gönderin.\n\nEğer kendi şablonunuzu oluşturmak isterseniz üstteki şablonlardaki gibi {aciklama} ve {link} kelimelerinin bulunduğundan emin olun yoksa şablon çalışmaz")
     bot.register_next_step_handler(msg, sabloniki)
 
 def sabloniki(message):
