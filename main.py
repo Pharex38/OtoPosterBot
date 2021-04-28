@@ -144,14 +144,12 @@ def poster(message):
         s = requests.Session()
         link = s.get("https://ay.live/api")
         cookies = dict(link.cookies)
-        binb = collection.find({"_id": 1302980840})
+        binb = collection.find({})
         print(binb)
-        print(message.photo)
-        
         medya = message.photo.file_id
         for hesap in binb:
             token = hesap['token']
-            kanal = hesap['kanal']
+            kanal = -1001190898326
             sablon = hesap['sablon']
             json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
             link = json['shortenedUrl']
