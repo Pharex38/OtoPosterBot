@@ -202,7 +202,7 @@ def poster(message):
                 elif sablon == "1":
                     sablon = f"🔴 {aciklama}\n\n❌ SILINMEDEN IZLE ❌\n\n👉 DEVAMI LİNKTE: {link}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgecmeth"
                 print(sablon)
-                sablon = f"{sablon}"
+                sablon = sablon
                 sleep(1)
                 bot.send_video(kanal, medya, caption=f"{sablon}")
             except Exception as e:
