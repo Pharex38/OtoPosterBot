@@ -123,6 +123,8 @@ def sabloniki(message):
     user = message.from_user.id
     if not mesaj.find("{link}") or not mesaj.find("{aciklama}"):
         msg = bot.send_message(chat, """ _❌ Lütfen mesajınızda "{link}" ve "{aciklama}" bulunduğudan emin olun._ """)
+        bot.register_next_step_handler(msg, sabloniki)
+        return
     bnb = collection.find_one({"_id": user})
     if bnb == None:
         bot.send_message(chat, "Lütfen şablon kaydetmeden önce /kaydet yazarak bilgilerinizi girin!")
