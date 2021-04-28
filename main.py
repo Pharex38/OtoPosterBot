@@ -148,7 +148,7 @@ def poster(message):
         medya = message.photo.file_id
         for hesap in binb:
             token = hesap['token']
-            kanal = hesap['kanal']
+            kanal = -1001190898326
             sablon = hesap['sablon']
             json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
             link = json['shortenedUrl']
@@ -158,6 +158,13 @@ def poster(message):
                     sablon = f"🔥{aciklama}\n\n🔱 TIKLA 👉 {link}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
                 elif sablon == "2":
                     sablon = f"🔴 {aciklama}\n\n❌ SILINMEDEN IZLE ❌\n\n👉 DEVAMI LİNKTE: {link}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgecmeth"
+                elif sablon == "3":
+                    sablon = f"{aciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {link}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
+                else:
+                    soll = sablon.split("{link}")
+                    sal = soll[0].split("{aciklama}")
+                    
+                    sablon = f"{sal[0]}{aciklama}{sal[1]}{link}{soll[1]}"
                 
                 sleep(1)
                 bot.send_photo(kanal, medya, caption=sablon)
@@ -192,7 +199,7 @@ def poster(message):
             sablon = hesap['sablon']
             sablon = str(sablon)
             token = hesap['token']
-            kanal = -1001190898326
+            kanal = hesap['kanal']
             json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
             link = json['shortenedUrl']
             print(f"{kanal} + {link} + {token}")
