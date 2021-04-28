@@ -147,10 +147,6 @@ def poster(message):
         print(binb)
         """ Dosya tespit """
         medya = message.photo[0].file_id
-        """fileinfo = bot.get_file(ret_msg.file_id)
-        downloaded = bot.download_file(fileinfo.file_path)
-        with open('icerik.png', 'wb') as new_file:
-            new_file.write(downloaded)"""
         for hesap in binb:
             token = hesap['token']
             kanal = hesap['kanal']
@@ -176,9 +172,8 @@ def poster(message):
             except Exception as e:
                 print(e)
                 print(f"Hata {kanal}")
-        print("Başarılı!")
-        
-        bot.send_message(chat, "Başarılı!")
+            print("Başarılı!")
+        bot.send_message(-1001352123979, "{} Kanalda Post Paylaşıldı.".format(count))
 
 @bot.channel_post_handler(content_types=['video'])
 def poster(message):
