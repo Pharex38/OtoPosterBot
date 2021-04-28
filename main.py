@@ -146,6 +146,7 @@ def kaynakk(message):
 def kaynake(message):
     ktext = message.text
     chat = message.chat.id
+    user = message.from_user.id
     if not ktext.isdigit():
         msg = bot.send_message(chat, "Lütfen istediğiniz kaynağın numarasını gönderin.")
         bot.register_next_step_handler(msg, kaynake)
@@ -158,6 +159,7 @@ def kaynake(message):
 
 @bot.channel_post_handler(content_types=['photo'])
 def poster(message):
+    count = 0
     chat = message.chat.id
     if chat == -1001368112299 or chat == -1001352123979:
         print(f"başlıyor ")
