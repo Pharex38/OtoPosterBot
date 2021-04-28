@@ -195,8 +195,12 @@ def poster(message):
             link = json['shortenedUrl']
             print(f"{kanal} + {link} + {token}")
             try:
+                if sablon == 1:
+                    sablon = f"🔥{aciklama}\n\n🔱 TIKLA 👉 {link}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
+                elif sablon == 2:
+                    sablon = f"🔴 {aciklama}\n\n❌ SILINMEDEN IZLE ❌\n\n👉 DEVAMI LİNKTE: {link}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgecmeth"
                 sleep(1)
-                bot.send_video(kanal, medya, caption=f"🔥 {aciklama}\n\n🔱 *TIKLA* 👉 {link}\n\n*📛 SESİ AÇ 'a tıklamayı unutma*")
+                bot.send_video(kanal, medya, caption=sablon)
             except Exception as e:
                 print(f"Hatalı Kanal: {kanal}")
             print("Başarılı!")
