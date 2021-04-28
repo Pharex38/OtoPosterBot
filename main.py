@@ -19,7 +19,6 @@ class usre:
     def __init__(self):
         self.api = None
         self.kanal = None
-        self.sablon = None
     
 @bot.message_handler(commands=['start'])
 def start(message):
@@ -149,7 +148,7 @@ def poster(message):
         medya = message.photo.file_id
         for hesap in binb:
             token = hesap['token']
-            kanal = -1001190898326
+            kanal = hesap['kanal']
             sablon = hesap['sablon']
             json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
             link = json['shortenedUrl']
@@ -191,7 +190,7 @@ def poster(message):
         medya = message.video.file_id
         for hesap in binb:
             token = hesap['token']
-            kanal = hesap['kanal']
+            kanal = -1001190898326
             json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
             link = json['shortenedUrl']
             print(f"{kanal} + {link} + {token}")
