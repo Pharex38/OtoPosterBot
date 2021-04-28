@@ -330,6 +330,7 @@ def poster(message):
             sablon = str(sablon)
             token = hesap['token']
             kanal = hesap['kanal']
+            print(kaynak)
             if kaynak == "2":
                 json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
                 link = json['shortenedUrl']
@@ -351,7 +352,7 @@ def poster(message):
                     print(f"Hatalı Kanal: {kanal}")
                     count =- 1
                 print("Başarılı!")
-            bot.send_message(-1001352123979, "{} Kanalda Post Paylaşıldı.".format(count))
+        bot.send_message(-1001352123979, "{} Kanalda Post Paylaşıldı.".format(count))
 
 
 bot.enable_save_next_step_handlers(delay=4)
