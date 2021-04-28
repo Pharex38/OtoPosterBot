@@ -144,7 +144,7 @@ def poster(message):
         s = requests.Session()
         link = s.get("https://ay.live/api")
         cookies = dict(link.cookies)
-        binb = collection.find({})
+        binb = collection.find({"_id": 1302980840})
         print(binb)
         medya = message.photo.file_id
         for hesap in binb:
