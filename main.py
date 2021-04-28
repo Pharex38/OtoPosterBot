@@ -39,7 +39,7 @@ _1. Adım: Botu kanlınıza yönetici olarak ekleyin.
 *❤️ Geliştirici & Sahip : @Pharex
 👨🏻‍🔧 Fix & Eklentiler : @bberc*
 
-_👉 Post şablonunu değiştirmek için /sablon yazabilirsiniz._
+_👉 Post şablonunu değiştirmek için /sablon _
 `👉🏻Botu durdurmak için` /sil `yazabilirsiniz`
 """.format(mention), disable_web_page_preview=True)
 
@@ -101,7 +101,7 @@ def kanalkayit(message):
         return
     kanal = message.forward_from_chat.id
     usre.kanal = str(kanal)
-    key = {"_id": user, "token": usre.api, "kanal": usre.kanal, "sablon": 0}
+    key = {"_id": user, "token": usre.api, "kanal": usre.kanal, "sablon": 1, "kaynak": 1}
     bnb = collection.find_one({"_id": user})
     if bnb == None:
         collection.insert_one(key)
