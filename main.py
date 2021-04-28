@@ -290,7 +290,7 @@ def poster(message):
             else:
                 pass
             bot.send_message(-1001352123979, "{} Kanalda Post Paylaşıldı.".format(count))
-    elif chat == -1001122395785 or chat == -1001352123979:
+    elif chat == -1001122395785 or chat == -1001190898326:
         print(f"başlıyor ")
         mesaj = message.caption
         """ Link tespit """
