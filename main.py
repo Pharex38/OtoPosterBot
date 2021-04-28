@@ -19,6 +19,7 @@ class usre:
     def __init__(self):
         self.api = None
         self.kanal = None
+        self.sablon = None
     
 @bot.message_handler(commands=['start'])
 def start(message):
@@ -100,7 +101,7 @@ def kanalkayit(message):
         return
     kanal = message.forward_from_chat.id
     usre.kanal = str(kanal)
-    key = {"_id": user, "token": usre.api, "kanal": usre.kanal}
+    key = {"_id": user, "token": usre.api, "kanal": usre.kanal, "sablon": 0}
     bnb = collection.find_one({"_id": user})
     if bnb == None:
         collection.insert_one(key)
@@ -108,6 +109,23 @@ def kanalkayit(message):
         collection.update_one({"_id": user}, {"$set":{"token": usre.api, "kanal": usre.kanal}})
     
     bot.reply_to(message,"*🟢 Bilgileriniz Kaydedildi.*")
+
+@bot.message_handler(commands=['sablon'])
+def sablonn(message):
+    chat = message.chat.id
+    msg = bot.send_photo(chat, "*Şablon 1:*\n\n🔥{aciklama}\n\n🔱 TIKLA 👉 {link}\n\n📛 SESİ AÇ 'a tıklamayı unutma\n\n*Şablon 2:*🔴 {aciklama}\n\n❌ SILINMEDEN IZLE ❌\n\n👉 DEVAMI LİNKTE: {link}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgecmeth\n\nPostlarınızda kullanılmasını istediğiniz şablonun numarasını gönderin.\n\nEğer kendi şablonunuzu oluşturmak isterseniz üstteki şablonlardaki gibi {aciklama} ve {link} kelimelerinin bulunduğundan emin olun yoksa şablon çalışmaz")
+      bot.register_next_step_handler(msg, sabloniki)
+
+def sabloniki(message):
+    mesaj = message.text
+    chat = message.chat.id
+    user = message.from_user.id
+    bnb = collection.find_one({"_id": user})
+    if bnb = None:
+        bot.send_message(chat, "Lütfen önce bir şablon kaydetmeden önce /kaydet yazarak bilgilerinizi girin!")
+    else:
+        collection.update_one({"_id": user}, {"$set":{"sablon": mesaj}})
+        bot.send_message(chat, "Şablon kaydedildi!")
 
 @bot.channel_post_handler(content_types=['photo'])
 def poster(message):
@@ -132,12 +150,18 @@ def poster(message):
         for hesap in binb:
             token = hesap['token']
             kanal = hesap['kanal']
+            sablon = hesap['sablon']
             json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
             link = json['shortenedUrl']
             print(f"{kanal} + {link} + {token}")
             try:
+                if sablon == 0:
+                    sablon = f"🔥{aciklama}\n\n🔱 TIKLA 👉 {link}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
+                elif sablon == 1:
+                    sablon = f"🔴 {aciklama}\n\n❌ SILINMEDEN IZLE ❌\n\n👉 DEVAMI LİNKTE: {link}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgecmeth"
+                
                 sleep(1)
-                bot.send_photo(kanal, medya, caption=f"🔥 {aciklama}\n\n🔱 TIKLA 👉 {link}\n\n📛 SESİ AÇ 'a tıklamayı unutma")
+                bot.send_photo(kanal, medya, caption=sablon)
             except Exception as e:
                 print(e)
                 print(f"Hata {kanal}")
