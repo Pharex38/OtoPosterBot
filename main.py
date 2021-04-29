@@ -217,7 +217,7 @@ def poster(message):
                 print("Başarılı!")
             else:
                 pass
-            bot.send_message(-1001352123979, "{} Kanalda Post Paylaşıldı.".format(count))
+        bot.send_message(-1001352123979, "{} Kanalda Post Paylaşıldı.".format(count))
     if chat == -1001122395785:
         print(f"başlıyor ")
         mesaj = message.caption
