@@ -12,7 +12,7 @@ mongo = environ['MONGO']
 cluster = MongoClient(mongo)
 db = cluster["OtoPost"]
 collection = db["Kanallar"]
-bot = telebot.TeleBot(botapi,parse_mode='MarkDown')
+bot = telebot.TeleBot(botapi,parse_mode='html')
 print("Başlıyor")
 
 class usre:
