@@ -30,7 +30,7 @@ def start(message):
 ❔<b>Ne İşe Yarıyor? </b>
 <i>Bu bot</i><a href="https://t.me/joinchat/UYu8q0gBTUdUudDL">Link Mahzeni</a><i>'nde paylaşılan postların linklerini otomatik olarak kısaltıp sizin kanalınıza iletir.</i>
 
-❔<b>Nasıl Kullanılır?*/b>
+❔<b>Nasıl Kullanılır?<b>
 <i>1. Adım: Botu kanlınıza yönetici olarak ekleyin.
 2. Adım: /kaydet komutunu kullanarak bilgilerinizi kaydedin.
 3. Adım: KANALINIZDA /onayla yazın.
