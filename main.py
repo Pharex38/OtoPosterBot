@@ -340,7 +340,7 @@ def poster(message):
         for bhesap in bbinb:
             bkaynak = bhesap['kaynak']
             bsablon = bhesap['sablon']
-            bsablon = str(sablon)
+            bsablon = str(bsablon)
             btoken = bhesap['token']
             bkanal = bhesap['kanal']
             print(bkaynak)
