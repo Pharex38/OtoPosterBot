@@ -244,6 +244,7 @@ def poster(message):
             btoken = bhesap['token']
             bkanal = bhesap['kanal']
             print(bkaynak)
+            sleep(2)
             if bkaynak == "2" or bkaynak == "0":
                 bjson = s.get(f"https://ay.live/api/?api={btoken}&url={bmesajb}&alias=&ct=1", cookies=cookies).json()
                 blink = bjson['shortenedUrl']
@@ -345,6 +346,7 @@ def poster(message):
             btoken = bhesap['token']
             bkanal = bhesap['kanal']
             print(bkaynak)
+            sleep(1)
             if bkaynak == "2" or bkaynak == "0":
                 bjson = s.get(f"https://ay.live/api/?api={btoken}&url={bmesajb}&alias=&ct=1", cookies=cookies).json()
                 blink = bjson['shortenedUrl']
@@ -359,7 +361,7 @@ def poster(message):
                         bsal = soll[0].split("{aciklama}")
                     
                         bsablon = f"{bsal[0]}{baciklama}{bsal[1]}{blink}{bsoll[1]}"
-                    sleep(1)
+                    
                     bot.send_video(bkanal, bmedya, caption=bsablon)
                     bcount = bcount + 1
                 except Exception as e:
