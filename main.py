@@ -242,7 +242,7 @@ def poster(message):
                 print("Başarılı!")
             else:
                 pass
-        bot.send_message(-1001352123979, "{} Kanalda Post Paylaşıldı.".format(count))
+        bot.send_message(-1001352123979, "Link Mahzeni kanalından, {} Kanalda Foto Post Paylaşıldı.".format(count))
     if chat == -1001122395785:
         print(f"başlıyor ")
         bmesaj = message.caption
@@ -291,7 +291,7 @@ def poster(message):
                     print(f"Hatalı Kanal: {bkanal}")
                     
                 print("Başarılı!")
-        bot.send_message(-1001352123979, "{} Kanalda Post Paylaşıldı.".format(bcount))
+        bot.send_message(-1001352123979, "Bedava Link kaynağından, {} Kanalda Foto Post Paylaşıldı.".format(bcount))
 
 @bot.channel_post_handler(content_types=['video'])
 def poster(message):
@@ -345,7 +345,7 @@ def poster(message):
                 print("Başarılı!")
             else:
                 pass
-        bot.send_message(-1001352123979, "{} Kanalda Post Paylaşıldı.".format(count))
+        bot.send_message(-1001352123979, "Link Mahzeni kaynağından, {} Kanalda Video Post Paylaşıldı.".format(count))
     elif chat == -1001122395785 or chat == -1001190898326:
        
         print(f"başlıyor ")
@@ -395,7 +395,7 @@ def poster(message):
                     print(e)
                     
                 print("Başarılı!")
-        bot.send_message(-1001352123979, "{} Kanalda Post Paylaşıldı.".format(bcount))
+        bot.send_message(-1001352123979, "Bedava Link kanalından, {} Kanalda Video Post Paylaşıldı.".format(bcount))
 
 
 bot.enable_save_next_step_handlers(delay=4)
