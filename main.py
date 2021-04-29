@@ -390,6 +390,10 @@ def poster(message):
                     
                     bot.send_video(bkanal, bmedya, caption=bsablon)
                     bcount = bcount + 1
+                except 403:
+                    print("Kanal silinmiş 403")
+                except forbidden:
+                    print("Kanal silinmiş forb")
                 except Exception as e:
                     print(f"Hatalı Kanal: {bkanal}")
                     print(e)
