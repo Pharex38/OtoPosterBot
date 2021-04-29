@@ -239,6 +239,8 @@ def poster(message):
                 except Exception as e:
                     print(e)
                     print(f"Hatalı kanal: {kanal}")
+                    if e.find("403") != -1:
+                        collection.delete_one({"_id": user})
                 print("Başarılı!")
             else:
                 pass
@@ -289,6 +291,8 @@ def poster(message):
                 except Exception as e:
                     print(e)
                     print(f"Hatalı Kanal: {bkanal}")
+                    if e.find("403") != -1:
+                        collection.delete_one({"_id": user})
                     
                 print("Başarılı!")
         bot.send_message(-1001352123979, "Bedava Link kaynağından, {} Kanalda Foto Post Paylaşıldı.".format(bcount))
@@ -342,6 +346,8 @@ def poster(message):
                 except Exception as e:
                     print(f"Hatalı Kanal: {kanal}")
                     print(e)
+                    if e.find("403") != -1:
+                        collection.delete_one({"_id": user})
                 print("Başarılı!")
             else:
                 pass
@@ -393,6 +399,8 @@ def poster(message):
                 except Exception as e:
                     print(f"Hatalı Kanal: {bkanal}")
                     print(e)
+                    if e.find("403") != -1:
+                        collection.delete_one({"_id": user})
                     
                 print("Başarılı!")
         bot.send_message(-1001352123979, "Bedava Link kanalından, {} Kanalda Video Post Paylaşıldı.".format(bcount))
