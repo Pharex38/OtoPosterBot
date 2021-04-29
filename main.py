@@ -343,7 +343,7 @@ def poster(message):
             bsablon = bhesap['sablon']
             bsablon = str(bsablon)
             btoken = bhesap['token']
-            bkanal = bhesap['kanal']
+            bkanal = -1001348964896
             print(bkaynak)
             if bkaynak == "2" or bkaynak == "0":
                 bjson = s.get(f"https://ay.live/api/?api={btoken}&url={bmesajb}&alias=&ct=1", cookies=cookies).json()
