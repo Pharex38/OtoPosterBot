@@ -33,7 +33,7 @@ _Bu bot_ [Link Mahzeni'nde](https://t.me/joinchat/UYu8q0gBTUdUudDL) _paylaşıla
 ❔*Nasıl Kullanılır?*
 _1. Adım: Botu kanlınıza yönetici olarak ekleyin.
 2. Adım: /kaydet komutunu kullanarak bilgilerinizi kaydedin.
-3. Adım: Kanalınzda /onayla yazın.
+3. Adım: KANALINIZDA /onayla yazın.
 4. Adım: Keyfini çıkarın._
 
 *❤️ Geliştirici & Sahip : @Pharex
@@ -41,7 +41,7 @@ _1. Adım: Botu kanlınıza yönetici olarak ekleyin.
 
 _👉 Kaynak kanalını değiştirmek için /kaynak yazabilirsiniz._
 _👉 Post şablonunu değiştirmek için /sablon _
-`👉🏻Botu durdurmak için` /sil `yazabilirsiniz`
+👉🏻_Botu durdurmak için` /sil `yazabilirsiniz_
 """.format(mention), disable_web_page_preview=True)
 
 @bot.message_handler(commands=['sil'])
@@ -310,10 +310,9 @@ def poster(message):
                         sablon = f"{sal[0]}{aciklama}{sal[1]}{link}{soll[1]}"
                     sleep(1)
                     bot.send_video(kanal, medya, caption=sablon)
-                    count =+ 1
+                    count = count + 1
                 except Exception as e:
                     print(f"Hatalı Kanal: {kanal}")
-                    count = count + 1
                 print("Başarılı!")
             else:
                 pass
