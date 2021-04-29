@@ -293,7 +293,7 @@ def poster(message):
         for hesap in binb:
             kaynak = hesap['kaynak']
             sablon = hesap['sablon']
-            sablon = str(bsablon)
+            sablon = str(sablon)
             token = hesap['token']
             kanal = hesap['kanal']
             if kaynak == "1" or kaynak == "0":
