@@ -360,7 +360,7 @@ def poster(message):
                         bsablon = f"{baciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {blink}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
                     else:
                         bsoll = bsablon.split("{link}")
-                        bsal = soll[0].split("{aciklama}")
+                        bsal = bsoll[0].split("{aciklama}")
                     
                         bsablon = f"{bsal[0]}{baciklama}{bsal[1]}{blink}{bsoll[1]}"
                     
