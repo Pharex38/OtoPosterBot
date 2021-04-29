@@ -166,7 +166,7 @@ def kaynakk(message):
     Kaynak No:1</b>
     <a href="https://t.me/joinchat/UYu8q0gBTUdUudDL">Link Mahzeni</a>
     
-    *Kaynk No:2*
+    <b>Kaynk No:2</b>
     <a href="https://t.me/joinchat/MhxcfKLh3aQ4OWU0">Bedava Link</a>
 
 <b>❗Hepsinden atsın fütursuzca kanalımı sikmek istiyorum diyorsan 0 yaz</b>
@@ -339,10 +339,6 @@ def poster(message):
                     sleep(1)
                     bot.send_video(kanal, medya, caption=sablon)
                     count = count + 1
-                except 403:
-                    print("Kanal silinmiş 403")
-                except forbidden:
-                    print("Kanal silinmiş forb")
                 except Exception as e:
                     print(f"Hatalı Kanal: {kanal}")
                     print(e)
@@ -394,10 +390,6 @@ def poster(message):
                     
                     bot.send_video(bkanal, bmedya, caption=bsablon)
                     bcount = bcount + 1
-                except 403:
-                    print("Kanal silinmiş 403")
-                except forbidden:
-                    print("Kanal silinmiş forb")
                 except Exception as e:
                     print(f"Hatalı Kanal: {bkanal}")
                     print(e)
