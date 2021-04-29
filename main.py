@@ -270,6 +270,7 @@ def poster(message):
 @bot.channel_post_handler(content_types=['video'])
 def poster(message):
     count = 0
+    bcount = 0
     chat = message.chat.id
     if chat == -1001368112299 or chat == -1001352123979:
         print(f"başlıyor ")
@@ -319,7 +320,7 @@ def poster(message):
                 pass
         bot.send_message(-1001352123979, "{} Kanalda Post Paylaşıldı.".format(count))
     elif chat == -1001122395785 or chat == -1001190898326:
-        count = 0
+       
         print(f"başlıyor ")
         bmesaj = message.caption
         """ Link tespit """
