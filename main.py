@@ -263,6 +263,7 @@ def poster(message):
                     bot.send_photo(bkanal, bmedya, caption=bsablon)
                     bcount = bcount + 1
                 except Exception as e:
+                    print(e)
                     print(f"Hatalı Kanal: {bkanal}")
                     
                 print("Başarılı!")
@@ -316,6 +317,7 @@ def poster(message):
                     count = count + 1
                 except Exception as e:
                     print(f"Hatalı Kanal: {kanal}")
+                    print(e)
                 print("Başarılı!")
             else:
                 pass
@@ -366,6 +368,7 @@ def poster(message):
                     bcount = bcount + 1
                 except Exception as e:
                     print(f"Hatalı Kanal: {bkanal}")
+                    print(e)
                     
                 print("Başarılı!")
         bot.send_message(-1001352123979, "{} Kanalda Post Paylaşıldı.".format(bcount))
