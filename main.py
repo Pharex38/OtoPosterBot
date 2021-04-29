@@ -70,7 +70,7 @@ def post(message):
 @bot.message_handler(commands=['kaydet'])
 def kayit(message):
     chat = message.chat.id
-    msg = bot.send_message(chat, "📝 _Lütfen_ [burdan](https://tr.link/member/tools/quick) _aldığınız API adresinizi gönderin_")
+    msg = bot.send_message(chat, """📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""")
     bot.register_next_step_handler(msg, apikayit)
 
 def apikayit(message):
