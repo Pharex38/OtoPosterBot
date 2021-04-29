@@ -27,10 +27,10 @@ def start(message):
     bot.send_message(chat, """
 *✨ Merhaba* {}!
 <b>
-❔*Ne İşe Yarıyor? </b>
+❔*e İşe Yarıyor? </b>
 <i>Bu bot</i><a href="https://t.me/joinchat/UYu8q0gBTUdUudDL">Link Mahzeni</a><i>'nde paylaşılan postların linklerini otomatik olarak kısaltıp sizin kanalınıza iletir.</i>
 
-❔<b>Nasıl Kullanılır?*</b>
+❔<b>Nasıl Kullanılır?*/b>
 <i>1. Adım: Botu kanlınıza yönetici olarak ekleyin.
 2. Adım: /kaydet komutunu kullanarak bilgilerinizi kaydedin.
 3. Adım: KANALINIZDA /onayla yazın.
@@ -52,9 +52,9 @@ def durdur(message):
     try:
         collection.delete_one({"_id": user})
     except:
-        bot.reply_to(message, "*Henüz bir kanal kaydetmemişsiniz.*")
+        bot.reply_to(message, "<b>Henüz bir kanal kaydetmemişsiniz.</b>")
     else:
-        bot.reply_to(message, "*Kanalınız Silindi!*")
+        bot.reply_to(message, "<b>Kanalınız Silindi!</b>")
 
 @bot.channel_post_handler(commands=['onayla'])
 def post(message):
@@ -85,11 +85,11 @@ def apikayit(message):
     ket = s.get(f"https://tr.link/api/?api={token}&url=yourdestinationlink.com&format=text&alias=&ct=1", cookies=cookies).text
     print(ket)
     if ket == None:
-        msg = bot.edit_message_text("*✖️ Geçersiz Bir API adresi girdiniz!* _Lütfen [bu adresten](https://tr.link/member/tools/api) yeniden alın._", chat, mids)
+        msg = bot.edit_message_text("""<b>✖️ Geçersiz Bir API adresi girdiniz!</b> <i>Lütfen <a href="https://tr.link/member/tools/api">bu adresen</a> yeniden alın.</i>""", chat, mids)
         bot.register_next_step_handler(msg, apikayit)
         return
     usre.api = token
-    msg = bot.edit_message_text("*🟢 API kaydedildi!* \n\n_Kanalınızdan herhangi bir gönderi iletin._", chat, mids)
+    msg = bot.edit_message_text("<b>🟢 API kaydedildi!</b>\n\n<i>Kanalınızdan herhangi bir gönderi iletin.</i>", chat, mids)
     bot.register_next_step_handler(msg, kanalkayit)
 
 def kanalkayit(message):
@@ -109,12 +109,36 @@ def kanalkayit(message):
     else:
         collection.update_one({"_id": user}, {"$set":{"token": usre.api, "kanal": usre.kanal}})
     
-    bot.reply_to(message,"*🟢Bilgileriniz Kaydedildi.*\n\n _Kaynak kanalını değiştirmek isterseniz /kaynak yazın._")
+    bot.reply_to(message,"<b>🟢Bilgileriniz Kaydedildi.</b>\n\n <i>Kaynak kanalını değiştirmek isterseniz /kaynak yazın.</i>")
 
 @bot.message_handler(commands=['sablon'])
 def sablonn(message):
     chat = message.chat.id
-    msg = bot.send_message(chat, "*Şablon No:1\n----------------*\n🔥{aciklama}\n\n🔱 TIKLA 👉 {link}\n\n📛 SESİ AÇ 'a tıklamayı unutma\n----------------\n\n*Şablon No:2*\n----------------\n{aciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {link}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06\n----------------\n\nÜstteki şablonlardan kullanmak isterseniz, istediğiniz şablonun numarasını gönderin.\n\n_Eğer kendi şablonunuzu oluşturmak isterseniz üstteki şablonlardaki gibi_ *{aciklama}* ve *{link}* _kelimelerinin bulunduğundan emin olun yoksa şablon çalışmaz_")
+    msg = bot.send_message(chat, """<b>Şablon No:1</b>
+    ----------------
+🔥{aciklama}
+
+🔱 TIKLA 👉 {link}
+
+📛 SESİ AÇ 'a tıklamayı unutma
+----------------
+
+<b>Şablon No:2</b>
+----------------
+{aciklama} 
+
+𝙇𝙄𝙉𝙆🔗 {link}
+
+🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.
+
+📌 Link Nasıl Açılır Bilmiyorsanız
+
+👉 @linkgec06
+----------------
+
+Üstteki şablonlardan kullanmak isterseniz, istediğiniz şablonun numarasını gönderin.
+
+<i>Eğer kendi şablonunuzu oluşturmak isterseniz üstteki şablonlardaki gibi</i> <b>{aciklama}</b> ve <b>{link}</b> <i>kelimelerinin bulunduğundan emin olun yoksa şablon çalışmaz</i>""")
     bot.register_next_step_handler(msg, sabloniki)
 
 def sabloniki(message):
