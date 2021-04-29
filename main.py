@@ -220,51 +220,51 @@ def poster(message):
         bot.send_message(-1001352123979, "{} Kanalda Post Paylaşıldı.".format(count))
     if chat == -1001122395785:
         print(f"başlıyor ")
-        mesaj = message.caption
+        bmesaj = message.caption
         """ Link tespit """
-        sol = mesaj.find("http")
-        sag = mesaj.find("\n", sol)
-        mesajb = mesaj[sol:sag].strip()
+        bsol = bmesaj.find("http")
+        bsag = bmesaj.find("\n", bsol)
+        bmesajb = bmesaj[bsol:bsag].strip()
         """ Açıklama tespit """
-        ason = mesaj.find("\n")
-        aciklama = mesaj[:ason]
+        bason = bmesaj.find("\n")
+        baciklama = mesaj[:bason]
         """    Cookies    """
         s = requests.Session()
         link = s.get("https://ay.live/api")
         cookies = dict(link.cookies)
-        binb = collection.find({})
-        print(binb)
+        bbinb = collection.find({})
+        print(bbinb)
         """ Dosya tespit """
-        medya = message.photo[0].file_id
-        for hesap in binb:
-            kaynak = hesap['kaynak']
-            sablon = hesap['sablon']
-            sablon = str(sablon)
-            token = hesap['token']
-            kanal = hesap['kanal']
-            print(kaynak)
-            if kaynak == "2" or kaynak == "0":
-                json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
-                link = json['shortenedUrl']
-                print(f"{kanal} + {link} + {token}")
+        bmedya = message.photo[0].file_id
+        for bhesap in bbinb:
+            bkaynak = bhesap['kaynak']
+            bsablon = bhesap['sablon']
+            bsablon = str(bsablon)
+            btoken = bhesap['token']
+            bkanal = bhesap['kanal']
+            print(bkaynak)
+            if bkaynak == "2" or bkaynak == "0":
+                bjson = s.get(f"https://ay.live/api/?api={btoken}&url={bmesajb}&alias=&ct=1", cookies=cookies).json()
+                blink = bjson['shortenedUrl']
+                print(f"{bkanal} + {blink} + {btoken}")
                 try:
-                    if sablon == "1":
-                        sablon = f"🔥{aciklama}\n\n🔱 TIKLA 👉 {link}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
-                    elif sablon == "2" or sablon == "3":
-                        sablon = f"{aciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {link}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
+                    if bsablon == "1":
+                        bsablon = f"🔥{baciklama}\n\n🔱 TIKLA 👉 {blink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
+                    elif bsablon == "2" or bsablon == "3":
+                        bsablon = f"{baciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {blink}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
                     else:
-                        soll = sablon.split("{link}")
-                        sal = soll[0].split("{aciklama}")
+                        bsoll = bsablon.split("{link}")
+                        bsal = bsoll[0].split("{aciklama}")
                     
-                        sablon = f"{sal[0]}{aciklama}{sal[1]}{link}{soll[1]}"
+                        bsablon = f"{bsal[0]}{baciklama}{bsal[1]}{blink}{bsoll[1]}"
                     sleep(1)
-                    bot.send_photo(kanal, medya, caption=sablon)
-                    count = count + 1
+                    bot.send_photo(bkanal, bmedya, caption=bsablon)
+                    bcount = bcount + 1
                 except Exception as e:
-                    print(f"Hatalı Kanal: {kanal}")
+                    print(f"Hatalı Kanal: {bkanal}")
                     
                 print("Başarılı!")
-        bot.send_message(-1001352123979, "{} Kanalda Post Paylaşıldı.".format(count))
+        bot.send_message(-1001352123979, "{} Kanalda Post Paylaşıldı.".format(bcount))
 
 @bot.channel_post_handler(content_types=['video'])
 def poster(message):
@@ -319,51 +319,51 @@ def poster(message):
         bot.send_message(-1001352123979, "{} Kanalda Post Paylaşıldı.".format(count))
     elif chat == -1001122395785 or chat == -1001190898326:
         print(f"başlıyor ")
-        mesaj = message.caption
+        bmesaj = message.caption
         """ Link tespit """
-        sol = mesaj.find("http")
-        sag = mesaj.find("\n", sol)
-        mesajb = mesaj[sol:sag].strip()
+        bsol = bmesaj.find("http")
+        bsag = bmesaj.find("\n", bsol)
+        bmesajb = bmesaj[bsol:bsag].strip()
         """ Açıklama tespit """
-        ason = mesaj.find("\n")
-        aciklama = mesaj[:ason]
+        bason = bmesaj.find("\n")
+        baciklama = bmesaj[:bason]
         """    Cookies    """
         s = requests.Session()
         link = s.get("https://ay.live/api")
         cookies = dict(link.cookies)
-        binb = collection.find({})
-        print(binb)
+        bbinb = collection.find({})
+        print(bbinb)
         """ Dosya tespit """
-        medya = message.video.file_id
-        for hesap in binb:
-            kaynak = hesap['kaynak']
-            sablon = hesap['sablon']
-            sablon = str(sablon)
-            token = hesap['token']
-            kanal = hesap['kanal']
-            print(kaynak)
-            if kaynak == "2" or kaynak == "0":
-                json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
-                link = json['shortenedUrl']
-                print(f"{kanal} + {link} + {token}")
+        bmedya = message.video.file_id
+        for bhesap in bbinb:
+            bkaynak = bhesap['kaynak']
+            bsablon = bhesap['sablon']
+            bsablon = str(sablon)
+            btoken = bhesap['token']
+            bkanal = bhesap['kanal']
+            print(bkaynak)
+            if bkaynak == "2" or bkaynak == "0":
+                bjson = s.get(f"https://ay.live/api/?api={btoken}&url={bmesajb}&alias=&ct=1", cookies=cookies).json()
+                blink = bjson['shortenedUrl']
+                print(f"{bkanal} + {blink} + {btoken}")
                 try:
-                    if sablon == "1":
-                        sablon = f"🔥{aciklama}\n\n🔱 TIKLA 👉 {link}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
-                    elif sablon == "2" or sablon == "3":
-                        sablon = f"{aciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {link}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
+                    if bsablon == "1":
+                        bsablon = f"🔥{baciklama}\n\n🔱 TIKLA 👉 {blink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
+                    elif bsablon == "2" or bsablon == "3":
+                        bsablon = f"{baciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {blink}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
                     else:
-                        soll = sablon.split("{link}")
-                        sal = soll[0].split("{aciklama}")
+                        bsoll = bsablon.split("{link}")
+                        bsal = soll[0].split("{aciklama}")
                     
-                        sablon = f"{sal[0]}{aciklama}{sal[1]}{link}{soll[1]}"
+                        bsablon = f"{bsal[0]}{baciklama}{bsal[1]}{blink}{bsoll[1]}"
                     sleep(1)
-                    bot.send_video(kanal, medya, caption=sablon)
-                    count = count + 1
+                    bot.send_video(bkanal, bmedya, caption=bsablon)
+                    bcount = bcount + 1
                 except Exception as e:
-                    print(f"Hatalı Kanal: {kanal}")
+                    print(f"Hatalı Kanal: {bkanal}")
                     
                 print("Başarılı!")
-        bot.send_message(-1001352123979, "{} Kanalda Post Paylaşıldı.".format(count))
+        bot.send_message(-1001352123979, "{} Kanalda Post Paylaşıldı.".format(bcount))
 
 
 bot.enable_save_next_step_handlers(delay=4)
