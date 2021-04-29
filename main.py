@@ -218,6 +218,7 @@ def poster(message):
             token = hesap['token']
             kanal = hesap['kanal']
             sablon = hesap['sablon']
+            user = hesap['_id']
             if kaynak == "1" or kaynak == "0":
                 json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
                 link = json['shortenedUrl']
@@ -239,8 +240,10 @@ def poster(message):
                 except Exception as e:
                     print(e)
                     print(f"Hatalı kanal: {kanal}")
-                    if e.find("403") != -1:
+                    if e.find("bot is not a member") != -1:
                         collection.delete_one({"_id": user})
+                        bot.send_message(user, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                        print(f"{kanal} kayıtlardan silindi.")
                 print("Başarılı!")
             else:
                 pass
@@ -269,6 +272,7 @@ def poster(message):
             bsablon = str(bsablon)
             btoken = bhesap['token']
             bkanal = bhesap['kanal']
+            buser = bhesap['_id']
             print(bkaynak)
             sleep(2)
             if bkaynak == "2" or bkaynak == "0":
@@ -290,9 +294,11 @@ def poster(message):
                     bcount = bcount + 1
                 except Exception as e:
                     print(e)
-                    print(f"Hatalı Kanal: {bkanal}")
-                    if e.find("403") != -1:
-                        collection.delete_one({"_id": user})
+                    print(f"Hatalı kanal: {bkanal}")
+                    if e.find("bot is not a member") != -1:
+                        collection.delete_one({"_id": buser})
+                        bot.send_message(buser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                        print(f"{bkanal} kayıtlardan silindi.")
                     
                 print("Başarılı!")
         bot.send_message(-1001352123979, "Bedava Link kaynağından, {} Kanalda Foto Post Paylaşıldı.".format(bcount))
@@ -326,6 +332,7 @@ def poster(message):
             sablon = str(sablon)
             token = hesap['token']
             kanal = hesap['kanal']
+            user = hesap['_id']
             if kaynak == "1" or kaynak == "0":
                 json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
                 link = json['shortenedUrl']
@@ -344,11 +351,12 @@ def poster(message):
                     bot.send_video(kanal, medya, caption=sablon)
                     count = count + 1
                 except Exception as e:
-                    print(f"Hatalı Kanal: {kanal}")
                     print(e)
-                    if e.find("403") != -1:
+                    print(f"Hatalı kanal: {kanal}")
+                    if e.find("bot is not a member") != -1:
                         collection.delete_one({"_id": user})
-                print("Başarılı!")
+                        bot.send_message(user, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                        print(f"{kanal} kayıtlardan silindi.")
             else:
                 pass
         bot.send_message(-1001352123979, "Link Mahzeni kaynağından, {} Kanalda Video Post Paylaşıldı.".format(count))
@@ -377,6 +385,7 @@ def poster(message):
             bsablon = str(bsablon)
             btoken = bhesap['token']
             bkanal = bhesap['kanal']
+            buser = bhesap['_id']
             print(bkaynak)
             sleep(1)
             if bkaynak == "2" or bkaynak == "0":
@@ -397,10 +406,12 @@ def poster(message):
                     bot.send_video(bkanal, bmedya, caption=bsablon)
                     bcount = bcount + 1
                 except Exception as e:
-                    print(f"Hatalı Kanal: {bkanal}")
                     print(e)
-                    if e.find("403") != -1:
-                        collection.delete_one({"_id": user})
+                    print(f"Hatalı kanal: {bkanal}")
+                    if e.find("bot is not a member") != -1:
+                        collection.delete_one({"_id": buser})
+                        bot.send_message(buser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                        print(f"{bkanal} kayıtlardan silindi.")
                     
                 print("Başarılı!")
         bot.send_message(-1001352123979, "Bedava Link kanalından, {} Kanalda Video Post Paylaşıldı.".format(bcount))
