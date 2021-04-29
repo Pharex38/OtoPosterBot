@@ -41,7 +41,7 @@ _1. Adım: Botu kanlınıza yönetici olarak ekleyin.
 
 _👉 Kaynak kanalını değiştirmek için /kaynak yazabilirsiniz._
 _👉 Post şablonunu değiştirmek için /sablon _
-👉🏻_Botu durdurmak için` /sil `yazabilirsiniz_
+👉🏻_Botu durdurmak için /sil yazabilirsiniz_
 """.format(mention), disable_web_page_preview=True)
 
 @bot.message_handler(commands=['sil'])
