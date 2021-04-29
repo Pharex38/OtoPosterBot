@@ -25,9 +25,9 @@ def start(message):
     chat = message.chat.id
     mention = "@"+message.from_user.username if message.from_user.username else message.from_user.first_name
     bot.send_message(chat, """
-*✨ Merhaba* {}!
-<b>
-❔*e İşe Yarıyor? </b>
+✨ <b>Merhaba</b>{}!
+
+❔<b>Ne İşe Yarıyor? </b>
 <i>Bu bot</i><a href="https://t.me/joinchat/UYu8q0gBTUdUudDL">Link Mahzeni</a><i>'nde paylaşılan postların linklerini otomatik olarak kısaltıp sizin kanalınıza iletir.</i>
 
 ❔<b>Nasıl Kullanılır?*/b>
