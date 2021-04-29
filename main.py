@@ -240,6 +240,8 @@ def poster(message):
                 except Exception as e:
                     print(e)
                     print(f"Hatalı kanal: {kanal}")
+                    e = str(e)
+                    print(e)
                     if e.find("bot is not a member") != -1:
                         collection.delete_one({"_id": user})
                         bot.send_message(user, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
@@ -295,6 +297,8 @@ def poster(message):
                 except Exception as e:
                     print(e)
                     print(f"Hatalı kanal: {bkanal}")
+                    e = str(e)
+                    print(e)
                     if e.find("bot is not a member") != -1:
                         collection.delete_one({"_id": buser})
                         bot.send_message(buser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
@@ -353,6 +357,8 @@ def poster(message):
                 except Exception as e:
                     print(e)
                     print(f"Hatalı kanal: {kanal}")
+                    e = str(e)
+                    print(e)
                     if e.find("bot is not a member") != -1:
                         collection.delete_one({"_id": user})
                         bot.send_message(user, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
@@ -408,6 +414,8 @@ def poster(message):
                 except Exception as e:
                     print(e)
                     print(f"Hatalı kanal: {bkanal}")
+                    e = str(e)
+                    print(e)
                     if e.find("bot is not a member") != -1:
                         collection.delete_one({"_id": buser})
                         bot.send_message(buser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
