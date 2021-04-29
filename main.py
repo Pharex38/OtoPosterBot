@@ -169,6 +169,7 @@ def kaynake(message):
 @bot.channel_post_handler(content_types=['photo'])
 def poster(message):
     count = 0
+    bcount = 0
     chat = message.chat.id
     if chat == -1001368112299 or chat == -1001352123979:
         print(f"başlıyor ")
@@ -219,7 +220,6 @@ def poster(message):
                 pass
         bot.send_message(-1001352123979, "{} Kanalda Post Paylaşıldı.".format(count))
     if chat == -1001122395785:
-        bcount = 0
         print(f"başlıyor ")
         bmesaj = message.caption
         """ Link tespit """
