@@ -161,15 +161,15 @@ def sabloniki(message):
 def kaynakk(message):
     chat = message.chat.id
     user = message.from_user.id
-    msg = bot.send_message(chat, """*Kullanmak istediğiniz kaynak kanalınının numarasını gönderin:*
+    msg = bot.send_message(chat, """<b>Kullanmak istediğiniz kaynak kanalınının numarasını gönderin:
     
-    *Kaynak No:1*
-    [Link Mahzeni](https://t.me/joinchat/UYu8q0gBTUdUudDL)
+    Kaynak No:1</b>
+    <a href="https://t.me/joinchat/UYu8q0gBTUdUudDL">Link Mahzeni</a>
     
     *Kaynk No:2*
-    [Bedava Link](https://t.me/joinchat/MhxcfKLh3aQ4OWU0)
+    <a href="https://t.me/joinchat/MhxcfKLh3aQ4OWU0">Bedava Link</a>
 
-*❗Hepsinden atsın fütursuzca kanalımı sikmek istiyorum diyorsan 0 yaz*
+<b>❗Hepsinden atsın fütursuzca kanalımı sikmek istiyorum diyorsan 0 yaz</b>
     
     
     """, disable_web_page_preview=True)
