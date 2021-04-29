@@ -26,22 +26,22 @@ def start(message):
     mention = "@"+message.from_user.username if message.from_user.username else message.from_user.first_name
     bot.send_message(chat, """
 *✨ Merhaba* {}!
+<b>
+❔*Ne İşe Yarıyor? </b>
+<i>Bu bot</i><a href="https://t.me/joinchat/UYu8q0gBTUdUudDL">Link Mahzeni</a><i>'nde paylaşılan postların linklerini otomatik olarak kısaltıp sizin kanalınıza iletir.</i>
 
-❔*Ne İşe Yarıyor?*
-_Bu bot_ [Link Mahzeni'nde](https://t.me/joinchat/UYu8q0gBTUdUudDL) _paylaşılan postların linklerini otomatik olarak kısaltıp sizin kanalınıza iletir._
-
-❔*Nasıl Kullanılır?*
-_1. Adım: Botu kanlınıza yönetici olarak ekleyin.
+❔<b>Nasıl Kullanılır?*</b>
+<i>1. Adım: Botu kanlınıza yönetici olarak ekleyin.
 2. Adım: /kaydet komutunu kullanarak bilgilerinizi kaydedin.
 3. Adım: KANALINIZDA /onayla yazın.
-4. Adım: Keyfini çıkarın._
+4. Adım: Keyfini çıkarın.</i>
 
-*❤️ Geliştirici & Sahip : @Pharex
-👨🏻‍🔧 Fix & Eklentiler : @bberc*
+<b>❤️ Geliştirici & Sahip : @Pharex
+👨🏻‍🔧 Fix & Eklentiler : @bberc</b>
 
-_👉 Kaynak kanalını değiştirmek için /kaynak yazabilirsiniz._
-_👉 Post şablonunu değiştirmek için /sablon _
-👉🏻_Botu durdurmak için /sil yazabilirsiniz_
+<i>👉 Kaynak kanalını değiştirmek için /kaynak yazabilirsiniz.
+👉 Post şablonunu değiştirmek için /sablon 
+👉🏻Botu durdurmak için /sil yazabilirsiniz</i>
 """.format(mention), disable_web_page_preview=True)
 
 @bot.message_handler(commands=['sil'])
