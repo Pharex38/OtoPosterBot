@@ -114,6 +114,7 @@ def kanalkayit(message):
 @bot.message_handler(commands=['sablon'])
 def sablonn(message):
     chat = message.chat.id
+    markup = types.ForceReply(selective=False)
     msg = bot.send_message(chat, """<b>Şablon No:1</b>
     ----------------
 🔥{aciklama}
@@ -138,7 +139,7 @@ def sablonn(message):
 
 Üstteki şablonlardan kullanmak isterseniz, istediğiniz şablonun numarasını gönderin.
 
-<i>Eğer kendi şablonunuzu oluşturmak isterseniz üstteki şablonlardaki gibi</i> <b>{aciklama}</b> ve <b>{link}</b> <i>kelimelerinin bulunduğundan emin olun yoksa şablon çalışmaz</i>""")
+<i>Eğer kendi şablonunuzu oluşturmak isterseniz üstteki şablonlardaki gibi</i> <b>{aciklama}</b> ve <b>{link}</b> <i>kelimelerinin bulunduğundan emin olun yoksa şablon çalışmaz</i>""", reply_markup=markup)
     bot.register_next_step_handler(msg, sabloniki)
 
 def sabloniki(message):
