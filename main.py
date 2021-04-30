@@ -139,7 +139,7 @@ def kanalkayit(message):
         collection.insert_one(key)
     else:
         collection.update_one({"_id": user}, {"$set":{"token": usre.api}})
-        collection.update_one({"_id": user}, {"$push":{"kanal": kanals}})
+        collection.update_one({"_id": user}, {"$push":{"kanal": str(kanal)}})
     
     bot.reply_to(message,"<b>🟢Bilgileriniz Kaydedildi.</b>\n\n <i>Kaynak kanalını değiştirmek isterseniz /kaynak yazın.</i>")
 
