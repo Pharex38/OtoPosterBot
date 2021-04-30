@@ -99,7 +99,7 @@ def kayit(message):
     for chan in bina['kanal']:
         try:
             kbilgi = bot.get_chat(chan)
-            bot.send_message(chat, "Kayit No: {}\n\nKanalınız: {}".format(kayitli, kbilgi))
+            bot.send_message(chat, "Kayit No: {}\n\nKanalınız: {}".format(kayitli, kbilgi.title))
         except Exception as e:
             print(e)
         kayitli = kayitli + 1
