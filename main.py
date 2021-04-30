@@ -163,6 +163,7 @@ def sabloniki(message):
 def kaynakk(message):
     chat = message.chat.id
     user = message.from_user.id
+    markup = types.ForceReply(selective=False)
     msg = bot.send_message(chat, """<b>Kullanmak istediğiniz kaynak kanalınının numarasını gönderin:
     
     Kaynak No:1</b>
@@ -174,7 +175,7 @@ def kaynakk(message):
 <b>❗Hepsinden atsın fütursuzca kanalımı sikmek istiyorum diyorsan 0 yaz</b>
     
     
-    """, disable_web_page_preview=True)
+    """, disable_web_page_preview=True, reply_markup=markup)
     bot.register_next_step_handler(msg, kaynake)
 
 def kaynake(message):
