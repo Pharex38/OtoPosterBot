@@ -95,11 +95,10 @@ def kayit(message):
         bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
     bina = collection.find({"_id": chat})
-    
-    token = bina['token']
-    for kayitl in list(bina['kanal']):
+    kanal = bina['kanal']
+    for kayitl in kanal:
         kanal = kayitl['kanal']
-        bot.send_message(chat, "Kayit: {}\n\nKanal: {}\nAPI: {}".format(kayitli, kanal[kayitli], token))
+        bot.send_message(chat, "Kayit: {}\n\nKanal: {}\nAPI: {}".format(kayitli, kanal[kayitli]))
         kayitli = kayitli + 1
     
     msg = bot.send_message(chat, """📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""")
