@@ -98,7 +98,7 @@ def kayit(message):
     for kayitl in bina:
         kanal = kayitl['kanal']
         token = kayitl['token']
-        bot.send_message(chat, "Kayit: {}\n\nKanal: {}\nAPI: {}".format(kayitli, kanal, token))
+        bot.send_message(chat, "Kayit: {}\n\nKanal: {}\nAPI: {}".format(kayitli, kanal[kayitli], token))
         kayitli = kayitli + 1
     
     msg = bot.send_message(chat, """📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""")
