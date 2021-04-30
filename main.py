@@ -19,6 +19,8 @@ print("Başlıyor")
 karaliste = collection.find_one({"_id": 0})
 kara = karaliste['kara']
 
+sahip = 1302980840
+
 class usre:
     def __init__(self):
         self.api = None
@@ -84,10 +86,21 @@ def post(message):
 
 @bot.message_handler(commands=['kaydet'])
 def kayit(message):
+    kayitli = 0
     chat = message.chat.id
+    if not chat == sahip:
+        bot.send_message(chat, "Bu komut şuan bakımda!")
+        return
     if chat in kara:
         bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
+    bina = collection.find({"_id": user})
+    for kayitl in bina:
+        kanal = kayitl['kanal']
+        token = kayitl['token'']
+        bot.send_message(chat, "Kayit: {}\n\nKanal: {}\nAPI: {}".format(kayitli, kanal, token))
+        kayitli = kayitli + 1
+    
     msg = bot.send_message(chat, """📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""")
     bot.register_next_step_handler(msg, apikayit)
 
@@ -449,6 +462,7 @@ def poster(message):
                     
                 print("Başarılı!")
         bot.send_message(-1001352123979, "Bedava Link kanalından, {} Kanalda Video Post Paylaşıldı.".format(bcount))
+
 
 
 bot.enable_save_next_step_handlers(delay=4)
