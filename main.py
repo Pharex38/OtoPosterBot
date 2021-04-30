@@ -55,6 +55,9 @@ def start(message):
 def durdur(message):
     chat = message.chat.id
     user = message.from_user.id
+    if user in kara:
+        app.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
+        return
     print(chat)
     try:
         collection.delete_one({"_id": user})
@@ -65,7 +68,11 @@ def durdur(message):
 
 @bot.channel_post_handler(commands=['onayla'])
 def post(message):
+    user = message.from_user.id
     chat = message.chat.id
+    if user in kara:
+        app.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
+        return
     mid = message.id
     mids = mid+1
     print(chat)
@@ -77,6 +84,9 @@ def post(message):
 @bot.message_handler(commands=['kaydet'])
 def kayit(message):
     chat = message.chat.id
+    if chat in kara:
+        app.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
+        return
     msg = bot.send_message(chat, """📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""")
     bot.register_next_step_handler(msg, apikayit)
 
@@ -121,6 +131,9 @@ def kanalkayit(message):
 @bot.message_handler(commands=['sablon'])
 def sablonn(message):
     chat = message.chat.id
+    if chat in kara:
+        app.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
+        return
     markup = types.ForceReply(selective=False)
     msg = bot.send_message(chat, """<b>Şablon No:1</b>
     ----------------
@@ -169,6 +182,9 @@ def sabloniki(message):
 def kaynakk(message):
     chat = message.chat.id
     user = message.from_user.id
+    if user in kara:
+        app.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
+        return
     markup = types.ForceReply(selective=False)
     msg = bot.send_message(chat, """<b>Kullanmak istediğiniz kaynak kanalınının numarasını gönderin:
     
