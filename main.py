@@ -126,19 +126,19 @@ def apikayit(message):
 def kanalkayit(message):
     chat = message.chat.id
     user = message.from_user.id
-    
+    kanals
     if not message.forward_from_chat:
         msg = bot.send_message(chat, "↪️ Bunun ne olduğu hakkında bir fikrim yok! Lütfen kanaldan herhangi bir gönderi iletin.")
         bot.register_next_step_handler(msg, kanalkayit)
         return
     kanal = message.forward_from_chat.id
-    usre.kanal = str(kanal)
-    key = {"_id": user, "token": usre.api, "kanal": usre.kanal, "sablon": "1", "kaynak": "1"}
+    kanals.append(str(kanal))
+    key = {"_id": user, "token": usre.api, "kanal": kanals, "sablon": "1", "kaynak": "1"}
     bnb = collection.find_one({"_id": user})
     if bnb == None:
         collection.insert_one(key)
     else:
-        collection.update_one({"_id": user}, {"$set":{"token": usre.api, "kanal": usre.kanal}})
+        collection.update_one({"_id": user}, {"$set":{"token": usre.api, "kanal": kanals}})
     
     bot.reply_to(message,"<b>🟢Bilgileriniz Kaydedildi.</b>\n\n <i>Kaynak kanalını değiştirmek isterseniz /kaynak yazın.</i>")
 
@@ -379,7 +379,6 @@ def poster(message):
             if kaynak == "1" or kaynak == "0":
                 json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
                 link = json['shortenedUrl']
-                print(f"{kanal} + {link} + {token}")
                 try:
                     if sablon == "1":
                         sablon = f"🔥{aciklama}\n\n🔱 TIKLA 👉 {link}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
@@ -391,6 +390,8 @@ def poster(message):
                     
                         sablon = f"{sal[0]}{aciklama}{sal[1]}{link}{soll[1]}"
                     sleep(1)
+                    for kan in kanal
+                    print(f"{kanal} + {link} + {token}")
                     bot.send_video(kanal, medya, caption=sablon)
                     count = count + 1
                 except Exception as e:
