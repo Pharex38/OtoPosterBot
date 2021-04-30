@@ -97,8 +97,11 @@ def kayit(message):
     bina = collection.find_one({"_id": chat})
     print(bina)
     for chan in bina['kanal']:
-        kbilgi = bot.get_chat(chan)
-        bot.send_message(chat, "Kayit No: {}\n\nKanalınız: {}".format(kayitli, kbilgi['title']))
+        try:
+            kbilgi = bot.get_chat(chan)
+            bot.send_message(chat, "Kayit No: {}\n\nKanalınız: {}".format(kayitli, kbilgi['title']))
+        except Exception as e:
+            print(e)
         kayitli = kayitli + 1
         
     
