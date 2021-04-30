@@ -5,7 +5,7 @@ import asyncio
 from time import sleep
 from pymongo import MongoClient
 import telebot
-from telebot import 
+from telebot import types
 
 botapi = environ['BOT_TOKEN'] 
 mongo = environ['MONGO']
