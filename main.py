@@ -97,11 +97,8 @@ def kayit(message):
     bina = collection.find_one({"_id": chat})
     print(bina)
     for chan in bina['kanal']:
-        try:
-            print(bot.get_chat(chan))
-        except:
-            pass
-        bot.send_message(chat, "Kayit No: {}\n\nKanalınız: {}".format(kayitli, chan))
+        kbilgi = bot.get_chat(chan)
+        bot.send_message(chat, "Kayit No: {}\n\nKanalınız: {}".format(kayitli, kbilgi['title']))
         kayitli = kayitli + 1
         
     
