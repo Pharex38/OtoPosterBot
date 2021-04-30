@@ -390,7 +390,7 @@ def poster(message):
                     
                         sablon = f"{sal[0]}{aciklama}{sal[1]}{link}{soll[1]}"
                     sleep(1)
-                    for kan in kanal
+                    
                     print(f"{kanal} + {link} + {token}")
                     bot.send_video(kanal, medya, caption=sablon)
                     count = count + 1
