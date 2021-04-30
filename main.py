@@ -29,7 +29,7 @@ def start(message):
     chat = message.chat.id
     user = message.from_user.id
     if user in kara:
-        app.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
+        bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
     mention = "@"+message.from_user.username if message.from_user.username else message.from_user.first_name
     bot.send_message(chat, """
@@ -57,7 +57,7 @@ def durdur(message):
     chat = message.chat.id
     user = message.from_user.id
     if user in kara:
-        app.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
+        bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
     print(chat)
     try:
@@ -72,7 +72,7 @@ def post(message):
     user = message.from_user.id
     chat = message.chat.id
     if user in kara:
-        app.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
+        bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
     mid = message.id
     mids = mid+1
@@ -86,7 +86,7 @@ def post(message):
 def kayit(message):
     chat = message.chat.id
     if chat in kara:
-        app.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
+        bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
     msg = bot.send_message(chat, """📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""")
     bot.register_next_step_handler(msg, apikayit)
@@ -133,7 +133,7 @@ def kanalkayit(message):
 def sablonn(message):
     chat = message.chat.id
     if chat in kara:
-        app.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
+        bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
     markup = types.ForceReply(selective=False)
     msg = bot.send_message(chat, """<b>Şablon No:1</b>
@@ -184,7 +184,7 @@ def kaynakk(message):
     chat = message.chat.id
     user = message.from_user.id
     if user in kara:
-        app.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
+        bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
     markup = types.ForceReply(selective=False)
     msg = bot.send_message(chat, """<b>Kullanmak istediğiniz kaynak kanalınının numarasını gönderin:
