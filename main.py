@@ -16,6 +16,9 @@ collection = db["Kanallar"]
 bot = telebot.TeleBot(botapi,parse_mode='html')
 print("Başlıyor")
 
+karaliste = collection.find_one({"_id": 0})
+kara = karaliste['kara']
+
 class usre:
     def __init__(self):
         self.api = None
@@ -24,6 +27,9 @@ class usre:
 @bot.message_handler(commands=['start'])
 def start(message):
     chat = message.chat.id
+    if chat in kara:
+        app.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
+        return
     mention = "@"+message.from_user.username if message.from_user.username else message.from_user.first_name
     bot.send_message(chat, """
 ✨ <b>Merhaba {}!</b>
