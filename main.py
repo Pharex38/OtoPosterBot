@@ -86,7 +86,7 @@ def post(message):
 
 @bot.message_handler(commands=['kaydet'])
 def kayit(message):
-    kayitli = 0
+    kayitli = 1
     chat = message.chat.id
     if not chat == sahip:
         bot.send_message(chat, "Bu komut şuan bakımda!")
@@ -103,8 +103,11 @@ def kayit(message):
         except Exception as e:
             print(e)
         kayitli = kayitli + 1
+        msg = bot.send_message(chat, "Toplam: {}\n\nMax 3 kanal kaydedebilirsiniz.")
+        bot.register_next_step_handler(msg, kayitapi)
         
-    
+def kayitapi(message):
+    chat = message.chat.id
     msg = bot.send_message(chat, """📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""")
     bot.register_next_step_handler(msg, apikayit)
 
