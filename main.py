@@ -94,7 +94,7 @@ def kayit(message):
     if chat in kara:
         bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
-    bina = collection.find({"_id": user})
+    bina = collection.find({"_id": chat})
     for kayitl in bina:
         kanal = kayitl['kanal']
         token = kayitl['token']
