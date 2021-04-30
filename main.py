@@ -126,7 +126,7 @@ def apikayit(message):
 def kanalkayit(message):
     chat = message.chat.id
     user = message.from_user.id
-    kanals
+    kanals = []
     if not message.forward_from_chat:
         msg = bot.send_message(chat, "↪️ Bunun ne olduğu hakkında bir fikrim yok! Lütfen kanaldan herhangi bir gönderi iletin.")
         bot.register_next_step_handler(msg, kanalkayit)
