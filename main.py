@@ -97,7 +97,7 @@ def kayit(message):
     bina = collection.find({"_id": chat})
     
     token = bina['token']
-    for kayitl in bina['kanal']:
+    for kayitl in list(bina['kanal']):
         kanal = kayitl['kanal']
         bot.send_message(chat, "Kayit: {}\n\nKanal: {}\nAPI: {}".format(kayitli, kanal[kayitli], token))
         kayitli = kayitli + 1
