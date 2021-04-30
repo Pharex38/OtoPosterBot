@@ -97,8 +97,8 @@ def kayit(message):
     bina = collection.find_one({"_id": chat})
     kanal = bina['kanal']
     for kayitl in kanal:
-        kanal = kayitl['kanal']
-        bot.send_message(chat, "Kayit: {}\n\nKanal: {}\nAPI: {}".format(kayitli, kanal[kayitli]))
+        kanalx = kayitl['kanal']
+        bot.send_message(chat, "Kayit: {}\n\nKanal: {}\nAPI: {}".format(kayitli, kanalx))
         kayitli = kayitli + 1
     
     msg = bot.send_message(chat, """📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""")
