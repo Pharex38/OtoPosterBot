@@ -27,7 +27,8 @@ class usre:
 @bot.message_handler(commands=['start'])
 def start(message):
     chat = message.chat.id
-    if chat in kara:
+    user = message.from_user.id
+    if user in kara:
         app.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
     mention = "@"+message.from_user.username if message.from_user.username else message.from_user.first_name
