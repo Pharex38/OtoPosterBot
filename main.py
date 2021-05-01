@@ -328,7 +328,7 @@ def poster(message):
                     
                     sleep(1)
                     for kan in kanal:
-                        bot.send_photo(kanal, medya, caption=sablon)
+                        bot.send_photo(kan, medya, caption=sablon)
                         count = count + 1
                 except Exception as e:
                     print(e)
@@ -448,7 +448,7 @@ def poster(message):
                     
                     print(f"{kanal} + {link} + {token}")
                     for kan in kanal:
-                        bot.send_video(kanal, medya, caption=sablon)
+                        bot.send_video(kan, medya, caption=sablon)
                         count = count + 1
                 except Exception as e:
                     print(e)
@@ -505,8 +505,8 @@ def poster(message):
                     
                         bsablon = f"{bsal[0]}{baciklama}{bsal[1]}{blink}{bsoll[1]}"
                     
-                    for kan in kanal:
-                        bot.send_video(bkanal, bmedya, caption=bsablon)
+                    for bkan in kanal:
+                        bot.send_video(bkan, bmedya, caption=bsablon)
                         bcount = bcount + 1
                 except Exception as e:
                     print(e)
