@@ -29,7 +29,7 @@ class usre:
 
 duyuru = collection.find({})
 for d in duyuru:
-    bot.send_message(d['_id'], """<b>Botun /kaydet bölümü yenilendi!</a>\n\n<i> /kaydet komutu ile kanallarınızı ve API keyinizi kontrol edin bi' sıkıntı varsa düzeltin. Sonra benim kafamı sikmeyin cart curt diye.</i>\n\n<a href="https://t.me/joinchat/K1b0RCm6DoQ5YzA0">OtoPosterLog</a> kanalından postları takip edebilirsiniz.\n\nKeyifli Otuzbirler""")
+    bot.send_message(d['_id'], """<b>Botun /kaydet bölümü yenilendi!</b>\n\nArtık üç taneye kadar kanal ekleyebilirsiniz.\n\n<i> /kaydet komutu ile kanallarınızı ve API keyinizi kontrol edin bi' sıkıntı varsa düzeltin. Sonra benim kafamı sikmeyin cart curt diye.</i>\n\n<a href="https://t.me/joinchat/K1b0RCm6DoQ5YzA0">OtoPosterLog</a> kanalından postları takip edebilirsiniz.\n\nKeyifli Otuzbirler""")
 
 @bot.message_handler(commands=['start'])
 def start(message):
