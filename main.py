@@ -130,7 +130,7 @@ def kayitapi(message):
     chat = message.chat.id
     mesaj = message.text
     if mesaj.lower() == "api gir":
-        msg = bot.send_photo(chat, '📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>')
+        msg = bot.send_photo(chat, """📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""")
         bot.register_next_step_handler(msg, apikayit)
         return
     if mesaj.lower() == "kanal sil":
