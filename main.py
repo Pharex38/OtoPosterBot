@@ -102,9 +102,8 @@ def kayit(message):
         bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
     bina = collection.find_one({"_id": chat})
-    
+   
     try:
-        tokenn = bina['token']
         for chan in bina['kanal']:
             try:
                 kbilgi = bot.get_chat(chan)
@@ -114,6 +113,10 @@ def kayit(message):
             else:    
                 bot.send_message(chat, "Kayit No: {}\n\nKanalınız: {}".format(kayitli+1, kbilgi.title))
                 kayitli = kayitli + 1
+    except:
+        pass
+    try:
+        tokenn = bina['token']
     except:
         msg = bot.send_message(chat, """📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=markup)
         bot.register_next_step_handler(msg, apikayit)
