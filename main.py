@@ -94,16 +94,19 @@ def kayit(message):
     if chat in kara:
         bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
-    bina = collection.find_one({"_id": chat})
-    print(bina)
-    for chan in bina['kanal']:
-        try:
-            kbilgi = bot.get_chat(chan)
-            bot.send_message(chat, "Kayit No: {}\n\nKanalınız: {}".format(kayitli, kbilgi.title))
-        except Exception as e:
-            print(e)
-        kayitli = kayitli + 1
-    msg = bot.send_message(chat, "Toplam: {}\n\nMax 3 kanal kaydedebilirsiniz.".format(kayitli))
+    try:
+        bina = collection.find_one({"_id": chat})
+    try:
+        for chan in bina['kanal']:
+            try:
+                kbilgi = bot.get_chat(chan)
+                bot.send_message(chat, "Kayit No: {}\n\nKanalınız: {}".format(kayitli, kbilgi.title))
+            except Exception as e:
+                print(e)
+            kayitli = kayitli + 1
+    except:
+        bot.send_message(chat, "Kayıtlı kanalınız bulunmamaktadır")
+    msg = bot.send_message(chat, "Toplam: {}".format(kayitli))
     bot.register_next_step_handler(msg, kayitapi)
 
 def kayitapi(message):
