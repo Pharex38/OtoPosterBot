@@ -29,7 +29,7 @@ class usre:
 
 yeni = collection.find({})
 for y in yeni:
-    collection.update_one({"_id": y['_id']}, {"$push": {"kanal": y['kanal']}})
+    collection.update_one({"_id": y['_id']}, {"$set": {"kanal": [y['kanal']]}})
     
 @bot.message_handler(commands=['start'])
 def start(message):
@@ -181,7 +181,6 @@ def apikayit(message):
     else:
         collection.update_one({"_id": user}, {"$set": {"token": token}})
     msg = bot.edit_message_text("<b>🟢 API kaydedildi!\n\n /Kaydet yazarak kanal ekleyebilirsiniz.</b>", chat, mids)
-    
 
 def kanalkayit(message):
     chat = message.chat.id
