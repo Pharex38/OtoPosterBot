@@ -20,6 +20,7 @@ karaliste = collection.find_one({"_id": 0})
 kara = karaliste['kara']
 
 sahip = 1302980840
+markup = types.ForceReply(selective=False)
 
 class usre:
     def __init__(self):
@@ -117,11 +118,11 @@ def kayit(message):
 def kayitapi(message):
     chat = message.chat.id
     mesaj = message.text
-    markuppp = types.ForceReply(selective=False)
+    markuppp = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
     if mesaj.lower() == "iptal":
         msg = bot.send_message(chat, "İptal Edildi.", reply_markup=markuppp)
         return
-    msg = bot.send_message(chat, """📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""")
+    msg = bot.send_message(chat, """📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=markup)
     bot.register_next_step_handler(msg, apikayit)
 
 def apikayit(message):
@@ -169,7 +170,7 @@ def sablonn(message):
     if chat in kara:
         bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
-    markup = types.ForceReply(selective=False)
+    
     msg = bot.send_message(chat, """<b>Şablon No:1</b>
     ----------------
 🔥{aciklama}
@@ -220,7 +221,7 @@ def kaynakk(message):
     if user in kara:
         bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
-    markup = types.ForceReply(selective=False)
+    
     msg = bot.send_message(chat, """<b>Kullanmak istediğiniz kaynak kanalınının numarasını gönderin:
     
     Kaynak No:1</b>
