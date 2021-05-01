@@ -141,6 +141,9 @@ def kayitapi(message):
 def ksil(message):
     mesaj = int(message.text) - 1
     user = message.from_user.id
+    if not message.text.isdigit():
+        bot.send_message(chat, "Lütfen geçerli bir numara verin")
+        return
     chat = message.chat.id
     bul = collection.find_one({"_id": user})
     x = bul['kanal']
@@ -174,6 +177,7 @@ def apikayit(message):
     else:
         collection.update_one({"_id": user}, {"$set": {"token": token}})
     msg = bot.edit_message_text("<b>🟢 API kaydedildi!</b>", chat, mids)
+    bot.register_next_step_handler(msg, kayit)
 
 def kanalkayit(message):
     chat = message.chat.id
