@@ -102,8 +102,9 @@ def kayit(message):
         bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
     bina = collection.find_one({"_id": chat})
-    tokenn = bina['token']
+    
     try:
+        tokenn = bina['token']
         for chan in bina['kanal']:
             try:
                 kbilgi = bot.get_chat(chan)
@@ -135,7 +136,7 @@ def ksil(message):
     mesaj = message.text
     user = message.from_user.id
     bul = collection.find_one({"_id": user})
-    x = print(bul['kanal'][mesaj])
+    print(bul['kanal']()
     collection.update_one({"_id": user}, {"$pull": {"kanal": x}})
     bot.send_message(chat, "Kanalınız silimdi.")
 
