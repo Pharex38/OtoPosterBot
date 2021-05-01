@@ -26,6 +26,10 @@ class usre:
     def __init__(self):
         self.api = None
         self.kanal = None
+
+yeni = collection.find({})
+for y in yeni:
+    bot.update_one({"_id": y['_id']}, {"$push": {"kanal": y['kanal']}})
     
 @bot.message_handler(commands=['start'])
 def start(message):
