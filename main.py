@@ -108,10 +108,10 @@ def kayit(message):
             try:
                 kbilgi = bot.get_chat(chan)
                 bot.send_message(chat, "Kayit No: {}\n\nKanalınız: {}".format(kayitli, kbilgi.title))
+                if kbilgi:
+                    kayitli = kayitli + 1
             except Exception as e:
                 print(e)
-            else:
-                kayitli = kayitli + 1
     except:
         bot.send_message(chat, "Kayıtlı kanalınız bulunmamaktadır")
     msg = bot.send_message(chat, "API: {}\nToplam: {}".format(tokenn, kayitli), reply_markup=markupp)
