@@ -92,7 +92,8 @@ def kayit(message):
     markupp = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
     buton1 = types.KeyboardButton('Yeni Kanal Ekle')
     buton2 = types.KeyboardButton('iptal')
-    markupp.add(buton1, buton2)
+    buton3 = types.KeyboardButton('Kanal Sil')
+    markupp.add(buton1, buton2, buton3)
 
     if not chat == sahip:
         bot.send_message(chat, "Bu komut şuan bakımda!")
@@ -109,7 +110,8 @@ def kayit(message):
                 bot.send_message(chat, "Kayit No: {}\n\nKanalınız: {}".format(kayitli, kbilgi.title))
             except Exception as e:
                 print(e)
-            kayitli = kayitli + 1
+            else:
+                kayitli = kayitli + 1
     except:
         bot.send_message(chat, "Kayıtlı kanalınız bulunmamaktadır")
     msg = bot.send_message(chat, "API: {}\nToplam: {}".format(tokenn, kayitli), reply_markup=markupp)
