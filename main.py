@@ -112,6 +112,7 @@ def kayit(message):
                     kayitli = kayitli + 1
             except Exception as e:
                 print(e)
+                kayitli = kayitli - 1
     except:
         bot.send_message(chat, "Kayıtlı kanalınız bulunmamaktadır")
     msg = bot.send_message(chat, "API: {}\nToplam: {}".format(tokenn, kayitli), reply_markup=markupp)
