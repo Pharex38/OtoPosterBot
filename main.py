@@ -93,7 +93,8 @@ def kayit(message):
     buton1 = types.KeyboardButton('Yeni Kanal Ekle')
     buton2 = types.KeyboardButton('iptal')
     buton3 = types.KeyboardButton('Kanal Sil')
-    markupp.add(buton1, buton2, buton3)
+    buton4 = types.KeyboardButton('API gir')
+    markupp.add(buton1, buton2, buton3, buton4)
 
     if not chat == sahip:
         bot.send_message(chat, "Bu komut şuan bakımda!")
@@ -107,6 +108,7 @@ def kayit(message):
         for chan in bina['kanal']:
             try:
                 kbilgi = bot.get_chat(chan)
+                print(kbilgi)
             except Exception as e:
                 print(e)
                 collection.update_one({"_id": user}, {"$pull": {"kanal": x[kayitli]}})
@@ -127,6 +129,10 @@ def kayit(message):
 def kayitapi(message):
     chat = message.chat.id
     mesaj = message.text
+    if mesaj.lower() == "api gir":
+        msg = bot.send_photo(chat, '📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>')
+        bot.register_next_step_handler(msg, apikayit)
+        return
     if mesaj.lower() == "kanal sil":
         msg = bot.send_message(chat, "Silmek istediğiniz kanalın kayıt numarasını girin.")
         bot.register_next_step_handler(msg, ksil)
@@ -167,8 +173,7 @@ def apikayit(message):
         bot.register_next_step_handler(msg, apikayit)
         return
     usre.api = token
-    msg = bot.edit_message_text("<b>🟢 API kaydedildi!</b>\n\n<i>Kanalınızdan herhangi bir gönderi iletin.</i>", chat, mids)
-    bot.register_next_step_handler(msg, kanalkayit)
+    msg = bot.edit_message_text("<b>🟢 API kaydedildi!</b>", chat, mids)
 
 def kanalkayit(message):
     chat = message.chat.id
