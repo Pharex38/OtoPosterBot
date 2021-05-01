@@ -134,7 +134,7 @@ def kayitapi(message):
     if mesaj.lower() == "iptal":
         msg = bot.send_message(chat, "İptal Edildi.", reply_markup=markup)
         return
-    msg = bot.send_message(chat, """📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=markup)
+    msg = bot.send_message(chat, """📝 <i>Lütfen kanalınızdan bir gönderi iletin.</i>""", reply_markup=markup)
     bot.register_next_step_handler(msg, kanalkayit)
 
 def ksil(message):
