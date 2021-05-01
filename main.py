@@ -88,6 +88,11 @@ def post(message):
 def kayit(message):
     kayitli = 1
     chat = message.chat.id
+    markupp = types.ReplyKeyboardMarkup(row_width=2)
+    buton1 = types.KeyboardButton('Yeni Kanal Ekle')
+    buton2 = types.KeyboardButton('iptal')
+    markupp.add(buton1, buton2)
+
     if not chat == sahip:
         bot.send_message(chat, "Bu komut şuan bakımda!")
         return
@@ -95,6 +100,7 @@ def kayit(message):
         bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
     bina = collection.find_one({"_id": chat})
+    tokenn = bina['token']
     try:
         for chan in bina['kanal']:
             try:
@@ -105,7 +111,7 @@ def kayit(message):
             kayitli = kayitli + 1
     except:
         bot.send_message(chat, "Kayıtlı kanalınız bulunmamaktadır")
-    msg = bot.send_message(chat, "Toplam: {}".format(kayitli))
+    msg = bot.send_message(chat, "API: {}\nToplam: {}".format(tokenn, kayitli), reply_markup=markupp)
     bot.register_next_step_handler(msg, kayitapi)
 
 def kayitapi(message):
