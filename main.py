@@ -140,10 +140,12 @@ def ksil(message):
     chat = message.chat.id
     bul = collection.find_one({"_id": user})
     x = bul['kanal']
-    
-    print(x)
-    print(collection.update_one({"_id": user}, {"$pull": {"kanal": x[mesaj]}}))
-    bot.send_message(chat, "Kanalınız silimdi.")
+    try:
+        collection.update_one({"_id": user}, {"$pull": {"kanal": x[mesaj]}})
+    except:
+        bot.send_message(chat, "Yanlış bir numara girdiniz.")
+    else:
+        bot.send_message(chat, "Kanalınız silimdi.")
 
 
 def apikayit(message):
