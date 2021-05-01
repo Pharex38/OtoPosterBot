@@ -114,7 +114,8 @@ def kayit(message):
             else:    
                 bot.send_message(chat, "Kayit No: {}\n\nKanalınız: {}".format(kayitli+1, kbilgi.title))
                 kayitli = kayitli + 1
-    except:
+    except Exception as e:
+        print(e)
         pass
     try:
         tokenn = bina['token']
