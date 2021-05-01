@@ -370,7 +370,7 @@ def poster(message):
             buser = bhesap['_id']
             print(bkaynak)
             sleep(2)
-            if bkaynak == "9" or bkaynak == "0":
+            if bkaynak == "2" or bkaynak == "0":
                 bjson = s.get(f"https://ay.live/api/?api={btoken}&url={bmesajb}&alias=&ct=1", cookies=cookies).json()
                 blink = bjson['shortenedUrl']
                 print(f"{bkanal} + {blink} + {btoken}")
