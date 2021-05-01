@@ -115,24 +115,8 @@ def kayit(message):
                 print(e)
                 kayitli = kayitli - 1
     except:
-        bot.send_message(chat, "Kayıtlı kanalınız bulunmamaktadır", reply_markup=markupp)
-        token = message.text
-        mid = message.id
-        mids = mid+1
-        chat = message.chat.id
-        bot.send_message(chat, "<code>👁️ API adresiniz kontrol ediliyor...</code>", parse_mode='MarkDown')
-        s = requests.Session()
-        link = s.get("https://ay.live/api")
-        cookies = dict(link.cookies)
-        ket = s.get(f"https://tr.link/api/?api={token}&url=yourdestinationlink.com&format=text&alias=&ct=1", cookies=cookies).text
-        print(ket)
-        if ket == None:
-            msg = bot.edit_message_text("""<b>✖️ Geçersiz Bir API adresi girdiniz!</b> <i>Lütfen <a href="https://tr.link/member/tools/api">bu adresen</a> yeniden alın.</i>""", chat, mids)
-            bot.register_next_step_handler(msg, apikayit)
-            return
-        usre.api = token
-        msg = bot.edit_message_text("<b>🟢 API kaydedildi!</b>\n\n<i>Kanalınızdan herhangi bir gönderi iletin.</i>", chat, mids)
-        bot.register_next_step_handler(msg, kanalkayit)
+        msg = bot.send_message(chat, """📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=markup)
+        bot.register_next_step_handler(msg, apikayit)
     else:
         msg = bot.send_message(chat, "API: {}\nToplam: {}".format(tokenn, kayitli), reply_markup=markupp)
         bot.register_next_step_handler(msg, kayitapi)
