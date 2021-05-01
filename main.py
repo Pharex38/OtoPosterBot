@@ -89,7 +89,7 @@ def post(message):
 def kayit(message):
     kayitli = 1
     chat = message.chat.id
-    markupp = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
+    markupp = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=False, resize_keyboard=True, selective=True)
     buton1 = types.KeyboardButton('Yeni Kanal Ekle')
     buton2 = types.KeyboardButton('iptal')
     markupp.add(buton1, buton2)
