@@ -135,7 +135,7 @@ def kayitapi(message):
     bot.register_next_step_handler(msg, apikayit)
 
 def ksil(message):
-    mesaj = int(message.text - 1)
+    mesaj = int(message.text) - 1
     user = message.from_user.id
     chat = message.chat.id
     bul = collection.find_one({"_id": user})
