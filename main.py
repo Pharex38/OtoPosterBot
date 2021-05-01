@@ -89,7 +89,7 @@ def post(message):
 def kayit(message):
     kayitli = 1
     chat = message.chat.id
-    markupp = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=False, resize_keyboard=True, selective=True)
+    markupp = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
     buton1 = types.KeyboardButton('Yeni Kanal Ekle')
     buton2 = types.KeyboardButton('iptal')
     markupp.add(buton1, buton2)
@@ -118,9 +118,8 @@ def kayit(message):
 def kayitapi(message):
     chat = message.chat.id
     mesaj = message.text
-    markuppp = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
     if mesaj.lower() == "iptal":
-        msg = bot.send_message(chat, "İptal Edildi.", reply_markup=markuppp)
+        msg = bot.send_message(chat, "İptal Edildi.", reply_markup=markup)
         return
     msg = bot.send_message(chat, """📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=markup)
     bot.register_next_step_handler(msg, apikayit)
