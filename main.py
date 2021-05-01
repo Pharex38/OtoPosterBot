@@ -94,7 +94,7 @@ def kayit(message):
     buton2 = types.KeyboardButton('iptal')
     buton3 = types.KeyboardButton('Kanal Sil')
     buton4 = types.KeyboardButton('API gir')
-    markupp.add(buton1, buton2, buton3, buton4)
+    markupp.add(buton1, buton2, buton3)
 
     if not chat == sahip:
         bot.send_message(chat, "Bu komut şuan bakımda!")
@@ -103,7 +103,6 @@ def kayit(message):
         bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
     bina = collection.find_one({"_id": chat})
-   
     try:
         for chan in bina['kanal']:
             try:
@@ -133,10 +132,6 @@ def kayitapi(message):
         msg = bot.send_message(chat, "Silmek istediğiniz kanalın kayıt numarasını girin.")
         bot.register_next_step_handler(msg, ksil)
         return
-    if mesaj.lower() == "api gir":
-        bot.send_photo(chat, "📝 <i>Lütfen</i> <a href=https://tr.link/member/tools/quick>burdan</a> <i>aldığınız API adresinizi gönderin", reply_markup=markup)
-        bot.register_next_step_handler(msg, apikayit)
-        return
     if mesaj.lower() == "iptal":
         msg = bot.send_message(chat, "İptal Edildi.", reply_markup=markup)
         return
@@ -155,7 +150,6 @@ def ksil(message):
         bot.send_message(chat, "Yanlış bir numara girdiniz.")
     else:
         bot.send_message(chat, "Kanalınız silimdi.")
-
 
 def apikayit(message):
     token = message.text
