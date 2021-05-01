@@ -112,7 +112,7 @@ def kayit(message):
                 print(e)
                 collection.update_one({"_id": user}, {"$pull": {"kanal": x[kayitli]}})
             else:    
-                bot.send_message(chat, "Kayit No: {}\n\nKanalınız: {}".format(kayitli, kbilgi.title))
+                bot.send_message(chat, "Kayit No: {}\n\nKanalınız: {}".format(kayitli+1, kbilgi.title))
                 kayitli = kayitli + 1
     except:
         msg = bot.send_message(chat, """📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=markup)
