@@ -109,7 +109,7 @@ def kayit(message):
                 print(kbilgi)
             except Exception as e:
                 print(e)
-                print(chan[kayitli])
+                print(chan)
                 collection.update_one({"_id": chat}, {"$pull": {"kanal": chan[kayitli]}})
                 print("Kanal silindi")
             else:    
