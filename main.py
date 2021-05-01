@@ -167,7 +167,7 @@ def apikayit(message):
         bot.register_next_step_handler(msg, apikayit)
         return
     bnb = collection.find_one({"_id": user})
-    key = {"_id": user, "token": token}
+    key = {"_id": user, "token": token, "kanal": [-1001190098026], "kaynak": 1, "sablon": 2}
     if bnb == None:
         collection.insert_one(key)
     else:
@@ -184,13 +184,10 @@ def kanalkayit(message):
         return
     kanal = message.forward_from_chat.id
     kanals.append(str(kanal))
-    key = {"_id": user, "token": usre.api, "kanal": kanals, "sablon": "1", "kaynak": "1"}
-    bnb = collection.find_one({"_id": user})
-    if bnb == None:
-        collection.insert_one(key)
-    else:
-        collection.update_one({"_id": user}, {"$set":{"token": usre.api}})
-        collection.update_one({"_id": user}, {"$push":{"kanal": str(kanal)}})
+ 
+    y = collection.find_one({"_id": user})
+    
+    collection.update_one({"_id": user}, {"$push":{"kanal": str(kanal)}})
     
     bot.reply_to(message,"<b>🟢Bilgileriniz Kaydedildi.</b>\n\n <i>Kaynak kanalını değiştirmek isterseniz /kaynak yazın.</i>")
 
