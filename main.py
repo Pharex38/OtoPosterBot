@@ -370,7 +370,7 @@ def poster(message):
             buser = bhesap['_id']
             print(bkaynak)
             sleep(2)
-            if bkaynak == "2" or bkaynak == "0":
+            if bkaynak == "9" or bkaynak == "0":
                 bjson = s.get(f"https://ay.live/api/?api={btoken}&url={bmesajb}&alias=&ct=1", cookies=cookies).json()
                 blink = bjson['shortenedUrl']
                 print(f"{bkanal} + {blink} + {btoken}")
@@ -385,8 +385,9 @@ def poster(message):
                     
                         bsablon = f"{bsal[0]}{baciklama}{bsal[1]}{blink}{bsoll[1]}"
                     sleep(1)
-                    bot.send_photo(bkanal, bmedya, caption=bsablon)
-                    bcount = bcount + 1
+                    for bkan in bkanal:
+                        bot.send_photo(bkan, bmedya, caption=bsablon)
+                        bcount = bcount + 1
                 except Exception as e:
                     print(e)
                     print(f"Hatalı kanal: {bkanal}")
