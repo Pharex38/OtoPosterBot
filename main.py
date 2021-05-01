@@ -137,6 +137,7 @@ def kayitapi(message):
 def ksil(message):
     mesaj = message.text
     user = message.from_user.id
+    chat = message.chat.id
     bul = collection.find_one({"_id": user})
     x = bul['kanal']
     collection.update_one({"_id": user}, {"$pull": {"kanal": x}})
