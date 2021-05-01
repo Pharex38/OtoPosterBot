@@ -110,7 +110,7 @@ def kayit(message):
             except Exception as e:
                 print(e)
                 print(chan)
-                collection.update_one({"_id": chat}, {"$pull": {"kanal": chan[kayitli]}})
+                collection.update_one({"_id": chat}, {"$pull": {"kanal": chan}})
                 print("Kanal silindi")
             else:    
                 bot.send_message(chat, """"Kayit No: {}\n\nKanalınız: <a href="{}">{}</a>""".format(kayitli+1, kbilgi.invite_link, kbilgi.title))
