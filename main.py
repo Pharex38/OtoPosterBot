@@ -129,13 +129,13 @@ def kayit(message):
 def kayitapi(message):
     chat = message.chat.id
     mesaj = message.text
-    if mesaj.lower() == "api gir":
-        bot.send_photo(chat, "📝 <i>Lütfen</i> <a href=https://tr.link/member/tools/quick>burdan</a> <i>aldığınız API adresinizi gönderin")
-        bot.register_next_step_handler(msg, apikayit)
-        return
     if mesaj.lower() == "kanal sil":
         msg = bot.send_message(chat, "Silmek istediğiniz kanalın kayıt numarasını girin.")
         bot.register_next_step_handler(msg, ksil)
+        return
+    if mesaj.lower() == "api gir":
+        bot.send_photo(chat, "📝 <i>Lütfen</i> <a href=https://tr.link/member/tools/quick>burdan</a> <i>aldığınız API adresinizi gönderin")
+        bot.register_next_step_handler(msg, apikayit)
         return
     if mesaj.lower() == "iptal":
         msg = bot.send_message(chat, "İptal Edildi.", reply_markup=markup)
