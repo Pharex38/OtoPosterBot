@@ -93,7 +93,6 @@ def kayit(message):
     buton1 = types.KeyboardButton('Yeni Kanal Ekle')
     buton2 = types.KeyboardButton('iptal')
     buton3 = types.KeyboardButton('Kanal Sil')
-    buton4 = types.KeyboardButton('API gir')
     markupp.add(buton1, buton2, buton3)
 
     if not chat == sahip:
@@ -154,6 +153,7 @@ def ksil(message):
 def apikayit(message):
     token = message.text
     mid = message.id
+    user = message.from_user.id
     mids = mid+1
     chat = message.chat.id
     bot.send_message(chat, "<code>👁️ API adresiniz kontrol ediliyor...</code>", parse_mode='MarkDown')
@@ -166,7 +166,12 @@ def apikayit(message):
         msg = bot.edit_message_text("""<b>✖️ Geçersiz Bir API adresi girdiniz!</b> <i>Lütfen <a href="https://tr.link/member/tools/api">bu adresen</a> yeniden alın.</i>""", chat, mids)
         bot.register_next_step_handler(msg, apikayit)
         return
-    usre.api = token
+    bnb = collection.find_one({"_id": user})
+    key = {"_id": user, "token": token}
+    if bnb == None:
+        collection.insert_one(key)
+    else:
+        collection.update_one({"_id": user}, {"$set": {"token": token}})
     msg = bot.edit_message_text("<b>🟢 API kaydedildi!</b>", chat, mids)
 
 def kanalkayit(message):
