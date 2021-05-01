@@ -108,12 +108,11 @@ def kayit(message):
         for chan in bina['kanal']:
             try:
                 kbilgi = bot.get_chat(chan)
-                bot.send_message(chat, "Kayit No: {}\n\nKanalınız: {}".format(kayitli, kbilgi.title))
-                if kbilgi:
-                    kayitli = kayitli + 1
             except Exception as e:
                 print(e)
-                kayitli = kayitli - 1
+            else:    
+                bot.send_message(chat, "Kayit No: {}\n\nKanalınız: {}".format(kayitli, kbilgi.title))
+                kayitli = kayitli + 1
     except:
         msg = bot.send_message(chat, """📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=markup)
         bot.register_next_step_handler(msg, apikayit)
