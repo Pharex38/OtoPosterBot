@@ -90,14 +90,10 @@ def kayit(message):
     kayitli = 0
     chat = message.chat.id
     markupp = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
-    buton1 = types.KeyboardButton('Yeni Kanal Ekle')
-    buton2 = types.KeyboardButton('iptal')
-    buton3 = types.KeyboardButton('Kanal Sil')
+    buton1 = types.KeyboardButton('🔶 Yeni Kanal Ekle')
+    buton2 = types.KeyboardButton('❌ iptal')
+    buton3 = types.KeyboardButton('🗑️ Kanal Sil')
     markupp.add(buton1, buton2, buton3)
-
-    if not chat == sahip:
-        bot.send_message(chat, "Bu komut şuan bakımda!")
-        return
     if chat in kara:
         bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
