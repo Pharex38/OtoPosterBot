@@ -26,10 +26,6 @@ class usre:
     def __init__(self):
         self.api = None
         self.kanal = None
-
-yeni = collection.find({})
-for y in yeni:
-    collection.update_one({"_id": y['_id']}, {"$set": {"kanal": [y['kanal']]}})
     
 @bot.message_handler(commands=['start'])
 def start(message):
@@ -331,8 +327,9 @@ def poster(message):
                         sablon = f"{sal[0]}{aciklama}{sal[1]}{link}{soll[1]}"
                     
                     sleep(1)
-                    bot.send_photo(kanal, medya, caption=sablon)
-                    count = count + 1
+                    for kan in kanal:
+                        bot.send_photo(kanal, medya, caption=sablon)
+                        count = count + 1
                 except Exception as e:
                     print(e)
                     print(f"Hatalı kanal: {kanal}")
@@ -450,8 +447,9 @@ def poster(message):
                     sleep(1)
                     
                     print(f"{kanal} + {link} + {token}")
-                    bot.send_video(kanal, medya, caption=sablon)
-                    count = count + 1
+                    for kan in kanal:
+                        bot.send_video(kanal, medya, caption=sablon)
+                        count = count + 1
                 except Exception as e:
                     print(e)
                     print(f"Hatalı kanal: {kanal}")
@@ -507,8 +505,9 @@ def poster(message):
                     
                         bsablon = f"{bsal[0]}{baciklama}{bsal[1]}{blink}{bsoll[1]}"
                     
-                    bot.send_video(bkanal, bmedya, caption=bsablon)
-                    bcount = bcount + 1
+                    for kan in kanal:
+                        bot.send_video(bkanal, bmedya, caption=bsablon)
+                        bcount = bcount + 1
                 except Exception as e:
                     print(e)
                     print(f"Hatalı kanal: {bkanal}")
