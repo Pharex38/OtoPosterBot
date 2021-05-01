@@ -73,9 +73,6 @@ def durdur(message):
 @bot.channel_post_handler(commands=['onayla'])
 def post(message):
     chat = message.chat.id
-    if user in kara:
-        bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
-        return
     mid = message.id
     mids = mid+1
     print(chat)
