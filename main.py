@@ -109,7 +109,7 @@ def kayit(message):
                 collection.update_one({"_id": chat}, {"$pull": {"kanal": chan}})
                 print("Kanal silindi")
             else:    
-                bot.send_message(chat, """"Kayit No: {}\n\nKanalınız: <a href="{}">{}</a>""".format(kayitli+1, kbilgi.invite_link, kbilgi.title))
+                bot.send_message(chat, """Kayit No: {}\n\nKanalınız: <a href="{}">{}</a>""".format(kayitli+1, kbilgi.invite_link, kbilgi.title))
                 kayitli = kayitli + 1
     except Exception as e:
         print(e)
@@ -120,7 +120,7 @@ def kayit(message):
         msg = bot.send_message(chat, """📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=markup)
         bot.register_next_step_handler(msg, apikayit)
     else:
-        msg = bot.send_message(chat, "API: {}\nToplam: {}".format(tokenn, kayitli), reply_markup=markupp)
+        msg = bot.send_message(chat, "♦️Kayıtlı API: {}\nToplam: {}".format(tokenn, kayitli), reply_markup=markupp)
         bot.register_next_step_handler(msg, kayitapi)
 
 def kayitapi(message):
@@ -132,6 +132,11 @@ def kayitapi(message):
         return
     if mesaj.lower() == "❌ iptal":
         msg = bot.send_message(chat, "İptal Edildi.", reply_markup=markup)
+        return
+    bol = collection.find_one({"_id": chat})
+    print(len(bol['kanal']))
+    if len(bol['kanal']) > 3:
+        bot.send_message(chat, "Üzgünüm en fazla 3 kanal kaydedebilirsiniz.")
         return
     msg = bot.send_message(chat, """📝 <i>Lütfen kanalınızdan bir gönderi iletin.</i>""", reply_markup=markup)
     bot.register_next_step_handler(msg, kanalkayit)
