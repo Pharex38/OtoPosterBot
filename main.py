@@ -110,6 +110,7 @@ def kayit(message):
                 kbilgi = bot.get_chat(chan)
             except Exception as e:
                 print(e)
+                collection.update_one({"_id": user}, {"$pull": {"kanal": x[kayitli]}})
             else:    
                 bot.send_message(chat, "Kayit No: {}\n\nKanalınız: {}".format(kayitli, kbilgi.title))
                 kayitli = kayitli + 1
