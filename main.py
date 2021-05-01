@@ -505,7 +505,7 @@ def poster(message):
                     
                         bsablon = f"{bsal[0]}{baciklama}{bsal[1]}{blink}{bsoll[1]}"
                     
-                    for bkan in kanal:
+                    for bkan in bkanal:
                         bot.send_video(bkan, bmedya, caption=bsablon)
                         bcount = bcount + 1
                 except Exception as e:
