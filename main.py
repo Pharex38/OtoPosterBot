@@ -135,7 +135,7 @@ def kayitapi(message):
         return
     bol = collection.find_one({"_id": chat})
     print(len(bol['kanal']))
-    if len(bol['kanal']) > 3:
+    if len(bol['kanal']) > 2:
         bot.send_message(chat, "Üzgünüm en fazla 3 kanal kaydedebilirsiniz.")
         return
     msg = bot.send_message(chat, """📝 <i>Lütfen kanalınızdan bir gönderi iletin.</i>""", reply_markup=markup)
