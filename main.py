@@ -115,8 +115,9 @@ def kayit(message):
                 print(e)
                 kayitli = kayitli - 1
     except:
-        bot.send_message(chat, "Kayıtlı kanalınız bulunmamaktadır")
-    finally:
+        bot.send_message(chat, "Kayıtlı kanalınız bulunmamaktadır", reply_markup=markupp)
+        bot.register_next_step_handler(msg, kayitapi)
+    else:
         msg = bot.send_message(chat, "API: {}\nToplam: {}".format(tokenn, kayitli), reply_markup=markupp)
         bot.register_next_step_handler(msg, kayitapi)
 
