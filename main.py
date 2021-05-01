@@ -26,7 +26,11 @@ class usre:
     def __init__(self):
         self.api = None
         self.kanal = None
-    
+
+duyuru = collection.find({})
+for d in duyuru:
+    bot.send_message(d['_id'], """<b>Botun /kaydet bölümü yenilendi!</a>\n\n<i> /kaydet komutu ile kanallarınızı ve API keyinizi kontrol edin bi' sıkıntı varsa düzeltin. Sonra benim kafamı sikmeyin cart curt diye.</i>\n\n<a href="https://t.me/joinchat/K1b0RCm6DoQ5YzA0">OtoPosterLog</a> kanalından postları takip edebilirsiniz.\n\nKeyifli Otuzbirler""")
+
 @bot.message_handler(commands=['start'])
 def start(message):
     chat = message.chat.id
@@ -179,7 +183,7 @@ def apikayit(message):
         collection.insert_one(key)
     else:
         collection.update_one({"_id": user}, {"$set": {"token": token}})
-    msg = bot.edit_message_text("<b>🟢 API kaydedildi!\n\n /Kaydet yazarak kanal ekleyebilirsiniz.</b>", chat, mids)
+    msg = bot.edit_message_text("<b>🟢 API kaydedildi!\n\n /kaydet yazarak kanal ekleyebilirsiniz.</b>", chat, mids)
 
 def kanalkayit(message):
     chat = message.chat.id
@@ -283,7 +287,7 @@ def kaynake(message):
         bot.send_message(chat, "Lütfen kaynak seçmeden önce /kaydet ile bilgilerinizi kaydedin.")
     else:
         collection.update_one({"_id": user}, {"$set":{"kaynak": ktext}})
-        bot.send_message(chat, "Kaynak Kaydedildi!")
+        bot.send_message(chat, "Kaynak Kaydedildi!\n\n <i>/sablon yazarak post şabolunu ayarlayabilirsiniz.</i>")
 
 @bot.channel_post_handler(content_types=['photo'])
 def poster(message):
