@@ -176,8 +176,8 @@ def apikayit(message):
         collection.insert_one(key)
     else:
         collection.update_one({"_id": user}, {"$set": {"token": token}})
-    msg = bot.edit_message_text("<b>🟢 API kaydedildi!</b>", chat, mids)
-    bot.register_next_step_handler(msg, kayit)
+    msg = bot.edit_message_text("<b>🟢 API kaydedildi!\n\n /Kaydet yazarak kanal ekleyebilirsiniz.</b>", chat, mids)
+    
 
 def kanalkayit(message):
     chat = message.chat.id
