@@ -117,7 +117,7 @@ def kayit(message):
 def kayitapi(message):
     chat = message.chat.id
     mesaj = message.text
-    markuppp = types.ForceReply
+    markuppp = types.ForceReply(selective=False)
     if mesaj.lower() == "iptal":
         msg = bot.send_message(chat, "İptal Edildi.", reply_markup=markuppp)
         return
