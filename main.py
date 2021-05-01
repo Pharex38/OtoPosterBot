@@ -110,6 +110,7 @@ def kayit(message):
             except Exception as e:
                 print(e)
                 collection.update_one({"_id": user}, {"$pull": {"kanal": chan[kayitli]}})
+                print("Kanal silindi")
             else:    
                 bot.send_message(chat, "Kayit No: {}\n\nKanalınız: {}".format(kayitli+1, kbilgi.title))
                 kayitli = kayitli + 1
@@ -148,7 +149,7 @@ def ksil(message):
     except:
         bot.send_message(chat, "Yanlış bir numara girdiniz.")
     else:
-        bot.send_message(chat, "Kanalınız silimdi.")
+        bot.send_message(chat, "Kanalınız silindi.")
 
 def apikayit(message):
     token = message.text
