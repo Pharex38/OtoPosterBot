@@ -87,7 +87,7 @@ def post(message):
 
 @bot.message_handler(commands=['kaydet'])
 def kayit(message):
-    kayitli = 1
+    kayitli = 0
     chat = message.chat.id
     markupp = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
     buton1 = types.KeyboardButton('Yeni Kanal Ekle')
