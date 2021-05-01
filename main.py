@@ -121,11 +121,24 @@ def kayit(message):
 def kayitapi(message):
     chat = message.chat.id
     mesaj = message.text
+    if mesaj.lower() == "kanal sil":
+        msg = bot.send_message(chat, "Silmek istediğiniz kanalın kayıt numarasını girin.")
+        bot.register_next_step_handler(msg, ksil)
+        return
     if mesaj.lower() == "iptal":
         msg = bot.send_message(chat, "İptal Edildi.", reply_markup=markup)
         return
     msg = bot.send_message(chat, """📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=markup)
     bot.register_next_step_handler(msg, apikayit)
+
+def ksil(message):
+    mesaj = message.text
+    user = message.from_user.id
+    bul = collection.find_one({"_id": user})
+    x = bul['kanal'][mesaj]
+    collection.update_one({"_id": user}, {"$pull": {"kanal": x}})
+    bot.send_message(chat, "Kanalınız silimdi.")
+
 
 def apikayit(message):
     token = message.text
