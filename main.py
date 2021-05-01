@@ -103,11 +103,15 @@ def kayit(message):
         except Exception as e:
             print(e)
         kayitli = kayitli + 1
-    msg = bot.send_message(chat, "Toplam: {}\n\nMax 3 kanal kaydedebilirsiniz.")
+    msg = bot.send_message(chat, "Toplam: {}\n\nMax 3 kanal kaydedebilirsiniz.".format(kayitli))
     bot.register_next_step_handler(msg, kayitapi)
-        
+
 def kayitapi(message):
     chat = message.chat.id
+    mesaj = message.text
+    if mesaj.lower() == "iptal":
+        msg = bot.send_message(chat, "İptal Edildi.")
+        return
     msg = bot.send_message(chat, """📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""")
     bot.register_next_step_handler(msg, apikayit)
 
