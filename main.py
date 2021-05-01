@@ -136,7 +136,7 @@ def ksil(message):
     mesaj = message.text
     user = message.from_user.id
     bul = collection.find_one({"_id": user})
-    print(bul['kanal']()
+    x = bul['kanal']
     collection.update_one({"_id": user}, {"$pull": {"kanal": x}})
     bot.send_message(chat, "Kanalınız silimdi.")
 
