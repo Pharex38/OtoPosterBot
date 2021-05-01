@@ -103,8 +103,8 @@ def kayit(message):
         except Exception as e:
             print(e)
         kayitli = kayitli + 1
-        msg = bot.send_message(chat, "Toplam: {}\n\nMax 3 kanal kaydedebilirsiniz.")
-        bot.register_next_step_handler(msg, kayitapi)
+    msg = bot.send_message(chat, "Toplam: {}\n\nMax 3 kanal kaydedebilirsiniz.")
+    bot.register_next_step_handler(msg, kayitapi)
         
 def kayitapi(message):
     chat = message.chat.id
