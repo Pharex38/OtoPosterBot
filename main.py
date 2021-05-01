@@ -173,7 +173,7 @@ def apikayit(message):
         bot.register_next_step_handler(msg, apikayit)
         return
     bnb = collection.find_one({"_id": user})
-    key = {"_id": user, "token": token, "kanal": [], "kaynak": "1", "sablon": "2"}
+    key = {"_id": user, "token": token, "kanal": [], "sablon": "2", "kaynak": "1"}
     if bnb == None:
         collection.insert_one(key)
     else:
