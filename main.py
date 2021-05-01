@@ -126,11 +126,11 @@ def kayit(message):
 def kayitapi(message):
     chat = message.chat.id
     mesaj = message.text
-    if mesaj.lower() == "kanal sil":
+    if mesaj.lower() == "🗑️ kanal sil":
         msg = bot.send_message(chat, "Silmek istediğiniz kanalın kayıt numarasını girin.")
         bot.register_next_step_handler(msg, ksil)
         return
-    if mesaj.lower() == "iptal":
+    if mesaj.lower() == "❌ iptal":
         msg = bot.send_message(chat, "İptal Edildi.", reply_markup=markup)
         return
     msg = bot.send_message(chat, """📝 <i>Lütfen kanalınızdan bir gönderi iletin.</i>""", reply_markup=markup)
