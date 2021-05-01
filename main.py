@@ -134,7 +134,7 @@ def kayitapi(message):
         bot.register_next_step_handler(msg, ksil)
         return
     if mesaj.lower() == "api gir":
-        bot.send_photo(chat, "📝 <i>Lütfen</i> <a href=https://tr.link/member/tools/quick>burdan</a> <i>aldığınız API adresinizi gönderin")
+        bot.send_photo(chat, "📝 <i>Lütfen</i> <a href=https://tr.link/member/tools/quick>burdan</a> <i>aldığınız API adresinizi gönderin", reply_markup=markup)
         bot.register_next_step_handler(msg, apikayit)
         return
     if mesaj.lower() == "iptal":
