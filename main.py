@@ -22,6 +22,11 @@ kara = karaliste['kara']
 sahip = 1302980840
 markup = types.ForceReply(selective=False)
 
+dugme = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
+butonbir = types.KeyboardButton('📝 Kaydet')
+butoniki = types.KeyboardButton('🔧 Kaynak')
+butonuc = types.KeyboardButton('📏 Şablon')
+    
 class usre:
     def __init__(self):
         self.api = None
@@ -34,12 +39,8 @@ def start(message):
     if user in kara:
         bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
-    dugme = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
     kat = collection.find_one({"_id": user})
       
-    butonbir = types.KeyboardButton('📝 Kaydet')
-    butoniki = types.KeyboardButton('🔧 Kaynak')
-    butonuc = types.KeyboardButton('📏 Şablon')
     if kat == None:
         dugme.add(butonbir)
     else:
@@ -94,10 +95,6 @@ def post(message):
         bot.delete_message(chat, mids)
     except:
         pass
-
-
-    
-
 
 @bot.message_handler(content_types=['text'])
 def menu(message):
@@ -217,6 +214,7 @@ def sabloniki(message):
 def kayitapi(message):
     chat = message.chat.id
     mesaj = message.text
+    dugme.add(butonbir, butoniki, butonuc)
     if mesaj.lower() == "🗑️ kanal sil":
         msg = bot.send_message(chat, "Silmek istediğiniz kanalın kayıt numarasını girin.", reply_markup=markup)
         bot.register_next_step_handler(msg, ksil)
@@ -226,7 +224,7 @@ def kayitapi(message):
         bot.register_next_step_handler(msg, apikayit)
         return
     if mesaj.lower() == "❌ iptal":
-        msg = bot.send_message(chat, "İptal Edildi.", reply_markup=markup)
+        msg = bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
         return
     if mesaj.lower() == "🔶 yeni kanal ekle":
         bol = collection.find_one({"_id": chat})
