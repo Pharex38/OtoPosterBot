@@ -190,6 +190,7 @@ def menu(message):
         else:
             msg = bot.send_message(chat, "♦️Kayıtlı API: {}\nToplam: {}".format(tokenn, kayitli), reply_markup=markupp)
             bot.register_next_step_handler(msg, kayitapi)
+            return
     if mesaj.lower() == "▶️ sfs modu":
         mod = collection.find_one({"_id": user})
         if mod['kaynak'] == "9":
