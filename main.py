@@ -268,7 +268,7 @@ def apikayit(message):
     user = message.from_user.id
     mids = mid+1
     chat = message.chat.id
-    bot.send_message(chat, "<code>👁️ API adresiniz kontrol ediliyor...</code>", parse_mode='MarkDown')
+    bot.send_message(chat, "<code>👁️ API adresiniz kontrol ediliyor...</code>", parse_mode='MarkDown', reply_markup=dugme)
     s = requests.Session()
     link = s.get("https://ay.live/api")
     cookies = dict(link.cookies)
