@@ -27,7 +27,7 @@ butonbir = types.KeyboardButton('📝 Kaydet')
 butoniki = types.KeyboardButton('🔧 Kaynak')
 butonuc = types.KeyboardButton('📏 Şablon')
 butondort = types.KeyboardButton('▶️ SFS Modu')
-dugme.add(butonbir, butoniki, butonuc)
+dugme.add(butonbir, butoniki, butonuc, butondort)
 
 class usre:
     def __init__(self):
