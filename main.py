@@ -22,7 +22,7 @@ kara = karaliste['kara']
 sahip = 1302980840
 markup = types.ForceReply(selective=False)
 
-dugme = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
+dugme = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=False, resize_keyboard=True, selective=True)
 butonbir = types.KeyboardButton('📝 Kaydet')
 butoniki = types.KeyboardButton('🔧 Kaynak')
 butonuc = types.KeyboardButton('📏 Şablon')
