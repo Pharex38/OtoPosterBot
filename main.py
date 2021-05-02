@@ -187,6 +187,7 @@ def menu(message):
         except:
             msg = bot.send_message(chat, """📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=markup)
             bot.register_next_step_handler(msg, apikayit)
+            return
         else:
             msg = bot.send_message(chat, "♦️Kayıtlı API: {}\nToplam: {}".format(tokenn, kayitli), reply_markup=markupp)
             bot.register_next_step_handler(msg, kayitapi)
