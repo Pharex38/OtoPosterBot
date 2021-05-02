@@ -140,8 +140,8 @@ def kayitapi(message):
         msg = bot.send_message(chat, """📝 <i>Lütfen kanalınızdan bir gönderi iletin.</i>""", reply_markup=markup)
         bot.register_next_step_handler(msg, kanalkayit)
         return
-    bot.send_message(chat, "Lütfen alttaki butonları kullanın.")
-
+    msg = bot.send_message(chat, "Lütfen alttaki butonları kullanın.")
+    bot.register_next_step_handler(msg, kayitapi)
 
 def ksil(message):
     mesaj = int(message.text) - 1
