@@ -98,10 +98,8 @@ def kayit(message):
         for chan in bina['kanal']:
             try:
                 kbilgi = bot.get_chat(chan)
-                print(kbilgi)
             except Exception as e:
                 print(e)
-                print(chan)
                 collection.update_one({"_id": chat}, {"$pull": {"kanal": chan}})
                 print("Kanal silindi")
             else:    
@@ -121,16 +119,15 @@ def kayit(message):
 
 def kayitapi(message):
     chat = message.chat.id
-    mesaj = message.text.lower() # ananı ya görmedim qklqşqpq
-    if mesaj == "🗑️ kanal sil":
+    mesaj = message.text
+    if mesaj.lower() == "🗑️ kanal sil":
         msg = bot.send_message(chat, "Silmek istediğiniz kanalın kayıt numarasını girin.", reply_markup=markup)
         bot.register_next_step_handler(msg, ksil)
         return
-    if mesaj == "❌ iptal":
+    if mesaj.lower() == "❌ iptal":
         msg = bot.send_message(chat, "İptal Edildi.", reply_markup=markup)
         return
     bol = collection.find_one({"_id": chat})
-    print(len(bol['kanal']))
     if len(bol['kanal']) > 2:
         bot.send_message(chat, "<i>Üzgünüm en fazla 3 kanal kaydedebilirsiniz.</i>", reply_markup=markup)
         return
@@ -164,7 +161,6 @@ def apikayit(message):
     link = s.get("https://ay.live/api")
     cookies = dict(link.cookies)
     ket = s.get(f"https://tr.link/api/?api={token}&url=yourdestinationlink.com&format=text&alias=&ct=1", cookies=cookies).text
-    print(ket)
     if ket == None:
         msg = bot.edit_message_text("""<b>✖️ Geçersiz Bir API adresi girdiniz!</b> <i>Lütfen <a href="https://tr.link/member/tools/api">bu adresen</a> yeniden alın.</i>""", chat, mids)
         bot.register_next_step_handler(msg, apikayit)
