@@ -89,45 +89,130 @@ def post(message):
     print(chat)
     bot.reply_to(message, "Tamamdır!")
     sleep(1)
-    bot.delete_message(chat, mid)
-    bot.delete_message(chat, mids)
+    try:
+        bot.delete_message(chat, mid)
+        bot.delete_message(chat, mids)
+    except:
+        pass
 
-@bot.message_handler(commands=['kaydet'])
-def kayit(message):
-    kayitli = 0
+
+    
+
+
+@bot.message_handler(content_types=['text'])
+def menu(message):
     chat = message.chat.id
-    markupp = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
-    buton1 = types.KeyboardButton('🔶 Yeni Kanal Ekle')
-    buton2 = types.KeyboardButton('❌ iptal')
-    buton3 = types.KeyboardButton('🗑️ Kanal Sil')
-    buton4 = types.KeyboardButton('♻️ API değiştir')
-    markupp.add(buton1, buton2, buton3, buton4)
-    if chat in kara:
+    user = message.from_user.id
+    mesaj = message.text
+    if user in kara:
         bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
-    bina = collection.find_one({"_id": chat})
-    try:
-        for chan in bina['kanal']:
-            try:
-                kbilgi = bot.get_chat(chan)
-            except Exception as e:
-                print(e)
-                collection.update_one({"_id": chat}, {"$pull": {"kanal": chan}})
-                print("Kanal silindi")
-            else:    
-                bot.send_message(chat, """Kayit No: {}\n\nKanalınız: <a href="{}">{}</a>""".format(kayitli+1, kbilgi.invite_link, kbilgi.title))
+    if mesaj.lower() == "🔧 kaynak":
+        msg = bot.send_message(chat, """<b>Kullanmak istediğiniz kaynak kanalınının numarasını gönderin:
+    
+    Kaynak No:1</b>
+    <a href="https://t.me/joinchat/UYu8q0gBTUdUudDL">Link Mahzeni</a>
+    
+    <b>Kaynk No:2</b>
+    <a href="https://t.me/joinchat/MhxcfKLh3aQ4OWU0">Bedava Link</a>
+
+<b>❗Hepsinden atsın fütursuzca kanalımı sikmek istiyorum diyorsan 0 yaz</b>
+    
+    
+    """, disable_web_page_preview=True, reply_markup=markup)
+        bot.register_next_step_handler(msg, kaynake)
+        return
+    if mesaj.lower() == "📏 şablon":
+        msg = bot.send_message(chat, """<b>Şablon No:1</b>
+    ----------------
+🔥{aciklama}
+
+🔱 TIKLA 👉 {link}
+
+📛 SESİ AÇ 'a tıklamayı unutma
+----------------
+
+<b>Şablon No:2</b>
+----------------
+{aciklama} 
+
+𝙇𝙄𝙉𝙆🔗 {link}
+
+🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.
+
+📌 Link Nasıl Açılır Bilmiyorsanız
+
+👉 @linkgec06
+----------------
+
+Üstteki şablonlardan kullanmak isterseniz, istediğiniz şablonun numarasını gönderin.
+
+<i>Eğer kendi şablonunuzu oluşturmak isterseniz üstteki şablonlardaki gibi</i> <b>{aciklama}</b> ve <b>{link}</b> <i>kelimelerinin bulunduğundan emin olun yoksa şablon çalışmaz</i>""", reply_markup=markup)
+        bot.register_next_step_handler(msg, sabloniki)
+        return
+    if mesaj.lower() == "📝 kaydet":
+        kayitli = 0
+        chat = message.chat.id
+        markupp = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
+        buton1 = types.KeyboardButton('🔶 Yeni Kanal Ekle')
+        buton2 = types.KeyboardButton('❌ iptal')
+        buton3 = types.KeyboardButton('🗑️ Kanal Sil')
+        buton4 = types.KeyboardButton('♻️ API değiştir')
+        markupp.add(buton1, buton2, buton3, buton4)
+        bina = collection.find_one({"_id": chat})
+        try:
+            for chan in bina['kanal']:
+                try:
+                    kbilgi = bot.get_chat(chan)
+                except Exception as e:
+                    print(e)
+                    collection.update_one({"_id": chat}, {"$pull": {"kanal": chan}})
+                    print("Kanal silindi")
+                else:    
+                    bot.send_message(chat, """Kayit No: {}\n\nKanalınız: <a href="{}">{}</a>""".format(kayitli+1, kbilgi.invite_link, kbilgi.title))
                 kayitli = kayitli + 1
-    except Exception as e:
-        print(e)
-        pass
-    try:
-        tokenn = bina['token']
-    except:
-        msg = bot.send_message(chat, """📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=markup)
-        bot.register_next_step_handler(msg, apikayit)
+        except Exception as e:
+            print(e)
+            pass
+        try:
+            tokenn = bina['token']
+        except:
+            msg = bot.send_message(chat, """📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=markup)
+            bot.register_next_step_handler(msg, apikayit)
+        else:
+            msg = bot.send_message(chat, "♦️Kayıtlı API: {}\nToplam: {}".format(tokenn, kayitli), reply_markup=markupp)
+            bot.register_next_step_handler(msg, kayitapi)
+
+def kaynake(message):
+    ktext = message.text
+    chat = message.chat.id
+    user = message.from_user.id
+    if not ktext.isdigit():
+        msg = bot.send_message(chat, "Lütfen istediğiniz kaynağın numarasını gönderin.")
+        bot.register_next_step_handler(msg, kaynake)
+        return
+    bnb = collection.find_one({"_id": user})
+    if bnb == None:
+        bot.send_message(chat, "Lütfen kaynak seçmeden önce /kaydet ile bilgilerinizi kaydedin.")
     else:
-        msg = bot.send_message(chat, "♦️Kayıtlı API: {}\nToplam: {}".format(tokenn, kayitli), reply_markup=markupp)
-        bot.register_next_step_handler(msg, kayitapi)
+        collection.update_one({"_id": user}, {"$set":{"kaynak": ktext}})
+        bot.send_message(chat, "Kaynak Kaydedildi!\n\n <i>/sablon yazarak post şabolunu ayarlayabilirsiniz.</i>")
+        
+def sabloniki(message):
+    mesaj = message.text
+    chat = message.chat.id
+    user = message.from_user.id
+    if not mesaj.isdigit():
+        if mesaj.find("{link}") == -1 or mesaj.find("{aciklama}") == -1:
+            msg = bot.send_message(chat, """ ❌<i> Lütfen mesajınızda "{link}" ve "{aciklama}" bulunduğudan emin olun.</i> """)
+            bot.register_next_step_handler(msg, sabloniki)
+            return
+    bnb = collection.find_one({"_id": user})
+    if bnb == None:
+        bot.send_message(chat, "Lütfen şablon kaydetmeden önce /kaydet yazarak bilgilerinizi girin!")
+    else:
+        collection.update_one({"_id": user}, {"$set":{"sablon": mesaj}})
+        bot.send_message(chat, "Şablon kaydedildi!")
 
 def kayitapi(message):
     chat = message.chat.id
@@ -209,103 +294,6 @@ def kanalkayit(message):
     collection.update_one({"_id": user}, {"$push":{"kanal": str(kanal)}})
     
     bot.reply_to(message,"<b>🟢Bilgileriniz Kaydedildi.</b>\n\n <i>Kaynak kanalını değiştirmek isterseniz /kaynak yazın.</i>")
-
-"""@bot.message_handler(commands=['sablon'])
-def sablonn(message):
-    chat = message.chat.id
-    if chat in kara:
-        bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
-        return"""
-    
-
-
-    
-
-
-@bot.message_handler(content_types=['text'])
-def menu(message):
-    chat = message.chat.id
-    user = message.from_user.id
-    mesaj = message.text
-    if user in kara:
-        bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
-        return
-    if mesaj.lower() == "🔧 kaynak":
-        msg = bot.send_message(chat, """<b>Kullanmak istediğiniz kaynak kanalınının numarasını gönderin:
-    
-    Kaynak No:1</b>
-    <a href="https://t.me/joinchat/UYu8q0gBTUdUudDL">Link Mahzeni</a>
-    
-    <b>Kaynk No:2</b>
-    <a href="https://t.me/joinchat/MhxcfKLh3aQ4OWU0">Bedava Link</a>
-
-<b>❗Hepsinden atsın fütursuzca kanalımı sikmek istiyorum diyorsan 0 yaz</b>
-    
-    
-    """, disable_web_page_preview=True, reply_markup=markup)
-        bot.register_next_step_handler(msg, kaynake)
-        return
-    if mesaj.lower() == "📏 şablon":
-        msg = bot.send_message(chat, """<b>Şablon No:1</b>
-    ----------------
-🔥{aciklama}
-
-🔱 TIKLA 👉 {link}
-
-📛 SESİ AÇ 'a tıklamayı unutma
-----------------
-
-<b>Şablon No:2</b>
-----------------
-{aciklama} 
-
-𝙇𝙄𝙉𝙆🔗 {link}
-
-🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.
-
-📌 Link Nasıl Açılır Bilmiyorsanız
-
-👉 @linkgec06
-----------------
-
-Üstteki şablonlardan kullanmak isterseniz, istediğiniz şablonun numarasını gönderin.
-
-<i>Eğer kendi şablonunuzu oluşturmak isterseniz üstteki şablonlardaki gibi</i> <b>{aciklama}</b> ve <b>{link}</b> <i>kelimelerinin bulunduğundan emin olun yoksa şablon çalışmaz</i>""", reply_markup=markup)
-        bot.register_next_step_handler(msg, sabloniki)
-        return
-    if mesaj.lower() == "📝 kaydet":
-        pass
-
-def kaynake(message):
-    ktext = message.text
-    chat = message.chat.id
-    user = message.from_user.id
-    if not ktext.isdigit():
-        msg = bot.send_message(chat, "Lütfen istediğiniz kaynağın numarasını gönderin.")
-        bot.register_next_step_handler(msg, kaynake)
-        return
-    bnb = collection.find_one({"_id": user})
-    if bnb == None:
-        bot.send_message(chat, "Lütfen kaynak seçmeden önce /kaydet ile bilgilerinizi kaydedin.")
-    else:
-        collection.update_one({"_id": user}, {"$set":{"kaynak": ktext}})
-        bot.send_message(chat, "Kaynak Kaydedildi!\n\n <i>/sablon yazarak post şabolunu ayarlayabilirsiniz.</i>")
-        
-def sabloniki(message):
-    mesaj = message.text
-    chat = message.chat.id
-    user = message.from_user.id
-    if not mesaj.isdigit():
-        if mesaj.find("{link}") == -1 or mesaj.find("{aciklama}") == -1:
-            msg = bot.send_message(chat, """ ❌<i> Lütfen mesajınızda "{link}" ve "{aciklama}" bulunduğudan emin olun.</i> """)
-            bot.register_next_step_handler(msg, sabloniki)
-            return
-    bnb = collection.find_one({"_id": user})
-    if bnb == None:
-        bot.send_message(chat, "Lütfen şablon kaydetmeden önce /kaydet yazarak bilgilerinizi girin!")
-    else:
-        collection.update_one({"_id": user}, {"$set":{"sablon": mesaj}})
-        bot.send_message(chat, "Şablon kaydedildi!")
 
 @bot.channel_post_handler(content_types=['photo'])
 def poster(message):
