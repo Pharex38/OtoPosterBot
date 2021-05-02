@@ -210,62 +210,15 @@ def kanalkayit(message):
     
     bot.reply_to(message,"<b>🟢Bilgileriniz Kaydedildi.</b>\n\n <i>Kaynak kanalını değiştirmek isterseniz /kaynak yazın.</i>")
 
-@bot.message_handler(commands=['sablon'])
+"""@bot.message_handler(commands=['sablon'])
 def sablonn(message):
     chat = message.chat.id
     if chat in kara:
         bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
-        return
-    
-    msg = bot.send_message(chat, """<b>Şablon No:1</b>
-    ----------------
-🔥{aciklama}
-
-🔱 TIKLA 👉 {link}
-
-📛 SESİ AÇ 'a tıklamayı unutma
-----------------
-
-<b>Şablon No:2</b>
-----------------
-{aciklama} 
-
-𝙇𝙄𝙉𝙆🔗 {link}
-
-🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.
-
-📌 Link Nasıl Açılır Bilmiyorsanız
-
-👉 @linkgec06
-----------------
-
-Üstteki şablonlardan kullanmak isterseniz, istediğiniz şablonun numarasını gönderin.
-
-<i>Eğer kendi şablonunuzu oluşturmak isterseniz üstteki şablonlardaki gibi</i> <b>{aciklama}</b> ve <b>{link}</b> <i>kelimelerinin bulunduğundan emin olun yoksa şablon çalışmaz</i>""", reply_markup=markup)
-    bot.register_next_step_handler(msg, sabloniki)
-
-def sabloniki(message):
-    mesaj = message.text
-    chat = message.chat.id
-    user = message.from_user.id
-    if not mesaj.isdigit():
-        if mesaj.find("{link}") == -1 or mesaj.find("{aciklama}") == -1:
-            msg = bot.send_message(chat, """ ❌<i> Lütfen mesajınızda "{link}" ve "{aciklama}" bulunduğudan emin olun.</i> """)
-            bot.register_next_step_handler(msg, sabloniki)
-            return
-    bnb = collection.find_one({"_id": user})
-    if bnb == None:
-        bot.send_message(chat, "Lütfen şablon kaydetmeden önce /kaydet yazarak bilgilerinizi girin!")
-    else:
-        collection.update_one({"_id": user}, {"$set":{"sablon": mesaj}})
-        bot.send_message(chat, "Şablon kaydedildi!")
-
-"""@bot.message_handler(commands=['kaynak'])
-def kaynakk(message):
-    chat = message.chat.id
-    user = message.from_user.id
-
         return"""
+    
+
+
     
 
 
@@ -293,7 +246,33 @@ def menu(message):
         bot.register_next_step_handler(msg, kaynake)
         return
     if mesaj.lower() == "📏 şablon":
-        pass
+        msg = bot.send_message(chat, """<b>Şablon No:1</b>
+    ----------------
+🔥{aciklama}
+
+🔱 TIKLA 👉 {link}
+
+📛 SESİ AÇ 'a tıklamayı unutma
+----------------
+
+<b>Şablon No:2</b>
+----------------
+{aciklama} 
+
+𝙇𝙄𝙉𝙆🔗 {link}
+
+🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.
+
+📌 Link Nasıl Açılır Bilmiyorsanız
+
+👉 @linkgec06
+----------------
+
+Üstteki şablonlardan kullanmak isterseniz, istediğiniz şablonun numarasını gönderin.
+
+<i>Eğer kendi şablonunuzu oluşturmak isterseniz üstteki şablonlardaki gibi</i> <b>{aciklama}</b> ve <b>{link}</b> <i>kelimelerinin bulunduğundan emin olun yoksa şablon çalışmaz</i>""", reply_markup=markup)
+        bot.register_next_step_handler(msg, sabloniki)
+        return
     if mesaj.lower() == "📝 kaydet":
         pass
 
@@ -312,6 +291,21 @@ def kaynake(message):
         collection.update_one({"_id": user}, {"$set":{"kaynak": ktext}})
         bot.send_message(chat, "Kaynak Kaydedildi!\n\n <i>/sablon yazarak post şabolunu ayarlayabilirsiniz.</i>")
         
+def sabloniki(message):
+    mesaj = message.text
+    chat = message.chat.id
+    user = message.from_user.id
+    if not mesaj.isdigit():
+        if mesaj.find("{link}") == -1 or mesaj.find("{aciklama}") == -1:
+            msg = bot.send_message(chat, """ ❌<i> Lütfen mesajınızda "{link}" ve "{aciklama}" bulunduğudan emin olun.</i> """)
+            bot.register_next_step_handler(msg, sabloniki)
+            return
+    bnb = collection.find_one({"_id": user})
+    if bnb == None:
+        bot.send_message(chat, "Lütfen şablon kaydetmeden önce /kaydet yazarak bilgilerinizi girin!")
+    else:
+        collection.update_one({"_id": user}, {"$set":{"sablon": mesaj}})
+        bot.send_message(chat, "Şablon kaydedildi!")
 
 @bot.channel_post_handler(content_types=['photo'])
 def poster(message):
