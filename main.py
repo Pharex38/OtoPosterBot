@@ -267,6 +267,7 @@ def apikayit(message):
     mid = message.id
     user = message.from_user.id
     mids = mid+1
+    kume = [-10]
     chat = message.chat.id
     bot.send_message(chat, "<code>👁️ API adresiniz kontrol ediliyor...</code>", parse_mode='MarkDown')
     s = requests.Session()
@@ -278,7 +279,7 @@ def apikayit(message):
         bot.register_next_step_handler(msg, apikayit)
         return
     bnb = collection.find_one({"_id": user})
-    key = {"_id": user, "token": token, "kanal": [], "sablon": "2", "kaynak": "1"}
+    key = {"_id": user, "token": token, "kanal": kume, "sablon": "1", "kaynak": "1"}
     if bnb == None:
         collection.insert_one(key)
     else:
