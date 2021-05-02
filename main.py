@@ -219,7 +219,7 @@ def kaynake(message):
         bot.send_message(chat, "Lütfen kaynak seçmeden önce Kaydet butonu ile bilgilerinizi kaydedin.", reply_markup=dugme)
     else:
         collection.update_one({"_id": user}, {"$set":{"kaynak": ktext}})
-        bot.send_message(chat, "Kaynak Kaydedildi!\n\n <i>/sablon yazarak post şabolunu ayarlayabilirsiniz.</i>", reply_markup=dugme)
+        bot.send_message(chat, "Kaynak Kaydedildi!", reply_markup=dugme)
         
 def sabloniki(message):
     mesaj = message.text
