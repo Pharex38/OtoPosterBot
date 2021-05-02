@@ -190,10 +190,10 @@ def kaynake(message):
         return
     bnb = collection.find_one({"_id": user})
     if bnb == None:
-        bot.send_message(chat, "Lütfen kaynak seçmeden önce /kaydet ile bilgilerinizi kaydedin.")
+        bot.send_message(chat, "Lütfen kaynak seçmeden önce Kaydet butonu ile bilgilerinizi kaydedin.", reply_markup=dugme)
     else:
         collection.update_one({"_id": user}, {"$set":{"kaynak": ktext}})
-        bot.send_message(chat, "Kaynak Kaydedildi!\n\n <i>/sablon yazarak post şabolunu ayarlayabilirsiniz.</i>")
+        bot.send_message(chat, "Kaynak Kaydedildi!\n\n <i>/sablon yazarak post şabolunu ayarlayabilirsiniz.</i>", reply_markup=dugme)
         
 def sabloniki(message):
     mesaj = message.text
@@ -206,10 +206,10 @@ def sabloniki(message):
             return
     bnb = collection.find_one({"_id": user})
     if bnb == None:
-        bot.send_message(chat, "Lütfen şablon kaydetmeden önce /kaydet yazarak bilgilerinizi girin!")
+        bot.send_message(chat, "Lütfen şablon kaydetmeden önce Kaydet butonu ile bilgilerinizi girin!", reply_markup=dugme)
     else:
         collection.update_one({"_id": user}, {"$set":{"sablon": mesaj}})
-        bot.send_message(chat, "Şablon kaydedildi!")
+        bot.send_message(chat, "Şablon kaydedildi!", reply_markup=dugme)
 
 def kayitapi(message):
     chat = message.chat.id
@@ -248,9 +248,9 @@ def ksil(message):
     try:
         collection.update_one({"_id": user}, {"$pull": {"kanal": x[mesaj]}})
     except:
-        bot.send_message(chat, "Yanlış bir numara girdiniz.")
+        bot.send_message(chat, "Yanlış bir numara girdiniz.", reply_markup=dugme)
     else:
-        bot.send_message(chat, "Kanalınız silindi.")
+        bot.send_message(chat, "Kanalınız silindi.", reply_markup=dugme)
 
 def apikayit(message):
     token = message.text
@@ -273,7 +273,7 @@ def apikayit(message):
         collection.insert_one(key)
     else:
         collection.update_one({"_id": user}, {"$set": {"token": token}})
-    msg = bot.edit_message_text("<b>🟢 API kaydedildi!\n\n /kaydet yazarak kanal ekleyebilirsiniz.</b>", chat, mids)
+    bot.edit_message_text("<b>🟢 API kaydedildi!", chat, mids, reply_markup=dugme)
 
 def kanalkayit(message):
     chat = message.chat.id
@@ -290,7 +290,7 @@ def kanalkayit(message):
     
     collection.update_one({"_id": user}, {"$push":{"kanal": str(kanal)}})
     
-    bot.reply_to(message,"<b>🟢Bilgileriniz Kaydedildi.</b>\n\n <i>Kaynak kanalını değiştirmek isterseniz /kaynak yazın.</i>")
+    bot.reply_to(message,"<b>🟢Bilgileriniz Kaydedildi.</b>", reply_markup=dugme)
 
 @bot.channel_post_handler(content_types=['photo'])
 def poster(message):
