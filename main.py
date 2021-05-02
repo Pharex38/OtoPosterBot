@@ -268,20 +268,6 @@ def kaynakk(message):
         return"""
     
 
-def kaynake(message):
-    ktext = message.text
-    chat = message.chat.id
-    user = message.from_user.id
-    if not ktext.isdigit():
-        msg = bot.send_message(chat, "Lütfen istediğiniz kaynağın numarasını gönderin.")
-        bot.register_next_step_handler(msg, kaynake)
-        return
-    bnb = collection.find_one({"_id": user})
-    if bnb == None:
-        bot.send_message(chat, "Lütfen kaynak seçmeden önce /kaydet ile bilgilerinizi kaydedin.")
-    else:
-        collection.update_one({"_id": user}, {"$set":{"kaynak": ktext}})
-        bot.send_message(chat, "Kaynak Kaydedildi!\n\n <i>/sablon yazarak post şabolunu ayarlayabilirsiniz.</i>")
 
 @bot.message_handler(content_types=['text'])
 def menu(message):
@@ -306,9 +292,24 @@ def menu(message):
         bot.register_next_step_handler(msg, kaynake)
         return
     if mesaj.lower() == "📏 şablon":
-        
+        pass
     if mesaj.lower() == "📝 kaydet":
-        
+        pass
+
+def kaynake(message):
+    ktext = message.text
+    chat = message.chat.id
+    user = message.from_user.id
+    if not ktext.isdigit():
+        msg = bot.send_message(chat, "Lütfen istediğiniz kaynağın numarasını gönderin.")
+        bot.register_next_step_handler(msg, kaynake)
+        return
+    bnb = collection.find_one({"_id": user})
+    if bnb == None:
+        bot.send_message(chat, "Lütfen kaynak seçmeden önce /kaydet ile bilgilerinizi kaydedin.")
+    else:
+        collection.update_one({"_id": user}, {"$set":{"kaynak": ktext}})
+        bot.send_message(chat, "Kaynak Kaydedildi!\n\n <i>/sablon yazarak post şabolunu ayarlayabilirsiniz.</i>")
         
 
 @bot.channel_post_handler(content_types=['photo'])
