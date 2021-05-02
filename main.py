@@ -124,6 +124,10 @@ def kayitapi(message):
         msg = bot.send_message(chat, "Silmek istediğiniz kanalın kayıt numarasını girin.", reply_markup=markup)
         bot.register_next_step_handler(msg, ksil)
         return
+    if mesaj.lower() == "api değiştir":
+        msg = bot.send_message(chat, "Yeni API adresinizi girin.")
+        bot.register_next_step_handler(msg, apikayit)
+        return
     if mesaj.lower() == "❌ iptal":
         msg = bot.send_message(chat, "İptal Edildi.", reply_markup=markup)
         return
