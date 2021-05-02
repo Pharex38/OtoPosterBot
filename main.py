@@ -285,12 +285,9 @@ def kanalkayit(message):
         return
     kanal = message.forward_from_chat.id
     kanals.append(str(kanal))
- 
     y = collection.find_one({"_id": user})
-    
     collection.update_one({"_id": user}, {"$push":{"kanal": str(kanal)}})
-    
-    bot.reply_to(message,"<b>🟢Bilgileriniz Kaydedildi.</b>", reply_markup=dugme)
+    bot.reply_to(message,"<b>🟢Kanalınız Kaydedildi.</b>", reply_markup=dugme)
 
 @bot.channel_post_handler(content_types=['photo'])
 def poster(message):
