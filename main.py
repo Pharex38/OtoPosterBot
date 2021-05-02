@@ -190,8 +190,17 @@ def menu(message):
             msg = bot.send_message(chat, "♦️Kayıtlı API: {}\nToplam: {}".format(tokenn, kayitli), reply_markup=markupp)
             bot.register_next_step_handler(msg, kayitapi)
     if mesaj.lower() == "▶️ sfs modu":
-        collection.update_one({"_id": user}, {"$set": {"kaynak": "9"}})
-    bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>")
+        mod = collection.find_one({"_id": user})
+        if mod['kaynak'] == "9":
+            collection.update_one({"_id": user}, {"$set": {"kaynak": mod['eski']}})
+            bot.send_message(chat, "SFS modu durduruldu", reply_markup=dugme)
+            return
+        else:
+            collection.update_one({"_id": user}, {"$set": {"eski": mod['kaynak']}})
+            collection.update_one({"_id": user}, {"$set": {"kaynak": "9"}})
+            bot.send_message(chat, "Kanallarınız SFS moduna alındı. Siz modu kapatana kadar yeni post atılmayacak.", reply_markup=dugme)
+            return
+    bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=dugme)
     
 
 def kaynake(message):
