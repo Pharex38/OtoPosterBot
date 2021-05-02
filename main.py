@@ -43,11 +43,9 @@ def start(message):
     kat = collection.find_one({"_id": user})
     dagme = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
     dagme.add(butonbir)
-    if kat == None:
-        dugme = dagme
-   
     mention = "@"+message.from_user.username if message.from_user.username else message.from_user.first_name
-    bot.send_message(chat, """
+    if kat == None:
+        bot.send_message(chat, """
 ✨ <b>Merhaba {}!</b>
 
 ❔<b>Ne İşe Yarıyor? </b>
@@ -55,16 +53,28 @@ def start(message):
 
 ❔<b>Nasıl Kullanılır?</b>
 <i>1. Adım: Botu kanlınıza yönetici olarak ekleyin.
-2. Adım: /kaydet komutunu kullanarak bilgilerinizi kaydedin.
-3. Adım: KANALINIZDA /onayla yazın.
+2. Adım: Kaydet butonunu kullanarak bilgilerinizi kaydedin.
+3. Adım: <b>KANALINIZDA</b> /onayla yazın.
 4. Adım: Keyfini çıkarın.</i>
 
 <b>❤️ Geliştirici & Sahip : @Pharex
 👨🏻‍🔧 Fix & Eklentiler : @bberc</b>
+""".format(mention), disable_web_page_preview=True, reply_markup=dagme)
+    else:
+        bot.send_message(chat, """
+✨ <b>Merhaba {}!</b>
 
-<i>👉 Kaynak kanalını değiştirmek için /kaynak yazabilirsiniz.
-👉 Post şablonunu değiştirmek için /sablon 
-👉🏻Botu durdurmak için /sil yazabilirsiniz</i>
+❔<b>Ne İşe Yarıyor? </b>
+<i>Bu bot</i><a href="https://t.me/joinchat/UYu8q0gBTUdUudDL">Link Mahzeni</a><i>'nde paylaşılan postların linklerini otomatik olarak kısaltıp sizin kanalınıza iletir.</i>
+
+❔<b>Nasıl Kullanılır?</b>
+<i>1. Adım: Botu kanlınıza yönetici olarak ekleyin.
+2. Adım: Kaydet butonunu kullanarak bilgilerinizi kaydedin.
+3. Adım: <b>KANALINIZDA</b> /onayla yazın.
+4. Adım: Keyfini çıkarın.</i>
+
+<b>❤️ Geliştirici & Sahip : @Pharex
+👨🏻‍🔧 Fix & Eklentiler : @bberc</b>
 """.format(mention), disable_web_page_preview=True, reply_markup=dugme)
 
 @bot.message_handler(commands=['sil'])
