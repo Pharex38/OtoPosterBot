@@ -29,11 +29,22 @@ class usre:
 
 @bot.message_handler(commands=['start'])
 def start(message):
-    chat = message.chat.id
     user = message.from_user.id
+    chat = message.chat.id
     if user in kara:
         bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
+    dugme = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
+    kat = collection.find_one({"_id": user})
+      
+    butonbir = types.KeyboardButton('📝 Kaydet')
+    butoniki = types.KeyboardButton('🔧 Kaynak')
+    butonuc = types.KeyboardButton('📏 Şablon')
+    if kat == None:
+        dugme.add(butonbir)
+    else:
+        dugme.add(butonbir, butoniki, butonuc)
+        
     mention = "@"+message.from_user.username if message.from_user.username else message.from_user.first_name
     bot.send_message(chat, """
 ✨ <b>Merhaba {}!</b>
@@ -53,7 +64,7 @@ def start(message):
 <i>👉 Kaynak kanalını değiştirmek için /kaynak yazabilirsiniz.
 👉 Post şablonunu değiştirmek için /sablon 
 👉🏻Botu durdurmak için /sil yazabilirsiniz</i>
-""".format(mention), disable_web_page_preview=True)
+""".format(mention), disable_web_page_preview=True, reply_markup=dugme)
 
 @bot.message_handler(commands=['sil'])
 def durdur(message):
@@ -249,27 +260,13 @@ def sabloniki(message):
         collection.update_one({"_id": user}, {"$set":{"sablon": mesaj}})
         bot.send_message(chat, "Şablon kaydedildi!")
 
-@bot.message_handler(commands=['kaynak'])
+"""@bot.message_handler(commands=['kaynak'])
 def kaynakk(message):
     chat = message.chat.id
     user = message.from_user.id
-    if user in kara:
-        bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
-        return
-    
-    msg = bot.send_message(chat, """<b>Kullanmak istediğiniz kaynak kanalınının numarasını gönderin:
-    
-    Kaynak No:1</b>
-    <a href="https://t.me/joinchat/UYu8q0gBTUdUudDL">Link Mahzeni</a>
-    
-    <b>Kaynk No:2</b>
-    <a href="https://t.me/joinchat/MhxcfKLh3aQ4OWU0">Bedava Link</a>
 
-<b>❗Hepsinden atsın fütursuzca kanalımı sikmek istiyorum diyorsan 0 yaz</b>
+        return"""
     
-    
-    """, disable_web_page_preview=True, reply_markup=markup)
-    bot.register_next_step_handler(msg, kaynake)
 
 def kaynake(message):
     ktext = message.text
@@ -285,6 +282,34 @@ def kaynake(message):
     else:
         collection.update_one({"_id": user}, {"$set":{"kaynak": ktext}})
         bot.send_message(chat, "Kaynak Kaydedildi!\n\n <i>/sablon yazarak post şabolunu ayarlayabilirsiniz.</i>")
+
+@bot.message_handler(content_types=['text'])
+def menu(message):
+    chat = message.chat.id
+    mesaj = message.text
+    if user in kara:
+        bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
+        return
+    if mesaj.lower() == "🔧 kaynak":
+        msg = bot.send_message(chat, """<b>Kullanmak istediğiniz kaynak kanalınının numarasını gönderin:
+    
+    Kaynak No:1</b>
+    <a href="https://t.me/joinchat/UYu8q0gBTUdUudDL">Link Mahzeni</a>
+    
+    <b>Kaynk No:2</b>
+    <a href="https://t.me/joinchat/MhxcfKLh3aQ4OWU0">Bedava Link</a>
+
+<b>❗Hepsinden atsın fütursuzca kanalımı sikmek istiyorum diyorsan 0 yaz</b>
+    
+    
+    """, disable_web_page_preview=True, reply_markup=markup)
+        bot.register_next_step_handler(msg, kaynake)
+        return
+    if mesaj.lower() == "📏 şablon":
+        
+    if mesaj.lower() == "📝 kaydet":
+        
+        
 
 @bot.channel_post_handler(content_types=['photo'])
 def poster(message):
