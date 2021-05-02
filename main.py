@@ -26,6 +26,7 @@ dugme = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=False, resize_k
 butonbir = types.KeyboardButton('📝 Kaydet')
 butoniki = types.KeyboardButton('🔧 Kaynak')
 butonuc = types.KeyboardButton('📏 Şablon')
+butondort = types.KeyboardButton('▶️ SFS Modu')
 dugme.add(butonbir, butoniki, butonuc)
 
 class usre:
