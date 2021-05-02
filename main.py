@@ -272,6 +272,7 @@ def kaynakk(message):
 @bot.message_handler(content_types=['text'])
 def menu(message):
     chat = message.chat.id
+    user = message.from_user.id
     mesaj = message.text
     if user in kara:
         bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
