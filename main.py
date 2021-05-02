@@ -121,12 +121,12 @@ def kayit(message):
 
 def kayitapi(message):
     chat = message.chat.id
-    mesaj = message.text.lower()
-    if mesaj.lower() == "🗑️ kanal sil":
+    mesaj = message.text.lower() # ananı ya görmedim qklqşqpq
+    if mesaj == "🗑️ kanal sil":
         msg = bot.send_message(chat, "Silmek istediğiniz kanalın kayıt numarasını girin.", reply_markup=markup)
         bot.register_next_step_handler(msg, ksil)
         return
-    if mesaj.lower() == "❌ iptal":
+    if mesaj == "❌ iptal":
         msg = bot.send_message(chat, "İptal Edildi.", reply_markup=markup)
         return
     bol = collection.find_one({"_id": chat})
