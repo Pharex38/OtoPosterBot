@@ -189,6 +189,10 @@ def menu(message):
         else:
             msg = bot.send_message(chat, "♦️Kayıtlı API: {}\nToplam: {}".format(tokenn, kayitli), reply_markup=markupp)
             bot.register_next_step_handler(msg, kayitapi)
+    if mesaj.lower() == "▶️ sfs modu":
+        collection.update_one({"_id": user}, {"$set": {"kaynak": "9"}})
+    bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>")
+    
 
 def kaynake(message):
     ktext = message.text
