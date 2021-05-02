@@ -29,6 +29,13 @@ butonuc = types.KeyboardButton('📏 Şablon')
 butondort = types.KeyboardButton('▶️ SFS Modu')
 dugme.add(butonbir, butoniki, butonuc, butondort)
 
+markupp = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
+buton1 = types.KeyboardButton('🔶 Yeni Kanal Ekle')
+buton2 = types.KeyboardButton('❌ iptal')
+buton3 = types.KeyboardButton('🗑️ Kanal Sil')
+buton4 = types.KeyboardButton('♻️ API değiştir')
+markupp.add(buton1, buton2, buton3, buton4)
+
 class usre:
     def __init__(self):
         self.api = None
@@ -160,12 +167,6 @@ def menu(message):
     if mesaj.lower() == "📝 kaydet":
         kayitli = 0
         chat = message.chat.id
-        markupp = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
-        buton1 = types.KeyboardButton('🔶 Yeni Kanal Ekle')
-        buton2 = types.KeyboardButton('❌ iptal')
-        buton3 = types.KeyboardButton('🗑️ Kanal Sil')
-        buton4 = types.KeyboardButton('♻️ API değiştir')
-        markupp.add(buton1, buton2, buton3, buton4)
         bina = collection.find_one({"_id": chat})
         try:
             for chan in bina['kanal']:
@@ -256,7 +257,7 @@ def kayitapi(message):
         msg = bot.send_message(chat, """📝 <i>Lütfen kanalınızdan bir gönderi iletin.</i>""", reply_markup=markup)
         bot.register_next_step_handler(msg, kanalkayit)
         return
-    msg = bot.send_message(chat, "Lütfen alttaki butonları kullanın.")
+    msg = bot.send_message(chat, "Lütfen alttaki butonları kullanın.", reply_markup=markupp)
     bot.register_next_step_handler(msg, kayitapi)
 
 def ksil(message):
