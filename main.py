@@ -273,7 +273,7 @@ def apikayit(message):
         collection.insert_one(key)
     else:
         collection.update_one({"_id": user}, {"$set": {"token": token}})
-    bot.edit_message_text("<b>🟢 API kaydedildi!", chat, mids, reply_markup=dugme)
+    bot.edit_message_text("<b>🟢 API kaydedildi!</b>", chat, mids, reply_markup=dugme)
 
 def kanalkayit(message):
     chat = message.chat.id
