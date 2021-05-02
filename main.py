@@ -90,7 +90,7 @@ def kayit(message):
     buton2 = types.KeyboardButton('❌ iptal')
     buton3 = types.KeyboardButton('🗑️ Kanal Sil')
     buton4 = types.KeyboardButton('♻️ API değiştir')
-    markupp.add(buton1, buton2, buton3)
+    markupp.add(buton1, buton2, buton3, buton4)
     if chat in kara:
         bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
