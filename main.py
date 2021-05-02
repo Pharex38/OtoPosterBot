@@ -89,6 +89,7 @@ def kayit(message):
     buton1 = types.KeyboardButton('🔶 Yeni Kanal Ekle')
     buton2 = types.KeyboardButton('❌ iptal')
     buton3 = types.KeyboardButton('🗑️ Kanal Sil')
+    buton4 = types.KeyboardButton('♻️ API değiştir')
     markupp.add(buton1, buton2, buton3)
     if chat in kara:
         bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
@@ -124,7 +125,7 @@ def kayitapi(message):
         msg = bot.send_message(chat, "Silmek istediğiniz kanalın kayıt numarasını girin.", reply_markup=markup)
         bot.register_next_step_handler(msg, ksil)
         return
-    if mesaj.lower() == "api değiştir":
+    if mesaj.lower() == "♻️ api değiştir":
         msg = bot.send_message(chat, "Yeni API adresinizi girin.")
         bot.register_next_step_handler(msg, apikayit)
         return
