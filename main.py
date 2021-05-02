@@ -26,7 +26,8 @@ dugme = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_ke
 butonbir = types.KeyboardButton('📝 Kaydet')
 butoniki = types.KeyboardButton('🔧 Kaynak')
 butonuc = types.KeyboardButton('📏 Şablon')
-    
+dugme.add(butonbir, butoniki, butonuc)
+
 class usre:
     def __init__(self):
         self.api = None
@@ -40,12 +41,11 @@ def start(message):
         bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
     kat = collection.find_one({"_id": user})
-      
+    dagme = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
+    dagme.add(butonbir)
     if kat == None:
-        dugme.add(butonbir)
-    else:
-        dugme.add(butonbir, butoniki, butonuc)
-        
+        dugme = dagme
+   
     mention = "@"+message.from_user.username if message.from_user.username else message.from_user.first_name
     bot.send_message(chat, """
 ✨ <b>Merhaba {}!</b>
@@ -239,7 +239,6 @@ def kayitapi(message):
 def ksil(message):
     mesaj = int(message.text) - 1
     user = message.from_user.id
-    dugme.add(butonbir, butoniki, butonuc)
     if not message.text.isdigit():
         bot.send_message(chat, "Lütfen geçerli bir numara verin")
         return
