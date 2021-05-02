@@ -239,6 +239,7 @@ def kayitapi(message):
 def ksil(message):
     mesaj = int(message.text) - 1
     user = message.from_user.id
+    dugme.add(butonbir, butoniki, butonuc)
     if not message.text.isdigit():
         bot.send_message(chat, "Lütfen geçerli bir numara verin")
         return
