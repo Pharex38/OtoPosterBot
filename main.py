@@ -272,15 +272,15 @@ def kayitapi(message):
     bot.register_next_step_handler(msg, kayitapi)
 
 def ksil(message):
-    mesaj = int(message.text) - 1
     user = message.from_user.id
+    chat = message.chat.id
     if message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
         return
+    mesaj = int(message.text) - 1
     if not message.text.isdigit():
         bot.send_message(chat, "Lütfen geçerli bir numara verin")
         return
-    chat = message.chat.id
     bul = collection.find_one({"_id": user})
     x = bul['kanal']
     try:
