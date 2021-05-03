@@ -31,7 +31,7 @@ dugme.add(butonbir, butoniki, butonuc, butondort)
 
 markupp = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
 buton1 = types.KeyboardButton('🔶 Yeni Kanal Ekle')
-buton2 = types.KeyboardButton('❌ iptal')
+buton2 = types.KeyboardButton('❌ İptal')
 buton3 = types.KeyboardButton('🗑️ Kanal Sil')
 buton4 = types.KeyboardButton('♻️ API değiştir')
 markupp.add(buton1, buton2, buton3, buton4)
