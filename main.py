@@ -348,30 +348,30 @@ def poster(message):
                 json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
                 link = json['shortenedUrl']
                 print(f"{kanal} + {link} + {token}")
-                try:
-                    if sablon == "1":
-                        sablon = f"🔥{aciklama}\n\n🔱 TIKLA 👉 {link}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
-                    elif sablon == "2" or sablon == "3":
-                        sablon = f"{aciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {link}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
-                    else:
-                        soll = sablon.split("{link}")
-                        sal = soll[0].split("{aciklama}")
+                if sablon == "1":
+                    sablon = f"🔥{aciklama}\n\n🔱 TIKLA 👉 {link}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
+                elif sablon == "2" or sablon == "3":
+                    sablon = f"{aciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {link}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
+                else:
+                    soll = sablon.split("{link}")
+                    sal = soll[0].split("{aciklama}")
                         
-                        sablon = f"{sal[0]}{aciklama}{sal[1]}{link}{soll[1]}"
+                    sablon = f"{sal[0]}{aciklama}{sal[1]}{link}{soll[1]}"
                     
-                    sleep(1)
-                    for kan in kanal:
+                sleep(1)
+                for kan in kanal:
+                    try:
                         bot.send_photo(kan, medya, caption=sablon)
                         count = count + 1
-                except Exception as e:
-                    print(e)
-                    print(f"Hatalı kanal: {kanal}")
-                    e = str(e)
-                    print(e)
-                    if e.find("bot is not a member") != -1:
-                        collection.delete_one({"_id": user})
-                        bot.send_message(user, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
-                        print(f"{kanal} kayıtlardan silindi.")
+                    except Exception as e:
+                        print(e)
+                        print(f"Hatalı kanal: {kanal}")
+                        e = str(e)
+                        print(e)
+                        if e.find("bot is not a member") != -1:
+                            collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
+                            bot.send_message(user, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                            print(f"{kanal} kayıtlardan silindi.")
                 print("Başarılı!")
             else:
                 pass
@@ -407,29 +407,29 @@ def poster(message):
                 bjson = s.get(f"https://ay.live/api/?api={btoken}&url={bmesajb}&alias=&ct=1", cookies=cookies).json()
                 blink = bjson['shortenedUrl']
                 print(f"{bkanal} + {blink} + {btoken}")
-                try:
-                    if bsablon == "1":
-                        bsablon = f"🔥{baciklama}\n\n🔱 TIKLA 👉 {blink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
-                    elif bsablon == "2" or bsablon == "3":
-                        bsablon = f"{baciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {blink}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
-                    else:
-                        bsoll = bsablon.split("{link}")
-                        bsal = bsoll[0].split("{aciklama}")
+                if bsablon == "1":
+                    bsablon = f"🔥{baciklama}\n\n🔱 TIKLA 👉 {blink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
+                elif bsablon == "2" or bsablon == "3":
+                    bsablon = f"{baciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {blink}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
+                else:
+                    bsoll = bsablon.split("{link}")
+                    bsal = bsoll[0].split("{aciklama}")
                     
-                        bsablon = f"{bsal[0]}{baciklama}{bsal[1]}{blink}{bsoll[1]}"
-                    sleep(1)
-                    for bkan in bkanal:
+                    bsablon = f"{bsal[0]}{baciklama}{bsal[1]}{blink}{bsoll[1]}"
+                sleep(1)
+                for bkan in bkanal:
+                    try:
                         bot.send_photo(bkan, bmedya, caption=bsablon)
                         bcount = bcount + 1
-                except Exception as e:
-                    print(e)
-                    print(f"Hatalı kanal: {bkanal}")
-                    e = str(e)
-                    print(e)
-                    if e.find("bot is not a member") != -1:
-                        collection.delete_one({"_id": buser})
-                        bot.send_message(buser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
-                        print(f"{bkanal} kayıtlardan silindi.")
+                    except Exception as e:
+                        print(e)
+                        print(f"Hatalı kanal: {bkanal}")
+                        e = str(e)
+                        print(e)
+                        if e.find("bot is not a member") != -1:
+                            collection.update_one({"_id": buser}, {"$pull": {"kanal": bkan}})
+                            bot.send_message(buser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                            print(f"{bkanal} kayıtlardan silindi.")
                     
                 print("Başarılı!")
         bot.send_message(-1001352123979, "Bedava Link kaynağından, {} Kanalda Foto Post Paylaşıldı.".format(bcount))
@@ -467,31 +467,31 @@ def poster(message):
             if kaynak == "1" or kaynak == "0":
                 json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
                 link = json['shortenedUrl']
-                try:
-                    if sablon == "1":
-                        sablon = f"🔥{aciklama}\n\n🔱 TIKLA 👉 {link}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
-                    elif sablon == "2" or sablon == "3":
-                        sablon = f"{aciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {link}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
-                    else:
-                        soll = sablon.split("{link}")
-                        sal = soll[0].split("{aciklama}")
+                
+                if sablon == "1":
+                    sablon = f"🔥{aciklama}\n\n🔱 TIKLA 👉 {link}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
+                elif sablon == "2" or sablon == "3":
+                    sablon = f"{aciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {link}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
+                else:
+                    soll = sablon.split("{link}")
+                    sal = soll[0].split("{aciklama}")
                     
-                        sablon = f"{sal[0]}{aciklama}{sal[1]}{link}{soll[1]}"
-                    sleep(1)
+                    sablon = f"{sal[0]}{aciklama}{sal[1]}{link}{soll[1]}"
+                sleep(1)
                     
-                    print(f"{kanal} + {link} + {token}")
-                    for kan in kanal:
+                print(f"{kanal} + {link} + {token}")
+                for kan in kanal:
+                    try:
                         bot.send_video(kan, medya, caption=sablon)
                         count = count + 1
-                except Exception as e:
-                    print(e)
-                    print(f"Hatalı kanal: {kanal}")
-                    e = str(e)
-                    print(e)
-                    if e.find("bot is not a member") != -1:
-                        collection.delete_one({"_id": user})
-                        bot.send_message(user, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
-                        print(f"{kanal} kayıtlardan silindi.")
+                    except Exception as e:
+                        print(e)
+                        print(f"Hatalı kanal: {kanal}")
+                        e = str(e)
+                        if e.find("bot is not a member") != -1:
+                            collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
+                            bot.send_message(user, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                            print(f"{kanal} kayıtlardan silindi.")
             else:
                 pass
         bot.send_message(-1001352123979, "Link Mahzeni kaynağından, {} Kanalda Video Post Paylaşıldı.".format(count))
@@ -527,29 +527,28 @@ def poster(message):
                 bjson = s.get(f"https://ay.live/api/?api={btoken}&url={bmesajb}&alias=&ct=1", cookies=cookies).json()
                 blink = bjson['shortenedUrl']
                 print(f"{bkanal} + {blink} + {btoken}")
-                try:
-                    if bsablon == "1":
+                if bsablon == "1":
                         bsablon = f"🔥{baciklama}\n\n🔱 TIKLA 👉 {blink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
-                    elif bsablon == "2" or bsablon == "3":
-                        bsablon = f"{baciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {blink}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
-                    else:
-                        bsoll = bsablon.split("{link}")
-                        bsal = bsoll[0].split("{aciklama}")
+                elif bsablon == "2" or bsablon == "3":
+                    bsablon = f"{baciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {blink}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
+                else:
+                    bsoll = bsablon.split("{link}")
+                    bsal = bsoll[0].split("{aciklama}")
                     
-                        bsablon = f"{bsal[0]}{baciklama}{bsal[1]}{blink}{bsoll[1]}"
+                    bsablon = f"{bsal[0]}{baciklama}{bsal[1]}{blink}{bsoll[1]}"
                     
-                    for bkan in bkanal:
+                for bkan in bkanal:
+                    try:
                         bot.send_video(bkan, bmedya, caption=bsablon)
                         bcount = bcount + 1
-                except Exception as e:
-                    print(e)
-                    print(f"Hatalı kanal: {bkanal}")
-                    e = str(e)
-                    print(e)
-                    if e.find("bot is not a member") != -1:
-                        collection.delete_one({"_id": buser})
-                        bot.send_message(buser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
-                        print(f"{bkanal} kayıtlardan silindi.")
+                    except Exception as e:
+                        print(e)
+                        print(f"Hatalı kanal: {bkanal}")
+                        e = str(e)
+                        if e.find("bot is not a member") != -1:
+                            collection.update_one({"_id": buser}, {"$pull": {"kanal": bkan}})
+                            bot.send_message(buser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                            print(f"{bkanal} kayıtlardan silindi.")
                     
                 print("Başarılı!")
         bot.send_message(-1001352123979, "Bedava Link kanalından, {} Kanalda Video Post Paylaşıldı.".format(bcount))
