@@ -258,7 +258,7 @@ def kayitapi(message):
         bot.register_next_step_handler(msg, apikayit)
         return
     if mesaj.lower() == "❌ iptal":
-        msg = bot.send_message(chat, "İptal Edildi.", reply_markup=imark)
+        msg = bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
         return
     if mesaj.lower() == "🔶 yeni kanal ekle":
         bol = collection.find_one({"_id": chat})
