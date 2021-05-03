@@ -376,7 +376,7 @@ def poster(message):
             else:
                 pass
         bot.send_message(-1001352123979, "Link Mahzeni kanalından, {} Kanalda Foto Post Paylaşıldı.".format(count))
-    if chat == -1001122395785:
+    elif chat == -1001122395785:
         print(f"başlıyor ")
         bmesaj = message.caption
         """ Link tespit """
@@ -480,7 +480,8 @@ def poster(message):
                 sleep(1)
                     
                 print(f"{kanal} + {link} + {token}")
-                for kan in kanal:
+                kanalx = [-1001444935707, -1001190898326]
+                for kan in kanalx:
                     try:
                         bot.send_video(kan, medya, caption=sablon)
                         count = count + 1
