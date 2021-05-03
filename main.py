@@ -36,6 +36,10 @@ buton3 = types.KeyboardButton('🗑️ Kanal Sil')
 buton4 = types.KeyboardButton('♻️ API değiştir')
 markupp.add(buton1, buton2, buton3, buton4)
 
+imark = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
+batinbir = types.KeyboardButton('❌ İptal')
+imark.add(batinbir)
+
 class usre:
     def __init__(self):
         self.api = None
@@ -134,7 +138,7 @@ def menu(message):
 <b>❗Hepsinden atsın fütursuzca kanalımı sikmek istiyorum diyorsan 0 yaz</b>
     
     
-    """, disable_web_page_preview=True, reply_markup=markup)
+    """, disable_web_page_preview=True, reply_markup=imark)
         bot.register_next_step_handler(msg, kaynake)
         return
     if mesaj.lower() == "📏 şablon":
@@ -161,7 +165,7 @@ def menu(message):
 ----------------
 
 Üstteki şablonlardan kullanmak isterseniz, istediğiniz şablonun numarasını gönderin.""", reply_markup=markup)
-        msg = bot.send_message(chat, "<i>Eğer kendi şablonunuzu oluşturmak isterseniz üstteki şablonlardaki gibi</i> <b>{aciklama}</b> ve <b>{link}</b> <i>kelimelerinin bulunduğundan emin olun yoksa şablon çalışmaz</i>", reply_markup=markup)
+        msg = bot.send_message(chat, "<i>Eğer kendi şablonunuzu oluşturmak isterseniz üstteki şablonlardaki gibi</i> <b>{aciklama}</b> ve <b>{link}</b> <i>kelimelerinin bulunduğundan emin olun yoksa şablon çalışmaz</i>", reply_markup=imark)
         bot.register_next_step_handler(msg, sabloniki)
         return
     if mesaj.lower() == "📝 kaydet":
@@ -205,11 +209,13 @@ def menu(message):
             return
     bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=dugme)
     
-
 def kaynake(message):
     ktext = message.text
     chat = message.chat.id
     user = message.from_user.id
+    if message.text.lower() == "❌ iptal":
+        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
+        return
     if not ktext.isdigit():
         msg = bot.send_message(chat, "Lütfen istediğiniz kaynağın numarasını gönderin.")
         bot.register_next_step_handler(msg, kaynake)
@@ -225,6 +231,9 @@ def sabloniki(message):
     mesaj = message.text
     chat = message.chat.id
     user = message.from_user.id
+    if message.text.lower() == "❌ iptal":
+        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
+        return
     if not mesaj.isdigit():
         if mesaj.find("{link}") == -1 or mesaj.find("{aciklama}") == -1:
             msg = bot.send_message(chat, """ ❌<i> Lütfen mesajınızda "{link}" ve "{aciklama}" bulunduğudan emin olun.</i> """)
@@ -241,20 +250,20 @@ def kayitapi(message):
     chat = message.chat.id
     mesaj = message.text
     if mesaj.lower() == "🗑️ kanal sil":
-        msg = bot.send_message(chat, "Silmek istediğiniz kanalın kayıt numarasını girin.", reply_markup=markup)
+        msg = bot.send_message(chat, "Silmek istediğiniz kanalın kayıt numarasını girin.", reply_markup=imark)
         bot.register_next_step_handler(msg, ksil)
         return
     if mesaj.lower() == "♻️ api değiştir":
-        msg = bot.send_message(chat, "Yeni API adresinizi girin.")
+        msg = bot.send_message(chat, "Yeni API adresinizi girin.", reply_markup=imark)
         bot.register_next_step_handler(msg, apikayit)
         return
     if mesaj.lower() == "❌ iptal":
-        msg = bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
+        msg = bot.send_message(chat, "İptal Edildi.", reply_markup=imark)
         return
     if mesaj.lower() == "🔶 yeni kanal ekle":
         bol = collection.find_one({"_id": chat})
         if len(bol['kanal']) > 2:
-            bot.send_message(chat, "<i>Üzgünüm en fazla 3 kanal kaydedebilirsiniz.</i>", reply_markup=markup)
+            bot.send_message(chat, "<i>Üzgünüm en fazla 3 kanal kaydedebilirsiniz.</i>", reply_markup=imark)
             return
         msg = bot.send_message(chat, """📝 <i>Lütfen kanalınızdan bir gönderi iletin.</i>""", reply_markup=markup)
         bot.register_next_step_handler(msg, kanalkayit)
@@ -265,6 +274,9 @@ def kayitapi(message):
 def ksil(message):
     mesaj = int(message.text) - 1
     user = message.from_user.id
+    if message.text.lower() == "❌ iptal":
+        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
+        return
     if not message.text.isdigit():
         bot.send_message(chat, "Lütfen geçerli bir numara verin")
         return
@@ -284,6 +296,9 @@ def apikayit(message):
     user = message.from_user.id
     mids = mid+1
     chat = message.chat.id
+    if message.text.lower() == "❌ iptal":
+        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
+        return
     bot.send_message(chat, "<code>👁️ API adresiniz kontrol ediliyor...</code>", parse_mode='MarkDown', reply_markup=dugme)
     s = requests.Session()
     link = s.get("https://ay.live/api")
@@ -305,6 +320,9 @@ def kanalkayit(message):
     chat = message.chat.id
     user = message.from_user.id
     kanals = []
+    if message.text.lower() == "❌ iptal":
+        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
+        return
     if not message.forward_from_chat:
         msg = bot.send_message(chat, "↪️ Bunun ne olduğu hakkında bir fikrim yok! Lütfen kanaldan herhangi bir gönderi iletin.")
         bot.register_next_step_handler(msg, kanalkayit)
