@@ -299,22 +299,13 @@ def apikayit(message):
     if message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
         return
-    bot.send_message(chat, "<code>👁️ API adresiniz kontrol ediliyor...</code>", parse_mode='MarkDown', reply_markup=dugme)
-    s = requests.Session()
-    link = s.get("https://ay.live/api")
-    cookies = dict(link.cookies)
-    ket = s.get(f"https://tr.link/api/?api={token}&url=yourdestinationlink.com&format=text&alias=&ct=1", cookies=cookies).text
-    if ket == None:
-        msg = bot.edit_message_text("""<b>✖️ Geçersiz Bir API adresi girdiniz!</b> <i>Lütfen <a href="https://tr.link/member/tools/api">bu adresen</a> yeniden alın.</i>""", chat, mids)
-        bot.register_next_step_handler(msg, apikayit)
-        return
     bnb = collection.find_one({"_id": user})
     key = {"_id": user, "token": token, "kanal": [], "sablon": "1", "kaynak": "1"}
     if bnb == None:
         collection.insert_one(key)
     else:
         collection.update_one({"_id": user}, {"$set": {"token": token}})
-    bot.edit_message_text("<b>🟢 API kaydedildi!</b>", chat, mids)
+    bot.send_message("<b>🟢 API kaydedildi!</b>", chat, reply_markup=dugme)
 
 def kanalkayit(message):
     chat = message.chat.id
