@@ -265,7 +265,7 @@ def kayitapi(message):
         if len(bol['kanal']) > 2:
             bot.send_message(chat, "<i>Üzgünüm en fazla 3 kanal kaydedebilirsiniz.</i>", reply_markup=imark)
             return
-        msg = bot.send_message(chat, """📝 <i>Lütfen kanalınızdan bir gönderi iletin.</i>""", reply_markup=markup)
+        msg = bot.send_message(chat, """📝 <i>Lütfen kanalınızdan bir gönderi iletin.</i>""", reply_markup=imark)
         bot.register_next_step_handler(msg, kanalkayit)
         return
     msg = bot.send_message(chat, "Lütfen alttaki butonları kullanın.", reply_markup=markupp)
@@ -320,7 +320,7 @@ def kanalkayit(message):
     chat = message.chat.id
     user = message.from_user.id
     kanals = []
-    if message.text.lower() == "❌ iptal":
+    if message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
         return
     if not message.forward_from_chat:
