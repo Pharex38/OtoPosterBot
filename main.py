@@ -480,8 +480,7 @@ def poster(message):
                 sleep(1)
                     
                 print(f"{kanal} + {link} + {token}")
-                kanalx = [-1001444935707, -1001190898326]
-                for kan in kanalx:
+                for kan in kanal:
                     try:
                         bot.send_video(kan, medya, caption=sablon)
                         count = count + 1
