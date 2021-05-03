@@ -126,7 +126,7 @@ def menu(message):
     if user in kara:
         bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
-    if mesaj.lower() == "🔧 kaynak":
+    if mesaj == "🔧 Kaynak":
         msg = bot.send_message(chat, """<b>Kullanmak istediğiniz kaynak kanalınının numarasını gönderin:
     
     Kaynak No:1</b>
@@ -141,7 +141,7 @@ def menu(message):
     """, disable_web_page_preview=True, reply_markup=imark)
         bot.register_next_step_handler(msg, kaynake)
         return
-    if mesaj.lower() == "📏 şablon":
+    if mesaj == "📏 Şablon":
         bot.send_message(chat, """<b>Şablon No:1</b>
     ----------------
 🔥{aciklama}
@@ -168,7 +168,7 @@ def menu(message):
         msg = bot.send_message(chat, "<i>Eğer kendi şablonunuzu oluşturmak isterseniz üstteki şablonlardaki gibi</i> <b>{aciklama}</b> ve <b>{link}</b> <i>kelimelerinin bulunduğundan emin olun yoksa şablon çalışmaz</i>", reply_markup=imark)
         bot.register_next_step_handler(msg, sabloniki)
         return
-    if mesaj.lower() == "📝 kaydet":
+    if mesaj == "📝 Kaydet":
         kayitli = 0
         chat = message.chat.id
         bina = collection.find_one({"_id": chat})
@@ -196,7 +196,7 @@ def menu(message):
             msg = bot.send_message(chat, "♦️Kayıtlı API: {}\nToplam: {}".format(tokenn, kayitli), reply_markup=markupp)
             bot.register_next_step_handler(msg, kayitapi)
             return
-    if mesaj.lower() == "▶️ sfs modu":
+    if mesaj == "▶️ SFS Modu":
         mod = collection.find_one({"_id": user})
         if mod['kaynak'] == "9":
             collection.update_one({"_id": user}, {"$set": {"kaynak": mod['eski']}})
@@ -213,7 +213,7 @@ def kaynake(message):
     ktext = message.text
     chat = message.chat.id
     user = message.from_user.id
-    if message.text.lower() == "❌ iptal":
+    if message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
         return
     if not ktext.isdigit():
@@ -231,7 +231,7 @@ def sabloniki(message):
     mesaj = message.text
     chat = message.chat.id
     user = message.from_user.id
-    if message.text.lower() == "❌ iptal":
+    if message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
         return
     if not mesaj.isdigit():
@@ -249,18 +249,18 @@ def sabloniki(message):
 def kayitapi(message):
     chat = message.chat.id
     mesaj = message.text
-    if mesaj.lower() == "🗑️ kanal sil":
+    if mesaj == "🗑️ Kanal Sil":
         msg = bot.send_message(chat, "Silmek istediğiniz kanalın kayıt numarasını girin.", reply_markup=imark)
         bot.register_next_step_handler(msg, ksil)
         return
-    if mesaj.lower() == "♻️ api değiştir":
+    if mesaj == "♻️ API değiştir":
         msg = bot.send_message(chat, "Yeni API adresinizi girin.", reply_markup=imark)
         bot.register_next_step_handler(msg, apikayit)
         return
-    if mesaj.lower() == "❌ iptal":
+    if mesaj == "❌ İptal":
         msg = bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
         return
-    if mesaj.lower() == "🔶 yeni kanal ekle":
+    if mesaj == "🔶 Yeni Kanal Ekle":
         bol = collection.find_one({"_id": chat})
         if len(bol['kanal']) > 2:
             bot.send_message(chat, "<i>Üzgünüm en fazla 3 kanal kaydedebilirsiniz.</i>", reply_markup=imark)
