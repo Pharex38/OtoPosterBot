@@ -274,7 +274,7 @@ def kayitapi(message):
 def ksil(message):
     mesaj = int(message.text) - 1
     user = message.from_user.id
-    if message.text.lower() == "❌ iptal":
+    if message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
         return
     if not message.text.isdigit():
@@ -296,7 +296,7 @@ def apikayit(message):
     user = message.from_user.id
     mids = mid+1
     chat = message.chat.id
-    if message.text.lower() == "❌ iptal":
+    if message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
         return
     bot.send_message(chat, "<code>👁️ API adresiniz kontrol ediliyor...</code>", parse_mode='MarkDown', reply_markup=dugme)
