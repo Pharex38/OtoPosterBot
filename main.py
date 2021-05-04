@@ -341,7 +341,7 @@ def sitekayit(message):
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
         return
     collection.update_one({"_id": user}, {"$set": {"site": mesaj}})
-    bot.send_message(chat, "Site Kaydedildi", reply_markup=dugme)
+    bot.send_message(chat, "Site Kaydedildi\n\nAPI adresinizi seçtiğiniz siteye göre değiştirmeyi unutmayın.", reply_markup=dugme)
 
 @bot.channel_post_handler(content_types=['photo'])
 def poster(message):
