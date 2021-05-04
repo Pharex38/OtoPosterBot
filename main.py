@@ -421,11 +421,23 @@ def poster(message):
             btoken = bhesap['token']
             bkanal = bhesap['kanal']
             buser = bhesap['_id']
+            bsite = bhesap['site']
             print(bkaynak)
             sleep(2)
             if bkaynak == "2" or bkaynak == "0":
-                bjson = s.get(f"https://ay.live/api/?api={btoken}&url={bmesajb}&alias=&ct=1", cookies=cookies).json()
-                blink = bjson['shortenedUrl']
+                if site == "1":
+                    bjson = s.get(f"https://ay.live/api/?api={btoken}&url={bmesajb}&alias=&ct=1", cookies=cookies).json()
+                    blink = bjson['shortenedUrl']
+                if bsite == "2":
+                    bjson = s.get(f"https://www.pnd.tl/api?api={btoken}&url={bmesajb}&category=6").json()
+                    blink = bjson['shortenedUrl']
+                if bsite == "3":
+                    bjson = s.get(f"https://exe.io/api?api={btoken}&url={bmesajb}").json()
+                    blink = bjson['shortenedUrl']
+                if bsite == "4":
+                    blink = s.get(f"http://ouo.io/api/{btoken}?s={bmesajb}").text
+                if bsite == "5":
+                    blink = s.get(f"http://pubiza.com/api.php?token={btoken}&url={bmesajb}&ads_type=adult").text
                 print(f"{bkanal} + {blink} + {btoken}")
                 if bsablon == "1":
                     bsablon = f"🔥{baciklama}\n\n🔱 TIKLA 👉 {blink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
@@ -484,10 +496,21 @@ def poster(message):
             token = hesap['token']
             kanal = hesap['kanal']
             user = hesap['_id']
+            site = hesap['site']
             if kaynak == "1" or kaynak == "0":
-                json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
-                link = json['shortenedUrl']
-                
+                if site == "1":
+                    json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
+                    link = json['shortenedUrl']
+                if site == "2":
+                    json = s.get(f"https://www.pnd.tl/api?api={token}&url={mesajb}&category=6").json()
+                    link = json['shortenedUrl']
+                if site == "3":
+                    json = s.get(f"https://exe.io/api?api={token}&url={mesajb}").json()
+                    link = json['shortenedUrl']
+                if site == "4":
+                    link = s.get(f"http://ouo.io/api/{token}?s={mesajb}").text
+                if site == "5":
+                    link = s.get(f"http://pubiza.com/api.php?token={token}&url={mesajb}&ads_type=adult").text
                 if sablon == "1":
                     sablon = f"🔥{aciklama}\n\n🔱 TIKLA 👉 {link}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
                 elif sablon == "2" or sablon == "3":
@@ -541,11 +564,23 @@ def poster(message):
             btoken = bhesap['token']
             bkanal = bhesap['kanal']
             buser = bhesap['_id']
+            bsite = bhesap['site']
             print(bkaynak)
             sleep(1)
             if bkaynak == "2" or bkaynak == "0":
-                bjson = s.get(f"https://ay.live/api/?api={btoken}&url={bmesajb}&alias=&ct=1", cookies=cookies).json()
-                blink = bjson['shortenedUrl']
+                if bsite == "1":
+                    bjson = s.get(f"https://ay.live/api/?api={btoken}&url={bmesajb}&alias=&ct=1", cookies=cookies).json()
+                    blink = bjson['shortenedUrl']
+                if bsite == "2":
+                    bjson = s.get(f"https://www.pnd.tl/api?api={btoken}&url={bmesajb}&category=6").json()
+                    blink = bjson['shortenedUrl']
+                if bsite == "3":
+                    bjson = s.get(f"https://exe.io/api?api={btoken}&url={bmesajb}").json()
+                    blink = bjson['shortenedUrl']
+                if bsite == "4":
+                    blink = s.get(f"http://ouo.io/api/{btoken}?s={bmesajb}").text
+                if bsite == "5":
+                    blink = s.get(f"http://pubiza.com/api.php?token={btoken}&url={bmesajb}&ads_type=adult").text
                 print(f"{bkanal} + {blink} + {btoken}")
                 if bsablon == "1":
                         bsablon = f"🔥{baciklama}\n\n🔱 TIKLA 👉 {blink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
