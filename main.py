@@ -198,7 +198,7 @@ def menu(message):
             bot.register_next_step_handler(msg, kayitapi)
             return
     if mesaj == "▶️ SFS Modu":
-İlk        mod = collection.find_one({"_id": user})
+        mod = collection.find_one({"_id": user})
         if mod['kaynak'] == "9":
             collection.update_one({"_id": user}, {"$set": {"kaynak": mod['eski']}})
             bot.send_message(chat, "SFS modu durduruldu", reply_markup=dugme)
