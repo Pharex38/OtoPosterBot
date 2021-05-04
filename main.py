@@ -40,10 +40,6 @@ imark = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_ke
 batinbir = types.KeyboardButton('❌ İptal')
 imark.add(batinbir)
 
-duyeu = collection.find({})
-for x in duyeu:
-    collection.update_one({"_id": x['_id']}, {"$set": {"site": "1"}})
-
 class usre:
     def __init__(self):
         self.api = None
@@ -359,8 +355,19 @@ def poster(message):
             user = hesap['_id']
             site = hesap["site"]
             if kaynak == "1" or kaynak == "0":
-                json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
-                link = json['shortenedUrl']
+                if site == "1":
+                    json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
+                    link = json['shortenedUrl']
+                if site == "2":
+                    json = s.get(f"https://www.pnd.tl/api?api={token}&url={mesajb}&category=6").json()
+                    link = json['shortenedUrl']
+                if site == "3":
+                    json = s.get(f"https://exe.io/api?api={token}&url={mesajb}").json()
+                    link = json['shortenedUrl']
+                if site == "4":
+                    link = s.get(f"http://ouo.io/api/{token}?s={mesajb}").text
+                if site == "5":
+                    link = s.get(f"http://pubiza.com/api.php?token={token}&url={mesajb}&ads_type=adult").text
                 print(f"{kanal} + {link} + {token}")
                 if sablon == "1":
                     sablon = f"🔥{aciklama}\n\n🔱 TIKLA 👉 {link}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
