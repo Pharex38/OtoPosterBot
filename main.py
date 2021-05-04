@@ -194,7 +194,7 @@ def menu(message):
             bot.register_next_step_handler(msg, apikayit)
             return
         else:
-            msg = bot.send_message(chat, "♦️Kayıtlı API: {}\nToplam: {}".format(tokenn, kayitli), reply_markup=markupp)
+            msg = bot.send_message(chat, "♦️Kayıtlı API: {}\nSite: {}\nToplam: {}".format(tokenn, bina['site'], kayitli), reply_markup=markupp)
             bot.register_next_step_handler(msg, kayitapi)
             return
     if mesaj == "▶️ SFS Modu":
