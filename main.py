@@ -332,10 +332,14 @@ def kanalkayit(message):
 def sitekayit(message):
     chat = message.chat.id
     user = message.from_user.id
+    mesaj = str(message.text)
+    if not message.text.isdigit() or len(mesaj) > 1:
+        msg = bot.send_message(chat, "Lütfen doğru bir numara girin")
+        bot.register_next_step_handler(msg, sitekayit)
+        return
     if message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
         return
-    mesaj = str(message.text)
     collection.update_one({"_id": user}, {"$set": {"site": mesaj}})
     bot.send_message(chat, "Site Kaydedildi", reply_markup=dugme)
 
