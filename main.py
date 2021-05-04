@@ -40,6 +40,10 @@ imark = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_ke
 batinbir = types.KeyboardButton('❌ İptal')
 imark.add(batinbir)
 
+duyeu = collection.find({})
+for x in duyeu:
+    collection.update_one({"_id": x['_id']}, {"$set": {"site": "1"}})
+
 class usre:
     def __init__(self):
         self.api = None
@@ -353,6 +357,7 @@ def poster(message):
             kanal = hesap['kanal']
             sablon = hesap['sablon']
             user = hesap['_id']
+            site = hesap["site"
             if kaynak == "1" or kaynak == "0":
                 json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
                 link = json['shortenedUrl']
@@ -376,7 +381,6 @@ def poster(message):
                         print(e)
                         print(f"Hatalı kanal: {kanal}")
                         e = str(e)
-                        print(e)
                         if e.find("bot is not a member") != -1:
                             collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
                             bot.send_message(user, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
