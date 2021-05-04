@@ -198,7 +198,7 @@ def menu(message):
             bot.register_next_step_handler(msg, kayitapi)
             return
     if mesaj == "▶️ SFS Modu":
-        mod = collection.find_one({"_id": user})
+İlk        mod = collection.find_one({"_id": user})
         if mod['kaynak'] == "9":
             collection.update_one({"_id": user}, {"$set": {"kaynak": mod['eski']}})
             bot.send_message(chat, "SFS modu durduruldu", reply_markup=dugme)
@@ -227,7 +227,7 @@ def kaynake(message):
     else:
         collection.update_one({"_id": user}, {"$set":{"kaynak": ktext}})
         bot.send_message(chat, "Kaynak Kaydedildi!", reply_markup=dugme)
-        
+
 def sabloniki(message):
     mesaj = message.text
     chat = message.chat.id
@@ -262,7 +262,7 @@ def kayitapi(message):
         msg = bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
         return
     if mesaj == "🔗 Site değiştir":
-        msg = bot.send_message(chat, "Kullanmak istediğiniz sitenin numarasını girin:\n\nNo:1\nTRLink(Varsayılan)\n\nNo:2\nPND.TL(Geçici bir süre kullanılamıyor)\n\nNo:3\nExe.io\n\nNo:4\nOuo.io\n\nNo:5\nPubiza", reply_markup=imark)
+        msg = bot.send_message(chat, "<i>Kullanmak istediğiniz sitenin numarasını girin:\n\n<b>    No:1</b>\n    TRLink(Varsayılan)\n\n<b>    No:2</b>\n    PND.TL (Geçici bir süre kullanılamıyor)\n\n<b>    No:3</b>\n    Exe.io\n\n<b>    No:4</b>\n    Ouo.io\n\n<b>    No:5</b>\n    Pubiza</i>", reply_markup=imark)
         bot.register_next_step_handler(msg, sitekayit)
         return
     if mesaj == "🔶 Yeni Kanal Ekle":
