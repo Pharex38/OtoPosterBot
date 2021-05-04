@@ -273,7 +273,7 @@ def kayitapi(message):
         msg = bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
         return
     if mesaj == "🔗 Site değiştir":
-        msg = bot.send_message(chat, "<i>Kullanmak istediğiniz sitenin numarasını girin:\n\n<b>    No:1</b>\n    TRLink (Varsayılan)\n\n<b>    No:2</b>\n    PND.TL (Geçici bir süre kullanılamıyor)\n\n<b>    No:3</b>\n    Exe.io\n\n<b>    No:4</b>\n    Ouo.io\n\n<b>    No:5</b>\n    Pubiza</i>\n \nㅤ\nㅤ", reply_markup=imark)
+        msg = bot.send_message(chat, "<i>Kullanmak istediğiniz sitenin numarasını girin:\n\n<b>    No:1</b>\n    TRLink (Varsayılan)\n\n<b>    No:2</b>\n    PND.TL\n\n<b>    No:3</b>\n    Exe.io\n\n<b>    No:4</b>\n    Ouo.io\n\n<b>    No:5</b>\n    Pubiza</i>\n \nㅤ\nㅤ", reply_markup=imark)
         bot.register_next_step_handler(msg, sitekayit)
         return
     if mesaj == "🔶 Yeni Kanal Ekle":
