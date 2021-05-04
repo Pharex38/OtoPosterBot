@@ -34,7 +34,8 @@ buton1 = types.KeyboardButton('🔶 Yeni Kanal Ekle')
 buton2 = types.KeyboardButton('❌ İptal')
 buton3 = types.KeyboardButton('🗑️ Kanal Sil')
 buton4 = types.KeyboardButton('♻️ API değiştir')
-markupp.add(buton1, buton2, buton3, buton4)
+buton5 = types.KeyboardButton('🔗 Site değiştir')
+markupp.add(buton1, buton2, buton3, buton4, buton5)
 
 imark = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
 batinbir = types.KeyboardButton('❌ İptal')
@@ -260,6 +261,10 @@ def kayitapi(message):
     if mesaj == "❌ İptal":
         msg = bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
         return
+    if mesaj == "🔗 Site değiştir":
+        msg = bot.send_message(chat, "Kullanmak istediğiniz sitenin numarasını girin:\n\nNo:1\nTRLink(Varsayılan)\n\nNo:2\nPND.TL(Geçici bir süre kullanılamıyor)\n\nNo:3\nExe.io\n\nNo:4\nOuo.io\n\nNo:5\nPubiza", reply_markup=imark)
+        bot.register_next_step_handler(msg, sitekayit)
+        return
     if mesaj == "🔶 Yeni Kanal Ekle":
         bol = collection.find_one({"_id": chat})
         if len(bol['kanal']) > 2:
@@ -323,6 +328,16 @@ def kanalkayit(message):
     y = collection.find_one({"_id": user})
     collection.update_one({"_id": user}, {"$push":{"kanal": str(kanal)}})
     bot.reply_to(message,"<b>🟢Kanalınız Kaydedildi.</b>", reply_markup=dugme)
+
+def sitekayit(message):
+    chat = message.chat.id
+    user = messahe.from_user.id
+    if message.text == "❌ İptal":
+        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
+        return
+    mesaj = str(message.text)
+    collection.update_one({"_id": user}, {"$set": {"site": mesaj}})
+    bot.send_message(chat, "Site Kaydedildi", reply_markup=dugme)
 
 @bot.channel_post_handler(content_types=['photo'])
 def poster(message):
