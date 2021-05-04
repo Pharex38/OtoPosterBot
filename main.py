@@ -331,7 +331,7 @@ def kanalkayit(message):
 
 def sitekayit(message):
     chat = message.chat.id
-    user = messahe.from_user.id
+    user = message.from_user.id
     if message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
         return
