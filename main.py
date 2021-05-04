@@ -194,6 +194,17 @@ def menu(message):
             bot.register_next_step_handler(msg, apikayit)
             return
         else:
+            site = bina['site']
+            if site == "1":
+                site = "TRLink"
+            if site == "2":
+                site = "PND.TL"
+            if site == "3":
+                site = "Exe.io"
+            if site == "4":
+                site = "Ouo.io"
+            if site == "5":
+                site = "Pubiza"
             msg = bot.send_message(chat, "♦️Kayıtlı API: {}\nSite: {}\nToplam: {}".format(tokenn, bina['site'], kayitli), reply_markup=markupp)
             bot.register_next_step_handler(msg, kayitapi)
             return
