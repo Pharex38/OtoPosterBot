@@ -205,7 +205,7 @@ def menu(message):
                 site = "Ouo.io"
             if site == "5":
                 site = "Pubiza"
-            msg = bot.send_message(chat, "♦️Kayıtlı API: {}\nSite: {}\nToplam: {}".format(tokenn, bina['site'], kayitli), reply_markup=markupp)
+            msg = bot.send_message(chat, "♦️Kayıtlı API: {}\nSite: {}\nToplam: {}".format(tokenn, site, kayitli), reply_markup=markupp)
             bot.register_next_step_handler(msg, kayitapi)
             return
     if mesaj == "▶️ SFS Modu":
