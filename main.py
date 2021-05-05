@@ -373,6 +373,7 @@ def kanalkayit(message):
 def pat(message):
     chat = message.chat.id
     user = message.from_user.id
+    ptip = message.content_type
     if message.content_type == "text":
         msg = bot.send_message(chat, "Lütfen paylaşmamı istediğin postu at")
         bot.register_next_step_handler(msg, pat)
@@ -420,8 +421,25 @@ def pat(message):
         psoll = psablon.split("{link}")
         psal = psoll[0].split("{aciklama}")
         psablon = f"{psal[0]}{paciklama}{psal[1]}{plink}{psoll[1]}"
-    print(psablon)
+    pkanallar = pathesap['kanal']
+    pcount = 0
+    for pkan in pkanallar:
+        pcount = pcount + 1
+        knl = bot.get_chat(pkan)
+        bot.send_message(chat, "No: {}\n{}".format(pcount, knl.title))
+    msg = bot.send_message(chat, "Hangi kanalınıza gönderilsin?")
+    bot.register_next_step_handler(msg, patiki, psablon, pathesap, fid, ptip)
+
+def patiki(message, psablon, pathesap, fid, ptip):
+    pmesaj = int(message.text) - 1
+    pkan = pathesap['kanal'][pmesaj]
     
+    if ptip == "video":
+        bot.send_video(chat, pkan, caption=fid)
+    if ptip == "photo":
+        bot.send_photo(chat, pkan, caption=fid)
+    
+
 def sitekayit(message):
     chat = message.chat.id
     user = message.from_user.id
