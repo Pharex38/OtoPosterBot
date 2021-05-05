@@ -504,7 +504,7 @@ def poster(message):
         cmesajb = cmesaj[csol:csag].strip()
         """ Açıklama tespit """
         cason = cmesaj.find("\n")
-        caciklama = mesaj[:cason]
+        caciklama = cmesaj[:cason]
         """    Cookies    """
         s = requests.Session()
         link = s.get("https://ay.live/api")
