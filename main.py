@@ -442,6 +442,7 @@ def sitekayit(message):
 def poster(message):
     count = 0
     bcount = 0
+    ccount = 0
     chat = message.chat.id
     if chat == -1001368112299 or chat == -1001352123979:
         print(f"başlıyor ")
@@ -655,6 +656,7 @@ def poster(message):
 def poster(message):
     count = 0
     bcount = 0
+    ccount = 0
     chat = message.chat.id
     if chat == -1001368112299 or chat == -1001352123979:
         print(f"başlıyor ")
