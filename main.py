@@ -371,7 +371,52 @@ def kanalkayit(message):
     bot.reply_to(message,"<b>🟢Kanalınız Kaydedildi.</b>", reply_markup=dugme)
 
 def pat(message):
-    
+    chat = message.chat.id
+    user = message.from_user.id
+    if message.content_type == "text":
+        msg = bot.send_message(chat, "Lütfen paylaşmamı istediğin postu at")
+        bot.register_next_step_handler(msg, pat)
+        return
+    mesaj = message.caption
+    if message.content_type == "video":
+        fid = message.video.file_id
+    if message.content_type == "photo":
+        fid = message.photo[0].file_id
+    """Açıklama Tespit"""
+    pson = mesaj.find("\n")
+    paciklama = mesaj[:pson]
+    """Link Tespit"""
+    psol = mesaj.find("http")
+    psag = mesaj.find("\n")
+    plink = mesaj[psol:psag].strip()
+    pathesap = collection.find_one({"_id": user})
+    ptoken = pathesap['']
+    if kaynak == "1" or kaynak == "0" or kaynak == "5":
+        if site == "1":
+                    json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
+                    link = json['shortenedUrl']
+        if site == "2":
+                    json = s.get(f"https://www.pnd.tl/api?api={token}&url={mesajb}&category=6").json()
+                    link = json['shortenedUrl']
+        if site == "3":
+                    json = s.get(f"https://exe.io/api?api={token}&url={mesajb}").json()
+                    link = json['shortenedUrl']
+        if site == "4":
+                    link = s.get(f"http://ouo.io/api/{token}?s={mesajb}").text
+        if site == "5":
+                    link = s.get(f"http://pubiza.com/api.php?token={token}&url={mesajb}&ads_type=adult").text
+        print(f"{kanal} + {link} + {token}")
+        if sablon == "1":
+                    sablon = f"🔥{aciklama}\n\n🔱 TIKLA 👉 {link}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
+        elif sablon == "2" or sablon == "3":
+                    sablon = f"{aciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {link}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
+                else:
+                    soll = sablon.split("{link}")
+                    sal = soll[0].split("{aciklama}")
+                        
+                    sablon = f"{sal[0]}{aciklama}{sal[1]}{link}{soll[1]}"
+                    
+
     print(message)
 
 def sitekayit(message):
