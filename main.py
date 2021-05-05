@@ -435,9 +435,9 @@ def patiki(message, psablon, pathesap, fid, ptip):
     pkan = pathesap['kanal'][pmesaj]
     chat = message.chat.id
     if ptip == "video":
-        bot.send_video(chat, pkan, caption=fid)
+        bot.send_video(pkan, fid, caption=psablon)
     if ptip == "photo":
-        bot.send_photo(chat, pkan, caption=fid)
+        bot.send_photo(pkan, fid, caption=psablon)
     bot.send_message(chat, "Postunuz gönderildi.")
 
 def sitekayit(message):
