@@ -133,8 +133,11 @@ def menu(message):
     Kaynak No:1</b>
     <a href="https://t.me/joinchat/UYu8q0gBTUdUudDL">Link Mahzeni</a>
     
-    <b>Kaynk No:2</b>
+    <b>Kaynak No:2</b>
     <a href="https://t.me/joinchat/MhxcfKLh3aQ4OWU0">Bedava Link</a>
+    
+    <b>Kaynak No:3</b>
+    <a href="https://t.me/joinchat/VNbV7mqzwbA47wtT">Link Evi</a>
 
 <b>❗Hepsinden atsın fütursuzca kanalımı sikmek istiyorum diyorsan 0 yaz</b>
     
