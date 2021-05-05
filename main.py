@@ -390,34 +390,34 @@ def pat(message):
     psag = mesaj.find("\n")
     plink = mesaj[psol:psag].strip()
     pathesap = collection.find_one({"_id": user})
-    ptoken = pathesap['']
-    if kaynak == "1" or kaynak == "0" or kaynak == "5":
-        if site == "1":
-                    json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
-                    link = json['shortenedUrl']
-        if site == "2":
-                    json = s.get(f"https://www.pnd.tl/api?api={token}&url={mesajb}&category=6").json()
-                    link = json['shortenedUrl']
-        if site == "3":
-                    json = s.get(f"https://exe.io/api?api={token}&url={mesajb}").json()
-                    link = json['shortenedUrl']
-        if site == "4":
-                    link = s.get(f"http://ouo.io/api/{token}?s={mesajb}").text
-        if site == "5":
-                    link = s.get(f"http://pubiza.com/api.php?token={token}&url={mesajb}&ads_type=adult").text
-        print(f"{kanal} + {link} + {token}")
-        if sablon == "1":
-                    sablon = f"🔥{aciklama}\n\n🔱 TIKLA 👉 {link}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
-        elif sablon == "2" or sablon == "3":
-                    sablon = f"{aciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {link}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
-                else:
-                    soll = sablon.split("{link}")
-                    sal = soll[0].split("{aciklama}")
-                        
-                    sablon = f"{sal[0]}{aciklama}{sal[1]}{link}{soll[1]}"
-                    
-
-    print(message)
+    s = requests.Session()
+    link = s.get("https://ay.live/api")
+    cookies = dict(link.cookies)
+    ptoken = pathesap['token']
+    psablon = pathesap['sablon']
+    psite = pathesap['site']
+    if psite == "1":
+        pjson = s.get(f"https://ay.live/api/?api={ptoken}&url={plink}&alias=&ct=1", cookies=cookies).json()
+        plink = pjson['shortenedUrl']
+    if psite == "2":
+        pjson = s.get(f"https://www.pnd.tl/api?api={ptoken}&url={plink}&category=6").json()
+        plink = pjson['shortenedUrl']
+    if psite == "3":
+        pjson = s.get(f"https://exe.io/api?api={ptoken}&url={plink}").json()
+        plink = pjson['shortenedUrl']
+    if psite == "4":
+        plink = s.get(f"http://ouo.io/api/{ptoken}?s={plink}").text
+    if psite == "5":
+        plink = s.get(f"http://pubiza.com/api.php?token={ptoken}&url={plink}&ads_type=adult").text
+    if psablon == "1":
+        psablon = f"🔥{paciklama}\n\n🔱 TIKLA 👉 {plink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
+    elif psablon == "2" or psablon == "3":
+        psablon = f"{paciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {plink}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
+    else:
+        psoll = sablon.split("{link}")
+        psal = soll[0].split("{aciklama}")
+        psablon = f"{psal[0]}{paciklama}{psal[1]}{plink}{psoll[1]}"
+    
 
 def sitekayit(message):
     chat = message.chat.id
