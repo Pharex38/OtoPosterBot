@@ -225,6 +225,13 @@ def menu(message):
             collection.update_one({"_id": user}, {"$set": {"kaynak": "9"}})
             bot.send_message(chat, "Kanallarınız SFS moduna alındı. Siz modu kapatana kadar yeni post atılmayacak.", reply_markup=dugme)
             return
+    if mesaj == "Post Oluştur":
+        if not user == sahip:
+            bot.send_message(chat, "Bu komut şuanda bakımda")
+            return
+        msg = bot.send_message(chat, "Post at")
+        bot.register_next_step_handler(msg, pat)
+        
     bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=dugme)
     
 def kaynake(message):
