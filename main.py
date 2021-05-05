@@ -231,6 +231,10 @@ def kaynake(message):
     ktext = message.text
     chat = message.chat.id
     user = message.from_user.id
+    if message.text == None:
+        msg = bot.send_message(chat, "Lütfen istediğiniz kaynağın numarasını gönderin.")
+        bot.register_next_step_handler(msg, kaynake)
+        return
     if message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
         return
@@ -249,6 +253,11 @@ def sabloniki(message):
     mesaj = message.text
     chat = message.chat.id
     user = message.from_user.id
+    if message.text == None:
+        if mesaj.find("{link}") == -1 or mesaj.find("{aciklama}") == -1:
+            msg = bot.send_message(chat, """ ❌<i> Lütfen mesajınızda "{link}" ve "{aciklama}" bulunduğudan emin olun.</i> """)
+            bot.register_next_step_handler(msg, sabloniki)
+            return
     if message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
         return
@@ -296,6 +305,10 @@ def kayitapi(message):
 def ksil(message):
     user = message.from_user.id
     chat = message.chat.id
+    if message.text == None:
+        msg = bot.send_message(chat, "Lütfen geçerli bir numara verin")
+        bot.register_next_step_handler(msg, ksil)
+        return
     if message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
         return
@@ -318,6 +331,10 @@ def apikayit(message):
     user = message.from_user.id
     mids = mid+1
     chat = message.chat.id
+    if message.text == None:
+        msg = bot.send_message(chat, "Lütfen geçerli bir API verin.")
+        bot.register_next_step_handler(msg, apikayit)
+        return
     if message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
         return
@@ -349,6 +366,10 @@ def kanalkayit(message):
 def sitekayit(message):
     chat = message.chat.id
     user = message.from_user.id
+    if message.text == None:
+        msg = bot.send_message(chat, "Lütfen doğru bir numara girin")
+        bot.register_next_step_handler(msg, sitekayit)
+        return
     if message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
         return
