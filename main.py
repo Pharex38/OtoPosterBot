@@ -363,6 +363,10 @@ def kanalkayit(message):
     collection.update_one({"_id": user}, {"$push":{"kanal": str(kanal)}})
     bot.reply_to(message,"<b>🟢Kanalınız Kaydedildi.</b>", reply_markup=dugme)
 
+def pat(message):
+    tur = message.type
+    print(tur)
+
 def sitekayit(message):
     chat = message.chat.id
     user = message.from_user.id
