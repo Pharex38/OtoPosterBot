@@ -414,12 +414,11 @@ def pat(message):
     elif psablon == "2" or psablon == "3":
         psablon = f"{paciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {plink}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
     else:
-        psoll = sablon.split("{link}")
-        psal = soll[0].split("{aciklama}")
+        psoll = psablon.split("{link}")
+        psal = psoll[0].split("{aciklama}")
         psablon = f"{psal[0]}{paciklama}{psal[1]}{plink}{psoll[1]}"
     print(psablon)
     
-
 def sitekayit(message):
     chat = message.chat.id
     user = message.from_user.id
