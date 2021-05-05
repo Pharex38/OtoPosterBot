@@ -433,12 +433,12 @@ def pat(message):
 def patiki(message, psablon, pathesap, fid, ptip):
     pmesaj = int(message.text) - 1
     pkan = pathesap['kanal'][pmesaj]
-    
+    chat = message.chat.id
     if ptip == "video":
         bot.send_video(chat, pkan, caption=fid)
     if ptip == "photo":
         bot.send_photo(chat, pkan, caption=fid)
-    
+    bot.send_message(chat, "Postunuz gönderildi.")
 
 def sitekayit(message):
     chat = message.chat.id
