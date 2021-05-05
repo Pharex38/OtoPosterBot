@@ -214,7 +214,10 @@ def menu(message):
     if mesaj == "▶️ SFS Modu":
         mod = collection.find_one({"_id": user})
         if mod['kaynak'] == "9":
-            collection.update_one({"_id": user}, {"$set": {"kaynak": mod['eski']}})
+            try:
+                collection.update_one({"_id": user}, {"$set": {"kaynak": mod['eski']}})
+            except:
+                pass
             bot.send_message(chat, "SFS modu durduruldu", reply_markup=dugme)
             return
         else:
