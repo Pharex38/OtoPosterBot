@@ -417,6 +417,7 @@ def pat(message):
         psoll = sablon.split("{link}")
         psal = soll[0].split("{aciklama}")
         psablon = f"{psal[0]}{paciklama}{psal[1]}{plink}{psoll[1]}"
+    print(psablon)
     
 
 def sitekayit(message):
