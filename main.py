@@ -387,7 +387,7 @@ def pat(message):
     paciklama = mesaj[:pson]
     """Link Tespit"""
     psol = mesaj.find("http")
-    psag = mesaj.find("\n")
+    psag = mesaj.find("\n", psol)
     plink = mesaj[psol:psag].strip()
     pathesap = collection.find_one({"_id": user})
     s = requests.Session()
@@ -446,7 +446,7 @@ def poster(message):
     bcount = 0
     ccount = 0
     chat = message.chat.id
-    if chat == -1001368112299 or chat == -1001352123979:
+    if chat == -1001368112299: #Link Mahzeni
         print(f"başlıyor ")
         mesaj = message.caption
         """  Link tespit  """
@@ -513,7 +513,7 @@ def poster(message):
             else:
                 pass
         bot.send_message(-1001352123979, "Link Mahzeni kanalından, {} Kanalda Foto Post Paylaşıldı.".format(count))
-    elif chat == -1001122395785:
+    elif chat == -1001122395785: #Bedava Link
         print(f"başlıyor ")
         bmesaj = message.caption
         """ Link tespit """
@@ -660,7 +660,7 @@ def poster(message):
     bcount = 0
     ccount = 0
     chat = message.chat.id
-    if chat == -1001368112299 or chat == -1001352123979:
+    if chat == -1001368112299: #Link Mahzeni
         print(f"başlıyor ")
         mesaj = message.caption
         """ Link tespit """
@@ -727,7 +727,7 @@ def poster(message):
             else:
                 pass
         bot.send_message(-1001352123979, "Link Mahzeni kaynağından, {} Kanalda Video Post Paylaşıldı.".format(count))
-    elif chat == -1001122395785 or chat == -1001190898326:
+    elif chat == -1001122395785: #Bedava Link
        
         print(f"başlıyor ")
         bmesaj = message.caption
