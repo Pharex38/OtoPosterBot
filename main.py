@@ -62,7 +62,7 @@ def start(message):
 ✨ <b>Merhaba {}!</b>
 
 ❔<b>Ne İşe Yarıyor? </b>
-<i>Bu bot</i><a href="https://t.me/joinchat/UYu8q0gBTUdUudDL">Link Mahzeni</a><i>'nde paylaşılan postların linklerini otomatik olarak kısaltıp sizin kanalınıza iletir.</i>
+<i>Bu bot sizin seçtiğiniz kaynak kanalında paylaşılan postların linklerini otomatik olarak kısaltıp sizin kanalınıza iletir.</i>
 
 ❔<b>Nasıl Kullanılır?</b>
 <i>1. Adım: Botu kanlınıza yönetici olarak ekleyin.
