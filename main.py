@@ -27,7 +27,8 @@ butonbir = types.KeyboardButton('📝 Kaydet')
 butoniki = types.KeyboardButton('🔧 Kaynak')
 butonuc = types.KeyboardButton('📏 Şablon')
 butondort = types.KeyboardButton('▶️ SFS Modu')
-dugme.add(butonbir, butoniki, butonuc, butondort)
+butonbes = types.KeyboardButton('⛓️ Elle Post Paylaş')
+dugme.add(butonbir, butoniki, butonuc, butondort, butonbes)
 
 markupp = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
 buton1 = types.KeyboardButton('🔶 Yeni Kanal Ekle')
@@ -225,7 +226,7 @@ def menu(message):
             collection.update_one({"_id": user}, {"$set": {"kaynak": "9"}})
             bot.send_message(chat, "Kanallarınız SFS moduna alındı. Siz modu kapatana kadar yeni post atılmayacak.", reply_markup=dugme)
             return
-    if mesaj == "Post Oluştur":
+    if mesaj == "⛓️ Elle Post Paylaş":
         if not user == sahip:
             bot.send_message(chat, "Bu komut şuanda bakımda")
             return
