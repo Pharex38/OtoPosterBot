@@ -384,7 +384,7 @@ def poster(message):
             sablon = hesap['sablon']
             user = hesap['_id']
             site = hesap["site"]
-            if kaynak == "1" or kaynak == "0":
+            if kaynak == "1" or kaynak == "0" or kaynak == "5":
                 if site == "1":
                     json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
                     link = json['shortenedUrl']
@@ -454,7 +454,7 @@ def poster(message):
             bsite = bhesap['site']
             print(bkaynak)
             sleep(2)
-            if bkaynak == "2" or bkaynak == "0":
+            if bkaynak == "2" or bkaynak == "0" or bkaynak == "5":
                 if site == "1":
                     bjson = s.get(f"https://ay.live/api/?api={btoken}&url={bmesajb}&alias=&ct=1", cookies=cookies).json()
                     blink = bjson['shortenedUrl']
@@ -598,7 +598,7 @@ def poster(message):
             kanal = hesap['kanal']
             user = hesap['_id']
             site = hesap['site']
-            if kaynak == "1" or kaynak == "0":
+            if kaynak == "1" or kaynak == "0" or kaynak == "5":
                 if site == "1":
                     json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
                     link = json['shortenedUrl']
@@ -668,7 +668,7 @@ def poster(message):
             bsite = bhesap['site']
             print(bkaynak)
             sleep(1)
-            if bkaynak == "2" or bkaynak == "0":
+            if bkaynak == "2" or bkaynak == "0" or bkaynak == "5":
                 if bsite == "1":
                     bjson = s.get(f"https://ay.live/api/?api={btoken}&url={bmesajb}&alias=&ct=1", cookies=cookies).json()
                     blink = bjson['shortenedUrl']
