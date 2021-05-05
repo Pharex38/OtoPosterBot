@@ -812,7 +812,7 @@ def poster(message):
         cmedya = message.video.file_id
         for chesap in ccinc:
             ckaynak = chesap['kaynak']
-            csaclon = chesap['saclon']
+            csaclon = chesap['sablon']
             csaclon = str(csaclon)
             ctoken = chesap['token']
             ckanal = chesap['kanal']
