@@ -231,7 +231,7 @@ def menu(message):
             return
         msg = bot.send_message(chat, "Post at")
         bot.register_next_step_handler(msg, pat)
-        
+        return
     bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=dugme)
     
 def kaynake(message):
@@ -371,8 +371,8 @@ def kanalkayit(message):
     bot.reply_to(message,"<b>🟢Kanalınız Kaydedildi.</b>", reply_markup=dugme)
 
 def pat(message):
-    tur = message.type
-    print(tur)
+    
+    print(message)
 
 def sitekayit(message):
     chat = message.chat.id
