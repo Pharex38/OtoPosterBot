@@ -495,7 +495,7 @@ def poster(message):
                     
                 print("Başarılı!")
         bot.send_message(-1001352123979, "Bedava Link kaynağından, {} Kanalda Foto Post Paylaşıldı.".format(bcount))
-    elif chat == -1001423365614:
+    elif chat == -1001423365614: #Link Evi
         print(f"başlıyor ")
         cmesaj = message.caption
         """ Link tespit """
@@ -523,7 +523,7 @@ def poster(message):
             csite = chesap['site']
             print(ckaynak)
             sleep(2)
-            if ckaynak == "2" or ckaynak == "0":
+            if ckaynak == "3" or ckaynak == "0":
                 if csite == "1":
                     bjson = s.get(f"https://ay.live/api/?api={ctoken}&url={cmesajb}&alias=&ct=1",
                                   cookies=cookies).json()
@@ -708,7 +708,7 @@ def poster(message):
                     
                 print("Başarılı!")
         bot.send_message(-1001352123979, "Bedava Link kanalından, {} Kanalda Video Post Paylaşıldı.".format(bcount))
-    if chat == -1001423365614:
+    if chat == -1001423365614: #Link Evi
         print(f"başlıyor ")
         cmesaj = message.caption
         """ Link tespit """
@@ -736,7 +736,7 @@ def poster(message):
             csite = chesap['site']
             print(ckaynak)
             sleep(1)
-            if ckaynak == "2" or ckaynak == "0":
+            if ckaynak == "3" or ckaynak == "0":
                 if csite == "1":
                     cjson = s.get(f"https://ay.live/api/?api={ctoken}&url={cmesajc}&alias=&ct=1", cookies=cookies).json()
                     clink = cjson['shortenedUrl']
