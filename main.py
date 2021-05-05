@@ -637,7 +637,7 @@ def poster(message):
                 for ckan in ckanal:
                     try:
                         bot.send_photo(ckan, cmedya, caption=csablon)
-                        bcount = bcount + 1
+                        ccount = ccount + 1
                     except Exception as e:
                         print(e)
                         print(f"Hatalı kanal: {ckanal}")
@@ -649,7 +649,7 @@ def poster(message):
                             print(f"{ckanal} kayıtlardan silindi.")
 
                 print("Başarılı!")
-        bot.send_message(-1001352123979, "Link Evi kaynağından, {} Kanalda Foto Post Paylaşıldı.".format(bcount))
+        bot.send_message(-1001352123979, "Link Evi kaynağından, {} Kanalda Foto Post Paylaşıldı.".format(ccount))
 
 
 @bot.channel_post_handler(content_types=['video'])
