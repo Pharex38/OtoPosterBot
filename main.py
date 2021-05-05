@@ -495,6 +495,77 @@ def poster(message):
                     
                 print("Başarılı!")
         bot.send_message(-1001352123979, "Bedava Link kaynağından, {} Kanalda Foto Post Paylaşıldı.".format(bcount))
+    elif chat == -1001423365614:
+        print(f"başlıyor ")
+        cmesaj = message.caption
+        """ Link tespit """
+        csol = cmesaj.find("http")
+        csag = cmesaj.find("\n", csol)
+        cmesajb = cmesaj[csol:csag].strip()
+        """ Açıklama tespit """
+        cason = cmesaj.find("\n")
+        caciklama = mesaj[:cason]
+        """    Cookies    """
+        s = requests.Session()
+        link = s.get("https://ay.live/api")
+        cookies = dict(link.cookies)
+        cbinb = collection.find({})
+        print(cbinb)
+        """ Dosya tespit """
+        cmedya = message.photo[0].file_id
+        for chesap in cbinb:
+            ckaynak = chesap['kaynak']
+            csablon = chesap['sablon']
+            csablon = str(csablon)
+            ctoken = chesap['token']
+            ckanal = chesap['kanal']
+            cuser = chesap['_id']
+            csite = chesap['site']
+            print(ckaynak)
+            sleep(2)
+            if ckaynak == "2" or ckaynak == "0":
+                if csite == "1":
+                    bjson = s.get(f"https://ay.live/api/?api={ctoken}&url={cmesajb}&alias=&ct=1",
+                                  cookies=cookies).json()
+                    clink = bjson['shortenedUrl']
+                if csite == "2":
+                    bjson = s.get(f"https://www.pnd.tl/api?api={ctoken}&url={cmesajb}&category=6").json()
+                    clink = bjson['shortenedUrl']
+                if csite == "3":
+                    bjson = s.get(f"https://exe.io/api?api={ctoken}&url={cmesajb}").json()
+                    clink = bjson['shortenedUrl']
+                if csite == "4":
+                    clink = s.get(f"http://ouo.io/api/{ctoken}?s={cmesajb}").text
+                if csite == "5":
+                    clink = s.get(f"http://pubiza.com/api.php?token={ctoken}&url={cmesajb}&ads_type=adult").text
+                print(f"{ckanal} + {clink} + {ctoken}")
+                if csablon == "1":
+                    csablon = f"🔥{caciklama}\n\n🔱 TIKLA 👉 {clink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
+                elif csablon == "2" or csablon == "3":
+                    csablon = f"{caciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {clink}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
+                else:
+                    csoll = csablon.split("{link}")
+                    csal = csoll[0].split("{aciklama}")
+
+                    csablon = f"{csal[0]}{caciklama}{csal[1]}{clink}{csoll[1]}"
+                sleep(1)
+                for ckan in ckanal:
+                    try:
+                        bot.send_photo(ckan, cmedya, caption=csablon)
+                        bcount = bcount + 1
+                    except Exception as e:
+                        print(e)
+                        print(f"Hatalı kanal: {ckanal}")
+                        e = str(e)
+                        print(e)
+                        if e.find("bot is not a member") != -1:
+                            collection.update_one({"_id": cuser}, {"$pull": {"kanal": ckan}})
+                            bot.send_message(cuser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                            print(f"{ckanal} kayıtlardan silindi.")
+
+                print("Başarılı!")
+        bot.send_message(-1001352123979, "Link Evi kaynağından, {} Kanalda Foto Post Paylaşıldı.".format(bcount))
+
 
 @bot.channel_post_handler(content_types=['video'])
 def poster(message):
@@ -548,10 +619,10 @@ def poster(message):
                 else:
                     soll = sablon.split("{link}")
                     sal = soll[0].split("{aciklama}")
-                    
+
                     sablon = f"{sal[0]}{aciklama}{sal[1]}{link}{soll[1]}"
                 sleep(1)
-                    
+
                 print(f"{kanal} + {link} + {token}")
                 for kan in kanal:
                     try:
@@ -637,6 +708,74 @@ def poster(message):
                     
                 print("Başarılı!")
         bot.send_message(-1001352123979, "Bedava Link kanalından, {} Kanalda Video Post Paylaşıldı.".format(bcount))
+    if chat == -1001423365614:
+print(f"caşlıyor ")
+cmesaj = message.caption
+""" Link tespit """
+csol = cmesaj.find("http")
+csag = cmesaj.find("\n", csol)
+cmesajc = cmesaj[csol:csag].strip()
+""" Açıklama tespit """
+cason = cmesaj.find("\n")
+caciklama = cmesaj[:cason]
+"""    Cookies    """
+s = requests.Session()
+link = s.get("https://ay.live/api")
+cookies = dict(link.cookies)
+ccinc = collection.find({})
+print(ccinc)
+""" Dosya tespit """
+cmedya = message.video.file_id
+for chesap in ccinc:
+    ckaynak = chesap['kaynak']
+    csaclon = chesap['saclon']
+    csaclon = str(csaclon)
+    ctoken = chesap['token']
+    ckanal = chesap['kanal']
+    cuser = chesap['_id']
+    csite = chesap['site']
+    print(ckaynak)
+    sleep(1)
+    if ckaynak == "2" or ckaynak == "0":
+        if csite == "1":
+            cjson = s.get(f"https://ay.live/api/?api={ctoken}&url={cmesajc}&alias=&ct=1", cookies=cookies).json()
+            clink = cjson['shortenedUrl']
+        if csite == "2":
+            cjson = s.get(f"https://www.pnd.tl/api?api={ctoken}&url={cmesajc}&category=6").json()
+            clink = cjson['shortenedUrl']
+        if csite == "3":
+            cjson = s.get(f"https://exe.io/api?api={ctoken}&url={cmesajc}").json()
+            clink = cjson['shortenedUrl']
+        if csite == "4":
+            clink = s.get(f"http://ouo.io/api/{ctoken}?s={cmesajc}").text
+        if csite == "5":
+            clink = s.get(f"http://puciza.com/api.php?token={ctoken}&url={cmesajc}&ads_type=adult").text
+        print(f"{ckanal} + {clink} + {ctoken}")
+        if csaclon == "1":
+            csaclon = f"🔥{caciklama}\n\n🔱 TIKLA 👉 {clink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
+        elif csaclon == "2" or csaclon == "3":
+            csaclon = f"{caciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {clink}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır cilmiyorsanız\n\n👉 @linkgec06"
+        else:
+            csoll = csaclon.split("{link}")
+            csal = csoll[0].split("{aciklama}")
+
+            csaclon = f"{csal[0]}{caciklama}{csal[1]}{clink}{csoll[1]}"
+
+        for ckan in ckanal:
+            try:
+                bot.send_video(ckan, cmedya, caption=csaclon)
+                ccount = ccount + 1
+            except Exception as e:
+                print(e)
+                print(f"Hatalı kanal: {ckanal}")
+                e = str(e)
+                if e.find("bot is not a memcer") != -1:
+                    collection.update_one({"_id": cuser}, {"$pull": {"kanal": ckan}})
+                    bot.send_message(cuser, "botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                    print(f"{ckanal} kayıtlardan silindi.")
+
+        print("caşarılı!")
+bot.send_message(-1001352123979, "Link Evi kanalından, {} Kanalda Video Post Paylaşıldı.".format(ccount))
 
 
 
