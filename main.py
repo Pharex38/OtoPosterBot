@@ -670,7 +670,7 @@ def poster(message):
                     
                 print("Başarılı!")
         bot.send_message(-1001352123979, "Bedava Link kaynağından, {} Kanalda Foto Post Paylaşıldı.".format(bcount))
-    elif chat == -1001423365614: #Link Evi
+    elif chat == -1001423365614 or chat == -1001190898326: #Link Evi
         print(f"başlıyor ")
         cmesaj = message.caption
         """ Link tespit """
