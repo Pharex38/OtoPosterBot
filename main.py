@@ -609,11 +609,11 @@ def poster(message):
         print(bbinb)
         """ Dosya tespit """
         if message.content_type == "photo":
-            medya = message.photo[0].file_id
+            bmedya = message.photo[0].file_id
         if message.content_type == "animation":
             medya = message.animation.file_id
-        if message.content_type == "video":
-            medya = message.video.file_id
+        if bmessage.content_type == "video":
+            bmedya = message.video.file_id
         for bhesap in bbinb:
             bkaynak = bhesap['kaynak']
             bsablon = bhesap['sablon']
@@ -651,7 +651,12 @@ def poster(message):
                 sleep(1)
                 for bkan in bkanal:
                     try:
-                        bot.send_photo(bkan, bmedya, caption=bsablon)
+                        if message.content_type == "photo":
+                            bot.send_photo(bkan, bmedya, caption=bsablon)
+                        if message.content_type == "video":
+                            bot.send_video(bkan, bmedya, caption=bsablon)
+                        if message.content_type == "animation":
+                            bot.send_animation(bkan, bmedya, caption=bsablon)
                         bcount = bcount + 1
                     except Exception as e:
                         print(e)
@@ -683,11 +688,11 @@ def poster(message):
         print(cbinb)
         """ Dosya tespit """
         if message.content_type == "photo":
-            medya = message.photo[0].file_id
+            cmedya = message.photo[0].file_id
         if message.content_type == "animation":
-            medya = message.animation.file_id
+            cmedya = message.animation.file_id
         if message.content_type == "video":
-            medya = message.video.file_id
+            cmedya = message.video.file_id
         for chesap in cbinb:
             ckaynak = chesap['kaynak']
             csablon = chesap['sablon']
@@ -726,7 +731,12 @@ def poster(message):
                 sleep(1)
                 for ckan in ckanal:
                     try:
-                        bot.send_photo(ckan, cmedya, caption=csablon)
+                        if message.content_type == "photo":
+                            bot.send_photo(ckan, cmedya, caption=csablon)
+                        if message.content_type == "video":
+                            bot.send_video(ckan, cmedya, caption=csablon)
+                        if message.content_type == "animation":
+                            bot.send_animation(ckan, cmedya, caption=csablon)
                         ccount = ccount + 1
                     except Exception as e:
                         print(e)
