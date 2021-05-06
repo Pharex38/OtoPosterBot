@@ -214,7 +214,7 @@ def menu(message):
             return
     if mesaj == "▶️ SFS Modu":
         mod = collection.find_one({"_id": user})
-        if mod['kaynak'] == "9":
+        if mod['kaynak'] == "9" or mod['kaynak'] == None:
             try:
                 collection.update_one({"_id": user}, {"$set": {"kaynak": mod['eski']}})
             except:
@@ -399,14 +399,27 @@ def pat(message):
     ptoken = pathesap['token']
     psablon = pathesap['sablon']
     psite = pathesap['site']
+    paltapi = hesap['altapi']
+    paltsite = hesap['altsite']
+    if not paltapi == None:
+            if paltsite == "1":
+                pjson = s.get(f"https://ay.live/api/?api={paltapi}&url={plink}&alias=&ct=1", cookies=cookies).json()
+                palink = json['shortenedUrl']
+            if paltsite == "2":
+                pjson = s.get(f"https://www.pnd.tl/api?api={paltapi}&url={plink}&category=6").json()
+                palink = json['shortenedUrl']
+            if paltsite == "3":
+                pjson = s.get(f"https://exe.io/api?api={paltapi}&url={plink}").json()
+                palink = json['shortenedUrl']
+            if paltsite == "4":
+                palink = s.get(f"http://ouo.io/api/{paltapi}?s={plink}").text
+            if paltsite == "5":
+                palink = s.get(f"http://pubiza.com/api.php?token={paltapi}&url={plink}&ads_type=adult").text
     if psite == "1":
         pjson = s.get(f"https://ay.live/api/?api={ptoken}&url={plink}&alias=&ct=1", cookies=cookies).json()
         plink = pjson['shortenedUrl']
     if psite == "2":
         pjson = s.get(f"https://www.pnd.tl/api?api={ptoken}&url={plink}&category=6").json()
-        print(plink)
-        print(ptoken)
-        print(pjson)
         plink = pjson['shortenedUrl']
     if psite == "3":
         pjson = s.get(f"https://exe.io/api?api={ptoken}&url={plink}").json()
@@ -419,6 +432,9 @@ def pat(message):
         psablon = f"🔥{paciklama}\n\n🔱 TIKLA 👉 {plink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
     elif psablon == "2" or psablon == "3":
         psablon = f"{paciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {plink}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
+    elif psablon == "9":
+        sablon = "{paciklama} \n\n𝙇𝙄𝙉𝙆🔗 {plink} \n\n     𝙇𝙄𝙉𝙆🔗 {palink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
+                
     else:
         psoll = psablon.split("{link}")
         psal = psoll[0].split("{aciklama}")
