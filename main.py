@@ -354,6 +354,7 @@ def apikayit(message):
 def kanalkayit(message):
     chat = message.chat.id
     user = message.from_user.id
+    tum_k = collection.find({})
     kanals = []
     if message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
@@ -377,6 +378,9 @@ def pat(message):
         bot.register_next_step_handler(msg, pat)
         return
     mesaj = message.caption
+    if message.text == "❌ İptal":
+        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
+        return
     if message.content_type == "video":
         fid = message.video.file_id
     if message.content_type == "photo":
