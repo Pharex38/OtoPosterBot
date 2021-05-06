@@ -492,7 +492,7 @@ def sitekayit(message):
     collection.update_one({"_id": user}, {"$set": {"site": mesaj}})
     bot.send_message(chat, "Site Kaydedildi\n\nAPI adresinizi seçtiğiniz siteye göre değiştirmeyi unutmayın.", reply_markup=dugme)
 
-@bot.channel_post_handler(content_types=['photo', 'animation'])
+@bot.channel_post_handler(content_types=['photo', 'animation', 'video'])
 def poster(message):
     count = 0
     bcount = 0
