@@ -209,7 +209,7 @@ def menu(message):
                 site = "Ouo.io"
             if site == "5":
                 site = "Pubiza"
-            msg = bot.send_message(chat, "♦️Kayıtlı API: {}\nSite: {}\nToplam: {}".format(tokenn, site, kayitli), reply_markup=markupp)
+            msg = bot.send_message(chat, "♦️Kayıtlı API: {}\nSite: {}\nToplam Kanal: {}".format(tokenn, site, kayitli), reply_markup=markupp)
             bot.register_next_step_handler(msg, kayitapi)
             return
     if mesaj == "▶️ SFS Modu":
@@ -523,9 +523,7 @@ def poster(message):
                 else:
                     soll = sablon.split("{link}")
                     sal = soll[0].split("{aciklama}")
-                        
                     sablon = f"{sal[0]}{aciklama}{sal[1]}{link}{soll[1]}"
-                    
                 sleep(1)
                 for kan in kanal:
                     try:
@@ -704,10 +702,10 @@ def poster(message):
         s = requests.Session()
         link = s.get("https://ay.live/api")
         cookies = dict(link.cookies)
-        binb = collection.find({})
-        print(binb)
         """ Dosya tespit """
         medya = message.video.file_id
+        binb = collection.find({})
+        print(binb)
         for hesap in binb:
             kaynak = hesap['kaynak']
             sablon = hesap['sablon']
@@ -716,6 +714,24 @@ def poster(message):
             kanal = hesap['kanal']
             user = hesap['_id']
             site = hesap['site']
+            altapi = hesap['altapi']
+            altsite = hesap['altsite']
+            altsablon = hesap['altsablon']
+            if not altapi == None:
+                if altsite == "1":
+                    json = s.get(f"https://ay.live/api/?api={altapi}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
+                    alink = json['shortenedUrl']
+                if altsite == "2":
+                    json = s.get(f"https://www.pnd.tl/api?api={altapi}&url={mesajb}&category=6").json()
+                    alink = json['shortenedUrl']
+                if altsite == "3":
+                    json = s.get(f"https://exe.io/api?api={altapi}&url={mesajb}").json()
+                    alink = json['shortenedUrl']
+                if altsite == "4":
+                    alink = s.get(f"http://ouo.io/api/{altapi}?s={mesajb}").text
+                if altsite == "5":
+                    alink = s.get(f"http://pubiza.com/api.php?token={altapi}&url={mesajb}&ads_type=adult").text
+
             if kaynak == "1" or kaynak == "0" or kaynak == "5":
                 if site == "1":
                     json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
@@ -734,6 +750,8 @@ def poster(message):
                     sablon = f"🔥{aciklama}\n\n🔱 TIKLA 👉 {link}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
                 elif sablon == "2" or sablon == "3":
                     sablon = f"{aciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {link}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
+                elif sablon == "9":
+                    sablon = "{aciklama} \n\n𝙇𝙄𝙉𝙆🔗 {link} \n\n     𝙇𝙄𝙉𝙆🔗 {alink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
                 else:
                     soll = sablon.split("{link}")
                     sal = soll[0].split("{aciklama}")
@@ -826,7 +844,7 @@ def poster(message):
                     
                 print("Başarılı!")
         bot.send_message(-1001352123979, "Bedava Link kanalından, {} Kanalda Video Post Paylaşıldı.".format(bcount))
-    if chat == -1001423365614: #Link Evi
+    elif chat == -1001423365614: #Link Evi
         print(f"başlıyor ")
         cmesaj = message.caption
         """ Link tespit """
