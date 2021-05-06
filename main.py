@@ -227,10 +227,7 @@ def menu(message):
             bot.send_message(chat, "Kanallarınız SFS moduna alındı. Siz modu kapatana kadar yeni post atılmayacak.", reply_markup=dugme)
             return
     if mesaj == "⛓️ Elle Post Paylaş":
-        if not user == sahip:
-            bot.send_message(chat, "Bu komut şuanda bakımda")
-            return
-        msg = bot.send_message(chat, "Post at")
+        msg = bot.send_message(chat, "Paylaşmamı istediğin hazır postu ilet.")
         bot.register_next_step_handler(msg, pat)
         return
     bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=dugme)
