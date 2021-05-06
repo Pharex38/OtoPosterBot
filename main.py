@@ -42,6 +42,12 @@ imark = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_ke
 batinbir = types.KeyboardButton('❌ İptal')
 imark.add(batinbir)
 
+po = collection.find({})
+for p in po:
+    ud = p['_id']
+    collection.update_one({"_id": ud}, {"$set": {"altapi": None, "altsite": None}})
+print("bitti")
+
 class usre:
     def __init__(self):
         self.api = None
