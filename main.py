@@ -716,7 +716,6 @@ def poster(message):
             site = hesap['site']
             altapi = hesap['altapi']
             altsite = hesap['altsite']
-            altsablon = hesap['altsablon']
             if not altapi == None:
                 if altsite == "1":
                     json = s.get(f"https://ay.live/api/?api={altapi}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
