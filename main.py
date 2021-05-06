@@ -373,14 +373,14 @@ def pat(message):
     chat = message.chat.id
     user = message.from_user.id
     ptip = message.content_type
+    if message.text == "❌ İptal":
+        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
+        return
     if message.content_type == "text":
         msg = bot.send_message(chat, "Lütfen paylaşmamı istediğin postu at")
         bot.register_next_step_handler(msg, pat)
         return
     mesaj = message.caption
-    if message.text == "❌ İptal":
-        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
-        return
     if message.content_type == "video":
         fid = message.video.file_id
     if message.content_type == "photo":
