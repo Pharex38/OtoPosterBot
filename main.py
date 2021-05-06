@@ -404,13 +404,13 @@ def pat(message):
     if not paltapi == None:
             if paltsite == "1":
                 pjson = s.get(f"https://ay.live/api/?api={paltapi}&url={plink}&alias=&ct=1", cookies=cookies).json()
-                palink = json['shortenedUrl']
+                palink = pjson['shortenedUrl']
             if paltsite == "2":
                 pjson = s.get(f"https://www.pnd.tl/api?api={paltapi}&url={plink}&category=6").json()
-                palink = json['shortenedUrl']
+                palink = pjson['shortenedUrl']
             if paltsite == "3":
                 pjson = s.get(f"https://exe.io/api?api={paltapi}&url={plink}").json()
-                palink = json['shortenedUrl']
+                palink = pjson['shortenedUrl']
             if paltsite == "4":
                 palink = s.get(f"http://ouo.io/api/{paltapi}?s={plink}").text
             if paltsite == "5":
