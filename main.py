@@ -227,7 +227,7 @@ def menu(message):
             bot.send_message(chat, "Kanallarınız SFS moduna alındı. Siz modu kapatana kadar yeni post atılmayacak.", reply_markup=dugme)
             return
     if mesaj == "⛓️ Elle Post Paylaş":
-        msg = bot.send_message(chat, "Paylaşmamı istediğin hazır postu ilet.")
+        msg = bot.send_message(chat, "Paylaşmamı istediğin hazır postu ilet.", reply_markup=imark)
         bot.register_next_step_handler(msg, pat)
         return
     bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=dugme)
@@ -425,13 +425,23 @@ def pat(message):
         pcount = pcount + 1
         knl = bot.get_chat(pkan)
         bot.send_message(chat, "No: {}\n{}".format(pcount, knl.title))
-    msg = bot.send_message(chat, "Hangi kanalınıza gönderilsin?")
+    msg = bot.send_message(chat, "<i>Postun gönderilmesini istediğin kanalın numarasını gönder.\n\n(Tüm kanallarına gönderilmesini istiyorsan <b>0</b> yaz</i>)")
     bot.register_next_step_handler(msg, patiki, psablon, pathesap, fid, ptip)
 
 def patiki(message, psablon, pathesap, fid, ptip):
     pmesaj = int(message.text) - 1
+    if message.text == None:
+        return
     pkan = pathesap['kanal'][pmesaj]
     chat = message.chat.id
+    if pmesaj == -1:
+        for pk in pathesap['kanal']:
+            if ptip == "video":
+                bot.send_video(pk, fid, caption=psablon)
+            if ptip == "photo":
+                bot.send_photo(pk, fid, caption=psablon)
+        bot.send_message(chat, "Postunuz gönderildi.")
+        return
     if ptip == "video":
         bot.send_video(pkan, fid, caption=psablon)
     if ptip == "photo":
