@@ -36,7 +36,8 @@ buton2 = types.KeyboardButton('❌ İptal')
 buton3 = types.KeyboardButton('🗑️ Kanal Sil')
 buton4 = types.KeyboardButton('♻️ API değiştir')
 buton5 = types.KeyboardButton('🔗 Site değiştir')
-markupp.add(buton1, buton2, buton3, buton4, buton5)
+buton6 = types.KeyboardButton('🤖 Alternatif Ekle')
+markupp.add(buton1, buton2, buton3, buton4, buton5, buton6)
 
 imark = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
 batinbir = types.KeyboardButton('❌ İptal')
@@ -233,79 +234,6 @@ def menu(message):
         msg = bot.send_message(chat, "Paylaşmamı istediğin hazır postu ilet.", reply_markup=imark)
         bot.register_next_step_handler(msg, pat)
         return
-    if message.content_type == "video" or message.content_type == "photo" or message.content_type == "animation":
-        ptip = message.content_type
-        mesaj = message.caption
-        if message.content_type == "video":
-            fid = message.video.file_id
-        if message.content_type == "photo":
-            fid = message.photo[0].file_id
-        if message.content_type == "animation":
-            fid = message.animation.file_id
-        """Açıklama Tespit"""
-        pson = mesaj.find("\n")
-        paciklama = mesaj[:pson]
-        """Link Tespit"""
-        psol = mesaj.find("http")
-        psag = mesaj.find("\n", psol)
-        plink = mesaj[psol:psag].strip()
-        pathesap = collection.find_one({"_id": user})
-        s = requests.Session()
-        link = s.get("https://ay.live/api")
-        cookies = dict(link.cookies)
-        ptoken = pathesap['token']
-        psablon = pathesap['sablon']
-        psite = pathesap['site']
-        paltapi = pathesap['altapi']
-        paltsite = pathesap['altsite']
-        if not paltapi == None:
-            if paltsite == "1":
-                pjson = s.get(f"https://ay.live/api/?api={paltapi}&url={plink}&alias=&ct=1", cookies=cookies).json()
-                palink = pjson['shortenedUrl']
-            if paltsite == "2":
-                pjson = s.get(f"https://www.pnd.tl/api?api={paltapi}&url={plink}&category=6").json()
-                palink = pjson['shortenedUrl']
-            if paltsite == "3":
-                pjson = s.get(f"https://exe.io/api?api={paltapi}&url={plink}").json()
-                palink = pjson['shortenedUrl']
-            if paltsite == "4":
-                palink = s.get(f"http://ouo.io/api/{paltapi}?s={plink}").text
-            if paltsite == "5":
-                palink = s.get(f"http://pubiza.com/api.php?token={paltapi}&url={plink}&ads_type=adult").text
-        if psite == "1":
-            pjson = s.get(f"https://ay.live/api/?api={ptoken}&url={plink}&alias=&ct=1", cookies=cookies).json()
-            plink = pjson['shortenedUrl']
-        if psite == "2":
-            pjson = s.get(f"https://www.pnd.tl/api?api={ptoken}&url={plink}&category=6").json()
-            plink = pjson['shortenedUrl']
-        if psite == "3":
-            pjson = s.get(f"https://exe.io/api?api={ptoken}&url={plink}").json()
-            plink = pjson['shortenedUrl']
-        if psite == "4":
-            plink = s.get(f"http://ouo.io/api/{ptoken}?s={plink}").text
-        if psite == "5":
-            plink = s.get(f"http://pubiza.com/api.php?token={ptoken}&url={plink}&ads_type=adult").text
-        if psablon == "1":
-            psablon = f"🔥{paciklama}\n\n🔱 TIKLA 👉 {plink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
-        elif psablon == "2" or psablon == "3":
-            psablon = f"{paciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {plink}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
-        elif psablon == "9":
-            psablon = f"{paciklama} \n\n𝙇𝙄𝙉𝙆🔗 {plink} \n\n     𝙇𝙄𝙉𝙆🔗 {palink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
-                
-        else:
-            psoll = psablon.split("{link}")
-            psal = psoll[0].split("{aciklama}")
-            psablon = f"{psal[0]}{paciklama}{psal[1]}{plink}{psoll[1]}"
-        pkanallar = pathesap['kanal']
-        pcount = 0
-        for pkan in pkanallar:
-            pcount = pcount + 1
-            knl = bot.get_chat(pkan)
-            bot.send_message(chat, "No: {}\n{}".format(pcount, knl.title))
-        msg = bot.send_message(chat, "<i>Postun gönderilmesini istediğin kanalın numarasını gönder.\n\n(Tüm kanallarına gönderilmesini istiyorsan <b>0</b> yaz</i>)")
-        bot.register_next_step_handler(msg, patiki, psablon, pathesap, fid, ptip)
-        return
-
         
     bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=dugme)
     
@@ -370,8 +298,16 @@ def kayitapi(message):
         msg = bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
         return
     if mesaj == "🔗 Site değiştir":
-        msg = bot.send_message(chat, "<i>Kullanmak istediğiniz sitenin numarasını girin:\n\n<b>    No:1</b>\n    TRLink (Varsayılan)\n\n<b>    No:2</b>\n    PND.TL\n\n<b>    No:3</b>\n    Exe.io\n\n<b>    No:4</b>\n    Ouo.io\n\n<b>    No:5</b>\n    Pubiza</i>\n \nㅤ\nㅤ", reply_markup=imark)
+        user = message.from_user.id
+        if not user == sahip:
+            bot.send_message(chat, "Bu komut şuan bakımda")
+            return
+        msg = bot.send_message(chat, "<i>Kullanmak istediğiniz sitenin numarasını girin:\n\n<b>    No:1</b>\n    TRLink (Varsayılan)\n\n<b>    No:2</b>\n    PND.TL\n\n<b>    No:3</b>\n    Exe.io\n\n<b>    No:4</b>\n    Ouo.io\n\n<b>    No:5</b>\n    Pubiza</i>\n \nㅤ", reply_markup=imark)
         bot.register_next_step_handler(msg, sitekayit)
+        return
+    if mesaj == "🤖 Alternatif Ekle":
+        msg = bot.send_message(chat, "<i>ALTERNATİF olarak Kullanmak istediğiniz sitenin numarasını girin:\n\n<b>    No:1</b>\n    TRLink (Varsayılan)\n\n<b>    No:2</b>\n    PND.TL\n\n<b>    No:3</b>\n    Exe.io\n\n<b>    No:4</b>\n    Ouo.io\n\n<b>    No:5</b>\n    Pubiza</i>\n \nㅤ", reply_markup=imark)
+        bot.register_next_step_handler(msg, altkayit)
         return
     if mesaj == "🔶 Yeni Kanal Ekle":
         bol = collection.find_one({"_id": chat})
@@ -406,6 +342,19 @@ def ksil(message):
         bot.send_message(chat, "Yanlış bir numara girdiniz.", reply_markup=dugme)
     else:
         bot.send_message(chat, "Kanalınız silindi.", reply_markup=dugme)
+
+def altkayit(message):
+    chat = message.chat.id
+    user = message.from_user.id
+    smesaj = message.text
+    msg = bot.send_message(chat, "Alternatif sitenizin API adresinizi gönderin.")
+    bot.register_next_step_handler(msg, altakayit, smesaj, user, chat)
+
+def altakayit(message, smesaj, user, chat):
+    amesaj = message.text
+    collection.update_one({"_id": user}, {"$set": {"altsite": smesaj, "altapi": amesaj}})
+    bot.send_message(chat, "Alternatif kaydedildi")
+    
 
 def apikayit(message):
     token = message.text
@@ -642,6 +591,12 @@ def poster(message):
                     sablon = f"{aciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {link}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
                 elif sablon == "9":
                     sablon = f"{aciklama} \n\n𝙇𝙄𝙉𝙆🔗 {link} \n\n     𝙇𝙄𝙉𝙆🔗 {alink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
+                elif sablon.find('{alink}') != -1:
+                    asol = sablon.split("{link}")
+                    aort = asol[1].split("{alink}")
+                    asal = asol[0].split("{aciklama}")
+                    sablon = f"{asal[0]{aciklama}{asal[1]{link}{aort[0]}{alink}{aort[1]}}"
+                    
                 else:
                     soll = sablon.split("{link}")
                     sal = soll[0].split("{aciklama}")
