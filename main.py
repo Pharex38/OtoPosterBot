@@ -677,7 +677,7 @@ def poster(message):
         bmesajb = bmesaj[bsol:bsag].strip()
         """ Açıklama tespit """
         bason = bmesaj.find("\n")
-        baciklama = mesaj[:bason]
+        baciklama = bmesaj[:bason]
         """    Cookies    """
         s = requests.Session()
         link = s.get("https://ay.live/api")
