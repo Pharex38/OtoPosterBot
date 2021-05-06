@@ -234,7 +234,7 @@ def menu(message):
         msg = bot.send_message(chat, "Paylaşmamı istediğin hazır postu ilet.", reply_markup=imark)
         bot.register_next_step_handler(msg, pat)
         return
-    if not message.content_types == "text":
+    if not message.content_type == "text":
         mesaj = message.caption
         if message.content_type == "video":
             fid = message.video.file_id
