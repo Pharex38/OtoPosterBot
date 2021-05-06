@@ -385,6 +385,7 @@ def pat(message):
         fid = message.video.file_id
     if message.content_type == "photo":
         fid = message.photo[0].file_id
+    print(message.content_type)
     """Açıklama Tespit"""
     pson = mesaj.find("\n")
     paciklama = mesaj[:pson]
@@ -402,19 +403,19 @@ def pat(message):
     paltapi = pathesap['altapi']
     paltsite = pathesap['altsite']
     if not paltapi == None:
-            if paltsite == "1":
-                pjson = s.get(f"https://ay.live/api/?api={paltapi}&url={plink}&alias=&ct=1", cookies=cookies).json()
-                palink = pjson['shortenedUrl']
-            if paltsite == "2":
-                pjson = s.get(f"https://www.pnd.tl/api?api={paltapi}&url={plink}&category=6").json()
-                palink = pjson['shortenedUrl']
-            if paltsite == "3":
-                pjson = s.get(f"https://exe.io/api?api={paltapi}&url={plink}").json()
-                palink = pjson['shortenedUrl']
-            if paltsite == "4":
-                palink = s.get(f"http://ouo.io/api/{paltapi}?s={plink}").text
-            if paltsite == "5":
-                palink = s.get(f"http://pubiza.com/api.php?token={paltapi}&url={plink}&ads_type=adult").text
+        if paltsite == "1":
+            pjson = s.get(f"https://ay.live/api/?api={paltapi}&url={plink}&alias=&ct=1", cookies=cookies).json()
+            palink = pjson['shortenedUrl']
+        if paltsite == "2":
+            pjson = s.get(f"https://www.pnd.tl/api?api={paltapi}&url={plink}&category=6").json()
+            palink = pjson['shortenedUrl']
+        if paltsite == "3":
+            pjson = s.get(f"https://exe.io/api?api={paltapi}&url={plink}").json()
+            palink = pjson['shortenedUrl']
+        if paltsite == "4":
+            palink = s.get(f"http://ouo.io/api/{paltapi}?s={plink}").text
+        if paltsite == "5":
+            palink = s.get(f"http://pubiza.com/api.php?token={paltapi}&url={plink}&ads_type=adult").text
     if psite == "1":
         pjson = s.get(f"https://ay.live/api/?api={ptoken}&url={plink}&alias=&ct=1", cookies=cookies).json()
         plink = pjson['shortenedUrl']
