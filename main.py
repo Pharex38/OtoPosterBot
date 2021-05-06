@@ -449,6 +449,7 @@ def kanalkayit(message):
 def pat(message):
     chat = message.chat.id
     user = message.from_user.id
+    ptip = message.content_type 
     if message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
         return
