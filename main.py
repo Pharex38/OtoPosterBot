@@ -595,7 +595,7 @@ def poster(message):
                     asol = sablon.split("{link}")
                     aort = asol[1].split("{alink}")
                     asal = asol[0].split("{aciklama}")
-                    sablon = f"{asal[0]{aciklama}{asal[1]{link}{aort[0]}{alink}{aort[1]}}"
+                    sablon = f"{asal[0]{aciklama}{asal[1]}{link}{aort[0]}{alink}{aort[1]}"
                     
                 else:
                     soll = sablon.split("{link}")
