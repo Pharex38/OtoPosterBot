@@ -492,7 +492,7 @@ def sitekayit(message):
     collection.update_one({"_id": user}, {"$set": {"site": mesaj}})
     bot.send_message(chat, "Site Kaydedildi\n\nAPI adresinizi seçtiğiniz siteye göre değiştirmeyi unutmayın.", reply_markup=dugme)
 
-@bot.channel_post_handler(content_types=['photo'])
+@bot.channel_post_handler(content_types=['photo', 'animation'])
 def poster(message):
     count = 0
     bcount = 0
@@ -515,7 +515,12 @@ def poster(message):
         binb = collection.find({})
         print(binb)
         """ Dosya tespit """
-        medya = message.photo[0].file_id
+        if message.content_type == "photo":
+            medya = message.photo[0].file_id
+        if message.content_type == "animation":
+            medya = message.animation.file_id
+        if message.content_type == "video":
+            medya = message.video.file_id
         for hesap in binb:
             kaynak = hesap['kaynak']
             token = hesap['token']
@@ -549,7 +554,12 @@ def poster(message):
                 sleep(1)
                 for kan in kanal:
                     try:
-                        bot.send_photo(kan, medya, caption=sablon)
+                        if message.content_type == "photo":
+                            bot.send_photo(kan, medya, caption=sablon)
+                        if message.content_type == "video":
+                            bot.send_video(kan, medya, caption=sablon)
+                        if message.content_type == "animation":
+                            bot.send_animation(kani medya, caption=sablon)
                         count = count + 1
                     except Exception as e:
                         print(e)
@@ -580,7 +590,12 @@ def poster(message):
         bbinb = collection.find({})
         print(bbinb)
         """ Dosya tespit """
-        bmedya = message.photo[0].file_id
+        if message.content_type == "photo":
+            medya = message.photo[0].file_id
+        if message.content_type == "animation":
+            medya = message.animation.file_id
+        if message.content_type == "video":
+            medya = message.video.file_id
         for bhesap in bbinb:
             bkaynak = bhesap['kaynak']
             bsablon = bhesap['sablon']
@@ -649,7 +664,12 @@ def poster(message):
         cbinb = collection.find({})
         print(cbinb)
         """ Dosya tespit """
-        cmedya = message.photo[0].file_id
+        if message.content_type == "photo":
+            medya = message.photo[0].file_id
+        if message.content_type == "animation":
+            medya = message.animation.file_id
+        if message.content_type == "video":
+            medya = message.video.file_id
         for chesap in cbinb:
             ckaynak = chesap['kaynak']
             csablon = chesap['sablon']
@@ -702,238 +722,6 @@ def poster(message):
 
                 print("Başarılı!")
         bot.send_message(-1001352123979, "Link Evi kaynağından, {} Kanalda Foto Post Paylaşıldı.".format(ccount))
-
-
-@bot.channel_post_handler(content_types=['video'])
-def poster(message):
-    count = 0
-    bcount = 0
-    ccount = 0
-    chat = message.chat.id
-    if chat == -1001368112299: #Link Mahzeni
-        print(f"başlıyor ")
-        mesaj = message.caption
-        """ Link tespit """
-        sol = mesaj.find("http")
-        sag = mesaj.find("\n", sol)
-        mesajb = mesaj[sol:sag].strip()
-        """ Açıklama tespit """
-        ason = mesaj.find("\n")
-        aciklama = mesaj[:ason]
-        """    Cookies    """
-        s = requests.Session()
-        link = s.get("https://ay.live/api")
-        cookies = dict(link.cookies)
-        """ Dosya tespit """
-        medya = message.video.file_id
-        binb = collection.find({})
-        print(binb)
-        for hesap in binb:
-            kaynak = hesap['kaynak']
-            sablon = hesap['sablon']
-            sablon = str(sablon)
-            token = hesap['token']
-            kanal = hesap['kanal']
-            user = hesap['_id']
-            site = hesap['site']
-            altapi = hesap['altapi']
-            altsite = hesap['altsite']
-            if not altapi == None:
-                if altsite == "1":
-                    json = s.get(f"https://ay.live/api/?api={altapi}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
-                    alink = json['shortenedUrl']
-                if altsite == "2":
-                    json = s.get(f"https://www.pnd.tl/api?api={altapi}&url={mesajb}&category=6").json()
-                    alink = json['shortenedUrl']
-                if altsite == "3":
-                    json = s.get(f"https://exe.io/api?api={altapi}&url={mesajb}").json()
-                    alink = json['shortenedUrl']
-                if altsite == "4":
-                    alink = s.get(f"http://ouo.io/api/{altapi}?s={mesajb}").text
-                if altsite == "5":
-                    alink = s.get(f"http://pubiza.com/api.php?token={altapi}&url={mesajb}&ads_type=adult").text
-
-            if kaynak == "1" or kaynak == "0" or kaynak == "5":
-                if site == "1":
-                    json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
-                    link = json['shortenedUrl']
-                if site == "2":
-                    json = s.get(f"https://www.pnd.tl/api?api={token}&url={mesajb}&category=6").json()
-                    link = json['shortenedUrl']
-                if site == "3":
-                    json = s.get(f"https://exe.io/api?api={token}&url={mesajb}").json()
-                    link = json['shortenedUrl']
-                if site == "4":
-                    link = s.get(f"http://ouo.io/api/{token}?s={mesajb}").text
-                if site == "5":
-                    link = s.get(f"http://pubiza.com/api.php?token={token}&url={mesajb}&ads_type=adult").text
-                if sablon == "1":
-                    sablon = f"🔥{aciklama}\n\n🔱 TIKLA 👉 {link}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
-                elif sablon == "2" or sablon == "3":
-                    sablon = f"{aciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {link}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
-                elif sablon == "9":
-                    sablon = "{aciklama} \n\n𝙇𝙄𝙉𝙆🔗 {link} \n\n     𝙇𝙄𝙉𝙆🔗 {alink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
-                else:
-                    soll = sablon.split("{link}")
-                    sal = soll[0].split("{aciklama}")
-
-                    sablon = f"{sal[0]}{aciklama}{sal[1]}{link}{soll[1]}"
-                sleep(1)
-
-                print(f"{kanal} + {link} + {token}")
-                for kan in kanal:
-                    try:
-                        bot.send_video(kan, medya, caption=sablon)
-                        count = count + 1
-                    except Exception as e:
-                        print(e)
-                        print(f"Hatalı kanal: {kanal}")
-                        e = str(e)
-                        if e.find("bot is not a member") != -1:
-                            collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
-                            bot.send_message(user, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
-                            print(f"{kanal} kayıtlardan silindi.")
-            else:
-                pass
-        bot.send_message(-1001352123979, "Link Mahzeni kaynağından, {} Kanalda Video Post Paylaşıldı.".format(count))
-    elif chat == -1001122395785: #Bedava Link
-       
-        print(f"başlıyor ")
-        bmesaj = message.caption
-        """ Link tespit """
-        bsol = bmesaj.find("http")
-        bsag = bmesaj.find("\n", bsol)
-        bmesajb = bmesaj[bsol:bsag].strip()
-        """ Açıklama tespit """
-        bason = bmesaj.find("\n")
-        baciklama = bmesaj[:bason]
-        """    Cookies    """
-        s = requests.Session()
-        link = s.get("https://ay.live/api")
-        cookies = dict(link.cookies)
-        bbinb = collection.find({})
-        print(bbinb)
-        """ Dosya tespit """
-        bmedya = message.video.file_id
-        for bhesap in bbinb:
-            bkaynak = bhesap['kaynak']
-            bsablon = bhesap['sablon']
-            bsablon = str(bsablon)
-            btoken = bhesap['token']
-            bkanal = bhesap['kanal']
-            buser = bhesap['_id']
-            bsite = bhesap['site']
-            print(bkaynak)
-            sleep(1)
-            if bkaynak == "2" or bkaynak == "0" or bkaynak == "5":
-                if bsite == "1":
-                    bjson = s.get(f"https://ay.live/api/?api={btoken}&url={bmesajb}&alias=&ct=1", cookies=cookies).json()
-                    blink = bjson['shortenedUrl']
-                if bsite == "2":
-                    bjson = s.get(f"https://www.pnd.tl/api?api={btoken}&url={bmesajb}&category=6").json()
-                    blink = bjson['shortenedUrl']
-                if bsite == "3":
-                    bjson = s.get(f"https://exe.io/api?api={btoken}&url={bmesajb}").json()
-                    blink = bjson['shortenedUrl']
-                if bsite == "4":
-                    blink = s.get(f"http://ouo.io/api/{btoken}?s={bmesajb}").text
-                if bsite == "5":
-                    blink = s.get(f"http://pubiza.com/api.php?token={btoken}&url={bmesajb}&ads_type=adult").text
-                print(f"{bkanal} + {blink} + {btoken}")
-                if bsablon == "1":
-                        bsablon = f"🔥{baciklama}\n\n🔱 TIKLA 👉 {blink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
-                elif bsablon == "2" or bsablon == "3":
-                    bsablon = f"{baciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {blink}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
-                else:
-                    bsoll = bsablon.split("{link}")
-                    bsal = bsoll[0].split("{aciklama}")
-                    
-                    bsablon = f"{bsal[0]}{baciklama}{bsal[1]}{blink}{bsoll[1]}"
-                    
-                for bkan in bkanal:
-                    try:
-                        bot.send_video(bkan, bmedya, caption=bsablon)
-                        bcount = bcount + 1
-                    except Exception as e:
-                        print(e)
-                        print(f"Hatalı kanal: {bkanal}")
-                        e = str(e)
-                        if e.find("bot is not a member") != -1:
-                            collection.update_one({"_id": buser}, {"$pull": {"kanal": bkan}})
-                            bot.send_message(buser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
-                            print(f"{bkanal} kayıtlardan silindi.")
-                    
-                print("Başarılı!")
-        bot.send_message(-1001352123979, "Bedava Link kanalından, {} Kanalda Video Post Paylaşıldı.".format(bcount))
-    elif chat == -1001423365614: #Link Evi
-        print(f"başlıyor ")
-        cmesaj = message.caption
-        """ Link tespit """
-        csol = cmesaj.find("http")
-        csag = cmesaj.find("\n", csol)
-        cmesajc = cmesaj[csol:csag].strip()
-        """ Açıklama tespit """
-        cason = cmesaj.find("\n")
-        caciklama = cmesaj[:cason]
-        """    Cookies    """
-        s = requests.Session()
-        link = s.get("https://ay.live/api")
-        cookies = dict(link.cookies)
-        ccinc = collection.find({})
-        print(ccinc)
-        """ Dosya tespit """
-        cmedya = message.video.file_id
-        for chesap in ccinc:
-            ckaynak = chesap['kaynak']
-            csaclon = chesap['sablon']
-            csaclon = str(csaclon)
-            ctoken = chesap['token']
-            ckanal = chesap['kanal']
-            cuser = chesap['_id']
-            csite = chesap['site']
-            print(ckaynak)
-            sleep(1)
-            if ckaynak == "3" or ckaynak == "0":
-                if csite == "1":
-                    cjson = s.get(f"https://ay.live/api/?api={ctoken}&url={cmesajc}&alias=&ct=1", cookies=cookies).json()
-                    clink = cjson['shortenedUrl']
-                if csite == "2":
-                    cjson = s.get(f"https://www.pnd.tl/api?api={ctoken}&url={cmesajc}&category=6").json()
-                    clink = cjson['shortenedUrl']
-                if csite == "3":
-                    cjson = s.get(f"https://exe.io/api?api={ctoken}&url={cmesajc}").json()
-                    clink = cjson['shortenedUrl']
-                if csite == "4":
-                    clink = s.get(f"http://ouo.io/api/{ctoken}?s={cmesajc}").text
-                if csite == "5":
-                    clink = s.get(f"http://puciza.com/api.php?token={ctoken}&url={cmesajc}&ads_type=adult").text
-                print(f"{ckanal} + {clink} + {ctoken}")
-                if csaclon == "1":
-                    csaclon = f"🔥{caciklama}\n\n🔱 TIKLA 👉 {clink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
-                elif csaclon == "2" or csaclon == "3":
-                    csaclon = f"{caciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {clink}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır cilmiyorsanız\n\n👉 @linkgec06"
-                else:
-                    csoll = csaclon.split("{link}")
-                    csal = csoll[0].split("{aciklama}")
-
-                    csaclon = f"{csal[0]}{caciklama}{csal[1]}{clink}{csoll[1]}"
-
-                for ckan in ckanal:
-                    try:
-                        bot.send_video(ckan, cmedya, caption=csaclon)
-                        ccount = ccount + 1
-                    except Exception as e:
-                        print(e)
-                        print(f"Hatalı kanal: {ckanal}")
-                        e = str(e)
-                        if e.find("bot is not a memcer") != -1:
-                            collection.update_one({"_id": cuser}, {"$pull": {"kanal": ckan}})
-                            bot.send_message(cuser, "botu kanalınızdan çıkardığınız için kanalınız silindi.")
-                            print(f"{ckanal} kayıtlardan silindi.")
-
-                print("caşarılı!")
-        bot.send_message(-1001352123979, "Link Evi kanalından, {} Kanalda Video Post Paylaşıldı.".format(ccount))
-
 
 
 bot.enable_save_next_step_handlers(delay=4)
