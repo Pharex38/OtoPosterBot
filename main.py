@@ -702,7 +702,7 @@ def poster(message):
             print(bkaynak)
             sleep(2)
             if bkaynak == "2" or bkaynak == "0" or bkaynak == "5":
-                if site == "1":
+                if bsite == "1":
                     bjson = s.get(f"https://ay.live/api/?api={btoken}&url={bmesajb}&alias=&ct=1", cookies=cookies).json()
                     blink = bjson['shortenedUrl']
                 if bsite == "2":
