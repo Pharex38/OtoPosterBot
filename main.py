@@ -125,7 +125,6 @@ def menu(message):
     chat = message.chat.id
     user = message.from_user.id
     mesaj = message.text
-    ptip = message.content_type
     if user in kara:
         bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
@@ -235,6 +234,7 @@ def menu(message):
         bot.register_next_step_handler(msg, pat)
         return
     if message.content_type == "video" or message.content_type == "photo" or message.content_type == "animation":
+        ptip = message.content_type
         mesaj = message.caption
         if message.content_type == "video":
             fid = message.video.file_id
