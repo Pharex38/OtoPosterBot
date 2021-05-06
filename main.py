@@ -385,7 +385,8 @@ def pat(message):
         fid = message.video.file_id
     if message.content_type == "photo":
         fid = message.photo[0].file_id
-    print(message.content_type)
+    if message.content_type == "animation":
+        fid = message.animation.file_id
     """Açıklama Tespit"""
     pson = mesaj.find("\n")
     paciklama = mesaj[:pson]
