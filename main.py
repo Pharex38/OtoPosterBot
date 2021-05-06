@@ -452,10 +452,12 @@ def pat(message):
 
 def patiki(message, psablon, pathesap, fid, ptip):
     pmesaj = int(message.text) - 1
-    if message.text == None:
-        return
     pkan = pathesap['kanal'][pmesaj]
     chat = message.chat.id
+    if message.text == None:
+        return
+    if message.text == "❌ İptal":
+        bot.send_message(chat, "İptal Edildi", reply_markup=dugme)
     if pmesaj == -1:
         for pk in pathesap['kanal']:
             if ptip == "video":
@@ -470,7 +472,7 @@ def patiki(message, psablon, pathesap, fid, ptip):
         bot.send_photo(pkan, fid, caption=psablon)
     if ptip == "animation":
         bot.send_animation(pkan, fid, caption=psablon)
-    bot.send_message(chat, "Postunuz gönderildi.")
+    bot.send_message(chat, "Postunuz gönderildi.", reply_markup=dugme)
 
 def sitekayit(message):
     chat = message.chat.id
