@@ -468,6 +468,8 @@ def patiki(message, psablon, pathesap, fid, ptip):
         bot.send_video(pkan, fid, caption=psablon)
     if ptip == "photo":
         bot.send_photo(pkan, fid, caption=psablon)
+    if ptip == "animation":
+        bot.send_animation(pkan, fid, caption=psablon)
     bot.send_message(chat, "Postunuz gönderildi.")
 
 def sitekayit(message):
