@@ -399,8 +399,8 @@ def pat(message):
     ptoken = pathesap['token']
     psablon = pathesap['sablon']
     psite = pathesap['site']
-    paltapi = hesap['altapi']
-    paltsite = hesap['altsite']
+    paltapi = pathesap['altapi']
+    paltsite = pathesap['altsite']
     if not paltapi == None:
             if paltsite == "1":
                 pjson = s.get(f"https://ay.live/api/?api={paltapi}&url={plink}&alias=&ct=1", cookies=cookies).json()
