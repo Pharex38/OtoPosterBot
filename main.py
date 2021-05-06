@@ -559,7 +559,7 @@ def poster(message):
                         if message.content_type == "video":
                             bot.send_video(kan, medya, caption=sablon)
                         if message.content_type == "animation":
-                            bot.send_animation(kani medya, caption=sablon)
+                            bot.send_animation(kan, medya, caption=sablon)
                         count = count + 1
                     except Exception as e:
                         print(e)
