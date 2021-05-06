@@ -125,6 +125,7 @@ def menu(message):
     chat = message.chat.id
     user = message.from_user.id
     mesaj = message.text
+    ptip = message.content_type
     if user in kara:
         bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
@@ -213,7 +214,10 @@ def menu(message):
             bot.register_next_step_handler(msg, kayitapi)
             return
     if mesaj == "▶️ SFS Modu":
-        mod = collection.find_one({"_id": user})
+        try:
+            mod = collection.find_one({"_id": user})
+        except:
+            pass
         if mod['kaynak'] == "9" or mod['kaynak'] == None:
             try:
                 collection.update_one({"_id": user}, {"$set": {"kaynak": mod['eski']}})
@@ -230,6 +234,79 @@ def menu(message):
         msg = bot.send_message(chat, "Paylaşmamı istediğin hazır postu ilet.", reply_markup=imark)
         bot.register_next_step_handler(msg, pat)
         return
+    if not message.content_types == "text":
+        mesaj = message.caption
+        if message.content_type == "video":
+            fid = message.video.file_id
+        if message.content_type == "photo":
+            fid = message.photo[0].file_id
+        if message.content_type == "animation":
+            fid = message.animation.file_id
+        """Açıklama Tespit"""
+        pson = mesaj.find("\n")
+        paciklama = mesaj[:pson]
+        """Link Tespit"""
+        psol = mesaj.find("http")
+        psag = mesaj.find("\n", psol)
+        plink = mesaj[psol:psag].strip()
+        pathesap = collection.find_one({"_id": user})
+        s = requests.Session()
+        link = s.get("https://ay.live/api")
+        cookies = dict(link.cookies)
+        ptoken = pathesap['token']
+        psablon = pathesap['sablon']
+        psite = pathesap['site']
+        paltapi = pathesap['altapi']
+        paltsite = pathesap['altsite']
+        if not paltapi == None:
+            if paltsite == "1":
+                pjson = s.get(f"https://ay.live/api/?api={paltapi}&url={plink}&alias=&ct=1", cookies=cookies).json()
+                palink = pjson['shortenedUrl']
+            if paltsite == "2":
+                pjson = s.get(f"https://www.pnd.tl/api?api={paltapi}&url={plink}&category=6").json()
+                palink = pjson['shortenedUrl']
+            if paltsite == "3":
+                pjson = s.get(f"https://exe.io/api?api={paltapi}&url={plink}").json()
+                palink = pjson['shortenedUrl']
+            if paltsite == "4":
+                palink = s.get(f"http://ouo.io/api/{paltapi}?s={plink}").text
+            if paltsite == "5":
+                palink = s.get(f"http://pubiza.com/api.php?token={paltapi}&url={plink}&ads_type=adult").text
+        if psite == "1":
+            pjson = s.get(f"https://ay.live/api/?api={ptoken}&url={plink}&alias=&ct=1", cookies=cookies).json()
+            plink = pjson['shortenedUrl']
+        if psite == "2":
+            pjson = s.get(f"https://www.pnd.tl/api?api={ptoken}&url={plink}&category=6").json()
+            plink = pjson['shortenedUrl']
+        if psite == "3":
+            pjson = s.get(f"https://exe.io/api?api={ptoken}&url={plink}").json()
+            plink = pjson['shortenedUrl']
+        if psite == "4":
+            plink = s.get(f"http://ouo.io/api/{ptoken}?s={plink}").text
+        if psite == "5":
+            plink = s.get(f"http://pubiza.com/api.php?token={ptoken}&url={plink}&ads_type=adult").text
+        if psablon == "1":
+            psablon = f"🔥{paciklama}\n\n🔱 TIKLA 👉 {plink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
+        elif psablon == "2" or psablon == "3":
+            psablon = f"{paciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {plink}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
+        elif psablon == "9":
+            psablon = f"{paciklama} \n\n𝙇𝙄𝙉𝙆🔗 {plink} \n\n     𝙇𝙄𝙉𝙆🔗 {palink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
+                
+        else:
+            psoll = psablon.split("{link}")
+            psal = psoll[0].split("{aciklama}")
+            psablon = f"{psal[0]}{paciklama}{psal[1]}{plink}{psoll[1]}"
+        pkanallar = pathesap['kanal']
+        pcount = 0
+        for pkan in pkanallar:
+            pcount = pcount + 1
+            knl = bot.get_chat(pkan)
+            bot.send_message(chat, "No: {}\n{}".format(pcount, knl.title))
+        msg = bot.send_message(chat, "<i>Postun gönderilmesini istediğin kanalın numarasını gönder.\n\n(Tüm kanallarına gönderilmesini istiyorsan <b>0</b> yaz</i>)")
+        bot.register_next_step_handler(msg, patiki, psablon, pathesap, fid, ptip)
+        return
+
+        
     bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=dugme)
     
 def kaynake(message):
@@ -372,7 +449,6 @@ def kanalkayit(message):
 def pat(message):
     chat = message.chat.id
     user = message.from_user.id
-    ptip = message.content_type
     if message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
         return
