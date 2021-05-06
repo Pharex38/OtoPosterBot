@@ -689,7 +689,7 @@ def poster(message):
             bmedya = message.photo[0].file_id
         if message.content_type == "animation":
             medya = message.animation.file_id
-        if bmessage.content_type == "video":
+        if message.content_type == "video":
             bmedya = message.video.file_id
         for bhesap in bbinb:
             bkaynak = bhesap['kaynak']
