@@ -362,7 +362,7 @@ def altakayit(message, smesaj, user, chat):
     if message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
         return
-    collection.update_one({"_id": user}, {"$set": {"altsite": smesaj, "altapi": amesaj}})
+    collection.update_one({"_id": user}, {"$set": {"altsite": smesaj, "altapi": amesaj, "sablon": "9"}})
     bot.send_message(chat, "Alternatif kaydedildi", reply_markup=dugme)
     
 
