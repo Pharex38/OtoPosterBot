@@ -347,11 +347,21 @@ def altkayit(message):
     chat = message.chat.id
     user = message.from_user.id
     smesaj = message.text
-    msg = bot.send_message(chat, "Alternatif sitenizin API adresinizi gönderin.")
+    if message.text == None:
+        msg = bot.send_message(chat, "Lütfen geçerli bir numara verin")
+        bot.register_next_step_handler(msg, ksil)
+        return
+    if message.text == "❌ İptal":
+        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
+        return
+    msg = bot.send_message(chat, "✅ Site kaydedildi!\n\nAlternatif sitenizin API adresinizi gönderin.")
     bot.register_next_step_handler(msg, altakayit, smesaj, user, chat)
 
 def altakayit(message, smesaj, user, chat):
     amesaj = message.text
+    if message.text == "❌ İptal":
+        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
+        return
     collection.update_one({"_id": user}, {"$set": {"altsite": smesaj, "altapi": amesaj}})
     bot.send_message(chat, "Alternatif kaydedildi")
     
