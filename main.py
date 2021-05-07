@@ -211,6 +211,7 @@ def menu(message):
                 except Exception as e:
                     print(e)
                     collection.update_one({"_id": chat}, {"$pull": {"kanal": chan}})
+                    kayitli = kayitli - 1
                     print("Kanal silindi")
                 else:    
                     bot.send_message(chat, """Kayit No: {}\n\nKanalınız: <a href="{}">{}</a>""".format(kayitli+1, kbilgi.invite_link, kbilgi.title))
@@ -678,7 +679,7 @@ def poster(message):
                 print("Başarılı!")
             else:
                 pass
-        bot.send_message(-1001352123979, "Link Mahzeni kanalından, {} Kanalda Foto Post Paylaşıldı.".format(count))
+        bot.send_message(-1001352123979, "Link Mahzeni kanalından, {} Kanalda Post Paylaşıldı.".format(count))
     elif chat == -1001122395785: #Bedava Link
         print(f"başlıyor ")
         bmesaj = message.caption
