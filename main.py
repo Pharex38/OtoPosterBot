@@ -148,7 +148,9 @@ def menu(message):
         bot.register_next_step_handler(msg, kaynake)
         return
     if mesaj == "📏 Şablon":
-        bot.send_message(chat, """<b>Şablon No:1</b>
+        mj = collection.find_one({"_id": user})
+        if mj['altsite'] == None:
+            bot.send_message(chat, """<b>Şablon No:1</b>
     ----------------
 🔥{aciklama}
 
@@ -171,9 +173,30 @@ def menu(message):
 ----------------
 
 Üstteki şablonlardan kullanmak isterseniz, istediğiniz şablonun numarasını gönderin.""", reply_markup=markup)
-        msg = bot.send_message(chat, "<i>Eğer kendi şablonunuzu oluşturmak isterseniz üstteki şablonlardaki gibi</i> <b>{aciklama}</b> ve <b>{link}</b> <i>kelimelerinin bulunduğundan emin olun yoksa şablon çalışmaz</i>", reply_markup=imark)
-        bot.register_next_step_handler(msg, sabloniki)
-        return
+            msg = bot.send_message(chat, "<i>Eğer kendi şablonunuzu oluşturmak isterseniz üstteki şablonlardaki gibi</i> <b>{aciklama}</b> ve <b>{link}</b> <i>kelimelerinin bulunduğundan emin olun yoksa şablon çalışmaz</i>", reply_markup=imark)
+            bot.register_next_step_handler(msg, sabloniki)
+            return
+        else:
+            bot.send_message(chat, """<b>Şablon No:9</b>
+----------------
+{aciklama} 
+
+𝙇𝙄𝙉𝙆🔗 {link} 
+
+
+  𝙇𝙄𝙉𝙆🔗 {alink}
+
+🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.
+
+📌 Link Nasıl Açılır Bilmiyorsanız
+👉 @linkk_gecmee
+----------------
+
+Üstteki şablonlardan kullanmak isterseniz, istediğiniz şablonun numarasını gönderin.""", reply_markup=markup)
+            msg = bot.send_message(chat, "<i>Eğer kendi şablonunuzu oluşturmak isterseniz üstteki şablonlardaki gibi</i> <b>{aciklama}, {alink}</b> ve <b>{link}</b> <i>kelimelerinin bulunduğundan emin olun yoksa şablon çalışmaz</i>", reply_markup=imark)
+            bot.register_next_step_handler(msg, sabloniki)
+            return
+            
     if mesaj == "📝 Kaydet":
         kayitli = 0
         chat = message.chat.id
