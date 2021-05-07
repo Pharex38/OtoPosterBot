@@ -237,7 +237,7 @@ def menu(message):
             if site == "5":
                 site = "Pubiza"
             if bina['altsite'] == None:
-                msg = bot.send_message(chat, "♦️Kayıtlı API: {}\nSite: {}\nToplam Kanal: {}".format(tokenn, site, kayitli), reply_markup=markupp)
+                msg = bot.send_message(chat, "<i>♦️Kayıtlı API: {}\nSite: {}\nToplam Kanal: {}</i>".format(tokenn, site, kayitli), reply_markup=markupp)
             else:
                 altsite = bina['altsite']
                 if altsite == "1":
@@ -250,7 +250,7 @@ def menu(message):
                     altsite = "Ouo.io"
                 if altsite == "5":
                     altsite = "Pubiza"
-                msg = bot.send_message(chat, "♦️Kayıtlı API: {}\nSite: {}\nAlternatif Site: {}\nAlternatif API: {}\nToplam Kanal: {}".format(tokenn, site, altsite, bina['altapi'], kayitli), reply_markup=markupp)
+                msg = bot.send_message(chat, "<i>♦️Kayıtlı API: {}\nSite: {}\nAlternatif Site: {}\nAlternatif API: {}\nToplam Kanal: {}</i>".format(tokenn, site, altsite, bina['altapi'], kayitli), reply_markup=markupp)
                 
             bot.register_next_step_handler(msg, kayitapi)
             return
