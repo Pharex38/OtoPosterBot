@@ -255,7 +255,7 @@ def menu(message):
             mod = collection.find_one({"_id": user})
         except:
             pass
-        if mod['kaynak'] == "9" or mod['kaynak'] == :
+        if mod['kaynak'] == "9" or mod['kaynak'] == None:
             try:
                 collection.update_one({"_id": user}, {"$set": {"kaynak": mod['eski']}})
             except:
