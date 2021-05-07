@@ -58,7 +58,7 @@ def start(message):
     dagme = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
     dagme.add(butonbir)
     mention = "@"+message.from_user.username if message.from_user.username else message.from_user.first_name
-    if kat == :
+    if kat == None:
         bot.send_message(chat, """
 ✨ <b>Merhaba {}!</b>
 
