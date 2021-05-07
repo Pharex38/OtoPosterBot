@@ -47,10 +47,9 @@ amark = types.ReplyKeyboardMarkup(row_width=1, one_time_keyboard=True, resize_ke
 batiniki = types.KeyboardButton('⛔ Alternatif Kaldır')
 amark.add(batinbir, batiniki)
 
-class usre:
-    def __init__(self):
-        self.api = None
-        self.kanal = None
+l = collection.find({})
+for s in l:
+    collection.update_one({"_id": s['_id']}, {"$set": {"altapi": "None", "altsite": "None"}})
 
 @bot.message_handler(commands=['start'])
 def start(message):
@@ -153,7 +152,7 @@ def menu(message):
         return
     if mesaj == "📏 Şablon":
         mj = collection.find_one({"_id": user})
-        if mj['altsite'] == None:
+        if mj['altsite'] == "None":
             bot.send_message(chat, """<b>Şablon No:1</b>
     ----------------
 🔥{aciklama}
@@ -305,6 +304,7 @@ def sabloniki(message):
     mesaj = message.text
     chat = message.chat.id
     user = message.from_user.id
+    bnb = collection.find_one({"_id": user})
     if message.text == None:
         if mesaj.find("{link}") == -1 or mesaj.find("{aciklama}") == -1:
             msg = bot.send_message(chat, """ ❌<i> Lütfen mesajınızda "{link}" ve "{aciklama}" bulunduğudan emin olun.</i> """)
@@ -313,12 +313,16 @@ def sabloniki(message):
     if message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
         return
+    if not mesaj.isdigit() and bnb['altsite'] != "None":
+        if mesaj.find("{link}") == -1 or mesaj.find("{aciklama}") == -1 or mesaj.find("{alink}") == -1:
+            msg = bot.send_message(chat, """ ❌<i> Lütfen mesajınızda "{link}", "{alink}" ve "{aciklama}" bulunduğudan emin olun.</i> """)
+            bot.register_next_step_handler(msg, sabloniki)
+            return
     if not mesaj.isdigit():
         if mesaj.find("{link}") == -1 or mesaj.find("{aciklama}") == -1:
             msg = bot.send_message(chat, """ ❌<i> Lütfen mesajınızda "{link}" ve "{aciklama}" bulunduğudan emin olun.</i> """)
             bot.register_next_step_handler(msg, sabloniki)
             return
-    bnb = collection.find_one({"_id": user})
     if bnb == None:
         bot.send_message(chat, "Lütfen şablon kaydetmeden önce Kaydet butonu ile bilgilerinizi girin!", reply_markup=dugme)
     else:
@@ -620,7 +624,7 @@ def poster(message):
             altapi = hesap['altapi']
             altsite = hesap['altsite']
             print(altsite)
-            if not altapi == None:
+            if not altapi == "None":
                 if altsite == "1":
                     json = s.get(f"https://ay.live/api/?api={altapi}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
                     alink = json['shortenedUrl']
@@ -720,7 +724,7 @@ def poster(message):
             bsite = bhesap['site']
             baltapi = bhesap['altapi']
             baltsite = bhesap['altsite']
-            if not baltapi == None:
+            if not baltapi == "None":
                 if baltsite == "1":
                     bjson = s.get(f"https://ay.live/api/?api={baltapi}&url={bmesajb}&alias=&ct=1", cookies=cookies).json()
                     balink = bjson['shortenedUrl']
@@ -822,7 +826,7 @@ def poster(message):
             csite = chesap['site']
             caltapi = chesap['altapi']
             caltsite = chesap['altsite']
-            if not caltapi == None:
+            if not caltapi == "None":
                 if caltsite == "1":
                     cjson = s.get(f"https://ay.live/api/?api={caltapi}&url={cmesajb}&alias=&ct=1", cookies=cookies).json()
                     calink = cjson['shortenedUrl']
@@ -891,7 +895,7 @@ def poster(message):
                             print(f"{ckanal} kayıtlardan silindi.")
 
                 print("Başarılı!")
-        bot.send_message(-1001352123979, "Link Evi kaynağından, {} Kanalda Foto Post Paylaşıldı.".format(ccount))
+        bot.send_message(-1001352123979, "Link Evi kaynağından, {} Kanalda Post Paylaşıldı.".format(ccount))
 
 
 bot.enable_save_next_step_handlers(delay=4)
