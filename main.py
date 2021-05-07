@@ -363,7 +363,7 @@ def altakayit(message, smesaj, user, chat):
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
         return
     collection.update_one({"_id": user}, {"$set": {"altsite": smesaj, "altapi": amesaj}})
-    bot.send_message(chat, "Alternatif kaydedildi")
+    bot.send_message(chat, "Alternatif kaydedildi", reply_markup=dugme)
     
 
 def apikayit(message):
