@@ -43,6 +43,10 @@ imark = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_ke
 batinbir = types.KeyboardButton('❌ İptal')
 imark.add(batinbir)
 
+amark = types.ReplyKeyboardMarkup(row_width=1, one_time_keyboard=True, resize_keyboard=True, selective=True)
+batiniki = types.KeyboardButton('⛔ Alternatif Kaldır')
+amark.add(batinbir, batiniki)
+
 class usre:
     def __init__(self):
         self.api = None
@@ -196,7 +200,6 @@ def menu(message):
             msg = bot.send_message(chat, "<i>Eğer kendi şablonunuzu oluşturmak isterseniz üstteki şablonlardaki gibi</i> <b>{aciklama}, {alink}</b> ve <b>{link}</b> <i>kelimelerinin bulunduğundan emin olun yoksa şablon çalışmaz</i>", reply_markup=imark)
             bot.register_next_step_handler(msg, sabloniki)
             return
-            
     if mesaj == "📝 Kaydet":
         kayitli = 0
         chat = message.chat.id
@@ -236,7 +239,18 @@ def menu(message):
             if bina['altsite'] == None:
                 msg = bot.send_message(chat, "♦️Kayıtlı API: {}\nSite: {}\nToplam Kanal: {}".format(tokenn, site, kayitli), reply_markup=markupp)
             else:
-                msg = bot.send_message(chat, "♦️Kayıtlı API: {}\nSite: {}\nAlternatif Site: {}\nAlternatif API: {}\nToplam Kanal: {}".format(tokenn, site, bina['altsite'], bina['altapi'], kayitli), reply_markup=markupp)
+                altsite = bina['altsite']
+                if altsite == "1":
+                    altsite = "TRLink"
+                if altsite == "2":
+                    altsite = "PND.TL"
+                if altsite == "3":
+                    altsite = "Exe.io"
+                if altsite == "4":
+                    altsite = "Ouo.io"
+                if altsite == "5":
+                    altsite = "Pubiza"
+                msg = bot.send_message(chat, "♦️Kayıtlı API: {}\nSite: {}\nAlternatif Site: {}\nAlternatif API: {}\nToplam Kanal: {}".format(tokenn, site, altsite, bina['altapi'], kayitli), reply_markup=markupp)
                 
             bot.register_next_step_handler(msg, kayitapi)
             return
@@ -331,10 +345,7 @@ def kayitapi(message):
         bot.register_next_step_handler(msg, sitekayit)
         return
     if mesaj == "🤖 Alternatif Ekle":
-        if not user == sahip:
-            bot.send_message(chat, "Bu komut şuan bakımda")
-            return
-        msg = bot.send_message(chat, "<i>ALTERNATİF olarak Kullanmak istediğiniz sitenin numarasını girin:\n\n<b>    No:1</b>\n    TRLink (Varsayılan)\n\n<b>    No:2</b>\n    PND.TL\n\n<b>    No:3</b>\n    Exe.io\n\n<b>    No:4</b>\n    Ouo.io\n\n<b>    No:5</b>\n    Pubiza</i>\n \nㅤ", reply_markup=imark)
+        msg = bot.send_message(chat, "<i>ALTERNATİF olarak Kullanmak istediğiniz sitenin numarasını girin:\n\n<b>    No:1</b>\n    TRLink (Varsayılan)\n\n<b>    No:2</b>\n    PND.TL\n\n<b>    No:3</b>\n    Exe.io\n\n<b>    No:4</b>\n    Ouo.io\n\n<b>    No:5</b>\n    Pubiza</i>\n \nㅤ", reply_markup=amark)
         bot.register_next_step_handler(msg, altkayit)
         return
     if mesaj == "🔶 Yeni Kanal Ekle":
@@ -382,6 +393,10 @@ def altkayit(message):
     if message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
         return
+    if message.text == "⛔ Alternatif Kaldır":
+        collection.find_one({"_id": user}, {"$set": {"altsite": None, "altapi": None}})
+        bot.send_message(chat, "Alternatif kaldırıldı, artık postlarınız alternatif linksiz paylaşılacak.", reply_markup=dugme)
+        return
     msg = bot.send_message(chat, "✅ Site kaydedildi!\n\nAlternatif sitenizin API adresinizi gönderin.")
     bot.register_next_step_handler(msg, altakayit, smesaj, user, chat)
 
@@ -390,10 +405,13 @@ def altakayit(message, smesaj, user, chat):
     if message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
         return
+    if message.text == "⛔ Alternatif Kaldır":
+        collection.find_one({"_id": user}, {"$set": {"altsite": None, "altapi": None}})
+        bot.send_message(chat, "Alternatif kaldırıldı, artık postlarınız alternatif linksiz paylaşılacak.", reply_markup=dugme)
+        return
     collection.update_one({"_id": user}, {"$set": {"altsite": smesaj, "altapi": amesaj, "sablon": "9"}})
     bot.send_message(chat, "Alternatif kaydedildi", reply_markup=dugme)
     
-
 def apikayit(message):
     token = message.text
     mid = message.id
