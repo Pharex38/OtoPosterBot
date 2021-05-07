@@ -47,10 +47,6 @@ amark = types.ReplyKeyboardMarkup(row_width=1, one_time_keyboard=True, resize_ke
 batiniki = types.KeyboardButton('⛔ Alternatif Kaldır')
 amark.add(batinbir, batiniki)
 
-l = collection.find({})
-for s in l:
-    collection.update_one({"_id": s['_id']}, {"$set": {"altapi": "None", "altsite": "None"}})
-
 @bot.message_handler(commands=['start'])
 def start(message):
     user = message.from_user.id
@@ -399,7 +395,7 @@ def altkayit(message):
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
         return
     if message.text == "⛔ Alternatif Kaldır":
-        collection.update_one({"_id": user}, {"$set": {"altsite": None, "altapi": None, "sablon": "1"}})
+        collection.update_one({"_id": user}, {"$set": {"altsite": "None", "altapi": "None", "sablon": "1"}})
         bot.send_message(chat, "Alternatif kaldırıldı, artık postlarınız alternatif linksiz paylaşılacak.", reply_markup=dugme)
         return
     msg = bot.send_message(chat, "✅ Site kaydedildi!\n\nAlternatif sitenizin API adresinizi gönderin.")
@@ -411,7 +407,7 @@ def altakayit(message, smesaj, user, chat):
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
         return
     if message.text == "⛔ Alternatif Kaldır":
-        collection.update_one({"_id": user}, {"$set": {"altsite": None, "altapi": None, "sablon": "1"}})
+        collection.update_one({"_id": user}, {"$set": {"altsite": "None", "altapi": "None", "sablon": "1"}})
         bot.send_message(chat, "Alternatif kaldırıldı, artık postlarınız alternatif linksiz paylaşılacak.", reply_markup=dugme)
         return
     collection.update_one({"_id": user}, {"$set": {"altsite": smesaj, "altapi": amesaj, "sablon": "9"}})
@@ -431,7 +427,7 @@ def apikayit(message):
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
         return
     bnb = collection.find_one({"_id": user})
-    key = {"_id": user, "token": token, "kanal": [], "sablon": "1", "kaynak": "1", "site": "1", "altapi": None, "altsite": None}
+    key = {"_id": user, "token": token, "kanal": [], "sablon": "1", "kaynak": "1", "site": "1", "altapi": "None", "altsite": "None"}
     if bnb == None:
         collection.insert_one(key)
     else:
@@ -490,7 +486,7 @@ def pat(message):
     psite = pathesap['site']
     paltapi = pathesap['altapi']
     paltsite = pathesap['altsite']
-    if not paltapi == None:
+    if not paltapi == "None":
         if paltsite == "1":
             pjson = s.get(f"https://ay.live/api/?api={paltapi}&url={plink}&alias=&ct=1", cookies=cookies).json()
             palink = pjson['shortenedUrl']
