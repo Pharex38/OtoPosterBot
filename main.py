@@ -789,8 +789,23 @@ def poster(message):
             ckanal = chesap['kanal']
             cuser = chesap['_id']
             csite = chesap['site']
-            print(ckaynak)
-            sleep(2)
+            caltapi = chesap['altapi']
+            caltsite = chesap['altsite']
+            if not caltapi == None:
+                if caltsite == "1":
+                    cjson = s.get(f"https://ay.live/api/?api={caltapi}&url={cmesajb}&alias=&ct=1", cookies=cookies).json()
+                    calink = cjson['shortenedUrl']
+                if caltsite == "2":
+                    cjson = s.get(f"https://www.pnd.tl/api?api={caltapi}&url={cmesajb}&category=6").json()
+                    calink = cjson['shortenedUrl']
+                if caltsite == "3":
+                    cjson = s.get(f"https://exe.io/api?api={caltapi}&url={cmesajb}").json()
+                    calink = cjson['shortenedUrl']
+                if caltsite == "4":
+                    calink = s.get(f"http://ouo.io/api/{caltapi}?s={cmesajb}").text
+                if caltsite == "5":
+                    calink = s.get(f"http://pubiza.com/api.php?token={caltapi}&url={cmesajb}&ads_type=adult").text
+            sleep(1)
             if ckaynak == "3" or ckaynak == "0":
                 if csite == "1":
                     bjson = s.get(f"https://ay.live/api/?api={ctoken}&url={cmesajb}&alias=&ct=1",
@@ -812,7 +827,12 @@ def poster(message):
                 elif csablon == "2" or csablon == "3":
                     csablon = f"{caciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {clink}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
                 elif csablon == "9":
-                    csablon = f"{caciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {clink}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
+                    csablon = f"{caciklama} \n\n𝙇𝙄𝙉𝙆🔗 {clink} \n\n     𝙇𝙄𝙉𝙆🔗 {calink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
+                elif csablon.find('{alink}') != -1:
+                    casol = csablon.split("{link}")
+                    caort = casol[1].split("{alink}")
+                    casal = casol[0].split("{aciklama}")
+                    csablon = f"{casal[0]}{caciklama}{casal[1]}{clink}{caort[0]}{calink}{caort[1]}"
                     
                 else:
                     csoll = csablon.split("{link}")
