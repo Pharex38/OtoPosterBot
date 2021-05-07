@@ -322,13 +322,13 @@ def kayitapi(message):
         return
     if mesaj == "🔗 Site değiştir":
         user = message.from_user.id
-        if not user == sahip:
-            bot.send_message(chat, "Bu komut şuan bakımda")
-            return
         msg = bot.send_message(chat, "<i>Kullanmak istediğiniz sitenin numarasını girin:\n\n<b>    No:1</b>\n    TRLink (Varsayılan)\n\n<b>    No:2</b>\n    PND.TL\n\n<b>    No:3</b>\n    Exe.io\n\n<b>    No:4</b>\n    Ouo.io\n\n<b>    No:5</b>\n    Pubiza</i>\n \nㅤ", reply_markup=imark)
         bot.register_next_step_handler(msg, sitekayit)
         return
     if mesaj == "🤖 Alternatif Ekle":
+        if not user == sahip:
+            bot.send_message(chat, "Bu komut şuan bakımda")
+            return
         msg = bot.send_message(chat, "<i>ALTERNATİF olarak Kullanmak istediğiniz sitenin numarasını girin:\n\n<b>    No:1</b>\n    TRLink (Varsayılan)\n\n<b>    No:2</b>\n    PND.TL\n\n<b>    No:3</b>\n    Exe.io\n\n<b>    No:4</b>\n    Ouo.io\n\n<b>    No:5</b>\n    Pubiza</i>\n \nㅤ", reply_markup=imark)
         bot.register_next_step_handler(msg, altkayit)
         return
