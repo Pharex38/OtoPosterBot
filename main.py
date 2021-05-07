@@ -687,7 +687,22 @@ def poster(message):
             bkanal = bhesap['kanal']
             buser = bhesap['_id']
             bsite = bhesap['site']
-            print(bkaynak)
+            baltapi = bhesap['altapi']
+            baltsite = bhesap['altsite']
+            if not baltapi == None:
+                if baltsite == "1":
+                    bjson = s.get(f"https://ay.live/api/?api={baltapi}&url={bmesajb}&alias=&ct=1", cookies=cookies).json()
+                    balink = bjson['shortenedUrl']
+                if baltsite == "2":
+                    bjson = s.get(f"https://www.pnd.tl/api?api={baltapi}&url={bmesajb}&category=6").json()
+                    balink = bjson['shortenedUrl']
+                if baltsite == "3":
+                    bjson = s.get(f"https://exe.io/api?api={baltapi}&url={bmesajb}").json()
+                    balink = bjson['shortenedUrl']
+                if baltsite == "4":
+                    balink = s.get(f"http://ouo.io/api/{baltapi}?s={bmesajb}").text
+                if baltsite == "5":
+                    balink = s.get(f"http://pubiza.com/api.php?token={baltapi}&url={bmesajb}&ads_type=adult").text
             sleep(2)
             if bkaynak == "2" or bkaynak == "0" or bkaynak == "5":
                 if bsite == "1":
@@ -709,7 +724,13 @@ def poster(message):
                 elif bsablon == "2" or bsablon == "3":
                     bsablon = f"{baciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {blink}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
                 elif bsablon == "9":
-                    bsablon = f"{baciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {blink}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
+                    bsablon = f"{baciklama} \n\n𝙇𝙄𝙉𝙆🔗 {blink} \n\n     𝙇𝙄𝙉𝙆🔗 {balink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
+                elif sablon.find('{alink}') != -1:
+                    basol = bsablon.split("{link}")
+                    baort = basol[1].split("{alink}")
+                    basal = basol[0].split("{aciklama}")
+                    bsablon = f"{basal[0]}{baciklama}{basal[1]}{blink}{baort[0]}{balink}{baort[1]}"
+                    
                 else:
                     bsoll = bsablon.split("{link}")
                     bsal = bsoll[0].split("{aciklama}")
