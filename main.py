@@ -898,4 +898,4 @@ bot.enable_save_next_step_handlers(delay=4)
 
 bot.load_next_step_handlers()
 
-bot.polling(none_stop=True, interval=0)
+bot.polling(none_stop=False, interval=0)
