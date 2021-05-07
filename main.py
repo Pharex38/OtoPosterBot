@@ -309,6 +309,7 @@ def sabloniki(message):
 def kayitapi(message):
     chat = message.chat.id
     mesaj = message.text
+    user = message.from_user.id
     if mesaj == "🗑️ Kanal Sil":
         msg = bot.send_message(chat, "Silmek istediğiniz kanalın kayıt numarasını girin.", reply_markup=imark)
         bot.register_next_step_handler(msg, ksil)
