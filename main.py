@@ -58,7 +58,7 @@ def start(message):
     dagme = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
     dagme.add(butonbir)
     mention = "@"+message.from_user.username if message.from_user.username else message.from_user.first_name
-    if kat == None:
+    if kat == :
         bot.send_message(chat, """
 ✨ <b>Merhaba {}!</b>
 
@@ -148,7 +148,7 @@ def menu(message):
         return
     if mesaj == "📏 Şablon":
         mj = collection.find_one({"_id": user})
-        if mj['altsite'] == "None":
+        if mj['altsite'] == "":
             bot.send_message(chat, """<b>Şablon No:1</b>
     ----------------
 🔥{aciklama}
@@ -232,7 +232,7 @@ def menu(message):
                 site = "Ouo.io"
             if site == "5":
                 site = "Pubiza"
-            if bina['altsite'] == None:
+            if bina['altsite'] == "None":
                 msg = bot.send_message(chat, "<i>♦️Kayıtlı API: {}\nSite: {}\nToplam Kanal: {}</i>".format(tokenn, site, kayitli), reply_markup=markupp)
             else:
                 altsite = bina['altsite']
@@ -255,7 +255,7 @@ def menu(message):
             mod = collection.find_one({"_id": user})
         except:
             pass
-        if mod['kaynak'] == "9" or mod['kaynak'] == None:
+        if mod['kaynak'] == "9" or mod['kaynak'] == :
             try:
                 collection.update_one({"_id": user}, {"$set": {"kaynak": mod['eski']}})
             except:
@@ -278,7 +278,7 @@ def kaynake(message):
     ktext = message.text
     chat = message.chat.id
     user = message.from_user.id
-    if message.text == None:
+    if message.text == :
         msg = bot.send_message(chat, "Lütfen istediğiniz kaynağın numarasını gönderin.")
         bot.register_next_step_handler(msg, kaynake)
         return
@@ -290,7 +290,7 @@ def kaynake(message):
         bot.register_next_step_handler(msg, kaynake)
         return
     bnb = collection.find_one({"_id": user})
-    if bnb == None:
+    if bnb == :
         bot.send_message(chat, "Lütfen kaynak seçmeden önce Kaydet butonu ile bilgilerinizi kaydedin.", reply_markup=dugme)
     else:
         collection.update_one({"_id": user}, {"$set":{"kaynak": ktext}})
@@ -301,7 +301,7 @@ def sabloniki(message):
     chat = message.chat.id
     user = message.from_user.id
     bnb = collection.find_one({"_id": user})
-    if message.text == None:
+    if message.text == :
         if mesaj.find("{link}") == -1 or mesaj.find("{aciklama}") == -1:
             msg = bot.send_message(chat, """ ❌<i> Lütfen mesajınızda "{link}" ve "{aciklama}" bulunduğudan emin olun.</i> """)
             bot.register_next_step_handler(msg, sabloniki)
@@ -309,7 +309,7 @@ def sabloniki(message):
     if message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
         return
-    if not mesaj.isdigit() and bnb['altsite'] != "None":
+    if not mesaj.isdigit() and bnb['altsite'] != "":
         if mesaj.find("{link}") == -1 or mesaj.find("{aciklama}") == -1 or mesaj.find("{alink}") == -1:
             msg = bot.send_message(chat, """ ❌<i> Lütfen mesajınızda "{link}", "{alink}" ve "{aciklama}" bulunduğudan emin olun.</i> """)
             bot.register_next_step_handler(msg, sabloniki)
@@ -319,7 +319,7 @@ def sabloniki(message):
             msg = bot.send_message(chat, """ ❌<i> Lütfen mesajınızda "{link}" ve "{aciklama}" bulunduğudan emin olun.</i> """)
             bot.register_next_step_handler(msg, sabloniki)
             return
-    if bnb == None:
+    if bnb == :
         bot.send_message(chat, "Lütfen şablon kaydetmeden önce Kaydet butonu ile bilgilerinizi girin!", reply_markup=dugme)
     else:
         collection.update_one({"_id": user}, {"$set":{"sablon": mesaj}})
@@ -363,7 +363,7 @@ def kayitapi(message):
 def ksil(message):
     user = message.from_user.id
     chat = message.chat.id
-    if message.text == None:
+    if message.text == :
         msg = bot.send_message(chat, "Lütfen geçerli bir numara verin")
         bot.register_next_step_handler(msg, ksil)
         return
@@ -387,7 +387,7 @@ def altkayit(message):
     chat = message.chat.id
     user = message.from_user.id
     smesaj = message.text
-    if message.text == None:
+    if message.text == :
         msg = bot.send_message(chat, "Lütfen geçerli bir numara verin")
         bot.register_next_step_handler(msg, ksil)
         return
@@ -395,7 +395,7 @@ def altkayit(message):
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
         return
     if message.text == "⛔ Alternatif Kaldır":
-        collection.update_one({"_id": user}, {"$set": {"altsite": "None", "altapi": "None", "sablon": "1"}})
+        collection.update_one({"_id": user}, {"$set": {"altsite": "", "altapi": "", "sablon": "1"}})
         bot.send_message(chat, "Alternatif kaldırıldı, artık postlarınız alternatif linksiz paylaşılacak.", reply_markup=dugme)
         return
     msg = bot.send_message(chat, "✅ Site kaydedildi!\n\nAlternatif sitenizin API adresinizi gönderin.")
@@ -407,7 +407,7 @@ def altakayit(message, smesaj, user, chat):
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
         return
     if message.text == "⛔ Alternatif Kaldır":
-        collection.update_one({"_id": user}, {"$set": {"altsite": "None", "altapi": "None", "sablon": "1"}})
+        collection.update_one({"_id": user}, {"$set": {"altsite": "", "altapi": "", "sablon": "1"}})
         bot.send_message(chat, "Alternatif kaldırıldı, artık postlarınız alternatif linksiz paylaşılacak.", reply_markup=dugme)
         return
     collection.update_one({"_id": user}, {"$set": {"altsite": smesaj, "altapi": amesaj, "sablon": "9"}})
@@ -419,7 +419,7 @@ def apikayit(message):
     user = message.from_user.id
     mids = mid+1
     chat = message.chat.id
-    if message.text == None:
+    if message.text == :
         msg = bot.send_message(chat, "Lütfen geçerli bir API verin.")
         bot.register_next_step_handler(msg, apikayit)
         return
@@ -427,8 +427,8 @@ def apikayit(message):
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
         return
     bnb = collection.find_one({"_id": user})
-    key = {"_id": user, "token": token, "kanal": [], "sablon": "1", "kaynak": "1", "site": "1", "altapi": "None", "altsite": "None"}
-    if bnb == None:
+    key = {"_id": user, "token": token, "kanal": [], "sablon": "1", "kaynak": "1", "site": "1", "altapi": "", "altsite": ""}
+    if bnb == :
         collection.insert_one(key)
     else:
         collection.update_one({"_id": user}, {"$set": {"token": token}})
@@ -486,7 +486,7 @@ def pat(message):
     psite = pathesap['site']
     paltapi = pathesap['altapi']
     paltsite = pathesap['altsite']
-    if not paltapi == "None":
+    if not paltapi == "":
         if paltsite == "1":
             pjson = s.get(f"https://ay.live/api/?api={paltapi}&url={plink}&alias=&ct=1", cookies=cookies).json()
             palink = pjson['shortenedUrl']
@@ -543,7 +543,7 @@ def patiki(message, psablon, pathesap, fid, ptip):
     pmesaj = int(message.text) - 1
     pkan = pathesap['kanal'][pmesaj]
     chat = message.chat.id
-    if message.text == None:
+    if message.text == :
         return
     if message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi", reply_markup=dugme)
@@ -566,7 +566,7 @@ def patiki(message, psablon, pathesap, fid, ptip):
 def sitekayit(message):
     chat = message.chat.id
     user = message.from_user.id
-    if message.text == None:
+    if message.text == :
         msg = bot.send_message(chat, "Lütfen doğru bir numara girin")
         bot.register_next_step_handler(msg, sitekayit)
         return
@@ -620,7 +620,7 @@ def poster(message):
             altapi = hesap['altapi']
             altsite = hesap['altsite']
             print(altsite)
-            if not altapi == "None":
+            if not altapi == "":
                 if altsite == "1":
                     json = s.get(f"https://ay.live/api/?api={altapi}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
                     alink = json['shortenedUrl']
@@ -720,7 +720,7 @@ def poster(message):
             bsite = bhesap['site']
             baltapi = bhesap['altapi']
             baltsite = bhesap['altsite']
-            if not baltapi == "None":
+            if not baltapi == "":
                 if baltsite == "1":
                     bjson = s.get(f"https://ay.live/api/?api={baltapi}&url={bmesajb}&alias=&ct=1", cookies=cookies).json()
                     balink = bjson['shortenedUrl']
@@ -822,7 +822,7 @@ def poster(message):
             csite = chesap['site']
             caltapi = chesap['altapi']
             caltsite = chesap['altsite']
-            if not caltapi == "None":
+            if not caltapi == "":
                 if caltsite == "1":
                     cjson = s.get(f"https://ay.live/api/?api={caltapi}&url={cmesajb}&alias=&ct=1", cookies=cookies).json()
                     calink = cjson['shortenedUrl']
@@ -898,4 +898,4 @@ bot.enable_save_next_step_handlers(delay=4)
 
 bot.load_next_step_handlers()
 
-bot.polling(none_stop=False, interval=0)
+bot.polling(_stop=False, interval=0)
