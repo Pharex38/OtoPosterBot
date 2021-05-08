@@ -596,9 +596,13 @@ def sirasistem(message):
         msg = bot.send_message(chat, "Lütfen doğru bir numara girin")
         bot.register_next_step_handler(msg, sitekayit)
         return
-    if message.text != "1" and message.text != "2":
+    if message.text != "1" and message.text != "2" and message.text != "❌ İptal" and message.text != "⛔ Alternatif Kaldır"::  
         msg = bot.send_message(chat, "Lütfen doğru bir numara girin")
         bot.register_next_step_handler(msg, sitekayit)
+        return
+    if message.text == "⛔ Alternatif Kaldır":
+        collection.update_one({"_id": user}, {"$set": {"altsite": "None", "altapi": "None", "sablon": "1"}})
+        bot.send_message(chat, "Alternatif kaldırıldı, artık postlarınız alternatif linksiz paylaşılacak.", reply_markup=dugme)
         return
     if message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
