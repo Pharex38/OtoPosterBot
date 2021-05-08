@@ -444,7 +444,7 @@ def apikayit(message):
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
         return
     bnb = collection.find_one({"_id": user})
-    key = {"_id": user, "token": token, "kanal": [], "sablon": "1", "kaynak": "1", "site": "1", "altapi": "None", "altsite": "None"}
+    key = {"_id": user, "token": token, "kanal": [], "sablon": "1", "kaynak": "1", "site": "1", "altapi": "None", "altsite": "None", "sira": "1"}
     if bnb == None:
         collection.insert_one(key)
     else:
