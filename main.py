@@ -275,7 +275,7 @@ def menu(message):
         bot.register_next_step_handler(msg, pat)
         return
         
-    kisi = collection.find_one({"_id" user})
+    kisi = collection.find_one({"_id": user})
     if kisi == None:
         bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=dugme)
         return
