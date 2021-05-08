@@ -47,6 +47,10 @@ amark = types.ReplyKeyboardMarkup(row_width=1, one_time_keyboard=True, resize_ke
 batiniki = types.KeyboardButton('⛔ Alternatif Kaldır')
 amark.add(batinbir, batiniki)
 
+d = collection.find({})
+for l in d:
+    collection.update_one({"_id": d['_id']}, {"$set": {"sira": "1"}})
+
 @bot.message_handler(commands=['start'])
 def start(message):
     user = message.from_user.id
@@ -79,7 +83,7 @@ def start(message):
 ✨ <b>Merhaba {}!</b>
 
 ❔<b>Ne İşe Yarıyor? </b>
-<i>Bu bot</i><a href="https://t.me/joinchat/UYu8q0gBTUdUudDL">Link Mahzeni</a><i>'nde paylaşılan postların linklerini otomatik olarak kısaltıp sizin kanalınıza iletir.</i>
+<i>Bu bot sizin seçtiğiniz kaynak kanalında paylaşılan postların linklerini otomatik olarak kısaltıp sizin kanalınıza iletir.</i>
 
 ❔<b>Nasıl Kullanılır?</b>
 <i>1. Adım: Botu kanlınıza yönetici olarak ekleyin.
@@ -246,7 +250,7 @@ def menu(message):
                     altsite = "Ouo.io"
                 if altsite == "5":
                     altsite = "Pubiza"
-                msg = bot.send_message(chat, "<i>♦️Kayıtlı API: {}\nSite: {}\nAlternatif Site: {}\nAlternatif API: {}\nToplam Kanal: {}</i>".format(tokenn, site, altsite, bina['altapi'], kayitli), reply_markup=markupp)
+                msg = bot.send_message(chat, "<i>♦️Kayıtlı API: {}\nBirincil Site: {}\nAlternatif API: {}\nAlternatif Site: {}\nToplam Kanal: {}</i>".format(tokenn, site, bina['altapi'], altsite, kayitli), reply_markup=markupp)
                 
             bot.register_next_step_handler(msg, kayitapi)
             return
@@ -411,8 +415,9 @@ def altakayit(message, smesaj, user, chat):
         bot.send_message(chat, "Alternatif kaldırıldı, artık postlarınız alternatif linksiz paylaşılacak.", reply_markup=dugme)
         return
     collection.update_one({"_id": user}, {"$set": {"altsite": smesaj, "altapi": amesaj, "sablon": "9"}})
-    bot.send_message(chat, "Alternatif kaydedildi", reply_markup=dugme)
-    
+    msg = bot.send_message(chat, "✅ Alternatif kaydedildi\n\n<b>Alternatif Nasıl Kullanılsın.\n\n <i>No:1</b>\n Aynı Post İki Link \n\nNo:2\n Bir Post Birinci Servis, Bir Post İkinci Servis.\n\nİstediğiniz sistemin numarasını gönderin.</i>}", reply_markup=dugme)
+    bot.register_next_step_handler(msg, sirasistem)
+
 def apikayit(message):
     token = message.text
     mid = message.id
@@ -581,6 +586,21 @@ def sitekayit(message):
     collection.update_one({"_id": user}, {"$set": {"site": mesaj}})
     bot.send_message(chat, "Site Kaydedildi\n\nAPI adresinizi seçtiğiniz siteye göre değiştirmeyi unutmayın.", reply_markup=dugme)
 
+def sirasistem(message):
+    user = message.from_user.id
+    chat = message.chat.id
+    if message.text == None:
+        msg = bot.send_message(chat, "Lütfen doğru bir numara girin")
+        bot.register_next_step_handler(msg, sitekayit)
+        return
+    if message.text == "❌ İptal":
+        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
+        return
+    sistem = str(message.text)
+    collection.update_one({"_id": user}, {"$set": {"sira": sistem}})
+    bot.send_message(chat, "✅ Alternatif Kaydedildi")
+
+
 @bot.channel_post_handler(content_types=['photo', 'animation', 'video'])
 def poster(message):
     count = 0
@@ -619,7 +639,13 @@ def poster(message):
             site = hesap["site"]
             altapi = hesap['altapi']
             altsite = hesap['altsite']
-            print(altsite)
+            sira = hesap['sira']
+            if sira == "2":
+                token = altapi
+                site = altsite
+                collection.update_one({"_id": user}, {"$set": {"sira": "3"}})
+            if sira == "3":
+                collection.update_one({"_id": user}, {"$set": {"sira": "2"}})
             if not altapi == "None":
                 if altsite == "1":
                     json = s.get(f"https://ay.live/api/?api={altapi}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
@@ -720,6 +746,13 @@ def poster(message):
             bsite = bhesap['site']
             baltapi = bhesap['altapi']
             baltsite = bhesap['altsite']
+            bsira = bhesap['sira']
+            if bsira == "2":
+                btoken = baltapi
+                bsite = baltsite
+                collection.update_one({"_id": buser}, {"$set": {"sira": "3"}})
+            if bsira == "3":
+                collection.update_one({"_id": buser}, {"$set": {"sira": "2"}})
             if not baltapi == "None":
                 if baltsite == "1":
                     bjson = s.get(f"https://ay.live/api/?api={baltapi}&url={bmesajb}&alias=&ct=1", cookies=cookies).json()
@@ -822,6 +855,13 @@ def poster(message):
             csite = chesap['site']
             caltapi = chesap['altapi']
             caltsite = chesap['altsite']
+            csira = chesap['sira']
+            if csira == "2":
+                ctoken = caltapi
+                csite = caltsite
+                collection.update_one({"_id": cuser}, {"$set": {"sira": "3"}})
+            if csira == "3":
+                collection.update_one({"_id": cuser}, {"$set": {"sira": "2"}})
             if not caltapi == "None":
                 if caltsite == "1":
                     cjson = s.get(f"https://ay.live/api/?api={caltapi}&url={cmesajb}&alias=&ct=1", cookies=cookies).json()
