@@ -47,6 +47,11 @@ amark = types.ReplyKeyboardMarkup(row_width=1, one_time_keyboard=True, resize_ke
 batiniki = types.KeyboardButton('⛔ Alternatif Kaldır')
 amark.add(batinbir, batiniki)
 
+j = collection.find({})
+for f in j:
+    if f['sira'] == "1":
+        collection.update_one({"_id": f['_id']}, {"$set": {"sira": "0"}})
+
 @bot.message_handler(commands=['start'])
 def start(message):
     user = message.from_user.id
