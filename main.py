@@ -125,10 +125,14 @@ def menu(message):
     chat = message.chat.id
     user = message.from_user.id
     mesaj = message.text
+    mj = collection.find_one({"_id": user})
     if user in kara:
         bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
     if mesaj == "🔧 Kaynak":
+        if mj == None:
+            bot.send_message(chat, "Lütfen önce bir API kaydedin.")
+            return
         msg = bot.send_message(chat, """<b>Kullanmak istediğiniz kaynak kanalınının numarasını gönderin:
     
     Kaynak No:1</b>
@@ -147,7 +151,6 @@ def menu(message):
         bot.register_next_step_handler(msg, kaynake)
         return
     if mesaj == "📏 Şablon":
-        mj = collection.find_one({"_id": user})
         if mj == None:
             bot.send_message(chat, "Lütfen önce bir API kaydedin.")
             return
@@ -254,6 +257,9 @@ def menu(message):
             bot.register_next_step_handler(msg, kayitapi)
             return
     if mesaj == "▶️ SFS Modu":
+        if mj == None:
+            bot.send_message(chat, "Lütfen önce bir API kaydedin.")
+            return
         try:
             mod = collection.find_one({"_id": user})
         except:
@@ -271,6 +277,9 @@ def menu(message):
             bot.send_message(chat, "Kanallarınız SFS moduna alındı. Siz modu kapatana kadar yeni post atılmayacak.", reply_markup=dugme)
             return
     if mesaj == "⛓️ Elle Post Paylaş":
+        if mj == None:
+            bot.send_message(chat, "Lütfen önce bir API kaydedin.")
+            return
         msg = bot.send_message(chat, "Paylaşmamı istediğin hazır postu ilet.", reply_markup=imark)
         bot.register_next_step_handler(msg, pat)
         return
