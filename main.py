@@ -589,6 +589,10 @@ def sirasistem(message):
         msg = bot.send_message(chat, "Lütfen doğru bir numara girin")
         bot.register_next_step_handler(msg, sitekayit)
         return
+    if not message.text.isdigit():
+        msg = bot.send_message(chat, "Lütfen doğru bir numara girin")
+        bot.register_next_step_handler(msg, sitekayit)
+        return
     if message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
         return
