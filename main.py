@@ -148,7 +148,7 @@ def menu(message):
         return
     if mesaj == "📏 Şablon":
         mj = collection.find_one({"_id": user})
-        if mj['altsite'] == "None":
+        if mj['sira'] != "1":
             bot.send_message(chat, """<b>Şablon No:1</b>
     ----------------
 🔥{aciklama}
@@ -309,7 +309,7 @@ def sabloniki(message):
     if message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
         return
-    if not mesaj.isdigit() and bnb['altsite'] != "None":
+    if not mesaj.isdigit() and bnb['sira'] == "1":
         if mesaj.find("{link}") == -1 or mesaj.find("{aciklama}") == -1 or mesaj.find("{alink}") == -1:
             msg = bot.send_message(chat, """ ❌<i> Lütfen mesajınızda "{link}", "{alink}" ve "{aciklama}" bulunduğudan emin olun.</i> """)
             bot.register_next_step_handler(msg, sabloniki)
