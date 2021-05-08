@@ -411,7 +411,7 @@ def altakayit(message, smesaj, user, chat):
         bot.send_message(chat, "Alternatif kaldırıldı, artık postlarınız alternatif linksiz paylaşılacak.", reply_markup=dugme)
         return
     collection.update_one({"_id": user}, {"$set": {"altsite": smesaj, "altapi": amesaj, "sablon": "9"}})
-    msg = bot.send_message(chat, "✅ Alternatif kaydedildi\n\n<b>Alternatif Nasıl Kullanılsın.\n\n No:1</b>\n <i>Aynı Post İki Link</i> \n\n<b>No:2</b>\n <i>Bir Post Birinci Servis, Bir Post Alternatif Servis.</i>\n\n<b>stediğiniz sistemin numarasını gönderin.</b>")
+    msg = bot.send_message(chat, "✅ Alternatif kaydedildi\n\n<b>Alternatif Nasıl Kullanılsın.\n\n No:1</b>\n <i>Aynı post iki link</i> \n\n<b>No:2</b>\n <i>Bir post birinci servis, bir post alternatif servis.</i>\n\n<b>İstediğiniz sistemin numarasını gönderin.</b>")
     bot.register_next_step_handler(msg, sirasistem)
 
 def apikayit(message):
@@ -487,6 +487,13 @@ def pat(message):
     psite = pathesap['site']
     paltapi = pathesap['altapi']
     paltsite = pathesap['altsite']
+    psira = pathesap['sira']
+    if psira == "2":
+        ptoken = paltapi
+        psite = paltsite
+        collection.update_one({"_id": user}, {"$set": {"sira": "3"}})
+    if psira == "3":
+        collection.update_one({"_id": user}, {"$set": {"sira": "2"}})
     if not paltapi == "None":
         if paltsite == "1":
             pjson = s.get(f"https://ay.live/api/?api={paltapi}&url={plink}&alias=&ct=1", cookies=cookies).json()
@@ -589,7 +596,7 @@ def sirasistem(message):
         msg = bot.send_message(chat, "Lütfen doğru bir numara girin")
         bot.register_next_step_handler(msg, sitekayit)
         return
-    if not message.text.isdigit():
+    if message.text != "1" and message.text != "2":
         msg = bot.send_message(chat, "Lütfen doğru bir numara girin")
         bot.register_next_step_handler(msg, sitekayit)
         return
