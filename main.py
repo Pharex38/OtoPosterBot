@@ -596,7 +596,7 @@ def sirasistem(message):
         msg = bot.send_message(chat, "Lütfen doğru bir numara girin")
         bot.register_next_step_handler(msg, sitekayit)
         return
-    if message.text != "1" and message.text != "2" and message.text != "❌ İptal" and message.text != "⛔ Alternatif Kaldır"::  
+    if message.text != "1" and message.text != "2" and message.text != "❌ İptal" and message.text != "⛔ Alternatif Kaldır":  
         msg = bot.send_message(chat, "Lütfen doğru bir numara girin")
         bot.register_next_step_handler(msg, sitekayit)
         return
