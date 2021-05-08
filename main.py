@@ -47,11 +47,6 @@ amark = types.ReplyKeyboardMarkup(row_width=1, one_time_keyboard=True, resize_ke
 batiniki = types.KeyboardButton('⛔ Alternatif Kaldır')
 amark.add(batinbir, batiniki)
 
-j = collection.find({})
-for f in j:
-    if f['sira'] == "1":
-        collection.update_one({"_id": f['_id']}, {"$set": {"sira": "0"}})
-
 @bot.message_handler(commands=['start'])
 def start(message):
     user = message.from_user.id
@@ -416,7 +411,7 @@ def altkayit(message):
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
         return
     if message.text == "⛔ Alternatif Kaldır":
-        collection.update_one({"_id": user}, {"$set": {"altsite": "None", "altapi": "None", "sablon": "1"}})
+        collection.update_one({"_id": user}, {"$set": {"altsite": "None", "altapi": "None", "sablon": "1", "sira": "0"}})
         bot.send_message(chat, "Alternatif kaldırıldı, artık postlarınız alternatif linksiz paylaşılacak.", reply_markup=dugme)
         return
     msg = bot.send_message(chat, "✅ Site kaydedildi!\n\nAlternatif sitenizin API adresinizi gönderin.")
@@ -428,7 +423,7 @@ def altakayit(message, smesaj, user, chat):
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
         return
     if message.text == "⛔ Alternatif Kaldır":
-        collection.update_one({"_id": user}, {"$set": {"altsite": "None", "altapi": "None", "sablon": "1"}})
+        collection.update_one({"_id": user}, {"$set": {"altsite": "None", "altapi": "None", "sablon": "1", "sira": "0"}})
         bot.send_message(chat, "Alternatif kaldırıldı, artık postlarınız alternatif linksiz paylaşılacak.", reply_markup=dugme)
         return
     collection.update_one({"_id": user}, {"$set": {"altsite": smesaj, "altapi": amesaj}})
@@ -622,7 +617,7 @@ def sirasistem(message):
         bot.register_next_step_handler(msg, sitekayit)
         return
     if message.text == "⛔ Alternatif Kaldır":
-        collection.update_one({"_id": user}, {"$set": {"altsite": "None", "altapi": "None", "sablon": "1"}})
+        collection.update_one({"_id": user}, {"$set": {"altsite": "None", "altapi": "None", "sablon": "1", "sira": "0"}})
         bot.send_message(chat, "Alternatif kaldırıldı, artık postlarınız alternatif linksiz paylaşılacak.", reply_markup=dugme)
         return
     if message.text == "❌ İptal":
