@@ -415,7 +415,7 @@ def altakayit(message, smesaj, user, chat):
         bot.send_message(chat, "Alternatif kaldırıldı, artık postlarınız alternatif linksiz paylaşılacak.", reply_markup=dugme)
         return
     collection.update_one({"_id": user}, {"$set": {"altsite": smesaj, "altapi": amesaj, "sablon": "9"}})
-    msg = bot.send_message(chat, "✅ Alternatif kaydedildi\n\n<b>Alternatif Nasıl Kullanılsın.\n\n <i>No:1</b>\n Aynı Post İki Link \n\nNo:2\n Bir Post Birinci Servis, Bir Post İkinci Servis.\n\nİstediğiniz sistemin numarasını gönderin.</i>}", reply_markup=dugme)
+    msg = bot.send_message(chat, "✅ Alternatif kaydedildi\n\n<b>Alternatif Nasıl Kullanılsın.\n\n</b> <i>No:1\n Aynı Post İki Link \n\nNo:2\n Bir Post Birinci Servis, Bir Post İkinci Servis.\n\nİstediğiniz sistemin numarasını gönderin.</i>", reply_markup=dugme)
     bot.register_next_step_handler(msg, sirasistem)
 
 def apikayit(message):
