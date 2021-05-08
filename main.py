@@ -49,7 +49,7 @@ amark.add(batinbir, batiniki)
 
 d = collection.find({})
 for l in d:
-    collection.update_one({"_id": d['_id']}, {"$set": {"sira": "1"}})
+    collection.update_one({"_id": l['_id']}, {"$set": {"sira": "1"}})
 
 @bot.message_handler(commands=['start'])
 def start(message):
