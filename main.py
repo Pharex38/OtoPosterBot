@@ -410,7 +410,7 @@ def altakayit(message, smesaj, user, chat):
         collection.update_one({"_id": user}, {"$set": {"altsite": "None", "altapi": "None", "sablon": "1"}})
         bot.send_message(chat, "Alternatif kaldırıldı, artık postlarınız alternatif linksiz paylaşılacak.", reply_markup=dugme)
         return
-    collection.update_one({"_id": user}, {"$set": {"altsite": smesaj, "altapi": amesaj, "sablon": "9"}})
+    collection.update_one({"_id": user}, {"$set": {"altsite": smesaj, "altapi": amesaj}})
     msg = bot.send_message(chat, "✅ Alternatif kaydedildi\n\n<b>Alternatif Nasıl Kullanılsın.\n\n No:1</b>\n <i>Aynı post iki link</i> \n\n<b>No:2</b>\n <i>Bir post birinci servis, bir post alternatif servis.</i>\n\n<b>İstediğiniz sistemin numarasını gönderin.</b>")
     bot.register_next_step_handler(msg, sirasistem)
 
@@ -608,6 +608,8 @@ def sirasistem(message):
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
         return
     sistem = str(message.text)
+    if sistem == "1":
+        collection.update_one({"_id": user}, {"$set": {"sablon": "9"}})
     collection.update_one({"_id": user}, {"$set": {"sira": sistem}})
     bot.send_message(chat, "✅ Alternatif Kaydedildi", reply_markup=dugme)
 
