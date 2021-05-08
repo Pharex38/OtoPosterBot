@@ -148,6 +148,8 @@ def menu(message):
         return
     if mesaj == "📏 Şablon":
         mj = collection.find_one({"_id": user})
+        if mj == None:
+            bot.send_message(chat, "Lütfen önce bir API kaydedin.")
         if mj['sira'] != "1":
             bot.send_message(chat, """<b>Şablon No:1</b>
     ----------------
