@@ -280,6 +280,9 @@ def menu(message):
         if mj == None:
             bot.send_message(chat, "Lütfen önce bir API kaydedin.")
             return
+        if len(mj['kanal']) < 1:
+            bot.send_message(chat, "Lütfen önce bir kanal kaydedin.")
+            return
         msg = bot.send_message(chat, "Paylaşmamı istediğin hazır postu ilet.", reply_markup=imark)
         bot.register_next_step_handler(msg, pat)
         return
