@@ -1000,12 +1000,12 @@ bot.load_next_step_handlers()
 
 def gunluk():
     bot.polling(none_stop=False, interval=0)
-    while True:
+    while 0 < 1:
         zaman = datetime.datetime.now()
+        print(zaman.minute)
         if zaman.hour == 10 and zaman.minute == 29:
             print("saat 13:10 oldu")
         time.sleep(1)
-        print(zaman.minute)
     print("Zamanı değil")
    
 gunluk()
