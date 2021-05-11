@@ -52,7 +52,7 @@ amark.add(batinbir, batiniki)
 zaman = datetime.datetime.now()
 saat = zaman.hour 
 dakika = zaman.minute
-print(f"Saat: {saat}:{dakika}"
+print(f"Saat: {saat}:{dakika}")
 
 
 @bot.message_handler(commands=['start'])
