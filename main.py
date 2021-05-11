@@ -1005,6 +1005,7 @@ def gunluk():
         if zaman.hour == 10 and zaman.minute == 29:
             print("saat 13:10 oldu")
         time.sleep(1)
+        print(zaman.minute)
     print("Zamanı değil")
    
 gunluk()
