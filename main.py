@@ -594,13 +594,13 @@ def pat(message):
     bot.register_next_step_handler(msg, patiki, psablon, pathesap, fid, ptip)
 
 def patiki(message, psablon, pathesap, fid, ptip):
-    pmesaj = int(message.text) - 1
-    pkan = pathesap['kanal'][pmesaj]
     chat = message.chat.id
-    if message.text == None:
-        return
     if message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi", reply_markup=dugme)
+    pmesaj = int(message.text) - 1
+    pkan = pathesap['kanal'][pmesaj]
+    if message.text == None:
+        return
     if pmesaj == -1:
         for pk in pathesap['kanal']:
             if ptip == "video":
