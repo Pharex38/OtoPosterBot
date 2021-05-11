@@ -57,7 +57,7 @@ print(type(dakika))
 print(f"Saat: {saat}:{dakika}")
 def gunluk():
     zaman = datetime.datetime.now()
-    if zaman.hour == 13 and zaman.minute == 10:
+    if zaman.hour == 10 and zaman.minute == 13:
         print("saat 13:10 oldu")
    
 
