@@ -55,14 +55,6 @@ saat = zaman.hour
 dakika = zaman.minute
 print(type(dakika))
 print(f"Saat: {saat}:{dakika}")
-def gunluk():
-    while True:
-        zaman = datetime.datetime.now()
-        if zaman.hour == 10 and zaman.minute == 22:
-            print("saat 13:10 oldu")
-        time.sleep(1)
-    print("Zamanı değil")
-   
 
 @bot.message_handler(commands=['start'])
 def start(message):
@@ -1006,5 +998,13 @@ bot.load_next_step_handlers()
 zamanlayici = AsyncIOScheduler()
 zamanlayici.add_job(gunluk, "interval", minutes=1)
 
+def gunluk():
+    bot.polling(none_stop=False, interval=0)
+    while True:
+        zaman = datetime.datetime.now()
+        if zaman.hour == 10 and zaman.minute == 26:
+            print("saat 13:10 oldu")
+        time.sleep(1)
+    print("Zamanı değil")
+   
 gunluk()
-bot.polling(none_stop=False, interval=0)
