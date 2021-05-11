@@ -1007,5 +1007,5 @@ def gunluk():
         time.sleep(1)
     print("Zamanı değil")
    
-gunluk()
 bot.polling(none_stop=False, interval=0)
+gunluk()
