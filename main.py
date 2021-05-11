@@ -8,6 +8,7 @@ import telebot
 from telebot import types
 import time, datetime
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
+import threading
 
 
 botapi = environ['BOT_TOKEN'] 
@@ -1006,9 +1007,7 @@ def gunluk():
         time.sleep(1)
     print("Zamanı değil")
     
-zamanlayici = AsyncIOScheduler()
+timThr = threading.Thread(target=gunluk)
+timThr.start()
 
-zamanlayici.add_job(gunluk, "interval", minutes=1)
-
-zamanlayici.start()
 bot.polling(none_stop=False, interval=0)
