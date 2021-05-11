@@ -59,6 +59,7 @@ def gunluk():
     zaman = datetime.datetime.now()
     if zaman.hour == 10 and zaman.minute == 13:
         print("saat 13:10 oldu")
+    print("Zamanı değil")
    
 
 @bot.message_handler(commands=['start'])
