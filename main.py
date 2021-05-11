@@ -91,6 +91,24 @@ def start(message):
 👨🏻‍🔧 Fix & Eklentiler : @bberc</b>
 """.format(mention), disable_web_page_preview=True, reply_markup=dugme)
 
+@bot.message_handler(commands=['stats'])
+def stats(message):
+    kanals = 0
+    users = 0
+    chat = message.chat.id
+    user = message.from_user.id
+    if user != sahip:
+        bot.send_message(chat, "Sen benim sahibim değilsin!")
+        return
+    kullanicilar = collection.find({})
+    for kullanici in kullanicilar:
+        users += 1
+        for kul in kullanici['kanal']:
+            kanals += 1
+    bot.send_message(chat, "Toplam Kullanıcı Sayısı: {}\nToplam Kayıtlı Kanal Sayısı: {}".format(users, kanals)
+            
+            
+
 @bot.message_handler(commands=['sil'])
 def durdur(message):
     chat = message.chat.id
