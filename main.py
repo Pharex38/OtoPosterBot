@@ -58,7 +58,7 @@ print(f"Saat: {saat}:{dakika}")
 def gunluk():
     while True:
         zaman = datetime.datetime.now()
-        if zaman.hour == 10 and zaman.minute == 13:
+        if zaman.hour == 10 and zaman.minute == 22:
             print("saat 13:10 oldu")
         time.sleep(1)
     print("Zamanı değil")
