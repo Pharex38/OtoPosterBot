@@ -995,8 +995,7 @@ bot.enable_save_next_step_handlers(delay=4)
 
 bot.load_next_step_handlers()
 
-#zamanlayici = AsyncIOScheduler()
-#zamanlayici.add_job(gunluk, "interval", minutes=1)
+
 
 def gunluk():
     while 0 < 1:
@@ -1006,6 +1005,10 @@ def gunluk():
             print("saat 13:10 oldu")
         time.sleep(1)
     print("Zamanı değil")
-   
+    
+zamanlayici = AsyncIOScheduler()
+
+zamanlayici.add_job(gunluk, "interval", minutes=1)
+
+zamanlayici.start()
 bot.polling(none_stop=False, interval=0)
-gunluk()
