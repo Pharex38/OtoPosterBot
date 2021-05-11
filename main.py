@@ -62,6 +62,7 @@ def amark():
 def start(message):
     user = message.from_user.id
     chat = message.chat.id
+    butonbir = types.KeyboardButton('📝 Kaydet')
     if user in kara:
         bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
