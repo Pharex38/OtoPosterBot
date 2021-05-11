@@ -999,7 +999,6 @@ bot.load_next_step_handlers()
 #zamanlayici.add_job(gunluk, "interval", minutes=1)
 
 def gunluk():
-    bot.polling(none_stop=False, interval=0)
     while 0 < 1:
         zaman = datetime.datetime.now()
         print(zaman.minute)
@@ -1009,3 +1008,4 @@ def gunluk():
     print("Zamanı değil")
    
 gunluk()
+bot.polling(none_stop=False, interval=0)
