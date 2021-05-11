@@ -105,7 +105,7 @@ def stats(message):
         users += 1
         for kul in kullanici['kanal']:
             kanals += 1
-    bot.send_message(chat, "Toplam Kullanıcı Sayısı: {}\nToplam Kayıtlı Kanal Sayısı: {}".format(users, kanals)
+    bot.send_message(chat, "Toplam Kullanıcı Sayısı: {}\nToplam Kayıtlı Kanal Sayısı: {}".format(users, kanals))
 
 
 @bot.message_handler(commands=['sil'])
