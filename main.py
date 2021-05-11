@@ -1009,7 +1009,7 @@ def gunluk():
                 users += 1
                 for kul in kullanici['kanal']:
                     kanals += 1
-            bot.send_message(chat, "👥 Toplam Kullanıcı Sayısı: {}\n📢 Toplam Kayıtlı Kanal Sayısı: {}\n\nHer gün saat 22:00'da güncel veriler paylaşılacak.".format(users, kanals))
+            bot.send_message(botlog, "👥 Toplam Kullanıcı Sayısı: {}\n📢 Toplam Kayıtlı Kanal Sayısı: {}\n\nHer gün saat 22:00'da güncel veriler paylaşılacak.".format(users, kanals))
         time.sleep(60)
     
 timThr = threading.Thread(target=gunluk)
