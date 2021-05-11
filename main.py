@@ -597,6 +597,7 @@ def patiki(message, psablon, pathesap, fid, ptip):
     chat = message.chat.id
     if message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi", reply_markup=dugme)
+        return
     pmesaj = int(message.text) - 1
     pkan = pathesap['kanal'][pmesaj]
     if message.text == None:
