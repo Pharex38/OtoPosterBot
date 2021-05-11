@@ -1001,7 +1001,7 @@ bot.load_next_step_handlers()
 def gunluk():
     while 0 < 1:
         zaman = datetime.datetime.now()
-        if zaman.hour == 19 and zaman.minute == 28:
+        if zaman.hour == 19 and zaman.minute == 31:
             kanals = 0
             users = 0
             kullanicilar = collection.find({})
