@@ -7,6 +7,7 @@ from pymongo import MongoClient
 import telebot
 from telebot import types
 import time, datetime
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 
 botapi = environ['BOT_TOKEN'] 
@@ -52,8 +53,13 @@ amark.add(batinbir, batiniki)
 zaman = datetime.datetime.now()
 saat = zaman.hour 
 dakika = zaman.minute
+print(type(dakika))
 print(f"Saat: {saat}:{dakika}")
-
+def gunluk():
+    zaman = datetime.datetime.now()
+    if zaman.hour == 13 and zaman.minute == 10:
+        print("saat 13:10 oldu")
+   
 
 @bot.message_handler(commands=['start'])
 def start(message):
@@ -994,4 +1000,8 @@ bot.enable_save_next_step_handlers(delay=4)
 
 bot.load_next_step_handlers()
 
+zamanlayici = AsyncIOScheduler()
+zamanlayici.add_job(gunluk, "interval", minutes=1)
+
+zamanlayici.start()
 bot.polling(none_stop=False, interval=0)
