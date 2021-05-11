@@ -1001,7 +1001,7 @@ bot.load_next_step_handlers()
 def gunluk():
     while 0 < 1:
         zaman = datetime.datetime.now()
-        if zaman.hour == 19 and zaman.minute == 31:
+        if zaman.hour == 19 and zaman.minute == 0:
             kanals = 0
             users = 0
             kullanicilar = collection.find({})
@@ -1009,7 +1009,7 @@ def gunluk():
                 users += 1
                 for kul in kullanici['kanal']:
                     kanals += 1
-            bot.send_message(botlog, "👥 Toplam Kullanıcı Sayısı: {}\n📢 Toplam Kayıtlı Kanal Sayısı: {}\n\nHer gün saat 22:00'da güncel veriler paylaşılacak.".format(users, kanals))
+            bot.send_message(botlog, "👥 Toplam Kullanıcı Sayısı: {}\n📢 Toplam Kayıtlı Kanal Sayısı: {}\n\nHer gün saat 22:00'da otomatik olarak güncel veriler paylaşılacak.".format(users, kanals))
         time.sleep(60)
     
 timThr = threading.Thread(target=gunluk)
