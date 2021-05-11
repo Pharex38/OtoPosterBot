@@ -24,6 +24,7 @@ karaliste = collection.find_one({"_id": 0})
 kara = karaliste['kara']
 
 sahip = 1302980840
+botlog = -1001352123979
 markup = types.ForceReply(selective=False)
 
 dugme = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
@@ -770,7 +771,7 @@ def poster(message):
                 print("Başarılı!")
             else:
                 pass
-        bot.send_message(-1001352123979, "Link Mahzeni kanalından, {} Kanalda Post Paylaşıldı.".format(count))
+        bot.send_message(botlog, "Link Mahzeni kanalından, {} Kanalda Post Paylaşıldı.".format(count))
     elif chat == -1001122395785: #Bedava Link
         print(f"başlıyor ")
         bmesaj = message.caption
@@ -879,7 +880,7 @@ def poster(message):
                             print(f"{bkanal} kayıtlardan silindi.")
                     
                 print("Başarılı!")
-        bot.send_message(-1001352123979, "Bedava Link kaynağından, {} Kanalda Foto Post Paylaşıldı.".format(bcount))
+        bot.send_message(botlog, "Bedava Link kaynağından, {} Kanalda Post Paylaşıldı.".format(bcount))
     elif chat == -1001423365614 or chat == -1001190898326: #Link Evi
         print(f"başlıyor ")
         cmesaj = message.caption
@@ -989,7 +990,7 @@ def poster(message):
                             print(f"{ckanal} kayıtlardan silindi.")
 
                 print("Başarılı!")
-        bot.send_message(-1001352123979, "Link Evi kaynağından, {} Kanalda Post Paylaşıldı.".format(ccount))
+        bot.send_message(botlog, "Link Evi kaynağından, {} Kanalda Post Paylaşıldı.".format(ccount))
 
 
 bot.enable_save_next_step_handlers(delay=4)
@@ -1001,11 +1002,16 @@ bot.load_next_step_handlers()
 def gunluk():
     while 0 < 1:
         zaman = datetime.datetime.now()
-        print(zaman.minute)
-        if zaman.hour == 10 and zaman.minute == 58:
-            print("saat 13:10 oldu")
-        time.sleep(1)
-    print("Zamanı değil")
+        if zaman.hour == 19 and zaman.minute == 0:
+            kanals = 0
+            users = 0
+            kullanicilar = collection.find({})
+            for kullanici in kullanicilar:
+                users += 1
+                for kul in kullanici['kanal']:
+                    kanals += 1
+            bot.send_message(chat, "👥 Toplam Kullanıcı Sayısı: {}\n📢 Toplam Kayıtlı Kanal Sayısı: {}".format(users, kanals))
+        time.sleep(60)
     
 timThr = threading.Thread(target=gunluk)
 timThr.start()
