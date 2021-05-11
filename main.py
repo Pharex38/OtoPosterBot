@@ -1002,7 +1002,7 @@ def gunluk():
     while 0 < 1:
         zaman = datetime.datetime.now()
         print(zaman.minute)
-        if zaman.hour == 10 and zaman.minute == 29:
+        if zaman.hour == 10 and zaman.minute == 58:
             print("saat 13:10 oldu")
         time.sleep(1)
     print("Zamanı değil")
