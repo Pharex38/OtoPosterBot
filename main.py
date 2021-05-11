@@ -6,6 +6,8 @@ from time import sleep
 from pymongo import MongoClient
 import telebot
 from telebot import types
+import time, datetime
+
 
 botapi = environ['BOT_TOKEN'] 
 mongo = environ['MONGO']
@@ -46,6 +48,12 @@ imark.add(batinbir)
 amark = types.ReplyKeyboardMarkup(row_width=1, one_time_keyboard=True, resize_keyboard=True, selective=True)
 batiniki = types.KeyboardButton('⛔ Alternatif Kaldır')
 amark.add(batinbir, batiniki)
+
+zaman = datetime.datetime.now()
+saat = zaman.hour 
+dakika = zaman.minute
+print(f"Saat: {saat}:{dakika}"
+
 
 @bot.message_handler(commands=['start'])
 def start(message):
@@ -106,7 +114,6 @@ def stats(message):
         for kul in kullanici['kanal']:
             kanals += 1
     bot.send_message(chat, "Toplam Kullanıcı Sayısı: {}\nToplam Kayıtlı Kanal Sayısı: {}".format(users, kanals))
-
 
 @bot.message_handler(commands=['sil'])
 def durdur(message):
