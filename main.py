@@ -55,7 +55,6 @@ amark.add(batinbir, batiniki)
 zaman = datetime.datetime.now()
 saat = zaman.hour 
 dakika = zaman.minute
-print(type(dakika))
 print(f"Saat: {saat}:{dakika}")
 
 @bot.message_handler(commands=['start'])
@@ -604,7 +603,7 @@ def patiki(message, psablon, pathesap, fid, ptip):
         return
     if message.text == None:
         msg = bot.send_message(chat, "Lütfen geçerli bir numara girin.")
-        bot.register_next_step_handler(msg, patiki), psablon, pathesap, fid, ptip
+        bot.register_next_step_handler(msg, patiki, psablon, pathesap, fid, ptip)
         return
     if not message.text.isdigit():
         msg = bot.send_message(chat, "Lütfen geçerli bir numara girin.")
