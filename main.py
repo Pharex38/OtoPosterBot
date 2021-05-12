@@ -493,7 +493,6 @@ def apikayit(message):
 def kanalkayit(message):
     chat = message.chat.id
     user = message.from_user.id
-    tum_k = collection.find({})
     kanals = []
     if message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
@@ -504,9 +503,15 @@ def kanalkayit(message):
         return
     kanal = message.forward_from_chat.id
     kanals.append(str(kanal))
-    y = collection.find_one({"_id": user})
-    collection.update_one({"_id": user}, {"$push":{"kanal": str(kanal)}})
-    bot.reply_to(message,"<b>🟢Kanalınız Kaydedildi.</b>", reply_markup=dugme)
+    try:
+        bot.get_chat(kanal)
+    except:
+        msg = bot.send_message(chat, "Botu kanalınızda yönetici eklememişsiniz.")
+        bot.register_next_step_handler(msg, kanalkayit)
+    else:
+        y = collection.find_one({"_id": user})
+        collection.update_one({"_id": user}, {"$push":{"kanal": str(kanal)}})
+        bot.reply_to(message,"<b>🟢Kanalınız Kaydedildi.</b>", reply_markup=dugme)
 
 def pat(message):
     chat = message.chat.id
