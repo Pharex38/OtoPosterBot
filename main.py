@@ -604,11 +604,11 @@ def patiki(message, psablon, pathesap, fid, ptip):
         return
     if message.text == None:
         msg = bot.send_message(chat, "Lütfen geçerli bir numara girin.")
-        bot.register_next_step_handler(msg, patiki)
+        bot.register_next_step_handler(msg, patiki), psablon, pathesap, fid, ptip
         return
     if not message.text.isdigit():
         msg = bot.send_message(chat, "Lütfen geçerli bir numara girin.")
-        bot.register_next_step_handler(msg, patiki)
+        bot.register_next_step_handler(msg, patiki, psablon, pathesap, fid, ptip)
         return
     pmesaj = int(message.text) - 1
     pkan = pathesap['kanal'][pmesaj]
