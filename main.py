@@ -83,6 +83,9 @@ def start(message):
 
 <b>❤️ Geliştirici & Sahip : @Pharex
 👨🏻‍🔧 Fix & Eklentiler : @bberc</b>
+
+
+        <b>@OtoPosterBotLog</b>
 """.format(mention), disable_web_page_preview=True, reply_markup=dagme)
     else:
         bot.send_message(chat, """
