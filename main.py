@@ -510,6 +510,10 @@ def pat(message):
         msg = bot.send_message(chat, "Lütfen paylaşmamı istediğin postu at")
         bot.register_next_step_handler(msg, pat)
         return
+    if message.caption == None:
+        msg = bot.send_message(chat, "Lütfen paylaşmamı istediğin postu at")
+        bot.register_next_step_handler(msg, pat)
+        return
     mesaj = message.caption
     if message.content_type == "video":
         fid = message.video.file_id
