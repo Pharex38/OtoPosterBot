@@ -612,8 +612,6 @@ def patiki(message, psablon, pathesap, fid, ptip):
         return
     pmesaj = int(message.text) - 1
     pkan = pathesap['kanal'][pmesaj]
-    if message.text == None:
-        return
     if pmesaj == -1:
         for pk in pathesap['kanal']:
             if ptip == "video":
