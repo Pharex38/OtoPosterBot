@@ -120,6 +120,11 @@ def stats(message):
             kanals += 1
     bot.send_message(chat, "Toplam Kullanıcı Sayısı: {}\nToplam Kayıtlı Kanal Sayısı: {}".format(users, kanals))
 
+@bot.message_handler(commands=['onayla'])
+def ona(m):
+    cid = m.chat.id
+    bot.send_message(cid, "Bu komutu kanalınızda kullanmalısınız.")
+
 @bot.message_handler(commands=['sil'])
 def durdur(message):
     chat = message.chat.id
