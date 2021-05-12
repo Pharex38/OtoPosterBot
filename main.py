@@ -602,9 +602,10 @@ def patiki(message, psablon, pathesap, fid, ptip):
     if message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi", reply_markup=dugme)
         return
-    if message.text is None:
+    if message.text == None:
         msg = bot.send_message(chat, "Lütfen geçerli bir numara girin.")
         bot.register_next_step_handler(msg, patiki)
+        return
     if not message.text.isdigit():
         msg = bot.send_message(chat, "Lütfen geçerli bir numara girin.")
         bot.register_next_step_handler(msg, patiki)
