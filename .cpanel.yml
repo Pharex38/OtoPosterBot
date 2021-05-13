@@ -1,0 +1,5 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/pharexme/public_html/
+    - /bin/cp -R * $DEPLOYPATH
