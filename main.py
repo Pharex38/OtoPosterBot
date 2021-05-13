@@ -504,14 +504,18 @@ def kanalkayit(message):
     kanal = message.forward_from_chat.id
     kanals.append(str(kanal))
     try:
-        bot.get_chat(kanal)
+        kanalbilgi = bot.get_chat(kanal)
     except:
         msg = bot.send_message(chat, "Botu kanalınızda yönetici eklememişsiniz.")
         bot.register_next_step_handler(msg, kanalkayit)
-    else:
-        y = collection.find_one({"_id": user})
-        collection.update_one({"_id": user}, {"$push":{"kanal": str(kanal)}})
-        bot.reply_to(message,"<b>🟢Kanalınız Kaydedildi.</b>", reply_markup=dugme)
+        return
+    if kanalbilgi.description.find(message.from_user.username) == -1:
+        msx = bot.send_message(chat, "Kanalınızın açıklamasında kullanıcı adınız yazmak zorunda! \n\n(kanalı kaydettikten sonra eski haline çevirebilirsiniz.)")
+        bot.register_next_step_handler(msx, kanalkayit)
+        return
+    y = collection.find_one({"_id": user})
+    collection.update_one({"_id": user}, {"$push":{"kanal": str(kanal)}})
+    bot.reply_to(message,"<b>🟢Kanalınız Kaydedildi.</b>", reply_markup=dugme)
 
 def pat(message):
     chat = message.chat.id
