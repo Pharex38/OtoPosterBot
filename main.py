@@ -11,16 +11,17 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 import threading
 
 
-botapi = environ['BOT_TOKEN'] 
-mongo = environ['MONGO']
+#botapi = environ['BOT_TOKEN'] 
+mongo = "os.environ["MONGO_URI"]"
 
 cluster = MongoClient(mongo)
 db = cluster["OtoPost"]
 collection = db["Kanallar"]
+karaliste = collection.find_one({"_id": 0})
+botapi = karaliste['bottoken']
 bot = telebot.TeleBot(botapi,parse_mode='html')
 print("Başlıyor")
 
-karaliste = collection.find_one({"_id": 0})
 kara = karaliste['kara']
 
 sahip = 1302980840
@@ -1029,7 +1030,7 @@ bot.load_next_step_handlers()
 def gunluk():
     while 0 < 1:
         zaman = datetime.datetime.now()
-        if zaman.hour == 19 and zaman.minute == 0:
+        if zaman.hour == 11 and zaman.minute == 50:
             kanals = 0
             users = 0
             kullanicilar = collection.find({})
