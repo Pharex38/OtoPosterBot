@@ -58,15 +58,6 @@ saat = zaman.hour
 dakika = zaman.minute
 print(f"Saat: {saat}:{dakika}")
 
-losy = collection.find({})
-fot l in losy:
-    if l['kaynak'] == "0":
-        collection.update_one({"_id": l["_id"]}, {"$set": {"kaynak": ['1','2','3']}})
-    elif l['kaynak'] == "5":
-        collection.update_one({"_id": l["_id"]}, {"$set": {"kaynak": ['1','2']}})
-    else:
-        collection.update_one({"_id": l["_id"]}, {"$set": {"kaynak": l['kaynal'].split()}})
-        
 
 @bot.message_handler(commands=['start'])
 def start(message):
@@ -353,10 +344,6 @@ def kaynake(message):
     if message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
         return
-   """ if not ktext.isdigit():
-        msg = bot.send_message(chat, "Lütfen istediğiniz kaynağın numarasını gönderin.")
-        bot.register_next_step_handler(msg, kaynake)
-        return"""
     bnb = collection.find_one({"_id": user})
     if bnb == None:
         bot.send_message(chat, "Lütfen kaynak seçmeden önce Kaydet butonu ile bilgilerinizi kaydedin.", reply_markup=dugme)
