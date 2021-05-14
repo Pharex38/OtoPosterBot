@@ -58,6 +58,16 @@ saat = zaman.hour
 dakika = zaman.minute
 print(f"Saat: {saat}:{dakika}")
 
+losy = collection.find({})
+fot l in losy:
+    if l['kaynak'] == "0":
+        collection.update_one({"_id": l["_id"]}, {"$set": {"kaynak": ['1','2','3']}})
+    elif l['kaynak'] == "5":
+        collection.update_one({"_id": l["_id"]}, {"$set": {"kaynak": ['1','2']}})
+    else:
+        collection.update_one({"_id": l["_id"]}, {"$set": {"kaynak": l['kaynal'].split()}})
+        
+
 @bot.message_handler(commands=['start'])
 def start(message):
     user = message.from_user.id
