@@ -181,7 +181,8 @@ def menu(message):
     <b>Kaynak No:3</b>
     <a href="https://t.me/joinchat/VNbV7mqzwbA47wtT">Link Evi</a>
 
-<b>❗Hepsinden atsın fütursuzca kanalımı sikmek istiyorum diyorsan 0 yaz</b>
+<b>❗Birden fazla kaynak seçmek isterseniz  seçmek istediğiniz kaynakların numaralarının arasına virgül koyarak gönderi.
+Örnek: "1,2,3"</b>
     
     
     """, disable_web_page_preview=True, reply_markup=imark)
@@ -863,7 +864,7 @@ def poster(message):
                 if baltsite == "5":
                     balink = s.get(f"http://pubiza.com/api.php?token={baltapi}&url={bmesajb}&ads_type=adult").text
             sleep(2)
-            if bkaynak == "2" or bkaynak == "0" or bkaynak == "5":
+            if "2" in bkaynak or bkaynak == "2" or bkaynak == "0" or bkaynak == "5":
                 if bsite == "1":
                     bjson = s.get(f"https://ay.live/api/?api={btoken}&url={bmesajb}&alias=&ct=1", cookies=cookies).json()
                     blink = bjson['shortenedUrl']
@@ -972,7 +973,7 @@ def poster(message):
                 if caltsite == "5":
                     calink = s.get(f"http://pubiza.com/api.php?token={caltapi}&url={cmesajb}&ads_type=adult").text
             sleep(1)
-            if ckaynak == "3" or ckaynak == "0":
+            if "3" in ckaynak or ckaynak == "3" or ckaynak == "0":
                 if csite == "1":
                     bjson = s.get(f"https://ay.live/api/?api={ctoken}&url={cmesajb}&alias=&ct=1",
                                   cookies=cookies).json()
@@ -1027,11 +1028,6 @@ def poster(message):
 
                 print("Başarılı!")
         bot.send_message(botlog, "Link Evi kaynağından, {} Kanalda Post Paylaşıldı.".format(ccount))
-
-
-bot.enable_save_next_step_handlers(delay=4)
-
-bot.load_next_step_handlers()
 
 def gunluk():
     while 0 < 1:
