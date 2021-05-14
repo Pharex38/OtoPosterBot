@@ -334,6 +334,7 @@ def kaynake(message):
     ktext = message.text
     chat = message.chat.id
     user = message.from_user.id
+    ktext = ktext.split(",")
     if message.text == None:
         msg = bot.send_message(chat, "Lütfen istediğiniz kaynağın numarasını gönderin.")
         bot.register_next_step_handler(msg, kaynake)
@@ -341,10 +342,10 @@ def kaynake(message):
     if message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
         return
-    if not ktext.isdigit():
+   """ if not ktext.isdigit():
         msg = bot.send_message(chat, "Lütfen istediğiniz kaynağın numarasını gönderin.")
         bot.register_next_step_handler(msg, kaynake)
-        return
+        return"""
     bnb = collection.find_one({"_id": user})
     if bnb == None:
         bot.send_message(chat, "Lütfen kaynak seçmeden önce Kaydet butonu ile bilgilerinizi kaydedin.", reply_markup=dugme)
@@ -754,7 +755,7 @@ def poster(message):
                     alink = s.get(f"http://ouo.io/api/{altapi}?s={mesajb}").text
                 if altsite == "5":
                     alink = s.get(f"http://pubiza.com/api.php?token={altapi}&url={mesajb}&ads_type=adult").text
-            if kaynak == "1" or kaynak == "0" or kaynak == "5":
+            if "1" in kaynak or kaynak == "0" or kaynak == "5" or kaynak == "1":
                 if site == "1":
                     json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
                     link = json['shortenedUrl']
