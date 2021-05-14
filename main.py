@@ -181,7 +181,7 @@ def menu(message):
     <b>Kaynak No:3</b>
     <a href="https://t.me/joinchat/VNbV7mqzwbA47wtT">Link Evi</a>
 
-<b>❗Birden fazla kaynak seçmek isterseniz  seçmek istediğiniz kaynakların numaralarının arasına virgül koyarak gönderis.
+<b>❗Birden fazla kaynak seçmek isterseniz  seçmek istediğiniz kaynakların numaralarının arasına virgül koyarak gönderin.
 Örnek: "1,2,3"</b>
     
     
