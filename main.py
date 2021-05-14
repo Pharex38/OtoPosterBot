@@ -494,6 +494,7 @@ def apikayit(message):
 def kanalkayit(message):
     chat = message.chat.id
     user = message.from_user.id
+    y = collection.find_one({"_id": user})
     if message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
         return
@@ -502,6 +503,10 @@ def kanalkayit(message):
         bot.register_next_step_handler(msg, kanalkayit)
         return
     kanal = message.forward_from_chat.id
+    if str(kanal) in y['kanal']:
+        msl = bot.send_message(chat, "Bu kanalı zaten kaydetmişsiniz")
+        bot.register_next_step_handler(chat, kanalkayit)
+        return
     try:
         kanalbilgi = bot.get_chat(kanal)
     except:
@@ -509,14 +514,14 @@ def kanalkayit(message):
         bot.register_next_step_handler(msg, kanalkayit)
         return
     yetkiler = bot.get_chat_administrators(kanal)
-    print(yetkiler)
-    if kanalbilgi.description.find(message.from_user.username) == -1:
-        msx = bot.send_message(chat, "Kanalınızın açıklamasında kullanıcı adınız yazmak zorunda! \n\n(kanalı kaydettikten sonra eski haline çevirebilirsiniz.)")
-        bot.register_next_step_handler(msx, kanalkayit)
-        return
-    y = collection.find_one({"_id": user})
-    collection.update_one({"_id": user}, {"$push":{"kanal": str(kanal)}})
-    bot.reply_to(message,"<b>🟢Kanalınız Kaydedildi.</b>", reply_markup=dugme)
+    for y in yetkiler:
+        if y.user.id == user:
+            collection.update_one({"_id": user}, {"$push":{"kanal": str(kanal)}})
+            bot.reply_to(message,"<b>🟢Kanalınız Kaydedildi.</b>", reply_markup=dugme)
+            return
+            break
+    msz = bot.send_message(chat, "Bu kanal sizin değil 😠")
+    bot.register_next_step_handler(msz, kanalkayit)
 
 def pat(message):
     chat = message.chat.id
