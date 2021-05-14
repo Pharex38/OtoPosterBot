@@ -494,7 +494,6 @@ def apikayit(message):
 def kanalkayit(message):
     chat = message.chat.id
     user = message.from_user.id
-    kanals = []
     if message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
         return
@@ -503,13 +502,14 @@ def kanalkayit(message):
         bot.register_next_step_handler(msg, kanalkayit)
         return
     kanal = message.forward_from_chat.id
-    kanals.append(str(kanal))
     try:
         kanalbilgi = bot.get_chat(kanal)
     except:
         msg = bot.send_message(chat, "Botu kanalınızda yönetici eklememişsiniz.")
         bot.register_next_step_handler(msg, kanalkayit)
         return
+    yetkiler = bot.get_chat_administrators(kanal)
+    print(yetkiler)
     if kanalbilgi.description.find(message.from_user.username) == -1:
         msx = bot.send_message(chat, "Kanalınızın açıklamasında kullanıcı adınız yazmak zorunda! \n\n(kanalı kaydettikten sonra eski haline çevirebilirsiniz.)")
         bot.register_next_step_handler(msx, kanalkayit)
