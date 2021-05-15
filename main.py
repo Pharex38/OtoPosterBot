@@ -26,6 +26,7 @@ kara = karaliste['kara']
 
 sahip = 1302980840
 botlog = -1001352123979
+kaynaklar = [-1001368112299, -1001122395785, -1001423365614]
 markup = types.ForceReply(selective=False)
 
 dugme = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
@@ -168,25 +169,36 @@ def menu(message):
         bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
     if mesaj == "🔧 Kaynak":
+        mahzen = bot.get_chat(kaynaklar[0])
+        bedava = bot.get_chat(kaynaklar[1])
+        evi = bot.get_chat(kaynaklar[2])
+        bashub = bot.get_chat(kaynaklar[3])
+        acikmi = bot.get_chat(kaynaklar[4])
         if mj == None:
             bot.send_message(chat, "Lütfen önce bir API kaydedin.")
             return
         msg = bot.send_message(chat, """<b>Kullanmak istediğiniz kaynak kanalınının numarasını gönderin:
     
     Kaynak No:1</b>
-    <a href="https://t.me/joinchat/UYu8q0gBTUdUudDL">Link Mahzeni</a>
+    <a href="{}">Link Mahzeni</a>
     
     <b>Kaynak No:2</b>
-    <a href="https://t.me/joinchat/MhxcfKLh3aQ4OWU0">Bedava Link</a>
+    <a href="{}">Bedava Link</a>
     
     <b>Kaynak No:3</b>
-    <a href="https://t.me/joinchat/VNbV7mqzwbA47wtT">Link Evi</a>
+    <a href="{}">Link Evi</a>
+    
+    <b>Kaynak No:4</b>
+    <a href="{}">BAŞHUB</a>
+    
+    <b>Kaynak No:5</b>
+    <a href="{}">Açık mı link</a>
 
 <b>❗Birden fazla kaynak seçmek isterseniz  seçmek istediğiniz kaynakların numaralarının arasına virgül koyarak gönderin.
 Örnek: "1,2,3"</b>
     
     
-    """, disable_web_page_preview=True, reply_markup=imark)
+    """.format(mahzen.invite_link, bedava.invite_link, evi.invite_link, bashub.invite_link, acikmi.invite_link), disable_web_page_preview=True, reply_markup=imark)
         bot.register_next_step_handler(msg, kaynake)
         return
     if mesaj == "📏 Şablon":
@@ -693,6 +705,7 @@ def sirasistem(message):
     collection.update_one({"_id": user}, {"$set": {"sira": sistem}})
     bot.send_message(chat, "✅ Alternatif Kaydedildi", reply_markup=dugme)
 
+ksira = 0
 
 @bot.channel_post_handler(content_types=['photo', 'animation', 'video'])
 def poster(message):
@@ -700,7 +713,8 @@ def poster(message):
     bcount = 0
     ccount = 0
     chat = message.chat.id
-    if chat == -1001368112299: #Link Mahzeni
+    if chat in kaynaklar and ksira == 0:
+        ksira += 1
         print(f"başlıyor ")
         mesaj = message.caption
         """  Link tespit  """
@@ -806,7 +820,8 @@ def poster(message):
             else:
                 pass
         bot.send_message(botlog, "Link Mahzeni kanalından, {} Kanalda Post Paylaşıldı.".format(count))
-    elif chat == -1001122395785: #Bedava Link
+    elif chat in kaynaklar and ksira == 1:
+        ksira += 1
         print(f"başlıyor ")
         bmesaj = message.caption
         """ Link tespit """
@@ -915,8 +930,8 @@ def poster(message):
                     
                 print("Başarılı!")
         bot.send_message(botlog, "Bedava Link kaynağından, {} Kanalda Post Paylaşıldı.".format(bcount))
-    elif chat == -1001423365614 or chat == -1001190898326: #Link Evi
-        print(f"başlıyor ")
+    elif chat in kaynaklar and ksira == 2:
+        ksira -= 2
         cmesaj = message.caption
         """ Link tespit """
         csol = cmesaj.find("http")
