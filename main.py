@@ -753,7 +753,7 @@ def poster(message):
                     alink = s.get(f"http://ouo.io/api/{altapi}?s={mesajb}").text
                 if altsite == "5":
                     alink = s.get(f"http://pubiza.com/api.php?token={altapi}&url={mesajb}&ads_type=adult").text
-            if "1" in kaynak or kaynak == "0" or kaynak == "5" or kaynak == "1":
+            if "1" in kaynak:
                 if site == "1":
                     json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
                     link = json['shortenedUrl']
@@ -860,8 +860,8 @@ def poster(message):
                     balink = s.get(f"http://ouo.io/api/{baltapi}?s={bmesajb}").text
                 if baltsite == "5":
                     balink = s.get(f"http://pubiza.com/api.php?token={baltapi}&url={bmesajb}&ads_type=adult").text
-            sleep(2)
-            if "2" in bkaynak or bkaynak == "2" or bkaynak == "0" or bkaynak == "5":
+            sleep(1)
+            if "2" in bkaynak:
                 if bsite == "1":
                     bjson = s.get(f"https://ay.live/api/?api={btoken}&url={bmesajb}&alias=&ct=1", cookies=cookies).json()
                     blink = bjson['shortenedUrl']
@@ -970,7 +970,7 @@ def poster(message):
                 if caltsite == "5":
                     calink = s.get(f"http://pubiza.com/api.php?token={caltapi}&url={cmesajb}&ads_type=adult").text
             sleep(1)
-            if "3" in ckaynak or ckaynak == "3" or ckaynak == "0":
+            if "3" in ckaynak:
                 if csite == "1":
                     bjson = s.get(f"https://ay.live/api/?api={ctoken}&url={cmesajb}&alias=&ct=1",
                                   cookies=cookies).json()
