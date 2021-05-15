@@ -719,9 +719,8 @@ def poster(message):
     bcount = 0
     ccount = 0
     chat = message.chat.id
-    if chat in kaynaklar and ksira == 0:
-        ksira += 1
-        print(f"başlıyor ")
+    if chat in kaynaklar[0]:
+        print(f"Link Mahzeni postu atılıyor... ")
         mesaj = message.caption
         """  Link tespit  """
         sol = mesaj.find("http")
@@ -735,7 +734,6 @@ def poster(message):
         link = s.get("https://ay.live/api")
         cookies = dict(link.cookies)
         binb = collection.find({})
-        print(binb)
         """ Dosya tespit """
         if message.content_type == "photo":
             medya = message.photo[0].file_id
@@ -826,8 +824,7 @@ def poster(message):
             else:
                 pass
         bot.send_message(botlog, "Link Mahzeni kanalından, {} Kanalda Post Paylaşıldı.".format(count))
-    elif chat in kaynaklar and ksira == 1:
-        ksira += 1
+    elif chat == kaynaklar[1]:
         print(f"başlıyor ")
         bmesaj = message.caption
         """ Link tespit """
@@ -936,8 +933,7 @@ def poster(message):
                     
                 print("Başarılı!")
         bot.send_message(botlog, "Bedava Link kaynağından, {} Kanalda Post Paylaşıldı.".format(bcount))
-    elif chat in kaynaklar and ksira == 2:
-        ksira -= 2
+    elif chat == kaynaklar[2]:
         cmesaj = message.caption
         """ Link tespit """
         csol = cmesaj.find("http")
@@ -1046,6 +1042,225 @@ def poster(message):
 
                 print("Başarılı!")
         bot.send_message(botlog, "Link Evi kaynağından, {} Kanalda Post Paylaşıldı.".format(ccount))
+    elif chat == kaynaklar[3]:
+        cmesaj = message.caption
+        """ Link tespit """
+        csol = cmesaj.find("http")
+        csag = cmesaj.find("\n", csol)
+        cmesajb = cmesaj[csol:csag].strip()
+        """ Açıklama tespit """
+        cason = cmesaj.find("\n")
+        caciklama = cmesaj[:cason]
+        """    Cookies    """
+        s = requests.Session()
+        link = s.get("https://ay.live/api")
+        cookies = dict(link.cookies)
+        cbinb = collection.find({})
+        print(cbinb)
+        """ Dosya tespit """
+        if message.content_type == "photo":
+            cmedya = message.photo[0].file_id
+        if message.content_type == "animation":
+            cmedya = message.animation.file_id
+        if message.content_type == "video":
+            cmedya = message.video.file_id
+        for chesap in cbinb:
+            ckaynak = chesap['kaynak']
+            csablon = chesap['sablon']
+            csablon = str(csablon)
+            ctoken = chesap['token']
+            ckanal = chesap['kanal']
+            cuser = chesap['_id']
+            csite = chesap['site']
+            caltapi = chesap['altapi']
+            caltsite = chesap['altsite']
+            csira = chesap['sira']
+            if csira == "2":
+                ctoken = caltapi
+                csite = caltsite
+                collection.update_one({"_id": cuser}, {"$set": {"sira": "3"}})
+            if csira == "3":
+                collection.update_one({"_id": cuser}, {"$set": {"sira": "2"}})
+            if not caltapi == "None":
+                if caltsite == "1":
+                    cjson = s.get(f"https://ay.live/api/?api={caltapi}&url={cmesajb}&alias=&ct=1", cookies=cookies).json()
+                    calink = cjson['shortenedUrl']
+                if caltsite == "2":
+                    cjson = s.get(f"https://www.pnd.tl/api?api={caltapi}&url={cmesajb}&category=6").json()
+                    calink = cjson['shortenedUrl']
+                if caltsite == "3":
+                    cjson = s.get(f"https://exe.io/api?api={caltapi}&url={cmesajb}").json()
+                    calink = cjson['shortenedUrl']
+                if caltsite == "4":
+                    calink = s.get(f"http://ouo.io/api/{caltapi}?s={cmesajb}").text
+                if caltsite == "5":
+                    calink = s.get(f"http://pubiza.com/api.php?token={caltapi}&url={cmesajb}&ads_type=adult").text
+            sleep(1)
+            if "3" in ckaynak:
+                if csite == "1":
+                    bjson = s.get(f"https://ay.live/api/?api={ctoken}&url={cmesajb}&alias=&ct=1",
+                                  cookies=cookies).json()
+                    clink = bjson['shortenedUrl']
+                if csite == "2":
+                    bjson = s.get(f"https://www.pnd.tl/api?api={ctoken}&url={cmesajb}&category=6").json()
+                    clink = bjson['shortenedUrl']
+                if csite == "3":
+                    bjson = s.get(f"https://exe.io/api?api={ctoken}&url={cmesajb}").json()
+                    clink = bjson['shortenedUrl']
+                if csite == "4":
+                    clink = s.get(f"http://ouo.io/api/{ctoken}?s={cmesajb}").text
+                if csite == "5":
+                    clink = s.get(f"http://pubiza.com/api.php?token={ctoken}&url={cmesajb}&ads_type=adult").text
+                print(f"{ckanal} + {clink} + {ctoken}")
+                if csablon == "1":
+                    csablon = f"🔥{caciklama}\n\n🔱 TIKLA 👉 {clink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
+                elif csablon == "2" or csablon == "3":
+                    csablon = f"{caciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {clink}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
+                elif csablon == "9":
+                    csablon = f"{caciklama} \n\n𝙇𝙄𝙉𝙆🔗 {clink} \n\n     𝙇𝙄𝙉𝙆🔗 {calink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
+                elif csablon.find('{alink}') != -1:
+                    casol = csablon.split("{link}")
+                    caort = casol[1].split("{alink}")
+                    casal = casol[0].split("{aciklama}")
+                    csablon = f"{casal[0]}{caciklama}{casal[1]}{clink}{caort[0]}{calink}{caort[1]}"
+                    
+                else:
+                    csoll = csablon.split("{link}")
+                    csal = csoll[0].split("{aciklama}")
+
+                    csablon = f"{csal[0]}{caciklama}{csal[1]}{clink}{csoll[1]}"
+                sleep(1)
+                for ckan in ckanal:
+                    try:
+                        if message.content_type == "photo":
+                            bot.send_photo(ckan, cmedya, caption=csablon)
+                        if message.content_type == "video":
+                            bot.send_video(ckan, cmedya, caption=csablon)
+                        if message.content_type == "animation":
+                            bot.send_animation(ckan, cmedya, caption=csablon)
+                        ccount = ccount + 1
+                    except Exception as e:
+                        print(e)
+                        print(f"Hatalı kanal: {ckanal}")
+                        e = str(e)
+                        print(e)
+                        if e.find("bot is not a member") != -1:
+                            collection.update_one({"_id": cuser}, {"$pull": {"kanal": ckan}})
+                            bot.send_message(cuser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                            print(f"{ckanal} kayıtlardan silindi.")
+
+                print("Başarılı!")
+        bot.send_message(botlog, "BAŞHUB kaynağından, {} Kanalda Post Paylaşıldı.".format(dcount))
+    elif chat == kaynaklar[4]:
+        cmesaj = message.caption
+        """ Link tespit """
+        csol = cmesaj.find("http")
+        csag = cmesaj.find("\n", csol)
+        cmesajb = cmesaj[csol:csag].strip()
+        """ Açıklama tespit """
+        cason = cmesaj.find("\n")
+        caciklama = cmesaj[:cason]
+        """    Cookies    """
+        s = requests.Session()
+        link = s.get("https://ay.live/api")
+        cookies = dict(link.cookies)
+        cbinb = collection.find({})
+        print(cbinb)
+        """ Dosya tespit """
+        if message.content_type == "photo":
+            cmedya = message.photo[0].file_id
+        if message.content_type == "animation":
+            cmedya = message.animation.file_id
+        if message.content_type == "video":
+            cmedya = message.video.file_id
+        for chesap in cbinb:
+            ckaynak = chesap['kaynak']
+            csablon = chesap['sablon']
+            csablon = str(csablon)
+            ctoken = chesap['token']
+            ckanal = chesap['kanal']
+            cuser = chesap['_id']
+            csite = chesap['site']
+            caltapi = chesap['altapi']
+            caltsite = chesap['altsite']
+            csira = chesap['sira']
+            if csira == "2":
+                ctoken = caltapi
+                csite = caltsite
+                collection.update_one({"_id": cuser}, {"$set": {"sira": "3"}})
+            if csira == "3":
+                collection.update_one({"_id": cuser}, {"$set": {"sira": "2"}})
+            if not caltapi == "None":
+                if caltsite == "1":
+                    cjson = s.get(f"https://ay.live/api/?api={caltapi}&url={cmesajb}&alias=&ct=1", cookies=cookies).json()
+                    calink = cjson['shortenedUrl']
+                if caltsite == "2":
+                    cjson = s.get(f"https://www.pnd.tl/api?api={caltapi}&url={cmesajb}&category=6").json()
+                    calink = cjson['shortenedUrl']
+                if caltsite == "3":
+                    cjson = s.get(f"https://exe.io/api?api={caltapi}&url={cmesajb}").json()
+                    calink = cjson['shortenedUrl']
+                if caltsite == "4":
+                    calink = s.get(f"http://ouo.io/api/{caltapi}?s={cmesajb}").text
+                if caltsite == "5":
+                    calink = s.get(f"http://pubiza.com/api.php?token={caltapi}&url={cmesajb}&ads_type=adult").text
+            sleep(1)
+            if "3" in ckaynak:
+                if csite == "1":
+                    bjson = s.get(f"https://ay.live/api/?api={ctoken}&url={cmesajb}&alias=&ct=1",
+                                  cookies=cookies).json()
+                    clink = bjson['shortenedUrl']
+                if csite == "2":
+                    bjson = s.get(f"https://www.pnd.tl/api?api={ctoken}&url={cmesajb}&category=6").json()
+                    clink = bjson['shortenedUrl']
+                if csite == "3":
+                    bjson = s.get(f"https://exe.io/api?api={ctoken}&url={cmesajb}").json()
+                    clink = bjson['shortenedUrl']
+                if csite == "4":
+                    clink = s.get(f"http://ouo.io/api/{ctoken}?s={cmesajb}").text
+                if csite == "5":
+                    clink = s.get(f"http://pubiza.com/api.php?token={ctoken}&url={cmesajb}&ads_type=adult").text
+                print(f"{ckanal} + {clink} + {ctoken}")
+                if csablon == "1":
+                    csablon = f"🔥{caciklama}\n\n🔱 TIKLA 👉 {clink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
+                elif csablon == "2" or csablon == "3":
+                    csablon = f"{caciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {clink}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
+                elif csablon == "9":
+                    csablon = f"{caciklama} \n\n𝙇𝙄𝙉𝙆🔗 {clink} \n\n     𝙇𝙄𝙉𝙆🔗 {calink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
+                elif csablon.find('{alink}') != -1:
+                    casol = csablon.split("{link}")
+                    caort = casol[1].split("{alink}")
+                    casal = casol[0].split("{aciklama}")
+                    csablon = f"{casal[0]}{caciklama}{casal[1]}{clink}{caort[0]}{calink}{caort[1]}"
+                    
+                else:
+                    csoll = csablon.split("{link}")
+                    csal = csoll[0].split("{aciklama}")
+
+                    csablon = f"{csal[0]}{caciklama}{csal[1]}{clink}{csoll[1]}"
+                sleep(1)
+                for ckan in ckanal:
+                    try:
+                        if message.content_type == "photo":
+                            bot.send_photo(ckan, cmedya, caption=csablon)
+                        if message.content_type == "video":
+                            bot.send_video(ckan, cmedya, caption=csablon)
+                        if message.content_type == "animation":
+                            bot.send_animation(ckan, cmedya, caption=csablon)
+                        ccount = ccount + 1
+                    except Exception as e:
+                        print(e)
+                        print(f"Hatalı kanal: {ckanal}")
+                        e = str(e)
+                        print(e)
+                        if e.find("bot is not a member") != -1:
+                            collection.update_one({"_id": cuser}, {"$pull": {"kanal": ckan}})
+                            bot.send_message(cuser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                            print(f"{ckanal} kayıtlardan silindi.")
+
+                print("Başarılı!")
+        bot.send_message(botlog, "Açık mı link kaynağından, {} Kanalda Post Paylaşıldı.".format(ccount))
+
 
 def gunluk():
     while 0 < 1:
