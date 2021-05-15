@@ -26,7 +26,7 @@ kara = karaliste['kara']
 
 sahip = 1302980840
 botlog = -1001352123979
-kaynaklar = [-1001368112299, -1001122395785, -1001423365614]
+kaynaklar = [-1001368112299, -1001122395785, -1001423365614, -1001251394039, -1001405966343]
 markup = types.ForceReply(selective=False)
 
 dugme = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
@@ -494,8 +494,14 @@ def apikayit(message):
     if message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
         return
+    kontrol = requests.get("https://ay.live/api/?api={}&url=www.zort.com&format=text&alias=&ct=1".format(token)).text
+    print(kontrol)
+    if kontrol == None:
+        mso = bot.send_message(chat, "❌ Geçersiz bir API verdiniz! Lütfen doğru bir API adresi verin.")
+        bot.register_next_step_handler(mso, apikayit)
+        return
     bnb = collection.find_one({"_id": user})
-    key = {"_id": user, "token": token, "kanal": [], "sablon": "1", "kaynak": "1", "site": "1", "altapi": "None", "altsite": "None", "sira": "0"}
+    key = {"_id": user, "token": token, "kanal": [], "sablon": "1", "kaynak": ["1"], "site": "1", "altapi": "None", "altsite": "None", "sira": "0"}
     if bnb == None:
         collection.insert_one(key)
     else:
