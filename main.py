@@ -485,8 +485,8 @@ def apikayit(message):
     token = message.text
     mid = message.id
     user = message.from_user.id
-    mids = mid+1
     chat = message.chat.id
+    bnb = collection.find_one({"_id": user})
     if message.text == None:
         msg = bot.send_message(chat, "Lütfen geçerli bir API verin.")
         bot.register_next_step_handler(msg, apikayit)
@@ -494,13 +494,12 @@ def apikayit(message):
     if message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
         return
-    kontrol = requests.get("https://ay.live/api/?api={}&url=www.zort.com&format=text&alias=&ct=1".format(token)).text
-    print(kontrol)
-    if kontrol == None:
-        mso = bot.send_message(chat, "❌ Geçersiz bir API verdiniz! Lütfen doğru bir API adresi verin.")
-        bot.register_next_step_handler(mso, apikayit)
-        return
-    bnb = collection.find_one({"_id": user})
+    if bnb == None:
+        kontrol = requests.get("https://ay.live/api/?api={}&url=www.zort.com&format=text&alias=&ct=2".format(token)).text
+        if kontrol == "":
+            mso = bot.send_message(chat, "❌ Geçersiz bir API verdiniz! Lütfen doğru bir API adresi verin.")
+            bot.register_next_step_handler(mso, apikayit)
+            return
     key = {"_id": user, "token": token, "kanal": [], "sablon": "1", "kaynak": ["1"], "site": "1", "altapi": "None", "altsite": "None", "sira": "0"}
     if bnb == None:
         collection.insert_one(key)
@@ -718,14 +717,19 @@ def poster(message):
     count = 0
     bcount = 0
     ccount = 0
+    dcount = 0
+    ecount = 0
     chat = message.chat.id
-    if chat in kaynaklar[0]:
+    # Link Mahzeni
+    if chat == kaynaklar[0]:
         print(f"Link Mahzeni postu atılıyor... ")
         mesaj = message.caption
         """  Link tespit  """
         sol = mesaj.find("http")
         sag = mesaj.find("\n", sol)
         mesajb = mesaj[sol:sag].strip()
+        if mesajb.startswith("https://t.me/"):
+            return
         """  Açıklama tespit  """
         ason = mesaj.find("\n")
         aciklama = mesaj[:ason]
@@ -793,15 +797,9 @@ def poster(message):
                 elif sablon == "9":
                     sablon = f"{aciklama} \n\n𝙇𝙄𝙉𝙆🔗 {link} \n\n     𝙇𝙄𝙉𝙆🔗 {alink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
                 elif sablon.find('{alink}') != -1:
-                    asol = sablon.split("{link}")
-                    aort = asol[1].split("{alink}")
-                    asal = asol[0].split("{aciklama}")
-                    sablon = f"{asal[0]}{aciklama}{asal[1]}{link}{aort[0]}{alink}{aort[1]}"
-                    
+                    sablon = sablon.replace("aciklama", "").replace("link", "").replace("alink", "").format(aciklama, link, alink)
                 else:
-                    soll = sablon.split("{link}")
-                    sal = soll[0].split("{aciklama}")
-                    sablon = f"{sal[0]}{aciklama}{sal[1]}{link}{soll[1]}"
+                    sablon = sablon.replace("link", "").replace("aciklama", "").format(aciklama, link)
                 sleep(1)
                 for kan in kanal:
                     try:
@@ -823,14 +821,19 @@ def poster(message):
                 print("Başarılı!")
             else:
                 pass
-        bot.send_message(botlog, "Link Mahzeni kanalından, {} Kanalda Post Paylaşıldı.".format(count))
+        basari = "Link Mahzeni kanalından, {} Kanalda Post Paylaşıldı.".format(count)
+        print(basari)
+        bot.send_message(botlog, basari)
+    # Bedava Link
     elif chat == kaynaklar[1]:
-        print(f"başlıyor ")
+        print(f"Bedava Link postu atılıyor... ")
         bmesaj = message.caption
         """ Link tespit """
         bsol = bmesaj.find("http")
         bsag = bmesaj.find("\n", bsol)
         bmesajb = bmesaj[bsol:bsag].strip()
+        if bmesajb.startswith("https://t.me/"):
+            return
         """ Açıklama tespit """
         bason = bmesaj.find("\n")
         baciklama = bmesaj[:bason]
@@ -839,7 +842,6 @@ def poster(message):
         link = s.get("https://ay.live/api")
         cookies = dict(link.cookies)
         bbinb = collection.find({})
-        print(bbinb)
         """ Dosya tespit """
         if message.content_type == "photo":
             bmedya = message.photo[0].file_id
@@ -901,16 +903,9 @@ def poster(message):
                 elif bsablon == "9":
                     bsablon = f"{baciklama} \n\n𝙇𝙄𝙉𝙆🔗 {blink} \n\n     𝙇𝙄𝙉𝙆🔗 {balink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
                 elif bsablon.find('{alink}') != -1:
-                    basol = bsablon.split("{link}")
-                    baort = basol[1].split("{alink}")
-                    basal = basol[0].split("{aciklama}")
-                    bsablon = f"{basal[0]}{baciklama}{basal[1]}{blink}{baort[0]}{balink}{baort[1]}"
-                    
+                    bsablon = bsablon.replace("aciklama", "").replace("link", "").replace("alink", "").format(baciklama, blink, balink)
                 else:
-                    bsoll = bsablon.split("{link}")
-                    bsal = bsoll[0].split("{aciklama}")
-                    
-                    bsablon = f"{bsal[0]}{baciklama}{bsal[1]}{blink}{bsoll[1]}"
+                    bsablon = bsablon.replace("link", "").replace("aciklama", "").format(baciklama, blink)
                 sleep(1)
                 for bkan in bkanal:
                     try:
@@ -932,13 +927,19 @@ def poster(message):
                             print(f"{bkanal} kayıtlardan silindi.")
                     
                 print("Başarılı!")
-        bot.send_message(botlog, "Bedava Link kaynağından, {} Kanalda Post Paylaşıldı.".format(bcount))
+        bbasari = "Bedava Link kaynağından, {} Kanalda Post Paylaşıldı.".format(bcount)
+        priint(bbasari)
+        bot.send_message(botlog, bbasari)
+    # Link Evi
     elif chat == kaynaklar[2]:
+        print(f"Link Evi postu atılıyor... ")
         cmesaj = message.caption
         """ Link tespit """
         csol = cmesaj.find("http")
         csag = cmesaj.find("\n", csol)
         cmesajb = cmesaj[csol:csag].strip()
+        if cmesajb.startswith("https://t.me/"):
+            return
         """ Açıklama tespit """
         cason = cmesaj.find("\n")
         caciklama = cmesaj[:cason]
@@ -947,7 +948,6 @@ def poster(message):
         link = s.get("https://ay.live/api")
         cookies = dict(link.cookies)
         cbinb = collection.find({})
-        print(cbinb)
         """ Dosya tespit """
         if message.content_type == "photo":
             cmedya = message.photo[0].file_id
@@ -1010,16 +1010,9 @@ def poster(message):
                 elif csablon == "9":
                     csablon = f"{caciklama} \n\n𝙇𝙄𝙉𝙆🔗 {clink} \n\n     𝙇𝙄𝙉𝙆🔗 {calink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
                 elif csablon.find('{alink}') != -1:
-                    casol = csablon.split("{link}")
-                    caort = casol[1].split("{alink}")
-                    casal = casol[0].split("{aciklama}")
-                    csablon = f"{casal[0]}{caciklama}{casal[1]}{clink}{caort[0]}{calink}{caort[1]}"
-                    
+                    csablon = csablon.replace("aciklama", "").replace("link", "").replace("alink", "").format(caciklama, clink, calink)
                 else:
-                    csoll = csablon.split("{link}")
-                    csal = csoll[0].split("{aciklama}")
-
-                    csablon = f"{csal[0]}{caciklama}{csal[1]}{clink}{csoll[1]}"
+                    csablon = csablon.replace("link", "").replace("aciklama", "").format(caciklama, clink)
                 sleep(1)
                 for ckan in ckanal:
                     try:
@@ -1041,225 +1034,219 @@ def poster(message):
                             print(f"{ckanal} kayıtlardan silindi.")
 
                 print("Başarılı!")
-        bot.send_message(botlog, "Link Evi kaynağından, {} Kanalda Post Paylaşıldı.".format(ccount))
+        cbasari = "Link Evi kaynağından, {} Kanalda Post Paylaşıldı.".format(ccount)
+        print(cbasari)
+        bot.send_message(botlog, cbasari)
+    # BAŞHUB
     elif chat == kaynaklar[3]:
-        cmesaj = message.caption
+        print(f"BAŞHUB postu atılıyor... ")
+        dmesaj = message.caption
         """ Link tespit """
-        csol = cmesaj.find("http")
-        csag = cmesaj.find("\n", csol)
-        cmesajb = cmesaj[csol:csag].strip()
+        dsol = dmesaj.find("http")
+        dsag = dmesaj.find("\n", dsol)
+        dmesajb = dmesaj[dsol:dsag].strip()
+        if dmesajb.startswith("https://t.me/"):
+            return
         """ Açıklama tespit """
-        cason = cmesaj.find("\n")
-        caciklama = cmesaj[:cason]
+        dason = dmesaj.find("\n")
+        daciklama = dmesaj[:dason]
         """    Cookies    """
         s = requests.Session()
         link = s.get("https://ay.live/api")
         cookies = dict(link.cookies)
-        cbinb = collection.find({})
-        print(cbinb)
+        dbinb = collection.find({})
         """ Dosya tespit """
         if message.content_type == "photo":
-            cmedya = message.photo[0].file_id
+            dmedya = message.photo[0].file_id
         if message.content_type == "animation":
-            cmedya = message.animation.file_id
+            dmedya = message.animation.file_id
         if message.content_type == "video":
-            cmedya = message.video.file_id
-        for chesap in cbinb:
-            ckaynak = chesap['kaynak']
-            csablon = chesap['sablon']
-            csablon = str(csablon)
-            ctoken = chesap['token']
-            ckanal = chesap['kanal']
-            cuser = chesap['_id']
-            csite = chesap['site']
-            caltapi = chesap['altapi']
-            caltsite = chesap['altsite']
-            csira = chesap['sira']
-            if csira == "2":
-                ctoken = caltapi
-                csite = caltsite
-                collection.update_one({"_id": cuser}, {"$set": {"sira": "3"}})
-            if csira == "3":
-                collection.update_one({"_id": cuser}, {"$set": {"sira": "2"}})
-            if not caltapi == "None":
-                if caltsite == "1":
-                    cjson = s.get(f"https://ay.live/api/?api={caltapi}&url={cmesajb}&alias=&ct=1", cookies=cookies).json()
-                    calink = cjson['shortenedUrl']
-                if caltsite == "2":
-                    cjson = s.get(f"https://www.pnd.tl/api?api={caltapi}&url={cmesajb}&category=6").json()
-                    calink = cjson['shortenedUrl']
-                if caltsite == "3":
-                    cjson = s.get(f"https://exe.io/api?api={caltapi}&url={cmesajb}").json()
-                    calink = cjson['shortenedUrl']
-                if caltsite == "4":
-                    calink = s.get(f"http://ouo.io/api/{caltapi}?s={cmesajb}").text
-                if caltsite == "5":
-                    calink = s.get(f"http://pubiza.com/api.php?token={caltapi}&url={cmesajb}&ads_type=adult").text
+            dmedya = message.video.file_id
+        for dhesap in dbinb:
+            dkaynak = dhesap['kaynak']
+            dsablon = dhesap['sablon']
+            dsablon = str(dsablon)
+            dtoken = dhesap['token']
+            dkanal = dhesap['kanal']
+            duser = dhesap['_id']
+            dsite = dhesap['site']
+            daltapi = dhesap['altapi']
+            daltsite = dhesap['altsite']
+            dsira = dhesap['sira']
+            if dsira == "2":
+                dtoken = daltapi
+                dsite = daltsite
+                collection.update_one({"_id": duser}, {"$set": {"sira": "3"}})
+            if dsira == "3":
+                collection.update_one({"_id": duser}, {"$set": {"sira": "2"}})
+            if not daltapi == "None":
+                if daltsite == "1":
+                    djson = s.get(f"https://ay.live/api/?api={daltapi}&url={dmesajb}&alias=&ct=1", cookies=cookies).json()
+                    dalink = djson['shortenedUrl']
+                if daltsite == "2":
+                    djson = s.get(f"https://www.pnd.tl/api?api={daltapi}&url={dmesajb}&category=6").json()
+                    dalink = djson['shortenedUrl']
+                if daltsite == "3":
+                    djson = s.get(f"https://exe.io/api?api={daltapi}&url={dmesajb}").json()
+                    dalink = djson['shortenedUrl']
+                if daltsite == "4":
+                    dalink = s.get(f"http://ouo.io/api/{daltapi}?s={dmesajb}").text
+                if daltsite == "5":
+                    dalink = s.get(f"http://pubiza.com/api.php?token={daltapi}&url={dmesajb}&ads_type=adult").text
             sleep(1)
-            if "3" in ckaynak:
-                if csite == "1":
-                    bjson = s.get(f"https://ay.live/api/?api={ctoken}&url={cmesajb}&alias=&ct=1",
+            if "4" in dkaynak:
+                if dsite == "1":
+                    djson = s.get(f"https://ay.live/api/?api={dtoken}&url={dmesajb}&alias=&ct=1",
                                   cookies=cookies).json()
-                    clink = bjson['shortenedUrl']
-                if csite == "2":
-                    bjson = s.get(f"https://www.pnd.tl/api?api={ctoken}&url={cmesajb}&category=6").json()
-                    clink = bjson['shortenedUrl']
-                if csite == "3":
-                    bjson = s.get(f"https://exe.io/api?api={ctoken}&url={cmesajb}").json()
-                    clink = bjson['shortenedUrl']
-                if csite == "4":
-                    clink = s.get(f"http://ouo.io/api/{ctoken}?s={cmesajb}").text
-                if csite == "5":
-                    clink = s.get(f"http://pubiza.com/api.php?token={ctoken}&url={cmesajb}&ads_type=adult").text
-                print(f"{ckanal} + {clink} + {ctoken}")
-                if csablon == "1":
-                    csablon = f"🔥{caciklama}\n\n🔱 TIKLA 👉 {clink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
-                elif csablon == "2" or csablon == "3":
-                    csablon = f"{caciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {clink}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
-                elif csablon == "9":
-                    csablon = f"{caciklama} \n\n𝙇𝙄𝙉𝙆🔗 {clink} \n\n     𝙇𝙄𝙉𝙆🔗 {calink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
-                elif csablon.find('{alink}') != -1:
-                    casol = csablon.split("{link}")
-                    caort = casol[1].split("{alink}")
-                    casal = casol[0].split("{aciklama}")
-                    csablon = f"{casal[0]}{caciklama}{casal[1]}{clink}{caort[0]}{calink}{caort[1]}"
-                    
+                    dlink = djson['shortenedUrl']
+                if dsite == "2":
+                    djson = s.get(f"https://www.pnd.tl/api?api={dtoken}&url={dmesajb}&category=6").json()
+                    dlink = djson['shortenedUrl']
+                if dsite == "3":
+                    djson = s.get(f"https://exe.io/api?api={dtoken}&url={dmesajb}").json()
+                    dlink = djson['shortenedUrl']
+                if dsite == "4":
+                    dlink = s.get(f"http://ouo.io/api/{dtoken}?s={dmesajb}").text
+                if dsite == "5":
+                    dlink = s.get(f"http://pubiza.com/api.php?token={dtoken}&url={dmesajb}&ads_type=adult").text
+                print(f"{dkanal} + {dlink} + {dtoken}")
+                if dsablon == "1":
+                    dsablon = f"🔥{daciklama}\n\n🔱 TIKLA 👉 {dlink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
+                elif dsablon == "2" or dsablon == "3":
+                    dsablon = f"{daciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {dlink}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
+                elif dsablon == "9":
+                    dsablon = f"{daciklama} \n\n𝙇𝙄𝙉𝙆🔗 {dlink} \n\n     𝙇𝙄𝙉𝙆🔗 {dalink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
+                elif dsablon.find('{alink}') != -1:
+                    dsablon = dsablon.replace("aciklama", "").replace("link", "").replace("alink", "").format(daciklama, dlink, dalink)
                 else:
-                    csoll = csablon.split("{link}")
-                    csal = csoll[0].split("{aciklama}")
-
-                    csablon = f"{csal[0]}{caciklama}{csal[1]}{clink}{csoll[1]}"
+                    dsablon = dsablon.replace("link", "").replace("aciklama", "").format(daciklama, dlink)
                 sleep(1)
-                for ckan in ckanal:
+                for dkan in dkanal:
                     try:
                         if message.content_type == "photo":
-                            bot.send_photo(ckan, cmedya, caption=csablon)
+                            bot.send_photo(dkan, dmedya, caption=dsablon)
                         if message.content_type == "video":
-                            bot.send_video(ckan, cmedya, caption=csablon)
+                            bot.send_video(dkan, dmedya, caption=dsablon)
                         if message.content_type == "animation":
-                            bot.send_animation(ckan, cmedya, caption=csablon)
-                        ccount = ccount + 1
+                            bot.send_animation(dkan, dmedya, caption=dsablon)
+                        dcount = dcount + 1
                     except Exception as e:
-                        print(e)
-                        print(f"Hatalı kanal: {ckanal}")
+                        print(f"Hatalı kanal: {dkanal}")
                         e = str(e)
-                        print(e)
                         if e.find("bot is not a member") != -1:
-                            collection.update_one({"_id": cuser}, {"$pull": {"kanal": ckan}})
-                            bot.send_message(cuser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
-                            print(f"{ckanal} kayıtlardan silindi.")
+                            collection.update_one({"_id": duser}, {"$pull": {"kanal": dkan}})
+                            bot.send_message(duser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                            print(f"{dkanal} kayıtlardan silindi.")
 
                 print("Başarılı!")
-        bot.send_message(botlog, "BAŞHUB kaynağından, {} Kanalda Post Paylaşıldı.".format(dcount))
+        dbasari = "BAŞHUB kaynağından, {} Kanalda Post Paylaşıldı.".format(dcount)
+        print(dbasari)
+        bot.send_message(botlog, dbasari)
+    # Açık mı link
     elif chat == kaynaklar[4]:
-        cmesaj = message.caption
+        print(f"Açık mı link postu atılıyor... ")
+        emesaj = message.caption
         """ Link tespit """
-        csol = cmesaj.find("http")
-        csag = cmesaj.find("\n", csol)
-        cmesajb = cmesaj[csol:csag].strip()
+        esol = emesaj.find("http")
+        esag = emesaj.find("\n", esol)
+        emesajb = emesaj[esol:esag].strip()
+        if emesajb.startswith("https://t.me/"):
+            return
         """ Açıklama tespit """
-        cason = cmesaj.find("\n")
-        caciklama = cmesaj[:cason]
+        eason = emesaj.find("\n")
+        eaciklama = emesaj[:eason]
         """    Cookies    """
         s = requests.Session()
         link = s.get("https://ay.live/api")
         cookies = dict(link.cookies)
-        cbinb = collection.find({})
-        print(cbinb)
+        ebinb = collection.find({})
         """ Dosya tespit """
         if message.content_type == "photo":
-            cmedya = message.photo[0].file_id
+            emedya = message.photo[0].file_id
         if message.content_type == "animation":
-            cmedya = message.animation.file_id
+            emedya = message.animation.file_id
         if message.content_type == "video":
-            cmedya = message.video.file_id
-        for chesap in cbinb:
-            ckaynak = chesap['kaynak']
-            csablon = chesap['sablon']
-            csablon = str(csablon)
-            ctoken = chesap['token']
-            ckanal = chesap['kanal']
-            cuser = chesap['_id']
-            csite = chesap['site']
-            caltapi = chesap['altapi']
-            caltsite = chesap['altsite']
-            csira = chesap['sira']
-            if csira == "2":
-                ctoken = caltapi
-                csite = caltsite
-                collection.update_one({"_id": cuser}, {"$set": {"sira": "3"}})
-            if csira == "3":
-                collection.update_one({"_id": cuser}, {"$set": {"sira": "2"}})
-            if not caltapi == "None":
-                if caltsite == "1":
-                    cjson = s.get(f"https://ay.live/api/?api={caltapi}&url={cmesajb}&alias=&ct=1", cookies=cookies).json()
-                    calink = cjson['shortenedUrl']
-                if caltsite == "2":
-                    cjson = s.get(f"https://www.pnd.tl/api?api={caltapi}&url={cmesajb}&category=6").json()
-                    calink = cjson['shortenedUrl']
-                if caltsite == "3":
-                    cjson = s.get(f"https://exe.io/api?api={caltapi}&url={cmesajb}").json()
-                    calink = cjson['shortenedUrl']
-                if caltsite == "4":
-                    calink = s.get(f"http://ouo.io/api/{caltapi}?s={cmesajb}").text
-                if caltsite == "5":
-                    calink = s.get(f"http://pubiza.com/api.php?token={caltapi}&url={cmesajb}&ads_type=adult").text
+            emedya = message.video.file_id
+        for ehesap in ebinb:
+            ekaynak = ehesap['kaynak']
+            esablon = ehesap['sablon']
+            esablon = str(esablon)
+            etoken = ehesap['token']
+            ekanal = ehesap['kanal']
+            euser = ehesap['_id']
+            esite = ehesap['site']
+            ealtapi = ehesap['altapi']
+            ealtsite = ehesap['altsite']
+            esira = ehesap['sira']
+            if esira == "2":
+                etoken = ealtapi
+                esite = ealtsite
+                collection.update_one({"_id": euser}, {"$set": {"sira": "3"}})
+            if esira == "3":
+                collection.update_one({"_id": euser}, {"$set": {"sira": "2"}})
+            if not ealtapi == "None":
+                if ealtsite == "1":
+                    ejson = s.get(f"https://ay.live/api/?api={ealtapi}&url={emesajb}&alias=&ct=1", cookies=cookies).json()
+                    ealink = ejson['shortenedUrl']
+                if ealtsite == "2":
+                    ejson = s.get(f"https://www.pnd.tl/api?api={ealtapi}&url={emesajb}&category=6").json()
+                    ealink = ejson['shortenedUrl']
+                if ealtsite == "3":
+                    ejson = s.get(f"https://exe.io/api?api={ealtapi}&url={emesajb}").json()
+                    ealink = ejson['shortenedUrl']
+                if ealtsite == "4":
+                    ealink = s.get(f"http://ouo.io/api/{ealtapi}?s={emesajb}").text
+                if ealtsite == "5":
+                    ealink = s.get(f"http://pubiza.com/api.php?token={ealtapi}&url={emesajb}&ads_type=adult").text
             sleep(1)
-            if "3" in ckaynak:
-                if csite == "1":
-                    bjson = s.get(f"https://ay.live/api/?api={ctoken}&url={cmesajb}&alias=&ct=1",
+            if "5" in ekaynak:
+                if esite == "1":
+                    ejson = s.get(f"https://ay.live/api/?api={etoken}&url={emesajb}&alias=&ct=1",
                                   cookies=cookies).json()
-                    clink = bjson['shortenedUrl']
-                if csite == "2":
-                    bjson = s.get(f"https://www.pnd.tl/api?api={ctoken}&url={cmesajb}&category=6").json()
-                    clink = bjson['shortenedUrl']
-                if csite == "3":
-                    bjson = s.get(f"https://exe.io/api?api={ctoken}&url={cmesajb}").json()
-                    clink = bjson['shortenedUrl']
-                if csite == "4":
-                    clink = s.get(f"http://ouo.io/api/{ctoken}?s={cmesajb}").text
-                if csite == "5":
-                    clink = s.get(f"http://pubiza.com/api.php?token={ctoken}&url={cmesajb}&ads_type=adult").text
-                print(f"{ckanal} + {clink} + {ctoken}")
-                if csablon == "1":
-                    csablon = f"🔥{caciklama}\n\n🔱 TIKLA 👉 {clink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
-                elif csablon == "2" or csablon == "3":
-                    csablon = f"{caciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {clink}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
-                elif csablon == "9":
-                    csablon = f"{caciklama} \n\n𝙇𝙄𝙉𝙆🔗 {clink} \n\n     𝙇𝙄𝙉𝙆🔗 {calink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
-                elif csablon.find('{alink}') != -1:
-                    casol = csablon.split("{link}")
-                    caort = casol[1].split("{alink}")
-                    casal = casol[0].split("{aciklama}")
-                    csablon = f"{casal[0]}{caciklama}{casal[1]}{clink}{caort[0]}{calink}{caort[1]}"
-                    
+                    elink = ejson['shortenedUrl']
+                if esite == "2":
+                    ejson = s.get(f"https://www.pnd.tl/api?api={etoken}&url={emesajb}&category=6").json()
+                    elink = ejson['shortenedUrl']
+                if esite == "3":
+                    ejson = s.get(f"https://exe.io/api?api={etoken}&url={emesajb}").json()
+                    elink = ejson['shortenedUrl']
+                if esite == "4":
+                    elink = s.get(f"http://ouo.io/api/{etoken}?s={emesajb}").text
+                if esite == "5":
+                    elink = s.get(f"http://pubiza.com/api.php?token={etoken}&url={emesajb}&ads_type=adult").text
+                print(f"{ekanal} + {elink} + {etoken}")
+                if esablon == "1":
+                    esablon = f"🔥{eaciklama}\n\n🔱 TIKLA 👉 {elink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
+                elif esablon == "2" or esablon == "3":
+                    esablon = f"{eaciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {elink}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
+                elif esablon == "9":
+                    esablon = f"{eaciklama} \n\n𝙇𝙄𝙉𝙆🔗 {elink} \n\n     𝙇𝙄𝙉𝙆🔗 {ealink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
+                elif esablon.find('{alink}') != -1:
+                    esablon = esablon.replace("aciklama", "").replace("link", "").replace("alink", "").format(eaciklama, elink, ealink)
                 else:
-                    csoll = csablon.split("{link}")
-                    csal = csoll[0].split("{aciklama}")
-
-                    csablon = f"{csal[0]}{caciklama}{csal[1]}{clink}{csoll[1]}"
+                    esablon = esablon.replace("link", "").replace("aciklama", "").format(eaciklama, elink)
                 sleep(1)
-                for ckan in ckanal:
+                for ekan in ekanal:
                     try:
                         if message.content_type == "photo":
-                            bot.send_photo(ckan, cmedya, caption=csablon)
+                            bot.send_photo(ekan, emedya, caption=esablon)
                         if message.content_type == "video":
-                            bot.send_video(ckan, cmedya, caption=csablon)
+                            bot.send_video(ekan, emedya, caption=esablon)
                         if message.content_type == "animation":
-                            bot.send_animation(ckan, cmedya, caption=csablon)
-                        ccount = ccount + 1
+                            bot.send_animation(ekan, emedya, caption=esablon)
+                        ecount = ecount + 1
                     except Exception as e:
-                        print(e)
-                        print(f"Hatalı kanal: {ckanal}")
+                        print(f"Hatalı kanal: {ekanal}")
                         e = str(e)
-                        print(e)
                         if e.find("bot is not a member") != -1:
-                            collection.update_one({"_id": cuser}, {"$pull": {"kanal": ckan}})
-                            bot.send_message(cuser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
-                            print(f"{ckanal} kayıtlardan silindi.")
+                            collection.update_one({"_id": euser}, {"$pull": {"kanal": ekan}})
+                            bot.send_message(euser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                            print(f"{ekanal} kayıtlardan silindi.")
 
                 print("Başarılı!")
-        bot.send_message(botlog, "Açık mı link kaynağından, {} Kanalda Post Paylaşıldı.".format(ccount))
+        ebasari = "Açık mı link kaynağından, {} Kanalda Post Paylaşıldı.".format(ecount)
+        print(ebasari)
+        bot.send_message(botlog, ebasari)
 
 
 def gunluk():
