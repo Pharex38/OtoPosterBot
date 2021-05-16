@@ -186,7 +186,7 @@ def menu(message):
     <a href="{}">{}</a>
     
     <b>Kaynak No:2</b>
-    <a href="{}">()</a>
+    <a href="{}">{}</a>
     
     <b>Kaynak No:3</b>
     <a href="{}">{}</a>
