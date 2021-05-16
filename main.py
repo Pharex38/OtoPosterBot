@@ -638,7 +638,7 @@ def pat(message):
                     
                 
     else:
-        psablon = psablon.replace("aciklama", "").replace("link", "").format(paciklama, plink)
+        psablon = psablon.replace("aciklama", "").replace("{link}", "{}").format(paciklama, plink)
     pkanallar = pathesap['kanal']
     pcount = 0
     for pkan in pkanallar:
@@ -817,7 +817,7 @@ def poster(message):
                     asal = asol[0].split("{aciklama}")
                     sablon = f"{asal[0]}{aciklama}{asal[1]}{link}{aort[0]}{alink}{aort[1]}"
                 else:
-                    sablon = sablon.replace("aciklama", "").replace("link", "").format(aciklama, link)
+                    sablon = sablon.replace("aciklama", "").replace("{link}", "{}").format(aciklama, link)
                 sleep(1)
                 for kan in kanal:
                     try:
@@ -925,7 +925,7 @@ def poster(message):
                     basal = basol[0].split("{aciklama}")
                     bsablon = f"{basal[0]}{baciklama}{basal[1]}{blink}{baort[0]}{balink}{baort[1]}"
                 else:
-                    bsablon = bsablon.replace("aciklama", "").replace("link", "").format(baciklama, blink)
+                    bsablon = bsablon.replace("aciklama", "").replace("{link}", "{}").format(baciklama, blink)
                 sleep(1)
                 for bkan in bkanal:
                     try:
@@ -1036,7 +1036,7 @@ def poster(message):
                     csablon = f"{casal[0]}{caciklama}{casal[1]}{clink}{caort[0]}{calink}{caort[1]}"
                     
                 else:
-                    csablon = csablon.replace("link", "").replace("aciklama", "").format(caciklama, clink)
+                    csablon = csablon.replace("{link}", "{}").replace("aciklama", "").format(caciklama, clink)
                 sleep(1)
                 for ckan in ckanal:
                     try:
@@ -1146,7 +1146,7 @@ def poster(message):
                     dasal = dasol[0].split("{aciklama}")
                     dsablon = f"{dasal[0]}{daciklama}{dasal[1]}{dlink}{daort[0]}{dalink}{daort[1]}"
                 else:
-                    dsablon = dsablon.replace("link", "").replace("aciklama", "").format(daciklama, dlink)
+                    dsablon = dsablon.replace("{link}", "{}").replace("aciklama", "").format(daciklama, dlink)
                 sleep(1)
                 for dkan in dkanal:
                     try:
@@ -1254,7 +1254,7 @@ def poster(message):
                     easal = easol[0].split("{aciklama}")
                     esablon = f"{easal[0]}{eaciklama}{easal[1]}{elink}{eaort[0]}{ealink}{eaort[1]}"
                 else:
-                    esablon = esablon.replace("link", "").replace("aciklama", "").format(eaciklama, elink)
+                    esablon = esablon.replace("{link}", "{}").replace("aciklama", "").format(eaciklama, elink)
                 sleep(1)
                 for ekan in ekanal:
                     try:
