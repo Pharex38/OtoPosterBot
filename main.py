@@ -35,7 +35,9 @@ butoniki = types.KeyboardButton('🔧 Kaynak')
 butonuc = types.KeyboardButton('📏 Şablon')
 butondort = types.KeyboardButton('▶️ SFS Modu')
 butonbes = types.KeyboardButton('⛓️ Elle Post Paylaş')
+butonalti = types.KeyboardButton('🥰 Bağış')
 dugme.add(butonbir, butoniki, butonuc, butondort, butonbes)
+dugme.row(butonalti)
 
 markupp = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
 buton1 = types.KeyboardButton('🔶 Yeni Kanal Ekle')
@@ -327,6 +329,9 @@ def menu(message):
             collection.update_one({"_id": user}, {"$set": {"kaynak": "9"}})
             bot.send_message(chat, "Kanallarınız SFS moduna alındı. Siz modu kapatana kadar yeni post atılmayacak.", reply_markup=dugme)
             return
+    if mesaj == "🥰 Bağış":
+        bot.send_message(chat, "🥰Madem bu kadar çok istiyorsun. \n\n🏧Papara: <code>1666982412</code> \n🏦İninal: <code>4003140030544</code>")
+        return
     if mesaj == "⛓️ Elle Post Paylaş":
         if mj == None:
             bot.send_message(chat, "Lütfen önce bir API kaydedin.")
@@ -710,8 +715,6 @@ def sirasistem(message):
     collection.update_one({"_id": user}, {"$set": {"sira": sistem}})
     bot.send_message(chat, "✅ Alternatif Kaydedildi", reply_markup=dugme)
 
-ksira = 0
-
 @bot.channel_post_handler(content_types=['photo', 'animation', 'video'])
 def poster(message):
     count = 0
@@ -811,7 +814,6 @@ def poster(message):
                             bot.send_animation(kan, medya, caption=sablon)
                         count = count + 1
                     except Exception as e:
-                        print(e)
                         print(f"Hatalı kanal: {kanal}")
                         e = str(e)
                         if e.find("bot is not a member") != -1:
@@ -1267,4 +1269,4 @@ def gunluk():
 timThr = threading.Thread(target=gunluk)
 timThr.start()
 
-bot.polling(none_stop=False, interval=0)
+bot.polling(none_stop=True, interval=0)
