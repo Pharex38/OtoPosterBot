@@ -800,9 +800,12 @@ def poster(message):
                 elif sablon == "9":
                     sablon = f"{aciklama} \n\n𝙇𝙄𝙉𝙆🔗 {link} \n\n     𝙇𝙄𝙉𝙆🔗 {alink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
                 elif sablon.find('{alink}') != -1:
-                    sablon = sablon.replace("aciklama", "").replace("link", "").replace("alink", "").format(aciklama, link, alink)
+                    asol = sablon.split("{link}")
+                    aort = asol[1].split("{alink}")
+                    asal = asol[0].split("{aciklama}")
+                    sablon = f"{asal[0]}{aciklama}{asal[1]}{link}{aort[0]}{alink}{aort[1]}"
                 else:
-                    sablon = sablon.replace("link", "").replace("aciklama", "").format(aciklama, link)
+                    sablon = sablon.replace("aciklama", "").replace("link", "").format(aciklama, link)
                 sleep(1)
                 for kan in kanal:
                     try:
@@ -905,9 +908,12 @@ def poster(message):
                 elif bsablon == "9":
                     bsablon = f"{baciklama} \n\n𝙇𝙄𝙉𝙆🔗 {blink} \n\n     𝙇𝙄𝙉𝙆🔗 {balink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
                 elif bsablon.find('{alink}') != -1:
-                    bsablon = bsablon.replace("aciklama", "").replace("link", "").replace("alink", "").format(baciklama, blink, balink)
+                    basol = bsablon.split("{link}")
+                    baort = basol[1].split("{alink}")
+                    basal = basol[0].split("{aciklama}")
+                    bsablon = f"{basal[0]}{baciklama}{basal[1]}{blink}{baort[0]}{balink}{baort[1]}"
                 else:
-                    bsablon = bsablon.replace("link", "").replace("aciklama", "").format(baciklama, blink)
+                    bsablon = bsablon.replace("aciklama", "").replace("link", "").format(baciklama, blink)
                 sleep(1)
                 for bkan in bkanal:
                     try:
@@ -1012,7 +1018,11 @@ def poster(message):
                 elif csablon == "9":
                     csablon = f"{caciklama} \n\n𝙇𝙄𝙉𝙆🔗 {clink} \n\n     𝙇𝙄𝙉𝙆🔗 {calink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
                 elif csablon.find('{alink}') != -1:
-                    csablon = csablon.replace("aciklama", "").replace("link", "").replace("alink", "").format(caciklama, clink, calink)
+                    casol = csablon.split("{link}")
+                    caort = casol[1].split("{alink}")
+                    casal = casol[0].split("{aciklama}")
+                    csablon = f"{casal[0]}{caciklama}{casal[1]}{clink}{caort[0]}{calink}{caort[1]}"
+                    
                 else:
                     csablon = csablon.replace("link", "").replace("aciklama", "").format(caciklama, clink)
                 sleep(1)
@@ -1119,7 +1129,10 @@ def poster(message):
                 elif dsablon == "9":
                     dsablon = f"{daciklama} \n\n𝙇𝙄𝙉𝙆🔗 {dlink} \n\n     𝙇𝙄𝙉𝙆🔗 {dalink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
                 elif dsablon.find('{alink}') != -1:
-                    dsablon = dsablon.replace("aciklama", "").replace("link", "").replace("alink", "").format(daciklama, dlink, dalink)
+                    dasol = dsablon.split("{link}")
+                    daort = dasol[1].split("{alink}")
+                    dasal = dasol[0].split("{aciklama}")
+                    dsablon = f"{dasal[0]}{daciklama}{dasal[1]}{dlink}{daort[0]}{dalink}{daort[1]}"
                 else:
                     dsablon = dsablon.replace("link", "").replace("aciklama", "").format(daciklama, dlink)
                 sleep(1)
@@ -1224,7 +1237,10 @@ def poster(message):
                 elif esablon == "9":
                     esablon = f"{eaciklama} \n\n𝙇𝙄𝙉𝙆🔗 {elink} \n\n     𝙇𝙄𝙉𝙆🔗 {ealink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
                 elif esablon.find('{alink}') != -1:
-                    esablon = esablon.replace("aciklama", "").replace("link", "").replace("alink", "").format(eaciklama, elink, ealink)
+                    easol = esablon.split("{link}")
+                    eaort = easol[1].split("{alink}")
+                    easal = easol[0].split("{aciklama}")
+                    esablon = f"{easal[0]}{eaciklama}{easal[1]}{elink}{eaort[0]}{ealink}{eaort[1]}"
                 else:
                     esablon = esablon.replace("link", "").replace("aciklama", "").format(eaciklama, elink)
                 sleep(1)
