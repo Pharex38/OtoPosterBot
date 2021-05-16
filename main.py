@@ -942,7 +942,7 @@ def poster(message):
                     
                 print("Başarılı!")
         bbasari = "Bedava Link kaynağından, {} Kanalda Post Paylaşıldı.".format(bcount)
-        priint(bbasari)
+        print(bbasari)
         bot.send_message(botlog, bbasari)
     # Link Evi
     elif chat == kaynaklar[2]:
