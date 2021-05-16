@@ -26,7 +26,7 @@ kara = karaliste['kara']
 
 sahip = 1302980840
 botlog = -1001352123979
-kaynaklar = [-1001368112299, -1001122395785, -1001423365614, -1001251394039, -1001405966343]
+kaynaklar = [-1001368112299, -1001122395785, -1001423365614, -1001251394039, -1001405966343, -1001368008488]
 markup = types.ForceReply(selective=False)
 
 dugme = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
@@ -176,31 +176,35 @@ def menu(message):
         evi = bot.get_chat(kaynaklar[2])
         bashub = bot.get_chat(kaynaklar[3])
         acikmi = bot.get_chat(kaynaklar[4])
+        muho = bot.get_chat(kaynaklar[5])
         if mj == None:
             bot.send_message(chat, "Lütfen önce bir API kaydedin.")
             return
         msg = bot.send_message(chat, """<b>Kullanmak istediğiniz kaynak kanalınının numarasını gönderin:
     
     Kaynak No:1</b>
-    <a href="{}">Link Mahzeni</a>
+    <a href="{}">{}</a>
     
     <b>Kaynak No:2</b>
-    <a href="{}">Bedava Link</a>
+    <a href="{}">()</a>
     
     <b>Kaynak No:3</b>
-    <a href="{}">Link Evi</a>
+    <a href="{}">{}</a>
     
     <b>Kaynak No:4</b>
-    <a href="{}">BAŞHUB</a>
+    <a href="{}">{}</a>
     
     <b>Kaynak No:5</b>
-    <a href="{}">Açık mı link</a>
+    <a href="{}">{}</a>
+    
+    <b>Kaynak No:6</b>
+    <a href="{}">{}</a>
 
 <b>❗Birden fazla kaynak seçmek isterseniz  seçmek istediğiniz kaynakların numaralarının arasına virgül koyarak gönderin.
 Örnek: "1,2,3"</b>
     
     
-    """.format(mahzen.invite_link, bedava.invite_link, evi.invite_link, bashub.invite_link, acikmi.invite_link), disable_web_page_preview=True, reply_markup=imark)
+    """.format(mahzen.invite_link, mahzen.title, bedava.invite_link, bedava.title, evi.invite_link, evi.title, bashub.invite_link, bashub.title, acikmi.invite_link, acikmi.title, muho.invite_link, muho.title), disable_web_page_preview=True, reply_markup=imark)
         bot.register_next_step_handler(msg, kaynake)
         return
     if mesaj == "📏 Şablon":
@@ -524,6 +528,10 @@ def kanalkayit(message):
         bot.register_next_step_handler(msg, kanalkayit)
         return
     kanal = message.forward_from_chat.id
+    if kanal in kaynaklar:
+        mst = bot.send_message(chat, "Kaynak kanalını nasıl kaydedebilirim ki?")
+        bot.register_next_step_handler(mst, kanalkayit)
+        return
     if str(kanal) in y['kanal']:
         msl = bot.send_message(chat, "Bu kanalı zaten kaydetmişsiniz")
         bot.register_next_step_handler(chat, kanalkayit)
@@ -630,9 +638,7 @@ def pat(message):
                     
                 
     else:
-        psoll = psablon.split("{link}")
-        psal = psoll[0].split("{aciklama}")
-        psablon = f"{psal[0]}{paciklama}{psal[1]}{plink}{psoll[1]}"
+        psablon = psablon.replace("aciklama", "").replace("link", "").format(paciklama, plink)
     pkanallar = pathesap['kanal']
     pcount = 0
     for pkan in pkanallar:
