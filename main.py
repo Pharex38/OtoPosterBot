@@ -280,7 +280,7 @@ def menu(message):
         try:
             tokenn = bina['token']
         except:
-            msg = bot.send_message(chat, """📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=markup)
+            msg = bot.send_message(chat, """📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark)
             bot.register_next_step_handler(msg, apikayit)
             return
         else:
