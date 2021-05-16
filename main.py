@@ -26,7 +26,7 @@ kara = karaliste['kara']
 
 sahip = 1302980840
 botlog = -1001352123979
-kaynaklar = [-1001368112299, -1001122395785, -1001423365614, -1001251394039, -1001405966343, -1001368008488]
+kaynaklar = [-1001368112299, -1001122395785, -1001423365614, -1001251394039, -1001405966343, -1001368008488, -1001379893661]
 markup = types.ForceReply(selective=False)
 
 dugme = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
@@ -177,6 +177,7 @@ def menu(message):
         bashub = bot.get_chat(kaynaklar[3])
         acikmi = bot.get_chat(kaynaklar[4])
         muho = bot.get_chat(kaynaklar[5])
+        tutan = bot.get_chat(kaynaklar[6])
         if mj == None:
             bot.send_message(chat, "Lütfen önce bir API kaydedin.")
             return
@@ -199,12 +200,15 @@ def menu(message):
     
     <b>Kaynak No:6</b>
     <a href="{}">{}</a>
+    
+    <b>Kaynak No:7</b>
+    <a href="{}">{}</a>
 
 <b>❗Birden fazla kaynak seçmek isterseniz  seçmek istediğiniz kaynakların numaralarının arasına virgül koyarak gönderin.
 Örnek: "1,2,3"</b>
     
     
-    """.format(mahzen.invite_link, mahzen.title, bedava.invite_link, bedava.title, evi.invite_link, evi.title, bashub.invite_link, bashub.title, acikmi.invite_link, acikmi.title, muho.invite_link, muho.title), disable_web_page_preview=True, reply_markup=imark)
+    """.format(mahzen.invite_link, mahzen.title, bedava.invite_link, bedava.title, evi.invite_link, evi.title, bashub.invite_link, bashub.title, acikmi.invite_link, acikmi.title, muho.invite_link, muho.title, tutan.invite_link, tutan.title), disable_web_page_preview=True, reply_markup=imark)
         bot.register_next_step_handler(msg, kaynake)
         return
     if mesaj == "📏 Şablon":
@@ -378,10 +382,9 @@ def sabloniki(message):
     user = message.from_user.id
     bnb = collection.find_one({"_id": user})
     if message.text == None:
-        if mesaj.find("{link}") == -1 or mesaj.find("{aciklama}") == -1:
-            msg = bot.send_message(chat, """ ❌<i> Lütfen mesajınızda "{link}" ve "{aciklama}" bulunduğudan emin olun.</i> """)
-            bot.register_next_step_handler(msg, sabloniki)
-            return
+        msg = bot.send_message(chat, """ ❌<i> Lütfen mesajınızda "{link}" ve "{aciklama}" bulunduğudan emin olun.</i> """)
+        bot.register_next_step_handler(msg, sabloniki)
+        return
     if message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
         return
@@ -390,9 +393,21 @@ def sabloniki(message):
             msg = bot.send_message(chat, """ ❌<i> Lütfen mesajınızda "{link}", "{alink}" ve "{aciklama}" bulunduğudan emin olun.</i> """)
             bot.register_next_step_handler(msg, sabloniki)
             return
+        if mesaj.find("{link}") > mesaj.find("{alink}"):
+            msg = bot.send_message(chat, """ ❌<i> Şablonunuzda {link} kelimesi {alink}'ten önde olmak zorundadır</i> """)
+            bot.register_next_step_handler(msg, sabloniki)
+            return
     if not mesaj.isdigit():
         if mesaj.find("{link}") == -1 or mesaj.find("{aciklama}") == -1:
             msg = bot.send_message(chat, """ ❌<i> Lütfen mesajınızda "{link}" ve "{aciklama}" bulunduğudan emin olun.</i> """)
+            bot.register_next_step_handler(msg, sabloniki)
+            return
+        if mesaj.find("{link}") != mesa.rfind("{link}"):
+            msg = bot.send_message(chat, """ ❌<i> Lütfen mesajınızda bir tane "{link}" bulunduğudan emin olun.</i> """)
+            bot.register_next_step_handler(msg, sabloniki)
+            return
+        if mesaj.find("{aciklama}") != mesa.rfind("{aciklama}"):
+            msg = bot.send_message(chat, """ ❌<i> Lütfen mesajınızda bir tane "{aciklama}" bulunduğudan emin olun.</i> """)
             bot.register_next_step_handler(msg, sabloniki)
             return
     if bnb == None:
@@ -445,6 +460,12 @@ def ksil(message):
         return
     if message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
+        return
+    try:
+        int(message.text)
+    except:
+        msg = bot.send_message(chat, "Lütfen geçerli bir numara verin")
+        bot.register_next_step_handler(msg, ksil)
         return
     mesaj = int(message.text) - 1
     if not message.text.isdigit():
@@ -632,12 +653,7 @@ def pat(message):
     elif psablon == "9":
         psablon = f"{paciklama} \n\n𝙇𝙄𝙉𝙆🔗 {plink} \n\n     𝙇𝙄𝙉𝙆🔗 {palink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
     elif psablon.find('{alink}') != -1:
-                    pasol = psablon.split("{link}")
-                    paort = pasol[1].split("{alink}")
-                    pasal = pasol[0].split("{aciklama}")
-                    psablon = f"{pasal[0]}{paciklama}{pasal[1]}{plink}{paort[0]}{palink}{paort[1]}"
-                    
-                
+        psablon = psablon.replace("{aciklama}", "{}").replace("{link}", "{}").replace("{alink}", "{}").format(paciklama, plink, palink)
     else:
         psablon = psablon.replace("aciklama", "").replace("{link}", "{}").format(paciklama, plink)
     pkanallar = pathesap['kanal']
@@ -741,13 +757,17 @@ def poster(message):
     bashub = bot.get_chat(kaynaklar[3])
     acikmi = bot.get_chat(kaynaklar[4])
     muho = bot.get_chat(kaynaklar[5])
+    tutan = bot.get_chat(kaynaklar[6])
     chat = message.chat.id
     # Link Mahzeni
     if chat == kaynaklar[0]:
         print("{} postu atılıyor... ".format(mahzen.title))
         mesaj = message.caption
         """  Link tespit  """
+        solx = mesaj.rfind("http")
         sol = mesaj.find("http")
+        if sol != solx:
+            return
         sag = mesaj.find("\n", sol)
         mesajb = mesaj[sol:sag].strip()
         if mesajb.startswith("https://t.me/"):
@@ -819,6 +839,8 @@ def poster(message):
                 elif sablon == "9":
                     sablon = f"{aciklama} \n\n𝙇𝙄𝙉𝙆🔗 {link} \n\n     𝙇𝙄𝙉𝙆🔗 {alink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
                 elif sablon.find('{alink}') != -1:
+                    aort = [" ", " "]
+                    asal = [" ", " "]
                     asol = sablon.split("{link}")
                     aort = asol[1].split("{alink}")
                     asal = asol[0].split("{aciklama}")
@@ -853,8 +875,11 @@ def poster(message):
         print("{} postu atılıyor... ".format(bedava.title))
         bmesaj = message.caption
         """ Link tespit """
+        bsolx = bmesajb.rfind("http")
         bsol = bmesaj.find("http")
         bsag = bmesaj.find("\n", bsol)
+        if bsol != bsolx:
+            return
         bmesajb = bmesaj[bsol:bsag].strip()
         if bmesajb.startswith("https://t.me/"):
             return
@@ -927,12 +952,15 @@ def poster(message):
                 elif bsablon == "9":
                     bsablon = f"{baciklama} \n\n𝙇𝙄𝙉𝙆🔗 {blink} \n\n     𝙇𝙄𝙉𝙆🔗 {balink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
                 elif bsablon.find('{alink}') != -1:
+                    baort = [" ", " "]
+                    basal = [" ", " "]
                     basol = bsablon.split("{link}")
                     baort = basol[1].split("{alink}")
                     basal = basol[0].split("{aciklama}")
                     bsablon = f"{basal[0]}{baciklama}{basal[1]}{blink}{baort[0]}{balink}{baort[1]}"
                 else:
-                    bsablon = bsablon.replace("aciklama", "").replace("{link}", "{}").format(baciklama, blink)
+                    bsablon = bsablon.replace("aciklama", "").replace("{link}", "{}")
+                    bsablon = str(bsablon).format(baciklama, blink)
                 sleep(1)
                 for bkan in bkanal:
                     try:
@@ -962,7 +990,10 @@ def poster(message):
         print("{} postu atılıyor... ".format(evi.title))
         cmesaj = message.caption
         """ Link tespit """
+        csolx = cmesaj.rfind("http")
         csol = cmesaj.find("http")
+        if csol != csolx:
+            return
         csag = cmesaj.find("\n", csol)
         cmesajb = cmesaj[csol:csag].strip()
         if cmesajb.startswith("https://t.me/"):
@@ -1037,6 +1068,8 @@ def poster(message):
                 elif csablon == "9":
                     csablon = f"{caciklama} \n\n𝙇𝙄𝙉𝙆🔗 {clink} \n\n     𝙇𝙄𝙉𝙆🔗 {calink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
                 elif csablon.find('{alink}') != -1:
+                    caort = [" ", " "]
+                    casal = [" ", " "]
                     casol = csablon.split("{link}")
                     caort = casol[1].split("{alink}")
                     casal = casol[0].split("{aciklama}")
@@ -1073,7 +1106,10 @@ def poster(message):
         print("{} postu atılıyor... ".format(bashub.title))
         dmesaj = message.caption
         """ Link tespit """
+        dsolx = dmesaj.rfind("http")
         dsol = dmesaj.find("http")
+        if csol != csolx:
+            return
         dsag = dmesaj.find("\n", dsol)
         dmesajb = dmesaj[dsol:dsag].strip()
         if dmesajb.startswith("https://t.me/"):
@@ -1149,6 +1185,8 @@ def poster(message):
                 elif dsablon == "9":
                     dsablon = f"{daciklama} \n\n𝙇𝙄𝙉𝙆🔗 {dlink} \n\n     𝙇𝙄𝙉𝙆🔗 {dalink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
                 elif dsablon.find('{alink}') != -1:
+                    daort = [" ", " "]
+                    dasal = [" ", " "]
                     dasol = dsablon.split("{link}")
                     daort = dasol[1].split("{alink}")
                     dasal = dasol[0].split("{aciklama}")
@@ -1182,7 +1220,10 @@ def poster(message):
         print("{} postu atılıyor... ".format(acikmi.title))
         emesaj = message.caption
         """ Link tespit """
+        esolx = emesaj.rfind("http")
         esol = emesaj.find("http")
+        if esol != esolx:
+            return
         esag = emesaj.find("\n", esol)
         emesajb = emesaj[esol:esag].strip()
         if emesajb.startswith("https://t.me/"):
@@ -1257,6 +1298,8 @@ def poster(message):
                 elif esablon == "9":
                     esablon = f"{eaciklama} \n\n𝙇𝙄𝙉𝙆🔗 {elink} \n\n     𝙇𝙄𝙉𝙆🔗 {ealink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
                 elif esablon.find('{alink}') != -1:
+                    eaort = [" ", " "]
+                    easal = [" ", " "]
                     easol = esablon.split("{link}")
                     eaort = easol[1].split("{alink}")
                     easal = easol[0].split("{aciklama}")
@@ -1288,6 +1331,116 @@ def poster(message):
     # MuhoVip
     elif chat == kaynaklar[5]:
         pass
+    # Tutan Linkler
+    elif chat == kaynaklar[6]:
+        print("{} postu atılıyor... ".format(tutan.title))
+        fmesaj = message.caption
+        """ Link tespit """
+        fsol = fmesaj.find("http")
+        fsag = fmesaj.find("\n", fsol)
+        fmesajb = fmesaj[fsol:fsag].strip()
+        if fmesajb.startswith("https://t.me/"):
+            return
+        """ Açıklama tespit """
+        fason = fmesaj.find("\n")
+        faciklama = fmesaj[:fason]
+        """    Cookies    """
+        s = requests.Session()
+        link = s.get("https://ay.live/api")
+        cookies = dict(link.cookies)
+        fbinb = collection.find({})
+        """ Dosya tespit """
+        if message.content_type == "photo":
+            fmedya = message.photo[0].file_id
+        if message.content_type == "animation":
+            fmedya = message.animation.file_id
+        if message.content_type == "video":
+            fmedya = message.video.file_id
+        for fhesap in fbinb:
+            fkaynak = fhesap['kaynak']
+            fsablon = fhesap['sablon']
+            fsablon = str(fsablon)
+            ftoken = fhesap['token']
+            fkanal = fhesap['kanal']
+            fuser = fhesap['_id']
+            fsite = fhesap['site']
+            faltapi = fhesap['altapi']
+            faltsite = fhesap['altsite']
+            fsira = fhesap['sira']
+            if fsira == "2":
+                ftoken = faltapi
+                fsite = faltsite
+                collection.update_one({"_id": fuser}, {"$set": {"sira": "3"}})
+            if fsira == "3":
+                collection.update_one({"_id": fuser}, {"$set": {"sira": "2"}})
+            if not faltapi == "None":
+                if faltsite == "1":
+                    fjson = s.get(f"https://ay.live/api/?api={faltapi}&url={fmesajb}&alias=&ct=1", cookies=cookies).json()
+                    falink = fjson['shortenedUrl']
+                if faltsite == "2":
+                    fjson = s.get(f"https://www.pnd.tl/api?api={faltapi}&url={fmesajb}&category=6").json()
+                    falink = fjson['shortenedUrl']
+                if faltsite == "3":
+                    fjson = s.get(f"https://exe.io/api?api={faltapi}&url={fmesajb}").json()
+                    falink = fjson['shortenedUrl']
+                if faltsite == "4":
+                    falink = s.get(f"http://ouo.io/api/{faltapi}?s={fmesajb}").text
+                if faltsite == "5":
+                    falink = s.get(f"http://pubiza.com/api.php?token={faltapi}&url={fmesajb}&ads_type=adult").text
+            sleep(1)
+            if "2" in fkaynak:
+                if fsite == "1":
+                    fjson = s.get(f"https://ay.live/api/?api={ftoken}&url={fmesajb}&alias=&ct=1", cookies=cookies).json()
+                    flink = fjson['shortenedUrl']
+                if fsite == "2":
+                    fjson = s.get(f"https://www.pnd.tl/api?api={ftoken}&url={fmesajb}&category=6").json()
+                    flink = fjson['shortenedUrl']
+                if fsite == "3":
+                    fjson = s.get(f"https://exe.io/api?api={ftoken}&url={fmesajb}").json()
+                    flink = fjson['shortenedUrl']
+                if fsite == "4":
+                    flink = s.get(f"http://ouo.io/api/{ftoken}?s={fmesajb}").text
+                if fsite == "5":
+                    flink = s.get(f"http://pubiza.com/api.php?token={ftoken}&url={fmesajb}&ads_type=adult").text
+                print(f"{fkanal} + {flink} + {ftoken}")
+                if fsablon == "1":
+                    fsablon = f"🔥{faciklama}\n\n🔱 TIKLA 👉 {flink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
+                elif fsablon == "2" or fsablon == "3":
+                    fsablon = f"{faciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {flink}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
+                elif fsablon == "9":
+                    fsablon = f"{faciklama} \n\n𝙇𝙄𝙉𝙆🔗 {flink} \n\n     𝙇𝙄𝙉𝙆🔗 {falink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
+                elif fsablon.find('{alink}') != -1:
+                    faort = [" ", " "]
+                    fasal = [" ", " "]
+                    fasol = fsablon.split("{link}")
+                    faort = fasol[1].split("{alink}")
+                    fasal = fasol[0].split("{aciklama}")
+                    fsablon = f"{fasal[0]}{faciklama}{fasal[1]}{flink}{faort[0]}{falink}{faort[1]}"
+                else:
+                    fsablon = fsablon.replace("aciklama", "").replace("{link}", "{}")
+                    fsablon = str(fsablon).format(faciklama, flink)
+                sleep(1)
+                for fkan in fkanal:
+                    try:
+                        if message.content_type == "photo":
+                            bot.send_photo(fkan, fmedya, caption=fsablon)
+                        if message.content_type == "video":
+                            bot.send_video(fkan, fmedya, caption=fsablon)
+                        if message.content_type == "animation":
+                            bot.send_animation(fkan, fmedya, caption=fsablon)
+                        bcount = bcount + 1
+                    except Exception as e:
+                        print(e)
+                        print(f"Hatalı kanal: {fkanal}")
+                        e = str(e)
+                        print(e)
+                        if e.find("bot is not a member") != -1:
+                            collection.update_one({"_id": fuser}, {"$pull": {"kanal": fkan}})
+                            bot.send_message(fuser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                            print(f"{fkanal} kayıtlardan silindi.")
+                    
+                print("Başarılı!")
+        bfasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(tutan.title, bcount)
 
 
 def gunluk():
