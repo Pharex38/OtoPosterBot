@@ -1058,7 +1058,7 @@ def poster(message):
                             print(f"{ckanal} kayıtlardan silindi.")
 
                 print("Başarılı!")
-        cbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(ccount)
+        cbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(evi.title, ccount)
         print(evi.title, cbasari)
         bot.send_message(botlog, cbasari)
     # BAŞHUB
