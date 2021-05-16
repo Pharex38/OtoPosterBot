@@ -761,7 +761,6 @@ def poster(message):
     chat = message.chat.id
     # Link Mahzeni
     if chat == kaynaklar[0]:
-        print("{} postu atılıyor... ".format(mahzen.title))
         mesaj = message.caption
         """  Link tespit  """
         solx = mesaj.rfind("http")
@@ -772,6 +771,7 @@ def poster(message):
         mesajb = mesaj[sol:sag].strip()
         if mesajb.startswith("https://t.me/"):
             return
+        print("{} postu atılıyor... ".format(mahzen.title))
         """  Açıklama tespit  """
         ason = mesaj.find("\n")
         aciklama = mesaj[:ason]
@@ -872,7 +872,6 @@ def poster(message):
         bot.send_message(botlog, basari)
     # Bedava Link
     elif chat == kaynaklar[1]:
-        print("{} postu atılıyor... ".format(bedava.title))
         bmesaj = message.caption
         """ Link tespit """
         bsolx = bmesajb.rfind("http")
@@ -883,6 +882,7 @@ def poster(message):
         bmesajb = bmesaj[bsol:bsag].strip()
         if bmesajb.startswith("https://t.me/"):
             return
+        print("{} postu atılıyor... ".format(bedava.title))
         """ Açıklama tespit """
         bason = bmesaj.find("\n")
         baciklama = bmesaj[:bason]
@@ -987,7 +987,6 @@ def poster(message):
         bot.send_message(botlog, bbasari)
     # Link Evi
     elif chat == kaynaklar[2]:
-        print("{} postu atılıyor... ".format(evi.title))
         cmesaj = message.caption
         """ Link tespit """
         csolx = cmesaj.rfind("http")
@@ -998,6 +997,7 @@ def poster(message):
         cmesajb = cmesaj[csol:csag].strip()
         if cmesajb.startswith("https://t.me/"):
             return
+        print("{} postu atılıyor... ".format(evi.title))
         """ Açıklama tespit """
         cason = cmesaj.find("\n")
         caciklama = cmesaj[:cason]
@@ -1103,7 +1103,6 @@ def poster(message):
         bot.send_message(botlog, cbasari)
     # BAŞHUB
     elif chat == kaynaklar[3]:
-        print("{} postu atılıyor... ".format(bashub.title))
         dmesaj = message.caption
         """ Link tespit """
         dsolx = dmesaj.rfind("http")
@@ -1114,6 +1113,7 @@ def poster(message):
         dmesajb = dmesaj[dsol:dsag].strip()
         if dmesajb.startswith("https://t.me/"):
             return
+        print("{} postu atılıyor... ".format(bashub.title))
         """ Açıklama tespit """
         dason = dmesaj.find("\n")
         daciklama = dmesaj[:dason]
@@ -1217,7 +1217,6 @@ def poster(message):
         bot.send_message(botlog, dbasari)
     # Açık mı link
     elif chat == kaynaklar[4]:
-        print("{} postu atılıyor... ".format(acikmi.title))
         emesaj = message.caption
         """ Link tespit """
         esolx = emesaj.rfind("http")
@@ -1228,6 +1227,7 @@ def poster(message):
         emesajb = emesaj[esol:esag].strip()
         if emesajb.startswith("https://t.me/"):
             return
+        print("{} postu atılıyor... ".format(acikmi.title))
         """ Açıklama tespit """
         eason = emesaj.find("\n")
         eaciklama = emesaj[:eason]
@@ -1330,14 +1330,17 @@ def poster(message):
         bot.send_message(botlog, ebasari)
     # MuhoVip
     elif chat == kaynaklar[5]:
-        print("{} postu atılıyor... ".format(acikmi.title))
         emesaj = message.caption
         """ Link tespit """
+        esolx = emesaj.rfind("http")
         esol = emesaj.find("http")
+        if esol != esolx:
+            return
         esag = emesaj.find("\n", esol)
         emesajb = emesaj[esol:esag].strip()
         if emesajb.startswith("https://t.me/"):
             return
+        print("{} postu atılıyor... ".format(muho.title))
         """ Açıklama tespit """
         eason = emesaj.find("\n")
         eaciklama = emesaj[:eason]
@@ -1437,14 +1440,17 @@ def poster(message):
         print(ebasari)
     # Tutan Linkler
     elif chat == kaynaklar[6]:
-        print("{} postu atılıyor... ".format(tutan.title))
         fmesaj = message.caption
         """ Link tespit """
+        fsolx = fmesaj.rfind("http")
         fsol = fmesaj.find("http")
+        if fsol != fsolx:
+            return
         fsag = fmesaj.find("\n", fsol)
         fmesajb = fmesaj[fsol:fsag].strip()
         if fmesajb.startswith("https://t.me/"):
             return
+        print("{} postu atılıyor... ".format(tutan.title))
         """ Açıklama tespit """
         fason = fmesaj.find("\n")
         faciklama = fmesaj[:fason]
