@@ -486,6 +486,7 @@ def altakayit(message, smesaj, user, chat):
         collection.update_one({"_id": user}, {"$set": {"altsite": "None", "altapi": "None", "sablon": "1", "sira": "0"}})
         bot.send_message(chat, "Alternatif kaldırıldı, artık postlarınız alternatif linksiz paylaşılacak.", reply_markup=dugme)
         return
+    
     collection.update_one({"_id": user}, {"$set": {"altsite": smesaj, "altapi": amesaj}})
     msg = bot.send_message(chat, "✅ Alternatif kaydedildi\n\n<b>Alternatif Nasıl Kullanılsın.\n\n No:1</b>\n <i>Aynı post iki link</i> \n\n<b>No:2</b>\n <i>Bir post birinci servis, bir post alternatif servis.</i>\n\n<b>İstediğiniz sistemin numarasını gönderin.</b>")
     bot.register_next_step_handler(msg, sirasistem)
@@ -700,6 +701,7 @@ def sitekayit(message):
 def sirasistem(message):
     user = message.from_user.id
     chat = message.chat.id
+    atat = collection.find_one({"_id": user})
     if message.text == None:
         msg = bot.send_message(chat, "Lütfen doğru bir numara girin")
         bot.register_next_step_handler(msg, sitekayit)
@@ -709,6 +711,11 @@ def sirasistem(message):
         bot.register_next_step_handler(msg, sitekayit)
         return
     if message.text == "⛔ Alternatif Kaldır":
+        if atat['sira'] != "1":
+            collection.update_one({"_id": user}, {"$set": {"altsite": "None", "altapi": "None", "sira": "0"}})
+            bot.send_message(chat, "Alternatif kaldırıldı, artık postlarınız alternatif linksiz paylaşılacak.", reply_markup=dugme)
+            return
+            
         collection.update_one({"_id": user}, {"$set": {"altsite": "None", "altapi": "None", "sablon": "1", "sira": "0"}})
         bot.send_message(chat, "Alternatif kaldırıldı, artık postlarınız alternatif linksiz paylaşılacak.", reply_markup=dugme)
         return
@@ -1006,7 +1013,7 @@ def poster(message):
                     calink = s.get(f"http://ouo.io/api/{caltapi}?s={cmesajb}").text
                 if caltsite == "5":
                     calink = s.get(f"http://pubiza.com/api.php?token={caltapi}&url={cmesajb}&ads_type=adult").text
-            sleep(1)
+            sleep(0.5)
             if "3" in ckaynak:
                 if csite == "1":
                     bjson = s.get(f"https://ay.live/api/?api={ctoken}&url={cmesajb}&alias=&ct=1",
@@ -1079,6 +1086,7 @@ def poster(message):
         link = s.get("https://ay.live/api")
         cookies = dict(link.cookies)
         dbinb = collection.find({})
+        sleep(60)
         """ Dosya tespit """
         if message.content_type == "photo":
             dmedya = message.photo[0].file_id
@@ -1117,7 +1125,7 @@ def poster(message):
                     dalink = s.get(f"http://ouo.io/api/{daltapi}?s={dmesajb}").text
                 if daltsite == "5":
                     dalink = s.get(f"http://pubiza.com/api.php?token={daltapi}&url={dmesajb}&ads_type=adult").text
-            sleep(1)
+            sleep(0.5)
             if "4" in dkaynak:
                 if dsite == "1":
                     djson = s.get(f"https://ay.live/api/?api={dtoken}&url={dmesajb}&alias=&ct=1",
@@ -1147,7 +1155,7 @@ def poster(message):
                     dsablon = f"{dasal[0]}{daciklama}{dasal[1]}{dlink}{daort[0]}{dalink}{daort[1]}"
                 else:
                     dsablon = dsablon.replace("{link}", "{}").replace("aciklama", "").format(daciklama, dlink)
-                sleep(1)
+                sleep(0.5)
                 for dkan in dkanal:
                     try:
                         if message.content_type == "photo":
@@ -1187,6 +1195,7 @@ def poster(message):
         link = s.get("https://ay.live/api")
         cookies = dict(link.cookies)
         ebinb = collection.find({})
+        sleep(120)
         """ Dosya tespit """
         if message.content_type == "photo":
             emedya = message.photo[0].file_id
@@ -1225,7 +1234,6 @@ def poster(message):
                     ealink = s.get(f"http://ouo.io/api/{ealtapi}?s={emesajb}").text
                 if ealtsite == "5":
                     ealink = s.get(f"http://pubiza.com/api.php?token={ealtapi}&url={emesajb}&ads_type=adult").text
-            sleep(1)
             if "5" in ekaynak:
                 if esite == "1":
                     ejson = s.get(f"https://ay.live/api/?api={etoken}&url={emesajb}&alias=&ct=1",
@@ -1255,7 +1263,7 @@ def poster(message):
                     esablon = f"{easal[0]}{eaciklama}{easal[1]}{elink}{eaort[0]}{ealink}{eaort[1]}"
                 else:
                     esablon = esablon.replace("{link}", "{}").replace("aciklama", "").format(eaciklama, elink)
-                sleep(1)
+                sleep(0.5)
                 for ekan in ekanal:
                     try:
                         if message.content_type == "photo":
@@ -1277,12 +1285,15 @@ def poster(message):
         ebasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(acikmi.title, ecount)
         print(ebasari)
         bot.send_message(botlog, ebasari)
+    # MuhoVip
+    elif chat == kaynaklar[5]:
+        pass
 
 
 def gunluk():
     while 0 < 1:
         zaman = datetime.datetime.now()
-        if zaman.hour == 11 and zaman.minute == 50:
+        if zaman.hour == 11 and zaman.minute == 52:
             kanals = 0
             users = 0
             kullanicilar = collection.find({})
