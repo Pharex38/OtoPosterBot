@@ -728,10 +728,16 @@ def poster(message):
     ccount = 0
     dcount = 0
     ecount = 0
+    mahzen = bot.get_chat(kaynaklar[0])
+    bedava = bot.get_chat(kaynaklar[1])
+    evi = bot.get_chat(kaynaklar[2])
+    bashub = bot.get_chat(kaynaklar[3])
+    acikmi = bot.get_chat(kaynaklar[4])
+    muho = bot.get_chat(kaynaklar[5])
     chat = message.chat.id
     # Link Mahzeni
     if chat == kaynaklar[0]:
-        print(f"Link Mahzeni postu atılıyor... ")
+        print("{} postu atılıyor... ".format(mahzen.title))
         mesaj = message.caption
         """  Link tespit  """
         sol = mesaj.find("http")
@@ -832,12 +838,12 @@ def poster(message):
                 print("Başarılı!")
             else:
                 pass
-        basari = "Link Mahzeni kanalından, {} Kanalda Post Paylaşıldı.".format(count)
+        basari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(mahzen.title, count)
         print(basari)
         bot.send_message(botlog, basari)
     # Bedava Link
     elif chat == kaynaklar[1]:
-        print(f"Bedava Link postu atılıyor... ")
+        print("{} postu atılıyor... ".format(bedava.title))
         bmesaj = message.caption
         """ Link tespit """
         bsol = bmesaj.find("http")
@@ -941,12 +947,12 @@ def poster(message):
                             print(f"{bkanal} kayıtlardan silindi.")
                     
                 print("Başarılı!")
-        bbasari = "Bedava Link kaynağından, {} Kanalda Post Paylaşıldı.".format(bcount)
+        bbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(bedava.title, bcount)
         print(bbasari)
         bot.send_message(botlog, bbasari)
     # Link Evi
     elif chat == kaynaklar[2]:
-        print(f"Link Evi postu atılıyor... ")
+        print("{} postu atılıyor... ".format(evi.title))
         cmesaj = message.caption
         """ Link tespit """
         csol = cmesaj.find("http")
@@ -1052,12 +1058,12 @@ def poster(message):
                             print(f"{ckanal} kayıtlardan silindi.")
 
                 print("Başarılı!")
-        cbasari = "Link Evi kaynağından, {} Kanalda Post Paylaşıldı.".format(ccount)
-        print(cbasari)
+        cbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(ccount)
+        print(evi.title, cbasari)
         bot.send_message(botlog, cbasari)
     # BAŞHUB
     elif chat == kaynaklar[3]:
-        print(f"BAŞHUB postu atılıyor... ")
+        print("{} postu atılıyor... ".format(bashub.title))
         dmesaj = message.caption
         """ Link tespit """
         dsol = dmesaj.find("http")
@@ -1160,12 +1166,12 @@ def poster(message):
                             print(f"{dkanal} kayıtlardan silindi.")
 
                 print("Başarılı!")
-        dbasari = "BAŞHUB kaynağından, {} Kanalda Post Paylaşıldı.".format(dcount)
+        dbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(bashub.title, dcount)
         print(dbasari)
         bot.send_message(botlog, dbasari)
     # Açık mı link
     elif chat == kaynaklar[4]:
-        print(f"Açık mı link postu atılıyor... ")
+        print("{} postu atılıyor... ".format(acikmi.title))
         emesaj = message.caption
         """ Link tespit """
         esol = emesaj.find("http")
@@ -1268,7 +1274,7 @@ def poster(message):
                             print(f"{ekanal} kayıtlardan silindi.")
 
                 print("Başarılı!")
-        ebasari = "Açık mı link kaynağından, {} Kanalda Post Paylaşıldı.".format(ecount)
+        ebasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(acikmi.title, ecount)
         print(ebasari)
         bot.send_message(botlog, ebasari)
 
