@@ -361,6 +361,9 @@ def menu(message):
         
     kisi = collection.find_one({"_id": user})
     if kisi == None:
+        dagme = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
+        butonbir = types.KeyboardButton('📝 Kaydet')
+        dagme.add(butonbir)
         bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=dagme)
         return
     bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=dugme)
