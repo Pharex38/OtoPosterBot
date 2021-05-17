@@ -1097,7 +1097,7 @@ def poster(message):
 
                 print("Başarılı!")
         cbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(ckynk.title, ccount)
-        print(evi.title, cbasari)
+        print(ckynk.title, cbasari)
         bot.send_message(botlog, cbasari)
     # BAŞHUB
     elif chat == kaynaklar[3]:
@@ -1122,7 +1122,7 @@ def poster(message):
         link = s.get("https://ay.live/api")
         cookies = dict(link.cookies)
         dbinb = collection.find({})
-        sleep(60)
+        sleep(6)
         """ Dosya tespit """
         if message.content_type == "photo":
             dmedya = message.photo[0].file_id
@@ -1240,7 +1240,7 @@ def poster(message):
         link = s.get("https://ay.live/api")
         cookies = dict(link.cookies)
         ebinb = collection.find({})
-        sleep(120)
+        sleep(12)
         """ Dosya tespit """
         if message.content_type == "photo":
             emedya = message.photo[0].file_id
