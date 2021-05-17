@@ -760,6 +760,7 @@ def poster(message):
     ccount = 0
     dcount = 0
     ecount = 0
+    fcount = 0
     mahzen = bot.get_chat(kaynaklar[0])
     bedava = bot.get_chat(kaynaklar[1])
     evi = bot.get_chat(kaynaklar[2])
@@ -1545,20 +1546,19 @@ def poster(message):
                             bot.send_video(fkan, fmedya, caption=fsablon)
                         if message.content_type == "animation":
                             bot.send_animation(fkan, fmedya, caption=fsablon)
-                        bcount = bcount + 1
+                        fcount = fcount + 1
                     except Exception as e:
-                        print(e)
                         print(f"Hatalı kanal: {fkanal}")
                         e = str(e)
-                        print(e)
                         if e.find("bot is not a member") != -1:
                             collection.update_one({"_id": fuser}, {"$pull": {"kanal": fkan}})
                             bot.send_message(fuser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
                             print(f"{fkanal} kayıtlardan silindi.")
                     
                 print("Başarılı!")
-        bfasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(tutan.title, bcount)
-
+        fbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(tutan.title, fcount)
+        bot.send_message(botlog, fbasari)
+        print(fbasari)
 
 def gunluk():
     while 0 < 1:
