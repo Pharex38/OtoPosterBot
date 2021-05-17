@@ -61,17 +61,6 @@ saat = zaman.hour
 dakika = zaman.minute
 print(f"Saat: {saat}:{dakika}")
 
-duyuru = collection.find({})
-for d in duyuru:
-    bot.send_message(d['_id'], """🌹 Yeni Güncelleme!
-
-[❗] 4 Yeni kaynak eklendi.
-[❗] Alternatif sıralı sistemdeki sorun düzeltildi.
-[❗] Bağış butonu eklendi /start yazarak görebilirsiniz.
-[❗] Ve birkaç bug fixlendi.
-
-@OtoPosterBotLog""")
-
 @bot.message_handler(commands=['start'])
 def start(message):
     user = message.from_user.id
