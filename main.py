@@ -64,7 +64,7 @@ print(f"Saat: {saat}:{dakika}")
 duyuru = collection.find({})
 for d in duyuru:
     try:
-    bot.send_message(d['_id'], """🌹 Yeni Güncelleme!
+        bot.send_message(d['_id'], """🌹 Yeni Güncelleme!
 
 [❗] 4 Yeni kaynak eklendi.
 [❗] Alternatif sıralı sistemdeki sorun düzeltildi.
