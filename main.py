@@ -81,7 +81,7 @@ def start(message):
 <i>Bu bot sizin seçtiğiniz kaynak kanalında paylaşılan postların linklerini otomatik olarak kısaltıp sizin kanalınıza iletir.</i>
 
 ❔<b>Nasıl Kullanılır?</b>
-<i>1. Adım: Botu kanlınıza yönetici olarak ekleyin.
+<i>1. Adım: Botu kanalınıza yönetici olarak ekleyin.
 2. Adım: Kaydet butonunu kullanarak bilgilerinizi kaydedin.
 3. Adım: <b>KANALINIZDA</b> /onayla yazın.
 4. Adım: Keyfini çıkarın.</i>
@@ -100,7 +100,7 @@ def start(message):
 <i>Bu bot sizin seçtiğiniz kaynak kanalında paylaşılan postların linklerini otomatik olarak kısaltıp sizin kanalınıza iletir.</i>
 
 ❔<b>Nasıl Kullanılır?</b>
-<i>1. Adım: Botu kanlınıza yönetici olarak ekleyin.
+<i>1. Adım: Botu kanalınıza yönetici olarak ekleyin.
 2. Adım: Kaydet butonunu kullanarak bilgilerinizi kaydedin.
 3. Adım: <b>KANALINIZDA</b> /onayla yazın.
 4. Adım: Keyfini çıkarın.</i>
