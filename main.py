@@ -837,14 +837,17 @@ def poster(message):
                 elif sablon == "9":
                     sablon = f"{aciklama} \n\n𝙇𝙄𝙉𝙆🔗 {link} \n\n     𝙇𝙄𝙉𝙆🔗 {alink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
                 elif sablon.find('{alink}') != -1:
+                    """
                     aort = [" ", " "]
                     asal = [" ", " "]
                     asol = sablon.split("{link}")
                     aort = asol[1].split("{alink}")
                     asal = asol[0].split("{aciklama}")
                     sablon = f"{asal[0]}{aciklama}{asal[1]}{link}{aort[0]}{alink}{aort[1]}"
+                    """
+                    sablon = sablon.replace("{aciklama}", "{}").replace("{alink}", "{}").replace("{link}", "{}").format(aciklama, link, alink)
                 else:
-                    sablon = sablon.replace("aciklama", "").replace("{link}", "{}").format(aciklama, link)
+                    sablon = sablon.replace("{aciklama}", "{}").replace("{link}", "{}").format(aciklama, link)
                 sleep(1)
                 for kan in kanal:
                     try:
@@ -952,12 +955,16 @@ def poster(message):
                 elif bsablon == "9":
                     bsablon = f"{baciklama} \n\n𝙇𝙄𝙉𝙆🔗 {blink} \n\n     𝙇𝙄𝙉𝙆🔗 {balink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
                 elif bsablon.find('{alink}') != -1:
+                    """
                     baort = [" ", " "]
                     basal = [" ", " "]
                     basol = bsablon.split("{link}")
                     baort = basol[1].split("{alink}")
                     basal = basol[0].split("{aciklama}")
                     bsablon = f"{basal[0]}{baciklama}{basal[1]}{blink}{baort[0]}{balink}{baort[1]}"
+                    """
+                    bsablon = bsablon.replace("aciklama", "").replace("{alink}","{}").replace("{link}", "{}").format(baciklama, blink, balink)
+                    
                 else:
                     bsablon = bsablon.replace("aciklama", "").replace("{link}", "{}")
                     bsablon = str(bsablon).format(baciklama, blink)
@@ -1068,12 +1075,15 @@ def poster(message):
                 elif csablon == "9":
                     csablon = f"{caciklama} \n\n𝙇𝙄𝙉𝙆🔗 {clink} \n\n     𝙇𝙄𝙉𝙆🔗 {calink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
                 elif csablon.find('{alink}') != -1:
+                    """
                     caort = [" ", " "]
                     casal = [" ", " "]
                     casol = csablon.split("{link}")
                     caort = casol[1].split("{alink}")
                     casal = casol[0].split("{aciklama}")
                     csablon = f"{casal[0]}{caciklama}{casal[1]}{clink}{caort[0]}{calink}{caort[1]}"
+                    """
+                    csablon = csablon.replace("{link}", "{}").replace("{aciklama}", "{}").replace("{alink}","{}").format(caciklama, clink, calink)
                     
                 else:
                     csablon = csablon.replace("{link}", "{}").replace("aciklama", "").format(caciklama, clink)
@@ -1185,13 +1195,14 @@ def poster(message):
                 elif dsablon == "9":
                     dsablon = f"{daciklama} \n\n𝙇𝙄𝙉𝙆🔗 {dlink} \n\n     𝙇𝙄𝙉𝙆🔗 {dalink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
                 elif dsablon.find('{alink}') != -1:
-    #                daort = [" ", " "]
-  #                  dasal = [" ", " "]
-                 #   dasol = dsablon.split("{link}")
-    #                daort = dasol[1].split("{alink}")
-                #    dasal = dasol[0].split("{aciklama}")
-                   # dsablon = f"{dasal[0]}{daciklama}{dasal[1]}{dlink}{daort[0]}{dalink}{daort[1]}"
-                    
+                    """
+                    daort = [" ", " "]
+                    dasal = [" ", " "]
+                    dasol = dsablon.split("{link}")
+                    daort = dasol[1].split("{alink}")
+                    dasal = dasol[0].split("{aciklama}")
+                    dsablon = f"{dasal[0]}{daciklama}{dasal[1]}{dlink}{daort[0]}{dalink}{daort[1]}"
+                    """
                     dsablon = dsablon.replace("{link}", "{}").replace("{aciklama}", "{}").replace("{alink}", "{}").format(daciklama, dlink, dalink)
                 else:
                     dsablon = dsablon.replace("{link}", "{}").replace("{aciklama}", "{}").format(daciklama, dlink)
@@ -1302,12 +1313,15 @@ def poster(message):
                 elif esablon == "9":
                     esablon = f"{eaciklama} \n\n𝙇𝙄𝙉𝙆🔗 {elink} \n\n     𝙇𝙄𝙉𝙆🔗 {ealink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
                 elif esablon.find('{alink}') != -1:
+                    """
                     eaort = [" ", " "]
                     easal = [" ", " "]
                     easol = esablon.split("{link}")
                     eaort = easol[1].split("{alink}")
                     easal = easol[0].split("{aciklama}")
                     esablon = f"{easal[0]}{eaciklama}{easal[1]}{elink}{eaort[0]}{ealink}{eaort[1]}"
+                    """
+                    esablon = esablon.replace("{link}", "{}").replace("{aciklama}", "{}").replace("{alink}", "{}").format(eaciklama, elink, ealink)
                 else:
                     esablon = esablon.replace("{link}", "{}").replace("aciklama", "").format(eaciklama, elink)
                 sleep(0.5)
@@ -1355,7 +1369,7 @@ def poster(message):
         link = s.get("https://ay.live/api")
         cookies = dict(link.cookies)
         gbinb = collection.find({})
-        sleep(120)
+        sleep(12)
         """ Dosya tespit """
         if message.content_type == "photo":
             gmedya = message.photo[0].file_id
@@ -1417,10 +1431,13 @@ def poster(message):
                 elif gsablon == "9":
                     gsablon = f"{gaciklama} \n\n𝙇𝙄𝙉𝙆🔗 {glink} \n\n     𝙇𝙄𝙉𝙆🔗 {galink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
                 elif gsablon.find('{alink}') != -1:
+                    """
                     gasol = gsablon.split("{link}")
                     gaort = gasol[1].split("{alink}")
                     gasal = gasol[0].split("{aciklama}")
                     gsablon = f"{gasal[0]}{gaciklama}{gasal[1]}{glink}{gaort[0]}{galink}{gaort[1]}"
+                    """
+                    gsablon = gsablon.replace("{link}", "{}").replace("{aciklama}", "{}").replace("{alink}", "{}").format(gaciklama, glink, galink)
                 else:
                     gsablon = gsablon.replace("{link}", "{}").replace("aciklama", "").format(gaciklama, glink)
                 sleep(0.5)
@@ -1529,12 +1546,15 @@ def poster(message):
                 elif fsablon == "9":
                     fsablon = f"{faciklama} \n\n𝙇𝙄𝙉𝙆🔗 {flink} \n\n     𝙇𝙄𝙉𝙆🔗 {falink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
                 elif fsablon.find('{alink}') != -1:
+                    """
                     faort = [" ", " "]
                     fasal = [" ", " "]
                     fasol = fsablon.split("{link}")
                     faort = fasol[1].split("{alink}")
                     fasal = fasol[0].split("{aciklama}")
                     fsablon = f"{fasal[0]}{faciklama}{fasal[1]}{flink}{faort[0]}{falink}{faort[1]}"
+                    """
+                    fsablon = fsablon.replace("{aciklama}", "{}").replace("{alink}", "{}").replace("{link}", "{}").format(faciklama, flink, falink)
                 else:
                     fsablon = fsablon.replace("aciklama", "").replace("{link}", "{}")
                     fsablon = str(fsablon).format(faciklama, flink)
