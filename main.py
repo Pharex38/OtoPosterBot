@@ -827,7 +827,7 @@ def poster(message):
                     if altsite == "4":
                         alink = s.get(f"http://ouo.io/api/{altapi}?s={mesajb}").text
                     if altsite == "5":
-                    alink = s.get(f"http://pubiza.com/api.php?token={altapi}&url={mesajb}&ads_type=adult").text
+                        alink = s.get(f"http://pubiza.com/api.php?token={altapi}&url={mesajb}&ads_type=adult").text
                 if site == "1":
                     json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
                     link = json['shortenedUrl']
