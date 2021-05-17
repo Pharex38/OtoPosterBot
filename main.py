@@ -74,7 +74,7 @@ for d in duyuru:
 @OtoPosterBotLog""")
     except:
         pass
-    msg = bot.send_message(botlog, """🌹 Yeni Güncelleme!
+msg = bot.send_message(botlog, """🌹 Yeni Güncelleme!
 
 [❗] 4 Yeni kaynak eklendi.
 [❗] Alternatif sıralı sistemdeki sorun düzeltildi.
@@ -82,7 +82,7 @@ for d in duyuru:
 [❗] Ve birkaç bug fixlendi.
 
 @OtoPosterBotLog""")
-    bot.pin_chat_message(botlog, msg.message_id)
+bot.pin_chat_message(botlog, msg.message_id)
 
 @bot.message_handler(commands=['start'])
 def start(message):
