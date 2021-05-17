@@ -754,12 +754,6 @@ def sirasistem(message):
 
 @bot.channel_post_handler(content_types=['photo', 'animation', 'video'])
 def poster(message):
-    count = 0
-    bcount = 0
-    ccount = 0
-    dcount = 0
-    ecount = 0
-    fcount = 0
     mahzen = bot.get_chat(kaynaklar[0])
     bedava = bot.get_chat(kaynaklar[1])
     evi = bot.get_chat(kaynaklar[2])
@@ -770,6 +764,7 @@ def poster(message):
     chat = message.chat.id
     # Link Mahzeni
     if chat == kaynaklar[0]:
+        count = 0
         mesaj = message.caption
         """  Link tespit  """
         solx = mesaj.rfind("http")
@@ -881,6 +876,7 @@ def poster(message):
         bot.send_message(botlog, basari)
     # Bedava Link
     elif chat == kaynaklar[1]:
+        bcount = 0
         bmesaj = message.caption
         """ Link tespit """
         bsolx = bmesaj.rfind("http")
@@ -994,6 +990,7 @@ def poster(message):
         bot.send_message(botlog, bbasari)
     # Link Evi
     elif chat == kaynaklar[2]:
+        ccount = 0
         cmesaj = message.caption
         """ Link tespit """
         csolx = cmesaj.rfind("http")
@@ -1108,6 +1105,7 @@ def poster(message):
         bot.send_message(botlog, cbasari)
     # BAŞHUB
     elif chat == kaynaklar[3]:
+        dcount = 0
         dmesaj = message.caption
         """ Link tespit """
         dsolx = dmesaj.rfind("http")
@@ -1222,6 +1220,7 @@ def poster(message):
         bot.send_message(botlog, dbasari)
     # Açık mı link
     elif chat == kaynaklar[4]:
+        ecount = 0
         emesaj = message.caption
         """ Link tespit """
         esolx = emesaj.rfind("http")
@@ -1335,116 +1334,119 @@ def poster(message):
         bot.send_message(botlog, ebasari)
     # MuhoVip
     elif chat == kaynaklar[5]:
-        emesaj = message.caption
+        gcount = 0
+        gmesaj = message.caption
         """ Link tespit """
-        esolx = emesaj.rfind("http")
-        esol = emesaj.find("http")
-        if esol != esolx:
+        gsolx = gmesaj.rfind("http")
+        gsol = gmesaj.find("http")
+        if gsol != gsolx:
             return
-        esag = emesaj.find("\n", esol)
-        emesajb = emesaj[esol:esag].strip()
+        gsag = gmesaj.find("\n", gsol)
+        gmesajb = gmesaj[gsol:gsag].strip()
         if emesajb.startswith("https://t.me/"):
             return
         print("{} postu atılıyor... ".format(muho.title))
         """ Açıklama tespit """
-        eason = emesaj.find("\n")
-        eaciklama = emesaj[:eason]
+        gason = gmesaj.find("\n")
+        gaciklama = gmesaj[:gason]
         """    Cookies    """
         s = requests.Session()
         link = s.get("https://ay.live/api")
         cookies = dict(link.cookies)
-        ebinb = collection.find({})
+        gbinb = collection.find({})
         sleep(120)
         """ Dosya tespit """
         if message.content_type == "photo":
-            emedya = message.photo[0].file_id
+            gmedya = message.photo[0].file_id
         if message.content_type == "animation":
-            emedya = message.animation.file_id
+            gmedya = message.animation.file_id
         if message.content_type == "video":
-            emedya = message.video.file_id
-        for ehesap in ebinb:
-            ekaynak = ehesap['kaynak']
-            esablon = ehesap['sablon']
-            esablon = str(esablon)
-            etoken = ehesap['token']
-            ekanal = ehesap['kanal']
-            euser = ehesap['_id']
-            esite = ehesap['site']
-            ealtapi = ehesap['altapi']
-            ealtsite = ehesap['altsite']
-            esira = ehesap['sira']
-            if "6" in ekaynak and len(ekanal) > 0:
-                if esira == "2":
-                    etoken = ealtapi
-                    esite = ealtsite
-                    collection.update_one({"_id": euser}, {"$set": {"sira": "3"}})
-                if esira == "3":
-                    collection.update_one({"_id": euser}, {"$set": {"sira": "2"}})
-                if not ealtapi == "None":
-                    if ealtsite == "1":
-                        ejson = s.get(f"https://ay.live/api/?api={ealtapi}&url={emesajb}&alias=&ct=1", cookies=cookies).json()
-                        ealink = ejson['shortenedUrl']
-                    if ealtsite == "2":
-                        ejson = s.get(f"https://www.pnd.tl/api?api={ealtapi}&url={emesajb}&category=6").json()
-                        ealink = ejson['shortenedUrl']
-                    if ealtsite == "3":
-                        ejson = s.get(f"https://exe.io/api?api={ealtapi}&url={emesajb}").json()
-                        ealink = ejson['shortenedUrl']
-                    if ealtsite == "4":
-                        ealink = s.get(f"http://ouo.io/api/{ealtapi}?s={emesajb}").text
-                    if ealtsite == "5":
-                        ealink = s.get(f"http://pubiza.com/api.php?token={ealtapi}&url={emesajb}&ads_type=adult").text
-                if esite == "1":
-                    ejson = s.get(f"https://ay.live/api/?api={etoken}&url={emesajb}&alias=&ct=1",
+            gmedya = message.video.file_id
+        for ghesap in gbinb:
+            gkaynak = ghesap['kaynak']
+            gsablon = ghesap['sablon']
+            gsablon = str(gsablon)
+            gtoken = ghesap['token']
+            gkanal = ghesap['kanal']
+            guser = ghesap['_id']
+            gsite = ghesap['site']
+            galtapi = ghesap['altapi']
+            galtsite = ghesap['altsite']
+            gsira = ghesap['sira']
+            if "6" in gkaynak and len(gkanal) > 0:
+                if gsira == "2":
+                    gtoken = galtapi
+                    gsite = galtsite
+                    collection.update_one({"_id": guser}, {"$set": {"sira": "3"}})
+                if gsira == "3":
+                    collection.update_one({"_id": guser}, {"$set": {"sira": "2"}})
+                if not galtapi == "None":
+                    if galtsite == "1":
+                        gjson = s.get(f"https://ay.live/api/?api={galtapi}&url={gmesajb}&alias=&ct=1", cookies=cookies).json()
+                        galink = gjson['shortenedUrl']
+                    if galtsite == "2":
+                        gjson = s.get(f"https://www.pnd.tl/api?api={galtapi}&url={gmesajb}&category=6").json()
+                        galink = gjson['shortenedUrl']
+                    if galtsite == "3":
+                        gjson = s.get(f"https://exe.io/api?api={galtapi}&url={gmesajb}").json()
+                        galink = gjson['shortenedUrl']
+                    if galtsite == "4":
+                        galink = s.get(f"http://ouo.io/api/{galtapi}?s={gmesajb}").text
+                    if galtsite == "5":
+                        galink = s.get(f"http://pubiza.com/api.php?token={galtapi}&url={gmesajb}&ads_type=adult").text
+                if gsite == "1":
+                    gjson = s.get(f"https://ay.live/api/?api={gtoken}&url={gmesajb}&alias=&ct=1",
                                   cookies=cookies).json()
-                    elink = ejson['shortenedUrl']
-                if esite == "2":
-                    ejson = s.get(f"https://www.pnd.tl/api?api={etoken}&url={emesajb}&category=6").json()
-                    elink = ejson['shortenedUrl']
-                if esite == "3":
-                    ejson = s.get(f"https://exe.io/api?api={etoken}&url={emesajb}").json()
-                    elink = ejson['shortenedUrl']
-                if esite == "4":
-                    elink = s.get(f"http://ouo.io/api/{etoken}?s={emesajb}").text
-                if esite == "5":
-                    elink = s.get(f"http://pubiza.com/api.php?token={etoken}&url={emesajb}&ads_type=adult").text
-                print(f"{ekanal} + {elink} + {etoken}")
-                if esablon == "1":
-                    esablon = f"🔥{eaciklama}\n\n🔱 TIKLA 👉 {elink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
-                elif esablon == "2" or esablon == "3":
-                    esablon = f"{eaciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {elink}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
-                elif esablon == "9":
-                    esablon = f"{eaciklama} \n\n𝙇𝙄𝙉𝙆🔗 {elink} \n\n     𝙇𝙄𝙉𝙆🔗 {ealink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
-                elif esablon.find('{alink}') != -1:
-                    easol = esablon.split("{link}")
-                    eaort = easol[1].split("{alink}")
-                    easal = easol[0].split("{aciklama}")
-                    esablon = f"{easal[0]}{eaciklama}{easal[1]}{elink}{eaort[0]}{ealink}{eaort[1]}"
+                    glink = gjson['shortenedUrl']
+                if gsite == "2":
+                    gjson = s.get(f"https://www.pnd.tl/api?api={gtoken}&url={gmesajb}&category=6").json()
+                    glink = gjson['shortenedUrl']
+                if gsite == "3":
+                    gjson = s.get(f"https://exe.io/api?api={gtoken}&url={gmesajb}").json()
+                    glink = gjson['shortenedUrl']
+                if gsite == "4":
+                    glink = s.get(f"http://ouo.io/api/{gtoken}?s={gmesajb}").text
+                if gsite == "5":
+                    glink = s.get(f"http://pubiza.com/api.php?token={gtoken}&url={gmesajb}&ads_type=adult").text
+                print(f"{gkanal} + {glink} + {gtoken}")
+                if gsablon == "1":
+                    gsablon = f"🔥{gaciklama}\n\n🔱 TIKLA 👉 {glink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
+                elif gsablon == "2" or gsablon == "3":
+                    gsablon = f"{gaciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {glink}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
+                elif gsablon == "9":
+                    gsablon = f"{gaciklama} \n\n𝙇𝙄𝙉𝙆🔗 {glink} \n\n     𝙇𝙄𝙉𝙆🔗 {galink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
+                elif gsablon.find('{alink}') != -1:
+                    gasol = gsablon.split("{link}")
+                    gaort = gasol[1].split("{alink}")
+                    gasal = gasol[0].split("{aciklama}")
+                    gsablon = f"{gasal[0]}{gaciklama}{gasal[1]}{glink}{gaort[0]}{galink}{gaort[1]}"
                 else:
-                    esablon = esablon.replace("{link}", "{}").replace("aciklama", "").format(eaciklama, elink)
+                    gsablon = gsablon.replace("{link}", "{}").replace("aciklama", "").format(gaciklama, glink)
                 sleep(0.5)
-                for ekan in ekanal:
+                for gkan in gkanal:
                     try:
                         if message.content_type == "photo":
-                            bot.send_photo(ekan, emedya, caption=esablon)
+                            bot.send_photo(gkan, gmedya, caption=gsablon)
                         if message.content_type == "video":
-                            bot.send_video(ekan, emedya, caption=esablon)
+                            bot.send_video(gkan, gmedya, caption=gsablon)
                         if message.content_type == "animation":
-                            bot.send_animation(ekan, emedya, caption=esablon)
-                        ecount = ecount + 1
+                            bot.send_animation(gkan, gmedya, caption=gsablon)
+                        gcount = gcount + 1
                     except Exception as e:
-                        print(f"Hatalı kanal: {ekanal}")
+                        print(f"Hatalı kanal: {gkanal}")
                         e = str(e)
                         if e.find("bot is not a member") != -1:
-                            collection.update_one({"_id": euser}, {"$pull": {"kanal": ekan}})
-                            bot.send_message(euser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
-                            print(f"{ekanal} kayıtlardan silindi.")
+                            collection.update_one({"_id": euser}, {"$pull": {"kanal": gkan}})
+                            bot.send_message(guser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                            print(f"{gkanal} kayıtlardan silindi.")
 
                 print("Başarılı!")
-        ebasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(acikmi.title, ecount)
-        print(ebasari)
+        gbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(acikmi.title, gcount)
+        print(gbasari)
+        bot.send_message(botlog, gbasari)
     # Tutan Linkler
     elif chat == kaynaklar[6]:
+        fcount = 0
         fmesaj = message.caption
         """ Link tespit """
         fsolx = fmesaj.rfind("http")
