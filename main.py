@@ -1385,7 +1385,7 @@ def poster(message):
                     if ealtsite == "1":
                         ejson = s.get(f"https://ay.live/api/?api={ealtapi}&url={emesajb}&alias=&ct=1", cookies=cookies).json()
                         ealink = ejson['shortenedUrl']
-                     if ealtsite == "2":
+                    if ealtsite == "2":
                         ejson = s.get(f"https://www.pnd.tl/api?api={ealtapi}&url={emesajb}&category=6").json()
                         ealink = ejson['shortenedUrl']
                     if ealtsite == "3":
