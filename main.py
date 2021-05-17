@@ -61,6 +61,16 @@ saat = zaman.hour
 dakika = zaman.minute
 print(f"Saat: {saat}:{dakika}")
 
+duyuru = collection.find({})
+for d in duyuru:
+    bot.send_message(d['_id'], """🌹 Yeni Güncelleme!
+
+[❗] 4 Yeni kaynak eklendi.
+[❗] Alternatif sıralı sistemdeki sorun düzeltildi.
+[❗] Bağış butonu eklendi /start yazarak görebilirsiniz.
+[❗] Ve birkaç bug fixlendi.
+
+@OtoPosterBotLog""")
 
 @bot.message_handler(commands=['start'])
 def start(message):
@@ -293,7 +303,7 @@ def menu(message):
         except:
             msg = bot.send_message(chat, """⛔ Henüz bir API kaydetmemişsiniz!
             
-            📝 <i></i> <a href="https://tr.link/member/tools/quick">buraya tıklayarak</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark)
+📝 <i></i> <a href="https://tr.link/member/tools/quick">buraya tıklayarak</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark)
             bot.register_next_step_handler(msg, apikayit)
             return
         else:
