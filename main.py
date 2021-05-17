@@ -1132,7 +1132,7 @@ def poster(message):
         link = s.get("https://ay.live/api")
         cookies = dict(link.cookies)
         dbinb = collection.find({})
-        sleep(6)
+        sleep(1)
         """ Dosya tespit """
         if message.content_type == "photo":
             dmedya = message.photo[0].file_id
@@ -1251,7 +1251,7 @@ def poster(message):
         link = s.get("https://ay.live/api")
         cookies = dict(link.cookies)
         ebinb = collection.find({})
-        sleep(12)
+        sleep(1)
         """ Dosya tespit """
         if message.content_type == "photo":
             emedya = message.photo[0].file_id
@@ -1369,7 +1369,7 @@ def poster(message):
         link = s.get("https://ay.live/api")
         cookies = dict(link.cookies)
         gbinb = collection.find({})
-        sleep(12)
+        sleep(1)
         """ Dosya tespit """
         if message.content_type == "photo":
             gmedya = message.photo[0].file_id
@@ -1597,6 +1597,6 @@ def gunluk():
         time.sleep(60)
     
 timThr = threading.Thread(target=gunluk)
-timThr.start()
+#timThr.start()
 
 bot.polling(none_stop=False, interval=0)
