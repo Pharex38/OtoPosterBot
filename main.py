@@ -81,7 +81,7 @@ def start(message):
 <i>Bu bot sizin seçtiğiniz kaynak kanalında paylaşılan postların linklerini otomatik olarak kısaltıp sizin kanalınıza iletir.</i>
 
 ❔<b>Nasıl Kullanılır?</b>
-<i>1. Adım: Botu kanalınıza yönetici olarak ekleyin.
+<i>1. Adım: Botu kanlınıza yönetici olarak ekleyin.
 2. Adım: Kaydet butonunu kullanarak bilgilerinizi kaydedin.
 3. Adım: <b>KANALINIZDA</b> /onayla yazın.
 4. Adım: Keyfini çıkarın.</i>
@@ -100,7 +100,7 @@ def start(message):
 <i>Bu bot sizin seçtiğiniz kaynak kanalında paylaşılan postların linklerini otomatik olarak kısaltıp sizin kanalınıza iletir.</i>
 
 ❔<b>Nasıl Kullanılır?</b>
-<i>1. Adım: Botu kanalınıza yönetici olarak ekleyin.
+<i>1. Adım: Botu kanlınıza yönetici olarak ekleyin.
 2. Adım: Kaydet butonunu kullanarak bilgilerinizi kaydedin.
 3. Adım: <b>KANALINIZDA</b> /onayla yazın.
 4. Adım: Keyfini çıkarın.</i>
@@ -806,7 +806,7 @@ def poster(message):
             altapi = hesap['altapi']
             altsite = hesap['altsite']
             sira = hesap['sira']
-            if "1" in kaynak:
+            if "1" in kaynak and len(kanal) > 0:
                 if sira == "2":
                     token = altapi
                     site = altsite
@@ -918,7 +918,7 @@ def poster(message):
             baltapi = bhesap['altapi']
             baltsite = bhesap['altsite']
             bsira = bhesap['sira']
-            if "2" in bkaynak:
+            if "2" in bkaynak and len(bkanal) > 0:
                 if bsira == "2":
                     btoken = baltapi
                     bsite = baltsite
@@ -1031,7 +1031,7 @@ def poster(message):
             caltapi = chesap['altapi']
             caltsite = chesap['altsite']
             csira = chesap['sira']
-            if "3" in ckaynak:
+            if "3" in ckaynak and len(ckanal) > 0:
                 if csira == "2":
                     ctoken = caltapi
                     csite = caltsite
@@ -1146,7 +1146,7 @@ def poster(message):
             daltapi = dhesap['altapi']
             daltsite = dhesap['altsite']
             dsira = dhesap['sira']
-            if "4" in dkaynak:
+            if "4" in dkaynak and len(dkanal) > 0:
                 if dsira == "2":
                     dtoken = daltapi
                     dsite = daltsite
@@ -1260,7 +1260,7 @@ def poster(message):
             ealtapi = ehesap['altapi']
             ealtsite = ehesap['altsite']
             esira = ehesap['sira']
-            if "5" in ekaynak:
+            if "5" in ekaynak and len(ekanal) > 0:
                 if esira == "2":
                     etoken = ealtapi
                     esite = ealtsite
@@ -1373,7 +1373,7 @@ def poster(message):
             ealtapi = ehesap['altapi']
             ealtsite = ehesap['altsite']
             esira = ehesap['sira']
-            if "6" in ekaynak:
+            if "6" in ekaynak and len(ekanal) > 0:
                 if esira == "2":
                     etoken = ealtapi
                     esite = ealtsite
@@ -1482,7 +1482,7 @@ def poster(message):
             faltapi = fhesap['altapi']
             faltsite = fhesap['altsite']
             fsira = fhesap['sira']
-            if "7" in fkaynak:
+            if "7" in fkaynak and len(fkanal) > 0:
                 if fsira == "2":
                     ftoken = faltapi
                     fsite = faltsite
