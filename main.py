@@ -1584,4 +1584,4 @@ def gunluk():
 timThr = threading.Thread(target=gunluk)
 timThr.start()
 
-bot.polling(none_stop=True, interval=0)
+bot.polling(none_stop=False, interval=0)
