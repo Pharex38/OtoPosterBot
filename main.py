@@ -41,12 +41,13 @@ dugme.add(butoniki, butonuc, butondort, butonalti, butonbes)
 
 markupp = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
 buton1 = types.KeyboardButton('🔶 Yeni Kanal Ekle')
+buton7 = types.KeyboardButton('↩️ Ana Menü')
 buton2 = types.KeyboardButton('❌ İptal')
 buton3 = types.KeyboardButton('🗑️ Kanal Sil')
 buton4 = types.KeyboardButton('♻️ API değiştir')
 buton5 = types.KeyboardButton('🔗 Site değiştir')
 buton6 = types.KeyboardButton('🤖 Alternatif Ekle')
-markupp.add(buton1, buton2, buton3, buton4, buton5, buton6)
+markupp.add(buton1, buton7, buton3, buton4, buton5, buton6)
 
 imark = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
 batinbir = types.KeyboardButton('❌ İptal')
@@ -439,7 +440,7 @@ def kayitapi(message):
         msg = bot.send_message(chat, "Yeni API adresinizi girin.", reply_markup=imark)
         bot.register_next_step_handler(msg, apikayit)
         return
-    if mesaj == "❌ İptal":
+    if mesaj == "↩️ Ana Menü" or mesaj == "❌ İptal":
         msg = bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
         return
     if mesaj == "🔗 Site değiştir":
@@ -1361,7 +1362,7 @@ def poster(message):
         gkynk = bot.get_chat(chat)
         gsag = gmesaj.find("\n", gsol)
         gmesajb = gmesaj[gsol:gsag].strip()
-        if emesajb.startswith("https://t.me/"):
+        if gmesajb.startswith("https://t.me/"):
             return
         print("{} postu atılıyor... ".format(gkynk.title))
         """ Açıklama tespit """
@@ -1462,9 +1463,9 @@ def poster(message):
                             print(f"{gkanal} kayıtlardan silindi.")
 
                 print("Başarılı!")
-        gbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(gkynk.title, gcount)
-        print(gbasari)
-        bot.send_message(botlog, gbasari)
+            gbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(gkynk.title, gcount)
+            print(gbasari)
+            bot.send_message(botlog, gbasari)
     # Tutan Linkler
     elif chat == kaynaklar[6]:
         fcount = 0
@@ -1479,7 +1480,7 @@ def poster(message):
         if fmesajb.startswith("https://t.me/"):
             return
         fkynk = bot.get_chat(chat)
-        print("{} postu atılıyor... ".format(gkynk.title))
+        print("{} postu atılıyor... ".format(fkynk.title))
         """ Açıklama tespit """
         fason = fmesaj.find("\n")
         faciklama = fmesaj[:fason]
