@@ -36,8 +36,8 @@ butonuc = types.KeyboardButton('📏 Şablon')
 butondort = types.KeyboardButton('▶️ SFS Modu')
 butonbes = types.KeyboardButton('⛓️ Elle Post Paylaş')
 butonalti = types.KeyboardButton('🥰 Bağış')
-dugme.add(butonbir, butoniki, butonuc, butondort, butonbes)
-dugme.row(butonalti)
+dugme.row(butonbir)
+dugme.add(butoniki, butonuc, butondort, butonalti, butonbes)
 
 markupp = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
 buton1 = types.KeyboardButton('🔶 Yeni Kanal Ekle')
@@ -263,6 +263,13 @@ def menu(message):
             bot.register_next_step_handler(msg, sabloniki)
             return
     if mesaj == "📝 Kaydet":
+        try:
+            tokenn = bina['token']
+        except:
+            msg = bot.send_message(chat, """📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark)
+            bot.register_next_step_handler(msg, apikayit)
+            return
+    if mesaj == "⚙️ Menü":
         kayitli = 0
         chat = message.chat.id
         bina = collection.find_one({"_id": chat})
@@ -279,12 +286,13 @@ def menu(message):
                     bot.send_message(chat, """Kayit No: {}\n\nKanalınız: <a href="{}">{}</a>""".format(kayitli+1, kbilgi.invite_link, kbilgi.title))
                 kayitli = kayitli + 1
         except Exception as e:
-            print(e)
             pass
         try:
             tokenn = bina['token']
         except:
-            msg = bot.send_message(chat, """📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark)
+            msg = bot.send_message(chat, """⛔ Henüz bir API kaydetmemişsiniz!
+            
+            📝 <i></i> <a href="https://tr.link/member/tools/quick">buraya tıklayarak</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark)
             bot.register_next_step_handler(msg, apikayit)
             return
         else:
@@ -1088,10 +1096,8 @@ def poster(message):
                             bot.send_animation(ckan, cmedya, caption=csablon)
                         ccount = ccount + 1
                     except Exception as e:
-                        print(e)
                         print(f"Hatalı kanal: {ckanal}")
                         e = str(e)
-                        print(e)
                         if e.find("bot is not a member") != -1:
                             collection.update_one({"_id": cuser}, {"$pull": {"kanal": ckan}})
                             bot.send_message(cuser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
