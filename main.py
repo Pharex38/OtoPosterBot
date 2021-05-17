@@ -30,7 +30,7 @@ kaynaklar = [-1001368112299, -1001122395785, -1001423365614, -1001251394039, -10
 markup = types.ForceReply(selective=False)
 
 dugme = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
-butonbir = types.KeyboardButton('📝 Kaydet')
+butonbir = types.KeyboardButton('⚙️ Menü')
 butoniki = types.KeyboardButton('🔧 Kaynak')
 butonuc = types.KeyboardButton('📏 Şablon')
 butondort = types.KeyboardButton('▶️ SFS Modu')
