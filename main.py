@@ -807,27 +807,27 @@ def poster(message):
             altapi = hesap['altapi']
             altsite = hesap['altsite']
             sira = hesap['sira']
-            if sira == "2":
+            if "1" in kaynak:
+                if sira == "2":
                 token = altapi
                 site = altsite
                 collection.update_one({"_id": user}, {"$set": {"sira": "3"}})
-            if sira == "3":
+                if sira == "3":
                 collection.update_one({"_id": user}, {"$set": {"sira": "2"}})
-            if not altapi == "None":
-                if altsite == "1":
-                    json = s.get(f"https://ay.live/api/?api={altapi}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
-                    alink = json['shortenedUrl']
-                if altsite == "2":
-                    json = s.get(f"https://www.pnd.tl/api?api={altapi}&url={mesajb}&category=6").json()
-                    alink = json['shortenedUrl']
-                if altsite == "3":
-                    json = s.get(f"https://exe.io/api?api={altapi}&url={mesajb}").json()
-                    alink = json['shortenedUrl']
-                if altsite == "4":
-                    alink = s.get(f"http://ouo.io/api/{altapi}?s={mesajb}").text
-                if altsite == "5":
+                if not altapi == "None":
+                    if altsite == "1":
+                        json = s.get(f"https://ay.live/api/?api={altapi}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
+                        alink = json['shortenedUrl']
+                    if altsite == "2":
+                        json = s.get(f"https://www.pnd.tl/api?api={altapi}&url={mesajb}&category=6").json()
+                        alink = json['shortenedUrl']
+                    if altsite == "3":
+                        json = s.get(f"https://exe.io/api?api={altapi}&url={mesajb}").json()
+                        alink = json['shortenedUrl']
+                    if altsite == "4":
+                        alink = s.get(f"http://ouo.io/api/{altapi}?s={mesajb}").text
+                    if altsite == "5":
                     alink = s.get(f"http://pubiza.com/api.php?token={altapi}&url={mesajb}&ads_type=adult").text
-            if "1" in kaynak:
                 if site == "1":
                     json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
                     link = json['shortenedUrl']
@@ -919,28 +919,28 @@ def poster(message):
             baltapi = bhesap['altapi']
             baltsite = bhesap['altsite']
             bsira = bhesap['sira']
-            if bsira == "2":
-                btoken = baltapi
-                bsite = baltsite
-                collection.update_one({"_id": buser}, {"$set": {"sira": "3"}})
-            if bsira == "3":
-                collection.update_one({"_id": buser}, {"$set": {"sira": "2"}})
-            if not baltapi == "None":
-                if baltsite == "1":
-                    bjson = s.get(f"https://ay.live/api/?api={baltapi}&url={bmesajb}&alias=&ct=1", cookies=cookies).json()
-                    balink = bjson['shortenedUrl']
-                if baltsite == "2":
-                    bjson = s.get(f"https://www.pnd.tl/api?api={baltapi}&url={bmesajb}&category=6").json()
-                    balink = bjson['shortenedUrl']
-                if baltsite == "3":
-                    bjson = s.get(f"https://exe.io/api?api={baltapi}&url={bmesajb}").json()
-                    balink = bjson['shortenedUrl']
-                if baltsite == "4":
-                    balink = s.get(f"http://ouo.io/api/{baltapi}?s={bmesajb}").text
-                if baltsite == "5":
-                    balink = s.get(f"http://pubiza.com/api.php?token={baltapi}&url={bmesajb}&ads_type=adult").text
-            sleep(1)
             if "2" in bkaynak:
+                if bsira == "2":
+                    btoken = baltapi
+                    bsite = baltsite
+                    collection.update_one({"_id": buser}, {"$set": {"sira": "3"}})
+                if bsira == "3":
+                    collection.update_one({"_id": buser}, {"$set": {"sira": "2"}})
+                if not baltapi == "None":
+                    if baltsite == "1":
+                        bjson = s.get(f"https://ay.live/api/?api={baltapi}&url={bmesajb}&alias=&ct=1", cookies=cookies).json()
+                        balink = bjson['shortenedUrl']
+                    if baltsite == "2":
+                        bjson = s.get(f"https://www.pnd.tl/api?api={baltapi}&url={bmesajb}&category=6").json()
+                        balink = bjson['shortenedUrl']
+                    if baltsite == "3":
+                        bjson = s.get(f"https://exe.io/api?api={baltapi}&url={bmesajb}").json()
+                        balink = bjson['shortenedUrl']
+                    if baltsite == "4":
+                        balink = s.get(f"http://ouo.io/api/{baltapi}?s={bmesajb}").text
+                    if baltsite == "5":
+                        balink = s.get(f"http://pubiza.com/api.php?token={baltapi}&url={bmesajb}&ads_type=adult").text
+                sleep(1)
                 if bsite == "1":
                     bjson = s.get(f"https://ay.live/api/?api={btoken}&url={bmesajb}&alias=&ct=1", cookies=cookies).json()
                     blink = bjson['shortenedUrl']
@@ -982,10 +982,8 @@ def poster(message):
                             bot.send_animation(bkan, bmedya, caption=bsablon)
                         bcount = bcount + 1
                     except Exception as e:
-                        print(e)
                         print(f"Hatalı kanal: {bkanal}")
                         e = str(e)
-                        print(e)
                         if e.find("bot is not a member") != -1:
                             collection.update_one({"_id": buser}, {"$pull": {"kanal": bkan}})
                             bot.send_message(buser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
@@ -1034,28 +1032,28 @@ def poster(message):
             caltapi = chesap['altapi']
             caltsite = chesap['altsite']
             csira = chesap['sira']
-            if csira == "2":
-                ctoken = caltapi
-                csite = caltsite
-                collection.update_one({"_id": cuser}, {"$set": {"sira": "3"}})
-            if csira == "3":
-                collection.update_one({"_id": cuser}, {"$set": {"sira": "2"}})
-            if not caltapi == "None":
-                if caltsite == "1":
-                    cjson = s.get(f"https://ay.live/api/?api={caltapi}&url={cmesajb}&alias=&ct=1", cookies=cookies).json()
-                    calink = cjson['shortenedUrl']
-                if caltsite == "2":
-                    cjson = s.get(f"https://www.pnd.tl/api?api={caltapi}&url={cmesajb}&category=6").json()
-                    calink = cjson['shortenedUrl']
-                if caltsite == "3":
-                    cjson = s.get(f"https://exe.io/api?api={caltapi}&url={cmesajb}").json()
-                    calink = cjson['shortenedUrl']
-                if caltsite == "4":
-                    calink = s.get(f"http://ouo.io/api/{caltapi}?s={cmesajb}").text
-                if caltsite == "5":
-                    calink = s.get(f"http://pubiza.com/api.php?token={caltapi}&url={cmesajb}&ads_type=adult").text
-            sleep(0.5)
             if "3" in ckaynak:
+                if csira == "2":
+                    ctoken = caltapi
+                    csite = caltsite
+                    collection.update_one({"_id": cuser}, {"$set": {"sira": "3"}})
+                if csira == "3":
+                    collection.update_one({"_id": cuser}, {"$set": {"sira": "2"}})
+                if not caltapi == "None":
+                    if caltsite == "1":
+                        cjson = s.get(f"https://ay.live/api/?api={caltapi}&url={cmesajb}&alias=&ct=1", cookies=cookies).json()
+                        calink = cjson['shortenedUrl']
+                    if caltsite == "2":
+                        cjson = s.get(f"https://www.pnd.tl/api?api={caltapi}&url={cmesajb}&category=6").json()
+                        calink =     cjson['shortenedUrl']
+                    if caltsite == "3":
+                        cjson = s.get(f"https://exe.io/api?api={caltapi}&url={cmesajb}").json()
+                        calink = cjson['shortenedUrl']
+                    if caltsite == "4":
+                        calink = s.get(f"http://ouo.io/api/{caltapi}?s={cmesajb}").text
+                    if caltsite == "5":
+                        calink = s.get(f"http://pubiza.com/api.php?token={caltapi}&url={cmesajb}&ads_type=adult").text
+                sleep(0.5)
                 if csite == "1":
                     bjson = s.get(f"https://ay.live/api/?api={ctoken}&url={cmesajb}&alias=&ct=1",
                                   cookies=cookies).json()
@@ -1149,28 +1147,28 @@ def poster(message):
             daltapi = dhesap['altapi']
             daltsite = dhesap['altsite']
             dsira = dhesap['sira']
-            if dsira == "2":
-                dtoken = daltapi
-                dsite = daltsite
-                collection.update_one({"_id": duser}, {"$set": {"sira": "3"}})
-            if dsira == "3":
-                collection.update_one({"_id": duser}, {"$set": {"sira": "2"}})
-            if not daltapi == "None":
-                if daltsite == "1":
-                    djson = s.get(f"https://ay.live/api/?api={daltapi}&url={dmesajb}&alias=&ct=1", cookies=cookies).json()
-                    dalink = djson['shortenedUrl']
-                if daltsite == "2":
-                    djson = s.get(f"https://www.pnd.tl/api?api={daltapi}&url={dmesajb}&category=6").json()
-                    dalink = djson['shortenedUrl']
-                if daltsite == "3":
-                    djson = s.get(f"https://exe.io/api?api={daltapi}&url={dmesajb}").json()
-                    dalink = djson['shortenedUrl']
-                if daltsite == "4":
-                    dalink = s.get(f"http://ouo.io/api/{daltapi}?s={dmesajb}").text
-                if daltsite == "5":
-                    dalink = s.get(f"http://pubiza.com/api.php?token={daltapi}&url={dmesajb}&ads_type=adult").text
-            sleep(0.5)
             if "4" in dkaynak:
+                if dsira == "2":
+                    dtoken = daltapi
+                    dsite = daltsite
+                    collection.update_one({"_id": duser}, {"$set": {"sira": "3"}})
+                if dsira == "3":
+                    collection.update_one({"_id": duser}, {"$set": {"sira": "2"}})
+                if not daltapi == "None":
+                    if daltsite == "1":
+                        djson = s.get(f"https://ay.live/api/?api={daltapi}&url={dmesajb}&alias=&ct=1", cookies=cookies).json()
+                        dalink = djson['shortenedUrl']
+                    if daltsite == "2":
+                        djson = s.get(f"https://www.pnd.tl/api?api={daltapi}&url={dmesajb}&category=6").json()
+                        dalink = djson['shortenedUrl']
+                    if daltsite == "3":
+                        djson = s.get(f"https://exe.io/api?api={daltapi}&url={dmesajb}").json()
+                        dalink = djson['shortenedUrl']
+                    if daltsite == "4":
+                        dalink = s.get(f"http://ouo.io/api/{daltapi}?s={dmesajb}").text
+                    if daltsite == "5":
+                        dalink = s.get(f"http://pubiza.com/api.php?token={daltapi}&url={dmesajb}&ads_type=adult").text
+                sleep(0.5)
                 if dsite == "1":
                     djson = s.get(f"https://ay.live/api/?api={dtoken}&url={dmesajb}&alias=&ct=1",
                                   cookies=cookies).json()
@@ -1263,27 +1261,27 @@ def poster(message):
             ealtapi = ehesap['altapi']
             ealtsite = ehesap['altsite']
             esira = ehesap['sira']
-            if esira == "2":
-                etoken = ealtapi
-                esite = ealtsite
-                collection.update_one({"_id": euser}, {"$set": {"sira": "3"}})
-            if esira == "3":
-                collection.update_one({"_id": euser}, {"$set": {"sira": "2"}})
-            if not ealtapi == "None":
-                if ealtsite == "1":
-                    ejson = s.get(f"https://ay.live/api/?api={ealtapi}&url={emesajb}&alias=&ct=1", cookies=cookies).json()
-                    ealink = ejson['shortenedUrl']
-                if ealtsite == "2":
-                    ejson = s.get(f"https://www.pnd.tl/api?api={ealtapi}&url={emesajb}&category=6").json()
-                    ealink = ejson['shortenedUrl']
-                if ealtsite == "3":
-                    ejson = s.get(f"https://exe.io/api?api={ealtapi}&url={emesajb}").json()
-                    ealink = ejson['shortenedUrl']
-                if ealtsite == "4":
-                    ealink = s.get(f"http://ouo.io/api/{ealtapi}?s={emesajb}").text
-                if ealtsite == "5":
-                    ealink = s.get(f"http://pubiza.com/api.php?token={ealtapi}&url={emesajb}&ads_type=adult").text
             if "5" in ekaynak:
+                if esira == "2":
+                    etoken = ealtapi
+                    esite = ealtsite
+                    collection.update_one({"_id": euser}, {"$set": {"sira": "3"}})
+                if esira == "3":
+                    collection.update_one({"_id": euser}, {"$set": {"sira": "2"}})
+                if not ealtapi == "None":
+                    if ealtsite == "1":
+                        ejson = s.get(f"https://ay.live/api/?api={ealtapi}&url={emesajb}&alias=&ct=1", cookies=cookies).json()
+                        ealink = ejson['shortenedUrl']
+                    if ealtsite == "2":
+                        ejson = s.get(f"https://www.pnd.tl/api?api={ealtapi}&url={emesajb}&category=6").json()
+                        ealink = ejson['shortenedUrl']
+                    if ealtsite == "3":
+                        ejson = s.get(f"https://exe.io/api?api={ealtapi}&url={emesajb}").json()
+                        ealink = ejson['shortenedUrl']
+                    if ealtsite == "4":
+                        ealink = s.get(f"http://ouo.io/api/{ealtapi}?s={emesajb}").text
+                    if ealtsite == "5":
+                        ealink = s.get(f"http://pubiza.com/api.php?token={ealtapi}&url={emesajb}&ads_type=adult").text
                 if esite == "1":
                     ejson = s.get(f"https://ay.live/api/?api={etoken}&url={emesajb}&alias=&ct=1",
                                   cookies=cookies).json()
@@ -1376,27 +1374,27 @@ def poster(message):
             ealtapi = ehesap['altapi']
             ealtsite = ehesap['altsite']
             esira = ehesap['sira']
-            if esira == "2":
-                etoken = ealtapi
-                esite = ealtsite
-                collection.update_one({"_id": euser}, {"$set": {"sira": "3"}})
-            if esira == "3":
-                collection.update_one({"_id": euser}, {"$set": {"sira": "2"}})
-            if not ealtapi == "None":
-                if ealtsite == "1":
-                    ejson = s.get(f"https://ay.live/api/?api={ealtapi}&url={emesajb}&alias=&ct=1", cookies=cookies).json()
-                    ealink = ejson['shortenedUrl']
-                if ealtsite == "2":
-                    ejson = s.get(f"https://www.pnd.tl/api?api={ealtapi}&url={emesajb}&category=6").json()
-                    ealink = ejson['shortenedUrl']
-                if ealtsite == "3":
-                    ejson = s.get(f"https://exe.io/api?api={ealtapi}&url={emesajb}").json()
-                    ealink = ejson['shortenedUrl']
-                if ealtsite == "4":
-                    ealink = s.get(f"http://ouo.io/api/{ealtapi}?s={emesajb}").text
-                if ealtsite == "5":
-                    ealink = s.get(f"http://pubiza.com/api.php?token={ealtapi}&url={emesajb}&ads_type=adult").text
-            if "5" in ekaynak:
+            if "6" in ekaynak:
+                if esira == "2":
+                    etoken = ealtapi
+                    esite = ealtsite
+                    collection.update_one({"_id": euser}, {"$set": {"sira": "3"}})
+                if esira == "3":
+                    collection.update_one({"_id": euser}, {"$set": {"sira": "2"}})
+                if not ealtapi == "None":
+                    if ealtsite == "1":
+                        ejson = s.get(f"https://ay.live/api/?api={ealtapi}&url={emesajb}&alias=&ct=1", cookies=cookies).json()
+                        ealink = ejson['shortenedUrl']
+                     if ealtsite == "2":
+                        ejson = s.get(f"https://www.pnd.tl/api?api={ealtapi}&url={emesajb}&category=6").json()
+                        ealink = ejson['shortenedUrl']
+                    if ealtsite == "3":
+                        ejson = s.get(f"https://exe.io/api?api={ealtapi}&url={emesajb}").json()
+                        ealink = ejson['shortenedUrl']
+                    if ealtsite == "4":
+                        ealink = s.get(f"http://ouo.io/api/{ealtapi}?s={emesajb}").text
+                    if ealtsite == "5":
+                        ealink = s.get(f"http://pubiza.com/api.php?token={ealtapi}&url={emesajb}&ads_type=adult").text
                 if esite == "1":
                     ejson = s.get(f"https://ay.live/api/?api={etoken}&url={emesajb}&alias=&ct=1",
                                   cookies=cookies).json()
@@ -1485,28 +1483,28 @@ def poster(message):
             faltapi = fhesap['altapi']
             faltsite = fhesap['altsite']
             fsira = fhesap['sira']
-            if fsira == "2":
-                ftoken = faltapi
-                fsite = faltsite
-                collection.update_one({"_id": fuser}, {"$set": {"sira": "3"}})
-            if fsira == "3":
-                collection.update_one({"_id": fuser}, {"$set": {"sira": "2"}})
-            if not faltapi == "None":
-                if faltsite == "1":
-                    fjson = s.get(f"https://ay.live/api/?api={faltapi}&url={fmesajb}&alias=&ct=1", cookies=cookies).json()
-                    falink = fjson['shortenedUrl']
-                if faltsite == "2":
-                    fjson = s.get(f"https://www.pnd.tl/api?api={faltapi}&url={fmesajb}&category=6").json()
-                    falink = fjson['shortenedUrl']
-                if faltsite == "3":
-                    fjson = s.get(f"https://exe.io/api?api={faltapi}&url={fmesajb}").json()
-                    falink = fjson['shortenedUrl']
-                if faltsite == "4":
-                    falink = s.get(f"http://ouo.io/api/{faltapi}?s={fmesajb}").text
-                if faltsite == "5":
-                    falink = s.get(f"http://pubiza.com/api.php?token={faltapi}&url={fmesajb}&ads_type=adult").text
-            sleep(1)
             if "7" in fkaynak:
+                if fsira == "2":
+                    ftoken = faltapi
+                    fsite = faltsite
+                    collection.update_one({"_id": fuser}, {"$set": {"sira": "3"}})
+                if fsira == "3":
+                    collection.update_one({"_id": fuser}, {"$set": {"sira": "2"}})
+                if not faltapi == "None":
+                    if faltsite == "1":
+                        fjson = s.get(f"https://ay.live/api/?api={faltapi}&url={fmesajb}&alias=&ct=1", cookies=cookies).json()
+                        falink = fjson['shortenedUrl']
+                    if faltsite == "2":
+                        fjson = s.get(f"https://www.pnd.tl/api?api={faltapi}&url={fmesajb}&category=6").json()
+                        falink = fjson['shortenedUrl']
+                    if faltsite == "3":
+                        fjson = s.get(f"https://exe.io/api?api={faltapi}&url={fmesajb}").json()
+                        falink = fjson['shortenedUrl']
+                    if faltsite == "4":
+                        falink = s.get(f"http://ouo.io/api/{faltapi}?s={fmesajb}").text
+                    if faltsite == "5":
+                        falink = s.get(f"http://pubiza.com/api.php?token={faltapi}&url={fmesajb}&ads_type=adult").text
+                sleep(1)
                 if fsite == "1":
                     fjson = s.get(f"https://ay.live/api/?api={ftoken}&url={fmesajb}&alias=&ct=1", cookies=cookies).json()
                     flink = fjson['shortenedUrl']
