@@ -361,7 +361,6 @@ def kaynake(message):
     ktext = message.text
     chat = message.chat.id
     user = message.from_user.id
-    ktext = ktext.split(",")
     if message.text == None:
         msg = bot.send_message(chat, "Lütfen istediğiniz kaynağın numarasını gönderin.")
         bot.register_next_step_handler(msg, kaynake)
@@ -369,6 +368,7 @@ def kaynake(message):
     if message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
         return
+    ktext = ktext.split(",")
     bnb = collection.find_one({"_id": user})
     if bnb == None:
         bot.send_message(chat, "Lütfen kaynak seçmeden önce Kaydet butonu ile bilgilerinizi kaydedin.", reply_markup=dugme)
@@ -402,11 +402,11 @@ def sabloniki(message):
             msg = bot.send_message(chat, """ ❌<i> Lütfen mesajınızda "{link}" ve "{aciklama}" bulunduğudan emin olun.</i> """)
             bot.register_next_step_handler(msg, sabloniki)
             return
-        if mesaj.find("{link}") != mesa.rfind("{link}"):
+        if mesaj.find("{link}") != mesaj.rfind("{link}"):
             msg = bot.send_message(chat, """ ❌<i> Lütfen mesajınızda bir tane "{link}" bulunduğudan emin olun.</i> """)
             bot.register_next_step_handler(msg, sabloniki)
             return
-        if mesaj.find("{aciklama}") != mesa.rfind("{aciklama}"):
+        if mesaj.find("{aciklama}") != mesaj.rfind("{aciklama}"):
             msg = bot.send_message(chat, """ ❌<i> Lütfen mesajınızda bir tane "{aciklama}" bulunduğudan emin olun.</i> """)
             bot.register_next_step_handler(msg, sabloniki)
             return
@@ -874,7 +874,7 @@ def poster(message):
     elif chat == kaynaklar[1]:
         bmesaj = message.caption
         """ Link tespit """
-        bsolx = bmesajb.rfind("http")
+        bsolx = bmesaj.rfind("http")
         bsol = bmesaj.find("http")
         bsag = bmesaj.find("\n", bsol)
         if bsol != bsolx:
@@ -1107,7 +1107,7 @@ def poster(message):
         """ Link tespit """
         dsolx = dmesaj.rfind("http")
         dsol = dmesaj.find("http")
-        if csol != csolx:
+        if dsol != dsolx:
             return
         dsag = dmesaj.find("\n", dsol)
         dmesajb = dmesaj[dsol:dsag].strip()
@@ -1498,7 +1498,7 @@ def poster(message):
                 if faltsite == "5":
                     falink = s.get(f"http://pubiza.com/api.php?token={faltapi}&url={fmesajb}&ads_type=adult").text
             sleep(1)
-            if "2" in fkaynak:
+            if "7" in fkaynak:
                 if fsite == "1":
                     fjson = s.get(f"https://ay.live/api/?api={ftoken}&url={fmesajb}&alias=&ct=1", cookies=cookies).json()
                     flink = fjson['shortenedUrl']
