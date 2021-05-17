@@ -809,11 +809,11 @@ def poster(message):
             sira = hesap['sira']
             if "1" in kaynak:
                 if sira == "2":
-                token = altapi
-                site = altsite
-                collection.update_one({"_id": user}, {"$set": {"sira": "3"}})
+                    token = altapi
+                    site = altsite
+                    collection.update_one({"_id": user}, {"$set": {"sira": "3"}})
                 if sira == "3":
-                collection.update_one({"_id": user}, {"$set": {"sira": "2"}})
+                    collection.update_one({"_id": user}, {"$set": {"sira": "2"}})
                 if not altapi == "None":
                     if altsite == "1":
                         json = s.get(f"https://ay.live/api/?api={altapi}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
