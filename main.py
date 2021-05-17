@@ -361,7 +361,7 @@ def menu(message):
         
     kisi = collection.find_one({"_id": user})
     if kisi == None:
-        bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=dugme)
+        bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=dagme)
         return
     bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=dugme)
     
@@ -772,10 +772,11 @@ def poster(message):
         if sol != solx:
             return
         sag = mesaj.find("\n", sol)
+        kynk = bot.get_chat(chat)
         mesajb = mesaj[sol:sag].strip()
         if mesajb.startswith("https://t.me/"):
             return
-        print("{} postu atılıyor... ".format(mahzen.title))
+        print("{} postu atılıyor... ".format(kynk.title))
         """  Açıklama tespit  """
         ason = mesaj.find("\n")
         aciklama = mesaj[:ason]
@@ -871,7 +872,7 @@ def poster(message):
                 print("Başarılı!")
             else:
                 pass
-        basari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(mahzen.title, count)
+        basari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(kynk.title, count)
         print(basari)
         bot.send_message(botlog, basari)
     # Bedava Link
@@ -887,7 +888,8 @@ def poster(message):
         bmesajb = bmesaj[bsol:bsag].strip()
         if bmesajb.startswith("https://t.me/"):
             return
-        print("{} postu atılıyor... ".format(bedava.title))
+        bkynk = bot.get_chat(chat)
+        print("{} postu atılıyor... ".format(bkynk.title))
         """ Açıklama tespit """
         bason = bmesaj.find("\n")
         baciklama = bmesaj[:bason]
@@ -985,7 +987,7 @@ def poster(message):
                             print(f"{bkanal} kayıtlardan silindi.")
                     
                 print("Başarılı!")
-        bbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(bedava.title, bcount)
+        bbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(bkynk.title, bcount)
         print(bbasari)
         bot.send_message(botlog, bbasari)
     # Link Evi
@@ -1001,7 +1003,8 @@ def poster(message):
         cmesajb = cmesaj[csol:csag].strip()
         if cmesajb.startswith("https://t.me/"):
             return
-        print("{} postu atılıyor... ".format(evi.title))
+        ckynk = bot.get_chat(chat)
+        print("{} postu atılıyor... ".format(ckynk.title))
         """ Açıklama tespit """
         cason = cmesaj.find("\n")
         caciklama = cmesaj[:cason]
@@ -1100,7 +1103,7 @@ def poster(message):
                             print(f"{ckanal} kayıtlardan silindi.")
 
                 print("Başarılı!")
-        cbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(evi.title, ccount)
+        cbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(ckynk.title, ccount)
         print(evi.title, cbasari)
         bot.send_message(botlog, cbasari)
     # BAŞHUB
@@ -1116,7 +1119,8 @@ def poster(message):
         dmesajb = dmesaj[dsol:dsag].strip()
         if dmesajb.startswith("https://t.me/"):
             return
-        print("{} postu atılıyor... ".format(bashub.title))
+        dkynk = bot.get_chat(chat)
+        print("{} postu atılıyor... ".format(dkynk.title))
         """ Açıklama tespit """
         dason = dmesaj.find("\n")
         daciklama = dmesaj[:dason]
@@ -1215,7 +1219,7 @@ def poster(message):
                             print(f"{dkanal} kayıtlardan silindi.")
 
                 print("Başarılı!")
-        dbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(bashub.title, dcount)
+        dbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(dkynk.title, dcount)
         print(dbasari)
         bot.send_message(botlog, dbasari)
     # Açık mı link
@@ -1231,7 +1235,8 @@ def poster(message):
         emesajb = emesaj[esol:esag].strip()
         if emesajb.startswith("https://t.me/"):
             return
-        print("{} postu atılıyor... ".format(acikmi.title))
+        ekynk = bot.get_chat(chat)
+        print("{} postu atılıyor... ".format(ekynk.title))
         """ Açıklama tespit """
         eason = emesaj.find("\n")
         eaciklama = emesaj[:eason]
@@ -1329,7 +1334,7 @@ def poster(message):
                             print(f"{ekanal} kayıtlardan silindi.")
 
                 print("Başarılı!")
-        ebasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(acikmi.title, ecount)
+        ebasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(ekynk.title, ecount)
         print(ebasari)
         bot.send_message(botlog, ebasari)
     # MuhoVip
@@ -1341,11 +1346,12 @@ def poster(message):
         gsol = gmesaj.find("http")
         if gsol != gsolx:
             return
+        gkynk = bot.get_chat(chat)
         gsag = gmesaj.find("\n", gsol)
         gmesajb = gmesaj[gsol:gsag].strip()
         if emesajb.startswith("https://t.me/"):
             return
-        print("{} postu atılıyor... ".format(muho.title))
+        print("{} postu atılıyor... ".format(gkynk.title))
         """ Açıklama tespit """
         gason = gmesaj.find("\n")
         gaciklama = gmesaj[:gason]
@@ -1441,7 +1447,7 @@ def poster(message):
                             print(f"{gkanal} kayıtlardan silindi.")
 
                 print("Başarılı!")
-        gbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(acikmi.title, gcount)
+        gbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(gkynk.title, gcount)
         print(gbasari)
         bot.send_message(botlog, gbasari)
     # Tutan Linkler
@@ -1457,7 +1463,8 @@ def poster(message):
         fmesajb = fmesaj[fsol:fsag].strip()
         if fmesajb.startswith("https://t.me/"):
             return
-        print("{} postu atılıyor... ".format(tutan.title))
+        fkynk = bot.get_chat(chat)
+        print("{} postu atılıyor... ".format(gkynk.title))
         """ Açıklama tespit """
         fason = fmesaj.find("\n")
         faciklama = fmesaj[:fason]
@@ -1555,7 +1562,7 @@ def poster(message):
                             print(f"{fkanal} kayıtlardan silindi.")
                     
                 print("Başarılı!")
-        fbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(tutan.title, fcount)
+        fbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(gkynk.title, fcount)
         bot.send_message(botlog, fbasari)
         print(fbasari)
 
