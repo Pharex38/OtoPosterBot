@@ -754,13 +754,6 @@ def sirasistem(message):
 
 @bot.channel_post_handler(content_types=['photo', 'animation', 'video'])
 def poster(message):
-    mahzen = bot.get_chat(kaynaklar[0])
-    bedava = bot.get_chat(kaynaklar[1])
-    evi = bot.get_chat(kaynaklar[2])
-    bashub = bot.get_chat(kaynaklar[3])
-    acikmi = bot.get_chat(kaynaklar[4])
-    muho = bot.get_chat(kaynaklar[5])
-    tutan = bot.get_chat(kaynaklar[6])
     chat = message.chat.id
     # Link Mahzeni
     if chat == kaynaklar[0]:
@@ -1192,14 +1185,16 @@ def poster(message):
                 elif dsablon == "9":
                     dsablon = f"{daciklama} \n\n𝙇𝙄𝙉𝙆🔗 {dlink} \n\n     𝙇𝙄𝙉𝙆🔗 {dalink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
                 elif dsablon.find('{alink}') != -1:
-                    daort = [" ", " "]
-                    dasal = [" ", " "]
-                    dasol = dsablon.split("{link}")
-                    daort = dasol[1].split("{alink}")
-                    dasal = dasol[0].split("{aciklama}")
-                    dsablon = f"{dasal[0]}{daciklama}{dasal[1]}{dlink}{daort[0]}{dalink}{daort[1]}"
+    #                daort = [" ", " "]
+  #                  dasal = [" ", " "]
+                 #   dasol = dsablon.split("{link}")
+    #                daort = dasol[1].split("{alink}")
+                #    dasal = dasol[0].split("{aciklama}")
+                   # dsablon = f"{dasal[0]}{daciklama}{dasal[1]}{dlink}{daort[0]}{dalink}{daort[1]}"
+                    
+                    dsablon = dsablon.replace("{link}", "{}").replace("{aciklama}", "{}").replace("{alink}", "{}").format(daciklama, dlink, dalink)
                 else:
-                    dsablon = dsablon.replace("{link}", "{}").replace("aciklama", "").format(daciklama, dlink)
+                    dsablon = dsablon.replace("{link}", "{}").replace("{aciklama}", "{}").format(daciklama, dlink)
                 sleep(0.5)
                 for dkan in dkanal:
                     try:
