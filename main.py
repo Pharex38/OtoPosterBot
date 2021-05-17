@@ -1569,7 +1569,7 @@ def poster(message):
 def gunluk():
     while 0 < 1:
         zaman = datetime.datetime.now()
-        if zaman.hour == 11 and zaman.minute == 52:
+        if zaman.hour == 11 and zaman.minute == 59:
             kanals = 0
             users = 0
             kullanicilar = collection.find({})
