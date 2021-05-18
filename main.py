@@ -7,9 +7,8 @@ from pymongo import MongoClient
 import telebot
 from telebot import types
 import time, datetime
-from apscheduler.schedulers.asyncio import AsyncIOScheduler
 import threading
-import logging
+import Colorer
 from logging import basicConfig, getLogger, INFO
 
 #botapi = environ['BOT_TOKEN'] 
@@ -60,7 +59,7 @@ amark.add(batinbir, batiniki)
 zaman = datetime.datetime.now()
 saat = zaman.hour 
 dakika = zaman.minute
-logd = "{}.{}.{} - {}:{}".format(zaman.year, zaman.month, zaman.day, saat, dakika)
+logd = "{}.{}.{} - {}-{}".format(zaman.year, zaman.month, zaman.day, saat, dakika)
 
 basicConfig(format="%(asctime)s - %(levelname)s - %(message)s", level=INFO)
 
@@ -777,7 +776,7 @@ def poster(message):
         mesajb = mesaj[sol:sag].strip()
         if mesajb.startswith("https://t.me/"):
             return
-        LOGS.info("{} postu atılıyor... ".format(kynk.title))
+        LOGS.warning("{} postu atılıyor... ".format(kynk.title))
         """  Açıklama tespit  """
         ason = mesaj.find("\n")
         aciklama = mesaj[:ason]
@@ -877,7 +876,7 @@ def poster(message):
             else:
                 pass
         basari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(kynk.title, count)
-        LOGS.info(basari)
+        LOGS.warning(basari)
         bot.send_message(botlog, basari)
     # Bedava Link
     elif chat == kaynaklar[1]:
@@ -893,7 +892,7 @@ def poster(message):
         if bmesajb.startswith("https://t.me/"):
             return
         bkynk = bot.get_chat(chat)
-        LOGS.info("{} postu atılıyor... ".format(bkynk.title))
+        LOGS.warning("{} postu atılıyor... ".format(bkynk.title))
         """ Açıklama tespit """
         bason = bmesaj.find("\n")
         baciklama = bmesaj[:bason]
@@ -996,7 +995,7 @@ def poster(message):
                     
                 LOGS.info("Başarılı!")
         bbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(bkynk.title, bcount)
-        LOGS.info(bbasari)
+        LOGS.warning(bbasari)
         bot.send_message(botlog, bbasari)
     # Link Evi
     elif chat == kaynaklar[2]:
@@ -1012,7 +1011,7 @@ def poster(message):
         if cmesajb.startswith("https://t.me/"):
             return
         ckynk = bot.get_chat(chat)
-        LOGS.info("{} postu atılıyor... ".format(ckynk.title))
+        LOGS.warning("{} postu atılıyor... ".format(ckynk.title))
         """ Açıklama tespit """
         cason = cmesaj.find("\n")
         caciklama = cmesaj[:cason]
@@ -1115,7 +1114,7 @@ def poster(message):
 
                 LOGS.info("Başarılı!")
         cbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(ckynk.title, ccount)
-        LOGS.info(cbasari)
+        LOGS.warning(cbasari)
         bot.send_message(botlog, cbasari)
     # BAŞHUB
     elif chat == kaynaklar[3]:
@@ -1131,7 +1130,7 @@ def poster(message):
         if dmesajb.startswith("https://t.me/"):
             return
         dkynk = bot.get_chat(chat)
-        LOGS.info("{} postu atılıyor... ".format(dkynk.title))
+        LOGS.warning("{} postu atılıyor... ".format(dkynk.title))
         """ Açıklama tespit """
         dason = dmesaj.find("\n")
         daciklama = dmesaj[:dason]
@@ -1234,7 +1233,7 @@ def poster(message):
 
                 LOGS.info("Başarılı!")
         dbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(dkynk.title, dcount)
-        LOGS.info(dbasari)
+        LOGS.warning(dbasari)
         bot.send_message(botlog, dbasari)
     # Açık mı link
     elif chat == kaynaklar[4]:
@@ -1250,7 +1249,7 @@ def poster(message):
         if emesajb.startswith("https://t.me/"):
             return
         ekynk = bot.get_chat(chat)
-        LOGS.info("{} postu atılıyor... ".format(ekynk.title))
+        LOGS.warning("{} postu atılıyor... ".format(ekynk.title))
         """ Açıklama tespit """
         eason = emesaj.find("\n")
         eaciklama = emesaj[:eason]
@@ -1352,7 +1351,7 @@ def poster(message):
 
                 LOGS.info("Başarılı!")
         ebasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(ekynk.title, ecount)
-        LOGS.info(ebasari)
+        LOGS.warning(ebasari)
         bot.send_message(botlog, ebasari)
     # MuhoVip
     elif chat == kaynaklar[5]:
@@ -1368,7 +1367,7 @@ def poster(message):
         gmesajb = gmesaj[gsol:gsag].strip()
         if gmesajb.startswith("https://t.me/"):
             return
-        LOGS.info("{} postu atılıyor... ".format(gkynk.title))
+        LOGS.warning("{} postu atılıyor... ".format(gkynk.title))
         """ Açıklama tespit """
         gason = gmesaj.find("\n")
         gaciklama = gmesaj[:gason]
@@ -1468,10 +1467,10 @@ def poster(message):
 
                 LOGS.info("Başarılı!")
         gbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(gkynk.title, gcount)
-        LOGS.info(gbasari)
+        LOGS.warning(gbasari)
         bot.send_message(botlog, gbasari)
     # Tutan Linkler
-    elif chat == kaynaklar[6]:
+    elif chat == kaynaklar[6] or chat == -1001190898326:
         fcount = 0
         fmesaj = message.caption
         """ Link tespit """
@@ -1484,7 +1483,7 @@ def poster(message):
         if fmesajb.startswith("https://t.me/"):
             return
         fkynk = bot.get_chat(chat)
-        LOGS.info("{} postu atılıyor... ".format(fkynk.title))
+        LOGS.warning("{} postu atılıyor... ".format(fkynk.title))
         """ Açıklama tespit """
         fason = fmesaj.find("\n")
         faciklama = fmesaj[:fason]
@@ -1512,6 +1511,8 @@ def poster(message):
             faltsite = fhesap['altsite']
             fsira = fhesap['sira']
             if "7" in fkaynak and len(fkanal) > 0:
+                falink = " "
+                flink = " "
                 if fsira == "2":
                     ftoken = faltapi
                     fsite = faltsite
@@ -1554,14 +1555,6 @@ def poster(message):
                 elif fsablon == "9":
                     fsablon = f"{faciklama} \n\n𝙇𝙄𝙉𝙆🔗 {flink} \n\n     𝙇𝙄𝙉𝙆🔗 {falink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
                 elif fsablon.find('{alink}') != -1:
-                    """
-                    faort = [" ", " "]
-                    fasal = [" ", " "]
-                    fasol = fsablon.split("{link}")
-                    faort = fasol[1].split("{alink}")
-                    fasal = fasol[0].split("{aciklama}")
-                    fsablon = f"{fasal[0]}{faciklama}{fasal[1]}{flink}{faort[0]}{falink}{faort[1]}"
-                    """
                     fsablon = fsablon.replace("{aciklama}", "{}").replace("{alink}", "{}").replace("{link}", "{}").format(faciklama, flink, falink)
                 else:
                     fsablon = fsablon.replace("aciklama", "").replace("{link}", "{}")
@@ -1587,7 +1580,7 @@ def poster(message):
                 LOGS.info("Başarılı!")
         fbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(fkynk.title, fcount)
         bot.send_message(botlog, fbasari)
-        LOGS.info(fbasari)
+        LOGS.warning(fbasari)
 
 def gunluk():
     while 0 < 1:

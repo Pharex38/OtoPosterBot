@@ -1,10 +1,6 @@
-python-telegram-bot
+colorlog
 pymongo
 dnspython
 pyTelegramBotAPI
-mega.py
-feedparser
-pyrogram
 requests
-telethon
 APScheduler
