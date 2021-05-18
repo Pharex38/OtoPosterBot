@@ -1463,9 +1463,9 @@ def poster(message):
                             print(f"{gkanal} kayıtlardan silindi.")
 
                 print("Başarılı!")
-            gbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(gkynk.title, gcount)
-            print(gbasari)
-            bot.send_message(botlog, gbasari)
+        gbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(gkynk.title, gcount)
+        print(gbasari)
+        bot.send_message(botlog, gbasari)
     # Tutan Linkler
     elif chat == kaynaklar[6]:
         fcount = 0
@@ -1581,7 +1581,7 @@ def poster(message):
                             print(f"{fkanal} kayıtlardan silindi.")
                     
                 print("Başarılı!")
-        fbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(gkynk.title, fcount)
+        fbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(fkynk.title, fcount)
         bot.send_message(botlog, fbasari)
         print(fbasari)
 
