@@ -62,7 +62,7 @@ saat = zaman.hour
 dakika = zaman.minute
 logd = "{}.{}.{} - {}:{}".format(zaman.year, zaman.month, zaman.day, saat, dakika)
 
-logging.basicConfig(filename=f"{logd}.log", level=logging.INFO)
+logging.basicConfig(format="%(asctime)s - %(levelname)s - %(message)s", filename=f"{logd}.log", level=logging.INFO)
 
 logging.info(f"Saat: {saat}:{dakika}")
 
@@ -835,7 +835,7 @@ def poster(message):
                     link = s.get(f"http://ouo.io/api/{token}?s={mesajb}").text
                 if site == "5":
                     link = s.get(f"http://pubiza.com/api.php?token={token}&url={mesajb}&ads_type=adult").text
-                logging.info(f"{kanal} + {link} + {token}")
+                loging.info(f"{kanal} + {link} + {token}")
                 if sablon == "1":
                     sablon = f"🔥{aciklama}\n\n🔱 TIKLA 👉 {link}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
                 elif sablon == "2" or sablon == "3":
@@ -1606,5 +1606,4 @@ timThr = threading.Thread(target=gunluk)
 #timThr.start()
 
 logging.info("Bot Çalışıyor...")
-print("ççç")
 bot.polling(none_stop=False, interval=0)
