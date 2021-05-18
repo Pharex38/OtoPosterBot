@@ -1605,4 +1605,5 @@ def gunluk():
 timThr = threading.Thread(target=gunluk)
 #timThr.start()
 
+logging.info("Bot Çalışıyor...")
 bot.polling(none_stop=False, interval=0)
