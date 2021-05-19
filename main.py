@@ -67,7 +67,7 @@ def setup_logger():
     file_handler = logging.FileHandler(f'Loglar/{logd}.txt', 'w', 'utf-8')
     stream_handler = logging.StreamHandler()
     logger = logging.getLogger("main_log")
-    logger.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=logger.INFO)
+    logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=logger.INFO)
     logger.addHandler(file_handler)
     logger.addHandler(stream_handler)
 
