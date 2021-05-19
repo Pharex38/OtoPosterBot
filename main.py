@@ -9,7 +9,8 @@ from telebot import types
 import time, datetime
 import threading
 import Colorer
-from logging import basicConfig, getLogger, INFO
+import logging
+#from logging import basicConfig, getLogger, INFO
 
 #botapi = environ['BOT_TOKEN'] 
 mongo = "os.environ["MONGO_URI"]"
