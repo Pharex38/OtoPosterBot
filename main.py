@@ -884,7 +884,7 @@ def poster(message):
                         if message.content_type == "animation":
                             post = bot.send_animation(kan, medya, caption=sablon)
                         postkayit = postdata.find_one({"_id": kan})
-                        if postdata == None:
+                        if postkayit == None:
                             postdata.insert_one({"_id": kan, "pid": post.message_id})
                         else:
                             postdata.update_one({"_id": kan}, {"$set": {"pid": post.message_id}})
