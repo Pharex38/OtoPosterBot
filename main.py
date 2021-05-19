@@ -64,19 +64,18 @@ logd = "{}.{}.{} - {}.{}".format(zaman.year, zaman.month, zaman.day, saat, dakik
 
 def setup_logger():
     global logger
-    logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=logging.INFO)
-   # logger.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=logging.INFO)
-    file_handler = logging.FileHandler(f'Loglar/{logd}.txt', 'w', 'utf-8')
+    file_handler = logging.FileHandler('crocodile.log', 'w', 'utf-8')
     stream_handler = logging.StreamHandler()
     logger = logging.getLogger("main_log")
+    logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=logging.DEBUG)
     logger.addHandler(file_handler)
     logger.addHandler(stream_handler)
 
 #logging = getLogger(__name__)
-setup_logger()
 
 
-logger.info(f"Saat: {saat}:{dakika}")
+
+logging.info(f"Saat: {saat}:{dakika}")
 
 @bot.message_handler(commands=['start'])
 def start(message):
@@ -174,7 +173,7 @@ def kpostsil(message):
         try:
             bot.delete_message(d['_id'], d['pid'])
         except Exception as e:
-            logging.error(e)
+            LOGS.error(e)
         else:
             spcount += 1
     bot.send_message(chat, f"{spcount} Post Silindi.")
@@ -310,10 +309,10 @@ def menu(message):
                 try:
                     kbilgi = bot.get_chat(chan)
                 except Exception as e:
-                    logging.error(e)
+                    LOGS.error(e)
                     collection.update_one({"_id": chat}, {"$pull": {"kanal": chan}})
                     kayitli = kayitli - 1
-                    logging.debug("Kanal silindi")
+                    LOGS.debug("Kanal silindi")
                 else:    
                     bot.send_message(chat, """Kayit No: {}\n\nKanalınız: <a href="{}">{}</a>""".format(kayitli+1, kbilgi.invite_link, kbilgi.title))
                 kayitli = kayitli + 1
@@ -806,7 +805,7 @@ def poster(message):
         mesajb = mesaj[sol:sag].strip()
         if mesajb.startswith("https://t.me/"):
             return
-        logging.warning("{} postu atılıyor... ".format(kynk.title))
+        LOGS.warning("{} postu atılıyor... ".format(kynk.title))
         """  Açıklama tespit  """
         ason = mesaj.find("\n")
         aciklama = mesaj[:ason]
@@ -869,7 +868,7 @@ def poster(message):
                     link = s.get(f"http://ouo.io/api/{token}?s={mesajb}").text
                 if site == "5":
                     link = s.get(f"http://pubiza.com/api.php?token={token}&url={mesajb}&ads_type=adult").text
-                logging.info(f"{kanal} + {link} + {token}")
+                LOGS.info(f"{kanal} + {link} + {token}")
                 if sablon == "1":
                     sablon = f"🔥{aciklama}\n\n🔱 TIKLA 👉 {link}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
                 elif sablon == "2" or sablon == "3":
@@ -896,17 +895,17 @@ def poster(message):
                             postdata.update_one({"_id": kan}, {"$set": {"pid": post.message_id}})
                         count = count + 1
                     except Exception as e:
-                        logging.debug(f"Hatalı kanal: {kanal}")
+                        LOGS.debug(f"Hatalı kanal: {kanal}")
                         e = str(e)
                         if e.find("bot is not a member") != -1:
                             collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
                             bot.send_message(user, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
-                            logging.debug(f"{kanal} kayıtlardan silindi.")
-                logging.info("Başarılı!")
+                            LOGS.debug(f"{kanal} kayıtlardan silindi.")
+                LOGS.info("Başarılı!")
             else:
                 pass
         basari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(kynk.title, count)
-        logging.warning(basari)
+        LOGS.warning(basari)
         bot.send_message(botlog, basari)
     # Bedava Link
     elif chat == kaynaklar[1]:
@@ -924,7 +923,7 @@ def poster(message):
         if bmesajb.startswith("https://t.me/"):
             return
         bkynk = bot.get_chat(chat)
-        logging.warning("{} postu atılıyor... ".format(bkynk.title))
+        LOGS.warning("{} postu atılıyor... ".format(bkynk.title))
         """ Açıklama tespit """
         bason = bmesaj.find("\n")
         baciklama = bmesaj[:bason]
@@ -989,7 +988,7 @@ def poster(message):
                     blink = s.get(f"http://ouo.io/api/{btoken}?s={bmesajb}").text
                 if bsite == "5":
                     blink = s.get(f"http://pubiza.com/api.php?token={btoken}&url={bmesajb}&ads_type=adult").text
-                logging.info(f"{bkanal} + {blink} + {btoken}")
+                LOGS.info(f"{bkanal} + {blink} + {btoken}")
                 if bsablon == "1":
                     bsablon = f"🔥{baciklama}\n\n🔱 TIKLA 👉 {blink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
                 elif bsablon == "2" or bsablon == "3":
@@ -1018,16 +1017,16 @@ def poster(message):
                             bpostdata.update_one({"_id": bkan}, {"$set": {"pid": bpost.message_id}})
                         bcount = bcount + 1
                     except Exception as e:
-                        logging.debug(f"Hatalı kanal: {bkanal}")
+                        LOGS.debug(f"Hatalı kanal: {bkanal}")
                         e = str(e)
                         if e.find("bot is not a member") != -1:
                             collection.update_one({"_id": buser}, {"$pull": {"kanal": bkan}})
                             bot.send_message(buser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
-                            logging.debug(f"{bkanal} kayıtlardan silindi.")
+                            LOGS.debug(f"{bkanal} kayıtlardan silindi.")
                     
-                logging.info("Başarılı!")
+                LOGS.info("Başarılı!")
         bbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(bkynk.title, bcount)
-        logging.warning(bbasari)
+        LOGS.warning(bbasari)
         bot.send_message(botlog, bbasari)
     # Link Evi
     elif chat == kaynaklar[2]:
@@ -1045,7 +1044,7 @@ def poster(message):
         if cmesajb.startswith("https://t.me/"):
             return
         ckynk = bot.get_chat(chat)
-        logging.warning("{} postu atılıyor... ".format(ckynk.title))
+        LOGS.warning("{} postu atılıyor... ".format(ckynk.title))
         """ Açıklama tespit """
         cason = cmesaj.find("\n")
         caciklama = cmesaj[:cason]
@@ -1111,7 +1110,7 @@ def poster(message):
                     clink = s.get(f"http://ouo.io/api/{ctoken}?s={cmesajb}").text
                 if csite == "5":
                     clink = s.get(f"http://pubiza.com/api.php?token={ctoken}&url={cmesajb}&ads_type=adult").text
-                logging.info(f"{ckanal} + {clink} + {ctoken}")
+                LOGS.info(f"{ckanal} + {clink} + {ctoken}")
                 if csablon == "1":
                     csablon = f"🔥{caciklama}\n\n🔱 TIKLA 👉 {clink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
                 elif csablon == "2" or csablon == "3":
@@ -1139,16 +1138,16 @@ def poster(message):
                             cpostdata.update_one({"_id": ckan}, {"$set": {"pid": cpost.message_id}})
                         ccount = ccount + 1
                     except Exception as e:
-                        logging.debug(f"Hatalı kanal: {ckanal}")
+                        LOGS.debug(f"Hatalı kanal: {ckanal}")
                         e = str(e)
                         if e.find("bot is not a member") != -1:
                             collection.update_one({"_id": cuser}, {"$pull": {"kanal": ckan}})
                             bot.send_message(cuser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
-                            logging.debug(f"{ckanal} kayıtlardan silindi.")
+                            LOGS.debug(f"{ckanal} kayıtlardan silindi.")
 
-                logging.info("Başarılı!")
+                LOGS.info("Başarılı!")
         cbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(ckynk.title, ccount)
-        logging.warning(cbasari)
+        LOGS.warning(cbasari)
         bot.send_message(botlog, cbasari)
     # BAŞHUB
     elif chat == kaynaklar[3]:
@@ -1166,7 +1165,7 @@ def poster(message):
         if dmesajb.startswith("https://t.me/"):
             return
         dkynk = bot.get_chat(chat)
-        logging.warning("{} postu atılıyor... ".format(dkynk.title))
+        LOGS.warning("{} postu atılıyor... ".format(dkynk.title))
         """ Açıklama tespit """
         dason = dmesaj.find("\n")
         daciklama = dmesaj[:dason]
@@ -1232,7 +1231,7 @@ def poster(message):
                     dlink = s.get(f"http://ouo.io/api/{dtoken}?s={dmesajb}").text
                 if dsite == "5":
                     dlink = s.get(f"http://pubiza.com/api.php?token={dtoken}&url={dmesajb}&ads_type=adult").text
-                logging.info(f"{dkanal} + {dlink} + {dtoken}")
+                LOGS.info(f"{dkanal} + {dlink} + {dtoken}")
                 if dsablon == "1":
                     dsablon = f"🔥{daciklama}\n\n🔱 TIKLA 👉 {dlink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
                 elif dsablon == "2" or dsablon == "3":
@@ -1259,16 +1258,16 @@ def poster(message):
                             dpostdata.update_one({"_id": dkan}, {"$set": {"pid": dpost.message_id}})
                         dcount = dcount + 1
                     except Exception as e:
-                        logging.debug(f"Hatalı kanal: {dkanal}")
+                        LOGS.debug(f"Hatalı kanal: {dkanal}")
                         e = str(e)
                         if e.find("bot is not a member") != -1:
                             collection.update_one({"_id": duser}, {"$pull": {"kanal": dkan}})
                             bot.send_message(duser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
-                            logging.debug(f"{dkanal} kayıtlardan silindi.")
+                            LOGS.debug(f"{dkanal} kayıtlardan silindi.")
 
-                logging.info("Başarılı!")
+                LOGS.info("Başarılı!")
         dbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(dkynk.title, dcount)
-        logging.warning(dbasari)
+        LOGS.warning(dbasari)
         bot.send_message(botlog, dbasari)
     # Açık mı link
     elif chat == kaynaklar[4]:
@@ -1284,7 +1283,7 @@ def poster(message):
         if emesajb.startswith("https://t.me/"):
             return
         ekynk = bot.get_chat(chat)
-        logging.warning("{} postu atılıyor... ".format(ekynk.title))
+        LOGS.warning("{} postu atılıyor... ".format(ekynk.title))
         """ Açıklama tespit """
         eason = emesaj.find("\n")
         eaciklama = emesaj[:eason]
@@ -1349,7 +1348,7 @@ def poster(message):
                     elink = s.get(f"http://ouo.io/api/{etoken}?s={emesajb}").text
                 if esite == "5":
                     elink = s.get(f"http://pubiza.com/api.php?token={etoken}&url={emesajb}&ads_type=adult").text
-                logging.info(f"{ekanal} + {elink} + {etoken}")
+                LOGS.info(f"{ekanal} + {elink} + {etoken}")
                 if esablon == "1":
                     esablon = f"🔥{eaciklama}\n\n🔱 TIKLA 👉 {elink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
                 elif esablon == "2" or esablon == "3":
@@ -1376,16 +1375,16 @@ def poster(message):
                             epostdata.update_one({"_id": ekan}, {"$set": {"pid": epost.message_id}})
                         ecount = ecount + 1
                     except Exception as e:
-                        logging.debug(f"Hatalı kanal: {ekanal}")
+                        LOGS.debug(f"Hatalı kanal: {ekanal}")
                         e = str(e)
                         if e.find("bot is not a member") != -1:
                             collection.update_one({"_id": euser}, {"$pull": {"kanal": ekan}})
                             bot.send_message(euser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
-                            logging.debug(f"{ekanal} kayıtlardan silindi.")
+                            LOGS.debug(f"{ekanal} kayıtlardan silindi.")
 
-                logging.info("Başarılı!")
+                LOGS.info("Başarılı!")
         ebasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(ekynk.title, ecount)
-        logging.warning(ebasari)
+        LOGS.warning(ebasari)
         bot.send_message(botlog, ebasari)
     # MuhoVip
     elif chat == kaynaklar[5]:
@@ -1403,7 +1402,7 @@ def poster(message):
         gmesajb = gmesaj[gsol:gsag].strip()
         if gmesajb.startswith("https://t.me/"):
             return
-        logging.warning("{} postu atılıyor... ".format(gkynk.title))
+        LOGS.warning("{} postu atılıyor... ".format(gkynk.title))
         """ Açıklama tespit """
         gason = gmesaj.find("\n")
         gaciklama = gmesaj[:gason]
@@ -1468,7 +1467,7 @@ def poster(message):
                     glink = s.get(f"http://ouo.io/api/{gtoken}?s={gmesajb}").text
                 if gsite == "5":
                     glink = s.get(f"http://pubiza.com/api.php?token={gtoken}&url={gmesajb}&ads_type=adult").text
-                logging.info(f"{gkanal} + {glink} + {gtoken}")
+                LOGS.info(f"{gkanal} + {glink} + {gtoken}")
                 if gsablon == "1":
                     gsablon = f"🔥{gaciklama}\n\n🔱 TIKLA 👉 {glink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
                 elif gsablon == "2" or gsablon == "3":
@@ -1495,16 +1494,16 @@ def poster(message):
                             gpostdata.update_one({"_id": gkan}, {"$set": {"pid": gpost.message_id}})
                         gcount = gcount + 1
                     except Exception as e:
-                        logging.debug(f"Hatalı kanal: {gkanal}")
+                        LOGS.debug(f"Hatalı kanal: {gkanal}")
                         e = str(e)
                         if e.find("bot is not a member") != -1:
                             collection.update_one({"_id": euser}, {"$pull": {"kanal": gkan}})
                             bot.send_message(guser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
-                            logging.debug(f"{gkanal} kayıtlardan silindi.")
+                            LOGS.debug(f"{gkanal} kayıtlardan silindi.")
 
-                logging.info("Başarılı!")
+                LOGS.info("Başarılı!")
         gbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(gkynk.title, gcount)
-        logging.warning(gbasari)
+        LOGS.warning(gbasari)
         bot.send_message(botlog, gbasari)
     # Tutan Linkler
     elif chat == kaynaklar[6]:
@@ -1522,7 +1521,7 @@ def poster(message):
         if fmesajb.startswith("https://t.me/"):
             return
         fkynk = bot.get_chat(chat)
-        logging.warning("{} postu atılıyor... ".format(fkynk.title))
+        LOGS.warning("{} postu atılıyor... ".format(fkynk.title))
         """ Açıklama tespit """
         fason = fmesaj.find("\n")
         faciklama = fmesaj[:fason]
@@ -1588,7 +1587,7 @@ def poster(message):
                     flink = s.get(f"http://ouo.io/api/{ftoken}?s={fmesajb}").text
                 if fsite == "5":
                     flink = s.get(f"http://pubiza.com/api.php?token={ftoken}&url={fmesajb}&ads_type=adult").text
-                logging.info(f"{fkanal} + {flink} + {ftoken}")
+                LOGS.info(f"{fkanal} + {flink} + {ftoken}")
                 if fsablon == "1":
                     fsablon = f"🔥{faciklama}\n\n🔱 TIKLA 👉 {flink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
                 elif fsablon == "2" or fsablon == "3":
@@ -1616,17 +1615,17 @@ def poster(message):
                             fpostdata.update_one({"_id": fkan}, {"$set": {"pid": fpost.message_id}})
                         fcount = fcount + 1
                     except Exception as e:
-                        logging.debug(f"Hatalı kanal: {fkanal}")
+                        LOGS.debug(f"Hatalı kanal: {fkanal}")
                         e = str(e)
                         if e.find("bot is not a member") != -1:
                             collection.update_one({"_id": fuser}, {"$pull": {"kanal": fkan}})
                             bot.send_message(fuser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
-                            logging.debug(f"{fkanal} kayıtlardan silindi.")
+                            LOGS.debug(f"{fkanal} kayıtlardan silindi.")
                     
-                logging.info("Başarılı!")
+                LOGS.info("Başarılı!")
         fbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(fkynk.title, fcount)
         bot.send_message(botlog, fbasari)
-        logging.warning(fbasari)
+        LOGS.warning(fbasari)
 
 def gunluk():
     while 0 < 1:
@@ -1646,5 +1645,5 @@ def gunluk():
 timThr = threading.Thread(target=gunluk)
 #timThr.start()
 
-logging.info("Bot Çalışıyor...")
+LOGS.info("Bot Çalışıyor...")
 bot.polling(none_stop=False, interval=0)
