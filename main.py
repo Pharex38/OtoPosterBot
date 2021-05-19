@@ -917,6 +917,8 @@ def poster(message):
         s = requests.Session()
         link = s.get("https://ay.live/api")
         cookies = dict(link.cookies)
+        """  Veri Tabanı  """
+        bpostdata = db[str(chat)]
         bbinb = collection.find({})
         """ Dosya tespit """
         if message.content_type == "photo":
@@ -980,28 +982,25 @@ def poster(message):
                 elif bsablon == "9":
                     bsablon = f"{baciklama} \n\n𝙇𝙄𝙉𝙆🔗 {blink} \n\n     𝙇𝙄𝙉𝙆🔗 {balink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
                 elif bsablon.find('{alink}') != -1:
-                    """
-                    baort = [" ", " "]
-                    basal = [" ", " "]
-                    basol = bsablon.split("{link}")
-                    baort = basol[1].split("{alink}")
-                    basal = basol[0].split("{aciklama}")
-                    bsablon = f"{basal[0]}{baciklama}{basal[1]}{blink}{baort[0]}{balink}{baort[1]}"
-                    """
-                    bsablon = bsablon.replace("aciklama", "").replace("{alink}","{}").replace("{link}", "{}").format(baciklama, blink, balink)
+                    bsablon = bsablon.replace("{aciklama}", "{}").replace("{alink}","{}").replace("{link}", "{}").format(baciklama, blink, balink)
                     
                 else:
-                    bsablon = bsablon.replace("aciklama", "").replace("{link}", "{}")
+                    bsablon = bsablon.replace("{aciklama}", "{}").replace("{link}", "{}")
                     bsablon = str(bsablon).format(baciklama, blink)
                 sleep(1)
                 for bkan in bkanal:
                     try:
                         if message.content_type == "photo":
-                            bot.send_photo(bkan, bmedya, caption=bsablon)
+                            bpost = bot.send_photo(bkan, bmedya, caption=bsablon)
                         if message.content_type == "video":
-                            bot.send_video(bkan, bmedya, caption=bsablon)
+                            bpost = bot.send_video(bkan, bmedya, caption=bsablon)
                         if message.content_type == "animation":
-                            bot.send_animation(bkan, bmedya, caption=bsablon)
+                            bpost = bot.send_animation(bkan, bmedya, caption=bsablon)
+                        bpostkayit = bpostdata.find_one({"_id": bkan})
+                        if bpostkayit == None:
+                            bpostdata.insert_one({"_id": bkan, "pid": bpost.message_id})
+                        else:
+                            bpostdata.update_one({"_id": bkan}, {"$set": {"pid": bpost.message_id}})
                         bcount = bcount + 1
                     except Exception as e:
                         LOGS.debug(f"Hatalı kanal: {bkanal}")
@@ -1037,6 +1036,8 @@ def poster(message):
         s = requests.Session()
         link = s.get("https://ay.live/api")
         cookies = dict(link.cookies)
+        """  Veri Tabanı  """
+        cpostdata = db[str(chat)]
         cbinb = collection.find({})
         """ Dosya tespit """
         if message.content_type == "photo":
@@ -1101,14 +1102,6 @@ def poster(message):
                 elif csablon == "9":
                     csablon = f"{caciklama} \n\n𝙇𝙄𝙉𝙆🔗 {clink} \n\n     𝙇𝙄𝙉𝙆🔗 {calink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
                 elif csablon.find('{alink}') != -1:
-                    """
-                    caort = [" ", " "]
-                    casal = [" ", " "]
-                    casol = csablon.split("{link}")
-                    caort = casol[1].split("{alink}")
-                    casal = casol[0].split("{aciklama}")
-                    csablon = f"{casal[0]}{caciklama}{casal[1]}{clink}{caort[0]}{calink}{caort[1]}"
-                    """
                     csablon = csablon.replace("{link}", "{}").replace("{aciklama}", "{}").replace("{alink}","{}").format(caciklama, clink, calink)
                     
                 else:
@@ -1117,11 +1110,16 @@ def poster(message):
                 for ckan in ckanal:
                     try:
                         if message.content_type == "photo":
-                            bot.send_photo(ckan, cmedya, caption=csablon)
+                            cpost = bot.send_photo(ckan, cmedya, caption=csablon)
                         if message.content_type == "video":
-                            bot.send_video(ckan, cmedya, caption=csablon)
+                            cpost = bot.send_video(ckan, cmedya, caption=csablon)
                         if message.content_type == "animation":
-                            bot.send_animation(ckan, cmedya, caption=csablon)
+                            cpost = bot.send_animation(ckan, cmedya, caption=csablon)
+                        cpostkayit = cpostdata.find_one({"_id": ckan})
+                        if cpostkayit == None:
+                            cpostdata.insert_one({"_id": ckan, "pid": cpost.message_id})
+                        else:
+                            cpostdata.update_one({"_id": ckan}, {"$set": {"pid": cpost.message_id}})
                         ccount = ccount + 1
                     except Exception as e:
                         LOGS.debug(f"Hatalı kanal: {ckanal}")
@@ -1157,8 +1155,9 @@ def poster(message):
         s = requests.Session()
         link = s.get("https://ay.live/api")
         cookies = dict(link.cookies)
+        """  Veri Tabanı  """
+        dpostdata = db[str(chat)]
         dbinb = collection.find({})
-        sleep(1)
         """ Dosya tespit """
         if message.content_type == "photo":
             dmedya = message.photo[0].file_id
@@ -1222,14 +1221,6 @@ def poster(message):
                 elif dsablon == "9":
                     dsablon = f"{daciklama} \n\n𝙇𝙄𝙉𝙆🔗 {dlink} \n\n     𝙇𝙄𝙉𝙆🔗 {dalink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
                 elif dsablon.find('{alink}') != -1:
-                    """
-                    daort = [" ", " "]
-                    dasal = [" ", " "]
-                    dasol = dsablon.split("{link}")
-                    daort = dasol[1].split("{alink}")
-                    dasal = dasol[0].split("{aciklama}")
-                    dsablon = f"{dasal[0]}{daciklama}{dasal[1]}{dlink}{daort[0]}{dalink}{daort[1]}"
-                    """
                     dsablon = dsablon.replace("{link}", "{}").replace("{aciklama}", "{}").replace("{alink}", "{}").format(daciklama, dlink, dalink)
                 else:
                     dsablon = dsablon.replace("{link}", "{}").replace("{aciklama}", "{}").format(daciklama, dlink)
@@ -1237,11 +1228,16 @@ def poster(message):
                 for dkan in dkanal:
                     try:
                         if message.content_type == "photo":
-                            bot.send_photo(dkan, dmedya, caption=dsablon)
+                            dpost = bot.send_photo(dkan, dmedya, caption=dsablon)
                         if message.content_type == "video":
-                            bot.send_video(dkan, dmedya, caption=dsablon)
+                            dpost = bot.send_video(dkan, dmedya, caption=dsablon)
                         if message.content_type == "animation":
-                            bot.send_animation(dkan, dmedya, caption=dsablon)
+                            dpost = bot.send_animation(dkan, dmedya, caption=dsablon)
+                        dpostkayit = dpostdata.find_one({"_id": dkan})
+                        if dpostkayit == None:
+                            dpostdata.insert_one({"_id": dkan, "pid": dpost.message_id})
+                        else:
+                            dpostdata.update_one({"_id": dkan}, {"$set": {"pid": dpost.message_id}})
                         dcount = dcount + 1
                     except Exception as e:
                         LOGS.debug(f"Hatalı kanal: {dkanal}")
@@ -1277,8 +1273,9 @@ def poster(message):
         s = requests.Session()
         link = s.get("https://ay.live/api")
         cookies = dict(link.cookies)
+        """  Veri Tabanı  """
+        epostdata = db[str(chat)]
         ebinb = collection.find({})
-        sleep(1)
         """ Dosya tespit """
         if message.content_type == "photo":
             emedya = message.photo[0].file_id
@@ -1341,26 +1338,23 @@ def poster(message):
                 elif esablon == "9":
                     esablon = f"{eaciklama} \n\n𝙇𝙄𝙉𝙆🔗 {elink} \n\n     𝙇𝙄𝙉𝙆🔗 {ealink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
                 elif esablon.find('{alink}') != -1:
-                    """
-                    eaort = [" ", " "]
-                    easal = [" ", " "]
-                    easol = esablon.split("{link}")
-                    eaort = easol[1].split("{alink}")
-                    easal = easol[0].split("{aciklama}")
-                    esablon = f"{easal[0]}{eaciklama}{easal[1]}{elink}{eaort[0]}{ealink}{eaort[1]}"
-                    """
                     esablon = esablon.replace("{link}", "{}").replace("{aciklama}", "{}").replace("{alink}", "{}").format(eaciklama, elink, ealink)
                 else:
-                    esablon = esablon.replace("{link}", "{}").replace("aciklama", "").format(eaciklama, elink)
+                    esablon = esablon.replace("{link}", "{}").replace("{aciklama}", "{}").format(eaciklama, elink)
                 sleep(0.5)
                 for ekan in ekanal:
                     try:
                         if message.content_type == "photo":
-                            bot.send_photo(ekan, emedya, caption=esablon)
+                            epost = bot.send_photo(ekan, emedya, caption=esablon)
                         if message.content_type == "video":
-                            bot.send_video(ekan, emedya, caption=esablon)
+                            epost = bot.send_video(ekan, emedya, caption=esablon)
                         if message.content_type == "animation":
-                            bot.send_animation(ekan, emedya, caption=esablon)
+                            epost = bot.send_animation(ekan, emedya, caption=esablon)
+                        epostkayit = epostdata.find_one({"_id": ekan})
+                        if epostkayit == None:
+                            epostdata.insert_one({"_id": ekan, "pid": epost.message_id})
+                        else:
+                            epostdata.update_one({"_id": ekan}, {"$set": {"pid": epost.message_id}})
                         ecount = ecount + 1
                     except Exception as e:
                         LOGS.debug(f"Hatalı kanal: {ekanal}")
@@ -1396,8 +1390,9 @@ def poster(message):
         s = requests.Session()
         link = s.get("https://ay.live/api")
         cookies = dict(link.cookies)
+        """  Veri Tabanı  """
+        gpostdata = db[str(chat)]
         gbinb = collection.find({})
-        sleep(1)
         """ Dosya tespit """
         if message.content_type == "photo":
             gmedya = message.photo[0].file_id
@@ -1460,12 +1455,6 @@ def poster(message):
                 elif gsablon == "9":
                     gsablon = f"{gaciklama} \n\n𝙇𝙄𝙉𝙆🔗 {glink} \n\n     𝙇𝙄𝙉𝙆🔗 {galink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
                 elif gsablon.find('{alink}') != -1:
-                    """
-                    gasol = gsablon.split("{link}")
-                    gaort = gasol[1].split("{alink}")
-                    gasal = gasol[0].split("{aciklama}")
-                    gsablon = f"{gasal[0]}{gaciklama}{gasal[1]}{glink}{gaort[0]}{galink}{gaort[1]}"
-                    """
                     gsablon = gsablon.replace("{link}", "{}").replace("{aciklama}", "{}").replace("{alink}", "{}").format(gaciklama, glink, galink)
                 else:
                     gsablon = gsablon.replace("{link}", "{}").replace("aciklama", "").format(gaciklama, glink)
@@ -1473,11 +1462,16 @@ def poster(message):
                 for gkan in gkanal:
                     try:
                         if message.content_type == "photo":
-                            bot.send_photo(gkan, gmedya, caption=gsablon)
+                            gpost = bot.send_photo(gkan, gmedya, caption=gsablon)
                         if message.content_type == "video":
-                            bot.send_video(gkan, gmedya, caption=gsablon)
+                            gpost = bot.send_video(gkan, gmedya, caption=gsablon)
                         if message.content_type == "animation":
-                            bot.send_animation(gkan, gmedya, caption=gsablon)
+                            gpost = bot.send_animation(gkan, gmedya, caption=gsablon)
+                        gpostkayit = gpostdata.find_one({"_id": gkan})
+                        if gpostkayit == None:
+                            gpostdata.insert_one({"_id": gkan, "pid": gpost.message_id})
+                        else:
+                            gpostdata.update_one({"_id": gkan}, {"$set": {"pid": gpost.message_id}})
                         gcount = gcount + 1
                     except Exception as e:
                         LOGS.debug(f"Hatalı kanal: {gkanal}")
@@ -1513,6 +1507,8 @@ def poster(message):
         s = requests.Session()
         link = s.get("https://ay.live/api")
         cookies = dict(link.cookies)
+        """  Veri Tabanı  """
+        fpostdata = db[str(chat)]
         fbinb = collection.find({})
         """ Dosya tespit """
         if message.content_type == "photo":
@@ -1579,17 +1575,22 @@ def poster(message):
                 elif fsablon.find('{alink}') != -1:
                     fsablon = fsablon.replace("{aciklama}", "{}").replace("{alink}", "{}").replace("{link}", "{}").format(faciklama, flink, falink)
                 else:
-                    fsablon = fsablon.replace("aciklama", "").replace("{link}", "{}")
+                    fsablon = fsablon.replace("{aciklama}", "{}").replace("{link}", "{}")
                     fsablon = str(fsablon).format(faciklama, flink)
                 sleep(1)
                 for fkan in fkanal:
                     try:
                         if message.content_type == "photo":
-                            bot.send_photo(fkan, fmedya, caption=fsablon)
+                            fpost = bot.send_photo(fkan, fmedya, caption=fsablon)
                         if message.content_type == "video":
-                            bot.send_video(fkan, fmedya, caption=fsablon)
+                            fpost = bot.send_video(fkan, fmedya, caption=fsablon)
                         if message.content_type == "animation":
-                            bot.send_animation(fkan, fmedya, caption=fsablon)
+                            fpost = bot.send_animation(fkan, fmedya, caption=fsablon)
+                        fpostkayit = fpostdata.find_one({"_id": fkan})
+                        if fpostkayit == None:
+                            fpostdata.insert_one({"_id": fkan, "pid": fpost.message_id})
+                        else:
+                            fpostdata.update_one({"_id": fkan}, {"$set": {"pid": fpost.message_id}})
                         fcount = fcount + 1
                     except Exception as e:
                         LOGS.debug(f"Hatalı kanal: {fkanal}")
