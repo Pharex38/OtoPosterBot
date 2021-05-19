@@ -75,7 +75,7 @@ def setup_logger():
 
 
 
-logging.info(f"Saat: {saat}:{dakika}")
+logger.info(f"Saat: {saat}:{dakika}")
 
 @bot.message_handler(commands=['start'])
 def start(message):
