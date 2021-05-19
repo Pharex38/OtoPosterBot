@@ -89,49 +89,49 @@ def start(message):
     butonbir = types.KeyboardButton('📝 Kaydet')
     ref = message.text.split()[1]
     if ref == "Kaynak1":
-        if kdb == None:
+        if kat == None:
             bot.send_message(chat, "Kaynak seçmeden önce bir API kaydetmelisiniz!")
         else:
             collection.update_one({"_id": user}, {"$push": {"kaynak": "1"}})
             bot.send_message(chat, "Kaynağınız Eklendi!")
             return
     if ref == "Kaynak2":
-        if kdb == None:
+        if kat == None:
             bot.send_message(chat, "Kaynak seçmeden önce bir API kaydetmelisiniz!")
         else:
             collection.update_one({"_id": user}, {"$push": {"kaynak": "2"}})
             bot.send_message(chat, "Kaynağınız Eklendi!")
             return
     if ref == "Kaynak3":
-        if kdb == None:
+        if kat == None:
             bot.send_message(chat, "Kaynak seçmeden önce bir API kaydetmelisiniz!")
         else:
             collection.update_one({"_id": user}, {"$push": {"kaynak": "3"}})
             bot.send_message(chat, "Kaynağınız Eklendi!")
             return
     if ref == "Kaynak4":
-        if kdb == None:
+        if kat == None:
             bot.send_message(chat, "Kaynak seçmeden önce bir API kaydetmelisiniz!")
         else:
             collection.update_one({"_id": user}, {"$push": {"kaynak": "4"}})
             bot.send_message(chat, "Kaynağınız Eklendi!")
             return
     if ref == "Kaynak5":
-        if kdb == None:
+        if kat == None:
             bot.send_message(chat, "Kaynak seçmeden önce bir API kaydetmelisiniz!")
         else:
             collection.update_one({"_id": user}, {"$push": {"kaynak": "5"}})
             bot.send_message(chat, "Kaynağınız Eklendi!")
             return
     if ref == "Kaynak6":
-        if kdb == None:
+        if kat == None:
             bot.send_message(chat, "Kaynak seçmeden önce bir API kaydetmelisiniz!")
         else:
             collection.update_one({"_id": user}, {"$push": {"kaynak": "6"}})
             bot.send_message(chat, "Kaynağınız Eklendi!")
             return
     if ref == "Kaynak7":
-        if kdb == None:
+        if kat == None:
             bot.send_message(chat, "Kaynak seçmeden önce bir API kaydetmelisiniz!")
         else:
             collection.update_one({"_id": user}, {"$push": {"kaynak": "7"}})
