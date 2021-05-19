@@ -87,6 +87,7 @@ def start(message):
     kat = collection.find_one({"_id": user})
     dagme = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
     butonbir = types.KeyboardButton('📝 Kaydet')
+    print(message.text)
     dagme.add(butonbir)
     mention = "@"+message.from_user.username if message.from_user.username else message.from_user.first_name
     if kat == None:
