@@ -807,8 +807,8 @@ def poster(message):
             return
         logger.warning("{} postu atılıyor... ".format(kynk.title))
         """  Açıklama tespit  """
-        ason = mesaj.find("\n")
-        aciklama = mesaj[:ason]
+        ason = mesaj.rfind("\n", 0, sol)
+        aciklama = mesaj[:ason].strip()
         """  Cookies  """
         s = requests.Session()
         link = s.get("https://ay.live/api")
@@ -1046,8 +1046,8 @@ def poster(message):
         ckynk = bot.get_chat(chat)
         logger.warning("{} postu atılıyor... ".format(ckynk.title))
         """ Açıklama tespit """
-        cason = cmesaj.find("\n")
-        caciklama = cmesaj[:cason]
+        cason = cmesaj.find("\n", 0, csol)
+        caciklama = cmesaj[:cason].strip()
         """    Cookies    """
         s = requests.Session()
         link = s.get("https://ay.live/api")
@@ -1167,8 +1167,8 @@ def poster(message):
         dkynk = bot.get_chat(chat)
         logger.warning("{} postu atılıyor... ".format(dkynk.title))
         """ Açıklama tespit """
-        dason = dmesaj.find("\n")
-        daciklama = dmesaj[:dason]
+        dason = dmesaj.find("\n", 0, dsol)
+        daciklama = dmesaj[:dason].strip()
         """    Cookies    """
         s = requests.Session()
         link = s.get("https://ay.live/api")
@@ -1285,8 +1285,8 @@ def poster(message):
         ekynk = bot.get_chat(chat)
         logger.warning("{} postu atılıyor... ".format(ekynk.title))
         """ Açıklama tespit """
-        eason = emesaj.find("\n")
-        eaciklama = emesaj[:eason]
+        eason = emesaj.find("\n", 0, esol)
+        eaciklama = emesaj[:eason].strip()
         """    Cookies    """
         s = requests.Session()
         link = s.get("https://ay.live/api")
@@ -1404,8 +1404,8 @@ def poster(message):
             return
         logger.warning("{} postu atılıyor... ".format(gkynk.title))
         """ Açıklama tespit """
-        gason = gmesaj.find("\n")
-        gaciklama = gmesaj[:gason]
+        gason = gmesaj.find("\n", 0, gsol)
+        gaciklama = gmesaj[:gason].strip()
         """    Cookies    """
         s = requests.Session()
         link = s.get("https://ay.live/api")
@@ -1523,8 +1523,8 @@ def poster(message):
         fkynk = bot.get_chat(chat)
         logger.warning("{} postu atılıyor... ".format(fkynk.title))
         """ Açıklama tespit """
-        fason = fmesaj.find("\n")
-        faciklama = fmesaj[:fason]
+        fason = fmesaj.find("\n", 0, fsol)
+        faciklama = fmesaj[:fason].strip()
         """    Cookies    """
         s = requests.Session()
         link = s.get("https://ay.live/api")
