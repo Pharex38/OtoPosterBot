@@ -61,7 +61,6 @@ zaman = datetime.datetime.now()
 saat = zaman.hour 
 dakika = zaman.minute
 logd = "{}.{}.{} - {}:{}".format(zaman.year, zaman.month, zaman.day, saat, dakika)
-logging = getLogger(__name__)
 
 def setup_logger():
     global logger
@@ -72,6 +71,7 @@ def setup_logger():
     logger.addHandler(file_handler)
     logger.addHandler(stream_handler)
 
+logging = getLogger(__name__)
 setup_logger()
 
 
