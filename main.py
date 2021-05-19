@@ -187,7 +187,7 @@ def pks(m):
     chat = m.chat.id
     pdt = db[str(chat)]
     ddd = pdt.insert_one({"_id": 0, "dd": "aaa"})
-    bot.send_message(ddd)
+    bot.send_message(chat, ddd)
 
 @bot.message_handler(content_types=['text'])
 def menu(message):
