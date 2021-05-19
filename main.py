@@ -70,6 +70,8 @@ def setup_logger():
     logger.addHandler(file_handler)
     logger.addHandler(stream_handler)
 
+setup_logger()
+
 LOGS = getLogger(__name__)
 
 LOGS.info(f"Saat: {saat}:{dakika}")
