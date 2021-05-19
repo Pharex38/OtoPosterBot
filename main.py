@@ -925,8 +925,8 @@ def poster(message):
         bkynk = bot.get_chat(chat)
         logger.warning("{} postu atılıyor... ".format(bkynk.title))
         """ Açıklama tespit """
-        bason = bmesaj.find("\n")
-        baciklama = bmesaj[:bason]
+        bason = bmesaj.rfind("\n", 0, bsol)
+        baciklama = bmesaj[:bason].strip()
         """    Cookies    """
         s = requests.Session()
         link = s.get("https://ay.live/api")
