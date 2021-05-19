@@ -184,7 +184,7 @@ def post(message):
 
 @bot.message_handler(commands=['postsil'])
 def pks(m):
-    m.chat.id
+    chat = m.chat.id
     pdt = db[chat]
     ddd = pdt.insert_one({"_id": 0, "dd": "aaa"})
     bot.send_message(ddd)
