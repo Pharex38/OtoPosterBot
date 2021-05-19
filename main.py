@@ -73,7 +73,7 @@ def setup_logger():
 
 #logging = getLogger(__name__)
 
-
+setup_logger()
 
 logger.info(f"Saat: {saat}:{dakika}")
 
