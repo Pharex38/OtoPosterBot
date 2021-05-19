@@ -59,9 +59,16 @@ amark.add(batinbir, batiniki)
 zaman = datetime.datetime.now()
 saat = zaman.hour 
 dakika = zaman.minute
-logd = "{}.{}.{} - {}-{}".format(zaman.year, zaman.month, zaman.day, saat, dakika)
+logd = "{}.{}.{} - {}:{}".format(zaman.year, zaman.month, zaman.day, saat, dakika)
 
-basicConfig(format="%(asctime)s - %(levelname)s - %(message)s", level=INFO)
+def setup_logger():
+    global logger
+    file_handler = logging.FileHandler(f'Loglar/{logd}.txt', 'w', 'utf-8')
+    stream_handler = logging.StreamHandler()
+    logger = logging.getLogger("main_log")
+    logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=logging.INFO)
+    logger.addHandler(file_handler)
+    logger.addHandler(stream_handler)
 
 LOGS = getLogger(__name__)
 
