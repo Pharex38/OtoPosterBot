@@ -182,6 +182,13 @@ def post(message):
     except:
         pass
 
+@bot.message_handler(commands=['postsil'])
+def pks(m):
+    m.chat.id
+    pdt = db[chat]
+    ddd = pdt.insert_one({"_id": 0, "dd": "aaa"})
+    bot.send_message(ddd)
+
 @bot.message_handler(content_types=['text'])
 def menu(message):
     chat = message.chat.id
