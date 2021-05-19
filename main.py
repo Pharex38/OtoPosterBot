@@ -71,7 +71,7 @@ def setup_logger():
     logger.addHandler(file_handler)
     logger.addHandler(stream_handler)
 
-logging = getLogger(__name__)
+#logging = getLogger(__name__)
 setup_logger()
 
 
