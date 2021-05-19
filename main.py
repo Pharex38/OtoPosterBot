@@ -60,6 +60,7 @@ zaman = datetime.datetime.now()
 saat = zaman.hour 
 dakika = zaman.minute
 logd = "{}.{}.{} - {}:{}".format(zaman.year, zaman.month, zaman.day, saat, dakika)
+logging = getLogger(__name__)
 
 def setup_logger():
     global logger
@@ -72,9 +73,8 @@ def setup_logger():
 
 setup_logger()
 
-LOGS = getLogger(__name__)
 
-LOGS.info(f"Saat: {saat}:{dakika}")
+logging.info(f"Saat: {saat}:{dakika}")
 
 @bot.message_handler(commands=['start'])
 def start(message):
