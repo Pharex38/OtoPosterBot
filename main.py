@@ -152,6 +152,23 @@ def durdur(message):
     else:
         bot.reply_to(message, "<b>Kanalınız Silindi!</b>")
 
+@bot.channel_post_handler(commands=['postsil'])
+def kpostsil(message):
+    chat = message.chat.id
+    if not chat in kaynaklar:
+        return
+    data = db[str(chat)].find({})
+    spcount = 0
+    for d in data:
+        try:
+            bot.delete_message(d['_id'], d['pid'])
+        except Exception as e:
+            LOGS.error(e)
+        else:
+            spcount += 1
+    bot.send_message(chat, f"{spcount} Post Silindi.")
+            
+
 @bot.channel_post_handler(commands=['onayla'])
 def post(message):
     chat = message.chat.id
@@ -784,6 +801,8 @@ def poster(message):
         s = requests.Session()
         link = s.get("https://ay.live/api")
         cookies = dict(link.cookies)
+        """  Veri Tabanı  """
+        postdata = db[str(chat)]
         binb = collection.find({})
         """ Dosya tespit """
         if message.content_type == "photo":
@@ -803,6 +822,7 @@ def poster(message):
             altsite = hesap['altsite']
             sira = hesap['sira']
             if "1" in kaynak and len(kanal) > 0:
+                alink = " "
                 if sira == "2":
                     token = altapi
                     site = altsite
@@ -844,14 +864,6 @@ def poster(message):
                 elif sablon == "9":
                     sablon = f"{aciklama} \n\n𝙇𝙄𝙉𝙆🔗 {link} \n\n     𝙇𝙄𝙉𝙆🔗 {alink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
                 elif sablon.find('{alink}') != -1:
-                    """
-                    aort = [" ", " "]
-                    asal = [" ", " "]
-                    asol = sablon.split("{link}")
-                    aort = asol[1].split("{alink}")
-                    asal = asol[0].split("{aciklama}")
-                    sablon = f"{asal[0]}{aciklama}{asal[1]}{link}{aort[0]}{alink}{aort[1]}"
-                    """
                     sablon = sablon.replace("{aciklama}", "{}").replace("{alink}", "{}").replace("{link}", "{}").format(aciklama, link, alink)
                 else:
                     sablon = sablon.replace("{aciklama}", "{}").replace("{link}", "{}").format(aciklama, link)
@@ -859,11 +871,16 @@ def poster(message):
                 for kan in kanal:
                     try:
                         if message.content_type == "photo":
-                            bot.send_photo(kan, medya, caption=sablon)
+                            post = bot.send_photo(kan, medya, caption=sablon)
                         if message.content_type == "video":
-                            bot.send_video(kan, medya, caption=sablon)
+                            post = bot.send_video(kan, medya, caption=sablon)
                         if message.content_type == "animation":
-                            bot.send_animation(kan, medya, caption=sablon)
+                            post = bot.send_animation(kan, medya, caption=sablon)
+                        postkayit = postdata.find_one({"_id": kan})
+                        if postdata == None:
+                            postdata.insert_one({"_id": kan, "pid": post.message_id})
+                        else:
+                            postdata.update_one({"_id": kan}, {"$set": {"pid": post.message_id}})
                         count = count + 1
                     except Exception as e:
                         LOGS.debug(f"Hatalı kanal: {kanal}")
@@ -920,6 +937,7 @@ def poster(message):
             baltsite = bhesap['altsite']
             bsira = bhesap['sira']
             if "2" in bkaynak and len(bkanal) > 0:
+                balink = " "
                 if bsira == "2":
                     btoken = baltapi
                     bsite = baltsite
@@ -1039,6 +1057,7 @@ def poster(message):
             caltsite = chesap['altsite']
             csira = chesap['sira']
             if "3" in ckaynak and len(ckanal) > 0:
+                calink = " "
                 if csira == "2":
                     ctoken = caltapi
                     csite = caltsite
@@ -1159,6 +1178,7 @@ def poster(message):
             daltsite = dhesap['altsite']
             dsira = dhesap['sira']
             if "4" in dkaynak and len(dkanal) > 0:
+                dalink = " "
                 if dsira == "2":
                     dtoken = daltapi
                     dsite = daltsite
@@ -1278,6 +1298,7 @@ def poster(message):
             ealtsite = ehesap['altsite']
             esira = ehesap['sira']
             if "5" in ekaynak and len(ekanal) > 0:
+                ealink = " "
                 if esira == "2":
                     etoken = ealtapi
                     esite = ealtsite
@@ -1396,6 +1417,7 @@ def poster(message):
             galtsite = ghesap['altsite']
             gsira = ghesap['sira']
             if "6" in gkaynak and len(gkanal) > 0:
+                galink = " "
                 if gsira == "2":
                     gtoken = galtapi
                     gsite = galtsite
@@ -1470,7 +1492,7 @@ def poster(message):
         LOGS.warning(gbasari)
         bot.send_message(botlog, gbasari)
     # Tutan Linkler
-    elif chat == kaynaklar[6] or chat == -1001190898326:
+    elif chat == kaynaklar[6]:
         fcount = 0
         fmesaj = message.caption
         """ Link tespit """
