@@ -598,7 +598,7 @@ def kanalkayit(message):
         return
     if str(kanal) in y['kanal']:
         msl = bot.send_message(chat, "Bu kanalı zaten kaydetmişsiniz")
-        bot.register_next_step_handler(chat, kanalkayit)
+        bot.register_next_step_handler(msl, kanalkayit)
         return
     try:
         kanalbilgi = bot.get_chat(kanal)
