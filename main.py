@@ -64,10 +64,10 @@ logd = "{}.{}.{} - {}.{}".format(zaman.year, zaman.month, zaman.day, saat, dakik
 
 def setup_logger():
     global logger
+    logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=logging.INFO)
     file_handler = logging.FileHandler(f'Loglar/{logd}.txt', 'w', 'utf-8')
     stream_handler = logging.StreamHandler()
     logger = logging.getLogger("main_log")
-    logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=logging.INFO)
     logger.addHandler(file_handler)
     logger.addHandler(stream_handler)
 
