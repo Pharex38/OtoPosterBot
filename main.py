@@ -783,6 +783,8 @@ def poster(message):
     if chat == kaynaklar[0]:
         count = 0
         mesaj = message.caption
+        if mesaj == None:
+            return
         """  Link tespit  """
         solx = mesaj.rfind("http")
         sol = mesaj.find("http")
@@ -899,6 +901,8 @@ def poster(message):
     elif chat == kaynaklar[1]:
         bcount = 0
         bmesaj = message.caption
+        if bmesaj == None:
+            return
         """ Link tespit """
         bsolx = bmesaj.rfind("http")
         bsol = bmesaj.find("http")
@@ -1018,6 +1022,8 @@ def poster(message):
     elif chat == kaynaklar[2]:
         ccount = 0
         cmesaj = message.caption
+        if cmesaj == None:
+            return
         """ Link tespit """
         csolx = cmesaj.rfind("http")
         csol = cmesaj.find("http")
@@ -1137,6 +1143,8 @@ def poster(message):
     elif chat == kaynaklar[3]:
         dcount = 0
         dmesaj = message.caption
+        if dmesaj == None:
+            return
         """ Link tespit """
         dsolx = dmesaj.rfind("http")
         dsol = dmesaj.find("http")
@@ -1372,6 +1380,8 @@ def poster(message):
     elif chat == kaynaklar[5]:
         gcount = 0
         gmesaj = message.caption
+        if gmesaj == None:
+           return
         """ Link tespit """
         gsolx = gmesaj.rfind("http")
         gsol = gmesaj.find("http")
@@ -1489,6 +1499,8 @@ def poster(message):
     elif chat == kaynaklar[6]:
         fcount = 0
         fmesaj = message.caption
+        if fmesaj == None:
+            return
         """ Link tespit """
         fsolx = fmesaj.rfind("http")
         fsol = fmesaj.find("http")
