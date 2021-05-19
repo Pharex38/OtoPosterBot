@@ -9,7 +9,7 @@ from telebot import types
 import time, datetime
 import threading
 import Colorer
-import logger
+import logging
 #from logger import basicConfig, getLogger, INFO
 
 #botapi = environ['BOT_TOKEN'] 
