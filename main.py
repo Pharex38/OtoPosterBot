@@ -759,6 +759,16 @@ def pat(message):
         pcount = pcount + 1
         knl = bot.get_chat(pkan)
         bot.send_message(chat, "No: {}\n{}".format(pcount, knl.title))
+    if len(pathesap['kanal']) < 2:
+        pmesaj = 0
+        if ptip == "video":
+            bot.send_video(pkan, fid, caption=psablon)
+        if ptip == "photo":
+            bot.send_photo(pkan, fid, caption=psablon)
+        if ptip == "animation":
+            bot.send_animation(pkan, fid, caption=psablon)
+        bot.send_message(chat, "Postunuz gönderildi.", reply_markup=dugme)
+        return
     msg = bot.send_message(chat, "<i>Postun gönderilmesini istediğin kanalın numarasını gönder.\n\n(Tüm kanallarına gönderilmesini istiyorsan <b>0</b> yaz</i>)")
     bot.register_next_step_handler(msg, patiki, psablon, pathesap, fid, ptip)
 
@@ -776,13 +786,20 @@ def patiki(message, psablon, pathesap, fid, ptip):
         bot.register_next_step_handler(msg, patiki, psablon, pathesap, fid, ptip)
         return
     pmesaj = int(message.text) - 1
-    pkan = pathesap['kanal'][pmesaj]
+    try:
+        pkan = pathesap['kanal'][pmesaj]
+    except:
+        mso = bot.send_message(chat, "Girdiğiniz numara ile eşleşen kanal bulunamadı!\n\n Lütfen geçerli bir numara girin.")
+        bot.register_next_step_handler(mso, patiki, psablon, pathesap, fid, ptip)
+        return
     if pmesaj == -1:
         for pk in pathesap['kanal']:
             if ptip == "video":
                 bot.send_video(pk, fid, caption=psablon)
             if ptip == "photo":
                 bot.send_photo(pk, fid, caption=psablon)
+            if ptip == "animation":
+                bot.send_animation(pk, fid, caption=psablon)
         bot.send_message(chat, "Postunuz gönderildi.")
         return
     if ptip == "video":
