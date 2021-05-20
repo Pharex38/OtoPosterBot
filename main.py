@@ -656,7 +656,10 @@ def kanalkayit(message):
         msg = bot.send_message(chat, "Botu kanalınızda yönetici eklememişsiniz.")
         bot.register_next_step_handler(msg, kanalkayit)
         return
-    yetkiler = bot.get_chat_administrators(kanal)
+    try:
+        yetkiler = bot.get_chat_administrators(kanal)
+    except:
+        bot.send_message(chat, "Kanaldaki yetkilieri göremedim.")
     for y in yetkiler:
         if y.user.id == user:
             collection.update_one({"_id": user}, {"$push":{"kanal": str(kanal)}})
