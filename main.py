@@ -660,6 +660,7 @@ def kanalkayit(message):
         yetkiler = bot.get_chat_administrators(kanal)
     except:
         bot.send_message(chat, "Kanaldaki yetkilieri göremedim.")
+        return
     for y in yetkiler:
         if y.user.id == user:
             collection.update_one({"_id": user}, {"$push":{"kanal": str(kanal)}})
