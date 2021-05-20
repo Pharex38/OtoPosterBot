@@ -414,7 +414,7 @@ def menu(message):
             mod = collection.find_one({"_id": user})
         except:
             pass
-        if mod['kaynak'] == "9" or mod['kaynak'] == None:
+        if "31" in mod['kaynak'] or mod['kaynak'] == None:
             try:
                 collection.update_one({"_id": user}, {"$set": {"kaynak": mod['eski']}})
             except:
@@ -423,7 +423,7 @@ def menu(message):
             return
         else:
             collection.update_one({"_id": user}, {"$set": {"eski": mod['kaynak']}})
-            collection.update_one({"_id": user}, {"$set": {"kaynak": "9"}})
+            collection.update_one({"_id": user}, {"$set": {"kaynak": ['9']}})
             bot.send_message(chat, "Kanallarınız SFS moduna alındı. Siz modu kapatana kadar yeni post atılmayacak.", reply_markup=dugme)
             return
     if mesaj == "🥰 Bağış":
@@ -1697,8 +1697,8 @@ def gunluk():
             bot.pin_chat_message(botlog, msg.message_id)
         time.sleep(60)
     
-timThr = threading.Thread(target=gunluk)
+#timThr = threading.Thread(target=gunluk)
 #timThr.start()
 
 logger.info("Bot Çalışıyor...")
-bot.polling(none_stop=False, interval=0)
+bot.polling(none_stop=True, interval=0)
