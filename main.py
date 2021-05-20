@@ -755,10 +755,6 @@ def pat(message):
         psablon = psablon.replace("aciklama", "").replace("{link}", "{}").format(paciklama, plink)
     pkanallar = pathesap['kanal']
     pcount = 0
-    for pkan in pkanallar:
-        pcount = pcount + 1
-        knl = bot.get_chat(pkan)
-        bot.send_message(chat, "No: {}\n{}".format(pcount, knl.title))
     if len(pathesap['kanal']) < 2:
         pmesaj = 0
         if ptip == "video":
@@ -769,6 +765,10 @@ def pat(message):
             bot.send_animation(pkan, fid, caption=psablon)
         bot.send_message(chat, "Postunuz gönderildi.", reply_markup=dugme)
         return
+    for pkan in pkanallar:
+        pcount = pcount + 1
+        knl = bot.get_chat(pkan)
+        bot.send_message(chat, "No: {}\n{}".format(pcount, knl.title))
     msg = bot.send_message(chat, "<i>Postun gönderilmesini istediğin kanalın numarasını gönder.\n\n(Tüm kanallarına gönderilmesini istiyorsan <b>0</b> yaz</i>)")
     bot.register_next_step_handler(msg, patiki, psablon, pathesap, fid, ptip)
 
