@@ -423,7 +423,7 @@ def menu(message):
             return
         else:
             collection.update_one({"_id": user}, {"$set": {"eski": mod['kaynak']}})
-            collection.update_one({"_id": user}, {"$set": {"kaynak": ['9']}})
+            collection.update_one({"_id": user}, {"$set": {"kaynak": ['31']}})
             bot.send_message(chat, "Kanallarınız SFS moduna alındı. Siz modu kapatana kadar yeni post atılmayacak.", reply_markup=dugme)
             return
     if mesaj == "🥰 Bağış":
