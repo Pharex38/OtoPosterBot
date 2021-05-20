@@ -659,7 +659,8 @@ def kanalkayit(message):
     try:
         yetkiler = bot.get_chat_administrators(kanal)
     except:
-        bot.send_message(chat, "Kanaldaki yetkilieri göremedim.")
+        msg = bot.send_message(chat, "Botu kanalınızda yönetici eklememişsiniz.")
+        bot.register_next_step_handler(msg, kanalkayit)
         return
     for y in yetkiler:
         if y.user.id == user:
