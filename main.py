@@ -87,7 +87,7 @@ def start(message):
     kat = collection.find_one({"_id": user})
     dagme = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
     butonbir = types.KeyboardButton('📝 Kaydet')
-    ref = message.text.split()[1]
+    ref = message.text.split()[1] if len(message.text.split()) > 1 else None
     if ref == "Kaynak1":
         if kat == None:
             bot.send_message(chat, "Kaynak seçmeden önce bir API kaydetmelisiniz!")
