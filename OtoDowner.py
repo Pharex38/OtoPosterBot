@@ -20,6 +20,10 @@ def start(s):
 @bot.message_handler(commands=['run'])
 def run(m):
     chat = m.chat.id
+    user = m.from_user.id
+    if not user in yetkili:
+        bot.send_message(chat, "Bunu yapmak için yetkili değilsiniz!")
+        return
     pidd = open("pid.txt", "r+")
     pid = pidd.read()
     if pid.isdigit():
@@ -33,9 +37,13 @@ def run(m):
 
 @bot.message_handler(commands=['stop'])
 def stop(p):
+    chat = p.chat.id
+    user = p.from_user.id
+    if not user in yetkili:
+        bot.send_message(chat, "Bunu yapmak için yetkili değilsiniz!")
+        return
     pidd = open("pid.txt", "r+")
     pid = pidd.read()
-    chat = p.chat.id
     if pid == "down":
         bot.send_message(chat, "Bot zaten kapalı")
         return
