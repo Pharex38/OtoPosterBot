@@ -17,6 +17,7 @@ import logging
 mongo = "os.environ["MONGO_URI"]"
 
 pid = os.getpid()
+open("pid.txt", "w").write(pid)
 print(pid)
 
 cluster = MongoClient(mongo)
