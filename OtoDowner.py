@@ -27,7 +27,7 @@ async def run(m):
         return
     pidd = await open("pid.txt", "r+")
     pid = await pidd.read()
-    await if pid.isdigit():
+    if pid.isdigit():
         await try:
             islem = await os.kill(int(pid), 9)
         await except:
