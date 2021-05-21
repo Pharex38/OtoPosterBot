@@ -21,13 +21,13 @@ bot = Dispatcher(dp)
 
 @bot.message_handler(commands=['start', 'help'])
 async def send_welcome(message: types.Message):
-    chat = message.chat.id
-    pid = open("pid.txt", "r").read()
+    chat = await message.chat.id
+    pid = await open("pid.txt", "r").read()
     if pid.isdigit():
         durum = "Aktif!"
     else:
         durum = "Kapalı!"
-    dp.send_message(chat, "Merhaba!\n\nDurum: {}".format(durum))
+    await dp.send_message(chat, "Merhaba!\n\nDurum: {}".format(durum))
 
 
 
