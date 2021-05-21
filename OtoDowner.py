@@ -20,7 +20,7 @@ def run(m):
 @bot.message_handler(commands=['stop'])
 def stop(p):
     chat = p.chat.id
-    os.kill(anabot.pid, signal.SIGSTOP)
+    os.kill(anabot.pid, signal.SIGKILL)
     bot.send_message(chat, "Bot Durduruldu.")
 
 
