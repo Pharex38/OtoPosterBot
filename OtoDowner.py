@@ -10,7 +10,7 @@ token = "***REMOVED-BOT-TOKEN***"
 
 yetkili = [1613760981, 755051086, 1302980840]
 
-basicConfig(format="%(asctime)s - %(levelname)s - %(message)s",level=logging.INFO)
+logging.basicConfig(format="%(asctime)s - %(levelname)s - %(message)s",level=logging.INFO)
 logs = logging.getLogger(__name__)
 
 # Initialize bot and dispatcher
