@@ -29,6 +29,28 @@ async def send_welcome(message: types.Message):
         durum = "Kapalı!"
     await dp.send_message(chat, "Merhaba!\n\nDurum: {}".format(durum))
 
+@bot.message_handler(commands=['run'])
+async def run(message: types.Message):
+    chat = message.chat.id
+    user = message.from_user.id
+    if not user in yetkili:
+        await bot.send_message(chat, "Bunu yapmak için yetkili değilsiniz!")
+        return
+    pidd = open("pid.txt", "r+")
+    pid = pidd.read()
+    if pid.isdigit():
+        try:
+            islem = os.kill(int(pid), 9)
+        except:
+            pass
+        await asyncio.sleep(1)
+        os.system('python main.py')
+        await bot.send_message(chat, "Yeniden Başlatıldı!")
+        return
+    os.system('python main.py')
+    await bot.send_message(chat, "Bot Başlatıldı!")
+    return
+    
 
 
 if __name__ == '__main__':
