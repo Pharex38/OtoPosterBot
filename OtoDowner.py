@@ -27,7 +27,7 @@ try:
 except:
     pass
 dpid = os.getpid()
-eskipidfile.write(dpid)
+eskipidfile.write(str(dpid))
 logs.info("Eski İşlem Kapatıldı")
 
 @bot.message_handler(commands=['start', 'help'])
