@@ -3,6 +3,7 @@ import os, signal
 import time
 import asyncio
 import aiogram
+import logging
 
 token = "***REMOVED-BOT-TOKEN***"
 
