@@ -762,6 +762,7 @@ def pat(message):
     pcount = 0
     if len(pathesap['kanal']) < 2:
         pmesaj = 0
+        pkan = pkanallar[0]
         if ptip == "video":
             bot.send_video(pkan, fid, caption=psablon)
         if ptip == "photo":
