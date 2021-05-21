@@ -19,25 +19,25 @@ def start(s):
     bot.send_message(chat, "Merhaba!\n\nDurum: {}".format(durum))
 
 @bot.message_handler(commands=['run'])
-async def run(m):
-    chat = await m.chat.id
-    user = await m.from_user.id
+def run(m):
+    chat = m.chat.id
+    user = m.from_user.id
     if not user in yetkili:
-        await bot.send_message(chat, "Bunu yapmak için yetkili değilsiniz!")
+        bot.send_message(chat, "Bunu yapmak için yetkili değilsiniz!")
         return
-    pidd = await open("pid.txt", "r+")
-    pid = await pidd.read()
+    pidd = open("pid.txt", "r+")
+    pid = pidd.read()
     if pid.isdigit():
         try:
-            islem = await os.kill(int(pid), 9)
+            islem = os.kill(int(pid), 9)
         except:
             pass
-        await asyncio.sleep(1)
-        await bot.send_message(chat, "Yeniden Başlatıldı!")
+        asyncio.sleep(1)
+        bot.send_message(chat, "Yeniden Başlatıldı!")
         os.system('python main.py')
         return
     os.system('python main.py')
-    await bot.send_message(chat, "Bot Başlatıldı!")
+    bot.send_message(chat, "Bot Başlatıldı!")
     return
 
 @bot.message_handler(commands=['stop'])
