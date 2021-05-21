@@ -4,7 +4,6 @@ import os, signal
 token = "***REMOVED-BOT-TOKEN***"
 bot = telebot.TeleBot(token, parse_mode='html')
 
-pid = open("pid.txt", "r").read()
 
 @bot.message_handler(commands=['start'])
 def start(s):
@@ -20,6 +19,7 @@ def run(m):
 
 @bot.message_handler(commands=['stop'])
 def stop(p):
+    pid = open("pid.txt", "r").read()
     chat = p.chat.id
     islem = os.kill(int(pid), 9)
     print(islem)
