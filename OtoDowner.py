@@ -14,8 +14,8 @@ logging.basicConfig(format="%(asctime)s - %(levelname)s - %(message)s",level=log
 logs = logging.getLogger(__name__)
 
 # Initialize bot and dispatcher
-dp = Bot(token=token)
-bot = Dispatcher(bot)
+dp = aiogram.Bot(token=token)
+bot = aiogram.Dispatcher(bot)
 
 
 @dp.message_handler(commands=['start', 'help'])
@@ -31,7 +31,7 @@ async def send_welcome(message: types.Message):
 
 
 if __name__ == '__main__':
-    executor.start_polling(bot, skip_updates=True)
+    aiogram.executor.start_polling(bot, skip_updates=True)
     logs.info("Bot Çalışıyor...")
 
 
