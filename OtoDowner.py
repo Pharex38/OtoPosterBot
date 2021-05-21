@@ -5,6 +5,7 @@ import time
 token = "***REMOVED-BOT-TOKEN***"
 bot = telebot.TeleBot(token, parse_mode='html')
 
+yetkili = [1613760981, 755051086, 1302980840]
 
 @bot.message_handler(commands=['start', 'durum'])
 def start(s):
