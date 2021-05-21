@@ -21,6 +21,7 @@ def run(m):
 def stop(p):
     chat = p.chat.id
     os.kill(anabot.pid, signal.SIGSTOP)
+    bot.send_message(chat, "Bot Durduruldu.")
 
 
 bot.polling(none_stop=True)
