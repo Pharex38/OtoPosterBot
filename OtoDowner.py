@@ -21,7 +21,7 @@ def run(m):
 @bot.message_handler(commands=['stop'])
 def stop(p):
     chat = p.chat.id
-    islem = os.pgkill(pid, 9)
+    islem = os.kill(pid, 9)
     print(islem)
     bot.send_message(chat, "Bot Durduruldu.")
 
