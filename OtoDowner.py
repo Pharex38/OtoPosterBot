@@ -68,7 +68,7 @@ async def stop(message: types.Message):
     chat = message.chat.id
     user = message.from_user.id
     if not user in yetkili:
-        bot.send_message(chat, "Bunu yapmak için yetkili değilsiniz!")
+        dp.send_message(chat, "Bunu yapmak için yetkili değilsiniz!")
         return
     pidd = open("pid.txt", "r+")
     pid = pidd.read()
