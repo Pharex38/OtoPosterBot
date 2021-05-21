@@ -52,6 +52,27 @@ async def run(message: types.Message):
     return
     
 
+@bot.message_handler(commands=['stop'])
+async def stop(message: types.Message):
+    chat = message.chat.id
+    user = message.from_user.id
+    if not user in yetkili:
+        bot.send_message(chat, "Bunu yapmak için yetkili değilsiniz!")
+        return
+    pidd = open("pid.txt", "r+")
+    pid = pidd.read()
+    if pid == "down":
+        bot.send_message(chat, "Bot zaten kapalı")
+        return
+    try:
+        await os.kill(int(pid), 9)
+    except Exception as e:
+        print(e)
+    await pidd.write("down")
+    await bot.send_message(chat, "Bot Durduruldu.")
+
+
+
 
 if __name__ == '__main__':
     executor.start_polling(bot, skip_updates=True)
