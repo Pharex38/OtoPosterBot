@@ -15,7 +15,7 @@ logs = logging.getLogger(__name__)
 
 # Initialize bot and dispatcher
 dp = aiogram.Bot(token=token)
-bot = aiogram.Dispatcher(bot)
+bot = aiogram.Dispatcher(dp)
 
 
 @dp.message_handler(commands=['start', 'help'])
