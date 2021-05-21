@@ -4,6 +4,7 @@ import time
 import asyncio
 import aiogram
 import logging
+import subprocess
 from aiogram import Bot, Dispatcher, executor, types
 
 token = "***REMOVED-BOT-TOKEN***"
@@ -47,7 +48,7 @@ async def run(message: types.Message):
         os.system('python main.py')
         await bot.send_message(chat, "Yeniden Başlatıldı!")
         return
-    execfile('main.py')
+    subprocess.call('start /wait python main.py', shell=True)
     await bot.send_message(chat, "Bot Başlatıldı!")
     return
     
