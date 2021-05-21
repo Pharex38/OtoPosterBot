@@ -24,10 +24,11 @@ def run(m):
     if pid.isdigit():
         islem = os.kill(int(pid), 9)
         time.sleep(1)
-        os.system('python main.py')
         bot.send_message(chat, "Yeniden Başlatıldı!")
-    os.system('python main.py')
+        os.system('python main.py')
+        return
     bot.send_message(chat, "Bot Başlatıldı!")
+    os.system('python main.py')
 
 @bot.message_handler(commands=['stop'])
 def stop(p):
