@@ -38,6 +38,7 @@ async def run(m):
         return
     os.system('python main.py')
     await bot.send_message(chat, "Bot Başlatıldı!")
+    return
 
 @bot.message_handler(commands=['stop'])
 def stop(p):
