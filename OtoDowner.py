@@ -21,7 +21,10 @@ bot = Dispatcher(dp)
 
 eskipidfile = open("dpid.txt", "r+")
 eskipid = eskipidfile.read()
-os.kill(int(eskipid), 9)
+try:
+    os.kill(int(eskipid), 9)
+except:
+    pass
 dpid = os.getpid()
 eskipidfile.write(dpid)
 logs.info("Eski İşlem Kapatıldı")
