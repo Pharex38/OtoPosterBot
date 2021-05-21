@@ -32,7 +32,7 @@ async def run(m):
             islem = await os.kill(int(pid), 9)
         except:
             pass
-        await time.sleep(1)
+        await asyncio.sleep(1)
         await bot.send_message(chat, "Yeniden Başlatıldı!")
         os.system('python main.py')
         return
