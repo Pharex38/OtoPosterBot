@@ -68,7 +68,7 @@ async def stop(message: types.Message):
         await os.kill(int(pid), 9)
     except Exception as e:
         print(e)
-    await pidd.write("down")
+    pidd.write("down")
     await bot.send_message(chat, "Bot Durduruldu.")
 
 
