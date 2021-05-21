@@ -6,6 +6,7 @@ import aiogram
 import logging
 import subprocess
 from aiogram import Bot, Dispatcher, executor, types
+import Colorer
 
 token = "***REMOVED-BOT-TOKEN***"
 
