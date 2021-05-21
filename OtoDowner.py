@@ -13,7 +13,7 @@ def start(s):
 def run(m):
     chat = m.chat.id
     msg = bot.send_message(chat, "<code>Bot yeniden başlatılıyor</code>")
-    os.system('python main.py')
+    os.startfile('main.py')
     bot.edit_text_message(chat, msg.message_id, "Yeniden Başlatıldı!")
 
 
