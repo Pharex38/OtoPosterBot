@@ -61,7 +61,7 @@ async def run(message: types.Message):
         except:
             pass
         await asyncio.sleep(1)
-        os.system('python main.py')
+        os.startfile('basla.bat')
         await bot.send_message(chat, "Yeniden Başlatıldı!")
         return
     os.startfile('basla.bat')
