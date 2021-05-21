@@ -762,13 +762,12 @@ def pat(message):
     pcount = 0
     if len(pathesap['kanal']) < 2:
         pmesaj = 0
-        pkan = pkanallar[0]
         if ptip == "video":
-            bot.send_video(pkan, fid, caption=psablon)
+            bot.send_video(pkanallar[0], fid, caption=psablon)
         if ptip == "photo":
-            bot.send_photo(pkan, fid, caption=psablon)
+            bot.send_photo(pkanallar[0], fid, caption=psablon)
         if ptip == "animation":
-            bot.send_animation(pkan, fid, caption=psablon)
+            bot.send_animation(pkanallar[0], fid, caption=psablon)
         bot.send_message(chat, "Postunuz gönderildi.", reply_markup=dugme)
         return
     for pkan in pkanallar:
