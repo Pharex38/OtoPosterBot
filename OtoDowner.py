@@ -23,7 +23,7 @@ async def run(m):
     chat = await m.chat.id
     user = await m.from_user.id
     if not user in yetkili:
-        bot.send_message(chat, "Bunu yapmak için yetkili değilsiniz!")
+        await bot.send_message(chat, "Bunu yapmak için yetkili değilsiniz!")
         return
     pidd = await open("pid.txt", "r+")
     pid = await pidd.read()
@@ -33,11 +33,11 @@ async def run(m):
         except:
             pass
         await time.sleep(1)
-        bot.send_message(chat, "Yeniden Başlatıldı!")
+        await bot.send_message(chat, "Yeniden Başlatıldı!")
         os.system('python main.py')
         return
     os.system('python main.py')
-    bot.send_message(chat, "Bot Başlatıldı!")
+    await bot.send_message(chat, "Bot Başlatıldı!")
 
 @bot.message_handler(commands=['stop'])
 def stop(p):
