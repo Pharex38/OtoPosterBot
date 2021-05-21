@@ -22,8 +22,10 @@ bot = Dispatcher(dp)
 
 eskipidfile = open("dpid.txt", "r+")
 eskipid = eskipidfile.read()
+anapid = open("pid.txt", "r+").read()
 try:
     os.kill(int(eskipid), 9)
+    os.kill(int(anapid), 9)
 except Exception as e:
     print(e)
 dpid = os.getpid()
