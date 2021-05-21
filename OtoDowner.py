@@ -31,8 +31,8 @@ async def send_welcome(message: types.Message):
 
 
 if __name__ == '__main__':
-    executor.start_polling(dp, skip_updates=True)
-    logging.info("Bot Çalışıyor...")
+    executor.start_polling(bot, skip_updates=True)
+    logs.info("Bot Çalışıyor...")
 
 
 
