@@ -5,6 +5,8 @@ import main as anabot
 token = "***REMOVED-BOT-TOKEN***"
 bot = telebot.TeleBot(token, parse_mode='html')
 
+print(anabot.pid)
+
 @bot.message_handler(commands=['start'])
 def start(s):
     chat = s.chat.id
