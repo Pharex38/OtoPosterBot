@@ -34,10 +34,6 @@ except Exception as e:
 logs.info("Eski İşlem Kapatıldı")
 
 
-dpid = os.getpid()
-eskipidfile = open("dpid.txt", "w+")
-eskipidfile.write(str(dpid))
-logs.info(dpid)
 
 @bot.message_handler(commands=['start', 'help'])
 async def send_welcome(message: types.Message):
@@ -70,7 +66,17 @@ async def run(message: types.Message):
     os.startfile('basla.bat')
     await dp.send_message(chat, "Bot Başlatıldı!")
     return
-    
+
+
+dpid = os.getpid()
+eskipidfile = open("dpid.txt", "w+")
+eskipidfile.write(str(dpid))
+logs.info(dpid)
+
+
+pid = os.getpid()
+open("pid.txt", "w").write(str(pid))
+print(pid)
 
 @bot.message_handler(commands=['stop'])
 async def stop(message: types.Message):
