@@ -27,7 +27,7 @@ async def send_welcome(message: types.Message):
         durum = "Aktif!"
     else:
         durum = "Kapalı!"
-    bot.send_message(chat, "Merhaba!\n\nDurum: {}".format(durum))
+    dp.send_message(chat, "Merhaba!\n\nDurum: {}".format(durum))
 
 
 
