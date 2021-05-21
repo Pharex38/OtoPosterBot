@@ -9,14 +9,14 @@ from telebot import types
 import time, datetime
 import threading
 import Colorer
-import os
+import os, signal
 import logging
 #from logger import basicConfig, getLogger, INFO
 
 #botapi = environ['BOT_TOKEN'] 
 mongo = "os.environ["MONGO_URI"]"
 
-pid = os.fork()
+pid = os.getpid()
 
 cluster = MongoClient(mongo)
 db = cluster["OtoPost"]
