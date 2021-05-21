@@ -1,5 +1,6 @@
 import telebot
-import os
+import os, signal
+import main as anabot
 
 token = "***REMOVED-BOT-TOKEN***"
 bot = telebot.TeleBot(token, parse_mode='html')
@@ -13,8 +14,13 @@ def start(s):
 def run(m):
     chat = m.chat.id
     msg = bot.send_message(chat, "<code>Bot yeniden başlatılıyor</code>")
-    os.startfile('main.py')
-    bot.edit_text_message(chat, msg.message_id, "Yeniden Başlatıldı!")
+    os.system('main.py')
+    bot.send_message(chat, "Yeniden Başlatıldı!")
+
+@bot.message_handler(commands=['stop'])
+def stop(p):
+    chat = p.chat.id
+    os.kill(anabot.pid, signal.SIGSTOP)
 
 
 bot.polling(none_stop=True)
