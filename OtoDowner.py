@@ -27,7 +27,10 @@ def run(m):
     pidd = open("pid.txt", "r+")
     pid = pidd.read()
     if pid.isdigit():
-        islem = os.kill(int(pid), 9)
+        try:
+            islem = os.kill(int(pid), 9)
+        except:
+            pass
         time.sleep(1)
         bot.send_message(chat, "Yeniden Başlatıldı!")
         os.system('python main.py')
