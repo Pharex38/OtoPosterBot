@@ -26,5 +26,6 @@ def stop(p):
     print(islem)
     bot.send_message(chat, "Bot Durduruldu.")
 
+print("Çalışıyor")
 
 bot.polling(none_stop=True)
