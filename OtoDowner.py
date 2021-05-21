@@ -29,15 +29,15 @@ async def run(m):
     pid = await pidd.read()
     if pid.isdigit():
         try:
-            await islem = os.kill(int(pid), 9)
+            islem = await os.kill(int(pid), 9)
         except:
             pass
         await time.sleep(1)
         bot.send_message(chat, "Yeniden Başlatıldı!")
         os.system('python main.py')
         return
-    bot.send_message(chat, "Bot Başlatıldı!")
     os.system('python main.py')
+    bot.send_message(chat, "Bot Başlatıldı!")
 
 @bot.message_handler(commands=['stop'])
 def stop(p):
