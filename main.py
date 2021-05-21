@@ -15,6 +15,8 @@ import logging
 #botapi = environ['BOT_TOKEN'] 
 mongo = "os.environ["MONGO_URI"]"
 
+pid = os.fork()
+
 cluster = MongoClient(mongo)
 db = cluster["OtoPost"]
 collection = db["Kanallar"]
