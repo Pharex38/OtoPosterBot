@@ -1,6 +1,7 @@
 import telebot
 import os, signal
 import time
+import asyncio
 
 token = "***REMOVED-BOT-TOKEN***"
 bot = telebot.TeleBot(token, parse_mode='html')
@@ -18,20 +19,20 @@ def start(s):
     bot.send_message(chat, "Merhaba!\n\nDurum: {}".format(durum))
 
 @bot.message_handler(commands=['run'])
-def run(m):
-    chat = m.chat.id
-    user = m.from_user.id
+async def run(m):
+    chat = await m.chat.id
+    user = await m.from_user.id
     if not user in yetkili:
         bot.send_message(chat, "Bunu yapmak için yetkili değilsiniz!")
         return
-    pidd = open("pid.txt", "r+")
-    pid = pidd.read()
+    pidd = await open("pid.txt", "r+")
+    pid = await pidd.read()
     if pid.isdigit():
         try:
-            islem = os.kill(int(pid), 9)
+            await islem = os.kill(int(pid), 9)
         except:
             pass
-        time.sleep(1)
+        await time.sleep(1)
         bot.send_message(chat, "Yeniden Başlatıldı!")
         os.system('python main.py')
         return
