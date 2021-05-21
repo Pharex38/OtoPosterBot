@@ -48,7 +48,7 @@ async def run(message: types.Message):
         os.system('python main.py')
         await bot.send_message(chat, "Yeniden Başlatıldı!")
         return
-    subprocess.call('start /wait python main.py', shell=True)
+    startfile('basla.bat', shell=True)
     await bot.send_message(chat, "Bot Başlatıldı!")
     return
     
