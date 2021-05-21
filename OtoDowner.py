@@ -19,6 +19,12 @@ logs = logging.getLogger(__name__)
 dp = Bot(token=token)
 bot = Dispatcher(dp)
 
+eskipidfile = open("dpid.txt", "r+")
+eskipid = eskipidfile.read()
+os.kill(int(eskipid), 9)
+dpid = os.getpid()
+eskipidfile.write(dpid)
+logs.info("Eski İşlem Kapatıldı")
 
 @bot.message_handler(commands=['start', 'help'])
 async def send_welcome(message: types.Message):
@@ -35,7 +41,7 @@ async def run(message: types.Message):
     chat = message.chat.id
     user = message.from_user.id
     if not user in yetkili:
-        await bot.send_message(chat, "Bunu yapmak için yetkili değilsiniz!")
+        await dp.send_message(chat, "Bunu yapmak için yetkili değilsiniz!")
         return
     pidd = open("pid.txt", "r+")
     pid = pidd.read()
@@ -49,7 +55,7 @@ async def run(message: types.Message):
         await bot.send_message(chat, "Yeniden Başlatıldı!")
         return
     os.startfile('basla.bat')
-    await bot.send_message(chat, "Bot Başlatıldı!")
+    await dp.send_message(chat, "Bot Başlatıldı!")
     return
     
 
@@ -63,14 +69,14 @@ async def stop(message: types.Message):
     pidd = open("pid.txt", "r+")
     pid = pidd.read()
     if pid == "down":
-        bot.send_message(chat, "Bot zaten kapalı")
+        dp.send_message(chat, "Bot zaten kapalı")
         return
     try:
         await os.kill(int(pid), 9)
     except Exception as e:
         print(e)
     pidd.write("down")
-    await bot.send_message(chat, "Bot Durduruldu.")
+    await dp.send_message(chat, "Bot Durduruldu.")
 
 
 
