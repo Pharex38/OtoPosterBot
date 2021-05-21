@@ -34,6 +34,7 @@ except Exception as e:
 dpid = os.getpid()
 eskipidfile.write(str(dpid))
 logs.info("Eski İşlem Kapatıldı")
+logs.info(dpid)
 
 @bot.message_handler(commands=['start', 'help'])
 async def send_welcome(message: types.Message):
