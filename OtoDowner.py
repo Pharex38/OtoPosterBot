@@ -19,7 +19,7 @@ dp = Bot(token=token)
 bot = Dispatcher(dp)
 
 
-@dp.message_handler(commands=['start', 'help'])
+@bot.message_handler(commands=['start', 'help'])
 async def send_welcome(message: types.Message):
     chat = message.chat.id
     pid = open("pid.txt", "r").read()
