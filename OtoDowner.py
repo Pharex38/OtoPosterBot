@@ -1,5 +1,6 @@
 import telebot
 import os, signal
+import time
 
 token = "***REMOVED-BOT-TOKEN***"
 bot = telebot.TeleBot(token, parse_mode='html')
@@ -18,8 +19,14 @@ def start(s):
 @bot.message_handler(commands=['run'])
 def run(m):
     chat = m.chat.id
+    pidd = open("pid.txt", "r+")
+    if pidd.read().isdigit():
+        islem = os.kill(int(pid), 9)
+        time.sleep(1)
+        os.system('python main.py')
+        bot.send_message(chat, "Yeniden Başlatıldı!")
     os.system('python main.py')
-    bot.send_message(chat, "Yeniden Başlatıldı!")
+    bot.send_message(chat, "Bot Başlatıldı!")
 
 @bot.message_handler(commands=['stop'])
 def stop(p):
