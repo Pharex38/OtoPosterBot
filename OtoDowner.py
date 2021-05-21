@@ -47,7 +47,7 @@ async def run(message: types.Message):
         os.system('python main.py')
         await bot.send_message(chat, "Yeniden Başlatıldı!")
         return
-    os.system('python main.py')
+    execfile('main.py')
     await bot.send_message(chat, "Bot Başlatıldı!")
     return
     
