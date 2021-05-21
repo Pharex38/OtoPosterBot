@@ -4,6 +4,7 @@ import time
 import asyncio
 import aiogram
 import logging
+from aiogram import Bot, Dispatcher, executor, types
 
 token = "***REMOVED-BOT-TOKEN***"
 
@@ -14,8 +15,8 @@ logging.basicConfig(format="%(asctime)s - %(levelname)s - %(message)s",level=log
 logs = logging.getLogger(__name__)
 
 # Initialize bot and dispatcher
-dp = aiogram.Bot(token=token)
-bot = aiogram.Dispatcher(dp)
+dp = Bot(token=token)
+bot = Dispatcher(dp)
 
 
 @dp.message_handler(commands=['start', 'help'])
@@ -31,7 +32,7 @@ async def send_welcome(message: types.Message):
 
 
 if __name__ == '__main__':
-    aiogram.executor.start_polling(bot, skip_updates=True)
+    executor.start_polling(bot, skip_updates=True)
     logs.info("Bot Çalışıyor...")
 
 
