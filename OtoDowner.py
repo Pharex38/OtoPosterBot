@@ -68,12 +68,12 @@ async def stop(message: types.Message):
     chat = message.chat.id
     user = message.from_user.id
     if not user in yetkili:
-        dp.send_message(chat, "Bunu yapmak için yetkili değilsiniz!")
+        await dp.send_message(chat, "Bunu yapmak için yetkili değilsiniz!")
         return
     pidd = open("pid.txt", "r+")
     pid = pidd.read()
     if pid == "down":
-        dp.send_message(chat, "Bot zaten kapalı")
+        await dp.send_message(chat, "Bot zaten kapalı")
         return
     try:
         await os.kill(int(pid), 9)
