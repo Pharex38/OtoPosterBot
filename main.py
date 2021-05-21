@@ -17,6 +17,7 @@ import logging
 mongo = "os.environ["MONGO_URI"]"
 
 pid = os.getpid()
+print(pid)
 
 cluster = MongoClient(mongo)
 db = cluster["OtoPost"]
