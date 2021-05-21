@@ -28,9 +28,9 @@ async def run(m):
     pidd = await open("pid.txt", "r+")
     pid = await pidd.read()
     if pid.isdigit():
-        await try:
+        try:
             islem = await os.kill(int(pid), 9)
-        await except:
+        except:
             pass
         await asyncio.sleep(1)
         await bot.send_message(chat, "Yeniden Başlatıldı!")
