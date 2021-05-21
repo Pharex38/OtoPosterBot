@@ -37,7 +37,10 @@ def stop(p):
     if pid == "down":
         bot.send_message(chat, "Bot zaten kapalı")
         return
-    islem = os.kill(int(pid), 9)
+    try:
+        islem = os.kill(int(pid), 9)
+    except Exception as e:
+        print(e)
     pidd.write("down")
     bot.send_message(chat, "Bot Durduruldu.")
 
