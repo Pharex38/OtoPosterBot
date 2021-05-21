@@ -181,14 +181,6 @@ def start(message):
           <b>@OtoPosterBotLog</b>
 """.format(mention), disable_web_page_preview=True, reply_markup=dugme)
 
-
-@bot.message_handler(commands=['stop'])
-def stop(p):
-    chat = p.chat.id
-    islem = os.kill(pid, 9)
-    print(islem)
-    bot.send_message(chat, "Bot Durduruldu.")
-
 @bot.message_handler(commands=['stats'])
 def stats(message):
     kanals = 0
