@@ -20,8 +20,9 @@ def start(s):
 def run(m):
     chat = m.chat.id
     pidd = open("pid.txt", "r+")
-    if pidd.read().isdigit():
-        islem = os.kill(int(pidd.read()), 9)
+    pid = pidd.read()
+    if pid.isdigit():
+        islem = os.kill(int(pid), 9)
         time.sleep(1)
         os.system('python main.py')
         bot.send_message(chat, "Yeniden Başlatıldı!")
