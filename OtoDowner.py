@@ -22,7 +22,7 @@ bot = Dispatcher(dp)
 @bot.message_handler(commands=['start', 'help'])
 async def send_welcome(message: types.Message):
     chat = message.chat.id
-    pid = await open("pid.txt", "r").read()
+    pid = open("pid.txt", "r").read()
     if pid.isdigit():
         durum = "Aktif!"
     else:
