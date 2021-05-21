@@ -10,8 +10,8 @@ token = "***REMOVED-BOT-TOKEN***"
 
 yetkili = [1613760981, 755051086, 1302980840]
 
-# Configure logging
-logging.basicConfig(level=logging.INFO)
+basicConfig(format="%(asctime)s - %(levelname)s - %(message)s",level=logging.INFO)
+logs = logging.getLogger(__name__)
 
 # Initialize bot and dispatcher
 dp = Bot(token=token)
@@ -30,6 +30,9 @@ async def send_welcome(message: types.Message):
 
 
 
+if __name__ == '__main__':
+    executor.start_polling(dp, skip_updates=True)
+    logging.info("Bot Çalışıyor...")
 
 
 
