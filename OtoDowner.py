@@ -20,8 +20,7 @@ def run(m):
 @bot.message_handler(commands=['stop'])
 def stop(p):
     chat = p.chat.id
-    os.system('pkill -TERM -P {pid}'.format(pid=anabot.pid))
-    #os.kill(anabot.pid, signal.SIGKILL)
+    os.kill(anabot.pid, 9)
     bot.send_message(chat, "Bot Durduruldu.")
 
 
