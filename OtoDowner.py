@@ -75,7 +75,7 @@ logs.info(dpid)
 
 
 pid = os.getpid()
-open("pid.txt", "w").write(str(pid))
+open("dpid.txt", "w").write(str(pid))
 print(pid)
 
 @bot.message_handler(commands=['stop'])
