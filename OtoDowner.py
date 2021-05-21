@@ -31,10 +31,12 @@ try:
     os.kill(int(anapid), 9)
 except Exception as e:
     print("ikinci: {}".format(e))
+logs.info("Eski İşlem Kapatıldı")
+
+
 dpid = os.getpid()
 eskipidfile = open("dpid.txt", "w+")
 eskipidfile.write(str(dpid))
-logs.info("Eski İşlem Kapatıldı")
 logs.info(dpid)
 
 @bot.message_handler(commands=['start', 'help'])
