@@ -2,11 +2,41 @@ import telebot
 import os, signal
 import time
 import asyncio
+import aiogram
 
 token = "***REMOVED-BOT-TOKEN***"
-bot = telebot.TeleBot(token, parse_mode='html')
+
 
 yetkili = [1613760981, 755051086, 1302980840]
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+
+# Initialize bot and dispatcher
+dp = Bot(token=API_TOKEN)
+bot = Dispatcher(bot)
+
+
+@dp.message_handler(commands=['start', 'help'])
+async def send_welcome(message: types.Message):
+    chat = message.chat.id
+    pid = open("pid.txt", "r").read()
+    if pid.isdigit():
+        durum = "Aktif!"
+    else:
+        durum = "Kapalı!"
+    bot.send_message(chat, "Merhaba!\n\nDurum: {}".format(durum))
+
+
+
+
+
+
+
+
+
+
+"""ott = telebot.TeleBot(token, parse_mode='html')
 
 @bot.message_handler(commands=['start', 'durum'])
 def start(s):
@@ -59,7 +89,7 @@ def stop(p):
     pidd.write("down")
     bot.send_message(chat, "Bot Durduruldu.")
 
-print("Çalışıyor")
 if __name__ == "__main__":
-    
     asyncio.run(bot.polling(none_stop=True))
+    print("Çalışıyor")
+    """
