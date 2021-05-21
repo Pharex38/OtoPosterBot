@@ -17,6 +17,7 @@ import logging
 mongo = "os.environ["MONGO_URI"]"
 
 pid = os.getpid()
+time.sleep(3)
 open("pid.txt", "w").write(str(pid))
 print(pid)
 
