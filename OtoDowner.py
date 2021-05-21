@@ -14,7 +14,7 @@ yetkili = [1613760981, 755051086, 1302980840]
 logging.basicConfig(level=logging.INFO)
 
 # Initialize bot and dispatcher
-dp = Bot(token=API_TOKEN)
+dp = Bot(token=token)
 bot = Dispatcher(bot)
 
 
