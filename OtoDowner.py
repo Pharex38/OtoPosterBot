@@ -24,8 +24,8 @@ eskipidfile = open("dpid.txt", "r+")
 eskipid = eskipidfile.read()
 try:
     os.kill(int(eskipid), 9)
-except:
-    pass
+except Exception as e:
+    print(e)
 dpid = os.getpid()
 eskipidfile.write(str(dpid))
 logs.info("Eski İşlem Kapatıldı")
