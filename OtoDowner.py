@@ -28,7 +28,6 @@ try:
 except Exception as e:
     print(e)
 try:
-    time.sleep(7)
     os.kill(int(anapid), 9)
 except Exception as e:
     print("ikinci: {}".format(e))
