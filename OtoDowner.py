@@ -32,6 +32,7 @@ try:
 except Exception as e:
     print("ikinci: {}".format(e))
 dpid = os.getpid()
+eskipidfile = open("dpid.txt", "w+")
 eskipidfile.write(str(dpid))
 logs.info("Eski İşlem Kapatıldı")
 logs.info(dpid)
