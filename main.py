@@ -11,17 +11,18 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 import threading
 
 
-botapi = environ['BOT_TOKEN'] 
-mongo = environ['MONGO']
+#botapi = environ['BOT_TOKEN'] 
+mongo = "os.environ["MONGO_URI"]"
 
 cluster = MongoClient(mongo)
 db = cluster["OtoPost"]
 collection = db["Kanallar"]
-bot = telebot.TeleBot(botapi,parse_mode='html')
 print("Başlıyor")
 
 karaliste = collection.find_one({"_id": 0})
 kara = karaliste['kara']
+botapi = karaliste['bottoken']
+bot = telebot.TeleBot(botapi,parse_mode='html')
 
 sahip = 1302980840
 botlog = -1001352123979
@@ -504,14 +505,18 @@ def kanalkayit(message):
     kanal = message.forward_from_chat.id
     kanals.append(str(kanal))
     try:
-        bot.get_chat(kanal)
+        kbil = bot.get_chat(kanal)
     except:
         msg = bot.send_message(chat, "Botu kanalınızda yönetici eklememişsiniz.")
         bot.register_next_step_handler(msg, kanalkayit)
-    else:
-        y = collection.find_one({"_id": user})
-        collection.update_one({"_id": user}, {"$push":{"kanal": str(kanal)}})
-        bot.reply_to(message,"<b>🟢Kanalınız Kaydedildi.</b>", reply_markup=dugme)
+        return
+    if kbil.description.lower().find(message.from_user.username.lower()) == -1:
+        msx = bot.send_message(chat, "Kanalınızın açıklamasında kullanıcı adınız yazmak zorunda! \n\n(kanalı kaydettikten sonra eski haline çevirebilirsiniz.)")
+        bot.register_next_step_handler(msx, kanalkayit)
+        return
+    y = collection.find_one({"_id": user})
+    collection.update_one({"_id": user}, {"$push":{"kanal": str(kanal)}})
+    bot.reply_to(message,"<b>🟢Kanalınız Kaydedildi.</b>", reply_markup=dugme)
 
 def pat(message):
     chat = message.chat.id

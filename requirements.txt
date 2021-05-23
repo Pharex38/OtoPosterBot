@@ -1,9 +1,6 @@
-python-telegram-bot
 pymongo
 dnspython
 pyTelegramBotAPI
-mega.py
-feedparser
 pyrogram
 requests
 telethon
