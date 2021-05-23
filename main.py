@@ -11,7 +11,6 @@ import threading
 import Colorer
 import os, signal
 import logging
-#from logger import basicConfig, getLogger, INFO
 
 #botapi = environ['BOT_TOKEN'] 
 mongo = "os.environ["MONGO_URI"]"
