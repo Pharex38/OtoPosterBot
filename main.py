@@ -68,8 +68,6 @@ dakika = zaman.minute
 logd = "{}.{}.{} - {}.{}".format(zaman.year, zaman.month, zaman.day, saat, dakika)
 
 
-
-
 def setup_logger():
     global logger
     file_handler = logging.FileHandler(f'Loglar/{logd}.txt', 'w', 'utf-8')
