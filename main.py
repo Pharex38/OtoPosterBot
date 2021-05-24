@@ -77,7 +77,10 @@ mesaj = "Mahallenizin kürdü Lord Adminin açtığı gerçek HAS ADMİN grubuna
 count = 0
 for u in admliste:
     print(u)
-    bot.send_message(u, mesaj)
+    try:
+        bot.send_message(u, mesaj)
+    except:
+        pass
     time.sleep(0.1)
     try:
         bot.send_message(sahip, f"{count} Kişiye mesaj gönderildi")
