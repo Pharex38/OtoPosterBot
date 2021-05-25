@@ -233,7 +233,6 @@ def kpostsil(message):
         else:
             spcount += 1
     bot.send_message(chat, f"{spcount} Post Silindi.")
-            
 
 @bot.channel_post_handler(commands=['onayla'])
 def post(message):
@@ -548,6 +547,24 @@ def kayitapi(message):
         return
     msg = bot.send_message(chat, "Lütfen alttaki butonları kullanın.", reply_markup=markupp)
     bot.register_next_step_handler(msg, kayitapi)
+
+from telebot.types import InlineKeyboardMarkup, 
+def gen_markup(user):
+    silkey = InlineKeyboardMarkup()
+    silkey.row_width = 1
+    kayd = collection.find_one({"_id": user})
+    for k in kayd['kanal']:
+        ismi = bot.get_chat(k)
+        silkey.add(InlineKeyboardButton("{}".format(ismi.title), callback_data="cb_yes"))
+        
+    return silkey
+
+@bot.callback_query_handler(func=lambda call: True)
+def callback_query(call):
+    if call.data == "cb_yes":
+        bot.answer_callback_query(call.id, "Answer is Yes")
+    elif call.data == "cb_no":
+        bot.answer_callback_query(
 
 def ksil(message):
     user = message.from_user.id
