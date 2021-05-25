@@ -565,6 +565,7 @@ def callback_query(call):
     col = call.message.json
     user = call.message.chat.id
     print(user)
+    print(call.data)
     if call.data == "cb_yes1":
         kul = collection.find_one({"_id": user})
         collection.update_one({"_id": user}, {"$pull": {"kanal": kul[0]}})
