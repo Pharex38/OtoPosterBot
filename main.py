@@ -280,6 +280,7 @@ def dsil(m):
     chat = m.chat.id
     if chat != sahip:
         return
+    sd = 0
     tumks = db[str(chat)].find({})
     for t in tumks:
         try:
