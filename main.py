@@ -247,6 +247,19 @@ def post(message):
     except:
         pass
 
+@bot.callback_query_handler(func=lambda call: True)
+def callback_query(call):
+    col = call.message.json
+    user = call.message.chat.id
+    mesajid = call.message.id
+    
+    if call.data.startswith("sil"):
+        kul = collection.find_one({"_id": user})
+        s = int(call.data.split("-")[1])
+        collection.update_one({"_id": user}, {"$pull": {"kanal": kul['kanal'][s]}})
+        bot.edit_message_text("Kanalınız Silindi!", user, mesajid)
+        bot.answer_callback_query(call.id, "Kanalınız Silindi!")
+    
 @bot.message_handler(content_types=['text'])
 def menu(message):
     chat = message.chat.id
@@ -517,7 +530,12 @@ def kayitapi(message):
     chat = message.chat.id
     mesaj = message.text
     user = message.from_user.id
+    ka = collection.find_one({"_id": user})
     if mesaj == "🗑️ Kanal Sil":
+        if len(ka['kanal']) < 1:
+            msg = bot.send_message(chat, "Silmek istediğiniz kanalı seçin.", reply_markup=markupp)
+            bot.register_next_step_handler(msg, kayitapi)
+            return
         msg = bot.send_message(chat, "Silmek istediğiniz kanalı seçin.", reply_markup=gen_markup(user))
         bot.register_next_step_handler(msg, kayitapi)
         return
@@ -559,49 +577,6 @@ def gen_markup(user):
         butonno += 1
     
     return silkey
-
-@bot.callback_query_handler(func=lambda call: True)
-def callback_query(call):
-    col = call.message.json
-    user = call.message.chat.id
-    mesajid = call.message.id
-    
-    if call.data.startswith("sil"):
-        kul = collection.find_one({"_id": user})
-        s = int(call.data.split("-")[1])
-        collection.update_one({"_id": user}, {"$pull": {"kanal": kul['kanal'][s]}})
-        bot.edit_message_text("Kanalınız Silindi!", user, mesajid)
-        bot.answer_callback_query(call.id, "Kanalınız Silindi!")
-    
-
-def ksil(message):
-    user = message.from_user.id
-    chat = message.chat.id
-    if message.text == None:
-        msg = bot.send_message(chat, "Lütfen geçerli bir numara verin")
-        bot.register_next_step_handler(msg, ksil)
-        return
-    if message.text == "❌ İptal":
-        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
-        return
-    try:
-        int(message.text)
-    except:
-        msg = bot.send_message(chat, "Lütfen geçerli bir numara verin")
-        bot.register_next_step_handler(msg, ksil)
-        return
-    mesaj = int(message.text) - 1
-    if not message.text.isdigit():
-        bot.send_message(chat, "Lütfen geçerli bir numara verin")
-        return
-    bul = collection.find_one({"_id": user})
-    x = bul['kanal']
-    try:
-        collection.update_one({"_id": user}, {"$pull": {"kanal": x[mesaj]}})
-    except:
-        bot.send_message(chat, "Yanlış bir numara girdiniz.", reply_markup=dugme)
-    else:
-        bot.send_message(chat, "Kanalınız silindi.", reply_markup=dugme)
 
 def altkayit(message):
     chat = message.chat.id
