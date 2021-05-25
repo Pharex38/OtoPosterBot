@@ -552,18 +552,23 @@ def gen_markup(user):
     silkey = InlineKeyboardMarkup()
     silkey.row_width = 1
     kayd = collection.find_one({"_id": user})
+    butonno = 1
     for k in kayd['kanal']:
         ismi = bot.get_chat(k)
-        silkey.add(InlineKeyboardButton("{} [{}]".format(ismi.title, k), callback_data="cb_yes"))
+        butonno += 1
+        silkey.add(InlineKeyboardButton("{}".format(ismi.title, k), callback_data="cb_yes{}".format(butonno))
     
     return silkey
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_query(call):
     col = call.message.json
-    print(col['reply_markup']['inline_keyboard'][0][0]['text'])
-    if call.data == "cb_yes":
-        bot.answer_callback_query(call.id, "Yapım Aşamasında... {}".format(col['reply_markup']))
+    user = call.message.chat.id
+    if call.data == "cb_yes1":
+        kul = collection.find_one({"_id": user})
+        collection.update_one({"_id": user}, {"$pull": {"kanal": kul[0]}})
+        bot.edit_message_text(user, call.message.message_id, "Kanalınız Silindi!")
+        bot.answer_callback_query(call.id, "Yapım Aşamasında...")
     elif call.data == "cb_no":
         pass
 
