@@ -382,7 +382,7 @@ def menu(message):
                     kayitli = kayitli - 1
                     logger.debug("Kanal silindi")
                 else:    
-                    bot.send_message(chat, """Kayit No: {}\n\nKanalınız: <a href="{}">{}</a>""".format(kayitli+1, kbilgi.invite_link, kbilgi.title))
+                    bot.send_message(chat, """Kanalınız: <a href="{}">{}</a>""".format(kbilgi.invite_link, kbilgi.title))
                 kayitli = kayitli + 1
         except Exception as e:
             pass
