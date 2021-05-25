@@ -561,7 +561,7 @@ def gen_markup(user):
 @bot.callback_query_handler(func=lambda call: True)
 def callback_query(call):
     col = call.message.json
-    print(col['reply_markup']['inline_keyboard'])
+    print(col['reply_markup']['inline_keyboard'][0])
     if call.data == "cb_yes":
         bot.answer_callback_query(call.id, "Yapım Aşamasında... {}".format(col['reply_markup']))
     elif call.data == "cb_no":
