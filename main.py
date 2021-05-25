@@ -234,6 +234,24 @@ def kpostsil(message):
             spcount += 1
     bot.send_message(chat, f"{spcount} Post Silindi.")
 
+@bot.message_handler(commands=['postsil'])
+def cpostsil(messsge):
+    chat = message.chat.id
+    if chat != sahip:
+        return
+    hedef = message.text.split()[1]
+    data = db[str(hedef)].find({})
+    spcount = 0
+    for d in data:
+        try:
+            bot.delete_message(d['_id'], d['pid'])
+        except Exception as e:
+            logger.error(e)
+        else:
+            spcount += 1
+    bot.send_message(chat, f"{spcount} Post Silindi.")
+    
+    
 @bot.channel_post_handler(commands=['onayla'])
 def post(message):
     chat = message.chat.id
