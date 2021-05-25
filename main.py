@@ -556,7 +556,7 @@ def gen_markup(user):
     for k in kayd['kanal']:
         ismi = bot.get_chat(k)
         butonno += 1
-        silkey.add(InlineKeyboardButton("{}".format(ismi.title, k), callback_data="cb_yes{}".format(butonno))
+        silkey.add(InlineKeyboardButton("{}".format(ismi.title, k), callback_data="cb_yes{}".format(butonno)))
     
     return silkey
 
