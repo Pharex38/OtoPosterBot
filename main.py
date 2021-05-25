@@ -532,7 +532,6 @@ def kayitapi(message):
     user = message.from_user.id
     ka = collection.find_one({"_id": user})
     if mesaj == "🗑️ Kanal Sil":
-        print(len(ka['kanal']))
         if len(ka['kanal']) < 1:
             msg = bot.send_message(chat, "Henüz bir kanal kaydetmemişsiniz!", reply_markup=markupp)
             bot.register_next_step_handler(msg, kayitapi)
