@@ -261,9 +261,35 @@ def duy(m):
         duyurumsg = m.reply_to_message.text
         kullanicilar = collection.find({})
         for kullanici in kullanicilar:
-            bot.send_message(kullanici['_id'], duyurumsg)
-            duyurus += 1
+            try:
+                dmsg = bot.send_message(kullanici['_id'], duyurumsg)
+                duyurus += 1
+            except Exception as e:
+                print(e)
+            else:
+                kont = db[str(chat)].find_one({"_id": kullanici['_id']})
+                if kont == None:
+                    db[str(chat)].insert_one({"_id": kullanici['_id'], "mid": dmsg.message_id})
+                else:
+                    db[str(chat)].update_one({"_id": kullanici['_id']}, {"$set": {"mid": dmsg.message_id}})
+                    
         bot.send_message(chat, "{} Kişiye Duyuru Mesajı Gönderildi!".format(duyurus))
+
+@bot.message_handler(commands=['dsil'])
+def dsil(m):
+    chat = m.chat.id
+    if chat != sahip:
+        return
+    tumks = db[str(chat)].find({})
+    for t in tumks:
+        try:
+            bot.delete_message(t['_id'], t['mid'])
+        except Exception as e:
+            print(e)
+        else:
+            sd += 1
+    bot.send_message(chat, "{} Duyuru Mesajı Silindi!".format(sd))
+        
     
 @bot.channel_post_handler(commands=['onayla'])
 def post(message):
