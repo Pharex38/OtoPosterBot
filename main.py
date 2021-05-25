@@ -251,6 +251,19 @@ def cpostsil(message):
             spcount += 1
     bot.send_message(chat, f"{spcount} Post Silindi.")
     
+@bot.message_handler(commands=['duyuru'])
+def duy(m):
+    chat = m.chat.id
+    if chat != sahip:
+        return
+    duyurus = 0
+    if message.reply_to_message:
+        duyurumsg = message.reply_to_message.text
+        kullanicilar = collection.find({})
+        for kullanici in kullanicilar:
+            bot.send_message(kullanici['_id'], duyurumsg)
+            duyurus += 1
+        bot.send_message(chat, "{} Kişiye Duyuru Mesajı Gönderildi!".format(duyurus))
     
 @bot.channel_post_handler(commands=['onayla'])
 def post(message):
