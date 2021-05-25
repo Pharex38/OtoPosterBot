@@ -257,8 +257,8 @@ def duy(m):
     if chat != sahip:
         return
     duyurus = 0
-    if message.reply_to_message:
-        duyurumsg = message.reply_to_message.text
+    if m.reply_to_message:
+        duyurumsg = m.reply_to_message.text
         kullanicilar = collection.find({})
         for kullanici in kullanicilar:
             bot.send_message(kullanici['_id'], duyurumsg)
