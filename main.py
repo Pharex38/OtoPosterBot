@@ -564,12 +564,12 @@ def gen_markup(user):
 def callback_query(call):
     col = call.message.json
     user = call.message.chat.id
-    print(call.message.id)
-    print(call.data)
+    mesajid = call.message.id
+    
     if call.data == "cb_yes1":
         kul = collection.find_one({"_id": user})
         collection.update_one({"_id": user}, {"$pull": {"kanal": kul['kanal'][0]}})
-        bot.edit_message_text(call.message.message_id, user, "Kanalınız Silindi!")
+        bot.edit_message_text(mesajid, user, "Kanalınız Silindi!")
         bot.answer_callback_query(call.id, "Yapım Aşamasında...")
     elif call.data == "cb_no":
         pass
