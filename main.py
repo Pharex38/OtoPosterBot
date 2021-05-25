@@ -556,7 +556,7 @@ def gen_markup(user):
     for k in kayd['kanal']:
         ismi = bot.get_chat(k)
         butonno += 1
-        silkey.add(InlineKeyboardButton("{}".format(ismi.title), callback_data="cb_yes-{}".format(butonno)))
+        silkey.add(InlineKeyboardButton("{}".format(ismi.title), callback_data="sil-{}".format(butonno)))
     
     return silkey
 
@@ -566,7 +566,7 @@ def callback_query(call):
     user = call.message.chat.id
     mesajid = call.message.id
     
-    if call.data.startswith("cb_yes"):
+    if call.data.startswith("sil"):
         kul = collection.find_one({"_id": user})
         s = call.data.split("-")[1]
         collection.update_one({"_id": user}, {"$pull": {"kanal": kul['kanal'][s]}})
