@@ -518,7 +518,7 @@ def kayitapi(message):
     mesaj = message.text
     user = message.from_user.id
     if mesaj == "🗑️ Kanal Sil":
-        msg = bot.send_message(chat, "Silmek istediğiniz kanalın kayıt numarasını girin.", reply_markup=gen_markup(user))
+        msg = bot.send_message(chat, "Silmek istediğiniz kanalı seçin.", reply_markup=gen_markup(user))
         bot.register_next_step_handler(msg, ksil)
         return
     if mesaj == "♻️ API değiştir":
@@ -554,15 +554,15 @@ def gen_markup(user):
     kayd = collection.find_one({"_id": user})
     for k in kayd['kanal']:
         ismi = bot.get_chat(k)
-        silkey.add(InlineKeyboardButton("{}".format(ismi.title), callback_data="cb_yes"))
-        
+        silkey.add(InlineKeyboardButton("{} [{}]".format(ismi.title, k), callback_data="cb_yes"))
+    
     return silkey
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_query(call):
-    print(call)
+    print(call.reply_markup.inline_keyboard)
     if call.data == "cb_yes":
-        bot.answer_callback_query(call.id, "Yapım Aşamasında...")
+        bot.answer_callback_query(call.id, "Yapım Aşamasında... {}".format(call.reply_markup.inline_keyboard))
     elif call.data == "cb_no":
         pass
 
