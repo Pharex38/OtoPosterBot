@@ -235,7 +235,7 @@ def kpostsil(message):
     bot.send_message(chat, f"{spcount} Post Silindi.")
 
 @bot.message_handler(commands=['postsil'])
-def cpostsil(messsge):
+def cpostsil(message):
     chat = message.chat.id
     if chat != sahip:
         return
