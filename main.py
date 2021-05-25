@@ -552,7 +552,7 @@ def gen_markup(user):
     silkey = InlineKeyboardMarkup()
     silkey.row_width = 1
     kayd = collection.find_one({"_id": user})
-    butonno = 1
+    butonno = 0
     for k in kayd['kanal']:
         ismi = bot.get_chat(k)
         butonno += 1
