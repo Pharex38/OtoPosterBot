@@ -568,7 +568,7 @@ def callback_query(call):
     
     if call.data.startswith("sil"):
         kul = collection.find_one({"_id": user})
-        s = call.data.split("-")[1]
+        s = int(call.data.split("-")[1])
         collection.update_one({"_id": user}, {"$pull": {"kanal": kul['kanal'][s]}})
         bot.edit_message_text("Kanalınız Silindi!", user, mesajid)
         bot.answer_callback_query(call.id, "Kanalınız Silindi!")
