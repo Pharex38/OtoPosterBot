@@ -568,7 +568,7 @@ def callback_query(call):
     print(call.data)
     if call.data == "cb_yes1":
         kul = collection.find_one({"_id": user})
-        collection.update_one({"_id": user}, {"$pull": {"kanal": kul[0]}})
+        collection.update_one({"_id": user}, {"$pull": {"kanal": kul['kanal'][0]}})
         bot.edit_message_text(user, call.message.message_id, "Kanalınız Silindi!")
         bot.answer_callback_query(call.id, "Yapım Aşamasında...")
     elif call.data == "cb_no":
