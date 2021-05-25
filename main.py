@@ -519,7 +519,7 @@ def kayitapi(message):
     user = message.from_user.id
     if mesaj == "🗑️ Kanal Sil":
         msg = bot.send_message(chat, "Silmek istediğiniz kanalı seçin.", reply_markup=gen_markup(user))
-        bot.register_next_step_handler(msg, kayitli)
+        bot.register_next_step_handler(msg, kayitapi)
         return
     if mesaj == "♻️ API değiştir":
         msg = bot.send_message(chat, "Yeni API adresinizi girin.", reply_markup=imark)
