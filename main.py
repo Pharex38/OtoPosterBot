@@ -11,6 +11,7 @@ import threading
 import Colorer
 import os, signal
 import logging
+from telebot.types import InlineKeyboardMarkup
 
 #botapi = environ['BOT_TOKEN'] 
 mongo = "os.environ["MONGO_URI"]"
@@ -548,7 +549,6 @@ def kayitapi(message):
     msg = bot.send_message(chat, "Lütfen alttaki butonları kullanın.", reply_markup=markupp)
     bot.register_next_step_handler(msg, kayitapi)
 
-from telebot.types import InlineKeyboardMarkup, 
 def gen_markup(user):
     silkey = InlineKeyboardMarkup()
     silkey.row_width = 1
