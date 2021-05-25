@@ -570,7 +570,7 @@ def callback_query(call):
         kul = collection.find_one({"_id": user})
         collection.update_one({"_id": user}, {"$pull": {"kanal": kul['kanal'][0]}})
         bot.edit_message_text(mesajid, user, "Kanalınız Silindi!")
-        bot.answer_callback_query(call.id, "Yapım Aşamasında...")
+        bot.answer_callback_query(user, "Yapım Aşamasında...")
     elif call.data == "cb_no":
         pass
 
