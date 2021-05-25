@@ -560,7 +560,7 @@ def gen_markup(user):
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_query(call):
-    print(call)
+    print(call.message.reply_markup)
     if call.data == "cb_yes":
         bot.answer_callback_query(call.id, "Yapım Aşamasında... {}".format(call))
     elif call.data == "cb_no":
