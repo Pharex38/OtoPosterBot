@@ -564,7 +564,7 @@ def gen_markup(user):
 def callback_query(call):
     col = call.message.json
     user = call.message.chat.id
-    print(user)
+    print(call.message.id)
     print(call.data)
     if call.data == "cb_yes1":
         kul = collection.find_one({"_id": user})
