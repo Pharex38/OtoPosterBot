@@ -560,9 +560,9 @@ def gen_markup(user):
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_query(call):
-    print(call.message.json)
+    print(call.message.json.reply_markup.inline_keyboard)
     if call.data == "cb_yes":
-        bot.answer_callback_query(call.id, "Yapım Aşamasında... {}".format())
+        bot.answer_callback_query(call.id, "Yapım Aşamasında... {}".format(call.message.json.reply_markup.inline_keyboard))
     elif call.data == "cb_no":
         pass
 
