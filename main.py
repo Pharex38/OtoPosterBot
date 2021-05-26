@@ -480,7 +480,7 @@ def menu(message):
 Örnek: "1,2,3"</b>
     
     
-    """, disable_web_page_preview=True, reply_markup=kaynakmark())
+    """, disable_web_page_preview=True, reply_markup=kaynakmark(user))
         bot.register_next_step_handler(msg, kaynake)
         return
     if mesaj == "📏 Şablon":
