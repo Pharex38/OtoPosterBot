@@ -358,8 +358,9 @@ def callback_query(call):
         back = call.data.split("-")
         o = int(back[1]) - 1
         ptip = back[2]
-        fid = back[3]
-        psablon = open("{}.txt".format(user), "r").read()
+        psablon = open("{}.txt".format(user), "r").read().split("√")[0]
+        fid = open("{}.txt".format(user), "r").read().split("√")[1]
+        
         kanal = collection.find_one({"_id": user})['kanal']
         if o == -1:
             for kan in kanal:
@@ -470,12 +471,12 @@ def patmark(psablon, user, ptip, fid):
     pmark.row_width = 1
     print("pat-0-{}-{}-{}".format(zero, ptip, fid))
     pkul = collection.find_one({"_id": user})
-    pmark.add(InlineKeyboardButton("Hepsine Gönder", callback_data="pat-0-{}-{}-{}".format(zero, ptip, fid)))
+    pmark.add(InlineKeyboardButton("Hepsine Gönder", callback_data="pat-0-{}".format(ptip)))
     
     for k in pkul['kanal']:
         kn = bot.get_chat(k)
         zero += 1
-        pmark.add(InlineKeyboardButton("{}".format(kn.title), callback_data="pat-{}-{}-{}".format(zero, ptip, fid)))
+        pmark.add(InlineKeyboardButton("{}".format(kn.title), callback_data="pat-{}-{}".format(zero, ptip)))
     
     return pmark
     
