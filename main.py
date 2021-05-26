@@ -468,14 +468,14 @@ def patmark(psablon, user, ptip, fid):
     pmark = InlineKeyboardMarkup()
     pmark.row_width = 1
     pkul = collection.find_one({"_id": user})
-    pmark.add(InlineKeyboardButton("Hepsine Gönder", callback_data="pat-0-{}".format(psablon)))
+    #pmark.add(InlineKeyboardButton("Hepsine Gönder", callback_data="pat-0-{}".format(psablon)))
     zero = 0
-    """
+    
     for k in pkul['kanal']:
         kn = bot.get_chat(k)
         zero += 1
         pmark.add(InlineKeyboardButton("{}".format(kn.title), callback_data="pat-{}-{}-{}-{}".format(zero, ptip, fid, psablon)))
-    """
+    
     return pmark
     
     
