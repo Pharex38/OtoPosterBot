@@ -468,13 +468,13 @@ def patmark(psablon, user, ptip, fid):
     pmark = InlineKeyboardMarkup()
     pmark.row_width = 1
     pkul = collection.find_one({"_id": user})
-    #pmark.add(InlineKeyboardButton("Hepsine Gönder", callback_data="pat-0-{}".format(psablon)))
+    pmark.add(InlineKeyboardButton("Hepsine Gönder", callback_data="pat-0-{}"))
     zero = 0
     
-    for k in pkul['kanal']:
+    """for k in pkul['kanal']:
         kn = bot.get_chat(k)
         zero += 1
-        pmark.add(InlineKeyboardButton("{}".format(kn.title), callback_data="pat-{}-{}-{}-{}".format(zero, ptip, fid, psablon)))
+        pmark.add(InlineKeyboardButton("{}".format(kn.title), callback_data="pat-{}-{}-{}-{}".format(zero, ptip, fid, psablon)))"""
     
     return pmark
     
@@ -937,10 +937,6 @@ def pat(message):
             bot.send_animation(pkanallar[0], fid, caption=psablon)
         bot.send_message(chat, "Postunuz gönderildi.", reply_markup=dugme)
         return
-    for pkan in pkanallar:
-        pcount = pcount + 1
-        knl = bot.get_chat(pkan)
-        bot.send_message(chat, "No: {}\n{}".format(pcount, knl.title))
     bot.send_message(chat, "<i>Postun gönderilmesini istediğin kanalın numarasını gönder.\n\n(Tüm kanallarına gönderilmesini istiyorsan <b>0</b> yaz</i>)", reply_markup=patmark(psablon, user, fid, ptip))
 
 def patiki(message, psablon, pathesap, fid, ptip):
