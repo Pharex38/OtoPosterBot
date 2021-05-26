@@ -356,10 +356,11 @@ def callback_query(call):
     """ PAT """
     if call.data.startswith("pat"):
         back = call.data.split("-")
+        pdosya = open("{}.txt".format(user), "r").read().split("√")
         o = int(back[1]) - 1
-        ptip = back[2]
-        psablon = open("{}.txt".format(user), "r").read().split("√")[0]
-        fid = open("{}.txt".format(user), "r").read().split("√")[1]
+        ptip = pdosya[2]
+        psablon = pdosya[0]
+        fid = pdosya[1]
         
         kanal = collection.find_one({"_id": user})['kanal']
         if o == -1:
@@ -469,14 +470,14 @@ def patmark(psablon, user, ptip, fid):
     zero = 0
     pmark = InlineKeyboardMarkup()
     pmark.row_width = 1
-    print("pat-0-{}-{}-{}".format(zero, ptip, fid))
+    print("pat-0-{}-{}".format(zero, ptip))
     pkul = collection.find_one({"_id": user})
-    pmark.add(InlineKeyboardButton("Hepsine Gönder", callback_data="pat-0-{}".format(ptip)))
+    pmark.add(InlineKeyboardButton("Hepsine Gönder", callback_data="pat-0-{}"))
     
     for k in pkul['kanal']:
         kn = bot.get_chat(k)
         zero += 1
-        pmark.add(InlineKeyboardButton("{}".format(kn.title), callback_data="pat-{}-{}".format(zero, ptip)))
+        pmark.add(InlineKeyboardButton("{}".format(kn.title), callback_data="pat-{}".format(zero)))
     
     return pmark
     
@@ -939,8 +940,8 @@ def pat(message):
             bot.send_animation(pkanallar[0], fid, caption=psablon)
         bot.send_message(chat, "Postunuz gönderildi.", reply_markup=dugme)
         return
-    open("{}.txt".format(user), "w", encoding="utf-8").write(f"{psablon}√{fid}")
-    bot.send_message(chat, "<i>Postun gönderilmesini istediğin kanalın numarasını gönder.\n\n(Tüm kanallarına gönderilmesini istiyorsan <b>0</b> yaz</i>)", reply_markup=patmark(psablon, user, fid, ptip))
+    open("{}.txt".format(user), "w", encoding="utf-8").write(f"{psablon}√{fid}√{ptip}")
+    bot.send_message(chat, "<i>Postun gönderilmesini istediğin kanalın numarasını gönder.\n\n(Tüm kanallarına gönderilmesini istiyorsan <b>0</b> yaz</i>)", reply_markup=patmark(user))
 
 def patiki(message, psablon, pathesap, fid, ptip):
     chat = message.chat.id
