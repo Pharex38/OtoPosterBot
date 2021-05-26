@@ -291,7 +291,6 @@ def dsil(m):
             sd += 1
     bot.send_message(chat, "{} Duyuru Mesajı Silindi!".format(sd))
         
-    
 @bot.channel_post_handler(commands=['onayla'])
 def post(message):
     chat = message.chat.id
@@ -310,13 +309,16 @@ def callback_query(call):
     col = call.message.json
     user = call.message.chat.id
     mesajid = call.message.id
-    
+    """ Kanal Sil """
     if call.data.startswith("sil"):
         kul = collection.find_one({"_id": user})
         s = int(call.data.split("-")[1])
         collection.update_one({"_id": user}, {"$pull": {"kanal": kul['kanal'][s]}})
         bot.edit_message_text("Kanalınız Silindi!", user, mesajid)
         bot.answer_callback_query(call.id, "Kanalınız Silindi!")
+    
+    
+    
     
 @bot.message_handler(content_types=['text'])
 def menu(message):
@@ -584,6 +586,17 @@ def sabloniki(message):
         collection.update_one({"_id": user}, {"$set":{"sablon": mesaj}})
         bot.send_message(chat, "Şablon kaydedildi!", reply_markup=dugme)
 
+def sitemarkup():
+    smark = InlineKeyboardMarkup
+    smark.row_width = 1
+    smark.add(InlineKeyboardButton("TRLink", callback_data="s1")
+    smark.add(InlineKeyboardButton("PND.TL", callback_data="s2")
+    smark.add(InlineKeyboardButton("Exe.io", callback_data="s3")
+    smark.add(InlineKeyboardButton("Ouo.io", callback_data="s4")
+    smark.add(InlineKeyboardButton("Pubiza", callback_data="s5")
+    
+    return smark
+
 def kayitapi(message):
     chat = message.chat.id
     mesaj = message.text
@@ -606,7 +619,7 @@ def kayitapi(message):
         return
     if mesaj == "🔗 Site değiştir":
         user = message.from_user.id
-        msg = bot.send_message(chat, "<i>Kullanmak istediğiniz sitenin numarasını girin:\n\n<b>    No:1</b>\n    TRLink (Varsayılan)\n\n<b>    No:2</b>\n    PND.TL\n\n<b>    No:3</b>\n    Exe.io\n\n<b>    No:4</b>\n    Ouo.io\n\n<b>    No:5</b>\n    Pubiza</i>\n \nㅤ", reply_markup=imark)
+        msg = bot.send_message(chat, "<i>Kullanmak istediğiniz siteyi seçin", reply_markup=sitemarkup())
         bot.register_next_step_handler(msg, sitekayit)
         return
     if mesaj == "🤖 Alternatif Ekle":
