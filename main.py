@@ -436,7 +436,19 @@ def kaynakmark(user):
     kmark.row(InlineKeyboardButton("❌ İptal ❌", callback_data="iptal"))
     
     return kmark
+
+def patmark(psablon, user):
+    pmark = InlineKeyboardMarkup(row_width=1)
+    pkul = collection.find_one({"_id": user})
+    pmaek.add(InlineKeyboardButton("Hepsine Gönder", callback_data="pat-0"))
+    zero = 0
+    for k in pkul['kanal']:
+        kn = bot.get_chat(k)
+        zero += 1
+        pmark.add(InlineKeyboardButton("{}".format(kn.title), callback_data="pat-{}".format(zero)))
     
+    
+
 def gen_markup(user):
     silkey = InlineKeyboardMarkup()
     silkey.row_width = 1
