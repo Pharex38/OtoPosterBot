@@ -363,7 +363,6 @@ def callback_query(call):
     if call.data.startswith("pat"):
         back = call.data.split("-")
         o = int(back[1]) - 1
-        print(o)
         ptip = patc.ptip
         psablon = patc.psablon
         fid = patc.fid
@@ -377,8 +376,8 @@ def callback_query(call):
                     bot.send_video(kan, fid, caption=psablon)
                 if ptip == 'animation':
                     bot.send_animation(kan, fid, caption=psablon)
-                bot.edit_message_text("✅<b>Postunuz Tüm Kanallarınıza Gönderildi!</b>", user, mesajid)
-                return
+            bot.edit_message_text("✅<b>Postunuz Tüm Kanallarınıza Gönderildi!</b>", user, mesajid)
+            return
         if ptip == 'photo':
             bot.send_photo(kanal[o], fid, caption=psablon)
         if ptip == 'video':
