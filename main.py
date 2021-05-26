@@ -352,7 +352,7 @@ def callback_query(call):
         else:
             collection.update_one({"_id": user}, {"$push": {"kaynak": kys}})
             bot.answer_callback_query(call.id, "✅ Kaynak Eklendi")
-        bot.edit_message_reply_markup(chat, mesajid, reply_markup=kaynakmark())
+        bot.edit_message_reply_markup(chat, mesajid, reply_markup=kaynakmark(user))
 
 def sitemarkup():
     smark = InlineKeyboardMarkup()
