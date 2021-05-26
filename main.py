@@ -366,7 +366,7 @@ def altmarkup():
     altmark.row_width = 1
     altmark.add(InlineKeyboardButton("Sıralı", callback_data="sistem-2"))
     altmark.add(InlineKeyboardButton("Tek Post İki Link", callback_data="sistem-1"))
-    
+    altmark.add(InlineKeyboardButton("❌ İptal", callback_data="iptal"))
     return altmark
 
 def gen_markup(user):
