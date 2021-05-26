@@ -342,6 +342,17 @@ def callback_query(call):
         bot.answer_callback_query(call.id, "✅ Site Kaydedildi!")
         bot.edit_message_text("Alternatif olarak kullanmak istediğiniz siteyi seçin.", user, mesajid)
         bot.edit_message_reply_markup(user, mesajid, reply_markup=altsitemarkup(sss))
+    """ Kaynak """
+    if call.data.startswith("kaynak"):
+        kys = str(call.data.split()[1])
+        kkul = collection.find_one({"_id": user})
+        if kys in kkul['kaynak']:
+            collection.update_one({"_id": user}, {"$pull": {"kaynak": kys}})
+            bot.answer_callback_query(call.id, "✅ Kaynak Kaldırıldı")
+        else:
+            collection.update_one({"_id": user}, {"$push": {"kaynak": kys}})
+            bot.answer_callback_query(call.id, "✅ Kaynak Eklendi")
+        bot.edit_message_reply_markup(chat, mesajid, reply_markup=kaynakmark())
 
 def sitemarkup():
     smark = InlineKeyboardMarkup()
@@ -439,13 +450,6 @@ def menu(message):
         bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
     if mesaj == "🔧 Kaynak":
-        mahzen = bot.get_chat(kaynaklar[0])
-        bedava = bot.get_chat(kaynaklar[1])
-        evi = bot.get_chat(kaynaklar[2])
-        bashub = bot.get_chat(kaynaklar[3])
-        acikmi = bot.get_chat(kaynaklar[4])
-        muho = bot.get_chat(kaynaklar[5])
-        tutan = bot.get_chat(kaynaklar[6])
         if mj == None:
             bot.send_message(chat, "Lütfen önce bir API kaydedin.")
             return
@@ -476,7 +480,7 @@ def menu(message):
 Örnek: "1,2,3"</b>
     
     
-    """.format(mahzen.invite_link, mahzen.title, bedava.invite_link, bedava.title, evi.invite_link, evi.title, bashub.invite_link, bashub.title, acikmi.invite_link, acikmi.title, muho.invite_link, muho.title, tutan.invite_link, tutan.title), disable_web_page_preview=True, reply_markup=imark)
+    """, disable_web_page_preview=True, reply_markup=kaynakmark())
         bot.register_next_step_handler(msg, kaynake)
         return
     if mesaj == "📏 Şablon":
