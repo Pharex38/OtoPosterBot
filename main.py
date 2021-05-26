@@ -348,7 +348,7 @@ def callback_query(call):
         kkul = collection.find_one({"_id": user})
         if kys in kkul['kaynak']:
             collection.update_one({"_id": user}, {"$pull": {"kaynak": kys}})
-            bot.answer_callback_query(call.id, "✅ Kaynak Kaldırıldı")
+            bot.answer_callback_query(call.id, "❌ Kaynak Kaldırıldı")
         else:
             collection.update_one({"_id": user}, {"$push": {"kaynak": kys}})
             bot.answer_callback_query(call.id, "✅ Kaynak Eklendi")
