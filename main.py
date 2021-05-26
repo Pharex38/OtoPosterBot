@@ -596,11 +596,11 @@ def sabloniki(message):
 def sitemarkup():
     smark = InlineKeyboardMarkup
     smark.row_width = 1
-    smark.add(InlineKeyboardButton("TRLink", callback_data="site-1")
-    smark.add(InlineKeyboardButton("PND.TL", callback_data="site-2")
-    smark.add(InlineKeyboardButton("Exe.io", callback_data="site-3")
-    smark.add(InlineKeyboardButton("Ouo.io", callback_data="site-4")
-    smark.add(InlineKeyboardButton("Pubiza", callback_data="site-5")
+    smark.add(InlineKeyboardButton("TRLink", callback_data="site-1"))
+    smark.add(InlineKeyboardButton("PND.TL", callback_data="site-2"))
+    smark.add(InlineKeyboardButton("Exe.io", callback_data="site-3"))
+    smark.add(InlineKeyboardButton("Ouo.io", callback_data="site-4"))
+    smark.add(InlineKeyboardButton("Pubiza", callback_data="site-5"))
     
     return smark
 
