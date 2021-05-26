@@ -356,12 +356,12 @@ def callback_query(call):
     """ PAT """
     if call.data.startswith("pat"):
         back = call.data.split("-")
-        o = int(back[1])
+        o = int(back[1]) - 1
         ptip = back[2]
         fid = back[3]
         psablon = back[4]
         kanal = collection.find_one({"_id": user})['kanal']
-        if o == 0:
+        if o == -1:
             for kan in kanal:
                 if ptip == 'photo':
                     bot.send_photo(kan, fid, caption=psablon)
