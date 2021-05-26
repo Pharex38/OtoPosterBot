@@ -428,8 +428,6 @@ def kaynakmark(user):
     
     return kmark
     
-        
-
 def gen_markup(user):
     silkey = InlineKeyboardMarkup()
     silkey.row_width = 1
@@ -455,34 +453,7 @@ def menu(message):
         if mj == None:
             bot.send_message(chat, "Lütfen önce bir API kaydedin.")
             return
-        msg = bot.send_message(chat, """<b>Kullanmak istediğiniz kaynak kanalınının numarasını gönderin:
-    
-    Kaynak No:1</b>
-    <a href="{}">{}</a>
-    
-    <b>Kaynak No:2</b>
-    <a href="{}">{}</a>
-    
-    <b>Kaynak No:3</b>
-    <a href="{}">{}</a>
-    
-    <b>Kaynak No:4</b>
-    <a href="{}">{}</a>
-    
-    <b>Kaynak No:5</b>
-    <a href="{}">{}</a>
-    
-    <b>Kaynak No:6</b>
-    <a href="{}">{}</a>
-    
-    <b>Kaynak No:7</b>
-    <a href="{}">{}</a>
-
-<b>❗Birden fazla kaynak seçmek isterseniz  seçmek istediğiniz kaynakların numaralarının arasına virgül koyarak gönderin.
-Örnek: "1,2,3"</b>
-    
-    
-    """, disable_web_page_preview=True, reply_markup=kaynakmark(user))
+        msg = bot.send_message(chat, """<b>Kullanmak istediğiniz kaynak kanalını seçin.</b>""", reply_markup=kaynakmark(user))
         bot.register_next_step_handler(msg, kaynake)
         return
     if mesaj == "📏 Şablon":
