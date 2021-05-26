@@ -312,7 +312,8 @@ def callback_query(call):
     mesajid = call.message.id
     """ İptal """
     if call.data == "iptal":
-        bot.edit_message_text("<i>İptal Edildi</i>", user, mesajid)
+        msg = bot.edit_message_text("<i>İptal Edildi</i>", user, mesajid)
+        bot.register_next_step_handler(msg, kayitapi)
     """ Kanal Sil """
     if call.data.startswith("sil"):
         kul = collection.find_one({"_id": user})
