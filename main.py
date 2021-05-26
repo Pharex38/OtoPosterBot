@@ -466,7 +466,7 @@ def kaynakmark(user):
     
     return kmark
 
-def patmark(psablon, user, ptip, fid):
+def patmark(user):
     zero = 0
     pmark = InlineKeyboardMarkup()
     pmark.row_width = 1
