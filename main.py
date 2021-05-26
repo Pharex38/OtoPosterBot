@@ -594,7 +594,7 @@ def sabloniki(message):
         bot.send_message(chat, "Şablon kaydedildi!", reply_markup=dugme)
 
 def sitemarkup():
-    smark = InlineKeyboardMarkup
+    smark = InlineKeyboardMarkup()
     smark.row_width = 1
     smark.add(InlineKeyboardButton("TRLink", callback_data="site-1"))
     smark.add(InlineKeyboardButton("PND.TL", callback_data="site-2"))
