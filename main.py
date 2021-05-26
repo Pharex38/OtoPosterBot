@@ -401,7 +401,7 @@ def kaynakmark(user):
         kmark.add(InlineKeyboardButton("{} ✅".format(mahzen.title), callback_data="kaynak-1"))
     else:
         kmark.add(InlineKeyboardButton("{} ⚫".format(mahzen.title), callback_data="kaynak-1"))
-    kmark.add(InlineKeyboardButton("🔗", url="{}".format(mahzen.invite_link), callback_data="kaynak-1"))
+    kmark.add(InlineKeyboardButton("🔗", url="{}".format(mahzen.invite_link)))
     if "2" in u['kaynak']:
         kmark.add(InlineKeyboardButton("{} ✅".format(bedava.title), callback_data="kaynak-2"))
     else:
