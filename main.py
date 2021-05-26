@@ -316,6 +316,13 @@ def callback_query(call):
         collection.update_one({"_id": user}, {"$pull": {"kanal": kul['kanal'][s]}})
         bot.edit_message_text("Kanalınız Silindi!", user, mesajid)
         bot.answer_callback_query(call.id, "Kanalınız Silindi!")
+    """ Site Değiştir """
+    if call.data.startswith("site"):
+        skul = collection.find_one({"_id": user})
+        ss = str(call.data.split("-")[1])
+        collection.update_one({"_id": user}, {"$set": {"site": ss}})
+        bot.edit_message_text("Site Kaydedildi!\n\nAPI adresinizi seçtiğiniz siteye göre değiştirmeyi unutmayın.", user, mesajid)
+        bot.answer_callback_query(call.id, "Site Kaydedildi!")
     
     
     
@@ -589,11 +596,11 @@ def sabloniki(message):
 def sitemarkup():
     smark = InlineKeyboardMarkup
     smark.row_width = 1
-    smark.add(InlineKeyboardButton("TRLink", callback_data="s1")
-    smark.add(InlineKeyboardButton("PND.TL", callback_data="s2")
-    smark.add(InlineKeyboardButton("Exe.io", callback_data="s3")
-    smark.add(InlineKeyboardButton("Ouo.io", callback_data="s4")
-    smark.add(InlineKeyboardButton("Pubiza", callback_data="s5")
+    smark.add(InlineKeyboardButton("TRLink", callback_data="site-1")
+    smark.add(InlineKeyboardButton("PND.TL", callback_data="site-2")
+    smark.add(InlineKeyboardButton("Exe.io", callback_data="site-3")
+    smark.add(InlineKeyboardButton("Ouo.io", callback_data="site-4")
+    smark.add(InlineKeyboardButton("Pubiza", callback_data="site-5")
     
     return smark
 
