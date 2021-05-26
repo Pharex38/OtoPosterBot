@@ -388,7 +388,7 @@ def altmarkup():
 
 def kaynakmark(user):
     u = collection.find_one({"_id": user})
-    kmark = InlineKeyboardMarkup(row_width=2)
+    kmark = InlineKeyboardMarkup(row_width=2, resize_keyboard=True)
     
     mahzen = bot.get_chat(kaynaklar[0])
     bedava = bot.get_chat(kaynaklar[1])
