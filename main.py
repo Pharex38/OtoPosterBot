@@ -344,25 +344,25 @@ def callback_query(call):
 
 def sitemarkup():
     smark = InlineKeyboardMarkup()
-    smark.row_width = 1
+    smark.row_width = 2
     smark.add(InlineKeyboardButton("TRLink", callback_data="site-1"))
     smark.add(InlineKeyboardButton("PND.TL", callback_data="site-2"))
     smark.add(InlineKeyboardButton("Exe.io", callback_data="site-3"))
     smark.add(InlineKeyboardButton("Ouo.io", callback_data="site-4"))
     smark.add(InlineKeyboardButton("Pubiza", callback_data="site-5"))
-    smark.add(InlineKeyboardButton("❌ İptal", callback_data="iptal"))
+    smark.row(InlineKeyboardButton("❌ İptal ❌", callback_data="iptal"))
     
     return smark
 
 def altsitemarkup(sss):
     asmark = InlineKeyboardMarkup()
-    asmark.row_width = 1
+    asmark.row_width = 2
     asmark.add(InlineKeyboardButton("TRLink", callback_data="asite-1-{}".format(sss)))
     asmark.add(InlineKeyboardButton("PND.TL", callback_data="asite-2-{}".format(sss)))
     asmark.add(InlineKeyboardButton("Exe.io", callback_data="asite-3-{}".format(sss)))
     asmark.add(InlineKeyboardButton("Ouo.io", callback_data="asite-4-{}".format(sss)))
     asmark.add(InlineKeyboardButton("Pubiza", callback_data="asite-5-{}".format(sss)))
-    altmark.add(InlineKeyboardButton("❌ İptal", callback_data="iptal"))
+    asmark.row(InlineKeyboardButton("❌ İptal ❌", callback_data="iptal"))
     
     return asmark
 
@@ -371,7 +371,7 @@ def altmarkup():
     altmark.row_width = 1
     altmark.add(InlineKeyboardButton("Sıralı", callback_data="sistem-2"))
     altmark.add(InlineKeyboardButton("Tek Post İki Link", callback_data="sistem-1"))
-    altmark.add(InlineKeyboardButton("❌ İptal", callback_data="iptal"))
+    altmark.add(InlineKeyboardButton("❌ İptal ❌", callback_data="iptal"))
     return altmark
 
 def gen_markup(user):
