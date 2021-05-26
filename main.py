@@ -325,15 +325,61 @@ def callback_query(call):
         bot.answer_callback_query(call.id, "Site Kaydedildi!")
     """ Alternatif """
     if call.data.startswith("asite"):
-        akul = collection.find_one({"_id": user})
         ass = str(call.data.split("-")[1])
-        collection.update_one({"_id": user}, {"$set": {"altsite": ass}})
-        msg = bot.edit_message_text("✅ Site Kaydedildi!", user, mesajid)
         bot.answer_callback_query(call.id, "✅ Site Kaydedildi!")
+        msg = bot.edit_message_text("Alternatif API adresinizi gönderin.", user, mesajid)
         bot.register_next_step_handler(msg, apikayit)
+    if call.data.startswith("sistem"):
+        sss = str(call.data.split("-")[1])
+        collection.update_one({"_id": user}, {"$set": {"sira": sss}})
+        bot.answer_callback_query(call.id, "✅ Site Kaydedildi!")
+        bot.edit_message_reply_markup(user, mesajid, reply_markup=altsitemarkup())
         
+        
+        
+def sitemarkup():
+    smark = InlineKeyboardMarkup()
+    smark.row_width = 1
+    smark.add(InlineKeyboardButton("TRLink", callback_data="site-1"))
+    smark.add(InlineKeyboardButton("PND.TL", callback_data="site-2"))
+    smark.add(InlineKeyboardButton("Exe.io", callback_data="site-3"))
+    smark.add(InlineKeyboardButton("Ouo.io", callback_data="site-4"))
+    smark.add(InlineKeyboardButton("Pubiza", callback_data="site-5"))
+    
+    return smark
 
-@bot.message_handler(content_types=['text'])
+def altsitemarkup():
+    asmark = InlineKeyboardMarkup()
+    asmark.row_width = 1
+    asmark.add(InlineKeyboardButton("TRLink", callback_data="asite-1"))
+    asmark.add(InlineKeyboardButton("PND.TL", callback_data="asite-2"))
+    asmark.add(InlineKeyboardButton("Exe.io", callback_data="asite-3"))
+    asmark.add(InlineKeyboardButton("Ouo.io", callback_data="asite-4"))
+    asmark.add(InlineKeyboardButton("Pubiza", callback_data="asite-5"))
+    
+    return asmark
+
+def altmarkup():
+    altmark = InlineKeyboardMarkup()
+    altmark.row_width = 1
+    altmark.add(InlineKeyboardButton("Sıralı", callback_data="sistem-2"))
+    altmark.add(InlineKeyboardButton("Tek Post İki Link", callback_data="sistem-1"))
+    
+    return altmark
+
+def gen_markup(user):
+    silkey = InlineKeyboardMarkup()
+    silkey.row_width = 1
+    kayd = collection.find_one({"_id": user})
+    butonno = 0
+    for k in kayd['kanal']:
+        ismi = bot.get_chat(k)
+        silkey.add(InlineKeyboardButton("{}".format(ismi.title), callback_data="sil-{}".format(butonno)))
+        butonno += 1
+    
+    return silkey
+
+bot.message_handler(content_types=['text'])
 def menu(message):
     chat = message.chat.id
     user = message.from_user.id
@@ -599,36 +645,6 @@ def sabloniki(message):
         collection.update_one({"_id": user}, {"$set":{"sablon": mesaj}})
         bot.send_message(chat, "Şablon kaydedildi!", reply_markup=dugme)
 
-def sitemarkup():
-    smark = InlineKeyboardMarkup()
-    smark.row_width = 1
-    smark.add(InlineKeyboardButton("TRLink", callback_data="site-1"))
-    smark.add(InlineKeyboardButton("PND.TL", callback_data="site-2"))
-    smark.add(InlineKeyboardButton("Exe.io", callback_data="site-3"))
-    smark.add(InlineKeyboardButton("Ouo.io", callback_data="site-4"))
-    smark.add(InlineKeyboardButton("Pubiza", callback_data="site-5"))
-    
-    return smark
-
-def altmarkup():
-    altmark = InlineKeyboardMarkup()
-    altmark.row_width = 1
-    altmark.add(InlineKeyboardButton("Sıralı", callback_data="siras"))
-    altmark.add(InlineKeyboardButton("Tek Post İki Link", callback_data="tpil"))
-    
-    return altmark
-    
-def altsitemarkup():
-    asmark = InlineKeyboardMarkup()
-    asmark.row_width = 1
-    asmark.add(InlineKeyboardButton("TRLink", callback_data="asite-1"))
-    asmark.add(InlineKeyboardButton("PND.TL", callback_data="asite-2"))
-    asmark.add(InlineKeyboardButton("Exe.io", callback_data="asite-3"))
-    asmark.add(InlineKeyboardButton("Ouo.io", callback_data="asite-4"))
-    asmark.add(InlineKeyboardButton("Pubiza", callback_data="asite-5"))
-    
-    return asmark
-
 def kayitapi(message):
     chat = message.chat.id
     mesaj = message.text
@@ -655,7 +671,7 @@ def kayitapi(message):
         bot.register_next_step_handler(msg, kayitapi)
         return
     if mesaj == "🤖 Alternatif Ekle":
-        msg = bot.send_message(chat, "<i>ALTERNATİF olarak Kullanmak istediğiniz sitenin numarasını girin:\n\n<b>    No:1</b>\n    TRLink (Varsayılan)\n\n<b>    No:2</b>\n    PND.TL\n\n<b>    No:3</b>\n    Exe.io\n\n<b>    No:4</b>\n    Ouo.io\n\n<b>    No:5</b>\n    Pubiza</i>\n \nㅤ", reply_markup=altsitemarkup())
+        msg = bot.send_message(chat, "<i>ALTERNATİF olarak Kullanmak istediğiniz sitenin numarasını girin:\n\n<b>    No:1</b>\n    TRLink (Varsayılan)\n\n<b>    No:2</b>\n    PND.TL\n\n<b>    No:3</b>\n    Exe.io\n\n<b>    No:4</b>\n    Ouo.io\n\n<b>    No:5</b>\n    Pubiza</i>\n \nㅤ", reply_markup=altmarkup())
         #bot.register_next_step_handler(msg, altkayit)
         return
     if mesaj == "🔶 Yeni Kanal Ekle":
@@ -668,18 +684,6 @@ def kayitapi(message):
         return
     msg = bot.send_message(chat, "Lütfen alttaki butonları kullanın.", reply_markup=markupp)
     bot.register_next_step_handler(msg, kayitapi)
-
-def gen_markup(user):
-    silkey = InlineKeyboardMarkup()
-    silkey.row_width = 1
-    kayd = collection.find_one({"_id": user})
-    butonno = 0
-    for k in kayd['kanal']:
-        ismi = bot.get_chat(k)
-        silkey.add(InlineKeyboardButton("{}".format(ismi.title), callback_data="sil-{}".format(butonno)))
-        butonno += 1
-    
-    return silkey
 
 def altkayit(message):
     chat = message.chat.id
