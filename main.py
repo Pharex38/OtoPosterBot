@@ -433,6 +433,7 @@ def kaynakmark(user):
         kmark.add(InlineKeyboardButton("✅ {}".format(muho.title), callback_data="kaynak-7"), gbut)
     else:
         kmark.add(InlineKeyboardButton("⚫ {}".format(muho.title), callback_data="kaynak-7"), gbut)
+    kmark.row(InlineKeyboardButton("❌ İptal ❌", callback_data="iptal"))
     
     return kmark
     
