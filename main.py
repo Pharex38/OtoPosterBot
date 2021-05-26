@@ -671,7 +671,7 @@ def kayitapi(message):
         bot.register_next_step_handler(msg, kayitapi)
         return
     if mesaj == "🤖 Alternatif Ekle":
-        msg = bot.send_message(chat, "<i>ALTERNATİF olarak Kullanmak istediğiniz sitenin numarasını girin:\n\n<b>    No:1</b>\n    TRLink (Varsayılan)\n\n<b>    No:2</b>\n    PND.TL\n\n<b>    No:3</b>\n    Exe.io\n\n<b>    No:4</b>\n    Ouo.io\n\n<b>    No:5</b>\n    Pubiza</i>\n \nㅤ", reply_markup=altmarkup())
+        msg = bot.send_message(chat, "<b>Alternatif Nasıl Kullanılsın.\n\n No:1</b>\n <i>Aynı post iki link</i> \n\n<b>No:2</b>\n <i>Bir post birinci servis, bir post alternatif servis.</i>\n\n<b>Kullanmak istediğiniz sistemi seçin.", reply_markup=altmarkup())
         #bot.register_next_step_handler(msg, altkayit)
         return
     if mesaj == "🔶 Yeni Kanal Ekle":
