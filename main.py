@@ -467,7 +467,7 @@ def kaynakmark(user):
 def patmark(psablon, user, ptip, fid):
     pmark = InlineKeyboardMarkup(row_width=1)
     pkul = collection.find_one({"_id": user})
-    pmaek.add(InlineKeyboardButton("Hepsine Gönder", callback_data="pat-0-{}".format(psablon)))
+    pmark.add(InlineKeyboardButton("Hepsine Gönder", callback_data="pat-0-{}".format(psablon)))
     zero = 0
     for k in pkul['kanal']:
         kn = bot.get_chat(k)
