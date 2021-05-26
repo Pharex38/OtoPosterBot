@@ -379,7 +379,7 @@ def gen_markup(user):
     
     return silkey
 
-bot.message_handler(content_types=['text'])
+@bot.message_handler(content_types=['text'])
 def menu(message):
     chat = message.chat.id
     user = message.from_user.id
