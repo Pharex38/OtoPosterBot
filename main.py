@@ -353,6 +353,33 @@ def callback_query(call):
             collection.update_one({"_id": user}, {"$push": {"kaynak": kys}})
             bot.answer_callback_query(call.id, "✅ Kaynak Eklendi")
         bot.edit_message_reply_markup(chat, mesajid, reply_markup=kaynakmark(user))
+    """ PAT """
+    if call.data.startswith("pat"):
+        back = call.data.split("-")
+        o = int(back[1])
+        ptip = back[2]
+        fid = back[3]
+        psablon = back[4]
+        kanal = collection.find_one({"_id": user})['kanal']
+        if o == 0:
+            for kan in kanal:
+                if ptip == 'photo':
+                    bot.send_photo(kan, fid, caption=psablon)
+                if ptip == 'video':
+                    bot.send_video(kan, fid, caption=psablon)
+                if ptip == 'animation':
+                    bot.send_animation(kan, fid, caption=psablon)
+                bot.edit_message_text("✅<b>Postunuz Tüm Kanallarınıza Gönderildi!</b>", user, mesajid)
+                return
+        if ptip == 'photo':
+            bot.send_photo(kanal[o], fid, caption=psablon)
+        if ptip == 'video':
+            bot.send_video(kanal[o], fid, caption=psablon)
+        if ptip == 'animation':
+            bot.send_animation(kanal[o], fid, caption=psablon)
+        bot.edit_message_text("✅<b>Postunuz  Kanalınıza Gönderildi!</b>", user, mesajid)
+            
+        
 
 def sitemarkup():
     smark = InlineKeyboardMarkup()
@@ -437,15 +464,17 @@ def kaynakmark(user):
     
     return kmark
 
-def patmark(psablon, user):
+def patmark(psablon, user, ptip, fid):
     pmark = InlineKeyboardMarkup(row_width=1)
     pkul = collection.find_one({"_id": user})
-    pmaek.add(InlineKeyboardButton("Hepsine Gönder", callback_data="pat-0"))
+    pmaek.add(InlineKeyboardButton("Hepsine Gönder", callback_data="pat-0-{}".format(psablon)))
     zero = 0
     for k in pkul['kanal']:
         kn = bot.get_chat(k)
         zero += 1
-        pmark.add(InlineKeyboardButton("{}".format(kn.title), callback_data="pat-{}".format(zero)))
+        pmark.add(InlineKeyboardButton("{}".format(kn.title), callback_data="pat-{}-{}".format(zero, psablon)))
+    
+    return pmark
     
     
 
