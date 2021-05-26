@@ -350,7 +350,7 @@ def sitemarkup():
     smark.add(InlineKeyboardButton("Exe.io", callback_data="site-3"))
     smark.add(InlineKeyboardButton("Ouo.io", callback_data="site-4"))
     smark.add(InlineKeyboardButton("Pubiza", callback_data="site-5"))
-    altmark.add(InlineKeyboardButton("❌ İptal", callback_data="iptal"))
+    smark.add(InlineKeyboardButton("❌ İptal", callback_data="iptal"))
     
     return smark
 
