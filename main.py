@@ -359,7 +359,7 @@ def callback_query(call):
         o = int(back[1]) - 1
         ptip = back[2]
         fid = back[3]
-        psablon = back[4]
+        psablon = open("{}.txt".format(user), "r").read()
         kanal = collection.find_one({"_id": user})['kanal']
         if o == -1:
             for kan in kanal:
@@ -468,13 +468,13 @@ def patmark(psablon, user, ptip, fid):
     pmark = InlineKeyboardMarkup()
     pmark.row_width = 1
     pkul = collection.find_one({"_id": user})
-    pmark.add(InlineKeyboardButton("Hepsine Gönder", callback_data="pat-0-{}"))
+    pmark.add(InlineKeyboardButton("Hepsine Gönder", callback_data="pat-0-{}-{}-{}".format(zero, ptip, fid)))
     zero = 0
     
-    """for k in pkul['kanal']:
+    for k in pkul['kanal']:
         kn = bot.get_chat(k)
         zero += 1
-        pmark.add(InlineKeyboardButton("{}".format(kn.title), callback_data="pat-{}-{}-{}-{}".format(zero, ptip, fid, psablon)))"""
+        pmark.add(InlineKeyboardButton("{}".format(kn.title), callback_data="pat-{}-{}-{}".format(zero, ptip, fid)))
     
     return pmark
     
@@ -937,6 +937,7 @@ def pat(message):
             bot.send_animation(pkanallar[0], fid, caption=psablon)
         bot.send_message(chat, "Postunuz gönderildi.", reply_markup=dugme)
         return
+    open("{}.txt".format(user), "w").write(psablon)
     bot.send_message(chat, "<i>Postun gönderilmesini istediğin kanalın numarasını gönder.\n\n(Tüm kanallarına gönderilmesini istiyorsan <b>0</b> yaz</i>)", reply_markup=patmark(psablon, user, fid, ptip))
 
 def patiki(message, psablon, pathesap, fid, ptip):
@@ -977,35 +978,6 @@ def patiki(message, psablon, pathesap, fid, ptip):
         bot.send_animation(pkan, fid, caption=psablon)
     bot.send_message(chat, "Postunuz gönderildi.", reply_markup=dugme)
 
-def sirasistem(message):
-    user = message.from_user.id
-    chat = message.chat.id
-    atat = collection.find_one({"_id": user})
-    if message.text == None:
-        msg = bot.send_message(chat, "Lütfen doğru bir numara girin")
-        bot.register_next_step_handler(msg, sitekayit)
-        return
-    if message.text != "1" and message.text != "2" and message.text != "❌ İptal" and message.text != "⛔ Alternatif Kaldır":  
-        msg = bot.send_message(chat, "Lütfen doğru bir numara girin")
-        bot.register_next_step_handler(msg, sitekayit)
-        return
-    if message.text == "⛔ Alternatif Kaldır":
-        if atat['sira'] != "1":
-            collection.update_one({"_id": user}, {"$set": {"altsite": "None", "altapi": "None", "sira": "0"}})
-            bot.send_message(chat, "Alternatif kaldırıldı, artık postlarınız alternatif linksiz paylaşılacak.", reply_markup=dugme)
-            return
-            
-        collection.update_one({"_id": user}, {"$set": {"altsite": "None", "altapi": "None", "sablon": "1", "sira": "0"}})
-        bot.send_message(chat, "Alternatif kaldırıldı, artık postlarınız alternatif linksiz paylaşılacak.", reply_markup=dugme)
-        return
-    if message.text == "❌ İptal":
-        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
-        return
-    sistem = str(message.text)
-    if sistem == "1":
-        collection.update_one({"_id": user}, {"$set": {"sablon": "9"}})
-    collection.update_one({"_id": user}, {"$set": {"sira": sistem}})
-    bot.send_message(chat, "✅ Alternatif Kaydedildi", reply_markup=dugme)
 
 @bot.channel_post_handler(content_types=['photo', 'animation', 'video'])
 def poster(message):
