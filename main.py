@@ -344,7 +344,7 @@ def callback_query(call):
         bot.edit_message_reply_markup(user, mesajid, reply_markup=altsitemarkup(sss))
     """ Kaynak """
     if call.data.startswith("kaynak"):
-        kys = str(call.data.split()[1])
+        kys = str(call.data.split("-")[1])
         kkul = collection.find_one({"_id": user})
         if kys in kkul['kaynak']:
             collection.update_one({"_id": user}, {"$pull": {"kaynak": kys}})
