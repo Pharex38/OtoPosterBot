@@ -375,6 +375,48 @@ def altmarkup():
     altmark.add(InlineKeyboardButton("❌ İptal ❌", callback_data="iptal"))
     return altmark
 
+def kaynakmark(user):
+    u = collection.find_one({"_id": user})
+    kmark = InlineKeyboardMarkup()
+    kmark.row_width = 3
+    mahzen = bot.get_chat(kaynaklar[0])
+    bedava = bot.get_chat(kaynaklar[1])
+    evi = bot.get_chat(kaynaklar[2])
+    bashub = bot.get_chat(kaynaklar[3])
+    acikmi = bot.get_chat(kaynaklar[4])
+    muho = bot.get_chat(kaynaklar[5])
+    tutan = bot.get_chat(kaynaklar[6])
+    if "1" in u['kaynak']:
+        kmark.add(InlineKeyboardButton("{} ✅".format(mahzen.title), callback_data="kaynak-1"))
+    else:
+        kmark.add(InlineKeyboardButton("{} ⚫".format(mahzen.title), callback_data="kaynak-1"))
+    if "2" in u['kaynak']:
+        kmark.add(InlineKeyboardButton("{} ✅".format(bedava.title), callback_data="kaynak-2"))
+    else:
+        kmark.add(InlineKeyboardButton("{} ⚫".format(bedava.title), callback_data="kaynak-2"))
+    if "3" in u['kaynak']:
+        kmark.add(InlineKeyboardButton("{} ✅".format(evi.title), callback_data="kaynak-3"))
+    else:
+        kmark.add(InlineKeyboardButton("{} ⚫".format(evi.title), callback_data="kaynak-3"))
+    if "4" in u['kaynak']:
+        kmark.add(InlineKeyboardButton("{} ✅".format(bashub.title), callback_data="kaynak-4"))
+    else:
+        kmark.add(InlineKeyboardButton("{} ⚫".format(bashub.title), callback_data="kaynak-4"))
+    if "5" in u['kaynak']:
+        kmark.add(InlineKeyboardButton("{} ✅".format(acikmi.title), callback_data="kaynak-5"))
+    else:
+        kmark.add(InlineKeyboardButton("{} ⚫".format(acikmi.title), callback_data="kaynak-5"))
+    if "6" in u['kaynak']:
+        kmark.add(InlineKeyboardButton("{} ✅".format(tutan.title), callback_data="kaynak-6"))
+    else:
+        kmark.add(InlineKeyboardButton("{} ⚫".format(tutan.title), callback_data="kaynak-6"))
+    if "7" in u['kaynak']:
+        kmark.add(InlineKeyboardButton("{} ✅".format(muho.title), callback_data="kaynak-7"))
+    else:
+        kmark.add(InlineKeyboardButton("{} ⚫".format(muho.title), callback_data="kaynak-7"))
+    
+        
+
 def gen_markup(user):
     silkey = InlineKeyboardMarkup()
     silkey.row_width = 1
