@@ -937,7 +937,7 @@ def pat(message):
             bot.send_animation(pkanallar[0], fid, caption=psablon)
         bot.send_message(chat, "Postunuz gönderildi.", reply_markup=dugme)
         return
-    open("{}.txt".format(user), "w").write(psablon)
+    open("{}.txt".format(user), "w", encoding="utf-8").write(psablon)
     bot.send_message(chat, "<i>Postun gönderilmesini istediğin kanalın numarasını gönder.\n\n(Tüm kanallarına gönderilmesini istiyorsan <b>0</b> yaz</i>)", reply_markup=patmark(psablon, user, fid, ptip))
 
 def patiki(message, psablon, pathesap, fid, ptip):
