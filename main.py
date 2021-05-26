@@ -356,7 +356,7 @@ def callback_query(call):
     """ PAT """
     if call.data.startswith("pat"):
         back = call.data.split("-")
-        pdosya = open("{}.txt".format(user), "r").read().split("√")
+        pdosya = open("{}.txt".format(user), "r").read().split("@")
         print(len(pdosya))
         o = int(back[1]) - 1
         ptip = pdosya[2]
@@ -941,7 +941,7 @@ def pat(message):
             bot.send_animation(pkanallar[0], fid, caption=psablon)
         bot.send_message(chat, "Postunuz gönderildi.", reply_markup=dugme)
         return
-    open("{}.txt".format(user), "w", encoding="utf-8").write(f"{psablon}√{fid}√{ptip}")
+    open("{}.txt".format(user), "w", encoding="utf-8").write(f"{psablon}@{fid}@{ptip}")
     bot.send_message(chat, "<i>Postun gönderilmesini istediğin kanalın numarasını gönder.\n\n(Tüm kanallarına gönderilmesini istiyorsan <b>0</b> yaz</i>)", reply_markup=patmark(user))
 
 def patiki(message, psablon, pathesap, fid, ptip):
