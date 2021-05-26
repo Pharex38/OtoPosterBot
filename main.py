@@ -323,10 +323,15 @@ def callback_query(call):
         collection.update_one({"_id": user}, {"$set": {"site": ss}})
         bot.edit_message_text("Site Kaydedildi!\n\nAPI adresinizi seçtiğiniz siteye göre değiştirmeyi unutmayın.", user, mesajid)
         bot.answer_callback_query(call.id, "Site Kaydedildi!")
-    
-    
-    
-    
+    """ Alternatif """
+    if call.data.startswith("asite"):
+        akul = collection.find_one({"_id": user})
+        ass = str(call.data.split("-")[1])
+        collection.update_one({"_id": user}, {"$set": {"altsite": ass}})
+        bot.edit_message_text("✅ Site Kaydedildi!", user, mesajid)
+        bot.answer_callback_query(call.id, "✅ Site Kaydedildi!")
+        
+
 @bot.message_handler(content_types=['text'])
 def menu(message):
     chat = message.chat.id
@@ -603,6 +608,25 @@ def sitemarkup():
     smark.add(InlineKeyboardButton("Pubiza", callback_data="site-5"))
     
     return smark
+
+def altmarkup():
+    altmark = InlineKeyboardMarkup()
+    altmark.row_width = 1
+    altmark.add(InlineKeyboardButton("Sıralı", callback_data="siras"))
+    altmark.add(InlineKeyboardButton("Tek Post İki Link", callback_data="tpil"))
+    
+    return altmark
+    
+def altsitemarkup():
+    asmark = InlineKeyboardMarkup()
+    asmark.row_width = 1
+    asmark.add(InlineKeyboardButton("TRLink", callback_data="asite-1"))
+    asmark.add(InlineKeyboardButton("PND.TL", callback_data="asite-2"))
+    asmark.add(InlineKeyboardButton("Exe.io", callback_data="asite-3"))
+    asmark.add(InlineKeyboardButton("Ouo.io", callback_data="asite-4"))
+    asmark.add(InlineKeyboardButton("Pubiza", callback_data="asite-5"))
+    
+    return asmark
 
 def kayitapi(message):
     chat = message.chat.id
@@ -893,24 +917,6 @@ def patiki(message, psablon, pathesap, fid, ptip):
     if ptip == "animation":
         bot.send_animation(pkan, fid, caption=psablon)
     bot.send_message(chat, "Postunuz gönderildi.", reply_markup=dugme)
-
-def sitekayit(message):
-    chat = message.chat.id
-    user = message.from_user.id
-    if message.text == None:
-        msg = bot.send_message(chat, "Lütfen doğru bir numara girin")
-        bot.register_next_step_handler(msg, sitekayit)
-        return
-    if message.text == "❌ İptal":
-        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
-        return
-    mesaj = str(message.text)
-    if not message.text.isdigit() or len(mesaj) > 1:
-        msg = bot.send_message(chat, "Lütfen doğru bir numara girin")
-        bot.register_next_step_handler(msg, sitekayit)
-        return
-    collection.update_one({"_id": user}, {"$set": {"site": mesaj}})
-    bot.send_message(chat, "Site Kaydedildi\n\nAPI adresinizi seçtiğiniz siteye göre değiştirmeyi unutmayın.", reply_markup=dugme)
 
 def sirasistem(message):
     user = message.from_user.id
