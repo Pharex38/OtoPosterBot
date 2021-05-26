@@ -308,6 +308,7 @@ def post(message):
 def callback_query(call):
     col = call.message.json
     user = call.message.chat.id
+    chat = user
     mesajid = call.message.id
     """ Kanal Sil """
     if call.data.startswith("sil"):
@@ -325,18 +326,18 @@ def callback_query(call):
         bot.answer_callback_query(call.id, "Site Kaydedildi!")
     """ Alternatif """
     if call.data.startswith("asite"):
-        ass = str(call.data.split("-")[1])
+        smesaj = str(call.data.split("-")[1])
+        sss = str(call.data.split("-")[2])
         bot.answer_callback_query(call.id, "✅ Site Kaydedildi!")
         msg = bot.edit_message_text("Alternatif API adresinizi gönderin.", user, mesajid)
-        bot.register_next_step_handler(msg, apikayit)
+        bot.register_next_step_handler(msg, altakayit, smesaj, user, chat, sss)
     if call.data.startswith("sistem"):
         sss = str(call.data.split("-")[1])
         collection.update_one({"_id": user}, {"$set": {"sira": sss}})
         bot.answer_callback_query(call.id, "✅ Site Kaydedildi!")
-        bot.edit_message_reply_markup(user, mesajid, reply_markup=altsitemarkup())
-        
-        
-        
+        bot.edit_message_text("Alternatif olarak kullanmak istediğiniz siteyi seçin.", user, mesajid)
+        bot.edit_message_reply_markup(user, mesajid, reply_markup=altsitemarkup(sss))
+
 def sitemarkup():
     smark = InlineKeyboardMarkup()
     smark.row_width = 1
@@ -348,14 +349,14 @@ def sitemarkup():
     
     return smark
 
-def altsitemarkup():
+def altsitemarkup(sss):
     asmark = InlineKeyboardMarkup()
     asmark.row_width = 1
-    asmark.add(InlineKeyboardButton("TRLink", callback_data="asite-1"))
-    asmark.add(InlineKeyboardButton("PND.TL", callback_data="asite-2"))
-    asmark.add(InlineKeyboardButton("Exe.io", callback_data="asite-3"))
-    asmark.add(InlineKeyboardButton("Ouo.io", callback_data="asite-4"))
-    asmark.add(InlineKeyboardButton("Pubiza", callback_data="asite-5"))
+    asmark.add(InlineKeyboardButton("TRLink", callback_data="asite-1-{}".format(sss)))
+    asmark.add(InlineKeyboardButton("PND.TL", callback_data="asite-2-{}".format(sss)))
+    asmark.add(InlineKeyboardButton("Exe.io", callback_data="asite-3-{}".format(sss)))
+    asmark.add(InlineKeyboardButton("Ouo.io", callback_data="asite-4-{}".format(sss)))
+    asmark.add(InlineKeyboardButton("Pubiza", callback_data="asite-5-{}".format(sss)))
     
     return asmark
 
@@ -685,25 +686,7 @@ def kayitapi(message):
     msg = bot.send_message(chat, "Lütfen alttaki butonları kullanın.", reply_markup=markupp)
     bot.register_next_step_handler(msg, kayitapi)
 
-def altkayit(message):
-    chat = message.chat.id
-    user = message.from_user.id
-    smesaj = message.text
-    if message.text == None:
-        msg = bot.send_message(chat, "Lütfen geçerli bir numara verin")
-        bot.register_next_step_handler(msg, ksil)
-        return
-    if message.text == "❌ İptal":
-        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
-        return
-    if message.text == "⛔ Alternatif Kaldır":
-        collection.update_one({"_id": user}, {"$set": {"altsite": "None", "altapi": "None", "sablon": "1", "sira": "0"}})
-        bot.send_message(chat, "Alternatif kaldırıldı, artık postlarınız alternatif linksiz paylaşılacak.", reply_markup=dugme)
-        return
-    msg = bot.send_message(chat, "✅ Site kaydedildi!\n\nAlternatif sitenizin API adresinizi gönderin.")
-    bot.register_next_step_handler(msg, altakayit, smesaj, user, chat)
-
-def altakayit(message, smesaj, user, chat):
+def altakayit(message, smesaj, user, chat, sss):
     amesaj = message.text
     if message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
@@ -713,9 +696,8 @@ def altakayit(message, smesaj, user, chat):
         bot.send_message(chat, "Alternatif kaldırıldı, artık postlarınız alternatif linksiz paylaşılacak.", reply_markup=dugme)
         return
     
-    collection.update_one({"_id": user}, {"$set": {"altsite": smesaj, "altapi": amesaj}})
-    msg = bot.send_message(chat, "✅ Alternatif kaydedildi\n\n<b>Alternatif Nasıl Kullanılsın.\n\n No:1</b>\n <i>Aynı post iki link</i> \n\n<b>No:2</b>\n <i>Bir post birinci servis, bir post alternatif servis.</i>\n\n<b>İstediğiniz sistemin numarasını gönderin.</b>")
-    bot.register_next_step_handler(msg, sirasistem)
+    collection.update_one({"_id": user}, {"$set": {"altsite": smesaj, "altapi": amesaj, "sira": sss}})
+    bot.send_message(chat, "✅ Alternatif API kaydedildi", reply_markup=dugme)
 
 def apikayit(message):
     token = message.text
