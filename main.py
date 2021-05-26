@@ -317,6 +317,9 @@ def callback_query(call):
     chat = user
     mesajid = call.message.id
     """ İptal """
+    if call.data == "aiptal":
+        msg = bot.edit_message_text("<i>İptal Edildi</i>", user, mesajid)
+        bot.register_next_step_handler(msg, menu)
     if call.data == "iptal":
         msg = bot.edit_message_text("<i>İptal Edildi</i>", user, mesajid)
         bot.register_next_step_handler(msg, kayitapi)
@@ -385,9 +388,6 @@ def callback_query(call):
         if ptip == 'animation':
             bot.send_animation(kanal[o], fid, caption=psablon)
         bot.edit_message_text("✅<b>Postunuz  Kanalınıza Gönderildi!</b>", user, mesajid)
-        
-            
-        
 
 def sitemarkup():
     smark = InlineKeyboardMarkup()
@@ -468,7 +468,7 @@ def kaynakmark(user):
         kmark.add(InlineKeyboardButton("✅ {}".format(muho.title), callback_data="kaynak-7"), gbut)
     else:
         kmark.add(InlineKeyboardButton("⚫ {}".format(muho.title), callback_data="kaynak-7"), gbut)
-    kmark.row(InlineKeyboardButton("❌ İptal ❌", callback_data="iptal"))
+    kmark.row(InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal"))
     
     return kmark
 
@@ -484,6 +484,7 @@ def patmark(user):
         kn = bot.get_chat(k)
         zero += 1
         pmark.add(InlineKeyboardButton("{}".format(kn.title), callback_data="pat-{}".format(zero)))
+    pmark.row(InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal"))
     
     return pmark
     
@@ -948,45 +949,8 @@ def pat(message):
     patc.psablon = psablon
     patc.ptip = ptip
     patc.fid = fid
-    bot.send_message(chat, "<i>Postun gönderilmesini istediğin kanalın numarasını gönder.\n\n(Tüm kanallarına gönderilmesini istiyorsan <b>0</b> yaz</i>)", reply_markup=patmark(user))
-
-def patiki(message, psablon, pathesap, fid, ptip):
-    chat = message.chat.id
-    if message.text == "❌ İptal":
-        bot.send_message(chat, "İptal Edildi", reply_markup=dugme)
-        return
-    if message.text == None:
-        msg = bot.send_message(chat, "Lütfen geçerli bir numara girin.")
-        bot.register_next_step_handler(msg, patiki, psablon, pathesap, fid, ptip)
-        return
-    if not message.text.isdigit():
-        msg = bot.send_message(chat, "Lütfen geçerli bir numara girin.")
-        bot.register_next_step_handler(msg, patiki, psablon, pathesap, fid, ptip)
-        return
-    pmesaj = int(message.text) - 1
-    try:
-        pkan = pathesap['kanal'][pmesaj]
-    except:
-        mso = bot.send_message(chat, "Girdiğiniz numara ile eşleşen kanal bulunamadı!\n\n Lütfen geçerli bir numara girin.")
-        bot.register_next_step_handler(mso, patiki, psablon, pathesap, fid, ptip)
-        return
-    if pmesaj == -1:
-        for pk in pathesap['kanal']:
-            if ptip == "video":
-                bot.send_video(pk, fid, caption=psablon)
-            if ptip == "photo":
-                bot.send_photo(pk, fid, caption=psablon)
-            if ptip == "animation":
-                bot.send_animation(pk, fid, caption=psablon)
-        bot.send_message(chat, "Postunuz gönderildi.")
-        return
-    if ptip == "video":
-        bot.send_video(pkan, fid, caption=psablon)
-    if ptip == "photo":
-        bot.send_photo(pkan, fid, caption=psablon)
-    if ptip == "animation":
-        bot.send_animation(pkan, fid, caption=psablon)
-    bot.send_message(chat, "Postunuz gönderildi.", reply_markup=dugme)
+    bot.send_message(chat, "Post Hazırlandı!", reply_markup=dugme)
+    bot.send_message(chat, "<i>Postun gönderilmesini istediğin kanalı seç.</i>", reply_markup=patmark(user))
 
 
 @bot.channel_post_handler(content_types=['photo', 'animation', 'video'])
