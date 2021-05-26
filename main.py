@@ -419,6 +419,8 @@ def altmarkup():
     altmark.add(InlineKeyboardButton("Sıralı", callback_data="sistem-2"))
     altmark.add(InlineKeyboardButton("Tek Post İki Link", callback_data="sistem-1"))
     altmark.add(InlineKeyboardButton("❌ İptal ❌", callback_data="iptal"))
+    if collection.find_one({"_id": user})['altapi'] == "None":
+        altmark.add(InlineKeyboardButton("⛔ Alternatif Kaldır", callback_data="akaldır"))
     return altmark
 
 def kaynakmark(user):
@@ -497,6 +499,7 @@ def gen_markup(user):
         ismi = bot.get_chat(k)
         silkey.add(InlineKeyboardButton("{}".format(ismi.title), callback_data="sil-{}".format(butonno)))
         butonno += 1
+    silkey.row(InlineKeyboardButton("❌ İptal ❌", callback_data="iptal"))
     
     return silkey
 
