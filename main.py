@@ -626,7 +626,7 @@ def kayitapi(message):
         return
     if mesaj == "🔗 Site değiştir":
         user = message.from_user.id
-        msg = bot.send_message(chat, "<i>Kullanmak istediğiniz siteyi seçin", reply_markup=sitemarkup())
+        msg = bot.send_message(chat, "<i>Kullanmak istediğiniz siteyi seçin</i>", reply_markup=sitemarkup())
         bot.register_next_step_handler(msg, kayitapi)
         return
     if mesaj == "🤖 Alternatif Ekle":
