@@ -951,6 +951,7 @@ def pat(message):
     patc.psablon = psablon
     patc.ptip = ptip
     patc.fid = fid
+    patc.sira = 1
     bot.send_message(chat, "<i>Postun gönderilmesini istediğin kanalın numarasını gönder.\n\n(Tüm kanallarına gönderilmesini istiyorsan <b>0</b> yaz</i>)", reply_markup=patmark(user))
 
 def patiki(message, psablon, pathesap, fid, ptip):
