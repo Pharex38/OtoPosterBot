@@ -31,7 +31,7 @@ kara = karaliste['kara']
 
 sahip = 1302980840
 botlog = -1001352123979
-kaynaklar = [-1001368112299, -1001122395785, -1001423365614, -1001251394039, -1001405966343, -1001368008488, -1001379893661]
+kaynaklar = [-1001368112299, -1001122395785, -1001423365614, -1001240514861, -1001405966343, -1001368008488, -1001379893661]
 markup = types.ForceReply(selective=False)
 
 dugme = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
@@ -331,7 +331,7 @@ def menu(message):
         mahzen = bot.get_chat(kaynaklar[0])
         bedava = bot.get_chat(kaynaklar[1])
         evi = bot.get_chat(kaynaklar[2])
-       # bashub = bot.get_chat(kaynaklar[3])
+        bashub = bot.get_chat(kaynaklar[3])
         acikmi = bot.get_chat(kaynaklar[4])
         muho = bot.get_chat(kaynaklar[5])
         tutan = bot.get_chat(kaynaklar[6])
@@ -350,7 +350,7 @@ def menu(message):
     <a href="{}">{}</a>
     
     <b>Kaynak No:4</b>
-    <a href="">gg</a>
+    <a href="{}">{}</a>
     
     <b>Kaynak No:5</b>
     <a href="{}">{}</a>
@@ -365,7 +365,7 @@ def menu(message):
 Örnek: "1,2,3"</b>
     
     
-    """.format(mahzen.invite_link, mahzen.title, bedava.invite_link, bedava.title, evi.invite_link, evi.title, acikmi.invite_link, acikmi.title, muho.invite_link, muho.title, tutan.invite_link, tutan.title), disable_web_page_preview=True, reply_markup=imark)
+    """.format(mahzen.invite_link, mahzen.title, bedava.invite_link, bedava.title, evi.invite_link, evi.title, bashub.invite_link, bashub.title, acikmi.invite_link, acikmi.title, muho.invite_link, muho.title, tutan.invite_link, tutan.title), disable_web_page_preview=True, reply_markup=imark)
         bot.register_next_step_handler(msg, kaynake)
         return
     if mesaj == "📏 Şablon":
