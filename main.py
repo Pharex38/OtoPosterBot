@@ -357,6 +357,7 @@ def callback_query(call):
     if call.data.startswith("pat"):
         back = call.data.split("-")
         pdosya = open("{}.txt".format(user), "r").read().split("√")
+        len(pdosya)
         o = int(back[1]) - 1
         ptip = pdosya[2]
         psablon = pdosya[0]
