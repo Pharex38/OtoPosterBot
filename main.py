@@ -388,7 +388,7 @@ def altmarkup():
 
 def kaynakmark(user):
     u = collection.find_one({"_id": user})
-    kmark = InlineKeyboardMarkup(row_width=2, resize_keyboard=True)
+    kmark = InlineKeyboardMarkup(row_width=2)
     
     mahzen = bot.get_chat(kaynaklar[0])
     bedava = bot.get_chat(kaynaklar[1])
@@ -406,33 +406,33 @@ def kaynakmark(user):
     gbut =InlineKeyboardButton("🔗", url="{}".format(muho.invite_link))
     
     if "1" in u['kaynak']:
-        kmark.add(InlineKeyboardButton("{} ✅".format(mahzen.title), callback_data="kaynak-1"), ubut)
+        kmark.add(InlineKeyboardButton("✅ {}".format(mahzen.title), callback_data="kaynak-1"), ubut)
     else:
-        kmark.add(InlineKeyboardButton("{} ⚫".format(mahzen.title), callback_data="kaynak-1"), ubut)
+        kmark.add(InlineKeyboardButton("⚫ {}".format(mahzen.title), callback_data="kaynak-1"), ubut)
     if "2" in u['kaynak']:
-        kmark.add(InlineKeyboardButton("{} ✅".format(bedava.title), callback_data="kaynak-2"), bbut)
+        kmark.add(InlineKeyboardButton("✅ {}".format(bedava.title), callback_data="kaynak-2"), bbut)
     else:
-        kmark.add(InlineKeyboardButton("{} ⚫".format(bedava.title), callback_data="kaynak-2"), bbut)
+        kmark.add(InlineKeyboardButton("⚫ {}".format(bedava.title), callback_data="kaynak-2"), bbut)
     if "3" in u['kaynak']:
-        kmark.add(InlineKeyboardButton("{} ✅".format(evi.title), callback_data="kaynak-3"), cbut)
+        kmark.add(InlineKeyboardButton("✅ {}".format(evi.title), callback_data="kaynak-3"), cbut)
     else:
-        kmark.add(InlineKeyboardButton("{} ⚫".format(evi.title), callback_data="kaynak-3"), cbut)
+        kmark.add(InlineKeyboardButton("⚫ {}".format(evi.title), callback_data="kaynak-3"), cbut)
     if "4" in u['kaynak']:
-        kmark.add(InlineKeyboardButton("{} ✅".format(bashub.title), callback_data="kaynak-4"), dbut)
+        kmark.add(InlineKeyboardButton("✅ {}".format(bashub.title), callback_data="kaynak-4"), dbut)
     else:
-        kmark.add(InlineKeyboardButton("{} ⚫".format(bashub.title), callback_data="kaynak-4"), dbut)
+        kmark.add(InlineKeyboardButton("⚫ {}".format(bashub.title), callback_data="kaynak-4"), dbut)
     if "5" in u['kaynak']:
-        kmark.add(InlineKeyboardButton("{} ✅".format(acikmi.title), callback_data="kaynak-5"), ebut)
+        kmark.add(InlineKeyboardButton("✅ {}".format(acikmi.title), callback_data="kaynak-5"), ebut)
     else:
-        kmark.add(InlineKeyboardButton("{} ⚫".format(acikmi.title), callback_data="kaynak-5"), ebut)
+        kmark.add(InlineKeyboardButton("⚫ {}".format(acikmi.title), callback_data="kaynak-5"), ebut)
     if "6" in u['kaynak']:
-        kmark.add(InlineKeyboardButton("{} ✅".format(tutan.title), callback_data="kaynak-6"), fbut)
+        kmark.add(InlineKeyboardButton("✅ {}".format(tutan.title), callback_data="kaynak-6"), fbut)
     else:
-        kmark.add(InlineKeyboardButton("{} ⚫".format(tutan.title), callback_data="kaynak-6"), fbut)
+        kmark.add(InlineKeyboardButton("⚫ {}".format(tutan.title), callback_data="kaynak-6"), fbut)
     if "7" in u['kaynak']:
-        kmark.add(InlineKeyboardButton("{} ✅".format(muho.title), callback_data="kaynak-7"), gbut)
+        kmark.add(InlineKeyboardButton("✅ {}".format(muho.title), callback_data="kaynak-7"), gbut)
     else:
-        kmark.add(InlineKeyboardButton("{} ⚫".format(muho.title), callback_data="kaynak-7"), gbut)
+        kmark.add(InlineKeyboardButton("⚫ {}".format(muho.title), callback_data="kaynak-7"), gbut)
     
     return kmark
     
