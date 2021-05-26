@@ -939,8 +939,7 @@ def pat(message):
         pcount = pcount + 1
         knl = bot.get_chat(pkan)
         bot.send_message(chat, "No: {}\n{}".format(pcount, knl.title))
-    msg = bot.send_message(chat, "<i>Postun gönderilmesini istediğin kanalın numarasını gönder.\n\n(Tüm kanallarına gönderilmesini istiyorsan <b>0</b> yaz</i>)")
-    bot.register_next_step_handler(msg, patiki, psablon, pathesap, fid, ptip)
+    bot.send_message(chat, "<i>Postun gönderilmesini istediğin kanalın numarasını gönder.\n\n(Tüm kanallarına gönderilmesini istiyorsan <b>0</b> yaz</i>)", reply_markup=patmark(psablon, pathesap, fid, ptip))
 
 def patiki(message, psablon, pathesap, fid, ptip):
     chat = message.chat.id
