@@ -328,8 +328,9 @@ def callback_query(call):
         akul = collection.find_one({"_id": user})
         ass = str(call.data.split("-")[1])
         collection.update_one({"_id": user}, {"$set": {"altsite": ass}})
-        bot.edit_message_text("✅ Site Kaydedildi!", user, mesajid)
+        msg = bot.edit_message_text("✅ Site Kaydedildi!", user, mesajid)
         bot.answer_callback_query(call.id, "✅ Site Kaydedildi!")
+        bot.register_next_step_handler(msg, apikayit)
         
 
 @bot.message_handler(content_types=['text'])
