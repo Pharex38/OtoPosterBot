@@ -453,7 +453,7 @@ def menu(message):
         if mj == None:
             bot.send_message(chat, "Lütfen önce bir API kaydedin.")
             return
-        bot.send_message(chat, """<b>Kullanmak istediğiniz kaynak kanalını seçin.</b>""")
+        bot.send_message(chat, """<b>Kullanmak istediğiniz kaynak kanalını seçin.</b>""", reply_markup=kaynakmark(user))
         return
     if mesaj == "📏 Şablon":
         if mj == None:
