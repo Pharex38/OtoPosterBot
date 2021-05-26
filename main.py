@@ -465,16 +465,17 @@ def kaynakmark(user):
     return kmark
 
 def patmark(psablon, user, ptip, fid):
-    pmark = InlineKeyboardMarkup(row_width=1)
+    pmark = InlineKeyboardMarkup()
+    pmark.row_width = 1
     pkul = collection.find_one({"_id": user})
     pmark.add(InlineKeyboardButton("Hepsine Gönder", callback_data="pat-0-{}".format(psablon)))
     zero = 0
-    print(pkul)
+    """
     for k in pkul['kanal']:
         kn = bot.get_chat(k)
         zero += 1
         pmark.add(InlineKeyboardButton("{}".format(kn.title), callback_data="pat-{}-{}-{}-{}".format(zero, ptip, fid, psablon)))
-    
+    """
     return pmark
     
     
