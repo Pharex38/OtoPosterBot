@@ -469,7 +469,7 @@ def patmark(psablon, user, ptip, fid):
     pkul = collection.find_one({"_id": user})
     pmark.add(InlineKeyboardButton("Hepsine Gönder", callback_data="pat-0-{}".format(psablon)))
     zero = 0
-    print(pkul['kanal'])
+    print(pkul)
     for k in pkul['kanal']:
         kn = bot.get_chat(k)
         zero += 1
