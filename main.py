@@ -470,7 +470,7 @@ def patmark(user):
     zero = 0
     pmark = InlineKeyboardMarkup()
     pmark.row_width = 1
-    print("pat-0-{}-{}".format(zero, ptip))
+   
     pkul = collection.find_one({"_id": user})
     pmark.add(InlineKeyboardButton("Hepsine Gönder", callback_data="pat-0-{}"))
     
