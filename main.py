@@ -366,7 +366,7 @@ def callback_query(call):
         ptip = patc.ptip
         psablon = patc.psablon
         fid = patc.fid
-        
+        patc.sira = 0
         kanal = collection.find_one({"_id": user})['kanal']
         if o == -1:
             for kan in kanal:
@@ -385,6 +385,7 @@ def callback_query(call):
         if ptip == 'animation':
             bot.send_animation(kanal[o], fid, caption=psablon)
         bot.edit_message_text("✅<b>Postunuz  Kanalınıza Gönderildi!</b>", user, mesajid)
+        
             
         
 
@@ -943,6 +944,10 @@ def pat(message):
             bot.send_animation(pkanallar[0], fid, caption=psablon)
         bot.send_message(chat, "Postunuz gönderildi.", reply_markup=dugme)
         return
+    if patc.sira == 1:
+        bot.send_message(chat, "Biraz bekleyin.")
+        while patc.sira == 1:
+            time.sleep(2)
     patc.psablon = psablon
     patc.ptip = ptip
     patc.fid = fid
