@@ -67,6 +67,12 @@ saat = zaman.hour
 dakika = zaman.minute
 logd = "{}.{}.{} - {}.{}".format(zaman.year, zaman.month, zaman.day, saat, dakika)
 
+class patc:
+    def __init__(self, sira, psablon, fid, ptip):
+        self.sira = 0
+        self.psablon = None
+        self.fid = None
+        self.ptip = None
 
 def setup_logger():
     global logger
@@ -359,9 +365,9 @@ def callback_query(call):
         pdosya = open("{}.txt".format(user), "r").read().split("@")
         print(len(pdosya))
         o = int(back[1]) - 1
-        ptip = pdosya[2]
-        psablon = pdosya[0]
-        fid = pdosya[1]
+        ptip = patc.ptip
+        psablon = patc.psablon
+        fid = patc.fid
         
         kanal = collection.find_one({"_id": user})['kanal']
         if o == -1:
@@ -941,7 +947,9 @@ def pat(message):
             bot.send_animation(pkanallar[0], fid, caption=psablon)
         bot.send_message(chat, "Postunuz gönderildi.", reply_markup=dugme)
         return
-    open("{}.txt".format(user), "w", encoding="utf-8").write(f"{psablon}@{fid}@{ptip}")
+    patc.psablon = psablon
+    patc.ptip = ptip
+    patc.fid = fid
     bot.send_message(chat, "<i>Postun gönderilmesini istediğin kanalın numarasını gönder.\n\n(Tüm kanallarına gönderilmesini istiyorsan <b>0</b> yaz</i>)", reply_markup=patmark(user))
 
 def patiki(message, psablon, pathesap, fid, ptip):
