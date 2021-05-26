@@ -310,6 +310,9 @@ def callback_query(call):
     user = call.message.chat.id
     chat = user
     mesajid = call.message.id
+    """ İptal """
+    if call.data == "iptal":
+        bot.edit_message_text("<i>İptal Edildi</i>", user, mesajid)
     """ Kanal Sil """
     if call.data.startswith("sil"):
         kul = collection.find_one({"_id": user})
@@ -347,6 +350,7 @@ def sitemarkup():
     smark.add(InlineKeyboardButton("Exe.io", callback_data="site-3"))
     smark.add(InlineKeyboardButton("Ouo.io", callback_data="site-4"))
     smark.add(InlineKeyboardButton("Pubiza", callback_data="site-5"))
+    altmark.add(InlineKeyboardButton("❌ İptal", callback_data="iptal"))
     
     return smark
 
@@ -358,6 +362,7 @@ def altsitemarkup(sss):
     asmark.add(InlineKeyboardButton("Exe.io", callback_data="asite-3-{}".format(sss)))
     asmark.add(InlineKeyboardButton("Ouo.io", callback_data="asite-4-{}".format(sss)))
     asmark.add(InlineKeyboardButton("Pubiza", callback_data="asite-5-{}".format(sss)))
+    altmark.add(InlineKeyboardButton("❌ İptal", callback_data="iptal"))
     
     return asmark
 
