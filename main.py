@@ -329,7 +329,8 @@ def callback_query(call):
         smesaj = str(call.data.split("-")[1])
         sss = str(call.data.split("-")[2])
         bot.answer_callback_query(call.id, "✅ Site Kaydedildi!")
-        msg = bot.edit_message_text("Alternatif API adresinizi gönderin.", user, mesajid)
+        bot.edit_message_text("✅ Alternatif site kaydedildi.", user, mesajid)
+        msg = bot.send_message(chat, "📝 Alternatif API adresinizi gönderin.", reply_markup=amark)
         bot.register_next_step_handler(msg, altakayit, smesaj, user, chat, sss)
     if call.data.startswith("sistem"):
         sss = str(call.data.split("-")[1])
