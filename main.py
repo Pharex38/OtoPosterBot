@@ -388,8 +388,8 @@ def altmarkup():
 
 def kaynakmark(user):
     u = collection.find_one({"_id": user})
-    kmark = InlineKeyboardMarkup()
-    kmark.row_width = 3
+    kmark = InlineKeyboardMarkup(row_width=2)
+    
     mahzen = bot.get_chat(kaynaklar[0])
     bedava = bot.get_chat(kaynaklar[1])
     evi = bot.get_chat(kaynaklar[2])
@@ -399,6 +399,7 @@ def kaynakmark(user):
     tutan = bot.get_chat(kaynaklar[6])
     if "1" in u['kaynak']:
         kmark.add(InlineKeyboardButton("{} ✅".format(mahzen.title), callback_data="kaynak-1"))
+    kmark.add(InlineKeyboardButton("🔗", url="{}".format(mahzen.invite_link) callback_data="kaynak-1"))
     else:
         kmark.add(InlineKeyboardButton("{} ⚫".format(mahzen.title), callback_data="kaynak-1"))
     if "2" in u['kaynak']:
