@@ -413,7 +413,7 @@ def altsitemarkup(sss):
     
     return asmark
 
-def altmarkup():
+def altmarkup(user):
     altmark = InlineKeyboardMarkup()
     altmark.row_width = 1
     altmark.add(InlineKeyboardButton("Sıralı", callback_data="sistem-2"))
@@ -760,7 +760,7 @@ def kayitapi(message):
         bot.register_next_step_handler(msg, kayitapi)
         return
     if mesaj == "🤖 Alternatif Ekle":
-        msg = bot.send_message(chat, "<b>Alternatif Nasıl Kullanılsın.\n\n No:1</b>\n <i>Aynı post iki link</i> \n\n<b>No:2</b>\n <i>Bir post birinci servis, bir post alternatif servis.</i>\n\n<b>Kullanmak istediğiniz sistemi seçin.</b>", reply_markup=altmarkup())
+        msg = bot.send_message(chat, "<b>Alternatif Nasıl Kullanılsın.\n\n Tek Post İki Link</b>\n <i>Aynı post iki link</i> \n\n<b>Sıralı</b>\n <i>Bir post birinci servis, bir post alternatif servis.</i>\n\n<b>Kullanmak istediğiniz sistemi seçin.</b>", reply_markup=altmarkup(user))
         #bot.register_next_step_handler(msg, altkayit)
         return
     if mesaj == "🔶 Yeni Kanal Ekle":
