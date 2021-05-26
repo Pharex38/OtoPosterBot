@@ -397,11 +397,11 @@ def kaynakmark(user):
     acikmi = bot.get_chat(kaynaklar[4])
     muho = bot.get_chat(kaynaklar[5])
     tutan = bot.get_chat(kaynaklar[6])
+    ubut =InlineKeyboardButton("🔗", url="{}".format(mahzen.invite_link))
     if "1" in u['kaynak']:
-        kmark.add(InlineKeyboardButton("{} ✅".format(mahzen.title), callback_data="kaynak-1"))
+        kmark.add(InlineKeyboardButton("{} ✅".format(mahzen.title), callback_data="kaynak-1"), ubut)
     else:
-        kmark.add(InlineKeyboardButton("{} ⚫".format(mahzen.title), callback_data="kaynak-1"))
-    kmark.add(InlineKeyboardButton("🔗", url="{}".format(mahzen.invite_link)))
+        kmark.add(InlineKeyboardButton("{} ⚫".format(mahzen.title), callback_data="kaynak-1"), ubut)
     if "2" in u['kaynak']:
         kmark.add(InlineKeyboardButton("{} ✅".format(bedava.title), callback_data="kaynak-2"))
     else:
