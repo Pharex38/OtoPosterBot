@@ -472,7 +472,7 @@ def patmark(psablon, user, ptip, fid):
     for k in pkul['kanal']:
         kn = bot.get_chat(k)
         zero += 1
-        pmark.add(InlineKeyboardButton("{}".format(kn.title), callback_data="pat-{}-{}".format(zero, psablon)))
+        pmark.add(InlineKeyboardButton("{}".format(kn.title), callback_data="pat-{}-{}-{}-{}".format(zero, psablon, ptip, fid)))
     
     return pmark
     
