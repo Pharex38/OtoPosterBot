@@ -944,10 +944,7 @@ def pat(message):
             bot.send_animation(pkanallar[0], fid, caption=psablon)
         bot.send_message(chat, "Postunuz gönderildi.", reply_markup=dugme)
         return
-    if 1 == patc.sira:
-        bot.send_message(chat, "Biraz bekleyin.")
-        while patc.sira == 1:
-            time.sleep(2)
+    
     patc.psablon = psablon
     patc.ptip = ptip
     patc.fid = fid
