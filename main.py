@@ -362,9 +362,8 @@ def callback_query(call):
     """ PAT """
     if call.data.startswith("pat"):
         back = call.data.split("-")
-        pdosya = open("{}.txt".format(user), "r").read().split("@")
-        print(len(pdosya))
         o = int(back[1]) - 1
+        print(o)
         ptip = patc.ptip
         psablon = patc.psablon
         fid = patc.fid
@@ -479,7 +478,7 @@ def patmark(user):
     pmark.row_width = 1
    
     pkul = collection.find_one({"_id": user})
-    pmark.add(InlineKeyboardButton("Hepsine Gönder", callback_data="pat-0-{}"))
+    pmark.add(InlineKeyboardButton("Hepsine Gönder", callback_data="pat-0"))
     
     for k in pkul['kanal']:
         kn = bot.get_chat(k)
@@ -488,8 +487,6 @@ def patmark(user):
     
     return pmark
     
-    
-
 def gen_markup(user):
     silkey = InlineKeyboardMarkup()
     silkey.row_width = 1
