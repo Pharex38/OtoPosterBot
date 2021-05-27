@@ -319,6 +319,8 @@ def callback_query(call):
     """ İptal """
     if call.data == "akaldır":
         collection.update_one({"_id": user}, {"$set": {"altsite": "None", "altapi": "None", "sira": "0"}})
+        bot.edit_message_text("⛔ Alternatif Kaldırıldı.")
+        bot.answer_callback_query("⛔ Alternatif Kaldırıldı.")
     if call.data == "aiptal":
         msg = bot.edit_message_text("<i>İptal Edildi</i>", user, mesajid)
         bot.register_next_step_handler(msg, menu)
@@ -429,13 +431,6 @@ def kaynakmark(user):
     u = collection.find_one({"_id": user})
     kmark = InlineKeyboardMarkup(row_width=2)
     
-    mahzen = bot.get_chat(kaynaklar[0])
-    bedava = bot.get_chat(kaynaklar[1])
-    evi = bot.get_chat(kaynaklar[2])
-    bashub = bot.get_chat(kaynaklar[3])
-    acikmi = bot.get_chat(kaynaklar[4])
-    muho = bot.get_chat(kaynaklar[5])
-    tutan = bot.get_chat(kaynaklar[6])
     ubut =InlineKeyboardButton("🔗", url="{}".format(mahzen.invite_link))
     bbut =InlineKeyboardButton("🔗", url="{}".format(bedava.invite_link))
     cbut =InlineKeyboardButton("🔗", url="{}".format(evi.invite_link))
@@ -515,6 +510,14 @@ def menu(message):
         bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
     if mesaj == "🔧 Kaynak":
+        global mahzen, bedava, evi, bashub, acikmi, muho, tutan
+        mahzen = bot.get_chat(kaynaklar[0])
+        bedava = bot.get_chat(kaynaklar[1])
+        evi = bot.get_chat(kaynaklar[2])
+        bashub = bot.get_chat(kaynaklar[3])
+        acikmi = bot.get_chat(kaynaklar[4])
+        muho = bot.get_chat(kaynaklar[5])
+        tutan = bot.get_chat(kaynaklar[6])
         if mj == None:
             bot.send_message(chat, "Lütfen önce bir API kaydedin.")
             return
