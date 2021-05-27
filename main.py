@@ -89,6 +89,12 @@ setup_logger()
 
 logger.info(f"Saat: {saat}:{dakika}")
 
+def dagme()
+    dagme = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
+    butonbir = types.KeyboardButton('📝 Kaydet')
+    dagme.add(butonbir)
+    return dagme
+
 @bot.message_handler(commands=['start'])
 def start(message):
     user = message.from_user.id
@@ -97,8 +103,6 @@ def start(message):
         bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
     kat = collection.find_one({"_id": user})
-    dagme = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
-    butonbir = types.KeyboardButton('📝 Kaydet')
     ref = message.text.split()[1] if len(message.text.split()) > 1 else None
     if ref == "Kaynak1":
         if kat == None:
@@ -149,7 +153,7 @@ def start(message):
             collection.update_one({"_id": user}, {"$push": {"kaynak": "7"}})
             bot.send_message(chat, "Kaynağınız Eklendi!")
             return
-    dagme.add(butonbir)
+    
     mention = "@"+message.from_user.username if message.from_user.username else message.from_user.first_name
     if kat == None:
         bot.send_message(chat, """
@@ -169,7 +173,7 @@ def start(message):
 
 
         <b>@OtoPosterBotLog</b>
-""".format(mention), disable_web_page_preview=True, reply_markup=dagme)
+""".format(mention), disable_web_page_preview=True, reply_markup=dagme())
     else:
         bot.send_message(chat, """
 ✨ <b>Merhaba {}!</b>
@@ -431,7 +435,6 @@ def callback_query(call):
         if ptip == 'animation':
             bot.send_animation(kanal[o], fid, caption=psablon)
         bot.edit_message_text("✅<b>Postunuz  Kanalınıza Gönderildi!</b>", user, mesajid)
-
 
 def sitemarkup():
     smark = InlineKeyboardMarkup()
@@ -726,10 +729,7 @@ def menu(message):
         
     kisi = collection.find_one({"_id": user})
     if kisi == None:
-        dagme = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
-        butonbir = types.KeyboardButton('📝 Kaydet')
-        dagme.add(butonbir)
-        bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=dagme)
+        bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=dagme())
         return
     bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=dugme)
     
@@ -856,7 +856,10 @@ def apikayit(message):
         bot.register_next_step_handler(msg, apikayit)
         return
     if message.text == "❌ İptal":
-        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
+        if bnb == None:
+            bot.send_message(chat, "İptal Edildi.", reply_markup=dagme())
+        else:
+            bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
         return
     if bnb == None:
         kontrol = requests.get("https://ay.live/api/?api={}&url=www.zort.com&format=text&alias=&ct=2".format(token)).text
@@ -1012,7 +1015,6 @@ def pat(message):
     patc.fid = fid
     bot.send_message(chat, "Post Hazırlandı!", reply_markup=dugme)
     bot.send_message(chat, "<i>Postun gönderilmesini istediğin kanalı seç.</i>", reply_markup=patmark(user))
-
 
 @bot.channel_post_handler(content_types=['photo', 'animation', 'video'])
 def poster(message):
