@@ -438,7 +438,7 @@ def callback_query(call):
 <i>
 1 - Kaynak yapacağınız kanal oluşturun.
 2 - Oluşturduğunuz kanaldan bota bir mesaj iletin.</i>""", chat, mesajid)
-        bot.edit_message_reply_markup(chat, mesajid, reply_markup=imark())
+        bot.edit_message_reply_markup(chat, mesajid, reply_markup=inmark())
         bot.register_next_step_handler(msg, ozelk)
     """ PAT """
     if call.data.startswith("pat"):
@@ -501,10 +501,17 @@ def altmarkup(user):
         altmark.add(InlineKeyboardButton("⛔ Alternatif Kaldır", callback_data="akaldır"))
     return altmark
 
+def inmark():
+    inmark = InlineKeyboardMarkup(row_width = 1)
+    inmark.row(InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal"))
+
+    return inmark
+
 def ozelmark():
     omark = InlineKeyboardMarkup(row_width = 1)
     omark.add(InlineKeyboardButton("➕ Oluştur ➕", callback_data="okayt"))
     omark.row(InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal"))
+
     return omark
 
 def kaynakmark(user):
