@@ -1987,7 +1987,6 @@ def poster(message):
         link = s.get("https://ay.live/api")
         cookies = dict(link.cookies)
         """  Veri Tabanı  """
-        opostdata = db[str(chat)]
         ohesap = collection.find_one({"_id": okaynak['_id']})
         """ Dosya tespit """
         if message.content_type == "photo":
@@ -2063,12 +2062,6 @@ def poster(message):
                         opost = bot.send_video(okan, omedya, caption=osablon)
                     if message.content_type == "animation":
                         opost = bot.send_animation(okan, omedya, caption=osablon)
-                    opostkayit = opostdata.find_one({"_id": okan})
-                    if opostkayit == None:
-                        opostdata.insert_one({"_id": okan, "pid": opost.message_id})
-                    else:
-                        opostdata.update_one({"_id": okan}, {"$set": {"pid": opost.message_id}})
-                    ocount = ocount + 1
                 except Exception as e:
                     logger.debug(f"Hatalı kanal: {okanal}")
                     e = str(e)
