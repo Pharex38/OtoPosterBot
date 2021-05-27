@@ -64,6 +64,12 @@ def imark():
     imark.add(batinbir)
     return imark
 
+def dagme():
+    dagme = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
+    butonbir = types.KeyboardButton('📝 Kaydet')
+    dagme.add(butonbir)
+    return dagme
+
 zaman = datetime.datetime.now()
 saat = zaman.hour 
 dakika = zaman.minute
@@ -91,11 +97,6 @@ setup_logger()
 
 logger.info(f"Saat: {saat}:{dakika}")
 
-def dagme():
-    dagme = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
-    butonbir = types.KeyboardButton('📝 Kaydet')
-    dagme.add(butonbir)
-    return dagme
 
 @bot.message_handler(commands=['start'])
 def start(message):
@@ -106,51 +107,60 @@ def start(message):
         return
     kat = collection.find_one({"_id": user})
     ref = message.text.split()[1] if len(message.text.split()) > 1 else None
+    kyn = str(ref.split('k')[-1]) if len(message.text.split()) > 1 else None
+    key = {"_id": user, "token": token, "kanal": [], "sablon": "1", "kaynak": [kyn], "site": "1", "altapi": "None", "altsite": "None", "sira": "0"}
     if ref == "Kaynak1":
         if kat == None:
-            bot.send_message(chat, "Kaynak seçmeden önce bir API kaydetmelisiniz!")
+            collection.insert_one(key)
+            bot.send_message(chat, "{} Referansı ile geldiniz!".format(mahzen.title))
         else:
             collection.update_one({"_id": user}, {"$push": {"kaynak": "1"}})
             bot.send_message(chat, "Kaynağınız Eklendi!")
             return
     if ref == "Kaynak2":
         if kat == None:
-            bot.send_message(chat, "Kaynak seçmeden önce bir API kaydetmelisiniz!")
+            collection.insert_one(key)
+            bot.send_message(chat, "{} Referansı ile geldiniz!".format(bedava.title))
         else:
             collection.update_one({"_id": user}, {"$push": {"kaynak": "2"}})
             bot.send_message(chat, "Kaynağınız Eklendi!")
             return
     if ref == "Kaynak3":
         if kat == None:
-            bot.send_message(chat, "Kaynak seçmeden önce bir API kaydetmelisiniz!")
+            collection.insert_one(key)
+            bot.send_message(chat, "{} Referansı ile geldiniz!".format(evi.title))
         else:
             collection.update_one({"_id": user}, {"$push": {"kaynak": "3"}})
             bot.send_message(chat, "Kaynağınız Eklendi!")
             return
     if ref == "Kaynak4":
         if kat == None:
-            bot.send_message(chat, "Kaynak seçmeden önce bir API kaydetmelisiniz!")
+            collection.insert_one(key)
+            bot.send_message(chat, "{} Referansı ile geldiniz!".format(bashub.title))
         else:
             collection.update_one({"_id": user}, {"$push": {"kaynak": "4"}})
             bot.send_message(chat, "Kaynağınız Eklendi!")
             return
     if ref == "Kaynak5":
         if kat == None:
-            bot.send_message(chat, "Kaynak seçmeden önce bir API kaydetmelisiniz!")
+            collection.insert_one(key)
+            bot.send_message(chat, "{} Referansı ile geldiniz!".format(acikmi.title))
         else:
             collection.update_one({"_id": user}, {"$push": {"kaynak": "5"}})
             bot.send_message(chat, "Kaynağınız Eklendi!")
             return
     if ref == "Kaynak6":
         if kat == None:
-            bot.send_message(chat, "Kaynak seçmeden önce bir API kaydetmelisiniz!")
+            collection.insert_one(key)
+            bot.send_message(chat, "{} Referansı ile geldiniz!".format(tutan.title))
         else:
             collection.update_one({"_id": user}, {"$push": {"kaynak": "6"}})
             bot.send_message(chat, "Kaynağınız Eklendi!")
             return
     if ref == "Kaynak7":
         if kat == None:
-            bot.send_message(chat, "Kaynak seçmeden önce bir API kaydetmelisiniz!")
+            collection.insert_one(key)
+            bot.send_message(chat, "{} Referansı ile geldiniz!".format(muho.title))
         else:
             collection.update_one({"_id": user}, {"$push": {"kaynak": "7"}})
             bot.send_message(chat, "Kaynağınız Eklendi!")
@@ -858,7 +868,7 @@ def apikayit(message):
         bot.register_next_step_handler(msg, apikayit)
         return
     if message.text == "❌ İptal":
-        if bnb == None:
+        if bnb['kanal'] == None:
             bot.send_message(chat, "İptal Edildi.", reply_markup=dagme())
         else:
             bot.send_message(chat, "İptal Edildi.", reply_markup=dugme())
