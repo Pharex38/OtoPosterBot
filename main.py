@@ -393,17 +393,17 @@ def callback_query(call):
         dgr = int(call.data.split("-")[1])
         if dgr == 1:
             bot.answer_callback_query(callback_query_id=call.id,show_alert=True, text=saat['mahzen'])
-        if dgr == 1:
+        if dgr == 2:
             bot.answer_callback_query(callback_query_id=call.id,show_alert=True, text=saat['bedava'])
-        if dgr == 1:
+        if dgr == 3:
             bot.answer_callback_query(callback_query_id=call.id,show_alert=True, text=saat['evi'])
-        if dgr == 1:
+        if dgr == 4:
             bot.answer_callback_query(callback_query_id=call.id,show_alert=True, text=saat['bashub'])
-        if dgr == 1:
+        if dgr == 5:
             bot.answer_callback_query(callback_query_id=call.id,show_alert=True, text=saat['acikmi'])
-        if dgr == 1:
+        if dgr == 6:
             bot.answer_callback_query(callback_query_id=call.id,show_alert=True, text=saat['tutan'])
-        if dgr == 1:
+        if dgr == 7:
             bot.answer_callback_query(callback_query_id=call.id,show_alert=True, text=saat['muho'])
     """ PAT """
     if call.data.startswith("pat"):
