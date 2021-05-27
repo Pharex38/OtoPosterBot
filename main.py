@@ -319,7 +319,7 @@ def callback_query(call):
     """ İptal """
     if call.data == "akaldır":
         collection.update_one({"_id": user}, {"$set": {"altsite": "None", "altapi": "None", "sira": "0"}})
-        bot.edit_message_text("⛔ Alternatif Kaldırıldı.")
+        bot.edit_message_text("⛔ Alternatif Kaldırıldı.", user, mesajid)
         bot.answer_callback_query("⛔ Alternatif Kaldırıldı.")
     if call.data == "aiptal":
         msg = bot.edit_message_text("<i>İptal Edildi</i>", user, mesajid)
