@@ -2041,7 +2041,7 @@ def poster(message):
                 olink = ojson['shortenedUrl']
             if osite == "4":
                 olink = s.get(f"http://ouo.io/api/{otoken}?s={omesajb}").text
-            if site == "5":
+            if ssite == "5":
                 olink = s.get(f"http://pubiza.com/api.php?token={otoken}&url={omesajb}&ads_type=adult").text
             logger.info(f"{okanal} + {olink} + {otoken}")
             if osablon == "1":
@@ -2053,7 +2053,7 @@ def poster(message):
             elif osablon.find('{alink}') != -1:
                 osablon = osablon.replace("{aciklama}", "{}").replace("{alink}", "{}").replace("{link}", "{}").format(oaciklama, olink, oalink)
             else:
-                osablon = osablon.replace("{aciklama}", "{}").replace("{link}", "{}").format(aciklama, link)
+                osablon = osablon.replace("{aciklama}", "{}").replace("{link}", "{}").format(oaciklama, olink)
             sleep(1)
             for okan in okanal:
                 try:
