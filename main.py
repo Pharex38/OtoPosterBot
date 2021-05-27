@@ -317,20 +317,21 @@ def zaman(message):
     if msj == None:
         bot.send_message(chat, "Bu komut bir mesajı yanıtlayarak kullanılmalıdır.")
         return
-    if chat == 822071585:
+    if chat == 822071585 or chat == 1302980840:
         collection.update_one({"_id": 0}, {"$set": {"mahzen": msj}})
-    if chat == 822071585:
+    if chat == 755051086:
         collection.update_one({"_id": 0}, {"$set": {"bedava": msj}})
-    if chat == 822071585:
+    if chat == 818136673:
         collection.update_one({"_id": 0}, {"$set": {"evi": msj}})
-    if chat == 822071585:
+    if chat == 1082754978:
         collection.update_one({"_id": 0}, {"$set": {"bashub": msj}})
-    if chat == 822071585:
+    if chat == 1573589253:
         collection.update_one({"_id": 0}, {"$set": {"acikmi": msj}})
-    if chat == 822071585:
+    if chat == 814887530:
         collection.update_one({"_id": 0}, {"$set": {"tutan": msj}})
-    if chat == 822071585:
+    if chat == 1613760981:
         collection.update_one({"_id": 0}, {"$set": {"muho": msj}})
+    bot.send_message(chat, "Kaydedildi.")
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_query(call):
