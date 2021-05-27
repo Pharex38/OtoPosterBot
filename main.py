@@ -424,7 +424,7 @@ def altmarkup(user):
     altmark.add(InlineKeyboardButton("Sıralı", callback_data="sistem-2"))
     altmark.add(InlineKeyboardButton("Tek Post İki Link", callback_data="sistem-1"))
     altmark.add(InlineKeyboardButton("❌ İptal ❌", callback_data="iptal"))
-    if collection.find_one({"_id": user})['altapi'] == "None":
+    if collection.find_one({"_id": user})['altapi'] != "None":
         altmark.add(InlineKeyboardButton("⛔ Alternatif Kaldır", callback_data="akaldır"))
     return altmark
 
