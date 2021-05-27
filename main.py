@@ -503,7 +503,7 @@ def altmarkup(user):
 
 def ozelmark():
     omark = InlineKeyboardMarkup(row_width = 1)
-    omark.add(InlineKeyboardButton("➕ Oluştur ➕"))
+    omark.add(InlineKeyboardButton("➕ Oluştur ➕", callback_data="okayt"))
     omark.row(InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal"))
     return omark
 
