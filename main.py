@@ -366,7 +366,10 @@ def callback_query(call):
             bot.answer_callback_query(call.id, "✅ Kaynak Eklendi")
         bot.edit_message_reply_markup(chat, mesajid, reply_markup=kaynakmark(user))
     if call.data.startswith("zaman"):
-        bot.answer_callback_query(callback_query_id=call.id,show_alert=True, text="wow 😰 ..")
+        saat = collection.find_one({"_id": 0})
+        dgr = int(call.data.split("-")[1])
+        if dgr == 1:
+            bot.answer_callback_query(callback_query_id=call.id,show_alert=True, text=saat['mahzen'])
     """ PAT """
     if call.data.startswith("pat"):
         back = call.data.split("-")
@@ -393,6 +396,7 @@ def callback_query(call):
         if ptip == 'animation':
             bot.send_animation(kanal[o], fid, caption=psablon)
         bot.edit_message_text("✅<b>Postunuz  Kanalınıza Gönderildi!</b>", user, mesajid)
+
 
 def sitemarkup():
     smark = InlineKeyboardMarkup()
@@ -431,7 +435,6 @@ def altmarkup(user):
 def kaynakmark(user):
     u = collection.find_one({"_id": user})
     kmark = InlineKeyboardMarkup(row_width=2)
-    saat = collection.find_one({"_id": 0})
     saatbut = InlineKeyboardButton("⏳", callback_data="zaman-1")
     
     ubut =InlineKeyboardButton("{}".format(mahzen.title), url="{}".format(mahzen.invite_link))
@@ -445,7 +448,7 @@ def kaynakmark(user):
     if "1" in u['kaynak']:
         kmark.add(InlineKeyboardButton("✅".format(mahzen.title), callback_data="kaynak-1"), saatbut)
     else:
-        kmark.add(InlineKeyboardButton("⚫".format(mahzen.title), callback_data="kaynak-1"), ubut)
+        kmark.add(InlineKeyboardButton("⚫".format(mahzen.title), callback_data="kaynak-1"), saatbut)
     if "2" in u['kaynak']:
         kmark.add(InlineKeyboardButton("✅".format(bedava.title), callback_data="kaynak-2"), bbut)
     else:
