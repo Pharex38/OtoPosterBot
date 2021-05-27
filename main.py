@@ -317,6 +317,8 @@ def callback_query(call):
     chat = user
     mesajid = call.message.id
     """ İptal """
+    if call.data == "akaldır":
+        collection.update_one({"_id": user}, {"$set": {"altsite": "None", "altapi": "None", "sira": "0"}})
     if call.data == "aiptal":
         msg = bot.edit_message_text("<i>İptal Edildi</i>", user, mesajid)
         bot.register_next_step_handler(msg, menu)
