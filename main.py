@@ -91,7 +91,7 @@ setup_logger()
 
 logger.info(f"Saat: {saat}:{dakika}")
 
-def dagme()
+def dagme():
     dagme = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
     butonbir = types.KeyboardButton('📝 Kaydet')
     dagme.add(butonbir)
