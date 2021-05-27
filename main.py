@@ -108,7 +108,7 @@ def start(message):
     kat = collection.find_one({"_id": user})
     ref = message.text.split()[1] if len(message.text.split()) > 1 else None
     kyn = str(ref.split('k')[-1]) if len(message.text.split()) > 1 else None
-    key = {"_id": user, "token": token, "kanal": [], "sablon": "1", "kaynak": [kyn], "site": "1", "altapi": "None", "altsite": "None", "sira": "0"}
+    key = {"_id": user, "token": "3732738", "kanal": [], "sablon": "1", "kaynak": [kyn], "site": "1", "altapi": "None", "altsite": "None", "sira": "0"}
     if ref == "Kaynak1":
         if kat == None:
             collection.insert_one(key)
