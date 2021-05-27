@@ -1069,7 +1069,8 @@ def poster(message):
         if message.content_type == "video":
             medya = message.video.file_id
         for hesap in binb:
-            kaynak = hesap['kaynak']            try:
+            kaynak = hesap['kaynak']
+            try:
                 token = hesap['token']
             except:
                 return
