@@ -960,7 +960,10 @@ def pat(message):
     s = requests.Session()
     link = s.get("https://ay.live/api")
     cookies = dict(link.cookies)
-    ptoken = pathesap['token']
+    try:
+        gtoken = ghesap['token']
+    except:
+        return
     psablon = pathesap['sablon']
     psite = pathesap['site']
     paltapi = pathesap['altapi']
@@ -1066,8 +1069,10 @@ def poster(message):
         if message.content_type == "video":
             medya = message.video.file_id
         for hesap in binb:
-            kaynak = hesap['kaynak']
-            token = hesap['token']
+            kaynak = hesap['kaynak']            try:
+                token = hesap['token']
+            except:
+                return
             kanal = hesap['kanal']
             sablon = hesap['sablon']
             user = hesap['_id']
@@ -1187,7 +1192,10 @@ def poster(message):
             bkaynak = bhesap['kaynak']
             bsablon = bhesap['sablon']
             bsablon = str(bsablon)
-            btoken = bhesap['token']
+            try:
+                btoken = bhesap['token']
+            except:
+                return
             bkanal = bhesap['kanal']
             buser = bhesap['_id']
             bsite = bhesap['site']
@@ -1308,7 +1316,10 @@ def poster(message):
             ckaynak = chesap['kaynak']
             csablon = chesap['sablon']
             csablon = str(csablon)
-            ctoken = chesap['token']
+            try:
+                ctoken = chesap['token']
+            except:
+                return
             ckanal = chesap['kanal']
             cuser = chesap['_id']
             csite = chesap['site']
@@ -1429,7 +1440,10 @@ def poster(message):
             dkaynak = dhesap['kaynak']
             dsablon = dhesap['sablon']
             dsablon = str(dsablon)
-            dtoken = dhesap['token']
+            try:
+                dtoken = dhesap['token']
+            except:
+                return
             dkanal = dhesap['kanal']
             duser = dhesap['_id']
             dsite = dhesap['site']
@@ -1547,7 +1561,10 @@ def poster(message):
             ekaynak = ehesap['kaynak']
             esablon = ehesap['sablon']
             esablon = str(esablon)
-            etoken = ehesap['token']
+            try:
+                etoken = ehesap['token']
+            except:
+                return
             ekanal = ehesap['kanal']
             euser = ehesap['_id']
             esite = ehesap['site']
@@ -1666,7 +1683,10 @@ def poster(message):
             gkaynak = ghesap['kaynak']
             gsablon = ghesap['sablon']
             gsablon = str(gsablon)
-            gtoken = ghesap['token']
+            try:
+                gtoken = ghesap['token']
+            except:
+                return
             gkanal = ghesap['kanal']
             guser = ghesap['_id']
             gsite = ghesap['site']
@@ -1785,7 +1805,10 @@ def poster(message):
             fkaynak = fhesap['kaynak']
             fsablon = fhesap['sablon']
             fsablon = str(fsablon)
-            ftoken = fhesap['token']
+            try:
+                ftoken = fhesap['token']
+            except:
+                return
             fkanal = fhesap['kanal']
             fuser = fhesap['_id']
             fsite = fhesap['site']
