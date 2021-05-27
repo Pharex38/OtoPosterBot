@@ -1971,7 +1971,7 @@ def poster(message):
         """  Link tespit  """
         osolx = omesaj.rfind("http")
         osol = omesaj.find("http")
-        if osol != solx:
+        if osol != osolx:
             return
         osag = omesaj.find("\n", osol)
         okynk = bot.get_chat(chat)
