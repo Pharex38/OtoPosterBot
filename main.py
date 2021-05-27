@@ -1199,7 +1199,7 @@ def poster(message):
         if message.content_type == "video":
             bmedya = message.video.file_id
         for bhesap in bbinb:
-            bret == 0
+            bret = 0
             bkaynak = bhesap['kaynak']
             bsablon = bhesap['sablon']
             bsablon = str(bsablon)
