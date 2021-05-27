@@ -365,6 +365,8 @@ def callback_query(call):
             collection.update_one({"_id": user}, {"$push": {"kaynak": kys}})
             bot.answer_callback_query(call.id, "✅ Kaynak Eklendi")
         bot.edit_message_reply_markup(chat, mesajid, reply_markup=kaynakmark(user))
+    if call.data.startswith("zaman"):
+        bot.answer_callback_query(callback_query_id=call.id,show_alert=True, text="wow 😰 ..")
     """ PAT """
     if call.data.startswith("pat"):
         back = call.data.split("-")
@@ -429,6 +431,8 @@ def altmarkup(user):
 def kaynakmark(user):
     u = collection.find_one({"_id": user})
     kmark = InlineKeyboardMarkup(row_width=2)
+    saat = collection.find_one({"_id": 0})
+    saatbut = InlineKeyboardButton("⏳", callback_data="zaman-1")
     
     ubut =InlineKeyboardButton("{}".format(mahzen.title), url="{}".format(mahzen.invite_link))
     bbut =InlineKeyboardButton("{}".format(bedava.title), url="{}".format(bedava.invite_link))
@@ -436,11 +440,10 @@ def kaynakmark(user):
     dbut =InlineKeyboardButton("{}".format(bashub.title), url="{}".format(bashub.invite_link))
     ebut =InlineKeyboardButton("{}".format(acikmi.title), url="{}".format(acikmi.invite_link))
     fbut =InlineKeyboardButton("{}".format(tutan.title), url="{}".format(tutan.invite_link))
-    gbut =InlineKeyboardButton("{}".format(muho
-title), url="{}".format(muho.invite_link))
-    
+    gbut =InlineKeyboardButton("{}".format(muho.title), url="{}".format(muho.invite_link))
+    kmark.add(ubut)
     if "1" in u['kaynak']:
-        kmark.add(InlineKeyboardButton("✅".format(mahzen.title), callback_data="kaynak-1"), ubut)
+        kmark.add(InlineKeyboardButton("✅".format(mahzen.title), callback_data="kaynak-1"), saatbut)
     else:
         kmark.add(InlineKeyboardButton("⚫".format(mahzen.title), callback_data="kaynak-1"), ubut)
     if "2" in u['kaynak']:
