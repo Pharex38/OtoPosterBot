@@ -1069,11 +1069,12 @@ def poster(message):
         if message.content_type == "video":
             medya = message.video.file_id
         for hesap in binb:
+            ret = 0
             kaynak = hesap['kaynak']
             try:
                 token = hesap['token']
             except:
-                return
+                ret = 1
             kanal = hesap['kanal']
             sablon = hesap['sablon']
             user = hesap['_id']
@@ -1081,7 +1082,7 @@ def poster(message):
             altapi = hesap['altapi']
             altsite = hesap['altsite']
             sira = hesap['sira']
-            if "1" in kaynak and len(kanal) > 0:
+            if "1" in kaynak and len(kanal) > 0 and ret == 0:
                 alink = " "
                 if sira == "2":
                     token = altapi
@@ -1190,20 +1191,21 @@ def poster(message):
         if message.content_type == "video":
             bmedya = message.video.file_id
         for bhesap in bbinb:
+            bret == 0
             bkaynak = bhesap['kaynak']
             bsablon = bhesap['sablon']
             bsablon = str(bsablon)
             try:
                 btoken = bhesap['token']
             except:
-                return
+                bret = 1
             bkanal = bhesap['kanal']
             buser = bhesap['_id']
             bsite = bhesap['site']
             baltapi = bhesap['altapi']
             baltsite = bhesap['altsite']
             bsira = bhesap['sira']
-            if "2" in bkaynak and len(bkanal) > 0:
+            if "2" in bkaynak and len(bkanal) > 0 and bret == 0:
                 balink = " "
                 if bsira == "2":
                     btoken = baltapi
@@ -1314,20 +1316,21 @@ def poster(message):
         if message.content_type == "video":
             cmedya = message.video.file_id
         for chesap in cbinb:
+            cret = 0
             ckaynak = chesap['kaynak']
             csablon = chesap['sablon']
             csablon = str(csablon)
             try:
                 ctoken = chesap['token']
             except:
-                return
+                cret = 1
             ckanal = chesap['kanal']
             cuser = chesap['_id']
             csite = chesap['site']
             caltapi = chesap['altapi']
             caltsite = chesap['altsite']
             csira = chesap['sira']
-            if "3" in ckaynak and len(ckanal) > 0:
+            if "3" in ckaynak and len(ckanal) > 0 and cret == 0:
                 calink = " "
                 if csira == "2":
                     ctoken = caltapi
@@ -1438,20 +1441,21 @@ def poster(message):
         if message.content_type == "video":
             dmedya = message.video.file_id
         for dhesap in dbinb:
+            dret = 0
             dkaynak = dhesap['kaynak']
             dsablon = dhesap['sablon']
             dsablon = str(dsablon)
             try:
                 dtoken = dhesap['token']
             except:
-                return
+                dret = 1
             dkanal = dhesap['kanal']
             duser = dhesap['_id']
             dsite = dhesap['site']
             daltapi = dhesap['altapi']
             daltsite = dhesap['altsite']
             dsira = dhesap['sira']
-            if "4" in dkaynak and len(dkanal) > 0:
+            if "4" in dkaynak and len(dkanal) > 0 and dret == 0:
                 dalink = " "
                 if dsira == "2":
                     dtoken = daltapi
@@ -1559,20 +1563,21 @@ def poster(message):
         if message.content_type == "video":
             emedya = message.video.file_id
         for ehesap in ebinb:
+            eret = 0
             ekaynak = ehesap['kaynak']
             esablon = ehesap['sablon']
             esablon = str(esablon)
             try:
                 etoken = ehesap['token']
             except:
-                return
+                eret = 1
             ekanal = ehesap['kanal']
             euser = ehesap['_id']
             esite = ehesap['site']
             ealtapi = ehesap['altapi']
             ealtsite = ehesap['altsite']
             esira = ehesap['sira']
-            if "5" in ekaynak and len(ekanal) > 0:
+            if "5" in ekaynak and len(ekanal) > 0 and eret == 0:
                 ealink = " "
                 if esira == "2":
                     etoken = ealtapi
@@ -1681,20 +1686,21 @@ def poster(message):
         if message.content_type == "video":
             gmedya = message.video.file_id
         for ghesap in gbinb:
+            gret = 0
             gkaynak = ghesap['kaynak']
             gsablon = ghesap['sablon']
             gsablon = str(gsablon)
             try:
                 gtoken = ghesap['token']
             except:
-                return
+                gret = 1
             gkanal = ghesap['kanal']
             guser = ghesap['_id']
             gsite = ghesap['site']
             galtapi = ghesap['altapi']
             galtsite = ghesap['altsite']
             gsira = ghesap['sira']
-            if "6" in gkaynak and len(gkanal) > 0:
+            if "6" in gkaynak and len(gkanal) > 0 and gret == 0:
                 galink = " "
                 if gsira == "2":
                     gtoken = galtapi
@@ -1803,20 +1809,21 @@ def poster(message):
         if message.content_type == "video":
             fmedya = message.video.file_id
         for fhesap in fbinb:
+            fret = 0
             fkaynak = fhesap['kaynak']
             fsablon = fhesap['sablon']
             fsablon = str(fsablon)
             try:
                 ftoken = fhesap['token']
             except:
-                return
+                fret = 1
             fkanal = fhesap['kanal']
             fuser = fhesap['_id']
             fsite = fhesap['site']
             faltapi = fhesap['altapi']
             faltsite = fhesap['altsite']
             fsira = fhesap['sira']
-            if "7" in fkaynak and len(fkanal) > 0:
+            if "7" in fkaynak and len(fkanal) > 0 and fret == 0:
                 falink = " "
                 flink = " "
                 if fsira == "2":
