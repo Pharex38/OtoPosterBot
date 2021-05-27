@@ -14,7 +14,7 @@ import logging
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton 
 #botapi = environ['BOT_TOKEN']  
 mongo = "os.environ["MONGO_URI"]"
-#
+
 pid = os.getpid()
 time.sleep(3)
 open("pid.txt", "w").write(str(pid))
@@ -23,6 +23,7 @@ print(pid)
 cluster = MongoClient(mongo)
 db = cluster["OtoPost"]
 collection = db["Kanallar"]
+OzelCol = db["Özel Kaynaklar"]
 karaliste = collection.find_one({"_id": 0})
 botapi = karaliste['bottoken']
 bot = telebot.TeleBot(botapi,parse_mode='html')
@@ -429,6 +430,20 @@ def callback_query(call):
             bot.answer_callback_query(callback_query_id=call.id,show_alert=True, text=saat['tutan'])
         if dgr == 7:
             bot.answer_callback_query(callback_query_id=call.id,show_alert=True, text=saat['muho'])
+    if call.data == "okay":
+        bot.edit_message_text("""<b>Özel Kaynak Hakkında Bilmeniz Gerekenler</b>
+<i>
+- Özel kaynak ayarlarsanız başka kaynak seçemezsiniz.
+- Sadece size özeldir başkası kullanamaz.
+- Özel kaynağa kısaltılmamış link atmanız gerekiyor. Kısaltılmış linkli post atarsanız bot linki geçmez direkt olarak kısaltılmış linki tekrar kısaltır.</i>""", chati mesajid)
+        bot.edit_message_reply_markup(chat, mesajid, reply_markup=ozelmark())
+    if call.data == "okayt":
+        msg = bot.edit_message_text("""<b>Yapmanız Gerekenler</b>
+<i>
+1 - Kaynak yapacağınız kanal oluşturun.
+2 - Oluşturduğunuz kanaldan bota bir mesaj iletin.</i>""", chat, mesajid)
+        bot.edit_message_reply_markup(chat, mesajid, reply_markup=imark())
+        bot.register_next_step_handler(msg, ozelk)
     """ PAT """
     if call.data.startswith("pat"):
         back = call.data.split("-")
@@ -490,6 +505,12 @@ def altmarkup(user):
         altmark.add(InlineKeyboardButton("⛔ Alternatif Kaldır", callback_data="akaldır"))
     return altmark
 
+def ozelmark():
+    omark = InlineKeyboardMarkup(row_width = 1)
+    omark.add(InlineKeyboardButton("➕ Oluştur ➕"))
+    omark.row(InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal"))
+    return omark
+
 def kaynakmark(user):
     u = collection.find_one({"_id": user})
     kmark = InlineKeyboardMarkup(row_width=2)
@@ -544,6 +565,7 @@ def kaynakmark(user):
     else:
         kmark.add(InlineKeyboardButton("⚫".format(tutan.title), callback_data="kaynak-7"), fsaatbut)
     kmark.row(InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal"))
+    kmark.row(InlineKeyboardButton("♋️ Özel Alternatif Oluştur ♋️", callback_data="okay"))
     
     return kmark
 
@@ -753,6 +775,34 @@ def menu(message):
         return
     bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=dugme())
     
+def ozelk(message):
+    user = message.from_user.id
+    if not message.forward_from_chat:
+        msz = bot.send_message(message.chat.id, "Lütfen bana oluşturduğun kanaldan bir mesaj ilet.")
+        bot.register_next_step_handler(msz, ozelk)
+        return
+    kanal = message.forward_from_chat.id
+    if message.text == "❌ İptal":
+        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme())
+        return
+    if kanal in kaynaklar:
+        mst = bot.send_message(chat, "Kaynak kanalını nasıl kaydedebilirim ki?")
+        bot.register_next_step_handler(mst, ozelk)
+        return
+    try:
+        yetkiler = bot.get_chat_administrators(kanal)
+    except:
+        msg = bot.send_message(chat, "Botu kanalınızda yönetici eklememişsiniz.")
+        bot.register_next_step_handler(msg, ozelk)
+        return
+    if message.forward_from_chat:
+        if OzelCol.find_one({"_id": user}) == None:
+            OzelCol.insert_one({"_id": user, "okaynak": message.forward_from_chat.id})
+        else:
+            OzelCol.update_one({"_id": user}, {"$set": {"okaynak": message.forward_from_chat.id}})
+
+        bot.send_message(message.chat.id, "<b>Özel Kaynak Oluşturuldu!</b>")
+
 def kaynake(message):
     ktext = message.text
     chat = message.chat.id
@@ -1907,6 +1957,126 @@ def poster(message):
         fbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(fkynk.title, fcount)
         bot.send_message(botlog, fbasari)
         logger.warning(fbasari)
+    # Özel Kaynaklar
+    else:
+        okaynak = OzelCol.find_one({"okaynak": chat})
+    if okaynak != None:
+        ocount = 0
+        omesaj = message.caption
+        if omesaj == None:
+            return
+        """  Link tespit  """
+        osolx = omesaj.rfind("http")
+        osol = omesaj.find("http")
+        if osol != solx:
+            return
+        osag = omesaj.find("\n", osol)
+        okynk = bot.get_chat(chat)
+        omesajb = omesaj[osol:osag].strip()
+        if omesajb.startswith("https://t.me/"):
+            return
+        logger.warning("{} postu atılıyor... ".format(okynk.title))
+        """  Açıklama tespit  """
+        oason = omesaj.rfind("\n", 0, osol)
+        oaciklama = omesaj[:oason].strip()
+        """  Cookies  """
+        s = requests.Session()
+        link = s.get("https://ay.live/api")
+        cookies = dict(link.cookies)
+        """  Veri Tabanı  """
+        opostdata = db[str(chat)]
+        ohesap = collection.find_one({"_id": okaynak['_id']})
+        """ Dosya tespit """
+        if message.content_type == "photo":
+            omedya = message.photo[0].file_id
+        if message.content_type == "animation":
+            omedya = message.animation.file_id
+        if message.content_type == "video":
+            omedya = message.video.file_id
+        oret = 0
+        try:
+            otoken = ohesap['token']
+        except:
+            oret = 1
+        okanal = ohesap['kanal']
+        osablon = ohesap['sablon']
+        ouser = ohesap['_id']
+        osite = ohesap["site"]
+        oaltapi = ohesap['altapi']
+        oaltsite = ohesap['altsite']
+        osira = ohesap['sira']
+        if len(okanal) > 0 and oret == 0:
+            oalink = " "
+            if osira == "2":
+                otoken = oaltapi
+                osite = oaltsite
+                collection.update_one({"_id": ouser}, {"$set": {"sira": "3"}})
+            if osira == "3":
+                collection.update_one({"_id": ouser}, {"$set": {"sira": "2"}})
+            if not oaltapi == "None":
+                if oaltsite == "1":
+                    ojson = s.get(f"https://ay.live/api/?api={oaltapi}&url={omesajb}&alias=&ct=1", cookies=cookies).json()
+                    oalink = json['shortenedUrl']
+                if oaltsite == "2":
+                    ojson = s.get(f"https://www.pnd.tl/api?api={oaltapi}&url={omesajb}&category=6").json()
+                    oalink = json['shortenedUrl']
+                if oaltsite == "3":
+                    ojson = s.get(f"https://exe.io/api?api={oaltapi}&url={omesajb}").json()
+                    oalink = json['shortenedUrl']
+                if oaltsite == "4":
+                    oalink = s.get(f"http://ouo.io/api/{oaltapi}?s={omesajb}").text
+                if oaltsite == "5":
+                    oalink = s.get(f"http://pubiza.com/api.php?token={oaltapi}&url={omesajb}&ads_type=adult").text
+            if osite == "1":
+                ojson = s.get(f"https://ay.live/api/?api={otoken}&url={omesajb}&alias=&ct=1", cookies=cookies).json()
+                olink = ojson['shortenedUrl']
+            if osite == "2":
+                ojson = s.get(f"https://www.pnd.tl/api?api={otoken}&url={omesajb}&category=6").json()
+                olink = ojson['shortenedUrl']
+            if osite == "3":
+                ojson = s.get(f"https://exe.io/api?api={otoken}&url={omesajb}").json()
+                olink = ojson['shortenedUrl']
+            if osite == "4":
+                olink = s.get(f"http://ouo.io/api/{otoken}?s={omesajb}").text
+            if site == "5":
+                olink = s.get(f"http://pubiza.com/api.php?token={otoken}&url={omesajb}&ads_type=adult").text
+            logger.info(f"{okanal} + {olink} + {otoken}")
+            if osablon == "1":
+                osablon = f"🔥{oaciklama}\n\n🔱 TIKLA 👉 {olink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
+            elif osablon == "2" or osablon == "3":
+                osablon = f"{oaciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {olink}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
+            elif osablon == "9":
+                osablon = f"{oaciklama} \n\n𝙇𝙄𝙉𝙆🔗 {olink} \n\n     𝙇𝙄𝙉𝙆🔗 {oalink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
+            elif osablon.find('{alink}') != -1:
+                osablon = osablon.replace("{aciklama}", "{}").replace("{alink}", "{}").replace("{link}", "{}").format(oaciklama, olink, oalink)
+            else:
+                osablon = osablon.replace("{aciklama}", "{}").replace("{link}", "{}").format(aciklama, link)
+            sleep(1)
+            for okan in okanal:
+                try:
+                    if message.content_type == "photo":
+                        opost = bot.send_photo(okan, omedya, caption=osablon)
+                    if message.content_type == "video":
+                        opost = bot.send_video(okan, omedya, caption=osablon)
+                    if message.content_type == "animation":
+                        opost = bot.send_animation(okan, omedya, caption=osablon)
+                    opostkayit = opostdata.find_one({"_id": okan})
+                    if opostkayit == None:
+                        opostdata.insert_one({"_id": okan, "pid": opost.message_id})
+                    else:
+                        opostdata.update_one({"_id": okan}, {"$set": {"pid": opost.message_id}})
+                    ocount = ocount + 1
+                except Exception as e:
+                    logger.debug(f"Hatalı kanal: {okanal}")
+                    e = str(e)
+                    if e.find("bot is not a member") != -1:
+                        collection.update_one({"_id": ouser}, {"$pull": {"kanal": okan}})
+                        bot.send_message(ouser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                        logger.debug(f"{okanal} kayıtlardan silindi.")
+            logger.info("Başarılı!")
+
+
+
 
 def gunluk():
     while 0 < 1:
