@@ -463,13 +463,13 @@ def kaynakmark(user):
     else:
         kmark.add(InlineKeyboardButton("⚫ {}".format(acikmi.title), callback_data="kaynak-5"), ebut)
     if "6" in u['kaynak']:
-        kmark.add(InlineKeyboardButton("✅ {}".format(tutan.title), callback_data="kaynak-6"), fbut)
+        kmark.add(InlineKeyboardButton("✅ {}".format(muho.title), callback_data="kaynak-6"), gbut)
     else:
-        kmark.add(InlineKeyboardButton("⚫ {}".format(tutan.title), callback_data="kaynak-6"), fbut)
+        kmark.add(InlineKeyboardButton("⚫ {}".format(muho.title), callback_data="kaynak-6"), gbut)
     if "7" in u['kaynak']:
-        kmark.add(InlineKeyboardButton("✅ {}".format(muho.title), callback_data="kaynak-7"), gbut)
+        kmark.add(InlineKeyboardButton("✅ {}".format(tutan.title), callback_data="kaynak-7"), fbut)
     else:
-        kmark.add(InlineKeyboardButton("⚫ {}".format(muho.title), callback_data="kaynak-7"), gbut)
+        kmark.add(InlineKeyboardButton("⚫ {}".format(tutan.title), callback_data="kaynak-7"), fbut)
     kmark.row(InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal"))
     
     return kmark
