@@ -34,33 +34,35 @@ botlog = -1001352123979
 kaynaklar = [-1001368112299, -1001122395785, -1001423365614, -1001240514861, -1001405966343, -1001368008488, -1001379893661]
 markup = types.ForceReply(selective=False)
 
-dugme = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
-butonbir = types.KeyboardButton('⚙️ Menü')
-butoniki = types.KeyboardButton('🔧 Kaynak')
-butonuc = types.KeyboardButton('📏 Şablon')
-butondort = types.KeyboardButton('▶️ SFS Modu')
-butonbes = types.KeyboardButton('⛓️ Elle Post Paylaş')
-butonalti = types.KeyboardButton('🥰 Bağış')
-dugme.row(butonbir)
-dugme.add(butoniki, butonuc, butondort, butonalti, butonbes)
+def dugme():
+    dugme = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
+    butoniki = types.KeyboardButton('⚙️ Menü')
+    butoniki = types.KeyboardButton('🔧 Kaynak')
+    butonuc = types.KeyboardButton('📏 Şablon')
+    utondortt = types.KeyboardButton('▶️ SFS Modu')
+    tonbeses = types.KeyboardButton('⛓️ Elle Post Paylaş')
+    butonalti = types.KeyboardButton('🥰 Bağış')
+    dugme.row(butonbir)
+    dugme.add(butoniki, butonuc, butondort, butonalti, butonbes)
+    return dugme
 
-markupp = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
-buton1 = types.KeyboardButton('🔶 Yeni Kanal Ekle')
-buton7 = types.KeyboardButton('↩️ Ana Menü')
-buton2 = types.KeyboardButton('❌ İptal')
-buton3 = types.KeyboardButton('🗑️ Kanal Sil')
-buton4 = types.KeyboardButton('♻️ API değiştir')
-buton5 = types.KeyboardButton('🔗 Site değiştir')
-buton6 = types.KeyboardButton('🤖 Alternatif Ekle')
-markupp.add(buton1, buton7, buton3, buton4, buton5, buton6)
+def markupp():
+    markupp = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
+    buton1 = types.KeyboardButton('🔶 Yeni Kanal Ekle')
+    buton7 = types.KeyboardButton('↩️ Ana Menü')
+    buton2 = types.KeyboardButton('❌ İptal')
+    buton3 = types.KeyboardButton('🗑️ Kanal Sil')
+    buton4 = types.KeyboardButton('♻️ API değiştir')
+    buton5 = types.KeyboardButton('🔗 Site değiştir')
+    buton6 = types.KeyboardButton('🤖 Alternatif Ekle')
+    markupp.add(buton1, buton7, buton3, buton4, buton5, buton6)
+    return markupp
 
-imark = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
-batinbir = types.KeyboardButton('❌ İptal')
-imark.add(batinbir)
-
-amark = types.ReplyKeyboardMarkup(row_width=1, one_time_keyboard=True, resize_keyboard=True, selective=True)
-batiniki = types.KeyboardButton('⛔ Alternatif Kaldır')
-amark.add(batinbir, batiniki)
+def imark():
+    imark = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
+    batinbir = types.KeyboardButton('❌ İptal')
+    imark.add(batinbir)
+    return imark
 
 zaman = datetime.datetime.now()
 saat = zaman.hour 
@@ -191,7 +193,7 @@ def start(message):
 👨🏻‍🔧 Fix & Eklentiler : @bberc</b>
 
           <b>@OtoPosterBotLog</b>
-""".format(mention), disable_web_page_preview=True, reply_markup=dugme)
+""".format(mention), disable_web_page_preview=True, reply_markup=dugme())
 
 @bot.message_handler(commands=['stats'])
 def stats(message):
@@ -373,7 +375,7 @@ def callback_query(call):
         sss = str(call.data.split("-")[2])
         bot.answer_callback_query(call.id, "✅ Site Kaydedildi!")
         bot.edit_message_text("✅ Alternatif site kaydedildi.", user, mesajid)
-        msg = bot.send_message(chat, "📝 Alternatif API adresinizi gönderin.", reply_markup=amark)
+        msg = bot.send_message(chat, "📝 Alternatif API adresinizi gönderin.", reply_markup=imark())
         bot.register_next_step_handler(msg, altakayit, smesaj, user, chat, sss)
     if call.data.startswith("sistem"):
         sss = str(call.data.split("-")[1])
@@ -600,7 +602,7 @@ def menu(message):
 ----------------
 
 Üstteki şablonlardan kullanmak isterseniz, istediğiniz şablonun numarasını gönderin.""", reply_markup=markup)
-            msg = bot.send_message(chat, "<i>Eğer kendi şablonunuzu oluşturmak isterseniz üstteki şablonlardaki gibi</i> <b>{aciklama}, {alink}</b> ve <b>{link}</b> <i>kelimelerinin bulunduğundan emin olun yoksa şablon çalışmaz</i>", reply_markup=imark)
+            msg = bot.send_message(chat, "<i>Eğer kendi şablonunuzu oluşturmak isterseniz üstteki şablonlardaki gibi</i> <b>{aciklama}, {alink}</b> ve <b>{link}</b> <i>kelimelerinin bulunduğundan emin olun yoksa şablon çalışmaz</i>", reply_markup=imark())
             bot.register_next_step_handler(msg, sabloniki)
             return
         else:
@@ -627,14 +629,14 @@ def menu(message):
 ----------------
 
 Üstteki şablonlardan kullanmak isterseniz, istediğiniz şablonun numarasını gönderin.""", reply_markup=markup)
-            msg = bot.send_message(chat, "<i>Eğer kendi şablonunuzu oluşturmak isterseniz üstteki şablonlardaki gibi</i> <b>{aciklama}</b> ve <b>{link}</b> <i>kelimelerinin bulunduğundan emin olun yoksa şablon çalışmaz</i>", reply_markup=imark)
+            msg = bot.send_message(chat, "<i>Eğer kendi şablonunuzu oluşturmak isterseniz üstteki şablonlardaki gibi</i> <b>{aciklama}</b> ve <b>{link}</b> <i>kelimelerinin bulunduğundan emin olun yoksa şablon çalışmaz</i>", reply_markup=imark())
             bot.register_next_step_handler(msg, sabloniki)
             return
     if mesaj == "📝 Kaydet":
         try:
             tokenn = bina['token']
         except:
-            msg = bot.send_message(chat, """📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark)
+            msg = bot.send_message(chat, """📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark())
             bot.register_next_step_handler(msg, apikayit)
             return
     if mesaj == "⚙️ Menü":
@@ -660,7 +662,7 @@ def menu(message):
         except:
             msg = bot.send_message(chat, """⛔ Henüz bir API kaydetmemişsiniz!
             
-📝 <i></i> <a href="https://tr.link/member/tools/quick">buraya tıklayarak</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark)
+📝 <i></i> <a href="https://tr.link/member/tools/quick">buraya tıklayarak</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark())
             bot.register_next_step_handler(msg, apikayit)
             return
         else:
@@ -676,7 +678,7 @@ def menu(message):
             if site == "5":
                 site = "Pubiza"
             if bina['altsite'] == "None":
-                msg = bot.send_message(chat, "<i>♦️Kayıtlı API: {}\nSite: {}\nToplam Kanal: {}</i>".format(tokenn, site, kayitli), reply_markup=markupp)
+                msg = bot.send_message(chat, "<i>♦️Kayıtlı API: {}\nSite: {}\nToplam Kanal: {}</i>".format(tokenn, site, kayitli), reply_markup=markupp())
             else:
                 altsite = bina['altsite']
                 if altsite == "1":
@@ -689,7 +691,7 @@ def menu(message):
                     altsite = "Ouo.io"
                 if altsite == "5":
                     altsite = "Pubiza"
-                msg = bot.send_message(chat, "<i>♦️Birincil API: {}\n  Birincil Site: {}\n  Alternatif API: {}\n  Alternatif Site: {}\n  Toplam Kanal: {}</i>".format(tokenn, site, bina['altapi'], altsite, kayitli), reply_markup=markupp)
+                msg = bot.send_message(chat, "<i>♦️Birincil API: {}\n  Birincil Site: {}\n  Alternatif API: {}\n  Alternatif Site: {}\n  Toplam Kanal: {}</i>".format(tokenn, site, bina['altapi'], altsite, kayitli), reply_markup=markupp())
                 
             bot.register_next_step_handler(msg, kayitapi)
             return
@@ -706,12 +708,12 @@ def menu(message):
                 collection.update_one({"_id": user}, {"$set": {"kaynak": mod['eski']}})
             except:
                 pass
-            bot.send_message(chat, "SFS modu durduruldu", reply_markup=dugme)
+            bot.send_message(chat, "SFS modu durduruldu", reply_markup=dugme())
             return
         else:
             collection.update_one({"_id": user}, {"$set": {"eski": mod['kaynak']}})
             collection.update_one({"_id": user}, {"$set": {"kaynak": ['31']}})
-            bot.send_message(chat, "Kanallarınız SFS moduna alındı. Siz modu kapatana kadar yeni post atılmayacak.", reply_markup=dugme)
+            bot.send_message(chat, "Kanallarınız SFS moduna alındı. Siz modu kapatana kadar yeni post atılmayacak.", reply_markup=dugme())
             return
     if mesaj == "🥰 Bağış":
         bot.send_message(chat, "🥰Madem bu kadar çok istiyorsun. \n\n🏧Papara: <code>1666982412</code> \n🏦İninal: <code>4003140030544</code>")
@@ -723,7 +725,7 @@ def menu(message):
         if len(mj['kanal']) < 1:
             bot.send_message(chat, "Lütfen önce bir kanal kaydedin.")
             return
-        msg = bot.send_message(chat, "Paylaşmamı istediğin hazır postu ilet.", reply_markup=imark)
+        msg = bot.send_message(chat, "Paylaşmamı istediğin hazır postu ilet.", reply_markup=imark())
         bot.register_next_step_handler(msg, pat)
         return
         
@@ -731,7 +733,7 @@ def menu(message):
     if kisi == None:
         bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=dagme())
         return
-    bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=dugme)
+    bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=dugme())
     
 def kaynake(message):
     ktext = message.text
@@ -742,15 +744,15 @@ def kaynake(message):
         bot.register_next_step_handler(msg, kaynake)
         return
     if message.text == "❌ İptal":
-        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
+        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme())
         return
     ktext = ktext.split(",")
     bnb = collection.find_one({"_id": user})
     if bnb == None:
-        bot.send_message(chat, "Lütfen kaynak seçmeden önce Kaydet butonu ile bilgilerinizi kaydedin.", reply_markup=dugme)
+        bot.send_message(chat, "Lütfen kaynak seçmeden önce Kaydet butonu ile bilgilerinizi kaydedin.", reply_markup=dugme())
     else:
         collection.update_one({"_id": user}, {"$set":{"kaynak": ktext}})
-        bot.send_message(chat, "Kaynak Kaydedildi!", reply_markup=dugme)
+        bot.send_message(chat, "Kaynak Kaydedildi!", reply_markup=dugme())
 
 def sabloniki(message):
     mesaj = message.text
@@ -762,7 +764,7 @@ def sabloniki(message):
         bot.register_next_step_handler(msg, sabloniki)
         return
     if message.text == "❌ İptal":
-        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
+        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme())
         return
     if not mesaj.isdigit() and bnb['sira'] == "1":
         if mesaj.find("{link}") == -1 or mesaj.find("{aciklama}") == -1 or mesaj.find("{alink}") == -1:
@@ -787,10 +789,10 @@ def sabloniki(message):
             bot.register_next_step_handler(msg, sabloniki)
             return
     if bnb == None:
-        bot.send_message(chat, "Lütfen şablon kaydetmeden önce Kaydet butonu ile bilgilerinizi girin!", reply_markup=dugme)
+        bot.send_message(chat, "Lütfen şablon kaydetmeden önce Kaydet butonu ile bilgilerinizi girin!", reply_markup=dugme())
     else:
         collection.update_one({"_id": user}, {"$set":{"sablon": mesaj}})
-        bot.send_message(chat, "Şablon kaydedildi!", reply_markup=dugme)
+        bot.send_message(chat, "Şablon kaydedildi!", reply_markup=dugme())
 
 def kayitapi(message):
     chat = message.chat.id
@@ -799,18 +801,18 @@ def kayitapi(message):
     ka = collection.find_one({"_id": user})
     if mesaj == "🗑️ Kanal Sil":
         if len(ka['kanal']) < 1:
-            msg = bot.send_message(chat, "Henüz bir kanal kaydetmemişsiniz!", reply_markup=markupp)
+            msg = bot.send_message(chat, "Henüz bir kanal kaydetmemişsiniz!", reply_markup=markupp())
             bot.register_next_step_handler(msg, kayitapi)
             return
         msg = bot.send_message(chat, "Silmek istediğiniz kanalı seçin.", reply_markup=gen_markup(user))
         bot.register_next_step_handler(msg, kayitapi)
         return
     if mesaj == "♻️ API değiştir":
-        msg = bot.send_message(chat, "Yeni API adresinizi girin.", reply_markup=imark)
+        msg = bot.send_message(chat, "Yeni API adresinizi girin.", reply_markup=imark())
         bot.register_next_step_handler(msg, apikayit)
         return
     if mesaj == "↩️ Ana Menü" or mesaj == "❌ İptal":
-        msg = bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
+        msg = bot.send_message(chat, "İptal Edildi.", reply_markup=dugme())
         return
     if mesaj == "🔗 Site değiştir":
         user = message.from_user.id
@@ -824,26 +826,26 @@ def kayitapi(message):
     if mesaj == "🔶 Yeni Kanal Ekle":
         bol = collection.find_one({"_id": chat})
         if len(bol['kanal']) > 2:
-            bot.send_message(chat, "<i>Üzgünüm en fazla 3 kanal kaydedebilirsiniz.</i>", reply_markup=imark)
+            bot.send_message(chat, "<i>Üzgünüm en fazla 3 kanal kaydedebilirsiniz.</i>", reply_markup=imark())
             return
-        msg = bot.send_message(chat, """📝 <i>Lütfen kanalınızdan bir gönderi iletin.</i>""", reply_markup=imark)
+        msg = bot.send_message(chat, """📝 <i>Lütfen kanalınızdan bir gönderi iletin.</i>""", reply_markup=imark())
         bot.register_next_step_handler(msg, kanalkayit)
         return
-    msg = bot.send_message(chat, "Lütfen alttaki butonları kullanın.", reply_markup=markupp)
+    msg = bot.send_message(chat, "Lütfen alttaki butonları kullanın.", reply_markup=markupp())
     bot.register_next_step_handler(msg, kayitapi)
 
 def altakayit(message, smesaj, user, chat, sss):
     amesaj = message.text
     if message.text == "❌ İptal" or message.text == None:
-        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
+        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme())
         return
     if message.text == "⛔ Alternatif Kaldır":
         collection.update_one({"_id": user}, {"$set": {"altsite": "None", "altapi": "None", "sablon": "1", "sira": "0"}})
-        bot.send_message(chat, "Alternatif kaldırıldı, artık postlarınız alternatif linksiz paylaşılacak.", reply_markup=dugme)
+        bot.send_message(chat, "Alternatif kaldırıldı, artık postlarınız alternatif linksiz paylaşılacak.", reply_markup=dugme())
         return
     
     collection.update_one({"_id": user}, {"$set": {"altsite": smesaj, "altapi": amesaj, "sira": sss}})
-    bot.send_message(chat, "✅ Alternatif API kaydedildi", reply_markup=dugme)
+    bot.send_message(chat, "✅ Alternatif API kaydedildi", reply_markup=dugme())
 
 def apikayit(message):
     token = message.text
@@ -859,7 +861,7 @@ def apikayit(message):
         if bnb == None:
             bot.send_message(chat, "İptal Edildi.", reply_markup=dagme())
         else:
-            bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
+            bot.send_message(chat, "İptal Edildi.", reply_markup=dugme())
         return
     if bnb == None:
         kontrol = requests.get("https://ay.live/api/?api={}&url=www.zort.com&format=text&alias=&ct=2".format(token)).text
@@ -872,14 +874,14 @@ def apikayit(message):
         collection.insert_one(key)
     else:
         collection.update_one({"_id": user}, {"$set": {"token": token}})
-    bot.send_message(chat, "<b>🟢 API kaydedildi!</b>", reply_markup=dugme)
+    bot.send_message(chat, "<b>🟢 API kaydedildi!</b>", reply_markup=dugme())
 
 def kanalkayit(message):
     chat = message.chat.id
     user = message.from_user.id
     y = collection.find_one({"_id": user})
     if message.text == "❌ İptal":
-        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
+        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme())
         return
     if not message.forward_from_chat:
         msg = bot.send_message(chat, "↪️ Bunun ne olduğu hakkında bir fikrim yok! Lütfen kanaldan herhangi bir gönderi iletin.")
@@ -909,7 +911,7 @@ def kanalkayit(message):
     for y in yetkiler:
         if y.user.id == user:
             collection.update_one({"_id": user}, {"$push":{"kanal": str(kanal)}})
-            bot.reply_to(message,"<b>🟢Kanalınız Kaydedildi.</b>", reply_markup=dugme)
+            bot.reply_to(message,"<b>🟢Kanalınız Kaydedildi.</b>", reply_markup=dugme())
             return
             break
     msz = bot.send_message(chat, "Bu kanal sizin değil 😠")
@@ -920,7 +922,7 @@ def pat(message):
     user = message.from_user.id
     ptip = message.content_type 
     if message.text == "❌ İptal":
-        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
+        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme())
         return
     if message.content_type == "text":
         msg = bot.send_message(chat, "Lütfen paylaşmamı istediğin postu at")
@@ -1007,13 +1009,13 @@ def pat(message):
             bot.send_photo(pkanallar[0], fid, caption=psablon)
         if ptip == "animation":
             bot.send_animation(pkanallar[0], fid, caption=psablon)
-        bot.send_message(chat, "Postunuz gönderildi.", reply_markup=dugme)
+        bot.send_message(chat, "Postunuz gönderildi.", reply_markup=dugme())
         return
     
     patc.psablon = psablon
     patc.ptip = ptip
     patc.fid = fid
-    bot.send_message(chat, "Post Hazırlandı!", reply_markup=dugme)
+    bot.send_message(chat, "Post Hazırlandı!", reply_markup=dugme())
     bot.send_message(chat, "<i>Postun gönderilmesini istediğin kanalı seç.</i>", reply_markup=patmark(user))
 
 @bot.channel_post_handler(content_types=['photo', 'animation', 'video'])
