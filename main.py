@@ -471,6 +471,12 @@ def kaynakmark(user):
     u = collection.find_one({"_id": user})
     kmark = InlineKeyboardMarkup(row_width=2)
     saatbut = InlineKeyboardButton("⏳", callback_data="zaman-1")
+    bsaatbut = InlineKeyboardButton("⏳", callback_data="zaman-2")
+    csaatbut = InlineKeyboardButton("⏳", callback_data="zaman-3")
+    dsaatbut = InlineKeyboardButton("⏳", callback_data="zaman-4")
+    esaatbut = InlineKeyboardButton("⏳", callback_data="zaman-5")
+    fsaatbut = InlineKeyboardButton("⏳", callback_data="zaman-6")
+    gsaatbut = InlineKeyboardButton("⏳", callback_data="zaman-7")
     
     ubut =InlineKeyboardButton("{}".format(mahzen.title), url="{}".format(mahzen.invite_link))
     bbut =InlineKeyboardButton("{}".format(bedava.title), url="{}".format(bedava.invite_link))
@@ -484,30 +490,36 @@ def kaynakmark(user):
         kmark.add(InlineKeyboardButton("✅".format(mahzen.title), callback_data="kaynak-1"), saatbut)
     else:
         kmark.add(InlineKeyboardButton("⚫".format(mahzen.title), callback_data="kaynak-1"), saatbut)
+    kmark.add(bbut)
     if "2" in u['kaynak']:
-        kmark.add(InlineKeyboardButton("✅".format(bedava.title), callback_data="kaynak-2"), bbut)
+        kmark.add(InlineKeyboardButton("✅".format(bedava.title), callback_data="kaynak-2"), bsaatbut)
     else:
-        kmark.add(InlineKeyboardButton("⚫".format(bedava.title), callback_data="kaynak-2"), bbut)
+        kmark.add(InlineKeyboardButton("⚫".format(bedava.title), callback_data="kaynak-2"), bsaatbut)
+    kmark.add(cbut)
     if "3" in u['kaynak']:
-        kmark.add(InlineKeyboardButton("✅".format(evi.title), callback_data="kaynak-3"), cbut)
+        kmark.add(InlineKeyboardButton("✅".format(evi.title), callback_data="kaynak-3"), csaatbut)
     else:
-        kmark.add(InlineKeyboardButton("⚫".format(evi.title), callback_data="kaynak-3"), cbut)
+        kmark.add(InlineKeyboardButton("⚫".format(evi.title), callback_data="kaynak-3"), csaatbut)
+    kmark.add(dbut)
     if "4" in u['kaynak']:
-        kmark.add(InlineKeyboardButton("✅".format(bashub.title), callback_data="kaynak-4"), dbut)
+        kmark.add(InlineKeyboardButton("✅".format(bashub.title), callback_data="kaynak-4"), dsaatbut)
     else:
-        kmark.add(InlineKeyboardButton("⚫".format(bashub.title), callback_data="kaynak-4"), dbut)
+        kmark.add(InlineKeyboardButton("⚫".format(bashub.title), callback_data="kaynak-4"), dsaatbut)
+    kmark.add(ebut)
     if "5" in u['kaynak']:
-        kmark.add(InlineKeyboardButton("✅".format(acikmi.title), callback_data="kaynak-5"), ebut)
+        kmark.add(InlineKeyboardButton("✅".format(acikmi.title), callback_data="kaynak-5"), esaatbut)
     else:
-        kmark.add(InlineKeyboardButton("⚫".format(acikmi.title), callback_data="kaynak-5"), ebut)
+        kmark.add(InlineKeyboardButton("⚫".format(acikmi.title), callback_data="kaynak-5"), esaatbut)
+    kmark.add(gbut)
     if "6" in u['kaynak']:
-        kmark.add(InlineKeyboardButton("✅".format(muho.title), callback_data="kaynak-6"), gbut)
+        kmark.add(InlineKeyboardButton("✅".format(muho.title), callback_data="kaynak-6"), gsaatbut)
     else:
-        kmark.add(InlineKeyboardButton("⚫".format(muho.title), callback_data="kaynak-6"), gbut)
+        kmark.add(InlineKeyboardButton("⚫".format(muho.title), callback_data="kaynak-6"), gsaatbut)
+    kmark.add(fbut)
     if "7" in u['kaynak']:
-        kmark.add(InlineKeyboardButton("✅".format(tutan.title), callback_data="kaynak-7"), fbut)
+        kmark.add(InlineKeyboardButton("✅".format(tutan.title), callback_data="kaynak-7"), fsaatbut)
     else:
-        kmark.add(InlineKeyboardButton("⚫".format(tutan.title), callback_data="kaynak-7"), fbut)
+        kmark.add(InlineKeyboardButton("⚫".format(tutan.title), callback_data="kaynak-7"), fsaatbut)
     kmark.row(InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal"))
     
     return kmark
