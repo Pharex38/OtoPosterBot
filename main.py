@@ -27,6 +27,7 @@ karaliste = collection.find_one({"_id": 0})
 botapi = karaliste['bottoken']
 bot = telebot.TeleBot(botapi,parse_mode='html')
 
+kaynaklar = [-1001368112299, -1001122395785, -1001423365614, -1001240514861, -1001405966343, -1001368008488, -1001379893661]
 mahzen = bot.get_chat(kaynaklar[0])
 bedava = bot.get_chat(kaynaklar[1])
 evi = bot.get_chat(kaynaklar[2])
@@ -39,7 +40,6 @@ kara = karaliste['kara']
 
 sahip = 1302980840
 botlog = -1001352123979
-kaynaklar = [-1001368112299, -1001122395785, -1001423365614, -1001240514861, -1001405966343, -1001368008488, -1001379893661]
 markup = types.ForceReply(selective=False)
 
 def dugme():
