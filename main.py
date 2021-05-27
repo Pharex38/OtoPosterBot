@@ -310,6 +310,28 @@ def post(message):
     except:
         pass
 
+@bot.message_handler(commands=['zaman'])
+def zaman(message):
+    chat = message.chat.id
+    msj = message.reply_to_message.text if message.reply_to_message else None
+    if msj == None:
+        bot.send_message(chat, "Bu komut bir mesajı yanıtlayarak kullanılmalıdır.")
+        return
+    if chat == 822071585:
+        collection.update_one({"_id": 0}, {"$set": {"mahzen": msj}})
+    if chat == 822071585:
+        collection.update_one({"_id": 0}, {"$set": {"bedava": msj}})
+    if chat == 822071585:
+        collection.update_one({"_id": 0}, {"$set": {"evi": msj}})
+    if chat == 822071585:
+        collection.update_one({"_id": 0}, {"$set": {"bashub": msj}})
+    if chat == 822071585:
+        collection.update_one({"_id": 0}, {"$set": {"acikmi": msj}})
+    if chat == 822071585:
+        collection.update_one({"_id": 0}, {"$set": {"tutan": msj}})
+    if chat == 822071585:
+        collection.update_one({"_id": 0}, {"$set": {"muho": msj}})
+
 @bot.callback_query_handler(func=lambda call: True)
 def callback_query(call):
     col = call.message.json
