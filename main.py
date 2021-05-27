@@ -324,10 +324,8 @@ def callback_query(call):
         bot.register_next_step_handler(msg, kayitapi)
     if call.data == "aiptal":
         msg = bot.edit_message_text("<i>İptal Edildi</i>", user, mesajid)
-        bot.register_next_step_handler(msg, menu)
     if call.data == "iptal":
-        msg = bot.edit_message_text("<i>İptal Edildi</i>", user, mesajid)
-        bot.register_next_step_handler(msg, kayitapi)
+        bot.edit_message_text("<i>İptal Edildi</i>", user, mesajid)
     """ Kanal Sil """
     if call.data.startswith("sil"):
         kul = collection.find_one({"_id": user})
