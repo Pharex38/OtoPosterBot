@@ -821,7 +821,7 @@ def kayitapi(message):
         return
     if mesaj == "🤖 Alternatif Ekle":
         msg = bot.send_message(chat, "<b>Alternatif Nasıl Kullanılsın.\n\n Tek Post İki Link</b>\n <i>Aynı post iki link</i> \n\n<b>Sıralı</b>\n <i>Bir post birinci servis, bir post alternatif servis.</i>\n\n<b>Kullanmak istediğiniz sistemi seçin.</b>", reply_markup=altmarkup(user))
-        #bot.register_next_step_handler(msg, altkayit)
+        bot.register_next_step_handler(msg, kayitapi)
         return
     if mesaj == "🔶 Yeni Kanal Ekle":
         bol = collection.find_one({"_id": chat})
