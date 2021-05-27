@@ -782,7 +782,7 @@ def kayitapi(message):
 
 def altakayit(message, smesaj, user, chat, sss):
     amesaj = message.text
-    if message.text == "❌ İptal":
+    if message.text == "❌ İptal" or message.text == None:
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme)
         return
     if message.text == "⛔ Alternatif Kaldır":
