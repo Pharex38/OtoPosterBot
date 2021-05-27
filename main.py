@@ -27,6 +27,14 @@ karaliste = collection.find_one({"_id": 0})
 botapi = karaliste['bottoken']
 bot = telebot.TeleBot(botapi,parse_mode='html')
 
+mahzen = bot.get_chat(kaynaklar[0])
+bedava = bot.get_chat(kaynaklar[1])
+evi = bot.get_chat(kaynaklar[2])
+bashub = bot.get_chat(kaynaklar[3])
+acikmi = bot.get_chat(kaynaklar[4])
+muho = bot.get_chat(kaynaklar[5])
+tutan = bot.get_chat(kaynaklar[6])
+
 kara = karaliste['kara']
 
 sahip = 1302980840
