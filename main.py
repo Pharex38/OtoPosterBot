@@ -2040,7 +2040,7 @@ def poster(message):
                 olink = ojson['shortenedUrl']
             if osite == "4":
                 olink = s.get(f"http://ouo.io/api/{otoken}?s={omesajb}").text
-            if ssite == "5":
+            if osite == "5":
                 olink = s.get(f"http://pubiza.com/api.php?token={otoken}&url={omesajb}&ads_type=adult").text
             logger.info(f"{okanal} + {olink} + {otoken}")
             if osablon == "1":
