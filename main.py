@@ -440,6 +440,10 @@ def callback_query(call):
 1 - Kaynak yapacağınız kanal oluşturun.
 2 - Oluşturduğunuz kanaldan bota bir mesaj iletin.</i>""", reply_markup=imark())
         bot.register_next_step_handler(msg, ozelk)
+    if call.data == "okayk":
+        collection.update_one({"_id": user}, {"$set": {"ozel": False}})
+        OzelCol.delete_one({"_id": user})
+        bot.edit_message_text("Özel Kaynak Kaldırıldı.", chat, mesajid)
     """ PAT """
     if call.data.startswith("pat"):
         back = call.data.split("-")
@@ -568,8 +572,11 @@ def kaynakmark(user):
     else:
         kmark.add(InlineKeyboardButton("⚫".format(tutan.title), callback_data="kaynak-7"), fsaatbut)
     kmark.row(InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal"))
-    kmark.row(InlineKeyboardButton("♋️ Özel Alternatif Oluştur ♋️", callback_data="okay"))
-    
+    if u['ozel']:
+        kmark.row(InlineKeyboardButton("🟣 Özel Kaynağı Kaldır 🟣", callback_data="okayk"))
+    else:
+        kmark.row(InlineKeyboardButton("♋️ Özel Kaynak Oluştur ♋️", callback_data="okay"))
+        
     return kmark
 
 def patmark(user):
@@ -804,7 +811,7 @@ def ozelk(message):
             OzelCol.insert_one({"_id": user, "okaynak": message.forward_from_chat.id})
         else:
             OzelCol.update_one({"_id": user}, {"$set": {"okaynak": message.forward_from_chat.id}})
-
+        collection.update_one({"_id": user}, {"$set": {"ozel": True}})
         bot.send_message(message.chat.id, "<b>Özel Kaynak Oluşturuldu!</b>")
 
 def kaynake(message):
