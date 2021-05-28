@@ -40,6 +40,7 @@ tutan = bot.get_chat(kaynaklar[6])
 kara = karaliste['kara']
 
 sahip = 1302980840
+fixer = 1687646994
 botlog = -1001352123979
 markup = types.ForceReply(selective=False)
 
@@ -64,7 +65,8 @@ def markupp():
     buton4 = types.KeyboardButton('♻️ API değiştir')
     buton5 = types.KeyboardButton('🔗 Site değiştir')
     buton6 = types.KeyboardButton('🤖 Alternatif Ekle')
-    markupp.add(buton1, buton7, buton3, buton4, buton5, buton6)
+    markupp.add(buton1, buton3, buton4, buton5, buton6)
+    markupp.add(buton7)
     return markupp
 
 def imark():
@@ -132,7 +134,7 @@ def start(message):
     if ref == "Kaynak2":
         if kat == None:
             collection.insert_one(key)
-            bot.send_message(chat, "{} Referansı ile geldiniz!".format(bedava.title))
+            bot.send_message(chat, "🏋🏻 {} referansı ile geldiniz!".format(bedava.title))
         else:
             if not kat['ozel']:
                 collection.update_one({"_id": user}, {"$push": {"kaynak": "2"}})
@@ -143,7 +145,7 @@ def start(message):
     if ref == "Kaynak3":
         if kat == None:
             collection.insert_one(key)
-            bot.send_message(chat, "{} Referansı ile geldiniz!".format(evi.title))
+            bot.send_message(chat, "🏋🏻 {} referansı ile geldiniz!".format(evi.title))
         else:
             if not kat['ozel']:
                 collection.update_one({"_id": user}, {"$push": {"kaynak": "3"}})
@@ -154,7 +156,7 @@ def start(message):
     if ref == "Kaynak4":
         if kat == None:
             collection.insert_one(key)
-            bot.send_message(chat, "{} Referansı ile geldiniz!".format(bashub.title))
+            bot.send_message(chat, "🏋🏻 {} referansı ile geldiniz!".format(bashub.title))
         else:
             if not kat['ozel']:
                 collection.update_one({"_id": user}, {"$push": {"kaynak": "4"}})
@@ -165,7 +167,7 @@ def start(message):
     if ref == "Kaynak5":
         if kat == None:
             collection.insert_one(key)
-            bot.send_message(chat, "{} Referansı ile geldiniz!".format(acikmi.title))
+            bot.send_message(chat, "🏋🏻 {} referansı ile geldiniz!".format(acikmi.title))
         else:
             if not kat['ozel']:
                 collection.update_one({"_id": user}, {"$push": {"kaynak": "5"}})
@@ -176,7 +178,7 @@ def start(message):
     if ref == "Kaynak6":
         if kat == None:
             collection.insert_one(key)
-            bot.send_message(chat, "{} Referansı ile geldiniz!".format(tutan.title))
+            bot.send_message(chat, "🏋🏻 {} referansı ile geldiniz!".format(tutan.title))
         else:
             if not kat['ozel']:
                 collection.update_one({"_id": user}, {"$push": {"kaynak": "6"}})
@@ -187,7 +189,7 @@ def start(message):
     if ref == "Kaynak7":
         if kat == None:
             collection.insert_one(key)
-            bot.send_message(chat, "{} Referansı ile geldiniz!".format(muho.title))
+            bot.send_message(chat, "🏋🏻 {} referansı ile geldiniz!".format(muho.title))
         else:
             if not kat['ozel']:
                 collection.update_one({"_id": user}, {"$push": {"kaynak": "7"}})
@@ -202,7 +204,7 @@ def start(message):
 ✨ <b>Merhaba {}!</b>
 
 ❔<b>Ne İşe Yarıyor? </b>
-<i>Bu bot sizin seçtiğiniz kaynak kanalında paylaşılan postların linklerini otomatik olarak kısaltıp sizin kanalınıza iletir.</i>
+<i>Bu bot sizin seçtiğiniz kaynak kanalında paylaşılan postların linklerini otomatik olarak kısaltıp sizin kanalınızda paylaşır.</i>
 
 ❔<b>Nasıl Kullanılır?</b>
 <i>1. Adım: Botu kanlınıza yönetici olarak ekleyin.
@@ -211,10 +213,10 @@ def start(message):
 4. Adım: Keyfini çıkarın.</i>
 
 <b>❤️ Geliştirici & Sahip : @Pharex
-👨🏻‍🔧 Fix & Eklentiler : @bberc</b>
+👨🏻‍🔧 Fix & Eklentiler : @berce</b>
 
 
-        <b>@OtoPosterBotLog</b>
+📔        <b>@OtoPosterBotLog</b>
 """.format(mention), disable_web_page_preview=True, reply_markup=dagme())
     else:
         bot.send_message(chat, """
@@ -230,9 +232,9 @@ def start(message):
 4. Adım: Keyfini çıkarın.</i>
 
 <b>❤️ Geliştirici & Sahip : @Pharex
-👨🏻‍🔧 Fix & Eklentiler : @bberc</b>
+👨🏻‍🔧 Fix & Eklentiler : @berce</b>
 
-          <b>@OtoPosterBotLog</b>
+📔          <b>@OtoPosterBotLog</b>
 """.format(mention), disable_web_page_preview=True, reply_markup=dugme())
 
 @bot.message_handler(commands=['stats'])
@@ -241,7 +243,7 @@ def stats(message):
     users = 0
     chat = message.chat.id
     user = message.from_user.id
-    if user != sahip:
+    if not user in [sahip,fixer]:
         bot.send_message(chat, "Sen benim sahibim değilsin!")
         return
     kullanicilar = collection.find({})
