@@ -43,6 +43,10 @@ sahip = 1302980840
 botlog = -1001352123979
 markup = types.ForceReply(selective=False)
 
+dur = collection.find({})
+for d in dur:
+    collection.update_one({"_id": d['_id']}, {"$set": {"ozel": False}})
+
 def dugme():
     dugme = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
     butonbir = types.KeyboardButton('⚙️ Menü')
