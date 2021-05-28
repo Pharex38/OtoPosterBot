@@ -123,56 +123,77 @@ def start(message):
             collection.insert_one(key)
             bot.send_message(chat, "{} Referansı ile geldiniz!".format(mahzen.title))
         else:
-            collection.update_one({"_id": user}, {"$push": {"kaynak": "1"}})
-            bot.send_message(chat, "Kaynağınız Eklendi!")
+            if not kat['ozel']:
+                collection.update_one({"_id": user}, {"$push": {"kaynak": "1"}})
+                bot.send_message(chat, "Kaynağınız Eklendi!")
+            else:
+                bot.send_message(chat, "Özel kaynağınız olduğu için başka kaynak kullanamzsınız!")
             return
     if ref == "Kaynak2":
         if kat == None:
             collection.insert_one(key)
             bot.send_message(chat, "{} Referansı ile geldiniz!".format(bedava.title))
         else:
-            collection.update_one({"_id": user}, {"$push": {"kaynak": "2"}})
-            bot.send_message(chat, "Kaynağınız Eklendi!")
+            if not kat['ozel']:
+                collection.update_one({"_id": user}, {"$push": {"kaynak": "2"}})
+                bot.send_message(chat, "Kaynağınız Eklendi!")
+            else:
+                bot.send_message(chat, "Özel kaynağınız olduğu için başka kaynak kullanamzsınız!")
             return
     if ref == "Kaynak3":
         if kat == None:
             collection.insert_one(key)
             bot.send_message(chat, "{} Referansı ile geldiniz!".format(evi.title))
         else:
-            collection.update_one({"_id": user}, {"$push": {"kaynak": "3"}})
-            bot.send_message(chat, "Kaynağınız Eklendi!")
+            if not kat['ozel']:
+                collection.update_one({"_id": user}, {"$push": {"kaynak": "3"}})
+                bot.send_message(chat, "Kaynağınız Eklendi!")
+            else:
+                bot.send_message(chat, "Özel kaynağınız olduğu için başka kaynak kullanamzsınız!")
             return
     if ref == "Kaynak4":
         if kat == None:
             collection.insert_one(key)
             bot.send_message(chat, "{} Referansı ile geldiniz!".format(bashub.title))
         else:
-            collection.update_one({"_id": user}, {"$push": {"kaynak": "4"}})
-            bot.send_message(chat, "Kaynağınız Eklendi!")
+            if not kat['ozel']:
+                collection.update_one({"_id": user}, {"$push": {"kaynak": "4"}})
+                bot.send_message(chat, "Kaynağınız Eklendi!")
+            else:
+                bot.send_message(chat, "Özel kaynağınız olduğu için başka kaynak kullanamzsınız!")
             return
     if ref == "Kaynak5":
         if kat == None:
             collection.insert_one(key)
             bot.send_message(chat, "{} Referansı ile geldiniz!".format(acikmi.title))
         else:
-            collection.update_one({"_id": user}, {"$push": {"kaynak": "5"}})
-            bot.send_message(chat, "Kaynağınız Eklendi!")
+            if not kat['ozel']:
+                collection.update_one({"_id": user}, {"$push": {"kaynak": "5"}})
+                bot.send_message(chat, "Kaynağınız Eklendi!")
+            else:
+                bot.send_message(chat, "Özel kaynağınız olduğu için başka kaynak kullanamzsınız!")
             return
     if ref == "Kaynak6":
         if kat == None:
             collection.insert_one(key)
             bot.send_message(chat, "{} Referansı ile geldiniz!".format(tutan.title))
         else:
-            collection.update_one({"_id": user}, {"$push": {"kaynak": "6"}})
-            bot.send_message(chat, "Kaynağınız Eklendi!")
+            if not kat['ozel']:
+                collection.update_one({"_id": user}, {"$push": {"kaynak": "6"}})
+                bot.send_message(chat, "Kaynağınız Eklendi!")
+            else:
+                bot.send_message(chat, "Özel kaynağınız olduğu için başka kaynak kullanamzsınız!")
             return
     if ref == "Kaynak7":
         if kat == None:
             collection.insert_one(key)
             bot.send_message(chat, "{} Referansı ile geldiniz!".format(muho.title))
         else:
-            collection.update_one({"_id": user}, {"$push": {"kaynak": "7"}})
-            bot.send_message(chat, "Kaynağınız Eklendi!")
+            if not kat['ozel']:
+                collection.update_one({"_id": user}, {"$push": {"kaynak": "7"}})
+                bot.send_message(chat, "Kaynağınız Eklendi!")
+            else:
+                bot.send_message(chat, "Özel kaynağınız olduğu için başka kaynak kullanamzsınız!")
             return
     
     mention = "@"+message.from_user.username if message.from_user.username else message.from_user.first_name
@@ -537,6 +558,10 @@ def kaynakmark(user):
     fbut =InlineKeyboardButton("{}".format(tutan.title), url="{}".format(tutan.invite_link))
     gbut =InlineKeyboardButton("{}".format(muho.title), url="{}".format(muho.invite_link))
     kmark.add(ubut)
+    if u['ozel']:
+        kmark.row(InlineKeyboardButton("🟣 Özel Kaynağı Kaldır 🟣", callback_data="okayk"))
+        kmark.row(InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal"))
+        return
     if "1" in u['kaynak']:
         kmark.add(InlineKeyboardButton("✅".format(mahzen.title), callback_data="kaynak-1"), saatbut)
     else:
@@ -572,10 +597,7 @@ def kaynakmark(user):
     else:
         kmark.add(InlineKeyboardButton("⚫".format(tutan.title), callback_data="kaynak-7"), fsaatbut)
     kmark.row(InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal"))
-    if u['ozel']:
-        kmark.row(InlineKeyboardButton("🟣 Özel Kaynağı Kaldır 🟣", callback_data="okayk"))
-    else:
-        kmark.row(InlineKeyboardButton("♋️ Özel Kaynak Oluştur ♋️", callback_data="okay"))
+    kmark.row(InlineKeyboardButton("♋️ Özel Kaynak Oluştur ♋️", callback_data="okay"))
         
     return kmark
 
@@ -628,6 +650,9 @@ def menu(message):
         tutan = bot.get_chat(kaynaklar[6])
         if mj == None:
             bot.send_message(chat, "Lütfen önce bir API kaydedin.")
+            return
+        if mj['ozel']:
+            bot.send_message(chat, """<b>Özel Kaynak Kullandığınız için başka kaynak seçemezsiniz.</b>""", reply_markup=kaynakmark(user))
             return
         bot.send_message(chat, """<b>Kullanmak istediğiniz kaynak kanalını seçin.</b>""", reply_markup=kaynakmark(user))
         return
@@ -1102,6 +1127,7 @@ def pat(message):
 
 @bot.channel_post_handler(content_types=['photo', 'animation', 'video'])
 def poster(message):
+    okaynak = None
     chat = message.chat.id
     # Link Mahzeni
     if chat == kaynaklar[0]:
