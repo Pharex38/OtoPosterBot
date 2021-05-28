@@ -1055,7 +1055,7 @@ def pat(message):
     link = s.get("https://ay.live/api")
     cookies = dict(link.cookies)
     try:
-        ptoken = phesap['token']
+        ptoken = pathesap['token']
     except:
         return
     psablon = pathesap['sablon']
