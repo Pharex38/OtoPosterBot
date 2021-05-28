@@ -780,6 +780,7 @@ def menu(message):
     
 def ozelk(message):
     user = message.from_user.id
+    chat = message.chat.id
     if message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme())
         return
