@@ -434,6 +434,7 @@ def callback_query(call):
         bot.edit_message_text("""<b>Özel Kaynak Hakkında Bilmeniz Gerekenler</b>\n\n<i>- Özel kaynak ayarlarsanız başka kaynak seçemezsiniz.\n- Sadece size özeldir başkası kullanamaz.\n- Özel kaynağa kısaltılmamış link atmanız gerekiyor. Kısaltılmış linkli post atarsanız bot linki geçmez direkt olarak kısaltılmış linki tekrar kısaltır.</i>\n\n<b>Alttaki butona bastığınız zaman işlem iptal edilemez!</b>""", chat, mesajid)
         bot.edit_message_reply_markup(chat, mesajid, reply_markup=ozelmark())
     if call.data == "okayt":
+        bot.delete_message(chat, mesajid)
         msg = bot.send_message(chat, """<b>Yapmanız Gerekenler</b>
 <i>
 1 - Kaynak yapacağınız kanal oluşturun.
@@ -779,14 +780,14 @@ def menu(message):
     
 def ozelk(message):
     user = message.from_user.id
+    if message.text == "❌ İptal":
+        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme())
+        return
     if not message.forward_from_chat:
         msz = bot.send_message(message.chat.id, "Lütfen bana oluşturduğun kanaldan bir mesaj ilet.")
         bot.register_next_step_handler(msz, ozelk)
         return
     kanal = message.forward_from_chat.id
-    if message.text == "❌ İptal":
-        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme())
-        return
     if kanal in kaynaklar:
         mst = bot.send_message(chat, "Kaynak kanalını nasıl kaydedebilirim ki?")
         bot.register_next_step_handler(mst, ozelk)
