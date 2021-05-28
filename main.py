@@ -561,7 +561,7 @@ def kaynakmark(user):
     if u['ozel']:
         kmark.row(InlineKeyboardButton("🟣 Özel Kaynağı Kaldır 🟣", callback_data="okayk"))
         kmark.row(InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal"))
-        return
+        return kmark
     if "1" in u['kaynak']:
         kmark.add(InlineKeyboardButton("✅".format(mahzen.title), callback_data="kaynak-1"), saatbut)
     else:
