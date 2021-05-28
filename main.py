@@ -127,7 +127,7 @@ def start(message):
                 collection.update_one({"_id": user}, {"$push": {"kaynak": "1"}})
                 bot.send_message(chat, "Kaynağınız Eklendi!")
             else:
-                bot.send_message(chat, "Özel kaynağınız olduğu için başka kaynak kullanamzsınız!")
+                bot.send_message(chat, "Özel kaynağınız olduğu için başka kaynak kullanamazsınız!")
             return
     if ref == "Kaynak2":
         if kat == None:
@@ -138,7 +138,7 @@ def start(message):
                 collection.update_one({"_id": user}, {"$push": {"kaynak": "2"}})
                 bot.send_message(chat, "Kaynağınız Eklendi!")
             else:
-                bot.send_message(chat, "Özel kaynağınız olduğu için başka kaynak kullanamzsınız!")
+                bot.send_message(chat, "Özel kaynağınız olduğu için başka kaynak kullanamazsınız!")
             return
     if ref == "Kaynak3":
         if kat == None:
@@ -149,7 +149,7 @@ def start(message):
                 collection.update_one({"_id": user}, {"$push": {"kaynak": "3"}})
                 bot.send_message(chat, "Kaynağınız Eklendi!")
             else:
-                bot.send_message(chat, "Özel kaynağınız olduğu için başka kaynak kullanamzsınız!")
+                bot.send_message(chat, "Özel kaynağınız olduğu için başka kaynak kullanamazsınız!")
             return
     if ref == "Kaynak4":
         if kat == None:
@@ -160,7 +160,7 @@ def start(message):
                 collection.update_one({"_id": user}, {"$push": {"kaynak": "4"}})
                 bot.send_message(chat, "Kaynağınız Eklendi!")
             else:
-                bot.send_message(chat, "Özel kaynağınız olduğu için başka kaynak kullanamzsınız!")
+                bot.send_message(chat, "Özel kaynağınız olduğu için başka kaynak kullanamazsınız!")
             return
     if ref == "Kaynak5":
         if kat == None:
@@ -171,7 +171,7 @@ def start(message):
                 collection.update_one({"_id": user}, {"$push": {"kaynak": "5"}})
                 bot.send_message(chat, "Kaynağınız Eklendi!")
             else:
-                bot.send_message(chat, "Özel kaynağınız olduğu için başka kaynak kullanamzsınız!")
+                bot.send_message(chat, "Özel kaynağınız olduğu için başka kaynak kullanamazsınız!")
             return
     if ref == "Kaynak6":
         if kat == None:
@@ -182,7 +182,7 @@ def start(message):
                 collection.update_one({"_id": user}, {"$push": {"kaynak": "6"}})
                 bot.send_message(chat, "Kaynağınız Eklendi!")
             else:
-                bot.send_message(chat, "Özel kaynağınız olduğu için başka kaynak kullanamzsınız!")
+                bot.send_message(chat, "Özel kaynağınız olduğu için başka kaynak kullanamazsınız!")
             return
     if ref == "Kaynak7":
         if kat == None:
@@ -193,7 +193,7 @@ def start(message):
                 collection.update_one({"_id": user}, {"$push": {"kaynak": "7"}})
                 bot.send_message(chat, "Kaynağınız Eklendi!")
             else:
-                bot.send_message(chat, "Özel kaynağınız olduğu için başka kaynak kullanamzsınız!")
+                bot.send_message(chat, "Özel kaynağınız olduğu için başka kaynak kullanamazsınız!")
             return
     
     mention = "@"+message.from_user.username if message.from_user.username else message.from_user.first_name
