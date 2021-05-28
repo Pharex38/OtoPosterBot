@@ -490,11 +490,7 @@ def callback_query(call):
             bot.send_video(kanal[o], fid, caption=psablon)
         if ptip == 'animation':
             bot.send_animation(kanal[o], fid, caption=psablon)
-        bot.edit_message_text("✅<b>Postunuz  Kanalınıza Gönderildi!</b>", user, mesajid)
-    if call.data == "zamanla":
-        msg = bot.send_message(chat, "Zamanlamak istediğiniz saati girin.")
-        bot.register_next_step_handler(msg, postzmn)
-        
+        bot.edit_message_text("✅<b>Postunuz  Kanalınıza Gönderildi!</b>", user, mesajid) 
 
 def sitemarkup():
     smark = InlineKeyboardMarkup()
@@ -620,12 +616,7 @@ def patmark(user):
     pmark.row(InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal"))
     
     return pmark
- 
-def zpatmark():
-    zmark = InlineKeyboardMarkup(row_width=2)
-    zmark.add(InlineKeyboardButton("Zamanla", callback_data="zamanla"), InlineKeyboardButton("Şimdi Gönder", callback_data="patm"), InlineKeyboardButton("❌ İptal ❌)", callback_data="aiptal"))
-    return zmark
-   
+    
 def gen_markup(user):
     silkey = InlineKeyboardMarkup()
     silkey.row_width = 1
@@ -803,9 +794,6 @@ def menu(message):
         bot.send_message(chat, "🥰Madem bu kadar çok istiyorsun. \n\n🏧Papara: <code>1666982412</code> \n🏦İninal: <code>4003140030544</code>")
         return
     if mesaj == "⛓️ Elle Post Paylaş":
-        if user != sahip:
-            bot.send_message(chat, "Bu özellik bakımda...")
-            return
         if mj == None:
             bot.send_message(chat, "Lütfen önce bir API kaydedin.")
             return
@@ -1125,7 +1113,7 @@ def pat(message):
         if ptip == "video":
             bot.send_video(pkanallar[0], fid, caption=psablon)
         if ptip == "photo":
-            bot.send_photo(pkanallar[0], fid, caption=psablon, schedule_date=10.00)
+            bot.send_photo(pkanallar[0], fid, caption=psablon)
         if ptip == "animation":
             bot.send_animation(pkanallar[0], fid, caption=psablon)
         bot.send_message(chat, "Postunuz gönderildi.", reply_markup=dugme())
