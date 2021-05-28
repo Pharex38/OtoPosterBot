@@ -1125,7 +1125,7 @@ def pat(message):
         if ptip == "video":
             bot.send_video(pkanallar[0], fid, caption=psablon)
         if ptip == "photo":
-            bot.send_photo(pkanallar[0], fid, caption=psablon, schedule_date=10:00)
+            bot.send_photo(pkanallar[0], fid, caption=psablon, schedule_date=10.00)
         if ptip == "animation":
             bot.send_animation(pkanallar[0], fid, caption=psablon)
         bot.send_message(chat, "Postunuz gönderildi.", reply_markup=dugme())
