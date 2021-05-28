@@ -805,6 +805,7 @@ def menu(message):
     if mesaj == "⛓️ Elle Post Paylaş":
         if user != sahip:
             bot.send_message(chat, "Bu özellik bakımda...")
+            return
         if mj == None:
             bot.send_message(chat, "Lütfen önce bir API kaydedin.")
             return
@@ -1124,7 +1125,7 @@ def pat(message):
         if ptip == "video":
             bot.send_video(pkanallar[0], fid, caption=psablon)
         if ptip == "photo":
-            bot.send_photo(pkanallar[0], fid, caption=psablon)
+            bot.send_photo(pkanallar[0], fid, caption=psablon, schedule_date=10:00)
         if ptip == "animation":
             bot.send_animation(pkanallar[0], fid, caption=psablon)
         bot.send_message(chat, "Postunuz gönderildi.", reply_markup=dugme())
