@@ -930,7 +930,7 @@ def kayitapi(message):
     if mesaj == "🔶 Yeni Kanal Ekle":
         bol = collection.find_one({"_id": chat})
         if len(bol['kanal']) > 2:
-            bot.send_message(chat, "<i>Üzgünüm en fazla 3 kanal kaydedebilirsiniz.</i>", reply_markup=imark())
+            bot.send_message(chat, "<i>Üzgünüm en fazla 3 kanal kaydedebilirsiniz.</i>")
             return
         msg = bot.send_message(chat, """📝 <i>Lütfen kanalınızdan bir gönderi iletin.</i>""", reply_markup=imark())
         bot.register_next_step_handler(msg, kanalkayit)
@@ -973,7 +973,7 @@ def apikayit(message):
             mso = bot.send_message(chat, "❌ Geçersiz bir API verdiniz! Lütfen doğru bir API adresi verin.")
             bot.register_next_step_handler(mso, apikayit)
             return
-    key = {"_id": user, "token": token, "kanal": [], "sablon": "1", "kaynak": ["1"], "site": "1", "altapi": "None", "altsite": "None", "sira": "0"}
+    key = {"_id": user, "token": token, "kanal": [], "sablon": "1", "kaynak": ["1"], "site": "1", "altapi": "None", "altsite": "None", "sira": "0", "ozel": False}
     if bnb == None:
         collection.insert_one(key)
     else:
@@ -988,7 +988,7 @@ def kanalkayit(message):
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme())
         return
     if not message.forward_from_chat:
-        msg = bot.send_message(chat, "↪️ Bunun ne olduğu hakkında bir fikrim yok! Lütfen kanaldan herhangi bir gönderi iletin.")
+        msg = bot.send_message(chat, "↪️ Bunun ne olduğu hakkında bir fikrim yok! Lütfen kanaldan herhangi bir gönderi iletin.", reply_markup=imark())
         bot.register_next_step_handler(msg, kanalkayit)
         return
     kanal = message.forward_from_chat.id
@@ -1055,7 +1055,7 @@ def pat(message):
     link = s.get("https://ay.live/api")
     cookies = dict(link.cookies)
     try:
-        gtoken = ghesap['token']
+        ptoken = phesap['token']
     except:
         return
     psablon = pathesap['sablon']
