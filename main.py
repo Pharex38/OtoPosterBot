@@ -434,11 +434,10 @@ def callback_query(call):
         bot.edit_message_text("""<b>Özel Kaynak Hakkında Bilmeniz Gerekenler</b>\n\n<i>- Özel kaynak ayarlarsanız başka kaynak seçemezsiniz.\n- Sadece size özeldir başkası kullanamaz.\n- Özel kaynağa kısaltılmamış link atmanız gerekiyor. Kısaltılmış linkli post atarsanız bot linki geçmez direkt olarak kısaltılmış linki tekrar kısaltır.</i>\n\n<b>Alttaki butona bastığınız zaman işlem iptal edilemez!</b>""", chat, mesajid)
         bot.edit_message_reply_markup(chat, mesajid, reply_markup=ozelmark())
     if call.data == "okayt":
-        msg = bot.edit_message_text("""<b>Yapmanız Gerekenler</b>
+        msg = bot.send_message(chat, """<b>Yapmanız Gerekenler</b>
 <i>
 1 - Kaynak yapacağınız kanal oluşturun.
-2 - Oluşturduğunuz kanaldan bota bir mesaj iletin.</i>""", chat, mesajid)
-        bot.edit_message_reply_markup(chat, mesajid, reply_markup=inmark())
+2 - Oluşturduğunuz kanaldan bota bir mesaj iletin.</i>""", reply_markup=imark())
         bot.register_next_step_handler(msg, ozelk)
     """ PAT """
     if call.data.startswith("pat"):
@@ -1827,7 +1826,7 @@ def poster(message):
                         logger.debug(f"Hatalı kanal: {gkanal}")
                         e = str(e)
                         if e.find("bot is not a member") != -1:
-                            collection.update_one({"_id": euser}, {"$pull": {"kanal": gkan}})
+                            collection.update_one({"_id": guser}, {"$pull": {"kanal": gkan}})
                             bot.send_message(guser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
                             logger.debug(f"{gkanal} kayıtlardan silindi.")
 
