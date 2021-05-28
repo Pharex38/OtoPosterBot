@@ -557,11 +557,11 @@ def kaynakmark(user):
     ebut =InlineKeyboardButton("{}".format(acikmi.title), url="{}".format(acikmi.invite_link))
     fbut =InlineKeyboardButton("{}".format(tutan.title), url="{}".format(tutan.invite_link))
     gbut =InlineKeyboardButton("{}".format(muho.title), url="{}".format(muho.invite_link))
-    kmark.add(ubut)
     if u['ozel']:
         kmark.row(InlineKeyboardButton("🟣 Özel Kaynağı Kaldır 🟣", callback_data="okayk"))
         kmark.row(InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal"))
-        return kmark
+        return kmark        
+    kmark.add(ubut)
     if "1" in u['kaynak']:
         kmark.add(InlineKeyboardButton("✅".format(mahzen.title), callback_data="kaynak-1"), saatbut)
     else:
