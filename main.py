@@ -249,6 +249,8 @@ def stats(message):
         users += 1
         for kul in kullanici['kanal']:
             kanals += 1
+            if kanals == 3
+                print(bot.get_chat(kul))
     bot.send_message(chat, "Toplam Kullanıcı Sayısı: {}\nToplam Kayıtlı Kanal Sayısı: {}".format(users, kanals))
 
 @bot.message_handler(commands=['onayla'])
