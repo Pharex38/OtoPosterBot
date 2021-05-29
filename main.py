@@ -239,8 +239,10 @@ def start(message):
 def stats(message):
     kanals = 0
     users = 0
+    topam = 0
     chat = message.chat.id
     user = message.from_user.id
+    kum = []
     if user != sahip:
         bot.send_message(chat, "Sen benim sahibim değilsin!")
         return
@@ -248,10 +250,11 @@ def stats(message):
     for kullanici in kullanicilar:
         users += 1
         for kul in kullanici['kanal']:
-            kanals += 1
-            if kanals == 3:
-                print(bot.get_chat_members_count(kul))
-    bot.send_message(chat, "Toplam Kullanıcı Sayısı: {}\nToplam Kayıtlı Kanal Sayısı: {}".format(users, kanals))
+            if not kul in kum:
+                kanals += 1
+                toplam += bot.get_chat_members_count(kul)
+            
+    bot.send_message(chat, "Toplam Kullanıcı Sayısı: {}\nToplam Kayıtlı Kanal Sayısı: {}\nToplam Kitle: {}".format(users, kanals, toplam))
 
 @bot.message_handler(commands=['onayla'])
 def ona(m):
