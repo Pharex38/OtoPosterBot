@@ -2058,7 +2058,7 @@ def poster(message):
                     oalink = json['shortenedUrl']
                 if oaltsite == "3":
                     ojson = s.get(f"https://exe.io/api?api={oaltapi}&url={omesajb}").json()
-                    oalink = json['shortenedUrl']
+                    oalink = ojson['shortenedUrl']
                 if oaltsite == "4":
                     oalink = s.get(f"http://ouo.io/api/{oaltapi}?s={omesajb}").text
                 if oaltsite == "5":
