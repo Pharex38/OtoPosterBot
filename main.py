@@ -2152,7 +2152,7 @@ def gunluk():
           
             toplam = toplam / 1000
             toplam = round(toplam, 1)
-            msg = bot.edit_message_text("👥 Toplam Kullanıcı Sayısı: {}\n📢 Toplam Kayıtlı Kanal Sayısı: {}\n\nHer gün saat 22:00'da otomatik olarak güncel veriler paylaşılacak.".format(users, kanals), botlog, msg.message_id)
+            msg = bot.edit_message_text("👥 Toplam Kullanıcı Sayısı: {}\n📢 Toplam Kayıtlı Kanal Sayısı: {}\nToplam Kitle: {}K\n\nHer gün saat 22:00'da otomatik olarak güncel veriler paylaşılacak.".format(users, kanals, toplam), botlog, msg.message_id)
             bot.pin_chat_message(botlog, msg.message_id)
         time.sleep(60)
     
