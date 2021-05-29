@@ -243,16 +243,19 @@ def stats(message):
     chat = message.chat.id
     user = message.from_user.id
     kum = []
+    kulkum = []
     if user != sahip:
         bot.send_message(chat, "Sen benim sahibim değilsin!")
         return
     msg = bot.send_message(chat, "<code> Veriler toplanıyor...</code>")
     kullanicilar = collection.find({})
     for kullanici in kullanicilar:
+        if not kullanici in kulkum:
+            kulkum.append(kullanici)
+            users += 1
         for kul in kullanici['kanal']:
             if not kul in kum:
                 kum.append(kul)
-                users += 1
                 time.sleep(1)
                 kanals += 1
                 try:
