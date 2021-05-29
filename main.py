@@ -252,7 +252,8 @@ def stats(message):
         for kul in kullanici['kanal']:
             if not kul in kum:
                 kanals += 1
-                toplam += bot.get_chat_members_count(kul)
+                uye = bot.get_chat_members_count(kul)
+                toplam += uye
             
     bot.send_message(chat, "Toplam Kullanıcı Sayısı: {}\nToplam Kayıtlı Kanal Sayısı: {}\nToplam Kitle: {}".format(users, kanals, toplam))
 
