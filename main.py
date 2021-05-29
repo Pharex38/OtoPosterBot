@@ -239,7 +239,7 @@ def start(message):
 def stats(message):
     kanals = 0
     users = 0
-    topam = 0
+    toplam = 0
     chat = message.chat.id
     user = message.from_user.id
     kum = []
