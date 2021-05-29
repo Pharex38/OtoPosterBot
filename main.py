@@ -261,7 +261,8 @@ def stats(message):
                     logger.error(e)
                     time.sleep(60)
                 toplam += uye
-            
+          
+    toplam = toplam / 1000
     bot.edit_message_text("Toplam Kullanıcı Sayısı: {}\nToplam Kayıtlı Kanal Sayısı: {}\nToplam Kitle: {}".format(users, kanals, toplam), chat, msg.message_id)
 
 @bot.message_handler(commands=['onayla'])
