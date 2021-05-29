@@ -252,7 +252,7 @@ def stats(message):
         users += 1
         for kul in kullanici['kanal']:
             if not kul in kum:
-                time.sleep(3)
+                time.sleep(1)
                 kanals += 1
                 try:
                     uye = bot.get_chat_members_count(kul)
