@@ -256,6 +256,7 @@ def stats(message):
                 kanals += 1
                 try:
                     uye = bot.get_chat_members_count(kul)
+                    print(uye)
                 except Exception as e:
                     logger.error(e)
                     time.sleep(60)
