@@ -250,7 +250,7 @@ def stats(message):
         for kul in kullanici['kanal']:
             kanals += 1
             if kanals == 3:
-                print(bot.get_chat_participants(kul))
+                print(bot.get_chat_members_count(kul))
     bot.send_message(chat, "Toplam Kullanıcı Sayısı: {}\nToplam Kayıtlı Kanal Sayısı: {}".format(users, kanals))
 
 @bot.message_handler(commands=['onayla'])
