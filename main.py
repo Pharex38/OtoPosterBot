@@ -1449,15 +1449,15 @@ def poster(message):
                         calink = s.get(f"http://pubiza.com/api.php?token={caltapi}&url={cmesajb}&ads_type=adult").text
                 sleep(0.5)
                 if csite == "1":
-                    bjson = s.get(f"https://ay.live/api/?api={ctoken}&url={cmesajb}&alias=&ct=1",
+                    cjson = s.get(f"https://ay.live/api/?api={ctoken}&url={cmesajb}&alias=&ct=1",
                                   cookies=cookies).json()
-                    clink = bjson['shortenedUrl']
+                    clink = cjson['shortenedUrl']
                 if csite == "2":
-                    bjson = s.get(f"https://www.pnd.tl/api?api={ctoken}&url={cmesajb}&category=6").json()
-                    clink = bjson['shortenedUrl']
+                    cjson = s.get(f"https://www.pnd.tl/api?api={ctoken}&url={cmesajb}&category=6").json()
+                    clink = cjson['shortenedUrl']
                 if csite == "3":
-                    bjson = s.get(f"https://exe.io/api?api={ctoken}&url={cmesajb}").json()
-                    clink = bjson['shortenedUrl']
+                    cjson = s.get(f"https://exe.io/api?api={ctoken}&url={cmesajb}").json()
+                    clink = cjson['shortenedUrl']
                 if csite == "4":
                     clink = s.get(f"http://ouo.io/api/{ctoken}?s={cmesajb}").text
                 if csite == "5":
@@ -2052,10 +2052,10 @@ def poster(message):
             if not oaltapi == "None":
                 if oaltsite == "1":
                     ojson = s.get(f"https://ay.live/api/?api={oaltapi}&url={omesajb}&alias=&ct=1", cookies=cookies).json()
-                    oalink = json['shortenedUrl']
+                    oalink = ojson['shortenedUrl']
                 if oaltsite == "2":
                     ojson = s.get(f"https://www.pnd.tl/api?api={oaltapi}&url={omesajb}&category=6").json()
-                    oalink = json['shortenedUrl']
+                    oalink = ojson['shortenedUrl']
                 if oaltsite == "3":
                     ojson = s.get(f"https://exe.io/api?api={oaltapi}&url={omesajb}").json()
                     oalink = ojson['shortenedUrl']
