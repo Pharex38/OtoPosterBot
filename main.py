@@ -35,7 +35,7 @@ fixer = 1687646994
 adminlist = [1687646994,1302980840]
 
 def bildir(neyi='Boş Bildirim Testi !'):
-    global bot
+    global adminlist, bot
     for i in adminlist:
         try:
             bot.send_message(i,neyi)
@@ -2260,5 +2260,5 @@ def gunluk():
 #timThr.start()
 
 logger.info("Bot Çalışıyor...")
-bildir('Bot Başladı 🍕')
+bildir(neyi='Bot Başladı 🍕')
 bot.polling(none_stop=True, interval=0)
