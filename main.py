@@ -40,6 +40,7 @@ tutan = bot.get_chat(kaynaklar[6])
 kara = karaliste['kara']
 
 sahip = 1302980840
+fixer = 1687646994
 botlog = -1001352123979
 markup = types.ForceReply(selective=False)
 
@@ -64,7 +65,8 @@ def markupp():
     buton4 = types.KeyboardButton('♻️ API değiştir')
     buton5 = types.KeyboardButton('🔗 Site değiştir')
     buton6 = types.KeyboardButton('🤖 Alternatif Ekle')
-    markupp.add(buton1, buton7, buton3, buton4, buton5, buton6)
+    markupp.add(buton1, buton3, buton4, buton5, buton6)
+    markupp.add(buton7)
     return markupp
 
 def imark():
