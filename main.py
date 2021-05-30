@@ -1183,12 +1183,12 @@ def poster(message):
         if message.content_type == "video":
             medya = message.video.file_id
         for hesap in binb:
-            ret = 0
+            ret = True
             kaynak = hesap['kaynak']
             try:
                 token = hesap['token']
             except:
-                ret = 1
+                ret = False
             kanal = hesap['kanal']
             sablon = hesap['sablon']
             user = hesap['_id']
@@ -1196,42 +1196,48 @@ def poster(message):
             altapi = hesap['altapi']
             altsite = hesap['altsite']
             sira = hesap['sira']
-            if "1" in kaynak and len(kanal) > 0 and ret == 0:
+            if "1" in kaynak and len(kanal) > 0 and ret:
+                link = " "
                 alink = " "
-                if sira == "2":
-                    token = altapi
-                    site = altsite
-                    collection.update_one({"_id": user}, {"$set": {"sira": "3"}})
-                if sira == "3":
-                    collection.update_one({"_id": user}, {"$set": {"sira": "2"}})
-                if not altapi == "None":
-                    if altsite == "1":
-                        json = s.get(f"https://ay.live/api/?api={altapi}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
-                        alink = json['shortenedUrl']
-                    if altsite == "2":
-                        json = s.get(f"https://www.pnd.tl/api?api={altapi}&url={mesajb}&category=6").json()
-                        alink = json['shortenedUrl']
-                    if altsite == "3":
-                        json = s.get(f"https://exe.io/api?api={altapi}&url={mesajb}").json()
-                        alink = json['shortenedUrl']
-                    if altsite == "4":
-                        alink = s.get(f"http://ouo.io/api/{altapi}?s={mesajb}").text
-                    if altsite == "5":
-                        alink = s.get(f"http://pubiza.com/api.php?token={altapi}&url={mesajb}&ads_type=adult").text
-                if site == "1":
-                    json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
-                    link = json['shortenedUrl']
-                if site == "2":
-                    json = s.get(f"https://www.pnd.tl/api?api={token}&url={mesajb}&category=6").json()
-                    link = json['shortenedUrl']
-                if site == "3":
-                    json = s.get(f"https://exe.io/api?api={token}&url={mesajb}").json()
-                    link = json['shortenedUrl']
-                if site == "4":
-                    link = s.get(f"http://ouo.io/api/{token}?s={mesajb}").text
-                if site == "5":
-                    link = s.get(f"http://pubiza.com/api.php?token={token}&url={mesajb}&ads_type=adult").text
-                logger.info(f"{kanal} + {link} + {token}")
+                try:
+                    if sira == "2":
+                        token = altapi
+                        site = altsite
+                        collection.update_one({"_id": user}, {"$set": {"sira": "3"}})
+                    if sira == "3":
+                        collection.update_one({"_id": user}, {"$set": {"sira": "2"}})
+                    if not altapi == "None":
+                        if altsite == "1":
+                            json = s.get(f"https://ay.live/api/?api={altapi}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
+                            alink = json['shortenedUrl']
+                        if altsite == "2":
+                            json = s.get(f"https://www.pnd.tl/api?api={altapi}&url={mesajb}&category=6").json()
+                            alink = json['shortenedUrl']
+                        if altsite == "3":
+                            json = s.get(f"https://exe.io/api?api={altapi}&url={mesajb}").json()
+                            alink = json['shortenedUrl']
+                        if altsite == "4":
+                            alink = s.get(f"http://ouo.io/api/{altapi}?s={mesajb}").text
+                        if altsite == "5":
+                            alink = s.get(f"http://pubiza.com/api.php?token={altapi}&url={mesajb}&ads_type=adult").text
+                    if site == "1":
+                        json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
+                        link = json['shortenedUrl']
+                    if site == "2":
+                        json = s.get(f"https://www.pnd.tl/api?api={token}&url={mesajb}&category=6").json()
+                        link = json['shortenedUrl']
+                    if site == "3":
+                        json = s.get(f"https://exe.io/api?api={token}&url={mesajb}").json()
+                        link = json['shortenedUrl']
+                    if site == "4":
+                        link = s.get(f"http://ouo.io/api/{token}?s={mesajb}").text
+                    if site == "5":
+                        link = s.get(f"http://pubiza.com/api.php?token={token}&url={mesajb}&ads_type=adult").text
+                    logger.info(f"{kanal} + {link} + {token}")
+                except Exception as e:
+                    bot.send_message(user, "Son postunuz gönderilemedi;\n\nAPI adresiniz sıkıntılı veya sitenize ulaşılamıyor.")
+                    logger.error(e)
+                    ret = False
                 if sablon == "1":
                     sablon = f"🔥{aciklama}\n\n🔱 TIKLA 👉 {link}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
                 elif sablon == "2" or sablon == "3":
@@ -1245,11 +1251,11 @@ def poster(message):
                 sleep(1)
                 for kan in kanal:
                     try:
-                        if message.content_type == "photo":
+                        if message.content_type == "photo" and ret:
                             post = bot.send_photo(kan, medya, caption=sablon)
-                        if message.content_type == "video":
+                        if message.content_type == "video" and ret:
                             post = bot.send_video(kan, medya, caption=sablon)
-                        if message.content_type == "animation":
+                        if message.content_type == "animation" and ret:
                             post = bot.send_animation(kan, medya, caption=sablon)
                         postkayit = postdata.find_one({"_id": kan})
                         if postkayit == None:
@@ -1305,57 +1311,63 @@ def poster(message):
         if message.content_type == "video":
             bmedya = message.video.file_id
         for bhesap in bbinb:
-            bret = 0
+            bret = True
             bkaynak = bhesap['kaynak']
             bsablon = bhesap['sablon']
             bsablon = str(bsablon)
             try:
                 btoken = bhesap['token']
             except:
-                bret = 1
+                bret = False
             bkanal = bhesap['kanal']
             buser = bhesap['_id']
             bsite = bhesap['site']
             baltapi = bhesap['altapi']
             baltsite = bhesap['altsite']
             bsira = bhesap['sira']
-            if "2" in bkaynak and len(bkanal) > 0 and bret == 0:
+            if "2" in bkaynak and len(bkanal) > 0 and bret:
                 balink = " "
+                blink = 0
                 if bsira == "2":
                     btoken = baltapi
                     bsite = baltsite
                     collection.update_one({"_id": buser}, {"$set": {"sira": "3"}})
                 if bsira == "3":
                     collection.update_one({"_id": buser}, {"$set": {"sira": "2"}})
-                if not baltapi == "None":
-                    if baltsite == "1":
-                        bjson = s.get(f"https://ay.live/api/?api={baltapi}&url={bmesajb}&alias=&ct=1", cookies=cookies).json()
-                        balink = bjson['shortenedUrl']
-                    if baltsite == "2":
-                        bjson = s.get(f"https://www.pnd.tl/api?api={baltapi}&url={bmesajb}&category=6").json()
-                        balink = bjson['shortenedUrl']
-                    if baltsite == "3":
-                        bjson = s.get(f"https://exe.io/api?api={baltapi}&url={bmesajb}").json()
-                        balink = bjson['shortenedUrl']
-                    if baltsite == "4":
-                        balink = s.get(f"http://ouo.io/api/{baltapi}?s={bmesajb}").text
-                    if baltsite == "5":
-                        balink = s.get(f"http://pubiza.com/api.php?token={baltapi}&url={bmesajb}&ads_type=adult").text
-                sleep(1)
-                if bsite == "1":
-                    bjson = s.get(f"https://ay.live/api/?api={btoken}&url={bmesajb}&alias=&ct=1", cookies=cookies).json()
-                    blink = bjson['shortenedUrl']
-                if bsite == "2":
-                    bjson = s.get(f"https://www.pnd.tl/api?api={btoken}&url={bmesajb}&category=6").json()
-                    blink = bjson['shortenedUrl']
-                if bsite == "3":
-                    bjson = s.get(f"https://exe.io/api?api={btoken}&url={bmesajb}").json()
-                    blink = bjson['shortenedUrl']
-                if bsite == "4":
-                    blink = s.get(f"http://ouo.io/api/{btoken}?s={bmesajb}").text
-                if bsite == "5":
-                    blink = s.get(f"http://pubiza.com/api.php?token={btoken}&url={bmesajb}&ads_type=adult").text
-                logger.info(f"{bkanal} + {blink} + {btoken}")
+                try:
+                    if not baltapi == "None":
+                        if baltsite == "1":
+                            bjson = s.get(f"https://ay.live/api/?api={baltapi}&url={bmesajb}&alias=&ct=1", cookies=cookies).json()
+                            balink = bjson['shortenedUrl']
+                        if baltsite == "2":
+                            bjson = s.get(f"https://www.pnd.tl/api?api={baltapi}&url={bmesajb}&category=6").json()
+                            balink = bjson['shortenedUrl']
+                        if baltsite == "3":
+                            bjson = s.get(f"https://exe.io/api?api={baltapi}&url={bmesajb}").json()
+                            balink = bjson['shortenedUrl']
+                        if baltsite == "4":
+                            balink = s.get(f"http://ouo.io/api/{baltapi}?s={bmesajb}").text
+                        if baltsite == "5":
+                            balink = s.get(f"http://pubiza.com/api.php?token={baltapi}&url={bmesajb}&ads_type=adult").text
+                    sleep(1)
+                    if bsite == "1":
+                        bjson = s.get(f"https://ay.live/api/?api={btoken}&url={bmesajb}&alias=&ct=1", cookies=cookies).json()
+                        blink = bjson['shortenedUrl']
+                    if bsite == "2":
+                        bjson = s.get(f"https://www.pnd.tl/api?api={btoken}&url={bmesajb}&category=6").json()
+                        blink = bjson['shortenedUrl']
+                    if bsite == "3":
+                        bjson = s.get(f"https://exe.io/api?api={btoken}&url={bmesajb}").json()
+                        blink = bjson['shortenedUrl']
+                    if bsite == "4":
+                        blink = s.get(f"http://ouo.io/api/{btoken}?s={bmesajb}").text
+                    if bsite == "5":
+                        blink = s.get(f"http://pubiza.com/api.php?token={btoken}&url={bmesajb}&ads_type=adult").text
+                    logger.info(f"{bkanal} + {blink} + {btoken}")
+                except Exception as e:
+                    bot.send_message(buser, "Son postunuz gönderilemedi;\n\nAPI adresiniz sıkıntılı veya sitenize ulaşılamıyor.")
+                    logger.error(e)
+                    bret = False
                 if bsablon == "1":
                     bsablon = f"🔥{baciklama}\n\n🔱 TIKLA 👉 {blink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
                 elif bsablon == "2" or bsablon == "3":
@@ -1371,11 +1383,11 @@ def poster(message):
                 sleep(1)
                 for bkan in bkanal:
                     try:
-                        if message.content_type == "photo":
+                        if message.content_type == "photo" and bret:
                             bpost = bot.send_photo(bkan, bmedya, caption=bsablon)
-                        if message.content_type == "video":
+                        if message.content_type == "video" and bret:
                             bpost = bot.send_video(bkan, bmedya, caption=bsablon)
-                        if message.content_type == "animation":
+                        if message.content_type == "animation" and bret:
                             bpost = bot.send_animation(bkan, bmedya, caption=bsablon)
                         bpostkayit = bpostdata.find_one({"_id": bkan})
                         if bpostkayit == None:
@@ -1430,21 +1442,22 @@ def poster(message):
         if message.content_type == "video":
             cmedya = message.video.file_id
         for chesap in cbinb:
-            cret = 0
+            cret = True
             ckaynak = chesap['kaynak']
             csablon = chesap['sablon']
             csablon = str(csablon)
             try:
                 ctoken = chesap['token']
             except:
-                cret = 1
+                cret = False
             ckanal = chesap['kanal']
             cuser = chesap['_id']
             csite = chesap['site']
             caltapi = chesap['altapi']
             caltsite = chesap['altsite']
             csira = chesap['sira']
-            if "3" in ckaynak and len(ckanal) > 0 and cret == 0:
+            if "3" in ckaynak and len(ckanal) > 0 and cret:
+                clink = " "
                 calink = " "
                 if csira == "2":
                     ctoken = caltapi
@@ -1452,36 +1465,42 @@ def poster(message):
                     collection.update_one({"_id": cuser}, {"$set": {"sira": "3"}})
                 if csira == "3":
                     collection.update_one({"_id": cuser}, {"$set": {"sira": "2"}})
-                if not caltapi == "None":
-                    if caltsite == "1":
-                        cjson = s.get(f"https://ay.live/api/?api={caltapi}&url={cmesajb}&alias=&ct=1", cookies=cookies).json()
-                        calink = cjson['shortenedUrl']
-                    if caltsite == "2":
-                        cjson = s.get(f"https://www.pnd.tl/api?api={caltapi}&url={cmesajb}&category=6").json()
-                        calink =     cjson['shortenedUrl']
-                    if caltsite == "3":
-                        cjson = s.get(f"https://exe.io/api?api={caltapi}&url={cmesajb}").json()
-                        calink = cjson['shortenedUrl']
-                    if caltsite == "4":
-                        calink = s.get(f"http://ouo.io/api/{caltapi}?s={cmesajb}").text
-                    if caltsite == "5":
-                        calink = s.get(f"http://pubiza.com/api.php?token={caltapi}&url={cmesajb}&ads_type=adult").text
-                sleep(0.5)
-                if csite == "1":
-                    cjson = s.get(f"https://ay.live/api/?api={ctoken}&url={cmesajb}&alias=&ct=1",
-                                  cookies=cookies).json()
-                    clink = cjson['shortenedUrl']
-                if csite == "2":
-                    cjson = s.get(f"https://www.pnd.tl/api?api={ctoken}&url={cmesajb}&category=6").json()
-                    clink = cjson['shortenedUrl']
-                if csite == "3":
-                    cjson = s.get(f"https://exe.io/api?api={ctoken}&url={cmesajb}").json()
-                    clink = cjson['shortenedUrl']
-                if csite == "4":
-                    clink = s.get(f"http://ouo.io/api/{ctoken}?s={cmesajb}").text
-                if csite == "5":
-                    clink = s.get(f"http://pubiza.com/api.php?token={ctoken}&url={cmesajb}&ads_type=adult").text
-                logger.info(f"{ckanal} + {clink} + {ctoken}")
+                try:
+                    if not caltapi == "None":
+                        if caltsite == "1":
+                            cjson = s.get(f"https://ay.live/api/?api={caltapi}&url={cmesajb}&alias=&ct=1", cookies=cookies).json()
+                            calink = cjson['shortenedUrl']
+                        if caltsite == "2":
+                            cjson = s.get(f"https://www.pnd.tl/api?api={caltapi}&url={cmesajb}&category=6").json()
+                            calink =     cjson['shortenedUrl']
+                        if caltsite == "3":
+                            cjson = s.get(f"https://exe.io/api?api={caltapi}&url={cmesajb}").json()
+                            calink = cjson['shortenedUrl']
+                        if caltsite == "4":
+                            calink = s.get(f"http://ouo.io/api/{caltapi}?s={cmesajb}").text
+                        if caltsite == "5":
+                            calink = s.get(f"http://pubiza.com/api.php?token={caltapi}&url={cmesajb}&ads_type=adult").text
+                    sleep(0.5)
+                    if csite == "1":
+                        cjson = s.get(f"https://ay.live/api/?api={ctoken}&url={cmesajb}&alias=&ct=1",
+                                      cookies=cookies).json()
+                        clink = cjson['shortenedUrl']
+                    if csite == "2":
+                        cjson = s.get(f"https://www.pnd.tl/api?api={ctoken}&url={cmesajb}&category=6").json()
+                        clink = cjson['shortenedUrl']
+                    if csite == "3":
+                        cjson = s.get(f"https://exe.io/api?api={ctoken}&url={cmesajb}").json()
+                        clink = cjson['shortenedUrl']
+                    if csite == "4":
+                        clink = s.get(f"http://ouo.io/api/{ctoken}?s={cmesajb}").text
+                    if csite == "5":
+                        clink = s.get(f"http://pubiza.com/api.php?token={ctoken}&url={cmesajb}&ads_type=adult").text
+                    logger.info(f"{ckanal} + {clink} + {ctoken}")
+                except Exception as e:
+                    bot.send_message(cuser, "Son postunuz gönderilemedi;\n\nAPI adresiniz sıkıntılı veya sitenize ulaşılamıyor.")
+                    logger.error(e)
+                    cret = False
+                    
                 if csablon == "1":
                     csablon = f"🔥{caciklama}\n\n🔱 TIKLA 👉 {clink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
                 elif csablon == "2" or csablon == "3":
@@ -1496,11 +1515,11 @@ def poster(message):
                 sleep(1)
                 for ckan in ckanal:
                     try:
-                        if message.content_type == "photo":
+                        if message.content_type == "photo" and cret:
                             cpost = bot.send_photo(ckan, cmedya, caption=csablon)
-                        if message.content_type == "video":
+                        if message.content_type == "video" and cret:
                             cpost = bot.send_video(ckan, cmedya, caption=csablon)
-                        if message.content_type == "animation":
+                        if message.content_type == "animation" and cret:
                             cpost = bot.send_animation(ckan, cmedya, caption=csablon)
                         cpostkayit = cpostdata.find_one({"_id": ckan})
                         if cpostkayit == None:
@@ -1555,58 +1574,64 @@ def poster(message):
         if message.content_type == "video":
             dmedya = message.video.file_id
         for dhesap in dbinb:
-            dret = 0
+            dret = True
             dkaynak = dhesap['kaynak']
             dsablon = dhesap['sablon']
             dsablon = str(dsablon)
             try:
                 dtoken = dhesap['token']
             except:
-                dret = 1
+                dret = False
             dkanal = dhesap['kanal']
             duser = dhesap['_id']
             dsite = dhesap['site']
             daltapi = dhesap['altapi']
             daltsite = dhesap['altsite']
             dsira = dhesap['sira']
-            if "4" in dkaynak and len(dkanal) > 0 and dret == 0:
+            if "4" in dkaynak and len(dkanal) > 0 and dret:
                 dalink = " "
+                dlink = " "
                 if dsira == "2":
                     dtoken = daltapi
                     dsite = daltsite
                     collection.update_one({"_id": duser}, {"$set": {"sira": "3"}})
                 if dsira == "3":
                     collection.update_one({"_id": duser}, {"$set": {"sira": "2"}})
-                if not daltapi == "None":
-                    if daltsite == "1":
-                        djson = s.get(f"https://ay.live/api/?api={daltapi}&url={dmesajb}&alias=&ct=1", cookies=cookies).json()
-                        dalink = djson['shortenedUrl']
-                    if daltsite == "2":
-                        djson = s.get(f"https://www.pnd.tl/api?api={daltapi}&url={dmesajb}&category=6").json()
-                        dalink = djson['shortenedUrl']
-                    if daltsite == "3":
-                        djson = s.get(f"https://exe.io/api?api={daltapi}&url={dmesajb}").json()
-                        dalink = djson['shortenedUrl']
-                    if daltsite == "4":
-                        dalink = s.get(f"http://ouo.io/api/{daltapi}?s={dmesajb}").text
-                    if daltsite == "5":
-                        dalink = s.get(f"http://pubiza.com/api.php?token={daltapi}&url={dmesajb}&ads_type=adult").text
-                sleep(0.5)
-                if dsite == "1":
-                    djson = s.get(f"https://ay.live/api/?api={dtoken}&url={dmesajb}&alias=&ct=1",
-                                  cookies=cookies).json()
-                    dlink = djson['shortenedUrl']
-                if dsite == "2":
-                    djson = s.get(f"https://www.pnd.tl/api?api={dtoken}&url={dmesajb}&category=6").json()
-                    dlink = djson['shortenedUrl']
-                if dsite == "3":
-                    djson = s.get(f"https://exe.io/api?api={dtoken}&url={dmesajb}").json()
-                    dlink = djson['shortenedUrl']
-                if dsite == "4":
-                    dlink = s.get(f"http://ouo.io/api/{dtoken}?s={dmesajb}").text
-                if dsite == "5":
-                    dlink = s.get(f"http://pubiza.com/api.php?token={dtoken}&url={dmesajb}&ads_type=adult").text
-                logger.info(f"{dkanal} + {dlink} + {dtoken}")
+                try:
+                    if not daltapi == "None":
+                        if daltsite == "1":
+                            djson = s.get(f"https://ay.live/api/?api={daltapi}&url={dmesajb}&alias=&ct=1", cookies=cookies).json()
+                            dalink = djson['shortenedUrl']
+                        if daltsite == "2":
+                            djson = s.get(f"https://www.pnd.tl/api?api={daltapi}&url={dmesajb}&category=6").json()
+                            dalink = djson['shortenedUrl']
+                        if daltsite == "3":
+                            djson = s.get(f"https://exe.io/api?api={daltapi}&url={dmesajb}").json()
+                            dalink = djson['shortenedUrl']
+                        if daltsite == "4":
+                            dalink = s.get(f"http://ouo.io/api/{daltapi}?s={dmesajb}").text
+                        if daltsite == "5":
+                            dalink = s.get(f"http://pubiza.com/api.php?token={daltapi}&url={dmesajb}&ads_type=adult").text
+                    sleep(0.5)
+                    if dsite == "1":
+                        djson = s.get(f"https://ay.live/api/?api={dtoken}&url={dmesajb}&alias=&ct=1", cookies=cookies).json()
+                        dlink = djson['shortenedUrl']
+                    if dsite == "2":
+                        djson = s.get(f"https://www.pnd.tl/api?api={dtoken}&url={dmesajb}&category=6").json()
+                        dlink = djson['shortenedUrl']
+                    if dsite == "3":
+                        djson = s.get(f"https://exe.io/api?api={dtoken}&url={dmesajb}").json()
+                        dlink = djson['shortenedUrl']
+                    if dsite == "4":
+                        dlink = s.get(f"http://ouo.io/api/{dtoken}?s={dmesajb}").text
+                    if dsite == "5":
+                        dlink = s.get(f"http://pubiza.com/api.php?token={dtoken}&url={dmesajb}&ads_type=adult").text
+                    logger.info(f"{dkanal} + {dlink} + {dtoken}")
+                except Exception as e:
+                    bot.send_message(duser, "Son postunuz gönderilemedi;\n\nAPI adresiniz sıkıntılı veya sitenize ulaşılamıyor.")
+                    logger.error(e)
+                    dret = False
+                    
                 if dsablon == "1":
                     dsablon = f"🔥{daciklama}\n\n🔱 TIKLA 👉 {dlink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
                 elif dsablon == "2" or dsablon == "3":
@@ -1620,11 +1645,11 @@ def poster(message):
                 sleep(0.5)
                 for dkan in dkanal:
                     try:
-                        if message.content_type == "photo":
+                        if message.content_type == "photo" and dret:
                             dpost = bot.send_photo(dkan, dmedya, caption=dsablon)
-                        if message.content_type == "video":
+                        if message.content_type == "video" and dret:
                             dpost = bot.send_video(dkan, dmedya, caption=dsablon)
-                        if message.content_type == "animation":
+                        if message.content_type == "animation" and dret:
                             dpost = bot.send_animation(dkan, dmedya, caption=dsablon)
                         dpostkayit = dpostdata.find_one({"_id": dkan})
                         if dpostkayit == None:
@@ -1677,21 +1702,22 @@ def poster(message):
         if message.content_type == "video":
             emedya = message.video.file_id
         for ehesap in ebinb:
-            eret = 0
+            eret = True
             ekaynak = ehesap['kaynak']
             esablon = ehesap['sablon']
             esablon = str(esablon)
             try:
                 etoken = ehesap['token']
             except:
-                eret = 1
+                eret = False
             ekanal = ehesap['kanal']
             euser = ehesap['_id']
             esite = ehesap['site']
             ealtapi = ehesap['altapi']
             ealtsite = ehesap['altsite']
             esira = ehesap['sira']
-            if "5" in ekaynak and len(ekanal) > 0 and eret == 0:
+            if "5" in ekaynak and len(ekanal) > 0 and eret:
+                elink = " "
                 ealink = " "
                 if esira == "2":
                     etoken = ealtapi
@@ -1699,35 +1725,39 @@ def poster(message):
                     collection.update_one({"_id": euser}, {"$set": {"sira": "3"}})
                 if esira == "3":
                     collection.update_one({"_id": euser}, {"$set": {"sira": "2"}})
-                if not ealtapi == "None":
-                    if ealtsite == "1":
-                        ejson = s.get(f"https://ay.live/api/?api={ealtapi}&url={emesajb}&alias=&ct=1", cookies=cookies).json()
-                        ealink = ejson['shortenedUrl']
-                    if ealtsite == "2":
-                        ejson = s.get(f"https://www.pnd.tl/api?api={ealtapi}&url={emesajb}&category=6").json()
-                        ealink = ejson['shortenedUrl']
-                    if ealtsite == "3":
-                        ejson = s.get(f"https://exe.io/api?api={ealtapi}&url={emesajb}").json()
-                        ealink = ejson['shortenedUrl']
-                    if ealtsite == "4":
-                        ealink = s.get(f"http://ouo.io/api/{ealtapi}?s={emesajb}").text
-                    if ealtsite == "5":
-                        ealink = s.get(f"http://pubiza.com/api.php?token={ealtapi}&url={emesajb}&ads_type=adult").text
-                if esite == "1":
-                    ejson = s.get(f"https://ay.live/api/?api={etoken}&url={emesajb}&alias=&ct=1",
-                                  cookies=cookies).json()
-                    elink = ejson['shortenedUrl']
-                if esite == "2":
-                    ejson = s.get(f"https://www.pnd.tl/api?api={etoken}&url={emesajb}&category=6").json()
-                    elink = ejson['shortenedUrl']
-                if esite == "3":
-                    ejson = s.get(f"https://exe.io/api?api={etoken}&url={emesajb}").json()
-                    elink = ejson['shortenedUrl']
-                if esite == "4":
-                    elink = s.get(f"http://ouo.io/api/{etoken}?s={emesajb}").text
-                if esite == "5":
-                    elink = s.get(f"http://pubiza.com/api.php?token={etoken}&url={emesajb}&ads_type=adult").text
-                logger.info(f"{ekanal} + {elink} + {etoken}")
+                try:
+                    if not ealtapi == "None":
+                        if ealtsite == "1":
+                            ejson = s.get(f"https://ay.live/api/?api={ealtapi}&url={emesajb}&alias=&ct=1", cookies=cookies).json()
+                            ealink = ejson['shortenedUrl']
+                        if ealtsite == "2":
+                            ejson = s.get(f"https://www.pnd.tl/api?api={ealtapi}&url={emesajb}&category=6").json()
+                            ealink = ejson['shortenedUrl']
+                        if ealtsite == "3":
+                            ejson = s.get(f"https://exe.io/api?api={ealtapi}&url={emesajb}").json()
+                            ealink = ejson['shortenedUrl']
+                        if ealtsite == "4":
+                            ealink = s.get(f"http://ouo.io/api/{ealtapi}?s={emesajb}").text
+                        if ealtsite == "5":
+                            ealink = s.get(f"http://pubiza.com/api.php?token={ealtapi}&url={emesajb}&ads_type=adult").text
+                    if esite == "1":
+                        ejson = s.get(f"https://ay.live/api/?api={etoken}&url={emesajb}&alias=&ct=1", cookies=cookies).json()
+                        elink = ejson['shortenedUrl']
+                    if esite == "2":
+                        ejson = s.get(f"https://www.pnd.tl/api?api={etoken}&url={emesajb}&category=6").json()
+                        elink = ejson['shortenedUrl']
+                    if esite == "3":
+                        ejson = s.get(f"https://exe.io/api?api={etoken}&url={emesajb}").json()
+                        elink = ejson['shortenedUrl']
+                    if esite == "4":
+                        elink = s.get(f"http://ouo.io/api/{etoken}?s={emesajb}").text
+                    if esite == "5":
+                        elink = s.get(f"http://pubiza.com/api.php?token={etoken}&url={emesajb}&ads_type=adult").text
+                    logger.info(f"{ekanal} + {elink} + {etoken}")
+                except Exception as e:
+                    bot.send_message(euser, "Son postunuz gönderilemedi;\n\nAPI adresiniz sıkıntılı veya sitenize ulaşılamıyor.")
+                    logger.error(e)
+                    eret = False
                 if esablon == "1":
                     esablon = f"🔥{eaciklama}\n\n🔱 TIKLA 👉 {elink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
                 elif esablon == "2" or esablon == "3":
@@ -1741,11 +1771,11 @@ def poster(message):
                 sleep(0.5)
                 for ekan in ekanal:
                     try:
-                        if message.content_type == "photo":
+                        if message.content_type == "photo" and eret:
                             epost = bot.send_photo(ekan, emedya, caption=esablon)
-                        if message.content_type == "video":
+                        if message.content_type == "video" and eret:
                             epost = bot.send_video(ekan, emedya, caption=esablon)
-                        if message.content_type == "animation":
+                        if message.content_type == "animation" and eret:
                             epost = bot.send_animation(ekan, emedya, caption=esablon)
                         epostkayit = epostdata.find_one({"_id": ekan})
                         if epostkayit == None:
@@ -1800,21 +1830,22 @@ def poster(message):
         if message.content_type == "video":
             gmedya = message.video.file_id
         for ghesap in gbinb:
-            gret = 0
+            gret = True
             gkaynak = ghesap['kaynak']
             gsablon = ghesap['sablon']
             gsablon = str(gsablon)
             try:
                 gtoken = ghesap['token']
             except:
-                gret = 1
+                gret = False
             gkanal = ghesap['kanal']
             guser = ghesap['_id']
             gsite = ghesap['site']
             galtapi = ghesap['altapi']
             galtsite = ghesap['altsite']
             gsira = ghesap['sira']
-            if "6" in gkaynak and len(gkanal) > 0 and gret == 0:
+            if "6" in gkaynak and len(gkanal) > 0 and gret:
+                glink = " "
                 galink = " "
                 if gsira == "2":
                     gtoken = galtapi
@@ -1822,35 +1853,40 @@ def poster(message):
                     collection.update_one({"_id": guser}, {"$set": {"sira": "3"}})
                 if gsira == "3":
                     collection.update_one({"_id": guser}, {"$set": {"sira": "2"}})
-                if not galtapi == "None":
-                    if galtsite == "1":
-                        gjson = s.get(f"https://ay.live/api/?api={galtapi}&url={gmesajb}&alias=&ct=1", cookies=cookies).json()
-                        galink = gjson['shortenedUrl']
-                    if galtsite == "2":
-                        gjson = s.get(f"https://www.pnd.tl/api?api={galtapi}&url={gmesajb}&category=6").json()
-                        galink = gjson['shortenedUrl']
-                    if galtsite == "3":
-                        gjson = s.get(f"https://exe.io/api?api={galtapi}&url={gmesajb}").json()
-                        galink = gjson['shortenedUrl']
-                    if galtsite == "4":
-                        galink = s.get(f"http://ouo.io/api/{galtapi}?s={gmesajb}").text
-                    if galtsite == "5":
-                        galink = s.get(f"http://pubiza.com/api.php?token={galtapi}&url={gmesajb}&ads_type=adult").text
-                if gsite == "1":
-                    gjson = s.get(f"https://ay.live/api/?api={gtoken}&url={gmesajb}&alias=&ct=1",
-                                  cookies=cookies).json()
-                    glink = gjson['shortenedUrl']
-                if gsite == "2":
-                    gjson = s.get(f"https://www.pnd.tl/api?api={gtoken}&url={gmesajb}&category=6").json()
-                    glink = gjson['shortenedUrl']
-                if gsite == "3":
-                    gjson = s.get(f"https://exe.io/api?api={gtoken}&url={gmesajb}").json()
-                    glink = gjson['shortenedUrl']
-                if gsite == "4":
-                    glink = s.get(f"http://ouo.io/api/{gtoken}?s={gmesajb}").text
-                if gsite == "5":
-                    glink = s.get(f"http://pubiza.com/api.php?token={gtoken}&url={gmesajb}&ads_type=adult").text
-                logger.info(f"{gkanal} + {glink} + {gtoken}")
+                try:
+                    if not galtapi == "None":
+                        if galtsite == "1":
+                            gjson = s.get(f"https://ay.live/api/?api={galtapi}&url={gmesajb}&alias=&ct=1", cookies=cookies).json()
+                            galink = gjson['shortenedUrl']
+                        if galtsite == "2":
+                            gjson = s.get(f"https://www.pnd.tl/api?api={galtapi}&url={gmesajb}&category=6").json()
+                            galink = gjson['shortenedUrl']
+                        if galtsite == "3":
+                            gjson = s.get(f"https://exe.io/api?api={galtapi}&url={gmesajb}").json()
+                            galink = gjson['shortenedUrl']
+                        if galtsite == "4":
+                            galink = s.get(f"http://ouo.io/api/{galtapi}?s={gmesajb}").text
+                        if galtsite == "5":
+                            galink = s.get(f"http://pubiza.com/api.php?token={galtapi}&url={gmesajb}&ads_type=adult").text
+                    if gsite == "1":
+                        gjson = s.get(f"https://ay.live/api/?api={gtoken}&url={gmesajb}&alias=&ct=1",
+                                      cookies=cookies).json()
+                        glink = gjson['shortenedUrl']
+                    if gsite == "2":
+                        gjson = s.get(f"https://www.pnd.tl/api?api={gtoken}&url={gmesajb}&category=6").json()
+                        glink = gjson['shortenedUrl']
+                    if gsite == "3":
+                        gjson = s.get(f"https://exe.io/api?api={gtoken}&url={gmesajb}").json()
+                        glink = gjson['shortenedUrl']
+                    if gsite == "4":
+                      glink = s.get(f"http://ouo.io/api/{gtoken}?s={gmesajb}").text
+                    if gsite == "5":
+                        glink = s.get(f"http://pubiza.com/api.php?token={gtoken}&url={gmesajb}&ads_type=adult").text
+                    logger.info(f"{gkanal} + {glink} + {gtoken}")
+                except Exception as e:
+                    bot.send_message(guser, "Son postunuz gönderilemedi;\n\nAPI adresiniz sıkıntılı veya sitenize ulaşılamıyor.")
+                    logger.error(e)
+                    gret = False
                 if gsablon == "1":
                     gsablon = f"🔥{gaciklama}\n\n🔱 TIKLA 👉 {glink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
                 elif gsablon == "2" or gsablon == "3":
@@ -1864,11 +1900,11 @@ def poster(message):
                 sleep(0.5)
                 for gkan in gkanal:
                     try:
-                        if message.content_type == "photo":
+                        if message.content_type == "photo" and gret:
                             gpost = bot.send_photo(gkan, gmedya, caption=gsablon)
-                        if message.content_type == "video":
+                        if message.content_type == "video" and gret:
                             gpost = bot.send_video(gkan, gmedya, caption=gsablon)
-                        if message.content_type == "animation":
+                        if message.content_type == "animation" and gret:
                             gpost = bot.send_animation(gkan, gmedya, caption=gsablon)
                         gpostkayit = gpostdata.find_one({"_id": gkan})
                         if gpostkayit == None:
