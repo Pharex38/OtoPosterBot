@@ -984,7 +984,7 @@ def apikayit(message):
         bot.register_next_step_handler(msg, apikayit)
         return
     if message.text == "❌ İptal":
-        if bnb['kanal'] == None:
+        if bnb == None:
             bot.send_message(chat, "İptal Edildi.", reply_markup=dagme())
         else:
             bot.send_message(chat, "İptal Edildi.", reply_markup=dugme())
