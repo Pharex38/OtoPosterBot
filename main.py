@@ -213,7 +213,7 @@ def start(message):
 4. Adım: Keyfini çıkarın.</i>
 
 <b>❤️ Geliştirici & Sahip : @Pharex
-👨🏻‍🔧 Fix & Eklentiler : @bberc</b>
+👨🏻‍🔧 Fix & Eklentiler : @berce</b>
 
 
 📔        <b>@OtoPosterBotLog</b>
@@ -232,7 +232,7 @@ def start(message):
 4. Adım: Keyfini çıkarın.</i>
 
 <b>❤️ Geliştirici & Sahip : @Pharex
-👨🏻‍🔧 Fix & Eklentiler : @bberc</b>
+👨🏻‍🔧 Fix & Eklentiler : @berce</b>
 
   📔        <b>@OtoPosterBotLog</b>
 """.format(mention), disable_web_page_preview=True, reply_markup=dugme())
@@ -246,7 +246,7 @@ def stats(message):
     user = message.from_user.id
     kum = []
     kulkum = []
-    if user != sahip:
+    if not user in [sahip,fixer]:
         bot.send_message(chat, "Sen benim sahibim değilsin!")
         return
     msg = bot.send_message(chat, "<code> Veriler toplanıyor...</code>")
