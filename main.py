@@ -2089,11 +2089,11 @@ def poster(message):
             omedya = message.animation.file_id
         if message.content_type == "video":
             omedya = message.video.file_id
-        oret = 0
+        oret = True
         try:
             otoken = ohesap['token']
         except:
-            oret = 1
+            oret = False
         okanal = ohesap['kanal']
         osablon = ohesap['sablon']
         ouser = ohesap['_id']
@@ -2103,40 +2103,47 @@ def poster(message):
         osira = ohesap['sira']
         if len(okanal) > 0 and oret == 0:
             oalink = " "
+            olink = " "
             if osira == "2":
                 otoken = oaltapi
                 osite = oaltsite
                 collection.update_one({"_id": ouser}, {"$set": {"sira": "3"}})
             if osira == "3":
                 collection.update_one({"_id": ouser}, {"$set": {"sira": "2"}})
-            if not oaltapi == "None":
-                if oaltsite == "1":
-                    ojson = s.get(f"https://ay.live/api/?api={oaltapi}&url={omesajb}&alias=&ct=1", cookies=cookies).json()
-                    oalink = ojson['shortenedUrl']
-                if oaltsite == "2":
-                    ojson = s.get(f"https://www.pnd.tl/api?api={oaltapi}&url={omesajb}&category=6").json()
-                    oalink = ojson['shortenedUrl']
-                if oaltsite == "3":
-                    ojson = s.get(f"https://exe.io/api?api={oaltapi}&url={omesajb}").json()
-                    oalink = ojson['shortenedUrl']
-                if oaltsite == "4":
-                    oalink = s.get(f"http://ouo.io/api/{oaltapi}?s={omesajb}").text
-                if oaltsite == "5":
-                    oalink = s.get(f"http://pubiza.com/api.php?token={oaltapi}&url={omesajb}&ads_type=adult").text
-            if osite == "1":
-                ojson = s.get(f"https://ay.live/api/?api={otoken}&url={omesajb}&alias=&ct=1", cookies=cookies).json()
-                olink = ojson['shortenedUrl']
-            if osite == "2":
-                ojson = s.get(f"https://www.pnd.tl/api?api={otoken}&url={omesajb}&category=6").json()
-                olink = ojson['shortenedUrl']
-            if osite == "3":
-                ojson = s.get(f"https://exe.io/api?api={otoken}&url={omesajb}").json()
-                olink = ojson['shortenedUrl']
-            if osite == "4":
-                olink = s.get(f"http://ouo.io/api/{otoken}?s={omesajb}").text
-            if osite == "5":
-                olink = s.get(f"http://pubiza.com/api.php?token={otoken}&url={omesajb}&ads_type=adult").text
-            logger.info(f"{okanal} + {olink} + {otoken}")
+            try:
+                if not oaltapi == "None":
+                    if oaltsite == "1":
+                        ojson = s.get(f"https://ay.live/api/?api={oaltapi}&url={omesajb}&alias=&ct=1", cookies=cookies).json()
+                        oalink = ojson['shortenedUrl']
+                    if oaltsite == "2":
+                        ojson = s.get(f"https://www.pnd.tl/api?api={oaltapi}&url={omesajb}&category=6").json()
+                        oalink = ojson['shortenedUrl']
+                    if oaltsite == "3":
+                        ojson = s.get(f"https://exe.io/api?api={oaltapi}&url={omesajb}").json()
+                        oalink = ojson['shortenedUrl']
+                    if oaltsite == "4":
+                        oalink = s.get(f"http://ouo.io/api/{oaltapi}?s={omesajb}").text
+                    if oaltsite == "5":
+                        oalink = s.get(f"http://pubiza.com/api.php?token={oaltapi}&url={omesajb}&ads_type=adult").text
+                if osite == "1":
+                    ojson = s.get(f"https://ay.live/api/?api={otoken}&url={omesajb}&alias=&ct=1", cookies=cookies).json()
+                    olink = ojson['shortenedUrl']
+                if osite == "2":
+                    ojson = s.get(f"https://www.pnd.tl/api?api={otoken}&url={omesajb}&category=6").json()
+                    olink = ojson['shortenedUrl']
+                if osite == "3":
+                    ojson = s.get(f"https://exe.io/api?api={otoken}&url={omesajb}").json()
+                    olink = ojson['shortenedUrl']
+                if osite == "4":
+                    olink = s.get(f"http://ouo.io/api/{otoken}?s={omesajb}").text
+                if osite == "5":
+                    olink = s.get(f"http://pubiza.com/api.php?token={otoken}&url={omesajb}&ads_type=adult").text
+                logger.info(f"{okanal} + {olink} + {otoken}")
+            except:
+                bot.send_message(ouser, "Son postunuz gönderilemedi;\n\nAPI adresiniz sıkıntılı veya sitenize ulaşılamıyor.")
+                logger.error(e)
+                oret = False
+                
             if osablon == "1":
                 osablon = f"🔥{oaciklama}\n\n🔱 TIKLA 👉 {olink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
             elif osablon == "2" or osablon == "3":
@@ -2150,11 +2157,11 @@ def poster(message):
             sleep(1)
             for okan in okanal:
                 try:
-                    if message.content_type == "photo":
+                    if message.content_type == "photo" and oret:
                         opost = bot.send_photo(okan, omedya, caption=osablon)
-                    if message.content_type == "video":
+                    if message.content_type == "video" and oret:
                         opost = bot.send_video(okan, omedya, caption=osablon)
-                    if message.content_type == "animation":
+                    if message.content_type == "animation" and oret:
                         opost = bot.send_animation(okan, omedya, caption=osablon)
                 except Exception as e:
                     logger.debug(f"Hatalı kanal: {okanal}")
