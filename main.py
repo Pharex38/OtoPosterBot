@@ -476,6 +476,9 @@ def callback_query(call):
         bot.edit_message_text("""<b>Özel Kaynak Hakkında Bilmeniz Gerekenler</b>\n\n<i>- Özel kaynak ayarlarsanız başka kaynak seçemezsiniz.\n- Sadece size özeldir başkası kullanamaz.\n- Özel kaynağa kısaltılmamış link atmanız gerekiyor. Kısaltılmış linkli post atarsanız bot linki geçmez direkt olarak kısaltılmış linki tekrar kısaltır.</i>\n\n<b>Alttaki butona bastığınız zaman işlem iptal edilemez!</b>""", chat, mesajid)
         bot.edit_message_reply_markup(chat, mesajid, reply_markup=ozelmark())
     if call.data == "okayt":
+        if OzelCol.find_one({"_id": user}) == None:
+            OzelCol.insert_one({"_id": user})
+        
         bot.delete_message(chat, mesajid)
         msg = bot.send_message(chat, """<b>Yapmanız Gerekenler</b>
 <i>
@@ -854,10 +857,7 @@ def ozelk(message):
         return
     if message.forward_from_chat:
         ileti = message.forward_from_chat.id
-        if OzelCol.find_one({"_id": user}) == None:
-            OzelCol.insert_one({"_id": user, "okaynak": ileti})
-        else:
-            OzelCol.update_one({"_id": user}, {"$set": {"okaynak": message.forward_from_chat.id}})
+        OzelCol.update_one({"_id": user}, {"$set": {"okaynak": ileti}})
         collection.update_one({"_id": user}, {"$set": {"ozel": True, "kaynak": ["31"]}})
         bot.send_message(message.chat.id, "<b>Özel Kaynak Oluşturuldu!</b>", reply_markup=dugme())
 
