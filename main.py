@@ -1959,21 +1959,21 @@ def poster(message):
         if message.content_type == "video":
             fmedya = message.video.file_id
         for fhesap in fbinb:
-            fret = 0
+            fret = True
             fkaynak = fhesap['kaynak']
             fsablon = fhesap['sablon']
             fsablon = str(fsablon)
             try:
                 ftoken = fhesap['token']
             except:
-                fret = 1
+                fret = False
             fkanal = fhesap['kanal']
             fuser = fhesap['_id']
             fsite = fhesap['site']
             faltapi = fhesap['altapi']
             faltsite = fhesap['altsite']
             fsira = fhesap['sira']
-            if "7" in fkaynak and len(fkanal) > 0 and fret == 0:
+            if "7" in fkaynak and len(fkanal) > 0 and fret:
                 falink = " "
                 flink = " "
                 if fsira == "2":
@@ -1982,35 +1982,40 @@ def poster(message):
                     collection.update_one({"_id": fuser}, {"$set": {"sira": "3"}})
                 if fsira == "3":
                     collection.update_one({"_id": fuser}, {"$set": {"sira": "2"}})
-                if not faltapi == "None":
-                    if faltsite == "1":
-                        fjson = s.get(f"https://ay.live/api/?api={faltapi}&url={fmesajb}&alias=&ct=1", cookies=cookies).json()
-                        falink = fjson['shortenedUrl']
-                    if faltsite == "2":
-                        fjson = s.get(f"https://www.pnd.tl/api?api={faltapi}&url={fmesajb}&category=6").json()
-                        falink = fjson['shortenedUrl']
-                    if faltsite == "3":
-                        fjson = s.get(f"https://exe.io/api?api={faltapi}&url={fmesajb}").json()
-                        falink = fjson['shortenedUrl']
-                    if faltsite == "4":
-                        falink = s.get(f"http://ouo.io/api/{faltapi}?s={fmesajb}").text
-                    if faltsite == "5":
-                        falink = s.get(f"http://pubiza.com/api.php?token={faltapi}&url={fmesajb}&ads_type=adult").text
-                sleep(1)
-                if fsite == "1":
-                    fjson = s.get(f"https://ay.live/api/?api={ftoken}&url={fmesajb}&alias=&ct=1", cookies=cookies).json()
-                    flink = fjson['shortenedUrl']
-                if fsite == "2":
-                    fjson = s.get(f"https://www.pnd.tl/api?api={ftoken}&url={fmesajb}&category=6").json()
-                    flink = fjson['shortenedUrl']
-                if fsite == "3":
-                    fjson = s.get(f"https://exe.io/api?api={ftoken}&url={fmesajb}").json()
-                    flink = fjson['shortenedUrl']
-                if fsite == "4":
-                    flink = s.get(f"http://ouo.io/api/{ftoken}?s={fmesajb}").text
-                if fsite == "5":
-                    flink = s.get(f"http://pubiza.com/api.php?token={ftoken}&url={fmesajb}&ads_type=adult").text
-                logger.info(f"{fkanal} + {flink} + {ftoken}")
+                try:
+                    if not faltapi == "None":
+                        if faltsite == "1":
+                            fjson = s.get(f"https://ay.live/api/?api={faltapi}&url={fmesajb}&alias=&ct=1", cookies=cookies).json()
+                            falink = fjson['shortenedUrl']
+                        if faltsite == "2":
+                            fjson = s.get(f"https://www.pnd.tl/api?api={faltapi}&url={fmesajb}&category=6").json()
+                            falink = fjson['shortenedUrl']
+                        if faltsite == "3":
+                            fjson = s.get(f"https://exe.io/api?api={faltapi}&url={fmesajb}").json()
+                            falink = fjson['shortenedUrl']
+                        if faltsite == "4":
+                            falink = s.get(f"http://ouo.io/api/{faltapi}?s={fmesajb}").text
+                        if faltsite == "5":
+                            falink = s.get(f"http://pubiza.com/api.php?token={faltapi}&url={fmesajb}&ads_type=adult").text
+                    sleep(1)
+                    if fsite == "1":
+                        fjson = s.get(f"https://ay.live/api/?api={ftoken}&url={fmesajb}&alias=&ct=1", cookies=cookies).json()
+                        flink = fjson['shortenedUrl']
+                    if fsite == "2":
+                        fjson = s.get(f"https://www.pnd.tl/api?api={ftoken}&url={fmesajb}&category=6").json()
+                        flink = fjson['shortenedUrl']
+                    if fsite == "3":
+                        fjson = s.get(f"https://exe.io/api?api={ftoken}&url={fmesajb}").json()
+                        flink = fjson['shortenedUrl']
+                    if fsite == "4":
+                        flink = s.get(f"http://ouo.io/api/{ftoken}?s={fmesajb}").text
+                    if fsite == "5":
+                        flink = s.get(f"http://pubiza.com/api.php?token={ftoken}&url={fmesajb}&ads_type=adult").text
+                    logger.info(f"{fkanal} + {flink} + {ftoken}")
+                except Exception as e:
+                    bot.send_message(fuser, "Son postunuz gönderilemedi;\n\nAPI adresiniz sıkıntılı veya sitenize ulaşılamıyor.")
+                    logger.error(e)
+                    fret = False
                 if fsablon == "1":
                     fsablon = f"🔥{faciklama}\n\n🔱 TIKLA 👉 {flink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
                 elif fsablon == "2" or fsablon == "3":
@@ -2025,11 +2030,11 @@ def poster(message):
                 sleep(1)
                 for fkan in fkanal:
                     try:
-                        if message.content_type == "photo":
+                        if message.content_type == "photo" and fret:
                             fpost = bot.send_photo(fkan, fmedya, caption=fsablon)
-                        if message.content_type == "video":
+                        if message.content_type == "video" and fret:
                             fpost = bot.send_video(fkan, fmedya, caption=fsablon)
-                        if message.content_type == "animation":
+                        if message.content_type == "animation" and fret:
                             fpost = bot.send_animation(fkan, fmedya, caption=fsablon)
                         fpostkayit = fpostdata.find_one({"_id": fkan})
                         if fpostkayit == None:
