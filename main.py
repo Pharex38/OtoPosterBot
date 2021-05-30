@@ -123,7 +123,7 @@ def start(message):
     if ref == "Kaynak1":
         if kat == None:
             collection.insert_one(key)
-            bot.send_message(chat, "{} Referansı ile geldiniz!".format(mahzen.title))
+            bot.send_message(chat, "🏋🏻 {} referansı ile geldiniz!".format(mahzen.title))
         else:
             if not kat['ozel']:
                 collection.update_one({"_id": user}, {"$push": {"kaynak": "1"}})
@@ -134,7 +134,7 @@ def start(message):
     if ref == "Kaynak2":
         if kat == None:
             collection.insert_one(key)
-            bot.send_message(chat, "{} Referansı ile geldiniz!".format(bedava.title))
+            bot.send_message(chat, "🏋🏻 {} referansı ile geldiniz!".format(bedava.title))
         else:
             if not kat['ozel']:
                 collection.update_one({"_id": user}, {"$push": {"kaynak": "2"}})
@@ -145,7 +145,7 @@ def start(message):
     if ref == "Kaynak3":
         if kat == None:
             collection.insert_one(key)
-            bot.send_message(chat, "{} Referansı ile geldiniz!".format(evi.title))
+            bot.send_message(chat, "🏋🏻 {} referansı ile geldiniz!".format(evi.title))
         else:
             if not kat['ozel']:
                 collection.update_one({"_id": user}, {"$push": {"kaynak": "3"}})
@@ -156,7 +156,7 @@ def start(message):
     if ref == "Kaynak4":
         if kat == None:
             collection.insert_one(key)
-            bot.send_message(chat, "{} Referansı ile geldiniz!".format(bashub.title))
+            bot.send_message(chat, "🏋🏻 {} referansı ile geldiniz!".format(bashub.title))
         else:
             if not kat['ozel']:
                 collection.update_one({"_id": user}, {"$push": {"kaynak": "4"}})
@@ -167,7 +167,7 @@ def start(message):
     if ref == "Kaynak5":
         if kat == None:
             collection.insert_one(key)
-            bot.send_message(chat, "{} Referansı ile geldiniz!".format(acikmi.title))
+            bot.send_message(chat, "🏋🏻 {} referansı ile geldiniz!".format(acikmi.title))
         else:
             if not kat['ozel']:
                 collection.update_one({"_id": user}, {"$push": {"kaynak": "5"}})
@@ -178,7 +178,7 @@ def start(message):
     if ref == "Kaynak6":
         if kat == None:
             collection.insert_one(key)
-            bot.send_message(chat, "{} Referansı ile geldiniz!".format(tutan.title))
+            bot.send_message(chat, "🏋🏻 {} referansı ile geldiniz!".format(tutan.title))
         else:
             if not kat['ozel']:
                 collection.update_one({"_id": user}, {"$push": {"kaynak": "6"}})
@@ -189,7 +189,7 @@ def start(message):
     if ref == "Kaynak7":
         if kat == None:
             collection.insert_one(key)
-            bot.send_message(chat, "{} Referansı ile geldiniz!".format(muho.title))
+            bot.send_message(chat, "🏋🏻 {} referansı ile geldiniz!".format(muho.title))
         else:
             if not kat['ozel']:
                 collection.update_one({"_id": user}, {"$push": {"kaynak": "7"}})
@@ -204,7 +204,7 @@ def start(message):
 ✨ <b>Merhaba {}!</b>
 
 ❔<b>Ne İşe Yarıyor? </b>
-<i>Bu bot sizin seçtiğiniz kaynak kanalında paylaşılan postların linklerini otomatik olarak kısaltıp sizin kanalınıza iletir.</i>
+<i>Bu bot sizin seçtiğiniz kaynak kanalında paylaşılan postların linklerini otomatik olarak kısaltıp sizin kanalınızda paylaşır.</i>
 
 ❔<b>Nasıl Kullanılır?</b>
 <i>1. Adım: Botu kanlınıza yönetici olarak ekleyin.
@@ -216,14 +216,14 @@ def start(message):
 👨🏻‍🔧 Fix & Eklentiler : @bberc</b>
 
 
-        <b>@OtoPosterBotLog</b>
+📔        <b>@OtoPosterBotLog</b>
 """.format(mention), disable_web_page_preview=True, reply_markup=dagme())
     else:
         bot.send_message(chat, """
 ✨ <b>Merhaba {}!</b>
 
 ❔<b>Ne İşe Yarıyor? </b>
-<i>Bu bot sizin seçtiğiniz kaynak kanalında paylaşılan postların linklerini otomatik olarak kısaltıp sizin kanalınıza iletir.</i>
+<i>Bu bot sizin seçtiğiniz kaynak kanalında paylaşılan postların linklerini otomatik olarak kısaltıp sizin kanalınızda paylaşır.</i>
 
 ❔<b>Nasıl Kullanılır?</b>
 <i>1. Adım: Botu kanlınıza yönetici olarak ekleyin.
@@ -234,7 +234,7 @@ def start(message):
 <b>❤️ Geliştirici & Sahip : @Pharex
 👨🏻‍🔧 Fix & Eklentiler : @bberc</b>
 
-          <b>@OtoPosterBotLog</b>
+  📔        <b>@OtoPosterBotLog</b>
 """.format(mention), disable_web_page_preview=True, reply_markup=dugme())
 
 @bot.message_handler(commands=['stats'])
