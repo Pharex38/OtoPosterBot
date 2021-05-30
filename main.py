@@ -2207,8 +2207,7 @@ def gunluk():
             bot.pin_chat_message(botlog, msg.message_id)
         time.sleep(60)
     
-#timThr = threading.Thread(target=gunluk)
-#timThr.start()
+threading.Thread(target=gunluk).start()
 
 logger.info("Bot Çalışıyor...")
 bot.polling(none_stop=True, interval=0)
