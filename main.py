@@ -2101,7 +2101,7 @@ def poster(message):
         oaltapi = ohesap['altapi']
         oaltsite = ohesap['altsite']
         osira = ohesap['sira']
-        if len(okanal) > 0 and oret == 0:
+        if len(okanal) > 0 and oret:
             oalink = " "
             olink = " "
             if osira == "2":
