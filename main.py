@@ -408,7 +408,7 @@ def callback_query(call):
     mesajid = call.message.id
     """ İptal """
     if call.data == "akaldır":
-        collection.update_one({"_id": user}, {"$set": {"altsite": "None", "altapi": "None", "sira": "0"}})
+        collection.update_one({"_id": user}, {"$set": {"altsite": "None", "altapi": "None", "sira": "0", "sablon": "1"}})
         msg = bot.edit_message_text("⛔ Alternatif Kaldırıldı.", user, mesajid)
         bot.answer_callback_query("⛔ Alternatif Kaldırıldı.")
         bot.register_next_step_handler(msg, kayitapi)
