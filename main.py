@@ -1081,6 +1081,8 @@ def pat(message):
     paltapi = pathesap['altapi']
     paltsite = pathesap['altsite']
     psira = pathesap['sira']
+    palink = " "
+    plink = " "
     if psira == "2":
         ptoken = paltapi
         psite = paltsite
