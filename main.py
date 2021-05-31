@@ -721,7 +721,7 @@ def menu(message):
             if mj['sira'] == "1":
                 pst = mj['sablon'].replace("{aciklama}", "{}").replace("{link}", "{}").replace("{alink}", "{}").format(aciklama, link, alink)
             else:
-                pst = mj['sablon'].replace("{aciklama}", "{}").replace("{link}", "{}").format(aciklama, link)
+                pst = mj['sablon'].replace("{aciklama}", "{}").replace("{link}", "{}").replace("{alink}", "").format(aciklama, link)
             bot.send_message(chat, f"<b>Şablonunuz böyle gözükecek:</b>\n\n{pst}", reply_markup=sablonmark(user))
         return
     if mesaj == "📝 Kaydet":
