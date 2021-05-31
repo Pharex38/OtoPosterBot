@@ -722,7 +722,7 @@ def menu(message):
 📌 Link Nasıl Açılır Bilmiyorsanız
 👉 @linkk_gecmee
 ----------------
-""", reply_markup=markup)
+""", reply_markup=sablonmark())
             return
         else:
             bot.send_message(chat, """<b>Varsayılan Şablon</b>
@@ -733,7 +733,7 @@ def menu(message):
 
 📛 SESİ AÇ 'a tıklamayı unutma
 ----------------
-""", reply_markup=markup)
+""", reply_markup=sablonmark())
             msg = bot.send_message(chat, "<i>Kendi şablonunuzu oluşturmak isterseniz üstteki şablonlardaki gibi</i> <b>{aciklama}</b> ve <b>{link}</b> <i>kelimelerinin bulunduğundan emin olun yoksa şablon çalışmaz</i>", reply_markup=imark())
             bot.register_next_step_handler(msg, sabloniki)
             return
