@@ -716,7 +716,11 @@ def menu(message):
         elif mj['sablon'] == "9":
             bot.send_message(chat, f"Varsayılan Şablon:\n\n{aciklama} \n\n𝙇𝙄𝙉𝙆🔗 {link} \n\n     𝙇𝙄𝙉𝙆🔗 {alink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee", reply_markup=kaynakmark(user))
         else:
-            bot.send_message(chat, f"Şablonunuz böyle gözükecek:\n\n{mj['sablon'].format(link, aciklama)}", reply_markup=sablonmark(user))
+            if mj['sira'] == "1":
+                pst = mj['sablon'].replace("{aciklama}", "{}").replace("{link}", "{}").replace("{alink}", "{}").format(aciklama, link, alink)
+            else:
+                pst = mj['sablon'].replace("{aciklama}", "{}").replace("{link}", "{}").format(aciklama, link)
+            bot.send_message(chat, f"Şablonunuz böyle gözükecek:\n\n{pst}", reply_markup=sablonmark(user))
         return
     if mesaj == "📝 Kaydet":
         try:
