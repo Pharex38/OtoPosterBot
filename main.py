@@ -642,7 +642,7 @@ def kaynakmark(user):
 
 def sablonmark(user):
     samark = InlineKeyboardMarkup(row_width=2)
-    if collection.find_one({"_id": user})[sablon] in ["1", "2", "3", "9"]:
+    if collection.find_one({"_id": user})['sablon'] in ["1", "2", "3", "9"]:
         samark.add(InlineKeyboardButton("➕ Şablon Oluştur", callback_data="sablon"))
     else:
         samark.add(InlineKeyboardButton("🔁 Varsayılan Şablonu Kullan", callback_data="vsablon"))
