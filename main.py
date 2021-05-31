@@ -625,6 +625,15 @@ def kaynakmark(user):
         
     return kmark
 
+def sablonmark(user):
+    samark = InlineKeyboardMarkup(row_width=2)
+    if collection.find_one({"_id": user})[sablon] in ["1", "2", "3", "9"]:
+        samark.add(InlineKeyboardButton("➕ Şablon Oluştur", callback_data="sablon"))
+    else:
+        samark.add(InlineKeyboardButton("🔁 Varsayılan Şablonu Kullan", callback_data="vsablon"))
+    samark.add(InlineKeyboardButton("❌ İptal ❌"))
+    return samark
+
 def patmark(user):
     zero = 0
     pmark = InlineKeyboardMarkup()
@@ -685,12 +694,11 @@ def menu(message):
             bot.send_message(chat, "Lütfen önce bir API kaydedin.")
             return
         if mj['sira'] == "1":
-            bot.send_message(chat, """<b>Şablon No:9</b>
+            bot.send_message(chat, """<b>Varsayılan Şablon</b>
 ----------------
 {aciklama} 
 
 𝙇𝙄𝙉𝙆🔗 {link} 
-
 
   𝙇𝙄𝙉𝙆🔗 {alink}
 
@@ -699,13 +707,12 @@ def menu(message):
 📌 Link Nasıl Açılır Bilmiyorsanız
 👉 @linkk_gecmee
 ----------------
-
-Üstteki şablonlardan kullanmak isterseniz, istediğiniz şablonun numarasını gönderin.""", reply_markup=markup)
-            msg = bot.send_message(chat, "<i>Eğer kendi şablonunuzu oluşturmak isterseniz üstteki şablonlardaki gibi</i> <b>{aciklama}, {alink}</b> ve <b>{link}</b> <i>kelimelerinin bulunduğundan emin olun yoksa şablon çalışmaz</i>", reply_markup=imark())
+""", reply_markup=markup)
+            msg = bot.send_message(chat, "<i>Kendi şablonunuzu oluşturmak isterseniz üstteki şablonlardaki gibi</i> <b>{aciklama}, {alink}</b> ve <b>{link}</b> <i>kelimelerinin bulunduğundan emin olun yoksa şablon çalışmaz</i>", reply_markup=imark())
             bot.register_next_step_handler(msg, sabloniki)
             return
         else:
-            bot.send_message(chat, """<b>Şablon No:1</b>
+            bot.send_message(chat, """<b>Varsayılan Şablon</b>
     ----------------
 🔥{aciklama}
 
@@ -713,22 +720,8 @@ def menu(message):
 
 📛 SESİ AÇ 'a tıklamayı unutma
 ----------------
-
-<b>Şablon No:2</b>
-----------------
-{aciklama} 
-
-𝙇𝙄𝙉𝙆🔗 {link}
-
-🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.
-
-📌 Link Nasıl Açılır Bilmiyorsanız
-
-👉 @linkgec06
-----------------
-
-Üstteki şablonlardan kullanmak isterseniz, istediğiniz şablonun numarasını gönderin.""", reply_markup=markup)
-            msg = bot.send_message(chat, "<i>Eğer kendi şablonunuzu oluşturmak isterseniz üstteki şablonlardaki gibi</i> <b>{aciklama}</b> ve <b>{link}</b> <i>kelimelerinin bulunduğundan emin olun yoksa şablon çalışmaz</i>", reply_markup=imark())
+""", reply_markup=markup)
+            msg = bot.send_message(chat, "<i>Kendi şablonunuzu oluşturmak isterseniz üstteki şablonlardaki gibi</i> <b>{aciklama}</b> ve <b>{link}</b> <i>kelimelerinin bulunduğundan emin olun yoksa şablon çalışmaz</i>", reply_markup=imark())
             bot.register_next_step_handler(msg, sabloniki)
             return
     if mesaj == "📝 Kaydet":
