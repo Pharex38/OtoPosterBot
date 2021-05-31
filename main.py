@@ -530,7 +530,6 @@ def callback_query(call):
             collection.update_one({"_id": user}, {"$set": {"sablon": "1"}})
         bot.edit_message_text("Varsayılana döndürüldü.", chat, mesajid)
         
-
 def sitemarkup():
     smark = InlineKeyboardMarkup()
     smark.row_width = 2
@@ -803,6 +802,9 @@ def menu(message):
             bot.send_message(chat, "Kanallarınız SFS moduna alındı. Siz modu kapatana kadar yeni post atılmayacak.", reply_markup=dugme())
             return
     if mesaj == "🥰 Bağış":
+        if user != sahip:
+            bot.send_message(chat, "Bu komut bakımda.")
+            return
         bot.send_message(chat, "🥰Madem bu kadar çok istiyorsun. \n\n🏧Papara: <code>1666982412</code> \n🏦İninal: <code>4003140030544</code>")
         return
     if mesaj == "⛓️ Elle Post Paylaş":
