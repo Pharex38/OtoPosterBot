@@ -515,6 +515,21 @@ def callback_query(call):
         if ptip == 'animation':
             bot.send_animation(kanal[o], fid, caption=psablon)
         bot.edit_message_text("✅<b>Postunuz  Kanalınıza Gönderildi!</b>", user, mesajid) 
+    """ Şablon """
+    if call.data == "sablon":
+        bot.delete_message(user, mesajid)
+        if collection.find_one({"_id": user})['sira'] == "1":
+            msz = bot.send_message(chat, "<i>Oluşturduğunuz şablonda</i> <b>{aciklama}, {alink}</b> ve <b>{link}</b> <i>kelimelerinin bulunduğundan emin olun yoksa şablon çalışmaz</i>", reply_markup=imark())
+        else:
+            msz = bot.send_message(chat, "<i>Oluşturduğunuz şablonda</i> <b>{aciklama}</b> ve <b>{link}</b> <i>kelimelerinin bulunduğundan emin olun yoksa şablon çalışmaz</i>", reply_markup=imark())
+        bot.register_next_step_handler(msz, sabloniki)
+    if call.data == "vsablon":
+        if collection.find_one({"_id": user})['sira'] == "1":
+            collection.update_one({"_id": user}, {"$set": {"sablon": "9"}})
+        else:
+            collection.update_one({"_id": user}, {"$set": {"sablon": "1"}})
+        bot.edit_message_text("Varsayılana döndürüldü.", chat, mesajid)
+        
 
 def sitemarkup():
     smark = InlineKeyboardMarkup()
@@ -631,7 +646,7 @@ def sablonmark(user):
         samark.add(InlineKeyboardButton("➕ Şablon Oluştur", callback_data="sablon"))
     else:
         samark.add(InlineKeyboardButton("🔁 Varsayılan Şablonu Kullan", callback_data="vsablon"))
-    samark.add(InlineKeyboardButton("❌ İptal ❌"))
+    samark.add(InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal"))
     return samark
 
 def patmark(user):
@@ -708,8 +723,6 @@ def menu(message):
 👉 @linkk_gecmee
 ----------------
 """, reply_markup=markup)
-            msg = bot.send_message(chat, "<i>Kendi şablonunuzu oluşturmak isterseniz üstteki şablonlardaki gibi</i> <b>{aciklama}, {alink}</b> ve <b>{link}</b> <i>kelimelerinin bulunduğundan emin olun yoksa şablon çalışmaz</i>", reply_markup=imark())
-            bot.register_next_step_handler(msg, sabloniki)
             return
         else:
             bot.send_message(chat, """<b>Varsayılan Şablon</b>
