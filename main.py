@@ -644,8 +644,8 @@ def sablonmark(user):
     if collection.find_one({"_id": user})['sablon'] in ["1", "2", "3", "9"]:
         samark.add(InlineKeyboardButton("➕ Şablon Oluştur", callback_data="sablon"))
     else:
-        samark.add(InlineKeyboardButton("➕ Şablon Değiştir", callback_data="sablon"))
-        samark.add(InlineKeyboardButton("🔁 Varsayılan Şablonu Kullan", callback_data="vsablon"))
+        samark.add(InlineKeyboardButton("➕ Şablon Değiştir ➕", callback_data="sablon"))
+        samark.add(InlineKeyboardButton("🔁 Varsayılan Şablonu Kullan 🔁", callback_data="vsablon"))
     samark.add(InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal"))
     return samark
 
