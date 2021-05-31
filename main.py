@@ -734,8 +734,6 @@ def menu(message):
 📛 SESİ AÇ 'a tıklamayı unutma
 ----------------
 """, reply_markup=sablonmark(user))
-            msg = bot.send_message(chat, "<i>Kendi şablonunuzu oluşturmak isterseniz üstteki şablonlardaki gibi</i> <b>{aciklama}</b> ve <b>{link}</b> <i>kelimelerinin bulunduğundan emin olun yoksa şablon çalışmaz</i>", reply_markup=imark())
-            bot.register_next_step_handler(msg, sabloniki)
             return
     if mesaj == "📝 Kaydet":
         try:
