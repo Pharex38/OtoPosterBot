@@ -705,36 +705,20 @@ def menu(message):
         bot.send_message(chat, """<b>Kullanmak istediğiniz kaynak kanalını seçin.</b>""", reply_markup=kaynakmark(user))
         return
     if mesaj == "📏 Şablon":
+        link = "https://ay.live/vRpKVx"
+        aciklama = "Pharex, lord adminin karısını sikerken lord adminn basıyor."
         if mj == None:
             bot.send_message(chat, "Lütfen önce bir API kaydedin.")
             return
-        if mj['sira'] == "1":
-            bot.send_message(chat, """<b>Varsayılan Şablon</b>
-----------------
-{aciklama} 
-
-𝙇𝙄𝙉𝙆🔗 {link} 
-
-  𝙇𝙄𝙉𝙆🔗 {alink}
-
-🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.
-
-📌 Link Nasıl Açılır Bilmiyorsanız
-👉 @linkk_gecmee
-----------------
-""", reply_markup=sablonmark(user))
-            return
+        if mj['sablon'] == "1":
+            bot.send_message(chat, f"Varsayılan Şablon:\n\n🔥{aciklama} \n\n🔱 TIKLA 👉 {link} \n\n📛 SESİ AÇ 'a tıklamayı unutma", reply_markup=kaynakmark(user))
+        elif mj['sablon'] == "2":
+            bot.send_message(chat, f"Varsayılan Şablon:\n\n{aciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {link}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06", reply_markup=kaynakmark(user))
+        elif mj['sablon'] == "9":
+            bot.send_message(chat, f"Varsayılan Şablon:\n\n{aciklama} \n\n𝙇𝙄𝙉𝙆🔗 {link} \n\n     𝙇𝙄𝙉𝙆🔗 {alink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee", reply_markup=kaynakmark(user))
         else:
-            bot.send_message(chat, """<b>Varsayılan Şablon</b>
-    ----------------
-🔥{aciklama}
-
-🔱 TIKLA 👉 {link}
-
-📛 SESİ AÇ 'a tıklamayı unutma
-----------------
-""", reply_markup=sablonmark(user))
-            return
+            bot.send_message(chat, f"Şablonunuz böyle gözükecek:\n\n{mj['sablon'].format(link, aciklama)}", reply_markup=sablonmark(user))
+        return
     if mesaj == "📝 Kaydet":
         try:
             tokenn = bina['token']
