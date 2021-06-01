@@ -32,7 +32,9 @@ def is_running():
 while True:
     if not is_running():
         dp.send_message(1302980840, "Bot çöktü!")
-    time.sleep(60)
+        break
+    else:
+        time.sleep(60)
 
 eskipidfile = open("dpid.txt", "r+")
 eskipid = eskipidfile.read()
