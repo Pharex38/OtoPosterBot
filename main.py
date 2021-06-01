@@ -68,12 +68,12 @@ for i in kaynaklar:
             acikmi = bot.get_chat(kaynaklar[4])
         except:
             bildir('Açık mı kaynağına bot ulaşamıyor')
-    elif index == 4:
+    elif index == 5:
         try:
             muho = bot.get_chat(kaynaklar[5])
         except:
             bildir('Muho kaynağına bot ulaşamıyor')
-    elif index == 5:
+    elif index == 6:
         try:
             tutan = bot.get_chat(kaynaklar[6])
         except:
@@ -1293,6 +1293,7 @@ def poster(message):
                         link = s.get(f"http://ouo.io/api/{altapi}?", params={'s': mesajb}).text
                     if site == "5":
                         link = s.get(f"http://pubiza.com/api.php?", params={'token': altapi, 'url': mesajb, 'ads_type': "adult"}).text
+                    print(json)
                     logger.info(f"{kanal} + {link} + {token}")
                 except Exception as e:
                     bot.send_message(user, "Son postunuz gönderilemedi;\n\nAPI adresiniz sıkıntılı veya sitenize ulaşılamıyor.")
