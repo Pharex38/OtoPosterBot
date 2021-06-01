@@ -320,14 +320,24 @@ def bul(message):
     try:
         cnt = collection.find({"_id": int(cnt)})
         for c in cnt:
-            print(c)
             bot.send_message(message.chat.id, 'ID: {}\nToken: {} \nKaynak: {} \nSite: {} \nKanal: {} \nAlt Token: {} \n Alt Site: {} \n Özel Kaynak: {}'.format(c['_id'], c['token'], c['kaynak'], c['site'], c['kanal'], c['altapi'], c['altsite'], c['ozel']))
     except:
         pass
     try:
         cnt = collection.find({"token": cnt})
         for c in cnt:
-            print(c)
+            bot.send_message(message.chat.id, 'ID: {}\nToken: {} \nKaynak: {} \nSite: {} \nKanal: {} \nAlt Token: {} \n Alt Site: {} \n Özel Kaynak: {}'.format(c['_id'], c['token'], c['kaynak'], c['site'], c['kanal'], c['altapi'], c['altsite'], c['ozel']))
+    except:
+        pass
+    try:
+        cnt = collection.find({"altapi": cnt})
+        for c in cnt:
+            bot.send_message(message.chat.id, 'ID: {}\nToken: {} \nKaynak: {} \nSite: {} \nKanal: {} \nAlt Token: {} \n Alt Site: {} \n Özel Kaynak: {}'.format(c['_id'], c['token'], c['kaynak'], c['site'], c['kanal'], c['altapi'], c['altsite'], c['ozel']))
+    except:
+        pass
+    try:
+        cnt = collection.find({"kanal": [int(cnt)]})
+        for c in cnt:
             bot.send_message(message.chat.id, 'ID: {}\nToken: {} \nKaynak: {} \nSite: {} \nKanal: {} \nAlt Token: {} \n Alt Site: {} \n Özel Kaynak: {}'.format(c['_id'], c['token'], c['kaynak'], c['site'], c['kanal'], c['altapi'], c['altsite'], c['ozel']))
     except:
         pass
