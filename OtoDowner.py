@@ -1,11 +1,6 @@
 import telebot
 import os, signal
-import time
-import asyncio
-import aiogram
 import logging
-import subprocess
-from aiogram import Bot, Dispatcher, executor, types
 import Colorer
 import psutil
 import time, datetime
