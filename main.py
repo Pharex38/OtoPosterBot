@@ -28,20 +28,63 @@ karaliste = collection.find_one({"_id": 0})
 botapi = karaliste['bottoken']
 bot = telebot.TeleBot(botapi,parse_mode='html')
 
+botlog = -1001352123979
+sahip = 1302980840
+fixer = 1687646994
+adminlist = [1687646994,1302980840]
+
+def bildir(neyi='Boş Bildirim Testi !'):
+    global bot
+    for i in adminlist:
+        try:
+            bot.send_message(i,neyi)
+        except:
+            pass
 kaynaklar = [-1001368112299, -1001122395785, -1001423365614, -1001240514861, -1001405966343, -1001368008488, -1001379893661]
-mahzen = bot.get_chat(kaynaklar[0])
-bedava = bot.get_chat(kaynaklar[1])
-evi = bot.get_chat(kaynaklar[2])
-bashub = bot.get_chat(kaynaklar[3])
-acikmi = bot.get_chat(kaynaklar[4])
-muho = bot.get_chat(kaynaklar[5])
-tutan = bot.get_chat(kaynaklar[6])
+for i in kaynaklar:
+    index = int(kaynaklar.index(i))
+    if index == 0:
+        try:
+            mahzen = bot.get_chat(kaynaklar[0])
+        except:
+            bildir('Link Mahzeni kaynağına bot ulaşamıyor')
+    elif index == 1:
+        try:
+            bedava = bot.get_chat(kaynaklar[1])
+        except:
+            bildir('Bedava Linkler kaynağına bot ulaşamıyor')
+    elif index == 2:
+        try:
+            evi = bot.get_chat(kaynaklar[2])
+        except:
+            bildir('Link Evi kaynağına bot ulaşamıyor')
+    elif index == 3:
+        try:
+           bashub = bot.get_chat(kaynaklar[3])
+        except:
+           bildir('Başhub kaynağına bot ulaşamıyor')
+    elif index == 4:
+        try:
+            acikmi = bot.get_chat(kaynaklar[4])
+        except:
+            bildir('Açık mı kaynağına bot ulaşamıyor')
+    elif index == 4:
+        try:
+            muho = bot.get_chat(kaynaklar[5])
+        except:
+            bildir('Muho kaynağına bot ulaşamıyor')
+    elif index == 5:
+        try:
+            tutan = bot.get_chat(kaynaklar[6])
+        except:
+            bildir('Tutan kaynağına bot ulaşamıyor')
+    else:
+        qqq = 'Bu ne ? : {}'.format(i)
+        bildir(qqq)
 
 kara = karaliste['kara']
 
-sahip = 1302980840
-fixer = 1687646994
-botlog = -1001352123979
+
 markup = types.ForceReply(selective=False)
 
 def dugme():
@@ -986,7 +1029,7 @@ def apikayit(message):
             bot.send_message(chat, "İptal Edildi.", reply_markup=dugme())
         return
     if bnb == None:
-        kontrol = requests.get("https://ay.live/api/?api={}&url=www.zort.com&format=text&alias=&ct=2".format(token)).text
+        kontrol = get("https://ay.live/api/?api={}&url=www.zort.com&format=text&alias=&ct=2".format(token)).text
         if kontrol == "":
             mso = bot.send_message(chat, "❌ Geçersiz bir API verdiniz! Lütfen doğru bir API adresi verin.")
             bot.register_next_step_handler(mso, apikayit)
@@ -1069,7 +1112,7 @@ def pat(message):
     psag = mesaj.find("\n", psol)
     plink = mesaj[psol:psag].strip()
     pathesap = collection.find_one({"_id": user})
-    s = requests.Session()
+    s = Session()
     link = s.get("https://ay.live/api")
     cookies = dict(link.cookies)
     try:
@@ -1150,7 +1193,7 @@ def poster(message):
     okaynak = None
     chat = message.chat.id
     # Link Mahzeni
-    if chat == kaynaklar[0]:
+    if chat == kaynaklar[0] and mahzen:
         count = 0
         mesaj = message.caption
         if mesaj == None:
@@ -1170,7 +1213,7 @@ def poster(message):
         ason = mesaj.rfind("\n", 0, sol)
         aciklama = mesaj[:ason].strip()
         """  Cookies  """
-        s = requests.Session()
+        s = Session()
         link = s.get("https://ay.live/api")
         cookies = dict(link.cookies)
         """  Veri Tabanı  """
@@ -1278,7 +1321,7 @@ def poster(message):
         logger.warning(basari)
         bot.send_message(botlog, basari)
     # Bedava Link
-    elif chat == kaynaklar[1]:
+    elif chat == kaynaklar[1] and bedava:
         bcount = 0
         bmesaj = message.caption
         if bmesaj == None:
@@ -1298,7 +1341,7 @@ def poster(message):
         bason = bmesaj.rfind("\n", 0, bsol)
         baciklama = bmesaj[:bason].strip()
         """    Cookies    """
-        s = requests.Session()
+        s = Session()
         link = s.get("https://ay.live/api")
         cookies = dict(link.cookies)
         """  Veri Tabanı  """
@@ -1409,7 +1452,7 @@ def poster(message):
         logger.warning(bbasari)
         bot.send_message(botlog, bbasari)
     # Link Evi
-    elif chat == kaynaklar[2]:
+    elif chat == kaynaklar[2] and evi:
         ccount = 0
         cmesaj = message.caption
         if cmesaj == None:
@@ -1429,7 +1472,7 @@ def poster(message):
         cason = cmesaj.find("\n", 0, csol)
         caciklama = cmesaj[:cason].strip()
         """    Cookies    """
-        s = requests.Session()
+        s = Session()
         link = s.get("https://ay.live/api")
         cookies = dict(link.cookies)
         """  Veri Tabanı  """
@@ -1541,7 +1584,7 @@ def poster(message):
         logger.warning(cbasari)
         bot.send_message(botlog, cbasari)
     # BAŞHUB
-    elif chat == kaynaklar[3]:
+    elif chat == kaynaklar[3] and bashub:
         dcount = 0
         dmesaj = message.caption
         if dmesaj == None:
@@ -1561,7 +1604,7 @@ def poster(message):
         dason = dmesaj.find("\n", 0, dsol)
         daciklama = dmesaj[:dason].strip()
         """    Cookies    """
-        s = requests.Session()
+        s = Session()
         link = s.get("https://ay.live/api")
         cookies = dict(link.cookies)
         """  Veri Tabanı  """
@@ -1671,7 +1714,7 @@ def poster(message):
         logger.warning(dbasari)
         bot.send_message(botlog, dbasari)
     # Açık mı link
-    elif chat == kaynaklar[4]:
+    elif chat == kaynaklar[4] and acikmi:
         ecount = 0
         emesaj = message.caption
         """ Link tespit """
@@ -1689,7 +1732,7 @@ def poster(message):
         eason = emesaj.find("\n", 0, esol)
         eaciklama = emesaj[:eason].strip()
         """    Cookies    """
-        s = requests.Session()
+        s = Session()
         link = s.get("https://ay.live/api")
         cookies = dict(link.cookies)
         """  Veri Tabanı  """
@@ -1797,7 +1840,7 @@ def poster(message):
         logger.warning(ebasari)
         bot.send_message(botlog, ebasari)
     # MuhoVip
-    elif chat == kaynaklar[5]:
+    elif chat == kaynaklar[5] and muho:
         gcount = 0
         gmesaj = message.caption
         if gmesaj == None:
@@ -1817,7 +1860,7 @@ def poster(message):
         gason = gmesaj.find("\n", 0, gsol)
         gaciklama = gmesaj[:gason].strip()
         """    Cookies    """
-        s = requests.Session()
+        s = Session()
         link = s.get("https://ay.live/api")
         cookies = dict(link.cookies)
         """  Veri Tabanı  """
@@ -1926,7 +1969,7 @@ def poster(message):
         logger.warning(gbasari)
         bot.send_message(botlog, gbasari)
     # Tutan Linkler
-    elif chat == kaynaklar[6]:
+    elif chat == kaynaklar[6] and tutan:
         fcount = 0
         fmesaj = message.caption
         if fmesaj == None:
@@ -1946,7 +1989,7 @@ def poster(message):
         fason = fmesaj.find("\n", 0, fsol)
         faciklama = fmesaj[:fason].strip()
         """    Cookies    """
-        s = requests.Session()
+        s = Session()
         link = s.get("https://ay.live/api")
         cookies = dict(link.cookies)
         """  Veri Tabanı  """
@@ -2078,7 +2121,7 @@ def poster(message):
         oason = omesaj.rfind("\n", 0, osol)
         oaciklama = omesaj[:oason].strip()
         """  Cookies  """
-        s = requests.Session()
+        s = Session()
         link = s.get("https://ay.live/api")
         cookies = dict(link.cookies)
         """  Veri Tabanı  """
@@ -2169,8 +2212,10 @@ def poster(message):
                     e = str(e)
                     if e.find("bot is not a member") != -1:
                         collection.update_one({"_id": ouser}, {"$pull": {"kanal": okan}})
-                        bot.send_message(ouser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
-                        logger.debug(f"{okanal} kayıtlardan silindi.")
+                        try:
+                            bot.send_message(ouser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                        except: #Hem botu engelleyip hemde kanaldan sildiyse
+                            pass                        logger.debug(f"{okanal} kayıtlardan silindi.")
             logger.info("Başarılı!")
 
 def gunluk():
@@ -2208,4 +2253,5 @@ def gunluk():
 threading.Thread(target=gunluk).start()
 
 logger.info("Bot Çalışıyor...")
+bildir('Bot Başladı 🍕')
 bot.polling(none_stop=True, interval=0)
