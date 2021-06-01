@@ -320,7 +320,7 @@ def bul(message):
     cnt = collection.find({"_id": cnt})
     for c in cnt:
         print(c)
-        bot.send_message(message.chat.id, str(c))
+        bot.send_message(message.chat.id, 'ID: {}\nToken: {} \nKaynak: {} \nSite: {} \nKanal: {} \nAlt Token: {} \n Alt Site: {} \n Özel Kaynak: {}'.format(c['_id'], c['token'], c['kaynak'], c['site'], c['kanal'], c['altapi'], c['altsite'], c['ozel']))
 
 @bot.message_handler(commands=['onayla'])
 def ona(m):
