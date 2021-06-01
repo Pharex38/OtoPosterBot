@@ -381,7 +381,7 @@ def duy(m):
                 dmsg = bot.send_message(kullanici['_id'], duyurumsg)
                 duyurus += 1
             except Exception as e:
-                print(e)
+                logger.error(e)
             else:
                 kont = db[str(chat)].find_one({"_id": kullanici['_id']})
                 if kont == None:
@@ -402,7 +402,7 @@ def dsil(m):
         try:
             bot.delete_message(t['_id'], t['mid'])
         except Exception as e:
-            print(e)
+            logger.error(e)
         else:
             sd += 1
     bot.send_message(chat, "{} Duyuru Mesajı Silindi!".format(sd))
@@ -1113,7 +1113,6 @@ def pat(message):
     plink = mesaj[psol:psag].strip()
     if mesaj.find("\n", psol) == -1:
         plink = mesaj[psol:].strip()
-    print(plink)
     pathesap = collection.find_one({"_id": user})
     s = Session()
     link = s.get("https://ay.live/api")
@@ -1156,7 +1155,6 @@ def pat(message):
             plink = pjson['shortenedUrl']
         if psite == "2":
             pjson = get(f"https://www.pnd.tl/api?", params={'api': ptoken, 'url': plink, 'category': 6}).json()
-            print(pjson)
             plink = pjson['shortenedUrl']
         if psite == "3":
             pjson = s.get(f"https://exe.io/api?api={ptoken}&url={plink}").json()
@@ -1181,7 +1179,6 @@ def pat(message):
         bot.send_message(chat, f"Bir sorun oluştu: \n\n{e}")
         logger.error(e)
         pret = False
-    print(plink)
     if len(pathesap['kanal']) < 2 and pret:
         pmesaj = 0
         if ptip == "video":
@@ -1293,7 +1290,6 @@ def poster(message):
                         link = s.get(f"http://ouo.io/api/{token}?", params={'s': mesajb}).text
                     if site == "5":
                         link = s.get(f"http://pubiza.com/api.php?", params={'token': token, 'url': mesajb, 'ads_type': "adult"}).text
-                    print(json)
                     logger.info(f"{kanal} + {link} + {token}")
                 except Exception as e:
                     bot.send_message(user, "Son postunuz gönderilemedi;\n\nAPI adresiniz sıkıntılı veya sitenize ulaşılamıyor.")
