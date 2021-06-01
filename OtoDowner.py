@@ -30,10 +30,10 @@ def is_running():
     logs.warning("İşlem Bulunamadı.")
     return False
 
-async def kontrol():
+def kontrol():
     while True:
         if not is_running():
-            await dp.send_message(1302980840, "Bot çöktü!")
+            dp.send_message(1302980840, "Bot çöktü!")
             break
         else:
             time.sleep(60)
