@@ -1281,18 +1281,18 @@ def poster(message):
                         if altsite == "5":
                             alink = s.get(f"http://pubiza.com/api.php?", params={'token': altapi, 'url': mesajb, 'ads_type': "adult"}).text
                     if site == "1":
-                        json = s.get(f"https://ay.live/api/?", params={'api': altapi, 'url': mesajb, 'ct': 1}, cookies=cookies).json()
+                        json = s.get(f"https://ay.live/api/?", params={'api': token, 'url': mesajb, 'ct': 1}, cookies=cookies).json()
                         link = json['shortenedUrl']
                     if site == "2":
-                        json = s.get(f"https://www.pnd.tl/api?", params={'api': altapi, 'url': mesajb, 'category': 6}).json()
+                        json = s.get(f"https://www.pnd.tl/api?", params={'api': token, 'url': mesajb, 'category': 6}).json()
                         link = json['shortenedUrl']
                     if site == "3":
-                        json = s.get(f"https://exe.io/api?", params={'api': altapi, 'url': mesajb}).json()
+                        json = s.get(f"https://exe.io/api?", params={'api': token, 'url': mesajb}).json()
                         link = json['shortenedUrl']
                     if site == "4":
-                        link = s.get(f"http://ouo.io/api/{altapi}?", params={'s': mesajb}).text
+                        link = s.get(f"http://ouo.io/api/{token}?", params={'s': mesajb}).text
                     if site == "5":
-                        link = s.get(f"http://pubiza.com/api.php?", params={'token': altapi, 'url': mesajb, 'ads_type': "adult"}).text
+                        link = s.get(f"http://pubiza.com/api.php?", params={'token': token, 'url': mesajb, 'ads_type': "adult"}).text
                     print(json)
                     logger.info(f"{kanal} + {link} + {token}")
                 except Exception as e:
