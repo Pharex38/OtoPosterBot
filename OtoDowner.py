@@ -34,9 +34,8 @@ except Exception as e:
 logs.info("Eski İşlem Kapatıldı")
 
 def is_running():
-    napidd = open("pid.txt", "r+").read()
+    anapid = open("pid.txt", "r+").read()
     for q in psutil.process_iter():
-        
         if q.name().startswith('python'):
             print(q.pid)
             
