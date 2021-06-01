@@ -36,7 +36,7 @@ async def kontrol():
             break
         else:
             time.sleep(60)
-kontrol()
+
 
 eskipidfile = open("dpid.txt", "r+")
 eskipid = eskipidfile.read()
