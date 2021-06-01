@@ -40,7 +40,7 @@ def is_running():
             print(q.pid)
             
             if q.pid == int(anapid):
-                print(" Process is already running")
+                print("İşlem hâlâ çalışıyor.")
                 return True
 
     return False
