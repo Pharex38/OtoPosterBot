@@ -50,7 +50,7 @@ try:
 except Exception as e:
     print("ikinci: {}".format(e))
 else:
-    execfile("basla.bat")
+    os.startfile("basla.bat")
 logs.info("Eski İşlem Kapatıldı")
 
 @bot.message_handler(commands=['start', 'help'])
