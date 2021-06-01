@@ -16,7 +16,6 @@ yetkili = [1613760981, 755051086, 1302980840]
 logging.basicConfig(format="%(asctime)s - %(levelname)s - %(message)s",level=logging.INFO)
 logs = logging.getLogger(__name__)
 
-# Initialize bot and dispatcher
 dp = Bot(token=token)
 bot = Dispatcher(dp)
 
@@ -33,7 +32,14 @@ except Exception as e:
     print("ikinci: {}".format(e))
 logs.info("Eski İşlem Kapatıldı")
 
+def is_running(script):
+    for q in psutil.process_iter():
+        if q.name().startswith('python'):
+            if len(q.cmdline())>1 and script in q.cmdline()[1] and q.pid != int(anapid):
+                print("'{}' Process is already running".format(script))
+                return True
 
+    return False
 
 @bot.message_handler(commands=['start', 'help'])
 async def send_welcome(message: types.Message):
