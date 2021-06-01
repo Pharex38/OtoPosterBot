@@ -1464,7 +1464,7 @@ def poster(message):
                     except Exception as e:
                         logger.debug(f"Hatalı kanal: {bkanal}")
                         e = str(e)
-                        if e.find("bot is not a member") != -1:
+                        if e.find("bot is") != -1:
                             collection.update_one({"_id": buser}, {"$pull": {"kanal": bkan}})
                         try:
                             bot.send_message(buser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
@@ -1601,7 +1601,7 @@ def poster(message):
                     except Exception as e:
                         logger.debug(f"Hatalı kanal: {ckanal}")
                         e = str(e)
-                        if e.find("bot is not a member") != -1:
+                        if e.find("bot is") != -1:
                             collection.update_one({"_id": cuser}, {"$pull": {"kanal": ckan}})
                         try:
                             bot.send_message(cuser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
@@ -1736,7 +1736,7 @@ def poster(message):
                     except Exception as e:
                         logger.debug(f"Hatalı kanal: {dkanal}")
                         e = str(e)
-                        if e.find("bot is not a member") != -1:
+                        if e.find("bot is") != -1:
                             collection.update_one({"_id": duser}, {"$pull": {"kanal": dkan}})
                         try:
                             bot.send_message(duser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
@@ -1867,7 +1867,7 @@ def poster(message):
                     except Exception as e:
                         logger.debug(f"Hatalı kanal: {ekanal}")
                         e = str(e)
-                        if e.find("bot is not a member") != -1:
+                        if e.find("bot is") != -1:
                             collection.update_one({"_id": euser}, {"$pull": {"kanal": ekan}})
                         try:
                             bot.send_message(euser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
@@ -2001,7 +2001,7 @@ def poster(message):
                     except Exception as e:
                         logger.debug(f"Hatalı kanal: {gkanal}")
                         e = str(e)
-                        if e.find("bot is not a member") != -1:
+                        if e.find("bot is") != -1:
                             collection.update_one({"_id": guser}, {"$pull": {"kanal": gkan}})
                         try:
                             bot.send_message(guser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
@@ -2136,7 +2136,7 @@ def poster(message):
                     except Exception as e:
                         logger.debug(f"Hatalı kanal: {fkanal}")
                         e = str(e)
-                        if e.find("bot is not a member") != -1:
+                        if e.find("bot is") != -1:
                             collection.update_one({"_id": fuser}, {"$pull": {"kanal": fkan}})
                         try:
                             bot.send_message(fuser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
@@ -2262,7 +2262,7 @@ def poster(message):
                 except Exception as e:
                     logger.debug(f"Hatalı kanal: {okanal}")
                     e = str(e)
-                    if e.find("bot is not a member") != -1:
+                    if e.find("bot is") != -1:
                         collection.update_one({"_id": ouser}, {"$pull": {"kanal": okan}})
                         try:
                             bot.send_message(ouser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
