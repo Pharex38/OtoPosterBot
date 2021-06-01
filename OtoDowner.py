@@ -38,7 +38,8 @@ def is_running(script):
         
         if q.name().startswith('python'):
             print(q)
-            if len(q.cmdline())>1 and script in q.cmdline()[1] and q.pid != int(anapid):
+            if len(q.cmdline())>1 and q.pid !
+            == int(anapid):
                 print("'{}' Process is already running".format(script))
                 return True
 
