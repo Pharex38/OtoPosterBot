@@ -1210,6 +1210,8 @@ def poster(message):
         """  Link tespit  """
         solx = mesaj.rfind("http")
         sol = mesaj.find("http")
+        if sol == -1:
+            return
         if sol != solx:
             return
         sag = mesaj.find("\n", sol)
@@ -1344,6 +1346,8 @@ def poster(message):
         """ Link tespit """
         bsolx = bmesaj.rfind("http")
         bsol = bmesaj.find("http")
+        if bsol == -1:
+            return
         bsag = bmesaj.find("\n", bsol)
         if bsol != bsolx:
             return
@@ -1480,6 +1484,8 @@ def poster(message):
         """ Link tespit """
         csolx = cmesaj.rfind("http")
         csol = cmesaj.find("http")
+        if csol == -1:
+            return
         if csol != csolx:
             return
         csag = cmesaj.find("\n", csol)
@@ -1617,6 +1623,8 @@ def poster(message):
         """ Link tespit """
         dsolx = dmesaj.rfind("http")
         dsol = dmesaj.find("http")
+        if dsol == -1:
+            return
         if dsol != dsolx:
             return
         dsag = dmesaj.find("\n", dsol)
@@ -1750,6 +1758,8 @@ def poster(message):
         """ Link tespit """
         esolx = emesaj.rfind("http")
         esol = emesaj.find("http")
+        if esol == -1:
+            return
         if esol != esolx:
             return
         esag = emesaj.find("\n", esol)
@@ -1883,6 +1893,8 @@ def poster(message):
         """ Link tespit """
         gsolx = gmesaj.rfind("http")
         gsol = gmesaj.find("http")
+        if gsol == -1:
+            return
         if gsol != gsolx:
             return
         gkynk = bot.get_chat(chat)
@@ -2017,6 +2029,8 @@ def poster(message):
         """ Link tespit """
         fsolx = fmesaj.rfind("http")
         fsol = fmesaj.find("http")
+        if fsol == -1:
+            return
         if fsol != fsolx:
             return
         fsag = fmesaj.find("\n", fsol)
@@ -2154,6 +2168,8 @@ def poster(message):
         """  Link tespit  """
         osolx = omesaj.rfind("http")
         osol = omesaj.find("http")
+        if osol == -1:
+            return
         if osol != osolx:
             return
         osag = omesaj.find("\n", osol)
