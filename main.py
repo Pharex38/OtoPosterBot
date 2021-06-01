@@ -1222,13 +1222,14 @@ def poster(message):
             mesajb = mesaj[sol:].strip()
         if mesajb.startswith("https://t.me/"):
             return
+        logger.warning(mesajb)
         logger.warning("{} postu atılıyor... ".format(kynk.title))
         """  Açıklama tespit  """
         ason = mesaj.rfind("\n", 0, sol)
         aciklama = mesaj[:ason].strip()
         """  Cookies  """
         s = Session()
-        link = s.get("https://ay.live/api")
+        link = s.get("https://ay.live/")
         cookies = dict(link.cookies)
         """  Veri Tabanı  """
         postdata = db[str(chat)]
