@@ -1155,7 +1155,7 @@ def pat(message):
             pjson = s.get(f"https://ay.live/api/?api={ptoken}&url={plink}&alias=&ct=1", cookies=cookies).json()
             plink = pjson['shortenedUrl']
         if psite == "2":
-            pjson = s.get(f"https://www.pnd.tl/api?", params={'api': altapi, 'url': mesajb, 'category': 6}).json()
+            pjson = s.get(f"https://www.pnd.tl/api?", params={'api': ptoken, 'url': mesajb, 'category': 6}).json()
             plink = pjson['shortenedUrl']
         if psite == "3":
             pjson = s.get(f"https://exe.io/api?api={ptoken}&url={plink}").json()
@@ -1194,8 +1194,9 @@ def pat(message):
     patc.psablon = psablon
     patc.ptip = ptip
     patc.fid = fid
-    bot.send_message(chat, "Post Hazırlandı!", reply_markup=dugme())
-    bot.send_message(chat, "<i>Postun gönderilmesini istediğin kanalı seç.</i>", reply_markup=patmark(user))
+    if pret:
+        bot.send_message(chat, "Post Hazırlandı!", reply_markup=dugme())
+        bot.send_message(chat, "<i>Postun gönderilmesini istediğin kanalı seç.</i>", reply_markup=patmark(user))
 
 @bot.channel_post_handler(content_types=['photo', 'animation', 'video'])
 def poster(message):
