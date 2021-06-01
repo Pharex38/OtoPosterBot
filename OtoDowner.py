@@ -7,7 +7,6 @@ import logging
 import subprocess
 from aiogram import Bot, Dispatcher, executor, types
 import Colorer
-import Threading
 import time, datetime
 
 token = "***REMOVED-BOT-TOKEN***"
