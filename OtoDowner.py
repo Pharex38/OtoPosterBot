@@ -9,6 +9,7 @@ from aiogram import Bot, Dispatcher, executor, types
 import Colorer
 import psutil
 import time, datetime
+import threading
 
 token = "***REMOVED-BOT-TOKEN***"
 
@@ -115,11 +116,9 @@ async def stop(message: types.Message):
     pidd.write("down")
     await dp.send_message(chat, "Bot Durduruldu.")
 
-
+threading.Thread(target=kontrol).start()
 
 
 if __name__ == '__main__':
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(kontrol())
     logs.info("Bot Çalışıyor...")
     executor.start_polling(bot, skip_updates=True)
