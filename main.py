@@ -317,6 +317,9 @@ def stats(message):
 @bot.message_handler(commands=['bul'])
 def bul(message):
     cnt = message.text.split()[1] if len(message.text.split()) > 1 else int(message.from_user.id)
+    if not message.from_user.id in adminlist:
+        bot.send_message(message.chat.id, "Sie")
+        return
     try:
         cnt = collection.find({"_id": int(cnt)})
         for c in cnt:
