@@ -316,15 +316,21 @@ def stats(message):
 
 @bot.message_handler(commands=['bul'])
 def bul(message):
-    cnt = int(message.text.split()[1]) if len(message.text.split()) > 1 else int(message.from_user.id)
-    cnt = collection.find({"_id": cnt})
-    for c in cnt:
-        print(c)
-        bot.send_message(message.chat.id, 'ID: {}\nToken: {} \nKaynak: {} \nSite: {} \nKanal: {} \nAlt Token: {} \n Alt Site: {} \n Özel Kaynak: {}'.format(c['_id'], c['token'], c['kaynak'], c['site'], c['kanal'], c['altapi'], c['altsite'], c['ozel']))
-    cnt = collection.find({"token": cnt})
-    for c in cnt:
-        print(c)
-        bot.send_message(message.chat.id, 'ID: {}\nToken: {} \nKaynak: {} \nSite: {} \nKanal: {} \nAlt Token: {} \n Alt Site: {} \n Özel Kaynak: {}'.format(c['_id'], c['token'], c['kaynak'], c['site'], c['kanal'], c['altapi'], c['altsite'], c['ozel']))
+    cnt = message.text.split()[1] if len(message.text.split()) > 1 else int(message.from_user.id)
+    try:
+        cnt = collection.find({"_id": int(cnt)})
+        for c in cnt:
+            print(c)
+            bot.send_message(message.chat.id, 'ID: {}\nToken: {} \nKaynak: {} \nSite: {} \nKanal: {} \nAlt Token: {} \n Alt Site: {} \n Özel Kaynak: {}'.format(c['_id'], c['token'], c['kaynak'], c['site'], c['kanal'], c['altapi'], c['altsite'], c['ozel']))
+    except:
+        pass
+    try:
+        cnt = collection.find({"token": cnt})
+        for c in cnt:
+            print(c)
+            bot.send_message(message.chat.id, 'ID: {}\nToken: {} \nKaynak: {} \nSite: {} \nKanal: {} \nAlt Token: {} \n Alt Site: {} \n Özel Kaynak: {}'.format(c['_id'], c['token'], c['kaynak'], c['site'], c['kanal'], c['altapi'], c['altsite'], c['ozel']))
+    except:
+        pass
 
 @bot.message_handler(commands=['onayla'])
 def ona(m):
