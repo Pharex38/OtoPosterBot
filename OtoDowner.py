@@ -37,12 +37,10 @@ def is_running():
     anapid = open("pid.txt", "r+").read()
     for q in psutil.process_iter():
         if q.name().startswith('python'):
-            print(q.pid)
-            
             if q.pid == int(anapid):
                 logs.info("İşlem hâlâ çalışıyor.")
                 return True
-
+    logs.warning("İşlem Bulunamadı.")
     return False
 
 
