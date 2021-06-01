@@ -1206,6 +1206,8 @@ def poster(message):
         sag = mesaj.find("\n", sol)
         kynk = bot.get_chat(chat)
         mesajb = mesaj[sol:sag].strip()
+        if mesaj.find("\n", sol) == -1:
+            mesajb = mesaj[sol:].strip()
         if mesajb.startswith("https://t.me/"):
             return
         logger.warning("{} postu atılıyor... ".format(kynk.title))
@@ -1252,31 +1254,31 @@ def poster(message):
                         collection.update_one({"_id": user}, {"$set": {"sira": "2"}})
                     if not altapi == "None":
                         if altsite == "1":
-                            json = s.get(f"https://ay.live/api/?api={altapi}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
+                            json = s.get(f"https://ay.live/api/?", params={'api': altapi, 'url': mesajb, 'ct': 1}, cookies=cookies).json()
                             alink = json['shortenedUrl']
                         if altsite == "2":
-                            json = s.get(f"https://www.pnd.tl/api?api={altapi}&url={mesajb}&category=6").json()
+                            json = s.get(f"https://www.pnd.tl/api?", params={'api': altapi, 'url': mesajb, 'category': 6}).json()
                             alink = json['shortenedUrl']
                         if altsite == "3":
-                            json = s.get(f"https://exe.io/api?api={altapi}&url={mesajb}").json()
+                            json = s.get(f"https://exe.io/api?", params={'api': altapi, 'url': mesajb}).json()
                             alink = json['shortenedUrl']
                         if altsite == "4":
-                            alink = s.get(f"http://ouo.io/api/{altapi}?s={mesajb}").text
+                            alink = s.get(f"http://ouo.io/api/{altapi}?", params={'s': mesajb}).text
                         if altsite == "5":
-                            alink = s.get(f"http://pubiza.com/api.php?token={altapi}&url={mesajb}&ads_type=adult").text
+                            alink = s.get(f"http://pubiza.com/api.php?", params={'token': altapi, 'url': mesajb, 'ads_type': "adult"}).text
                     if site == "1":
-                        json = s.get(f"https://ay.live/api/?api={token}&url={mesajb}&alias=&ct=1", cookies=cookies).json()
+                        json = s.get(f"https://ay.live/api/?", params={'api': altapi, 'url': mesajb, 'ct': 1}, cookies=cookies).json()
                         link = json['shortenedUrl']
                     if site == "2":
-                        json = s.get(f"https://www.pnd.tl/api?api={token}&url={mesajb}&category=6").json()
+                        json = s.get(f"https://www.pnd.tl/api?", params={'api': altapi, 'url': mesajb, 'category': 6}).json()
                         link = json['shortenedUrl']
                     if site == "3":
-                        json = s.get(f"https://exe.io/api?api={token}&url={mesajb}").json()
+                        json = s.get(f"https://exe.io/api?", params={'api': altapi, 'url': mesajb}).json()
                         link = json['shortenedUrl']
                     if site == "4":
-                        link = s.get(f"http://ouo.io/api/{token}?s={mesajb}").text
+                        link = s.get(f"http://ouo.io/api/{altapi}?", params={'s': mesajb}).text
                     if site == "5":
-                        link = s.get(f"http://pubiza.com/api.php?token={token}&url={mesajb}&ads_type=adult").text
+                        link = s.get(f"http://pubiza.com/api.php?", params={'token': altapi, 'url': mesajb, 'ads_type': "adult"}).text
                     logger.info(f"{kanal} + {link} + {token}")
                 except Exception as e:
                     bot.send_message(user, "Son postunuz gönderilemedi;\n\nAPI adresiniz sıkıntılı veya sitenize ulaşılamıyor.")
@@ -1336,6 +1338,8 @@ def poster(message):
         if bsol != bsolx:
             return
         bmesajb = bmesaj[bsol:bsag].strip()
+        if bmesaj.find("\n", bsol) == -1:
+            bmesajb = bmesaj[bsol:].strip()
         if bmesajb.startswith("https://t.me/"):
             return
         bkynk = bot.get_chat(chat)
@@ -1470,6 +1474,8 @@ def poster(message):
             return
         csag = cmesaj.find("\n", csol)
         cmesajb = cmesaj[csol:csag].strip()
+        if cmesaj.find("\n", csol) == -1:
+            cmesajb = cmesaj[csol:].strip()
         if cmesajb.startswith("https://t.me/"):
             return
         ckynk = bot.get_chat(chat)
@@ -1605,6 +1611,8 @@ def poster(message):
             return
         dsag = dmesaj.find("\n", dsol)
         dmesajb = dmesaj[dsol:dsag].strip()
+        if dmesaj.find("\n", dsol) == -1:
+            dmesajb = dmesaj[dsol:].strip()
         if dmesajb.startswith("https://t.me/"):
             return
         dkynk = bot.get_chat(chat)
@@ -1736,6 +1744,8 @@ def poster(message):
             return
         esag = emesaj.find("\n", esol)
         emesajb = emesaj[esol:esag].strip()
+        if emesaj.find("\n", esol) == -1:
+            emesajb = emesaj[esol:].strip()
         if emesajb.startswith("https://t.me/"):
             return
         ekynk = bot.get_chat(chat)
@@ -1868,6 +1878,8 @@ def poster(message):
         gkynk = bot.get_chat(chat)
         gsag = gmesaj.find("\n", gsol)
         gmesajb = gmesaj[gsol:gsag].strip()
+        if gmesaj.find("\n", gsol) == -1:
+            gmesajb = gmesaj[gsol:].strip()
         if gmesajb.startswith("https://t.me/"):
             return
         logger.warning("{} postu atılıyor... ".format(gkynk.title))
@@ -1999,6 +2011,8 @@ def poster(message):
             return
         fsag = fmesaj.find("\n", fsol)
         fmesajb = fmesaj[fsol:fsag].strip()
+        if gmesaj.find("\n", gsol) == -1:
+            gmesajb = gmesaj[gsol:].strip()
         if fmesajb.startswith("https://t.me/"):
             return
         fkynk = bot.get_chat(chat)
@@ -2135,6 +2149,8 @@ def poster(message):
         osag = omesaj.find("\n", osol)
         okynk = bot.get_chat(chat)
         omesajb = omesaj[osol:osag].strip()
+        if omesaj.find("\n", osol) == -1:
+            omesajb = omesaj[osol:].strip()
         if omesajb.startswith("https://t.me/"):
             return
         logger.warning("{} postu atılıyor... ".format(okynk.title))
