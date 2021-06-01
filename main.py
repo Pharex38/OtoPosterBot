@@ -897,7 +897,7 @@ def ozelk(message):
     if message.forward_from_chat:
         ileti = message.forward_from_chat.id
         OzelCol.update_one({"_id": user}, {"$set": {"okaynak": ileti}})
-        collection.update_one({"_id": user}, {"$set": {"ozel": True, "kaynak": ["31"]}})
+        collection.update_one({"_id": user}, {"$set": {"ozel": True, "kaynak": ["32"]}})
         bot.send_message(message.chat.id, "<b>Özel Kaynak Oluşturuldu!</b>", reply_markup=dugme())
 
 def kaynake(message):
