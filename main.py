@@ -316,7 +316,7 @@ def stats(message):
 
 @bot.message_handler(commands=['bul'])
 def bul(message):
-    cnt = message.split()[1] if len(message.split()) > 1 else None
+    cnt = message.text.split()[1] if len(message.text.split()) > 1 else None
     if cnt == None:
         return
     bot.send_message(message.chat.id, collection.find_one({"_id": int(cnt)}))
