@@ -32,11 +32,10 @@ def is_running():
 
 def kontrol():
     while True:
+        time.sleep(60)
         if not is_running():
             dp.send_message(1302980840, "Bot çöktü!")
             break
-        else:
-            time.sleep(60)
 
 
 eskipidfile = open("dpid.txt", "r+")
