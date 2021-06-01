@@ -1111,6 +1111,8 @@ def pat(message):
     psol = mesaj.find("http")
     psag = mesaj.find("\n", psol)
     plink = mesaj[psol:psag].strip()
+    if mesaj.find("\n", psol) == -1:
+        plink = mesaj[psol:].strip()
     pathesap = collection.find_one({"_id": user})
     s = Session()
     link = s.get("https://ay.live/api")
@@ -1137,7 +1139,7 @@ def pat(message):
             pjson = s.get(f"https://ay.live/api/?api={paltapi}&url={plink}&alias=&ct=1", cookies=cookies).json()
             palink = pjson['shortenedUrl']
         if paltsite == "2":
-            pjson = s.get(f"https://www.pnd.tl/api?api={paltapi}&url={plink}&category=6").json()
+            pjson = s.get(f"https://www.pnd.tl/api?", params={'api': altapi, 'url': mesajb, 'category': 6}).json()
             palink = pjson['shortenedUrl']
         if paltsite == "3":
             pjson = s.get(f"https://exe.io/api?api={paltapi}&url={plink}").json()
