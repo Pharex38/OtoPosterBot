@@ -336,13 +336,13 @@ def bul(message):
     except:
         pass
     try:
-        cnt = collection.find({"kanal": [cnt]})
+        cnt = collection.find({"kanal": [str(cnt)]})
         for c in cnt:
             bot.send_message(message.chat.id, 'ID: {}\nToken: {} \nKaynak: {} \nSite: {} \nKanal: {} \nAlt Token: {} \n Alt Site: {} \n Özel Kaynak: {}'.format(c['_id'], c['token'], c['kaynak'], c['site'], c['kanal'], c['altapi'], c['altsite'], c['ozel']))
     except:
         pass
     try:
-        cnt = collection.find({"site": cnt})
+        cnt = collection.find({"site": str(cnt)})
         for c in cnt:
             bot.send_message(message.chat.id, 'ID: {}\nToken: {} \nKaynak: {} \nSite: {} \nKanal: {} \nAlt Token: {} \n Alt Site: {} \n Özel Kaynak: {}'.format(c['_id'], c['token'], c['kaynak'], c['site'], c['kanal'], c['altapi'], c['altsite'], c['ozel']))
     except:
