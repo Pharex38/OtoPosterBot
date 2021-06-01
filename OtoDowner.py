@@ -29,7 +29,7 @@ def is_running():
     logs.warning("İşlem Bulunamadı.")
     return False
 
-while True:
+async while True:
     if not is_running():
         dp.send_message(1302980840, "Bot çöktü!")
         break
