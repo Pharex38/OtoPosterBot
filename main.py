@@ -1327,7 +1327,7 @@ def poster(message):
                     except Exception as e:
                         logger.debug(f"Hatalı kanal: {kanal}")
                         e = str(e)
-                        if e.find("bot is not a member") != -1:
+                        if e.find("bot is") != -1:
                             collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
                         try:
                             bot.send_message(user, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
