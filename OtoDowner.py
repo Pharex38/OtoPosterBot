@@ -71,7 +71,7 @@ def run(message):
             islem = os.kill(int(pid), 9)
         except:
             pass
-        asyncio.sleep(1)
+        time.sleep(1)
         os.startfile('basla.bat')
         bot.send_message(chat, "Yeniden Başlatıldı!")
         return
