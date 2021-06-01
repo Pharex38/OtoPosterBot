@@ -18,8 +18,8 @@ yetkili = [1613760981, 755051086, 1302980840]
 logging.basicConfig(format="%(asctime)s - %(levelname)s - %(message)s",level=logging.INFO)
 logs = logging.getLogger(__name__)
 
-dp = Bot(token=token)
-bot = Dispatcher(dp)
+bot = telebot.TeleBot(token,parse_mode='html')
+
 def is_running():
     anapid = open("pid.txt", "r+").read()
     for q in psutil.process_iter():
@@ -30,11 +30,11 @@ def is_running():
     logs.warning("İşlem Bulunamadı.")
     return False
 
-async def kontrol():
+def kontrol():
     while True:
         time.sleep(60)
         if not is_running():
-            await dp.send_message(1302980840, "Bot çöktü!")
+            bot.send_message(1302980840, "Bot çöktü!")
 
 
 eskipidfile = open("dpid.txt", "r+")
@@ -53,21 +53,21 @@ else:
 logs.info("Eski İşlem Kapatıldı")
 
 @bot.message_handler(commands=['start', 'help'])
-async def send_welcome(message: types.Message):
+def send_welcome(message):
     chat = message.chat.id
     pid = open("pid.txt", "r").read()
     if is_running():
         durum = "Aktif!"
     else:
         durum = "Kapalı!"
-    await dp.send_message(chat, "Merhaba!\n\nDurum: {}".format(durum))
+    bot.send_message(chat, "Merhaba!\n\nDurum: {}".format(durum))
 
 @bot.message_handler(commands=['run'])
-async def run(message: types.Message):
+def run(message):
     chat = message.chat.id
     user = message.from_user.id
     if not user in yetkili:
-        await dp.send_message(chat, "Bunu yapmak için yetkili değilsiniz!")
+        bot.send_message(chat, "Bunu yapmak için yetkili değilsiniz!")
         return
     pidd = open("pid.txt", "r+")
     pid = pidd.read()
@@ -76,12 +76,12 @@ async def run(message: types.Message):
             islem = os.kill(int(pid), 9)
         except:
             pass
-        await asyncio.sleep(1)
+        asyncio.sleep(1)
         os.startfile('basla.bat')
-        await dp.send_message(chat, "Yeniden Başlatıldı!")
+        bot.send_message(chat, "Yeniden Başlatıldı!")
         return
     os.startfile('basla.bat')
-    await dp.send_message(chat, "Bot Başlatıldı!")
+    bot.send_message(chat, "Bot Başlatıldı!")
     return
 
 dpid = os.getpid()
@@ -94,29 +94,25 @@ open("dpid.txt", "w").write(str(pid))
 print(pid)
 
 @bot.message_handler(commands=['stop'])
-async def stop(message: types.Message):
+def stop(message):
     chat = message.chat.id
     user = message.from_user.id
     if not user in yetkili:
-        await dp.send_message(chat, "Bunu yapmak için yetkili değilsiniz!")
+        bot.send_message(chat, "Bunu yapmak için yetkili değilsiniz!")
         return
     pidd = open("pid.txt", "r+")
     pid = pidd.read()
     if pid == "down":
-        await dp.send_message(chat, "Bot zaten kapalı")
+        bot.send_message(chat, "Bot zaten kapalı")
         return
     try:
-        await os.kill(int(pid), 9)
+        os.kill(int(pid), 9)
     except Exception as e:
         print(e)
     pidd.write("down")
-    await dp.send_message(chat, "Bot Durduruldu.")
-
-def poll():
-    executor.start_polling(bot, skip_updates=True)
+    bot.send_message(chat, "Bot Durduruldu.")
 
 if __name__ == '__main__':
-    asyncio.create_task(poll)
+    threading.Thread(target=kontrol).start
     logs.info("Bot Çalışıyor...")
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(kontrol())
+    bot.polling()
