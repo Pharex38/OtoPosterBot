@@ -116,7 +116,7 @@ def poll():
     executor.start_polling(bot, skip_updates=True)
 
 if __name__ == '__main__':
-    loop = asyncio.get_event_loop()
     asyncio.create_task(poll)
     logs.info("Bot Çalışıyor...")
+    loop = asyncio.get_event_loop()
     loop.run_until_complete(kontrol())
