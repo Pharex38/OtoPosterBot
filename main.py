@@ -320,7 +320,7 @@ def bul(message):
     cnt = collection.find({"_id": cnt})
     for c in cnt:
         print(c)
-        bot.send_message(message.chat.id, c)
+        bot.send_message(message.chat.id, str(c))
 
 @bot.message_handler(commands=['onayla'])
 def ona(m):
