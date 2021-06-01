@@ -1113,6 +1113,7 @@ def pat(message):
     plink = mesaj[psol:psag].strip()
     if mesaj.find("\n", psol) == -1:
         plink = mesaj[psol:].strip()
+    logging.debug(plink)
     pathesap = collection.find_one({"_id": user})
     s = Session()
     link = s.get("https://ay.live/api")
@@ -1176,6 +1177,7 @@ def pat(message):
             psablon = psablon.replace("aciklama", "").replace("{link}", "{}").format(paciklama, plink)
         pkanallar = pathesap['kanal']
         pcount = 0
+        logger.debug(plink)
     except Exception as e:
         bot.send_message(chat, f"Bir sorun oluştu: \n\n{e}")
         logger.error(e)
