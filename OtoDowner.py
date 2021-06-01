@@ -33,18 +33,19 @@ except Exception as e:
     print("ikinci: {}".format(e))
 logs.info("Eski İşlem Kapatıldı")
 
-def is_running(script):
+def is_running():
     for q in psutil.process_iter():
         
         if q.name().startswith('python'):
-            print(q)
-            if len(q.cmdline())>1 and q.pid == int(anapid):
-                print("'{}' Process is already running".format(script))
+            print(type(q.pid))
+            print(q.name)
+            if q.pid == int(anapid):
+                print(" Process is already running")
                 return True
 
     return False
 
-is_running(__name__)
+print(is_running())
 
 @bot.message_handler(commands=['start', 'help'])
 async def send_welcome(message: types.Message):
