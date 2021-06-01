@@ -35,7 +35,6 @@ async def kontrol():
         time.sleep(60)
         if not is_running():
             await dp.send_message(1302980840, "Bot çöktü!")
-            break
 
 
 eskipidfile = open("dpid.txt", "r+")
@@ -118,6 +117,6 @@ async def stop(message: types.Message):
 
 if __name__ == '__main__':
     loop = asyncio.get_event_loop()
-    loop.run_until_complete(kontrol())
-    logs.info("Bot Çalışıyor...")
+    asyncio.create_task(kontrol())
     executor.start_polling(bot, skip_updates=True)
+    logs.info("Bot Çalışıyor...")
