@@ -316,10 +316,12 @@ def stats(message):
 
 @bot.message_handler(commands=['bul'])
 def bul(message):
-    cnt = message.text.split()[1] if len(message.text.split()) > 1 else None
+    cnt = int(message.text.split()[1]) if len(message.text.split()) > 1 else int(message.from_user.id)
     if cnt == None:
         return
-    bot.send_message(message.chat.id, collection.find_one({"_id": int(cnt)}))
+   cnt = collection.find({"_id": cnt})
+   for c in cnt:
+        bot.send_message(message.chat.id, c)
 
 @bot.message_handler(commands=['onayla'])
 def ona(m):
