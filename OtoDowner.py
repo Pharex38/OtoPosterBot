@@ -7,10 +7,10 @@ import logging
 import subprocess
 from aiogram import Bot, Dispatcher, executor, types
 import Colorer
-import psutil
+import Threading
+import time, datetime
 
 token = "***REMOVED-BOT-TOKEN***"
-
 
 yetkili = [1613760981, 755051086, 1302980840]
 
@@ -19,6 +19,20 @@ logs = logging.getLogger(__name__)
 
 dp = Bot(token=token)
 bot = Dispatcher(dp)
+def is_running():
+    anapid = open("pid.txt", "r+").read()
+    for q in psutil.process_iter():
+        if q.name().startswith('python'):
+            if q.pid == int(anapid):
+                logs.info("İşlem hâlâ çalışıyor.")
+                return True
+    logs.warning("İşlem Bulunamadı.")
+    return False
+
+while True:
+    if not is_running():
+        dp.send_message(1302980840, "Bot çöktü!")
+    time.sleep(60)
 
 eskipidfile = open("dpid.txt", "r+")
 eskipid = eskipidfile.read()
@@ -32,18 +46,6 @@ try:
 except Exception as e:
     print("ikinci: {}".format(e))
 logs.info("Eski İşlem Kapatıldı")
-
-def is_running():
-    anapid = open("pid.txt", "r+").read()
-    for q in psutil.process_iter():
-        if q.name().startswith('python'):
-            if q.pid == int(anapid):
-                logs.info("İşlem hâlâ çalışıyor.")
-                return True
-    logs.warning("İşlem Bulunamadı.")
-    return False
-
-
 
 @bot.message_handler(commands=['start', 'help'])
 async def send_welcome(message: types.Message):
@@ -113,67 +115,3 @@ async def stop(message: types.Message):
 if __name__ == '__main__':
     executor.start_polling(bot, skip_updates=True)
     logs.info("Bot Çalışıyor...")
-
-
-
-
-
-
-
-"""ott = telebot.TeleBot(token, parse_mode='html')
-
-@bot.message_handler(commands=['start', 'durum'])
-def start(s):
-    chat = s.chat.id
-    pid = open("pid.txt", "r").read()
-    if pid.isdigit():
-        durum = "Aktif!"
-    else:
-        durum = "Kapalı!"
-    bot.send_message(chat, "Merhaba!\n\nDurum: {}".format(durum))
-
-@bot.message_handler(commands=['run'])
-async def run(m):
-    chat = await m.chat.id
-    user = await m.from_user.id
-    if not user in yetkili:
-        await bot.send_message(chat, "Bunu yapmak için yetkili değilsiniz!")
-        return
-    pidd = await open("pid.txt", "r+")
-    pid = await pidd.read()
-    if pid.isdigit():
-        try:
-            islem = os.kill(int(pid), 9)
-        except:
-            pass
-        await asyncio.sleep(1)
-        os.system('python main.py')
-        bot.send_message(chat, "Yeniden Başlatıldı!")
-        return
-    os.system('python main.py')
-    bot.send_message(chat, "Bot Başlatıldı!")
-    return
-
-@bot.message_handler(commands=['stop'])
-def stop(p):
-    chat = p.chat.id
-    user = p.from_user.id
-    if not user in yetkili:
-        bot.send_message(chat, "Bunu yapmak için yetkili değilsiniz!")
-        return
-    pidd = open("pid.txt", "r+")
-    pid = pidd.read()
-    if pid == "down":
-        bot.send_message(chat, "Bot zaten kapalı")
-        return
-    try:
-        islem = os.kill(int(pid), 9)
-    except Exception as e:
-        print(e)
-    pidd.write("down")
-    bot.send_message(chat, "Bot Durduruldu.")
-
-if __name__ == "__main__":
-    asyncio.run(bot.polling(none_stop=True))
-    print("Çalışıyor")
-    """
