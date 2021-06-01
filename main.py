@@ -1388,32 +1388,32 @@ def poster(message):
                 try:
                     if not baltapi == "None":
                         if baltsite == "1":
-                            bjson = s.get(f"https://ay.live/api/?api={baltapi}&url={bmesajb}&alias=&ct=1", cookies=cookies).json()
+                            bjson = s.get(f"https://ay.live/api/?", params={'api': baltapi, 'url': bmesajb, 'ct': 1}, cookies=cookies).json()
                             balink = bjson['shortenedUrl']
                         if baltsite == "2":
-                            bjson = s.get(f"https://www.pnd.tl/api?api={baltapi}&url={bmesajb}&category=6").json()
+                            bjson = s.get(f"https://www.pnd.tl/api?", params={'api': baltapi, 'url': bmesajb, 'category': 6}).json()
                             balink = bjson['shortenedUrl']
                         if baltsite == "3":
-                            bjson = s.get(f"https://exe.io/api?api={baltapi}&url={bmesajb}").json()
+                            bjson = s.get(f"https://exe.io/api?", params={'api': baltapi, 'url': bmesajb}).json()
                             balink = bjson['shortenedUrl']
                         if baltsite == "4":
-                            balink = s.get(f"http://ouo.io/api/{baltapi}?s={bmesajb}").text
+                            balink = s.get(f"http://ouo.io/api/{baltapi}?", params={'s': bmesajb}).text
                         if baltsite == "5":
-                            balink = s.get(f"http://pubiza.com/api.php?token={baltapi}&url={bmesajb}&ads_type=adult").text
+                            balink = s.get(f"http://pubiza.com/api.php?", params={'token': baltapi, 'url': bmesajb, 'ads_type': "adult"}).text
                     sleep(1)
                     if bsite == "1":
-                        bjson = s.get(f"https://ay.live/api/?api={btoken}&url={bmesajb}&alias=&ct=1", cookies=cookies).json()
+                        bjson = s.get(f"https://ay.live/api/?", params={'api': btoken, 'url': bmesajb, 'ct': 1}, cookies=cookies).json()
                         blink = bjson['shortenedUrl']
                     if bsite == "2":
-                        bjson = s.get(f"https://www.pnd.tl/api?api={btoken}&url={bmesajb}&category=6").json()
+                        bjson = s.get(f"https://www.pnd.tl/api?", params={'api': btoken, 'url': bmesajb, 'category': 6}).json()
                         blink = bjson['shortenedUrl']
                     if bsite == "3":
-                        bjson = s.get(f"https://exe.io/api?api={btoken}&url={bmesajb}").json()
+                        bjson = s.get(f"https://exe.io/api?", params={'api': btoken, 'url': bmesajb}).json()
                         blink = bjson['shortenedUrl']
                     if bsite == "4":
-                        blink = s.get(f"http://ouo.io/api/{btoken}?s={bmesajb}").text
+                        blink = s.get(f"http://ouo.io/api/{btoken}?", params={'s': bmesajb}).text
                     if bsite == "5":
-                        blink = s.get(f"http://pubiza.com/api.php?token={btoken}&url={bmesajb}&ads_type=adult").text
+                        blink = s.get(f"http://pubiza.com/api.php?", params={'token': btoken, 'url': bmesajb, 'ads_type': "adult"}).text
                     logger.info(f"{bkanal} + {blink} + {btoken}")
                 except Exception as e:
                     bot.send_message(buser, "Son postunuz gönderilemedi;\n\nAPI adresiniz sıkıntılı veya sitenize ulaşılamıyor.")
