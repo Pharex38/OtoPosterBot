@@ -34,12 +34,15 @@ logs.info("Eski İşlem Kapatıldı")
 
 def is_running(script):
     for q in psutil.process_iter():
+        print(q)
         if q.name().startswith('python'):
             if len(q.cmdline())>1 and script in q.cmdline()[1] and q.pid != int(anapid):
                 print("'{}' Process is already running".format(script))
                 return True
 
     return False
+
+is_running()
 
 @bot.message_handler(commands=['start', 'help'])
 async def send_welcome(message: types.Message):
