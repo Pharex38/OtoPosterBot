@@ -45,13 +45,13 @@ def is_running():
 
     return False
 
-print(is_running())
+
 
 @bot.message_handler(commands=['start', 'help'])
 async def send_welcome(message: types.Message):
     chat = message.chat.id
     pid = open("pid.txt", "r").read()
-    if pid.isdigit():
+    if is_running():
         durum = "Aktif!"
     else:
         durum = "Kapalı!"
