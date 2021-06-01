@@ -34,7 +34,7 @@ def kontrol():
     while True:
         time.sleep(60)
         if not is_running():
-            dp.send_message(1302980840, "Bot çöktü!")
+            await dp.send_message(1302980840, "Bot çöktü!")
             break
 
 
