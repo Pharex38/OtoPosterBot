@@ -1324,10 +1324,10 @@ def poster(message):
                         e = str(e)
                         if e.find("bot is") != -1:
                             collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
-                        try:
+                            try:
                             bot.send_message(user, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
-                        except: #Hem botu engelleyip hemde kanaldan sildiyse
-                            pass   
+                            except: #Hem botu engelleyip hemde kanaldan sildiyse
+                                pass   
                             logger.debug(f"{kanal} kayıtlardan silindi.")
                 logger.info("Başarılı!")
             else:
