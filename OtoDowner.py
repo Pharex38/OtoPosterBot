@@ -40,7 +40,7 @@ def is_running():
             print(q.pid)
             
             if q.pid == int(anapid):
-                print("İşlem hâlâ çalışıyor.")
+                logs.info("İşlem hâlâ çalışıyor.")
                 return True
 
     return False
