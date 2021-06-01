@@ -119,3 +119,5 @@ async def stop(message: types.Message):
 if __name__ == '__main__':
     executor.start_polling(bot, skip_updates=True)
     logs.info("Bot Çalışıyor...")
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(kontrol())
