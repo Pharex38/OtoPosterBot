@@ -317,8 +317,8 @@ def stats(message):
 @bot.message_handler(commands=['bul'])
 def bul(message):
     cnt = int(message.text.split()[1]) if len(message.text.split()) > 1 else int(message.from_user.id)
-   cnt = collection.find({"_id": cnt})
-   for c in cnt:
+    cnt = collection.find({"_id": cnt})
+    for c in cnt:
         bot.send_message(message.chat.id, c)
 
 @bot.message_handler(commands=['onayla'])
