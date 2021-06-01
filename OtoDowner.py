@@ -42,7 +42,7 @@ def is_running(script):
 
     return False
 
-is_running()
+is_running(__name__)
 
 @bot.message_handler(commands=['start', 'help'])
 async def send_welcome(message: types.Message):
