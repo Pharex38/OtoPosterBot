@@ -84,12 +84,10 @@ async def run(message: types.Message):
     await dp.send_message(chat, "Bot Başlatıldı!")
     return
 
-
 dpid = os.getpid()
 eskipidfile = open("dpid.txt", "w+")
 eskipidfile.write(str(dpid))
 logs.info(dpid)
-
 
 pid = os.getpid()
 open("dpid.txt", "w").write(str(pid))
@@ -114,9 +112,11 @@ async def stop(message: types.Message):
     pidd.write("down")
     await dp.send_message(chat, "Bot Durduruldu.")
 
+def poll():
+    executor.start_polling(bot, skip_updates=True)
 
 if __name__ == '__main__':
     loop = asyncio.get_event_loop()
-    asyncio.create_task(kontrol())
-    executor.start_polling(bot, skip_updates=True)
+    asyncio.create_task(poll)
     logs.info("Bot Çalışıyor...")
+    loop.run_until_complete(kontrol())
