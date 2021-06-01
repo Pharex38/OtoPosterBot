@@ -1199,7 +1199,8 @@ def pat(message):
     if pret:
         bot.send_message(chat, "Post Hazırlandı!", reply_markup=dugme())
         bot.send_message(chat, "<i>Postun gönderilmesini istediğin kanalı seç.</i>", reply_markup=patmark(user))
-
+    else:
+        bot.send_message(chat, "Bir hata oluştu")
 @bot.channel_post_handler(content_types=['photo', 'animation', 'video'])
 def poster(message):
     okaynak = None
