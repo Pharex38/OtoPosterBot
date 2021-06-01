@@ -1117,10 +1117,12 @@ def pat(message):
     s = Session()
     link = s.get("https://ay.live/api")
     cookies = dict(link.cookies)
+    pret = True
     try:
         ptoken = pathesap['token']
     except:
-        return
+        pret = False
+        bot.send_message(chat, "API adresinizi yeniden kaydedin.")
     psablon = pathesap['sablon']
     psite = pathesap['site']
     paltapi = pathesap['altapi']
@@ -1134,46 +1136,51 @@ def pat(message):
         collection.update_one({"_id": user}, {"$set": {"sira": "3"}})
     if psira == "3":
         collection.update_one({"_id": user}, {"$set": {"sira": "2"}})
-    if not paltapi == "None":
-        if paltsite == "1":
-            pjson = s.get(f"https://ay.live/api/?api={paltapi}&url={plink}&alias=&ct=1", cookies=cookies).json()
-            palink = pjson['shortenedUrl']
-        if paltsite == "2":
+    try:
+        if not paltapi == "None":
+            if paltsite == "1":
+                pjson = s.get(f"https://ay.live/api/?api={paltapi}&url={plink}&alias=&ct=1", cookies=cookies).json()
+                palink = pjson['shortenedUrl']
+            if paltsite == "2":
+                pjson = s.get(f"https://www.pnd.tl/api?", params={'api': altapi, 'url': mesajb, 'category': 6}).json()
+                palink = pjson['shortenedUrl']
+            if paltsite == "3":
+                pjson = s.get(f"https://exe.io/api?api={paltapi}&url={plink}").json()
+                palink = pjson['shortenedUrl']
+            if paltsite == "4":
+                palink = s.get(f"http://ouo.io/api/{paltapi}?s={plink}").text
+            if paltsite == "5":
+                palink = s.get(f"http://pubiza.com/api.php?token={paltapi}&url={plink}&ads_type=adult").text
+        if psite == "1":
+            pjson = s.get(f"https://ay.live/api/?api={ptoken}&url={plink}&alias=&ct=1", cookies=cookies).json()
+            plink = pjson['shortenedUrl']
+        if psite == "2":
             pjson = s.get(f"https://www.pnd.tl/api?", params={'api': altapi, 'url': mesajb, 'category': 6}).json()
-            palink = pjson['shortenedUrl']
-        if paltsite == "3":
-            pjson = s.get(f"https://exe.io/api?api={paltapi}&url={plink}").json()
-            palink = pjson['shortenedUrl']
-        if paltsite == "4":
-            palink = s.get(f"http://ouo.io/api/{paltapi}?s={plink}").text
-        if paltsite == "5":
-            palink = s.get(f"http://pubiza.com/api.php?token={paltapi}&url={plink}&ads_type=adult").text
-    if psite == "1":
-        pjson = s.get(f"https://ay.live/api/?api={ptoken}&url={plink}&alias=&ct=1", cookies=cookies).json()
-        plink = pjson['shortenedUrl']
-    if psite == "2":
-        pjson = s.get(f"https://www.pnd.tl/api?", params={'api': altapi, 'url': mesajb, 'category': 6}).json()
-        plink = pjson['shortenedUrl']
-    if psite == "3":
-        pjson = s.get(f"https://exe.io/api?api={ptoken}&url={plink}").json()
-        plink = pjson['shortenedUrl']
-    if psite == "4":
-        plink = s.get(f"http://ouo.io/api/{ptoken}?s={plink}").text
-    if psite == "5":
-        plink = s.get(f"http://pubiza.com/api.php?token={ptoken}&url={plink}&ads_type=adult").text
-    if psablon == "1":
-        psablon = f"🔥{paciklama}\n\n🔱 TIKLA 👉 {plink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
-    elif psablon == "2" or psablon == "3":
-        psablon = f"{paciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {plink}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
-    elif psablon == "9":
-        psablon = f"{paciklama} \n\n𝙇𝙄𝙉𝙆🔗 {plink} \n\n     𝙇𝙄𝙉𝙆🔗 {palink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
-    elif psablon.find('{alink}') != -1:
-        psablon = psablon.replace("{aciklama}", "{}").replace("{link}", "{}").replace("{alink}", "{}").format(paciklama, plink, palink)
-    else:
-        psablon = psablon.replace("aciklama", "").replace("{link}", "{}").format(paciklama, plink)
-    pkanallar = pathesap['kanal']
-    pcount = 0
-    if len(pathesap['kanal']) < 2:
+            plink = pjson['shortenedUrl']
+        if psite == "3":
+            pjson = s.get(f"https://exe.io/api?api={ptoken}&url={plink}").json()
+            plink = pjson['shortenedUrl']
+        if psite == "4":
+            plink = s.get(f"http://ouo.io/api/{ptoken}?s={plink}").text
+        if psite == "5":
+            plink = s.get(f"http://pubiza.com/api.php?token={ptoken}&url={plink}&ads_type=adult").text
+        if psablon == "1":
+            psablon = f"🔥{paciklama}\n\n🔱 TIKLA 👉 {plink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
+        elif psablon == "2" or psablon == "3":
+            psablon = f"{paciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {plink}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
+        elif psablon == "9":
+            psablon = f"{paciklama} \n\n𝙇𝙄𝙉𝙆🔗 {plink} \n\n     𝙇𝙄𝙉𝙆🔗 {palink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
+        elif psablon.find('{alink}') != -1:
+            psablon = psablon.replace("{aciklama}", "{}").replace("{link}", "{}").replace("{alink}", "{}").format(paciklama, plink, palink)
+        else:
+            psablon = psablon.replace("aciklama", "").replace("{link}", "{}").format(paciklama, plink)
+        pkanallar = pathesap['kanal']
+        pcount = 0
+    except Exception as e:
+        bot.send_message(chat, f"Bir sorun oluştu: \n\n{e}")
+        logger.error(e)
+        pret = False
+    if len(pathesap['kanal']) < 2 and pret:
         pmesaj = 0
         if ptip == "video":
             bot.send_video(pkanallar[0], fid, caption=psablon)
