@@ -1,5 +1,5 @@
 import requests
-from requests import get
+from requests import get, Session
 from os import environ
 import asyncio
 from time import sleep
