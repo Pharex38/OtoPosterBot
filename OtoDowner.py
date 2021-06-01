@@ -34,11 +34,12 @@ except Exception as e:
 logs.info("Eski İşlem Kapatıldı")
 
 def is_running():
+    napidd = open("pid.txt", "r+").read()
     for q in psutil.process_iter():
         
         if q.name().startswith('python'):
-            print(type(q.pid))
-            print(q.name)
+            print(q.pid)
+            
             if q.pid == int(anapid):
                 print(" Process is already running")
                 return True
