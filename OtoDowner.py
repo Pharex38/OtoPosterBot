@@ -32,7 +32,7 @@ def is_running():
 async def kontrol():
     while True:
         if not is_running():
-            dp.send_message(1302980840, "Bot çöktü!")
+            await dp.send_message(1302980840, "Bot çöktü!")
             break
         else:
             time.sleep(60)
