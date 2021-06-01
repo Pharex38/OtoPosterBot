@@ -1157,6 +1157,7 @@ def pat(message):
             plink = pjson['shortenedUrl']
         if psite == "2":
             pjson = get(f"https://www.pnd.tl/api?", params={'api': ptoken, 'url': plink, 'category': 6}).json()
+            print(pjson)
             plink = pjson['shortenedUrl']
         if psite == "3":
             pjson = s.get(f"https://exe.io/api?api={ptoken}&url={plink}").json()
