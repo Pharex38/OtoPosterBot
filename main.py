@@ -1312,7 +1312,10 @@ def poster(message):
                         e = str(e)
                         if e.find("bot is not a member") != -1:
                             collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
+                        try:
                             bot.send_message(user, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                        except: #Hem botu engelleyip hemde kanaldan sildiyse
+                            pass   
                             logger.debug(f"{kanal} kayıtlardan silindi.")
                 logger.info("Başarılı!")
             else:
@@ -1444,7 +1447,10 @@ def poster(message):
                         e = str(e)
                         if e.find("bot is not a member") != -1:
                             collection.update_one({"_id": buser}, {"$pull": {"kanal": bkan}})
+                        try:
                             bot.send_message(buser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                        except: #Hem botu engelleyip hemde kanaldan sildiyse
+                            pass   
                             logger.debug(f"{bkanal} kayıtlardan silindi.")
                     
                 logger.info("Başarılı!")
@@ -1576,7 +1582,10 @@ def poster(message):
                         e = str(e)
                         if e.find("bot is not a member") != -1:
                             collection.update_one({"_id": cuser}, {"$pull": {"kanal": ckan}})
+                        try:
                             bot.send_message(cuser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                        except: #Hem botu engelleyip hemde kanaldan sildiyse
+                            pass   
                             logger.debug(f"{ckanal} kayıtlardan silindi.")
 
                 logger.info("Başarılı!")
@@ -1706,7 +1715,10 @@ def poster(message):
                         e = str(e)
                         if e.find("bot is not a member") != -1:
                             collection.update_one({"_id": duser}, {"$pull": {"kanal": dkan}})
+                        try:
                             bot.send_message(duser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                        except: #Hem botu engelleyip hemde kanaldan sildiyse
+                            pass   
                             logger.debug(f"{dkanal} kayıtlardan silindi.")
 
                 logger.info("Başarılı!")
@@ -1832,7 +1844,10 @@ def poster(message):
                         e = str(e)
                         if e.find("bot is not a member") != -1:
                             collection.update_one({"_id": euser}, {"$pull": {"kanal": ekan}})
+                        try:
                             bot.send_message(euser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                        except: #Hem botu engelleyip hemde kanaldan sildiyse
+                            pass   
                             logger.debug(f"{ekanal} kayıtlardan silindi.")
 
                 logger.info("Başarılı!")
@@ -1961,7 +1976,10 @@ def poster(message):
                         e = str(e)
                         if e.find("bot is not a member") != -1:
                             collection.update_one({"_id": guser}, {"$pull": {"kanal": gkan}})
+                        try:
                             bot.send_message(guser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                        except: #Hem botu engelleyip hemde kanaldan sildiyse
+                            pass   
                             logger.debug(f"{gkanal} kayıtlardan silindi.")
 
                 logger.info("Başarılı!")
@@ -2091,7 +2109,10 @@ def poster(message):
                         e = str(e)
                         if e.find("bot is not a member") != -1:
                             collection.update_one({"_id": fuser}, {"$pull": {"kanal": fkan}})
+                        try:
                             bot.send_message(fuser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                        except: #Hem botu engelleyip hemde kanaldan sildiyse
+                            pass   
                             logger.debug(f"{fkanal} kayıtlardan silindi.")
                     
                 logger.info("Başarılı!")
@@ -2215,7 +2236,8 @@ def poster(message):
                         try:
                             bot.send_message(ouser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
                         except: #Hem botu engelleyip hemde kanaldan sildiyse
-                            pass                        logger.debug(f"{okanal} kayıtlardan silindi.")
+                            pass                        
+                        logger.debug(f"{okanal} kayıtlardan silindi.")
             logger.info("Başarılı!")
 
 def gunluk():
