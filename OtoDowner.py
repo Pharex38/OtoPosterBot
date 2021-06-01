@@ -29,12 +29,13 @@ def is_running():
     logs.warning("İşlem Bulunamadı.")
     return False
 
-async while True:
-    if not is_running():
-        dp.send_message(1302980840, "Bot çöktü!")
-        break
-    else:
-        time.sleep(60)
+async def kontrol()
+    while True:
+        if not is_running():
+            dp.send_message(1302980840, "Bot çöktü!")
+            break
+        else:
+            time.sleep(60)
 
 eskipidfile = open("dpid.txt", "r+")
 eskipid = eskipidfile.read()
