@@ -2035,7 +2035,7 @@ def poster(message):
             return
         fsag = fmesaj.find("\n", fsol)
         fmesajb = fmesaj[fsol:fsag].strip()
-        if gmesaj.find("\n", gsol) == -1:
+        if fmesaj.find("\n", gsol) == -1:
             gmesajb = gmesaj[gsol:].strip()
         if fmesajb.startswith("https://t.me/"):
             return
