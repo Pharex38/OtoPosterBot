@@ -113,6 +113,6 @@ def stop(message):
     bot.send_message(chat, "Bot Durduruldu.")
 
 if __name__ == '__main__':
-    threading.Thread(target=kontrol).start
+    threading.Thread(target=kontrol).start()
     logs.info("Bot Çalışıyor...")
     bot.polling()
