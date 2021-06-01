@@ -49,6 +49,8 @@ try:
     os.kill(int(anapid), 9)
 except Exception as e:
     print("ikinci: {}".format(e))
+else:
+    execfile("basla.bat")
 logs.info("Eski İşlem Kapatıldı")
 
 @bot.message_handler(commands=['start', 'help'])
