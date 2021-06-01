@@ -2035,8 +2035,8 @@ def poster(message):
             return
         fsag = fmesaj.find("\n", fsol)
         fmesajb = fmesaj[fsol:fsag].strip()
-        if fmesaj.find("\n", gsol) == -1:
-            gmesajb = gmesaj[gsol:].strip()
+        if fmesaj.find("\n", fsol) == -1:
+            fmesajb = fmesaj[fsol:].strip()
         if fmesajb.startswith("https://t.me/"):
             return
         fkynk = bot.get_chat(chat)
