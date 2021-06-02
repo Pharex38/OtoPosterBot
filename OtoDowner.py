@@ -15,9 +15,7 @@ logs = logging.getLogger(__name__)
 
 bot = telebot.TeleBot(token,parse_mode='html')
 
-zaman = datetime.datetime.now()
-bzaman = "{}.{}.{}".format(zaman.hour, zaman.minute, zaman.second)
-print(bzaman)
+bzaman = datetime.datetime.now()
 
 def is_running():
     anapid = open("pid.txt", "r+").read()
