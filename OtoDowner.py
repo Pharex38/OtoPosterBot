@@ -14,7 +14,7 @@ logging.basicConfig(format="%(asctime)s - %(levelname)s - %(message)s",level=log
 logs = logging.getLogger(__name__)
 
 bot = telebot.TeleBot(token,parse_mode='html')
-
+baslangic = time.time()
 bzaman = datetime.datetime.now()
 
 def is_running():
@@ -22,14 +22,9 @@ def is_running():
     for q in psutil.process_iter():
         if q.name().startswith('python'):
             if q.pid == int(anapid):
-                nzaman = datetime.datetime.now()
-                simdisaat = str(nzaman.hour - bzaman.hour)
-                simdisaat = simdisaat.zfill(2) if len(simdisaat) < 2 else simdisaat
-                simdidakika = str(nzaman.minute - bzaman.minute)
-                simdidakika = simdidakika.zfill(2) if len(simdidakika) < 2 else simdidakika
-                simdisaniye = str(nzaman.second - bzaman.second)
-                simdisaniye = simdisaniye.zfill(2) if len(simdisaniye) < 2 else simdisaniye
-                sure = simdisaat+":"+simdidakika+":"+simdisaniye
+                suan = time.time()
+                sure = suan - baslangic
+
                 logs.info(f"{sure} İşlem hâlâ çalışıyor.")
                 return True, sure
     logs.warning("İşlem Bulunamadı.")
