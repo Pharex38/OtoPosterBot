@@ -151,7 +151,6 @@ setup_logger()
 
 logger.info(f"Saat: {saat}:{dakika}")
 
-
 @bot.message_handler(commands=['start'])
 def start(message):
     user = message.from_user.id
