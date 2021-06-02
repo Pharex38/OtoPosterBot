@@ -20,6 +20,7 @@ def is_running():
     for q in psutil.process_iter():
         if q.name().startswith('python'):
             if q.pid == int(anapid):
+                print(q)
                 logs.info("İşlem hâlâ çalışıyor.")
                 return True
     logs.warning("İşlem Bulunamadı.")
