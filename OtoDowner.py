@@ -25,7 +25,9 @@ def is_running():
                 suan = time.time()
                 saniye = int(suan - baslangic)
                 dakika = int(saniye / 60 if saniye > 60 else 0)
+                saniye = saniye - dakika * 60
                 saat = int(dakika / 60 if dakika > 60 else 0)
+                dakika = dakika - saat * 60
 
                 sure = str(saat).zfill(2)+":"+str(dakika).zfill(2)+":"+str(saniye).zfill(2)
                 logs.info(f"{sure} İşlem hâlâ çalışıyor.")

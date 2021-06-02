@@ -1259,7 +1259,6 @@ def poster(message):
             mesajb = mesaj[sol:].strip()
         if mesajb.startswith("https://t.me/"):
             return
-        logger.warning(mesajb)
         logger.warning("{} postu atılıyor... ".format(kynk.title))
         """  Açıklama tespit  """
         ason = mesaj.rfind("\n", 0, sol)
