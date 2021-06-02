@@ -27,7 +27,7 @@ def is_running():
                 dakika = int(saniye / 60 if saniye != 0 else 0)
                 saat = int(dakika / 60 if dakika != 0 else 0)
 
-                sure = str(saat)+":"+str(dakika)+":"+str(saniye)
+                sure = str(saat).zfill(2)+":"+str(dakika).zfill(2)+":"+str(saniye).zfill(2)
                 logs.info(f"{sure} İşlem hâlâ çalışıyor.")
                 return True, sure
     logs.warning("İşlem Bulunamadı.")
