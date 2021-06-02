@@ -2357,4 +2357,4 @@ threading.Thread(target=gunluk).start()
 
 logger.info("Bot Çalışıyor...")
 bildir('Bot Başladı 🍕')
-bot.polling(none_stop=True, interval=0)
+bot.polling(none_stop=False, interval=0)
