@@ -2318,7 +2318,7 @@ def poster(message):
                             pass                        
                         logger.debug(f"{okanal} kayıtlardan silindi.")
             logger.info("Başarılı!")
-        obasari = "[ÖZEL] {} kaynağından, {} Kanalda Post Paylaşıldı.".format(okynk.title, gcount)
+        obasari = "[ÖZEL] {} kaynağından post Paylaşıldı.".format(okynk.title)
         logger.warning(obasari)
 
 def gunluk():
