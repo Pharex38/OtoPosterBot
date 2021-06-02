@@ -13,6 +13,7 @@ import os, signal
 import logging
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton 
 #botapi = environ['BOT_TOKEN']  
+mpass = os.environ['MONGOPASS']
 mongo = "os.environ["MONGO_URI"]"
 
 pid = os.getpid()
@@ -1524,33 +1525,33 @@ def poster(message):
                 try:
                     if not caltapi == "None":
                         if caltsite == "1":
-                            cjson = s.get(f"https://ay.live/api/?api={caltapi}&url={cmesajb}&alias=&ct=1", cookies=cookies).json()
+                            cjson = s.get(f"https://ay.live/api/?", params={'api': caltapi, 'url': cmesajb, 'ct': 1}, cookies=cookies).json()
                             calink = cjson['shortenedUrl']
                         if caltsite == "2":
-                            cjson = s.get(f"https://www.pnd.tl/api?api={caltapi}&url={cmesajb}&category=6").json()
+                            cjson = s.get(f"https://www.pnd.tl/api?", params={'api': caltapi, 'url': cmesajb, 'category': 6}).json()
                             calink =     cjson['shortenedUrl']
                         if caltsite == "3":
-                            cjson = s.get(f"https://exe.io/api?api={caltapi}&url={cmesajb}").json()
+                            cjson = s.get(f"https://exe.io/api?", params={'api': caltapi, 'url': cmesajb}).json()
                             calink = cjson['shortenedUrl']
                         if caltsite == "4":
-                            calink = s.get(f"http://ouo.io/api/{caltapi}?s={cmesajb}").text
+                            calink = s.get(f"http://ouo.io/api/{caltapi}?", params={'s': cmesajb}).text
                         if caltsite == "5":
-                            calink = s.get(f"http://pubiza.com/api.php?token={caltapi}&url={cmesajb}&ads_type=adult").text
+                            calink = s.get(f"http://pubiza.com/api.php?", params={'token': caltapi, 'url': cmesajb, 'ads_type': "adult"}).text
                     sleep(0.5)
                     if csite == "1":
-                        cjson = s.get(f"https://ay.live/api/?api={ctoken}&url={cmesajb}&alias=&ct=1",
+                        cjson = s.get(f"https://ay.live/api/?", params={'api': ctoken, 'url': cmesajb, 'ct': 1},
                                       cookies=cookies).json()
                         clink = cjson['shortenedUrl']
                     if csite == "2":
-                        cjson = s.get(f"https://www.pnd.tl/api?api={ctoken}&url={cmesajb}&category=6").json()
+                        cjson = s.get(f"https://www.pnd.tl/api?", params={'api': ctoken, 'url': cmesajb, 'category': 6}).json()
                         clink = cjson['shortenedUrl']
                     if csite == "3":
-                        cjson = s.get(f"https://exe.io/api?api={ctoken}&url={cmesajb}").json()
+                        cjson = s.get(f"https://exe.io/api?", params={'api': ctoken, 'url': cmesajb}).json()
                         clink = cjson['shortenedUrl']
                     if csite == "4":
-                        clink = s.get(f"http://ouo.io/api/{ctoken}?s={cmesajb}").text
+                        clink = s.get(f"http://ouo.io/api/{ctoken}?", params={'s': cmesajb}).text
                     if csite == "5":
-                        clink = s.get(f"http://pubiza.com/api.php?token={ctoken}&url={cmesajb}&ads_type=adult").text
+                        clink = s.get(f"http://pubiza.com/api.php?", params={'token': ctoken, 'url': cmesajb, 'ads_type': "adult"}).text
                     logger.info(f"{ckanal} + {clink} + {ctoken}")
                 except Exception as e:
                     bot.send_message(cuser, "Son postunuz gönderilemedi;\n\nAPI adresiniz sıkıntılı veya sitenize ulaşılamıyor.")
@@ -1661,32 +1662,32 @@ def poster(message):
                 try:
                     if not daltapi == "None":
                         if daltsite == "1":
-                            djson = s.get(f"https://ay.live/api/?api={daltapi}&url={dmesajb}&alias=&ct=1", cookies=cookies).json()
+                            djson = s.get(f"https://ay.live/api/?", params={'api': daltapi, 'url': dmesajb, 'ct': 1}, cookies=cookies).json()
                             dalink = djson['shortenedUrl']
                         if daltsite == "2":
-                            djson = s.get(f"https://www.pnd.tl/api?api={daltapi}&url={dmesajb}&category=6").json()
+                            djson = s.get(f"https://www.pnd.tl/api?", params={'api': daltapi, 'url': dmesajb, 'category': 6}).json()
                             dalink = djson['shortenedUrl']
                         if daltsite == "3":
-                            djson = s.get(f"https://exe.io/api?api={daltapi}&url={dmesajb}").json()
+                            djson = s.get(f"https://exe.io/api?", params={'api': daltapi, 'url': dmesajb}).json()
                             dalink = djson['shortenedUrl']
                         if daltsite == "4":
-                            dalink = s.get(f"http://ouo.io/api/{daltapi}?s={dmesajb}").text
+                            dalink = s.get(f"http://ouo.io/api/{daltapi}?", params={'s': dmesajb}).text
                         if daltsite == "5":
-                            dalink = s.get(f"http://pubiza.com/api.php?token={daltapi}&url={dmesajb}&ads_type=adult").text
+                            dalink = s.get(f"http://pubiza.com/api.php?", params={'token': daltapi, 'url': dmesajb, 'ads_type': "adult"}).text
                     sleep(0.5)
                     if dsite == "1":
-                        djson = s.get(f"https://ay.live/api/?api={dtoken}&url={dmesajb}&alias=&ct=1", cookies=cookies).json()
+                        djson = s.get(f"https://ay.live/api/?", params={'api': dtoken, 'url': dmesajb, 'ct': 1}, cookies=cookies).json()
                         dlink = djson['shortenedUrl']
                     if dsite == "2":
-                        djson = s.get(f"https://www.pnd.tl/api?api={dtoken}&url={dmesajb}&category=6").json()
+                        djson = s.get(f"https://www.pnd.tl/api?", params={'api': dtoken, 'url': dmesajb, 'category': 6}).json()
                         dlink = djson['shortenedUrl']
                     if dsite == "3":
-                        djson = s.get(f"https://exe.io/api?api={dtoken}&url={dmesajb}").json()
+                        djson = s.get(f"https://exe.io/api?", params={'api': dtoken, 'url': dmesajb}).json()
                         dlink = djson['shortenedUrl']
                     if dsite == "4":
-                        dlink = s.get(f"http://ouo.io/api/{dtoken}?s={dmesajb}").text
+                        dlink = s.get(f"http://ouo.io/api/{dtoken}?", params={'s': dmesajb}).text
                     if dsite == "5":
-                        dlink = s.get(f"http://pubiza.com/api.php?token={dtoken}&url={dmesajb}&ads_type=adult").text
+                        dlink = s.get(f"http://pubiza.com/api.php?", params={'token': dtoken, 'url': dmesajb, 'ads_type': "adult"}).text
                     logger.info(f"{dkanal} + {dlink} + {dtoken}")
                 except Exception as e:
                     bot.send_message(duser, "Son postunuz gönderilemedi;\n\nAPI adresiniz sıkıntılı veya sitenize ulaşılamıyor.")
@@ -1794,31 +1795,31 @@ def poster(message):
                 try:
                     if not ealtapi == "None":
                         if ealtsite == "1":
-                            ejson = s.get(f"https://ay.live/api/?api={ealtapi}&url={emesajb}&alias=&ct=1", cookies=cookies).json()
+                            ejson = s.get(f"https://ay.live/api/?", params={'api': ealtapi, 'url': emesajb, 'ct': 1}, cookies=cookies).json()
                             ealink = ejson['shortenedUrl']
                         if ealtsite == "2":
-                            ejson = s.get(f"https://www.pnd.tl/api?api={ealtapi}&url={emesajb}&category=6").json()
+                            ejson = s.get(f"https://www.pnd.tl/api?", params={'api': ealtapi, 'url': emesajb, 'category': 6}).json()
                             ealink = ejson['shortenedUrl']
                         if ealtsite == "3":
-                            ejson = s.get(f"https://exe.io/api?api={ealtapi}&url={emesajb}").json()
+                            ejson = s.get(f"https://exe.io/api?", params={'api': ealtapi, 'url': emesajb}).json()
                             ealink = ejson['shortenedUrl']
                         if ealtsite == "4":
-                            ealink = s.get(f"http://ouo.io/api/{ealtapi}?s={emesajb}").text
+                            ealink = s.get(f"http://ouo.io/api/{ealtapi}?", params={'s': emesajb}).text
                         if ealtsite == "5":
-                            ealink = s.get(f"http://pubiza.com/api.php?token={ealtapi}&url={emesajb}&ads_type=adult").text
+                            ealink = s.get(f"http://pubiza.com/api.php?", params={'token': ealtapi, 'url': emesajb, 'ads_type': "adult"}).text
                     if esite == "1":
-                        ejson = s.get(f"https://ay.live/api/?api={etoken}&url={emesajb}&alias=&ct=1", cookies=cookies).json()
+                        ejson = s.get(f"https://ay.live/api/?", params={'api': etoken, 'url': emesajb, 'ct': 1}, cookies=cookies).json()
                         elink = ejson['shortenedUrl']
                     if esite == "2":
-                        ejson = s.get(f"https://www.pnd.tl/api?api={etoken}&url={emesajb}&category=6").json()
+                        ejson = s.get(f"https://www.pnd.tl/api?", params={'api': etoken, 'url': emesajb, 'category': 6}).json()
                         elink = ejson['shortenedUrl']
                     if esite == "3":
-                        ejson = s.get(f"https://exe.io/api?api={etoken}&url={emesajb}").json()
+                        ejson = s.get(f"https://exe.io/api?", params={'api': etoken, 'url': emesajb}).json()
                         elink = ejson['shortenedUrl']
                     if esite == "4":
-                        elink = s.get(f"http://ouo.io/api/{etoken}?s={emesajb}").text
+                        elink = s.get(f"http://ouo.io/api/{etoken}?", params={'s': emesajb}).text
                     if esite == "5":
-                        elink = s.get(f"http://pubiza.com/api.php?token={etoken}&url={emesajb}&ads_type=adult").text
+                        elink = s.get(f"http://pubiza.com/api.php?", params={'token': etoken, 'url': emesajb, 'ads_type': "adult"}).text
                     logger.info(f"{ekanal} + {elink} + {etoken}")
                 except Exception as e:
                     bot.send_message(euser, "Son postunuz gönderilemedi;\n\nAPI adresiniz sıkıntılı veya sitenize ulaşılamıyor.")
