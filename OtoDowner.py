@@ -15,14 +15,19 @@ logs = logging.getLogger(__name__)
 
 bot = telebot.TeleBot(token,parse_mode='html')
 
+zaman = datetime.datetime.now()
+bzaman = "{}.{}.{}".format(zaman.hour, zaman.minute, zaman.second)
+
 def is_running():
     anapid = open("pid.txt", "r+").read()
     for q in psutil.process_iter():
         if q.name().startswith('python'):
             if q.pid == int(anapid):
-                print(q)
-                logs.info("İşlem hâlâ çalışıyor.")
-                return True
+                zaman = datetime.datetime.now()
+                nowzaman = "{}.{}.{}".format(zaman.hour, zaman.minute, zaman.second)
+                sure = nowzaman - bzaman
+                logs.info(f"{sure} İşlem hâlâ çalışıyor.")
+                return True, sure
     logs.warning("İşlem Bulunamadı.")
     return False
 
