@@ -1178,7 +1178,7 @@ def pat(message):
                 pjson = s.get(f"https://ay.live/api/?api={paltapi}&url={plink}&alias=&ct=1", cookies=cookies).json()
                 palink = pjson['shortenedUrl']
             if paltsite == "2":
-                pjson = s.get(f"https://www.pnd.tl/api?", params={'api': paltapi, 'url': mesajb, 'category': 6}).json()
+                pjson = s.get(f"https://www.pnd.tl/api?", params={'api': paltapi, 'url': plink, 'category': 6}).json()
                 palink = pjson['shortenedUrl']
             if paltsite == "3":
                 pjson = s.get(f"https://exe.io/api?api={paltapi}&url={plink}").json()
