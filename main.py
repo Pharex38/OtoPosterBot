@@ -2217,7 +2217,7 @@ def poster(message):
             omesajb = omesaj[osol:].strip()
         if omesajb.startswith("https://t.me/"):
             return
-        logger.warning("{} postu atılıyor... ".format(okynk.title))
+        logger.warning("[ÖZEL] {} postu atılıyor... ".format(okynk.title))
         """  Açıklama tespit  """
         oason = omesaj.rfind("\n", 0, osol)
         oaciklama = omesaj[:oason].strip()
@@ -2319,6 +2319,8 @@ def poster(message):
                             pass                        
                         logger.debug(f"{okanal} kayıtlardan silindi.")
             logger.info("Başarılı!")
+        obasari = "[ÖZEL] {} kaynağından, {} Kanalda Post Paylaşıldı.".format(okynk.title, gcount)
+        logger.warning(obasari)
 
 def gunluk():
     while 0 < 1:
