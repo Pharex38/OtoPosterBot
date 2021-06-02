@@ -1987,32 +1987,32 @@ def poster(message):
                 try:
                     if not galtapi == "None":
                         if galtsite == "1":
-                            gjson = s.get(f"https://ay.live/api/?api={galtapi}&url={gmesajb}&alias=&ct=1", cookies=cookies).json()
+                            gjson = s.get(f"https://ay.live/api/?", params={'api': galtapi, 'url': gmesajb, 'ct': 1}, cookies=cookies).json()
                             galink = gjson['shortenedUrl']
                         if galtsite == "2":
-                            gjson = s.get(f"https://www.pnd.tl/api?api={galtapi}&url={gmesajb}&category=6").json()
+                            gjson = s.get(f"https://www.pnd.tl/api?", params={'api': galtapi, 'url': gmesajb, 'category': 6}).json()
                             galink = gjson['shortenedUrl']
                         if galtsite == "3":
-                            gjson = s.get(f"https://exe.io/api?api={galtapi}&url={gmesajb}").json()
+                            gjson = s.get(f"https://exe.io/api?", params={'api': galtapi, 'url': gmesajb}).json()
                             galink = gjson['shortenedUrl']
                         if galtsite == "4":
-                            galink = s.get(f"http://ouo.io/api/{galtapi}?s={gmesajb}").text
+                            galink = s.get(f"http://ouo.io/api/{galtapi}?", params={'s': gmesajb}).text
                         if galtsite == "5":
-                            galink = s.get(f"http://pubiza.com/api.php?token={galtapi}&url={gmesajb}&ads_type=adult").text
+                            galink = s.get(f"http://pubiza.com/api.php?", params={'token': galtapi, 'url': gmesajb, 'ads_type': "adult"}).text
                     if gsite == "1":
-                        gjson = s.get(f"https://ay.live/api/?api={gtoken}&url={gmesajb}&alias=&ct=1",
+                        gjson = s.get(f"https://ay.live/api/?", params={'api': gtoken, 'url': gmesajb, 'ct': 1},
                                       cookies=cookies).json()
                         glink = gjson['shortenedUrl']
                     if gsite == "2":
-                        gjson = s.get(f"https://www.pnd.tl/api?api={gtoken}&url={gmesajb}&category=6").json()
+                        gjson = s.get(f"https://www.pnd.tl/api?", params={'api': gtoken, 'url': gmesajb, 'category': 6}).json()
                         glink = gjson['shortenedUrl']
                     if gsite == "3":
-                        gjson = s.get(f"https://exe.io/api?api={gtoken}&url={gmesajb}").json()
+                        gjson = s.get(f"https://exe.io/api?", params={'api': gtoken, 'url': gmesajb}).json()
                         glink = gjson['shortenedUrl']
                     if gsite == "4":
-                      glink = s.get(f"http://ouo.io/api/{gtoken}?s={gmesajb}").text
+                      glink = s.get(f"http://ouo.io/api/{gtoken}?", params={'s': gmesajb}).text
                     if gsite == "5":
-                        glink = s.get(f"http://pubiza.com/api.php?token={gtoken}&url={gmesajb}&ads_type=adult").text
+                        glink = s.get(f"http://pubiza.com/api.php?", params={'token': gtoken, 'url': gmesajb, 'ads_type': "adult"}).text
                     logger.info(f"{gkanal} + {glink} + {gtoken}")
                 except Exception as e:
                     bot.send_message(guser, "Son postunuz gönderilemedi;\n\nAPI adresiniz sıkıntılı veya sitenize ulaşılamıyor.")
@@ -2123,32 +2123,32 @@ def poster(message):
                 try:
                     if not faltapi == "None":
                         if faltsite == "1":
-                            fjson = s.get(f"https://ay.live/api/?api={faltapi}&url={fmesajb}&alias=&ct=1", cookies=cookies).json()
+                            fjson = s.get(f"https://ay.live/api/?", params={'api': faltapi, 'url': fmesajb, 'ct': 1}, cookies=cookies).json()
                             falink = fjson['shortenedUrl']
                         if faltsite == "2":
-                            fjson = s.get(f"https://www.pnd.tl/api?api={faltapi}&url={fmesajb}&category=6").json()
+                            fjson = s.get(f"https://www.pnd.tl/api?", params={'api': faltapi, 'url': fmesajb, 'category': 6}).json()
                             falink = fjson['shortenedUrl']
                         if faltsite == "3":
-                            fjson = s.get(f"https://exe.io/api?api={faltapi}&url={fmesajb}").json()
+                            fjson = s.get(f"https://exe.io/api?", params={'api': faltapi, 'url': fmesajb}).json()
                             falink = fjson['shortenedUrl']
                         if faltsite == "4":
-                            falink = s.get(f"http://ouo.io/api/{faltapi}?s={fmesajb}").text
+                            falink = s.get(f"http://ouo.io/api/{faltapi}?", params={'s': fmesajb}).text
                         if faltsite == "5":
-                            falink = s.get(f"http://pubiza.com/api.php?token={faltapi}&url={fmesajb}&ads_type=adult").text
+                            falink = s.get(f"http://pubiza.com/api.php?", params={'token': faltapi, 'url': fmesajb, 'ads_type': "adult"}).text
                     sleep(1)
                     if fsite == "1":
-                        fjson = s.get(f"https://ay.live/api/?api={ftoken}&url={fmesajb}&alias=&ct=1", cookies=cookies).json()
+                        fjson = s.get(f"https://ay.live/api/?", params={'api': ftoken, 'url': fmesajb, 'ct': 1}, cookies=cookies).json()
                         flink = fjson['shortenedUrl']
                     if fsite == "2":
-                        fjson = s.get(f"https://www.pnd.tl/api?api={ftoken}&url={fmesajb}&category=6").json()
+                        fjson = s.get(f"https://www.pnd.tl/api?", params={'api': ftoken, 'url': fmesajb, 'category': 6}).json()
                         flink = fjson['shortenedUrl']
                     if fsite == "3":
-                        fjson = s.get(f"https://exe.io/api?api={ftoken}&url={fmesajb}").json()
+                        fjson = s.get(f"https://exe.io/api?", params={'api': ftoken, 'url': fmesajb}).json()
                         flink = fjson['shortenedUrl']
                     if fsite == "4":
-                        flink = s.get(f"http://ouo.io/api/{ftoken}?s={fmesajb}").text
+                        flink = s.get(f"http://ouo.io/api/{ftoken}?", params={'s': fmesajb}).text
                     if fsite == "5":
-                        flink = s.get(f"http://pubiza.com/api.php?token={ftoken}&url={fmesajb}&ads_type=adult").text
+                        flink = s.get(f"http://pubiza.com/api.php?", params={'token': faltapi, 'url': fmesajb, 'ads_type': "adult"}).text
                     logger.info(f"{fkanal} + {flink} + {ftoken}")
                 except Exception as e:
                     bot.send_message(fuser, "Son postunuz gönderilemedi;\n\nAPI adresiniz sıkıntılı veya sitenize ulaşılamıyor.")
@@ -2258,31 +2258,31 @@ def poster(message):
             try:
                 if not oaltapi == "None":
                     if oaltsite == "1":
-                        ojson = s.get(f"https://ay.live/api/?api={oaltapi}&url={omesajb}&alias=&ct=1", cookies=cookies).json()
+                        ojson = s.get(f"https://ay.live/api/?", params={'api': oaltapi, 'url': omesajb, 'ct': 1}, cookies=cookies).json()
                         oalink = ojson['shortenedUrl']
                     if oaltsite == "2":
-                        ojson = s.get(f"https://www.pnd.tl/api?api={oaltapi}&url={omesajb}&category=6").json()
+                        ojson = s.get(f"https://www.pnd.tl/api?", params={'api': oaltapi, 'url': omesajb, 'category': 6}).json()
                         oalink = ojson['shortenedUrl']
                     if oaltsite == "3":
-                        ojson = s.get(f"https://exe.io/api?api={oaltapi}&url={omesajb}").json()
+                        ojson = s.get(f"https://exe.io/api?", params={'api': oaltapi, 'url': omesajb}).json()
                         oalink = ojson['shortenedUrl']
                     if oaltsite == "4":
-                        oalink = s.get(f"http://ouo.io/api/{oaltapi}?s={omesajb}").text
+                        oalink = s.get(f"http://ouo.io/api/{oaltapi}?", params={'s': omesajb}).text
                     if oaltsite == "5":
-                        oalink = s.get(f"http://pubiza.com/api.php?token={oaltapi}&url={omesajb}&ads_type=adult").text
+                        oalink = s.get(f"http://pubiza.com/api.php?", params={'token': oaltapi, 'url': omesajb, 'ads_type': "adult"}).text
                 if osite == "1":
-                    ojson = s.get(f"https://ay.live/api/?api={otoken}&url={omesajb}&alias=&ct=1", cookies=cookies).json()
+                    ojson = s.get(f"https://ay.live/api/?", params={'api': otoken, 'url': omesajb, 'ct': 1}, cookies=cookies).json()
                     olink = ojson['shortenedUrl']
                 if osite == "2":
-                    ojson = s.get(f"https://www.pnd.tl/api?api={otoken}&url={omesajb}&category=6").json()
+                    ojson = s.get(f"https://www.pnd.tl/api?", params={'api': otoken, 'url': omesajb, 'category': 6}).json()
                     olink = ojson['shortenedUrl']
                 if osite == "3":
-                    ojson = s.get(f"https://exe.io/api?api={otoken}&url={omesajb}").json()
+                    ojson = s.get(f"https://exe.io/api?", params={'api': otoken, 'url': omesajb}).json()
                     olink = ojson['shortenedUrl']
                 if osite == "4":
-                    olink = s.get(f"http://ouo.io/api/{otoken}?s={omesajb}").text
+                    olink = s.get(f"http://ouo.io/api/{otoken}?", params={'s': omesajb}).text
                 if osite == "5":
-                    olink = s.get(f"http://pubiza.com/api.php?token={otoken}&url={omesajb}&ads_type=adult").text
+                    olink = s.get(f"http://pubiza.com/api.php?", params={'token': etoken, 'url': omesajb, 'ads_type': "adult"}).text
                 logger.info(f"{okanal} + {olink} + {otoken}")
             except:
                 bot.send_message(ouser, "Son postunuz gönderilemedi;\n\nAPI adresiniz sıkıntılı veya sitenize ulaşılamıyor.")
