@@ -24,9 +24,11 @@ def is_running():
     for q in psutil.process_iter():
         if q.name().startswith('python'):
             if q.pid == int(anapid):
-                zaman = datetime.datetime.now()
-                nowzaman = "{}.{}.{}".format(zaman.hour, zaman.minute, zaman.second)
-                sure = int(nowzaman) - int(bzaman)
+                nzaman = datetime.datetime.now()
+                simdisaat = bzaman.hour - nzaman.hour
+                simdidakika = bzaman.minute - nzaman.minute
+                simdisaniye = bzaman.second - nzaman.second
+                sure = simdisaat+":"+simdidakika+":"+simdisaniye
                 logs.info(f"{sure} İşlem hâlâ çalışıyor.")
                 return True, sure
     logs.warning("İşlem Bulunamadı.")
