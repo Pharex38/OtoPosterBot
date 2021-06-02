@@ -24,9 +24,12 @@ def is_running():
             if q.pid == int(anapid):
                 nzaman = datetime.datetime.now()
                 simdisaat = nzaman.hour - bzaman.hour
+                simdisaat = simdisaat.zfill(2) if len(simdisaat) < 2 else simdisaat
                 simdidakika = nzaman.minute - bzaman.minute
+                simdidakika = simdidakika.zfill(2) if len(simdidakika) < 2 else simdidakika
                 simdisaniye = nzaman.second - bzaman.second
-                sure = str(simdisaat).zfill(2)+":"+str(simdidakika).zfill(2)+":"+str(simdisaniye).zfill(2)
+                simdisaniye = simdisaniye.zfill(2) if len(simdisaniye) < 2 else simdisaniye
+                sure = str(simdisaat)+":"+str(simdidakika)+":"+str(simdisaniye)
                 logs.info(f"{sure} İşlem hâlâ çalışıyor.")
                 return True, sure
     logs.warning("İşlem Bulunamadı.")
