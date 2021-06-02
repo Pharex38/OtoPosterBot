@@ -23,9 +23,9 @@ def is_running():
         if q.name().startswith('python'):
             if q.pid == int(anapid):
                 nzaman = datetime.datetime.now()
-                simdisaat = bzaman.hour - nzaman.hour
-                simdidakika = bzaman.minute - nzaman.minute
-                simdisaniye = bzaman.second - nzaman.second
+                simdisaat = nzaman.hour - bzaman.hour
+                simdidakika = nzaman.minute - bzaman.minute
+                simdisaniye = nzaman.second - bzaman.second
                 sure = str(simdisaat)+":"+str(simdidakika)+":"+str(simdisaniye)
                 logs.info(f"{sure} İşlem hâlâ çalışıyor.")
                 return True, sure
