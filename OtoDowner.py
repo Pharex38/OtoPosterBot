@@ -23,9 +23,9 @@ def is_running():
         if q.name().startswith('python'):
             if q.pid == int(anapid):
                 suan = time.time()
-                saniye = round(suan - baslangic, 0)
-                dakika = round(saniye / 60 if saniye != 0 else 0, 0)
-                saat = round(dakika / 60 if dakika != 0 else 0, 0)
+                saniye = int(suan - baslangic, 0)
+                dakika = int(saniye / 60 if saniye != 0 else 0)
+                saat = int(dakika / 60 if dakika != 0 else 0)
 
                 sure = str(saat)+":"+str(dakika)+":"+str(saniye)
                 logs.info(f"{sure} İşlem hâlâ çalışıyor.")
