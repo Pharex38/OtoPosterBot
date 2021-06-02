@@ -17,6 +17,7 @@ bot = telebot.TeleBot(token,parse_mode='html')
 
 zaman = datetime.datetime.now()
 bzaman = "{}.{}.{}".format(zaman.hour, zaman.minute, zaman.second)
+print(bzaman)
 
 def is_running():
     anapid = open("pid.txt", "r+").read()
@@ -25,7 +26,7 @@ def is_running():
             if q.pid == int(anapid):
                 zaman = datetime.datetime.now()
                 nowzaman = "{}.{}.{}".format(zaman.hour, zaman.minute, zaman.second)
-                sure = nowzaman - bzaman
+                sure = int(nowzaman) - int(bzaman)
                 logs.info(f"{sure} İşlem hâlâ çalışıyor.")
                 return True, sure
     logs.warning("İşlem Bulunamadı.")
