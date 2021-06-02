@@ -17,7 +17,6 @@ mpass = os.environ['MONGOPASS']
 mongo = f"os.environ["MONGO_URI"]"
 
 pid = os.getpid()
-time.sleep(3)
 open("pid.txt", "w").write(str(pid))
 print(pid)
 
@@ -69,12 +68,12 @@ for i in kaynaklar:
             acikmi = bot.get_chat(kaynaklar[4])
         except:
             bildir('Açık mı kaynağına bot ulaşamıyor')
-    elif index == 4:
+    elif index == 5:
         try:
             muho = bot.get_chat(kaynaklar[5])
         except:
             bildir('Muho kaynağına bot ulaşamıyor')
-    elif index == 5:
+    elif index == 6:
         try:
             tutan = bot.get_chat(kaynaklar[6])
         except:
@@ -316,6 +315,43 @@ def stats(message):
     toplam = round(toplam, 1)
     bot.edit_message_text("Toplam Kullanıcı Sayısı: {}\nToplam Kayıtlı Kanal Sayısı: {}\nToplam Kitle: {}K".format(users, kanals, toplam), chat, msg.message_id)
 
+@bot.message_handler(commands=['bul'])
+def bul(message):
+    cnt = message.text.split()[1] if len(message.text.split()) > 1 else int(message.from_user.id)
+    if not message.from_user.id in adminlist:
+        bot.send_message(message.chat.id, "Sie")
+        return
+    try:
+        cnt = collection.find({"_id": int(cnt)})
+        for c in cnt:
+            bot.send_message(message.chat.id, 'ID: {}\nToken: {} \nKaynak: {} \nSite: {} \nKanal: {} \nAlt Token: {} \n Alt Site: {} \n Özel Kaynak: {}'.format(c['_id'], c['token'], c['kaynak'], c['site'], c['kanal'], c['altapi'], c['altsite'], c['ozel']))
+    except:
+        pass
+    try:
+        cnt = collection.find({"token": cnt})
+        for c in cnt:
+            bot.send_message(message.chat.id, 'ID: {}\nToken: {} \nKaynak: {} \nSite: {} \nKanal: {} \nAlt Token: {} \n Alt Site: {} \n Özel Kaynak: {}'.format(c['_id'], c['token'], c['kaynak'], c['site'], c['kanal'], c['altapi'], c['altsite'], c['ozel']))
+    except:
+        pass
+    try:
+        cnt = collection.find({"altapi": cnt})
+        for c in cnt:
+            bot.send_message(message.chat.id, 'ID: {}\nToken: {} \nKaynak: {} \nSite: {} \nKanal: {} \nAlt Token: {} \n Alt Site: {} \n Özel Kaynak: {}'.format(c['_id'], c['token'], c['kaynak'], c['site'], c['kanal'], c['altapi'], c['altsite'], c['ozel']))
+    except:
+        pass
+    try:
+        cnt = collection.find({"kanal": [str(cnt)]})
+        for c in cnt:
+            bot.send_message(message.chat.id, 'ID: {}\nToken: {} \nKaynak: {} \nSite: {} \nKanal: {} \nAlt Token: {} \n Alt Site: {} \n Özel Kaynak: {}'.format(c['_id'], c['token'], c['kaynak'], c['site'], c['kanal'], c['altapi'], c['altsite'], c['ozel']))
+    except:
+        pass
+    try:
+        cnt = collection.find({"site": str(cnt)})
+        for c in cnt:
+            bot.send_message(message.chat.id, 'ID: {}\nToken: {} \nKaynak: {} \nSite: {} \nKanal: {} \nAlt Token: {} \n Alt Site: {} \n Özel Kaynak: {}'.format(c['_id'], c['token'], c['kaynak'], c['site'], c['kanal'], c['altapi'], c['altsite'], c['ozel']))
+    except:
+        pass
+
 @bot.message_handler(commands=['onayla'])
 def ona(m):
     cid = m.chat.id
@@ -382,7 +418,7 @@ def duy(m):
                 dmsg = bot.send_message(kullanici['_id'], duyurumsg)
                 duyurus += 1
             except Exception as e:
-                print(e)
+                logger.error(e)
             else:
                 kont = db[str(chat)].find_one({"_id": kullanici['_id']})
                 if kont == None:
@@ -403,7 +439,7 @@ def dsil(m):
         try:
             bot.delete_message(t['_id'], t['mid'])
         except Exception as e:
-            print(e)
+            logger.error(e)
         else:
             sd += 1
     bot.send_message(chat, "{} Duyuru Mesajı Silindi!".format(sd))
@@ -898,7 +934,7 @@ def ozelk(message):
     if message.forward_from_chat:
         ileti = message.forward_from_chat.id
         OzelCol.update_one({"_id": user}, {"$set": {"okaynak": ileti}})
-        collection.update_one({"_id": user}, {"$set": {"ozel": True, "kaynak": ["31"]}})
+        collection.update_one({"_id": user}, {"$set": {"ozel": True, "kaynak": ["32"]}})
         bot.send_message(message.chat.id, "<b>Özel Kaynak Oluşturuldu!</b>", reply_markup=dugme())
 
 def kaynake(message):
@@ -1112,67 +1148,75 @@ def pat(message):
     psol = mesaj.find("http")
     psag = mesaj.find("\n", psol)
     plink = mesaj[psol:psag].strip()
+    if mesaj.find("\n", psol) == -1:
+        plink = mesaj[psol:].strip()
     pathesap = collection.find_one({"_id": user})
     s = Session()
     link = s.get("https://ay.live/api")
     cookies = dict(link.cookies)
+    pret = True
     try:
         ptoken = pathesap['token']
     except:
-        return
+        pret = False
+        bot.send_message(chat, "API adresinizi yeniden kaydedin.")
     psablon = pathesap['sablon']
     psite = pathesap['site']
     paltapi = pathesap['altapi']
     paltsite = pathesap['altsite']
     psira = pathesap['sira']
     palink = " "
-    plink = " "
     if psira == "2":
         ptoken = paltapi
         psite = paltsite
         collection.update_one({"_id": user}, {"$set": {"sira": "3"}})
     if psira == "3":
         collection.update_one({"_id": user}, {"$set": {"sira": "2"}})
-    if not paltapi == "None":
-        if paltsite == "1":
-            pjson = s.get(f"https://ay.live/api/?api={paltapi}&url={plink}&alias=&ct=1", cookies=cookies).json()
-            palink = pjson['shortenedUrl']
-        if paltsite == "2":
-            pjson = s.get(f"https://www.pnd.tl/api?api={paltapi}&url={plink}&category=6").json()
-            palink = pjson['shortenedUrl']
-        if paltsite == "3":
-            pjson = s.get(f"https://exe.io/api?api={paltapi}&url={plink}").json()
-            palink = pjson['shortenedUrl']
-        if paltsite == "4":
-            palink = s.get(f"http://ouo.io/api/{paltapi}?s={plink}").text
-        if paltsite == "5":
-            palink = s.get(f"http://pubiza.com/api.php?token={paltapi}&url={plink}&ads_type=adult").text
-    if psite == "1":
-        pjson = s.get(f"https://ay.live/api/?api={ptoken}&url={plink}&alias=&ct=1", cookies=cookies).json()
-        plink = pjson['shortenedUrl']
-    if psite == "2":
-        pjson = s.get(f"https://www.pnd.tl/api?api={ptoken}&url={plink}&category=6").json()
-        plink = pjson['shortenedUrl']
-    if psite == "3":
-        pjson = s.get(f"https://exe.io/api?api={ptoken}&url={plink}").json()
-        plink = pjson['shortenedUrl']
-    if psite == "4":
-        plink = s.get(f"http://ouo.io/api/{ptoken}?s={plink}").text
-    if psite == "5":
-        plink = s.get(f"http://pubiza.com/api.php?token={ptoken}&url={plink}&ads_type=adult").text
-    if psablon == "1":
-        psablon = f"🔥{paciklama}\n\n🔱 TIKLA 👉 {plink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
-    elif psablon == "2" or psablon == "3":
-        psablon = f"{paciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {plink}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
-    elif psablon == "9":
-        psablon = f"{paciklama} \n\n𝙇𝙄𝙉𝙆🔗 {plink} \n\n     𝙇𝙄𝙉𝙆🔗 {palink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
-    elif psablon.find('{alink}') != -1:
-        psablon = psablon.replace("{aciklama}", "{}").replace("{link}", "{}").replace("{alink}", "{}").format(paciklama, plink, palink)
-    else:
-        psablon = psablon.replace("aciklama", "").replace("{link}", "{}").format(paciklama, plink)
-    pkanallar = pathesap['kanal']
-    pcount = 0
-    if len(pathesap['kanal']) < 2:
+    try:
+        if not paltapi == "None":
+            if paltsite == "1":
+                pjson = s.get(f"https://ay.live/api/?api={paltapi}&url={plink}&alias=&ct=1", cookies=cookies).json()
+                palink = pjson['shortenedUrl']
+            if paltsite == "2":
+                pjson = s.get(f"https://www.pnd.tl/api?", params={'api': altapi, 'url': mesajb, 'category': 6}).json()
+                palink = pjson['shortenedUrl']
+            if paltsite == "3":
+                pjson = s.get(f"https://exe.io/api?api={paltapi}&url={plink}").json()
+                palink = pjson['shortenedUrl']
+            if paltsite == "4":
+                palink = s.get(f"http://ouo.io/api/{paltapi}?s={plink}").text
+            if paltsite == "5":
+                palink = s.get(f"http://pubiza.com/api.php?token={paltapi}&url={plink}&ads_type=adult").text
+        if psite == "1":
+            pjson = s.get(f"https://ay.live/api/?api={ptoken}&url={plink}&alias=&ct=1", cookies=cookies).json()
+            plink = pjson['shortenedUrl']
+        if psite == "2":
+            pjson = get(f"https://www.pnd.tl/api?", params={'api': ptoken, 'url': plink, 'category': 6}).json()
+            plink = pjson['shortenedUrl']
+        if psite == "3":
+            pjson = s.get(f"https://exe.io/api?api={ptoken}&url={plink}").json()
+            plink = pjson['shortenedUrl']
+        if psite == "4":
+            plink = s.get(f"http://ouo.io/api/{ptoken}?s={plink}").text
+        if psite == "5":
+            plink = s.get(f"http://pubiza.com/api.php?token={ptoken}&url={plink}&ads_type=adult").text
+        if psablon == "1":
+            psablon = f"🔥{paciklama}\n\n🔱 TIKLA 👉 {plink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
+        elif psablon == "2" or psablon == "3":
+            psablon = f"{paciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {plink}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
+        elif psablon == "9":
+            psablon = f"{paciklama} \n\n𝙇𝙄𝙉𝙆🔗 {plink} \n\n     𝙇𝙄𝙉𝙆🔗 {palink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
+        elif psablon.find('{alink}') != -1:
+            psablon = psablon.replace("{aciklama}", "{}").replace("{link}", "{}").replace("{alink}", "{}").format(paciklama, plink, palink)
+        else:
+            psablon = psablon.replace("aciklama", "").replace("{link}", "{}").format(paciklama, plink)
+        pkanallar = pathesap['kanal']
+        pcount = 0
+    except Exception as e:
+        bot.send_message(chat, f"Bir sorun oluştu: \n\n{e}")
+        logger.error(e)
+        pret = False
+    if len(pathesap['kanal']) < 2 and pret:
         pmesaj = 0
         if ptip == "video":
             bot.send_video(pkanallar[0], fid, caption=psablon)
@@ -1186,9 +1230,11 @@ def pat(message):
     patc.psablon = psablon
     patc.ptip = ptip
     patc.fid = fid
-    bot.send_message(chat, "Post Hazırlandı!", reply_markup=dugme())
-    bot.send_message(chat, "<i>Postun gönderilmesini istediğin kanalı seç.</i>", reply_markup=patmark(user))
-
+    if pret:
+        bot.send_message(chat, "Post Hazırlandı!", reply_markup=dugme())
+        bot.send_message(chat, "<i>Postun gönderilmesini istediğin kanalı seç.</i>", reply_markup=patmark(user))
+    else:
+        bot.send_message(chat, "Bir hata oluştu")
 @bot.channel_post_handler(content_types=['photo', 'animation', 'video'])
 def poster(message):
     okaynak = None
@@ -1202,6 +1248,8 @@ def poster(message):
         """  Link tespit  """
         solx = mesaj.rfind("http")
         sol = mesaj.find("http")
+        if sol == -1:
+            return
         if sol != solx:
             return
         sag = mesaj.find("\n", sol)
@@ -1211,13 +1259,14 @@ def poster(message):
             mesajb = mesaj[sol:].strip()
         if mesajb.startswith("https://t.me/"):
             return
+        logger.warning(mesajb)
         logger.warning("{} postu atılıyor... ".format(kynk.title))
         """  Açıklama tespit  """
         ason = mesaj.rfind("\n", 0, sol)
         aciklama = mesaj[:ason].strip()
         """  Cookies  """
         s = Session()
-        link = s.get("https://ay.live/api")
+        link = s.get("https://ay.live/")
         cookies = dict(link.cookies)
         """  Veri Tabanı  """
         postdata = db[str(chat)]
@@ -1268,18 +1317,18 @@ def poster(message):
                         if altsite == "5":
                             alink = s.get(f"http://pubiza.com/api.php?", params={'token': altapi, 'url': mesajb, 'ads_type': "adult"}).text
                     if site == "1":
-                        json = s.get(f"https://ay.live/api/?", params={'api': altapi, 'url': mesajb, 'ct': 1}, cookies=cookies).json()
+                        json = s.get(f"https://ay.live/api/?", params={'api': token, 'url': mesajb, 'ct': 1}, cookies=cookies).json()
                         link = json['shortenedUrl']
                     if site == "2":
-                        json = s.get(f"https://www.pnd.tl/api?", params={'api': altapi, 'url': mesajb, 'category': 6}).json()
+                        json = s.get(f"https://www.pnd.tl/api?", params={'api': token, 'url': mesajb, 'category': 6}).json()
                         link = json['shortenedUrl']
                     if site == "3":
-                        json = s.get(f"https://exe.io/api?", params={'api': altapi, 'url': mesajb}).json()
+                        json = s.get(f"https://exe.io/api?", params={'api': token, 'url': mesajb}).json()
                         link = json['shortenedUrl']
                     if site == "4":
-                        link = s.get(f"http://ouo.io/api/{altapi}?", params={'s': mesajb}).text
+                        link = s.get(f"http://ouo.io/api/{token}?", params={'s': mesajb}).text
                     if site == "5":
-                        link = s.get(f"http://pubiza.com/api.php?", params={'token': altapi, 'url': mesajb, 'ads_type': "adult"}).text
+                        link = s.get(f"http://pubiza.com/api.php?", params={'token': token, 'url': mesajb, 'ads_type': "adult"}).text
                     logger.info(f"{kanal} + {link} + {token}")
                 except Exception as e:
                     bot.send_message(user, "Son postunuz gönderilemedi;\n\nAPI adresiniz sıkıntılı veya sitenize ulaşılamıyor.")
@@ -1313,12 +1362,12 @@ def poster(message):
                     except Exception as e:
                         logger.debug(f"Hatalı kanal: {kanal}")
                         e = str(e)
-                        if e.find("bot is not a member") != -1:
+                        if e.find("bot is") != -1:
                             collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
-                        try:
-                            bot.send_message(user, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
-                        except: #Hem botu engelleyip hemde kanaldan sildiyse
-                            pass   
+                            try:
+                                bot.send_message(user, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                            except: #Hem botu engelleyip hemde kanaldan sildiyse
+                                pass   
                             logger.debug(f"{kanal} kayıtlardan silindi.")
                 logger.info("Başarılı!")
             else:
@@ -1335,6 +1384,8 @@ def poster(message):
         """ Link tespit """
         bsolx = bmesaj.rfind("http")
         bsol = bmesaj.find("http")
+        if bsol == -1:
+            return
         bsag = bmesaj.find("\n", bsol)
         if bsol != bsolx:
             return
@@ -1450,12 +1501,12 @@ def poster(message):
                     except Exception as e:
                         logger.debug(f"Hatalı kanal: {bkanal}")
                         e = str(e)
-                        if e.find("bot is not a member") != -1:
+                        if e.find("bot is") != -1:
                             collection.update_one({"_id": buser}, {"$pull": {"kanal": bkan}})
-                        try:
-                            bot.send_message(buser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
-                        except: #Hem botu engelleyip hemde kanaldan sildiyse
-                            pass   
+                            try:
+                                bot.send_message(buser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                            except: #Hem botu engelleyip hemde kanaldan sildiyse
+                                pass   
                             logger.debug(f"{bkanal} kayıtlardan silindi.")
                     
                 logger.info("Başarılı!")
@@ -1471,6 +1522,8 @@ def poster(message):
         """ Link tespit """
         csolx = cmesaj.rfind("http")
         csol = cmesaj.find("http")
+        if csol == -1:
+            return
         if csol != csolx:
             return
         csag = cmesaj.find("\n", csol)
@@ -1587,12 +1640,12 @@ def poster(message):
                     except Exception as e:
                         logger.debug(f"Hatalı kanal: {ckanal}")
                         e = str(e)
-                        if e.find("bot is not a member") != -1:
+                        if e.find("bot is") != -1:
                             collection.update_one({"_id": cuser}, {"$pull": {"kanal": ckan}})
-                        try:
-                            bot.send_message(cuser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
-                        except: #Hem botu engelleyip hemde kanaldan sildiyse
-                            pass   
+                            try:
+                                bot.send_message(cuser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                            except: #Hem botu engelleyip hemde kanaldan sildiyse
+                                pass   
                             logger.debug(f"{ckanal} kayıtlardan silindi.")
 
                 logger.info("Başarılı!")
@@ -1608,6 +1661,8 @@ def poster(message):
         """ Link tespit """
         dsolx = dmesaj.rfind("http")
         dsol = dmesaj.find("http")
+        if dsol == -1:
+            return
         if dsol != dsolx:
             return
         dsag = dmesaj.find("\n", dsol)
@@ -1722,12 +1777,12 @@ def poster(message):
                     except Exception as e:
                         logger.debug(f"Hatalı kanal: {dkanal}")
                         e = str(e)
-                        if e.find("bot is not a member") != -1:
+                        if e.find("bot is") != -1:
                             collection.update_one({"_id": duser}, {"$pull": {"kanal": dkan}})
-                        try:
-                            bot.send_message(duser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
-                        except: #Hem botu engelleyip hemde kanaldan sildiyse
-                            pass   
+                            try:
+                                bot.send_message(duser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                            except: #Hem botu engelleyip hemde kanaldan sildiyse
+                                pass   
                             logger.debug(f"{dkanal} kayıtlardan silindi.")
 
                 logger.info("Başarılı!")
@@ -1741,6 +1796,8 @@ def poster(message):
         """ Link tespit """
         esolx = emesaj.rfind("http")
         esol = emesaj.find("http")
+        if esol == -1:
+            return
         if esol != esolx:
             return
         esag = emesaj.find("\n", esol)
@@ -1853,12 +1910,12 @@ def poster(message):
                     except Exception as e:
                         logger.debug(f"Hatalı kanal: {ekanal}")
                         e = str(e)
-                        if e.find("bot is not a member") != -1:
+                        if e.find("bot is") != -1:
                             collection.update_one({"_id": euser}, {"$pull": {"kanal": ekan}})
-                        try:
-                            bot.send_message(euser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
-                        except: #Hem botu engelleyip hemde kanaldan sildiyse
-                            pass   
+                            try:
+                                bot.send_message(euser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                            except: #Hem botu engelleyip hemde kanaldan sildiyse
+                                pass   
                             logger.debug(f"{ekanal} kayıtlardan silindi.")
 
                 logger.info("Başarılı!")
@@ -1874,6 +1931,8 @@ def poster(message):
         """ Link tespit """
         gsolx = gmesaj.rfind("http")
         gsol = gmesaj.find("http")
+        if gsol == -1:
+            return
         if gsol != gsolx:
             return
         gkynk = bot.get_chat(chat)
@@ -1987,12 +2046,12 @@ def poster(message):
                     except Exception as e:
                         logger.debug(f"Hatalı kanal: {gkanal}")
                         e = str(e)
-                        if e.find("bot is not a member") != -1:
+                        if e.find("bot is") != -1:
                             collection.update_one({"_id": guser}, {"$pull": {"kanal": gkan}})
-                        try:
-                            bot.send_message(guser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
-                        except: #Hem botu engelleyip hemde kanaldan sildiyse
-                            pass   
+                            try:
+                                bot.send_message(guser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                            except: #Hem botu engelleyip hemde kanaldan sildiyse
+                                pass   
                             logger.debug(f"{gkanal} kayıtlardan silindi.")
 
                 logger.info("Başarılı!")
@@ -2008,12 +2067,14 @@ def poster(message):
         """ Link tespit """
         fsolx = fmesaj.rfind("http")
         fsol = fmesaj.find("http")
+        if fsol == -1:
+            return
         if fsol != fsolx:
             return
         fsag = fmesaj.find("\n", fsol)
         fmesajb = fmesaj[fsol:fsag].strip()
-        if gmesaj.find("\n", gsol) == -1:
-            gmesajb = gmesaj[gsol:].strip()
+        if fmesaj.find("\n", fsol) == -1:
+            fmesajb = fmesaj[fsol:].strip()
         if fmesajb.startswith("https://t.me/"):
             return
         fkynk = bot.get_chat(chat)
@@ -2122,12 +2183,12 @@ def poster(message):
                     except Exception as e:
                         logger.debug(f"Hatalı kanal: {fkanal}")
                         e = str(e)
-                        if e.find("bot is not a member") != -1:
+                        if e.find("bot is") != -1:
                             collection.update_one({"_id": fuser}, {"$pull": {"kanal": fkan}})
-                        try:
-                            bot.send_message(fuser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
-                        except: #Hem botu engelleyip hemde kanaldan sildiyse
-                            pass   
+                            try:
+                                bot.send_message(fuser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                            except: #Hem botu engelleyip hemde kanaldan sildiyse
+                                pass   
                             logger.debug(f"{fkanal} kayıtlardan silindi.")
                     
                 logger.info("Başarılı!")
@@ -2145,6 +2206,8 @@ def poster(message):
         """  Link tespit  """
         osolx = omesaj.rfind("http")
         osol = omesaj.find("http")
+        if osol == -1:
+            return
         if osol != osolx:
             return
         osag = omesaj.find("\n", osol)
@@ -2248,7 +2311,7 @@ def poster(message):
                 except Exception as e:
                     logger.debug(f"Hatalı kanal: {okanal}")
                     e = str(e)
-                    if e.find("bot is not a member") != -1:
+                    if e.find("bot is") != -1:
                         collection.update_one({"_id": ouser}, {"$pull": {"kanal": okan}})
                         try:
                             bot.send_message(ouser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
