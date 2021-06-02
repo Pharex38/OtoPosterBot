@@ -23,8 +23,11 @@ def is_running():
         if q.name().startswith('python'):
             if q.pid == int(anapid):
                 suan = time.time()
-                sure = suan - baslangic
+                saniye = round(suan - baslangic, 0)
+                dakika = saniye / 60 if saniye != 0 else 0
+                saat = dakika / 60 if dakika != 0 else 0
 
+                sure = saat+":"+dakika+":"+saniye
                 logs.info(f"{sure} İşlem hâlâ çalışıyor.")
                 return True, sure
     logs.warning("İşlem Bulunamadı.")
