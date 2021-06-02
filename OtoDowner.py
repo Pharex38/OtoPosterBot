@@ -23,7 +23,7 @@ def is_running():
         if q.name().startswith('python'):
             if q.pid == int(anapid):
                 suan = time.time()
-                saniye = int(suan - baslangic, 0)
+                saniye = int(suan - baslangic)
                 dakika = int(saniye / 60 if saniye != 0 else 0)
                 saat = int(dakika / 60 if dakika != 0 else 0)
 
