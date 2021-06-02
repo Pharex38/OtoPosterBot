@@ -1175,31 +1175,31 @@ def pat(message):
     try:
         if not paltapi == "None":
             if paltsite == "1":
-                pjson = s.get(f"https://ay.live/api/?api={paltapi}&url={plink}&alias=&ct=1", cookies=cookies).json()
+                pjson = s.get(f"https://ay.live/api/?", params={"api": paltapi, "url": plink, "ct": 1}, cookies=cookies).json()
                 palink = pjson['shortenedUrl']
             if paltsite == "2":
                 pjson = s.get(f"https://www.pnd.tl/api?", params={'api': paltapi, 'url': plink, 'category': 6}).json()
                 palink = pjson['shortenedUrl']
             if paltsite == "3":
-                pjson = s.get(f"https://exe.io/api?api={paltapi}&url={plink}").json()
+                pjson = s.get(f"https://exe.io/api?", params={"api": paltapi, "url": plink}).json()
                 palink = pjson['shortenedUrl']
             if paltsite == "4":
-                palink = s.get(f"http://ouo.io/api/{paltapi}?s={plink}").text
+                palink = s.get(f"http://ouo.io/api/{paltapi}", params={"s": plink}).text
             if paltsite == "5":
-                palink = s.get(f"http://pubiza.com/api.php?token={paltapi}&url={plink}&ads_type=adult").text
+                palink = s.get(f"http://pubiza.com/api.php?", params={"token": paltapi, "url": plink, "ads_type": "adult"}).text
         if psite == "1":
-            pjson = s.get(f"https://ay.live/api/?api={ptoken}&url={plink}&alias=&ct=1", cookies=cookies).json()
+            pjson = s.get(f"https://ay.live/api/?", params={"api": ptoken, "url": plink, "ct": 1}, cookies=cookies).json()
             plink = pjson['shortenedUrl']
         if psite == "2":
             pjson = get(f"https://www.pnd.tl/api?", params={'api': ptoken, 'url': plink, 'category': 6}).json()
             plink = pjson['shortenedUrl']
         if psite == "3":
-            pjson = s.get(f"https://exe.io/api?api={ptoken}&url={plink}").json()
+            pjson = s.get(f"https://exe.io/api?", params={"api": ptoken, "url": plink}).json()
             plink = pjson['shortenedUrl']
         if psite == "4":
-            plink = s.get(f"http://ouo.io/api/{ptoken}?s={plink}").text
+            plink = s.get(f"http://ouo.io/api/{ptoken}?", params={"s": plink}).text
         if psite == "5":
-            plink = s.get(f"http://pubiza.com/api.php?token={ptoken}&url={plink}&ads_type=adult").text
+            plink = s.get(f"http://pubiza.com/api.php?", params={"token": ptoken, "url": plink, "ads_type": "adult"}).text
         if psablon == "1":
             psablon = f"🔥{paciklama}\n\n🔱 TIKLA 👉 {plink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
         elif psablon == "2" or psablon == "3":
