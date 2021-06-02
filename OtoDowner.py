@@ -23,13 +23,13 @@ def is_running():
         if q.name().startswith('python'):
             if q.pid == int(anapid):
                 nzaman = datetime.datetime.now()
-                simdisaat = nzaman.hour - bzaman.hour
+                simdisaat = str(nzaman.hour - bzaman.hour)
                 simdisaat = simdisaat.zfill(2) if len(simdisaat) < 2 else simdisaat
-                simdidakika = nzaman.minute - bzaman.minute
+                simdidakika = str(nzaman.minute - bzaman.minute)
                 simdidakika = simdidakika.zfill(2) if len(simdidakika) < 2 else simdidakika
-                simdisaniye = nzaman.second - bzaman.second
+                simdisaniye = str(nzaman.second - bzaman.second)
                 simdisaniye = simdisaniye.zfill(2) if len(simdisaniye) < 2 else simdisaniye
-                sure = str(simdisaat)+":"+str(simdidakika)+":"+str(simdisaniye)
+                sure = simdisaat+":"+simdidakika+":"+simdisaniye
                 logs.info(f"{sure} İşlem hâlâ çalışıyor.")
                 return True, sure
     logs.warning("İşlem Bulunamadı.")
