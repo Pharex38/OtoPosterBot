@@ -26,7 +26,7 @@ def is_running():
                 simdisaat = bzaman.hour - nzaman.hour
                 simdidakika = bzaman.minute - nzaman.minute
                 simdisaniye = bzaman.second - nzaman.second
-                sure = simdisaat+":"+simdidakika+":"+simdisaniye
+                sure = str(simdisaat)+":"+str(simdidakika)+":"+str(simdisaniye)
                 logs.info(f"{sure} İşlem hâlâ çalışıyor.")
                 return True, sure
     logs.warning("İşlem Bulunamadı.")
