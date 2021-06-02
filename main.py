@@ -14,7 +14,7 @@ import logging
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton 
 #botapi = environ['BOT_TOKEN']  
 mpass = os.environ['MONGOPASS']
-mongo = "os.environ["MONGO_URI"]"
+mongo = f"os.environ["MONGO_URI"]"
 
 pid = os.getpid()
 time.sleep(3)
