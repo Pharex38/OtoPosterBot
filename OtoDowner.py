@@ -60,6 +60,7 @@ def send_welcome(message):
     pid = open("pid.txt", "r").read()
     if is_running():
         durum = "Aktif!"
+        sure = is_running()
         bot.send_message(chat, "Merhaba!\n\nDurum: {}\nÇalışma Süresi: <code>{}</code>".format(durum, sure)) 
     else:
         durum = "Kapalı!"
