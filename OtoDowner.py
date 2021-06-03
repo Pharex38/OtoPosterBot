@@ -22,6 +22,7 @@ def is_running():
     for q in psutil.process_iter():
         if q.name().startswith('python'):
             if q.pid == int(anapid):
+                print(type(q.started))
                 suan = time.time()
                 # Biraz Matematik
                 saniye = int(suan - baslangic)
