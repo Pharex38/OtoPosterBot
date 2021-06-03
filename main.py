@@ -487,53 +487,77 @@ def callback_query(call):
     mesajid = call.message.id
     """ İptal """
     if call.data == "akaldır":
-        collection.update_one({"_id": user}, {"$set": {"altsite": "None", "altapi": "None", "sira": "0", "sablon": "1"}})
-        msg = bot.edit_message_text("⛔ Alternatif Kaldırıldı.", user, mesajid)
-        bot.answer_callback_query("⛔ Alternatif Kaldırıldı.")
-        bot.register_next_step_handler(msg, kayitapi)
+        try:
+            collection.update_one({"_id": user}, {"$set": {"altsite": "None", "altapi": "None", "sira": "0", "sablon": "1"}})
+            msg = bot.edit_message_text("⛔ Alternatif Kaldırıldı.", user, mesajid)
+            bot.answer_callback_query("⛔ Alternatif Kaldırıldı.")
+            bot.register_next_step_handler(msg, kayitapi)
+        except Exception as e:
+            bildir(e)
     if call.data == "aiptal":
-        msg = bot.edit_message_text("<i>İptal Edildi</i>", user, mesajid)
+        try:
+            msg = bot.edit_message_text("<i>İptal Edildi</i>", user, mesajid)
+        except Exception as e:
+            bildir(e)
     if call.data == "iptal":
-        bot.edit_message_text("<i>İptal Edildi</i>", user, mesajid)
+        try:
+            bot.edit_message_text("<i>İptal Edildi</i>", user, mesajid)
+        except Exception as e:
+            bildir(e)
     """ Kanal Sil """
     if call.data.startswith("sil"):
-        kul = collection.find_one({"_id": user})
-        s = int(call.data.split("-")[1])
-        collection.update_one({"_id": user}, {"$pull": {"kanal": kul['kanal'][s]}})
-        bot.edit_message_text("Kanalınız Silindi!", user, mesajid)
-        bot.answer_callback_query(call.id, "Kanalınız Silindi!")
+        try:
+            kul = collection.find_one({"_id": user})
+            s = int(call.data.split("-")[1])
+            collection.update_one({"_id": user}, {"$pull": {"kanal": kul['kanal'][s]}})
+            bot.edit_message_text("Kanalınız Silindi!", user, mesajid)
+            bot.answer_callback_query(call.id, "Kanalınız Silindi!")
+        except Exception as e:
+            bildir(e)
     """ Site Değiştir """
     if call.data.startswith("site"):
-        skul = collection.find_one({"_id": user})
-        ss = str(call.data.split("-")[1])
-        collection.update_one({"_id": user}, {"$set": {"site": ss}})
-        bot.edit_message_text("Site Kaydedildi!\n\nAPI adresinizi seçtiğiniz siteye göre değiştirmeyi unutmayın.", user, mesajid)
-        bot.answer_callback_query(call.id, "Site Kaydedildi!")
+        try:
+            skul = collection.find_one({"_id": user})
+            ss = str(call.data.split("-")[1])
+            collection.update_one({"_id": user}, {"$set": {"site": ss}})
+            bot.edit_message_text("Site Kaydedildi!\n\nAPI adresinizi seçtiğiniz siteye göre değiştirmeyi unutmayın.", user, mesajid)
+            bot.answer_callback_query(call.id, "Site Kaydedildi!")
+        except Exception as e:
+            bildir(e)
     """ Alternatif """
     if call.data.startswith("asite"):
-        smesaj = str(call.data.split("-")[1])
-        sss = str(call.data.split("-")[2])
-        bot.answer_callback_query(call.id, "✅ Site Kaydedildi!")
-        bot.edit_message_text("✅ Alternatif site kaydedildi.", user, mesajid)
-        msg = bot.send_message(chat, "📝 Alternatif API adresinizi gönderin.", reply_markup=imark())
-        bot.register_next_step_handler(msg, altakayit, smesaj, user, chat, sss)
+        try:
+            smesaj = str(call.data.split("-")[1])
+            sss = str(call.data.split("-")[2])
+            bot.answer_callback_query(call.id, "✅ Site Kaydedildi!")
+            bot.edit_message_text("✅ Alternatif site kaydedildi.", user, mesajid)
+            msg = bot.send_message(chat, "📝 Alternatif API adresinizi gönderin.", reply_markup=imark())
+            bot.register_next_step_handler(msg, altakayit, smesaj, user, chat, sss)
+        except Exception as e:
+            bildir(e)
     if call.data.startswith("sistem"):
-        sss = str(call.data.split("-")[1])
-        collection.update_one({"_id": user}, {"$set": {"sira": sss}})
-        bot.answer_callback_query(call.id, "✅ Site Kaydedildi!")
-        bot.edit_message_text("Alternatif olarak kullanmak istediğiniz siteyi seçin.", user, mesajid)
-        bot.edit_message_reply_markup(user, mesajid, reply_markup=altsitemarkup(sss))
+        try:
+            sss = str(call.data.split("-")[1])
+            collection.update_one({"_id": user}, {"$set": {"sira": sss}})
+            bot.answer_callback_query(call.id, "✅ Site Kaydedildi!")
+            bot.edit_message_text("Alternatif olarak kullanmak istediğiniz siteyi seçin.", user, mesajid)
+            bot.edit_message_reply_markup(user, mesajid, reply_markup=altsitemarkup(sss))
+        except Exception as e:
+            bildir(e)
     """ Kaynak """
     if call.data.startswith("kaynak"):
-        kys = str(call.data.split("-")[1])
-        kkul = collection.find_one({"_id": user})
-        if kys in kkul['kaynak']:
-            collection.update_one({"_id": user}, {"$pull": {"kaynak": kys}})
-            bot.answer_callback_query(call.id, "❌ Kaynak Kaldırıldı")
-        else:
-            collection.update_one({"_id": user}, {"$push": {"kaynak": kys}})
-            bot.answer_callback_query(call.id, "✅ Kaynak Eklendi")
-        bot.edit_message_reply_markup(chat, mesajid, reply_markup=kaynakmark(user))
+        try:
+            kys = str(call.data.split("-")[1])
+            kkul = collection.find_one({"_id": user})
+            if kys in kkul['kaynak']:
+                collection.update_one({"_id": user}, {"$pull": {"kaynak": kys}})
+                bot.answer_callback_query(call.id, "❌ Kaynak Kaldırıldı")
+            else:
+                collection.update_one({"_id": user}, {"$push": {"kaynak": kys}})
+                bot.answer_callback_query(call.id, "✅ Kaynak Eklendi")
+            bot.edit_message_reply_markup(chat, mesajid, reply_markup=kaynakmark(user))
+        except Exception as e:
+            bildir(e)
     if call.data.startswith("zaman"):
         saat = collection.find_one({"_id": 0})
         dgr = int(call.data.split("-")[1])
