@@ -635,18 +635,24 @@ def callback_query(call):
             bildir(e)
     """ Şablon """
     if call.data == "sablon":
-        bot.delete_message(user, mesajid)
-        if collection.find_one({"_id": user})['sira'] == "1":
-            msz = bot.send_message(chat, "<i>Oluşturduğunuz şablonda</i> <b>{aciklama}, {alink}</b> ve <b>{link}</b> <i>kelimelerinin bulunduğundan emin olun yoksa şablon çalışmaz</i>", reply_markup=imark())
-        else:
-            msz = bot.send_message(chat, "<i>Oluşturduğunuz şablonda</i> <b>{aciklama}</b> ve <b>{link}</b> <i>kelimelerinin bulunduğundan emin olun yoksa şablon çalışmaz</i>", reply_markup=imark())
-        bot.register_next_step_handler(msz, sabloniki)
+        try:
+            bot.delete_message(user, mesajid)
+            if collection.find_one({"_id": user})['sira'] == "1":
+                msz = bot.send_message(chat, "<i>Oluşturduğunuz şablonda</i> <b>{aciklama}, {alink}</b> ve <b>{link}</b> <i>kelimelerinin bulunduğundan emin olun yoksa şablon çalışmaz</i>", reply_markup=imark())
+            else:
+                msz = bot.send_message(chat, "<i>Oluşturduğunuz şablonda</i> <b>{aciklama}</b> ve <b>{link}</b> <i>kelimelerinin bulunduğundan emin olun yoksa şablon çalışmaz</i>", reply_markup=imark())
+            bot.register_next_step_handler(msz, sabloniki)
+        except Exception as e:
+            bildir(e)
     if call.data == "vsablon":
-        if collection.find_one({"_id": user})['sira'] == "1":
-            collection.update_one({"_id": user}, {"$set": {"sablon": "9"}})
-        else:
-            collection.update_one({"_id": user}, {"$set": {"sablon": "1"}})
-        bot.edit_message_text("Varsayılana döndürüldü.", chat, mesajid)
+        try:
+            if collection.find_one({"_id": user})['sira'] == "1":
+                collection.update_one({"_id": user}, {"$set": {"sablon": "9"}})
+            else:
+                collection.update_one({"_id": user}, {"$set": {"sablon": "1"}})
+            bot.edit_message_text("Varsayılana döndürüldü.", chat, mesajid)
+        except Exception as e:
+            bildir(e)
         
 def sitemarkup():
     smark = InlineKeyboardMarkup()
