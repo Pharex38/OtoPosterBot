@@ -35,7 +35,8 @@ def is_running():
                 logs.info(f"{sure} İşlem hâlâ çalışıyor.")
                 return True, sure
     logs.warning("İşlem Bulunamadı.")
-    return False
+    sure = "0 Gün 00:00:00"
+    return False, sure
 
 def kontrol():
     while True:
