@@ -121,7 +121,6 @@ def stop(message):
         os.kill(int(pid), 9)
     except Exception as e:
         print(e)
-    pidd.write("down")
     bot.send_message(chat, "Bot Durduruldu.")
 
 if __name__ == '__main__':
