@@ -585,45 +585,54 @@ def callback_query(call):
         except Exception as e:
             bildir(e)
     if call.data == "okayt":
-        if OzelCol.find_one({"_id": user}) == None:
-            OzelCol.insert_one({"_id": user})
+        try:
+            if OzelCol.find_one({"_id": user}) == None:
+                OzelCol.insert_one({"_id": user})
         
-        bot.delete_message(chat, mesajid)
-        msg = bot.send_message(chat, """<b>Yapmanız Gerekenler</b>
+            bot.delete_message(chat, mesajid)
+            msg = bot.send_message(chat, """<b>Yapmanız Gerekenler</b>
 <i>
 1 - Kaynak yapacağınız kanal oluşturun.
 2 - Oluşturduğunuz kanaldan bota bir mesaj iletin.</i>""", reply_markup=imark())
-        bot.register_next_step_handler(msg, ozelk)
+            bot.register_next_step_handler(msg, ozelk)
+        except Exception as e:
+            bildir(e)
     if call.data == "okayk":
-        collection.update_one({"_id": user}, {"$set": {"ozel": False}})
-        OzelCol.delete_one({"_id": user})
-        bot.edit_message_text("Özel Kaynak Kaldırıldı.", chat, mesajid)
+        try:
+            collection.update_one({"_id": user}, {"$set": {"ozel": False}})
+            OzelCol.delete_one({"_id": user})
+            bot.edit_message_text("Özel Kaynak Kaldırıldı.", chat, mesajid)
+        except Exception as e:
+            bildir(e)
     """ PAT """
     if call.data.startswith("pat"):
-        back = call.data.split("-")
-        o = int(back[1]) - 1
-        ptip = patc.ptip
-        psablon = patc.psablon
-        fid = patc.fid
+        try:
+            back = call.data.split("-")
+            o = int(back[1]) - 1
+            ptip = patc.ptip
+            psablon = patc.psablon
+            fid = patc.fid
         
-        kanal = collection.find_one({"_id": user})['kanal']
-        if o == -1:
-            for kan in kanal:
-                if ptip == 'photo':
-                    bot.send_photo(kan, fid, caption=psablon)
-                if ptip == 'video':
-                    bot.send_video(kan, fid, caption=psablon)
-                if ptip == 'animation':
-                    bot.send_animation(kan, fid, caption=psablon)
-            bot.edit_message_text("✅<b>Postunuz Tüm Kanallarınıza Gönderildi!</b>", user, mesajid)
-            return
-        if ptip == 'photo':
-            bot.send_photo(kanal[o], fid, caption=psablon)
-        if ptip == 'video':
-            bot.send_video(kanal[o], fid, caption=psablon)
-        if ptip == 'animation':
-            bot.send_animation(kanal[o], fid, caption=psablon)
-        bot.edit_message_text("✅<b>Postunuz  Kanalınıza Gönderildi!</b>", user, mesajid) 
+            kanal = collection.find_one({"_id": user})['kanal']
+            if o == -1:
+                for kan in kanal:
+                    if ptip == 'photo':
+                        bot.send_photo(kan, fid, caption=psablon)
+                    if ptip == 'video':
+                        bot.send_video(kan, fid, caption=psablon)
+                    if ptip == 'animation':
+                        bot.send_animation(kan, fid, caption=psablon)
+                bot.edit_message_text("✅<b>Postunuz Tüm Kanallarınıza Gönderildi!</b>", user, mesajid)
+                return
+            if ptip == 'photo':
+                bot.send_photo(kanal[o], fid, caption=psablon)
+            if ptip == 'video':
+                bot.send_video(kanal[o], fid, caption=psablon)
+            if ptip == 'animation':
+                bot.send_animation(kanal[o], fid, caption=psablon)
+            bot.edit_message_text("✅<b>Postunuz  Kanalınıza Gönderildi!</b>", user, mesajid)
+        except Exception as e:
+            bildir(e)
     """ Şablon """
     if call.data == "sablon":
         bot.delete_message(user, mesajid)
