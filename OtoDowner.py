@@ -73,6 +73,7 @@ def send_welcome(message):
 
 @bot.message_handler(commands=['run'])
 def run(message):
+    global baslangic
     chat = message.chat.id
     user = message.from_user.id
     if not user in yetkili:
@@ -86,10 +87,11 @@ def run(message):
         except:
             pass
         time.sleep(1)
-        os.startfile('basla.bat')
+        os.startfile('main.py')
         bot.send_message(chat, "Yeniden Başlatıldı!")
         return
-    os.startfile('basla.bat')
+    os.startfile('main.py')
+    baslangic = time.time()
     bot.send_message(chat, "Bot Başlatıldı!")
     return
 
