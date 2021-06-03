@@ -22,7 +22,6 @@ def is_running():
     for q in psutil.process_iter():
         if q.name().startswith('python'):
             if q.pid == int(anapid):
-                print(q)
                 suan = time.time()
                 # Biraz Matematik
                 saniye = int(suan - baslangic)
@@ -30,8 +29,9 @@ def is_running():
                 saniye = saniye - dakika * 60
                 saat = int(dakika / 60 if dakika > 60 else 0)
                 dakika = dakika - saat * 60
-
-                sure = str(saat).zfill(2)+":"+str(dakika).zfill(2)+":"+str(saniye).zfill(2)
+                gun = int(saat / 24 if saat > 24 else 0)
+                saat = saat - gun
+                sure = str(gun).zfill(2)+":"+str(saat).zfill(2)+":"+str(dakika).zfill(2)+":"+str(saniye).zfill(2)
                 logs.info(f"{sure} İşlem hâlâ çalışıyor.")
                 return True, sure
     logs.warning("İşlem Bulunamadı.")
