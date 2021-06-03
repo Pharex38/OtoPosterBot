@@ -559,25 +559,31 @@ def callback_query(call):
         except Exception as e:
             bildir(e)
     if call.data.startswith("zaman"):
-        saat = collection.find_one({"_id": 0})
-        dgr = int(call.data.split("-")[1])
-        if dgr == 1:
-            bot.answer_callback_query(callback_query_id=call.id,show_alert=True, text=saat['mahzen'])
-        if dgr == 2:
-            bot.answer_callback_query(callback_query_id=call.id,show_alert=True, text=saat['bedava'])
-        if dgr == 3:
-            bot.answer_callback_query(callback_query_id=call.id,show_alert=True, text=saat['evi'])
-        if dgr == 4:
-            bot.answer_callback_query(callback_query_id=call.id,show_alert=True, text=saat['bashub'])
-        if dgr == 5:
-            bot.answer_callback_query(callback_query_id=call.id,show_alert=True, text=saat['acikmi'])
-        if dgr == 6:
-            bot.answer_callback_query(callback_query_id=call.id,show_alert=True, text=saat['tutan'])
-        if dgr == 7:
-            bot.answer_callback_query(callback_query_id=call.id,show_alert=True, text=saat['muho'])
+        try:
+            saat = collection.find_one({"_id": 0})
+            dgr = int(call.data.split("-")[1])
+            if dgr == 1:
+                bot.answer_callback_query(callback_query_id=call.id,show_alert=True, text=saat['mahzen'])
+            if dgr == 2:
+                bot.answer_callback_query(callback_query_id=call.id,show_alert=True, text=saat['bedava'])
+            if dgr == 3:
+                bot.answer_callback_query(callback_query_id=call.id,show_alert=True, text=saat['evi'])
+            if dgr == 4:
+                bot.answer_callback_query(callback_query_id=call.id,show_alert=True, text=saat['bashub'])
+            if dgr == 5:
+                bot.answer_callback_query(callback_query_id=call.id,show_alert=True, text=saat['acikmi'])
+            if dgr == 6:
+                bot.answer_callback_query(callback_query_id=call.id,show_alert=True, text=saat['tutan'])
+            if dgr == 7:
+                bot.answer_callback_query(callback_query_id=call.id,show_alert=True, text=saat['muho'])
+        except Exception as e:
+            bildir(e)
     if call.data == "okay":
-        bot.edit_message_text("""<b>Özel Kaynak Hakkında Bilmeniz Gerekenler</b>\n\n<i>- Özel kaynak ayarlarsanız başka kaynak seçemezsiniz.\n- Sadece size özeldir başkası kullanamaz.\n- Özel kaynağa kısaltılmamış link atmanız gerekiyor. Kısaltılmış linkli post atarsanız bot linki geçmez direkt olarak kısaltılmış linki tekrar kısaltır.</i>\n\n<b>Alttaki butona bastığınız zaman işlem iptal edilemez!</b>""", chat, mesajid)
-        bot.edit_message_reply_markup(chat, mesajid, reply_markup=ozelmark())
+        try:
+            bot.edit_message_text("""<b>Özel Kaynak Hakkında Bilmeniz Gerekenler</b>\n\n<i>- Özel kaynak ayarlarsanız başka kaynak seçemezsiniz.\n- Sadece size özeldir başkası kullanamaz.\n- Özel kaynağa kısaltılmamış link atmanız gerekiyor. Kısaltılmış linkli post atarsanız bot linki geçmez direkt olarak kısaltılmış linki tekrar kısaltır.</i>\n\n<b>Alttaki butona bastığınız zaman işlem iptal edilemez!</b>""", chat, mesajid)
+            bot.edit_message_reply_markup(chat, mesajid, reply_markup=ozelmark())
+        except Exception as e:
+            bildir(e)
     if call.data == "okayt":
         if OzelCol.find_one({"_id": user}) == None:
             OzelCol.insert_one({"_id": user})
