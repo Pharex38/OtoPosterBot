@@ -1339,6 +1339,7 @@ def poster(message):
             if "1" in kaynak and len(kanal) > 0 and ret:
                 link = " "
                 alink = " "
+                json = " "
                 try:
                     if sira == "2":
                         token = altapi
@@ -1377,6 +1378,7 @@ def poster(message):
                 except Exception as e:
                     bot.send_message(user, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
                     logger.error(e)
+                    logger.debug(json)
                     ret = False
                 if sablon == "1":
                     sablon = f"🔥{aciklama}\n\n🔱 TIKLA 👉 {link}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
@@ -1474,7 +1476,8 @@ def poster(message):
             bsira = bhesap['sira']
             if "2" in bkaynak and len(bkanal) > 0 and bret:
                 balink = " "
-                blink = 0
+                blink = " "
+                bjson = " "
                 if bsira == "2":
                     btoken = baltapi
                     bsite = baltsite
@@ -1514,6 +1517,7 @@ def poster(message):
                 except Exception as e:
                     bot.send_message(buser, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
                     logger.error(e)
+                    logger.debug(bjson)
                     bret = False
                 if bsablon == "1":
                     bsablon = f"🔥{baciklama}\n\n🔱 TIKLA 👉 {blink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
@@ -1613,6 +1617,7 @@ def poster(message):
             if "3" in ckaynak and len(ckanal) > 0 and cret:
                 clink = " "
                 calink = " "
+                cjson = " "
                 if csira == "2":
                     ctoken = caltapi
                     csite = caltsite
@@ -1653,6 +1658,7 @@ def poster(message):
                 except Exception as e:
                     bot.send_message(cuser, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
                     logger.error(e)
+                    logger.debug(cjson)
                     cret = False
                     
                 if csablon == "1":
@@ -1752,6 +1758,7 @@ def poster(message):
             if "4" in dkaynak and len(dkanal) > 0 and dret:
                 dalink = " "
                 dlink = " "
+                djson = " "
                 if dsira == "2":
                     dtoken = daltapi
                     dsite = daltsite
@@ -1791,6 +1798,7 @@ def poster(message):
                 except Exception as e:
                     bot.send_message(duser, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
                     logger.error(e)
+                    logger.debug(djson)
                     dret = False
                     
                 if dsablon == "1":
@@ -1887,6 +1895,7 @@ def poster(message):
             if "5" in ekaynak and len(ekanal) > 0 and eret:
                 elink = " "
                 ealink = " "
+                ejson = " "
                 if esira == "2":
                     etoken = ealtapi
                     esite = ealtsite
@@ -1925,6 +1934,7 @@ def poster(message):
                 except Exception as e:
                     bot.send_message(euser, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
                     logger.error(e)
+                    logger.debug(ejson)
                     eret = False
                 if esablon == "1":
                     esablon = f"🔥{eaciklama}\n\n🔱 TIKLA 👉 {elink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
@@ -2022,6 +2032,7 @@ def poster(message):
             if "6" in gkaynak and len(gkanal) > 0 and gret:
                 glink = " "
                 galink = " "
+                gjson = " "
                 if gsira == "2":
                     gtoken = galtapi
                     gsite = galtsite
@@ -2061,6 +2072,7 @@ def poster(message):
                 except Exception as e:
                     bot.send_message(guser, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
                     logger.error(e)
+                    logger.debug(gjson)
                     gret = False
                 if gsablon == "1":
                     gsablon = f"🔥{gaciklama}\n\n🔱 TIKLA 👉 {glink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
@@ -2158,6 +2170,7 @@ def poster(message):
             if "7" in fkaynak and len(fkanal) > 0 and fret:
                 falink = " "
                 flink = " "
+                fjson = " "
                 if fsira == "2":
                     ftoken = faltapi
                     fsite = faltsite
@@ -2197,6 +2210,7 @@ def poster(message):
                 except Exception as e:
                     bot.send_message(fuser, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
                     logger.error(e)
+                    logger.debug(fjson)
                     fret = False
                 if fsablon == "1":
                     fsablon = f"🔥{faciklama}\n\n🔱 TIKLA 👉 {flink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
