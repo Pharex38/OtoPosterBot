@@ -1062,7 +1062,6 @@ def kayitapi(message):
         msg = bot.send_message(chat, "İptal Edildi.", reply_markup=dugme())
         return
     if mesaj == "🔗 Site değiştir":
-        user = message.from_user.id
         msg = bot.send_message(chat, "<i>Kullanmak istediğiniz siteyi seçin</i>", reply_markup=sitemarkup())
         bot.register_next_step_handler(msg, kayitapi)
         return
@@ -1072,7 +1071,7 @@ def kayitapi(message):
         return
     if mesaj == "🔶 Yeni Kanal Ekle":
         bol = collection.find_one({"_id": chat})
-        if len(bol['kanal']) > 2 and not in vip_uyeler:
+        if len(bol['kanal']) > 2 and not user in vip_uyeler:
             bot.send_message(chat, "<i>Üzgünüm en fazla 3 kanal kaydedebilirsiniz.</i>")
             return
         msg = bot.send_message(chat, """📝 <i>Lütfen kanalınızdan bir gönderi iletin.</i>""", reply_markup=imark())
