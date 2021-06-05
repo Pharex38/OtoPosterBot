@@ -1185,6 +1185,9 @@ def pat(message):
         fid = message.photo[0].file_id
     if message.content_type == "animation":
         fid = message.animation.file_id
+    if message.content_type == "document":
+        bot.send_message(chat, "Bu dosya türü desteklenmiyor. Lütfen bir video, fotoğraf veya gif gönderin.")
+        return
     """Açıklama Tespit"""
     pson = mesaj.find("\n")
     paciklama = mesaj[:pson]
