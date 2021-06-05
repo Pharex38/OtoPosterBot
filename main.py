@@ -1181,11 +1181,11 @@ def pat(message):
     mesaj = message.caption
     if message.content_type == "video":
         fid = message.video.file_id
-    if message.content_type == "photo":
+    elif message.content_type == "photo":
         fid = message.photo[0].file_id
-    if message.content_type == "animation":
+    elif message.content_type == "animation":
         fid = message.animation.file_id
-    if message.content_type == "document":
+    else:
         bot.send_message(chat, "Bu dosya türü desteklenmiyor. Lütfen bir video, fotoğraf veya gif gönderin.")
         return
     """Açıklama Tespit"""
