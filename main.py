@@ -383,7 +383,7 @@ def kpostsil(message):
     spcount = 0
     for d in data:
         try:
-            bot.delete_message(d['_id'], d['pid'])
+            bot.delete_message(d['chat'], d['pid'])
         except Exception as e:
             logger.error(e)
         else:
