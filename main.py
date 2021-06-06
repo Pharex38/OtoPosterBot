@@ -360,7 +360,7 @@ def ona(m):
 def durdur(message):
     chat = message.chat.id
     user = message.from_user.id
-    kimi = message.text.split() if len(message.split()) > 1 and user in adminlist else message.from_user.id
+    kimi = message.text.split() if len(message.text.split()) > 1 and user in adminlist else message.from_user.id
     if user in kara:
         bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
