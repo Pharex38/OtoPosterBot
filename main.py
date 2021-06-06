@@ -1414,7 +1414,6 @@ def poster(message):
                             post = bot.send_video(kan, medya, caption=sablon)
                         if message.content_type == "animation" and ret:
                             post = bot.send_animation(kan, medya, caption=sablon)
-                        count = count + 1
                     except Exception as e:
                         logger.debug(f"Hatalı kanal: {kanal}")
                         e = str(e)
@@ -1426,8 +1425,8 @@ def poster(message):
                                 pass   
                             logger.debug(f"{kanal} kayıtlardan silindi.")
                     else:
-                        postdata.insert_one({"pid": post.message_id, "chat": kan, "mesih": mesjid})
                         count = count + 1
+                        postdata.insert_one({"pid": post.message_id, "chat": kan, "mesih": mesjid})
                 logger.info("Başarılı!")
             else:
                 pass
