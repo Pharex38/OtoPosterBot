@@ -376,7 +376,7 @@ def kpostsil(message):
     chat = message.chat.id
     if not chat in kaynaklar:
         return
-    mesid = message.message_id if message.reply_to_message else None
+    mesid = message.reply_to_message.message_id if message.reply_to_message else None
     if mesid == None:
         bot.send_message(chat, "Silmek istediğiniz postu yanıtlayın.")
         return
