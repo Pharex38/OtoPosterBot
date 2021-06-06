@@ -1115,6 +1115,10 @@ def apikayit(message):
             mso = bot.send_message(chat, "❌ Geçersiz bir API verdiniz! Lütfen doğru bir API adresi verin.")
             bot.register_next_step_handler(mso, apikayit)
             return
+    if token.startswith("http"):
+        mso = bot.send_message(chat, "❌ Geçersiz bir API verdiniz! Lütfen doğru bir API adresi verin.")
+        bot.register_next_step_handler(mso, apikayit)
+        return
     key = {"_id": user, "token": token, "kanal": [], "sablon": "1", "kaynak": ["1"], "site": "1", "altapi": "None", "altsite": "None", "sira": "0", "ozel": False}
     if bnb == None:
         collection.insert_one(key)
