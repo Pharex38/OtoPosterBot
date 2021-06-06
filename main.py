@@ -1321,6 +1321,7 @@ def poster(message):
         """  Veri Tabanı  """
         postdata = db[str(chat)]
         binb = collection.find({})
+        date = message.date
         """ Dosya tespit """
         if message.content_type == "photo":
             medya = message.photo[0].file_id
@@ -1405,11 +1406,7 @@ def poster(message):
                             post = bot.send_video(kan, medya, caption=sablon)
                         if message.content_type == "animation" and ret:
                             post = bot.send_animation(kan, medya, caption=sablon)
-                        postkayit = postdata.find_one({"_id": kan})
-                        if postkayit == None:
-                            postdata.insert_one({"_id": kan, "pid": post.message_id})
-                        else:
-                            postdata.update_one({"_id": kan}, {"$set": {"pid": post.message_id}})
+                        postdata.insert_one({"pid": post.message_id, "chat": kan, "date": date})
                         count = count + 1
                     except Exception as e:
                         logger.debug(f"Hatalı kanal: {kanal}")
