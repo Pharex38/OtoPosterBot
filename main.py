@@ -396,8 +396,11 @@ def cpostsil(message):
     chat = message.chat.id
     if chat != sahip:
         return
-    hedef = message.text.split()[1]
-    data = db[str(hedef)].find({})
+    hedef = message.text.split()[1] if len(message.text.split()) > 1 else None
+    mesid = int(message.text.split()[2]) if len(message.text.split()) > 2 else None
+    if hedef == None or mesid == None:
+        return
+    data = db[str(hedef)].find({"date": mesid})
     spcount = 0
     for d in data:
         try:
