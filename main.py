@@ -376,11 +376,11 @@ def kpostsil(message):
     chat = message.chat.id
     if not chat in kaynaklar:
         return
-    tarih = message.reply_to_message.date if message.reply_to_message else None
-    if tarih == None:
+    mesid = message.message_id if message.reply_to_message else None
+    if mesid == None:
         bot.send_message(chat, "Silmek istediğiniz postu yanıtlayın.")
         return
-    data = db[str(chat)].find({"date": tarih})
+    data = db[str(chat)].find({"_id": mesid})
     spcount = 0
     for d in data:
         try:
@@ -400,7 +400,7 @@ def cpostsil(message):
     mesid = int(message.text.split()[2]) if len(message.text.split()) > 2 else None
     if hedef == None or mesid == None:
         return
-    data = db[str(hedef)].find({"date": mesid})
+    data = db[str(hedef)].find({"_id": mesid})
     spcount = 0
     for d in data:
         try:
@@ -1329,7 +1329,7 @@ def poster(message):
         """  Veri Tabanı  """
         postdata = db[str(chat)]
         binb = collection.find({})
-        date = message.date
+        mesjid = message.message_id
         """ Dosya tespit """
         if message.content_type == "photo":
             medya = message.photo[0].file_id
@@ -1414,7 +1414,7 @@ def poster(message):
                             post = bot.send_video(kan, medya, caption=sablon)
                         if message.content_type == "animation" and ret:
                             post = bot.send_animation(kan, medya, caption=sablon)
-                        postdata.insert_one({"pid": post.message_id, "chat": kan, "date": date})
+                        postdata.insert_one({"pid": post.message_id, "chat": kan, "_id": mesjid})
                         count = count + 1
                     except Exception as e:
                         logger.debug(f"Hatalı kanal: {kanal}")
@@ -1463,7 +1463,7 @@ def poster(message):
         """  Veri Tabanı  """
         bpostdata = db[str(chat)]
         bbinb = collection.find({})
-        bdate = message.date
+        bmesjid = message.message_id
         """ Dosya tespit """
         if message.content_type == "photo":
             bmedya = message.photo[0].file_id
@@ -1552,7 +1552,7 @@ def poster(message):
                             bpost = bot.send_video(bkan, bmedya, caption=bsablon)
                         if message.content_type == "animation" and bret:
                             bpost = bot.send_animation(bkan, bmedya, caption=bsablon)
-                        bpostdata.insert_one({"date": bdate, "pid": bpost.message_id, "chat": bkan})
+                        bpostdata.insert_one({"_id": bmesjid, "pid": bpost.message_id, "chat": bkan})
                         bcount = bcount + 1
                     except Exception as e:
                         logger.debug(f"Hatalı kanal: {bkanal}")
@@ -1600,7 +1600,7 @@ def poster(message):
         """  Veri Tabanı  """
         cpostdata = db[str(chat)]
         cbinb = collection.find({})
-        cdate = message.date
+        cmesjid = message.message_id
         """ Dosya tespit """
         if message.content_type == "photo":
             cmedya = message.photo[0].file_id
@@ -1692,7 +1692,7 @@ def poster(message):
                             cpost = bot.send_animation(ckan, cmedya, caption=csablon)
                         cpostkayit = cpostdata.find_one({"_id": ckan})
                         if cpostkayit == None:
-                            cpostdata.insert_one({"chat": ckan, "pid": cpost.message_id, "date": cdate})
+                            cpostdata.insert_one({"chat": ckan, "pid": cpost.message_id, "_id": bmesjid})
                         ccount = ccount + 1
                     except Exception as e:
                         logger.debug(f"Hatalı kanal: {ckanal}")
@@ -1740,7 +1740,7 @@ def poster(message):
         """  Veri Tabanı  """
         dpostdata = db[str(chat)]
         dbinb = collection.find({})
-        ddate = message.date
+        dmesjid = message.message_id
         """ Dosya tespit """
         if message.content_type == "photo":
             dmedya = message.photo[0].file_id
@@ -1828,7 +1828,7 @@ def poster(message):
                             dpost = bot.send_video(dkan, dmedya, caption=dsablon)
                         if message.content_type == "animation" and dret:
                             dpost = bot.send_animation(dkan, dmedya, caption=dsablon)
-                        dpostdata.insert_one({"chat": dkan, "pid": dpost.message_id, "date": ddate})
+                        dpostdata.insert_one({"chat": dkan, "pid": dpost.message_id, "_id": bmesjid})
                         dcount = dcount + 1
                     except Exception as e:
                         logger.debug(f"Hatalı kanal: {dkanal}")
@@ -1874,7 +1874,7 @@ def poster(message):
         """  Veri Tabanı  """
         epostdata = db[str(chat)]
         ebinb = collection.find({})
-        edate = message.date
+        emesjid = message.message_id
         """ Dosya tespit """
         if message.content_type == "photo":
             emedya = message.photo[0].file_id
@@ -1960,7 +1960,7 @@ def poster(message):
                             epost = bot.send_video(ekan, emedya, caption=esablon)
                         if message.content_type == "animation" and eret:
                             epost = bot.send_animation(ekan, emedya, caption=esablon)
-                        epostdata.insert_one({"chat": ekan, "pid": epost.message_id, "date": edate})
+                        epostdata.insert_one({"chat": ekan, "pid": epost.message_id, "_id": bmesjid})
                         ecount = ecount + 1
                     except Exception as e:
                         logger.debug(f"Hatalı kanal: {ekanal}")
@@ -2008,7 +2008,7 @@ def poster(message):
         """  Veri Tabanı  """
         gpostdata = db[str(chat)]
         gbinb = collection.find({})
-        gdate = message.date
+        gmesjid = message.message_id
         """ Dosya tespit """
         if message.content_type == "photo":
             gmedya = message.photo[0].file_id
@@ -2095,7 +2095,7 @@ def poster(message):
                             gpost = bot.send_video(gkan, gmedya, caption=gsablon)
                         if message.content_type == "animation" and gret:
                             gpost = bot.send_animation(gkan, gmedya, caption=gsablon)
-                        gpostdata.insert_one({"chat": gkan, "pid": gpost.message_id, "date": gdate})
+                        gpostdata.insert_one({"chat": gkan, "pid": gpost.message_id, "_id": bmesjid})
                         gcount = gcount + 1
                     except Exception as e:
                         logger.debug(f"Hatalı kanal: {gkanal}")
@@ -2143,7 +2143,7 @@ def poster(message):
         """  Veri Tabanı  """
         fpostdata = db[str(chat)]
         fbinb = collection.find({})
-        fdate = message.date
+        fmesjid = message.message_id
         """ Dosya tespit """
         if message.content_type == "photo":
             fmedya = message.photo[0].file_id
@@ -2231,7 +2231,7 @@ def poster(message):
                             fpost = bot.send_video(fkan, fmedya, caption=fsablon)
                         if message.content_type == "animation" and fret:
                             fpost = bot.send_animation(fkan, fmedya, caption=fsablon)
-                        fpostdata.insert_one({"chat": fkan, "pid": fpost.message_id, "date": fdate})
+                        fpostdata.insert_one({"chat": fkan, "pid": fpost.message_id, "_id": bmesjid})
                         fcount = fcount + 1
                     except Exception as e:
                         logger.debug(f"Hatalı kanal: {fkanal}")
