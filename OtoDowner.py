@@ -96,6 +96,10 @@ def run(message):
     bot.send_message(chat, "Bot Başlatıldı!")
     return
 
+@bot.channel_post_handler(content_types=['photo'])
+def hhhh(m):
+    print(m)
+
 dpid = os.getpid()
 eskipidfile = open("dpid.txt", "w+")
 eskipidfile.write(str(dpid))
