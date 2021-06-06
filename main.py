@@ -375,7 +375,11 @@ def kpostsil(message):
     chat = message.chat.id
     if not chat in kaynaklar:
         return
-    data = db[str(chat)].find({})
+    tarih = message.reply_to_message.date if message.reply_to_message else None
+    if tarih == None:
+        bot.send_message(chat, "Silmek istediğiniz postu yanıtlayın.")
+        return
+    data = db[str(chat)].find({"date": tarih})
     spcount = 0
     for d in data:
         try:
