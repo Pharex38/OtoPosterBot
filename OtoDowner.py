@@ -96,9 +96,9 @@ def run(message):
     bot.send_message(chat, "Bot Başlatıldı!")
     return
 
-@bot.channel_post_handler(content_types=['photo'])
+@bot.channel_post_handler(commands=['postsil'])
 def hhhh(m):
-    print(m)
+    print(m.reply_to_message.date)
 
 dpid = os.getpid()
 eskipidfile = open("dpid.txt", "w+")
