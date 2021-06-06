@@ -1414,7 +1414,6 @@ def poster(message):
                             post = bot.send_video(kan, medya, caption=sablon)
                         if message.content_type == "animation" and ret:
                             post = bot.send_animation(kan, medya, caption=sablon)
-                        postdata.insert_one({"pid": post.message_id, "chat": kan, "_id": mesjid})
                         count = count + 1
                     except Exception as e:
                         logger.debug(f"Hatalı kanal: {kanal}")
@@ -1426,6 +1425,9 @@ def poster(message):
                             except: #Hem botu engelleyip hemde kanaldan sildiyse
                                 pass   
                             logger.debug(f"{kanal} kayıtlardan silindi.")
+                    else:
+                        postdata.insert_one({"pid": post.message_id, "chat": kan, "mesih": mesjid})
+                        count = count + 1
                 logger.info("Başarılı!")
             else:
                 pass
@@ -1552,8 +1554,6 @@ def poster(message):
                             bpost = bot.send_video(bkan, bmedya, caption=bsablon)
                         if message.content_type == "animation" and bret:
                             bpost = bot.send_animation(bkan, bmedya, caption=bsablon)
-                        bpostdata.insert_one({"_id": bmesjid, "pid": bpost.message_id, "chat": bkan})
-                        bcount = bcount + 1
                     except Exception as e:
                         logger.debug(f"Hatalı kanal: {bkanal}")
                         e = str(e)
@@ -1564,7 +1564,9 @@ def poster(message):
                             except: #Hem botu engelleyip hemde kanaldan sildiyse
                                 pass   
                             logger.debug(f"{bkanal} kayıtlardan silindi.")
-                    
+                    else:
+                        bpostdata.insert_one({"mesih": bmesjid, "pid": bpost.message_id, "chat": bkan})
+                        bcount = bcount + 1
                 logger.info("Başarılı!")
         bbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(bkynk.title, bcount)
         logger.warning(bbasari)
@@ -1690,10 +1692,6 @@ def poster(message):
                             cpost = bot.send_video(ckan, cmedya, caption=csablon)
                         if message.content_type == "animation" and cret:
                             cpost = bot.send_animation(ckan, cmedya, caption=csablon)
-                        cpostkayit = cpostdata.find_one({"_id": ckan})
-                        if cpostkayit == None:
-                            cpostdata.insert_one({"chat": ckan, "pid": cpost.message_id, "_id": bmesjid})
-                        ccount = ccount + 1
                     except Exception as e:
                         logger.debug(f"Hatalı kanal: {ckanal}")
                         e = str(e)
@@ -1704,7 +1702,9 @@ def poster(message):
                             except: #Hem botu engelleyip hemde kanaldan sildiyse
                                 pass   
                             logger.debug(f"{ckanal} kayıtlardan silindi.")
-
+                    else:
+                        cpostdata.insert_one({"chat": ckan, "pid": cpost.message_id, "mesih": cmesjid})
+                        ccount = ccount + 1
                 logger.info("Başarılı!")
         cbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(ckynk.title, ccount)
         logger.warning(cbasari)
@@ -1828,8 +1828,6 @@ def poster(message):
                             dpost = bot.send_video(dkan, dmedya, caption=dsablon)
                         if message.content_type == "animation" and dret:
                             dpost = bot.send_animation(dkan, dmedya, caption=dsablon)
-                        dpostdata.insert_one({"chat": dkan, "pid": dpost.message_id, "_id": bmesjid})
-                        dcount = dcount + 1
                     except Exception as e:
                         logger.debug(f"Hatalı kanal: {dkanal}")
                         e = str(e)
@@ -1840,7 +1838,9 @@ def poster(message):
                             except: #Hem botu engelleyip hemde kanaldan sildiyse
                                 pass   
                             logger.debug(f"{dkanal} kayıtlardan silindi.")
-
+                    else:
+                        dpostdata.insert_one({"chat": dkan, "pid": dpost.message_id, "mesih": dmesjid})
+                        dcount = dcount + 1
                 logger.info("Başarılı!")
         dbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(dkynk.title, dcount)
         logger.warning(dbasari)
@@ -1960,8 +1960,6 @@ def poster(message):
                             epost = bot.send_video(ekan, emedya, caption=esablon)
                         if message.content_type == "animation" and eret:
                             epost = bot.send_animation(ekan, emedya, caption=esablon)
-                        epostdata.insert_one({"chat": ekan, "pid": epost.message_id, "_id": bmesjid})
-                        ecount = ecount + 1
                     except Exception as e:
                         logger.debug(f"Hatalı kanal: {ekanal}")
                         e = str(e)
@@ -1972,7 +1970,9 @@ def poster(message):
                             except: #Hem botu engelleyip hemde kanaldan sildiyse
                                 pass   
                             logger.debug(f"{ekanal} kayıtlardan silindi.")
-
+                    else:
+                        epostdata.insert_one({"chat": ekan, "pid": epost.message_id, "mesih": emesjid})
+                        ecount = ecount + 1
                 logger.info("Başarılı!")
         ebasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(ekynk.title, ecount)
         logger.warning(ebasari)
@@ -2095,8 +2095,6 @@ def poster(message):
                             gpost = bot.send_video(gkan, gmedya, caption=gsablon)
                         if message.content_type == "animation" and gret:
                             gpost = bot.send_animation(gkan, gmedya, caption=gsablon)
-                        gpostdata.insert_one({"chat": gkan, "pid": gpost.message_id, "_id": bmesjid})
-                        gcount = gcount + 1
                     except Exception as e:
                         logger.debug(f"Hatalı kanal: {gkanal}")
                         e = str(e)
@@ -2107,6 +2105,9 @@ def poster(message):
                             except: #Hem botu engelleyip hemde kanaldan sildiyse
                                 pass   
                             logger.debug(f"{gkanal} kayıtlardan silindi.")
+                    else:
+                        gpostdata.insert_one({"chat": gkan, "pid": gpost.message_id, "mesih": gmesjid})
+                        gcount = gcount + 1
 
                 logger.info("Başarılı!")
         gbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(gkynk.title, gcount)
@@ -2231,8 +2232,6 @@ def poster(message):
                             fpost = bot.send_video(fkan, fmedya, caption=fsablon)
                         if message.content_type == "animation" and fret:
                             fpost = bot.send_animation(fkan, fmedya, caption=fsablon)
-                        fpostdata.insert_one({"chat": fkan, "pid": fpost.message_id, "_id": bmesjid})
-                        fcount = fcount + 1
                     except Exception as e:
                         logger.debug(f"Hatalı kanal: {fkanal}")
                         e = str(e)
@@ -2243,6 +2242,9 @@ def poster(message):
                             except: #Hem botu engelleyip hemde kanaldan sildiyse
                                 pass   
                             logger.debug(f"{fkanal} kayıtlardan silindi.")
+                    else:
+                        fpostdata.insert_one({"chat": fkan, "pid": fpost.message_id, "mesih": fmesjid})
+                        fcount = fcount + 1
                     
                 logger.info("Başarılı!")
         fbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(fkynk.title, fcount)
