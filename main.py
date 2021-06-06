@@ -380,7 +380,7 @@ def kpostsil(message):
     if mesid == None:
         bot.send_message(chat, "Silmek istediğiniz postu yanıtlayın.")
         return
-    data = db[str(chat)].find({"_id": mesid})
+    data = db[str(chat)].find({"mesih": mesid})
     spcount = 0
     for d in data:
         try:
@@ -400,11 +400,11 @@ def cpostsil(message):
     mesid = int(message.text.split()[2]) if len(message.text.split()) > 2 else None
     if hedef == None or mesid == None:
         return
-    data = db[str(hedef)].find({"_id": mesid})
+    data = db[str(hedef)].find({"mesih": mesid})
     spcount = 0
     for d in data:
         try:
-            bot.delete_message(d['_id'], d['pid'])
+            bot.delete_message(d['chat'], d['pid'])
         except Exception as e:
             logger.error(e)
         else:
