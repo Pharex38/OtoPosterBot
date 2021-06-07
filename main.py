@@ -1129,7 +1129,10 @@ def apikayit(message):
         return
     key = {"_id": user, "token": token, "kanal": [], "sablon": "1", "kaynak": ["1"], "site": "1", "altapi": "None", "altsite": "None", "sira": "0", "ozel": False}
     if bnb == None:
-        collection.insert_one(key)
+        try:
+            collection.insert_one(key)
+        except Exception as e:
+            logger.error(e)
     else:
         collection.update_one({"_id": user}, {"$set": {"token": token}})
     bot.send_message(chat, "<b>🟢 API kaydedildi!</b>", reply_markup=dugme())
