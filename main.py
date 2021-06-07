@@ -2382,7 +2382,7 @@ def poster(message):
 def gunluk():
     while 0 < 1:
         zaman = datetime.datetime.now()
-        if zaman.hour == 11 and zaman.minute == 50:
+        if zaman.hour == 11 and zaman.minute == 56:
             msg = bot.send_message(botlog, "<code>Günlük veriler hesaplanıyor...</code>")
             toplam = 0
             kum = []
