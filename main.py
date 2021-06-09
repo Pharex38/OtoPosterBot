@@ -522,7 +522,7 @@ def kaynakcall(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
     kkul = collection.find_one({"_id": user})
-    if "32" in kkul['kaynak']:
+    if "31" in kkul['kaynak']:
         call.callback_query.edit_message_text(text="<b>Önce SFS modunu kapatın!</b>")
         return
     if kkul['ozel']:
