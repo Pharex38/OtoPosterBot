@@ -37,7 +37,7 @@ collection = db["Kanallar"]
 OzelCol = db["Özel Kaynaklar"]
 karaliste = collection.find_one({"_id": 0})
 bottoken = karaliste['bottoken']
-bot = ExtBot(bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True))
+bot = Bot(bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True))
 
 botlog = -1001352123979
 sahip = 1302980840
@@ -126,8 +126,7 @@ def imark():
 
 def dagme():
     dagme = ReplyKeyboardMarkup(keyboard=[['📝 Kaydet']], row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
-    butonbir = KeyboardButton('📝 Kaydet')
-    dagme.add(butonbir)
+
     return dagme
 
 zaman = datetime.datetime.now()
