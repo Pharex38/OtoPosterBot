@@ -4,17 +4,28 @@ from os import environ
 import asyncio
 from time import sleep
 from pymongo import MongoClient
-import telebot
-from telebot import types
 import time, datetime
 import threading
-import Colorer
 import os, signal
 import logging
-from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton 
-#botapi = environ['BOT_TOKEN']  
+from typing import Dict
+import Colorer
+from telegram import Bot, ParseMode, ReplyKeyboardMarkup, Update, ReplyKeyboardRemove, KeyboardButton, ForceReply, InlineKeyboardMarkup, InlineKeyboardButton
+from telegram.ext import (
+    Updater,
+    CommandHandler,
+    MessageHandler,
+    Filters,
+    Defaults,
+    ExtBot,
+    ConversationHandler,
+    CallbackContext,
+    CallbackQueryHandler,
+)
+
 mpass = os.environ['MONGOPASS']
 mongo = f"os.environ["MONGO_URI"]"
+
 
 pid = os.getpid()
 open("pid.txt", "w").write(str(pid))
@@ -25,8 +36,8 @@ db = cluster["OtoPost"]
 collection = db["Kanallar"]
 OzelCol = db["Özel Kaynaklar"]
 karaliste = collection.find_one({"_id": 0})
-botapi = karaliste['bottoken']
-bot = telebot.TeleBot(botapi,parse_mode='html')
+bottoken = karaliste['bottoken']
+bot = ExtBot(bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True))
 
 botlog = -1001352123979
 sahip = 1302980840
@@ -34,18 +45,19 @@ fixer = 1687646994
 adminlist = [1687646994,1302980840]
 
 def bildir(neyi='Boş Bildirim Testi !'):
-    global bot
     for i in adminlist:
         try:
             bot.send_message(i,neyi)
         except:
             pass
+
 kaynaklar = [-1001368112299, -1001122395785, -1001423365614, -1001240514861, -1001405966343, -1001368008488, -1001379893661]
+
 for i in kaynaklar:
     index = int(kaynaklar.index(i))
     if index == 0:
         try:
-            mahzen = bot.get_chat(kaynaklar[0])
+            mahzen = bot.get_chat(kaynaklar[0]) 
         except:
             bildir('Link Mahzeni kaynağına bot ulaşamıyor')
     elif index == 1:
@@ -82,45 +94,39 @@ for i in kaynaklar:
         qqq = 'Bu ne ? : {}'.format(i)
         bildir(qqq)
 
+
 kara = karaliste['kara']
 
+ALTMENU, APIDEGISTIR, KANALKAYDET = range(3)
 
-markup = types.ForceReply(selective=False)
+OZELKAYNAK = range(1)
+
+ALTAPI = range(1)
+
+SABLON = range(1)
+
+PATPOST = range(1)
+
+markup = ForceReply(selective=False)
 
 def dugme():
-    dugme = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
-    butonbir = types.KeyboardButton('⚙️ Menü')
-    butoniki = types.KeyboardButton('🔧 Kaynak')
-    butonuc = types.KeyboardButton('📏 Şablon')
-    butondort = types.KeyboardButton('▶️ SFS Modu')
-    butonbes = types.KeyboardButton('⛓️ Elle Post Paylaş')
-    butonalti = types.KeyboardButton('🥰 Bağış')
-    dugme.row(butonbir)
-    dugme.add(butoniki, butonuc, butondort, butonalti, butonbes)
+    dugme = ReplyKeyboardMarkup(keyboard=[['⚙️ Menü'], ['🔧 Kaynak', '📏 Şablon'], ['▶️ SFS Modu', '🥰 Bağış'], ['⛓️ Elle Post Paylaş']], resize_keyboard=True)
+    
     return dugme
 
 def markupp():
-    markupp = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
-    buton1 = types.KeyboardButton('🔶 Yeni Kanal Ekle')
-    buton7 = types.KeyboardButton('↩️ Ana Menü')
-    buton2 = types.KeyboardButton('❌ İptal')
-    buton3 = types.KeyboardButton('🗑️ Kanal Sil')
-    buton4 = types.KeyboardButton('♻️ API değiştir')
-    buton5 = types.KeyboardButton('🔗 Site değiştir')
-    buton6 = types.KeyboardButton('🤖 Alternatif Ekle')
-    markupp.add(buton1, buton3, buton4, buton5, buton6)
-    markupp.add(buton7)
+    markupp = ReplyKeyboardMarkup(keyboard=[['🔶 Yeni Kanal Ekle', '🗑️ Kanal Sil'], ['♻️ API değiştir', '🔗 Site değiştir'], ['🤖 Alternatif Ekle'], ['↩️ Ana Menü']], row_width=2, one_time_keyboard=True, resize_keyboard=True)
+
     return markupp
 
 def imark():
-    imark = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
-    batinbir = types.KeyboardButton('❌ İptal')
-    imark.add(batinbir)
+    imark = ReplyKeyboardMarkup(keyboard=[['❌ İptal']], one_time_keyboard=True, resize_keyboard=True, selective=True)
+
     return imark
 
 def dagme():
-    dagme = types.ReplyKeyboardMarkup(row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
-    butonbir = types.KeyboardButton('📝 Kaydet')
+    dagme = ReplyKeyboardMarkup(keyboard=[['📝 Kaydet']], row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
+    butonbir = KeyboardButton('📝 Kaydet')
     dagme.add(butonbir)
     return dagme
 
@@ -151,16 +157,16 @@ setup_logger()
 
 logger.info(f"Saat: {saat}:{dakika}")
 
-@bot.message_handler(commands=['start'])
-def start(message):
-    user = message.from_user.id
-    chat = message.chat.id
+def start(update, context):
+    user = update.message.from_user.id
+    chat = update.message.chat.id
+    bot = context.bot
     if user in kara:
         bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
     kat = collection.find_one({"_id": user})
-    ref = message.text.split()[1] if len(message.text.split()) > 1 else None
-    kyn = str(ref.split('k')[-1]) if len(message.text.split()) > 1 else None
+    ref = update.message.text.split()[1] if len(update.message.text.split()) > 1 else None
+    kyn = str(ref.split('k')[-1]) if len(update.message.text.split()) > 1 else None
     key = {"_id": user, "kanal": [], "sablon": "1", "kaynak": [kyn], "site": "1", "altapi": "None", "altsite": "None", "sira": "0", "ozel": False}
     if ref == "Kaynak1":
         if kat == None:
@@ -240,13 +246,13 @@ def start(message):
                 bot.send_message(chat, "Özel kaynağınız olduğu için başka kaynak kullanamazsınız!")
             return
     
-    mention = "@"+message.from_user.username if message.from_user.username else message.from_user.first_name
+    mention = "@"+update.message.from_user.username if update.message.from_user.username else update.message.from_user.first_name
     if kat == None:
         bot.send_message(chat, """
 ✨ <b>Merhaba {}!</b>
 
 ❔<b>Ne İşe Yarıyor? </b>
-<i>Bu bot sizin seçtiğiniz kaynak kanalında paylaşılan postların linklerini otomatik olarak kısaltıp sizin kanalınızda paylaşır.</i>
+<i>Bu update.message sizin seçtiğiniz kaynak kanalında paylaşılan postların linklerini otomatik olarak kısaltıp sizin kanalınızda paylaşır.</i>
 
 ❔<b>Nasıl Kullanılır?</b>
 <i>1. Adım: Botu kanlınıza yönetici olarak ekleyin.
@@ -265,7 +271,7 @@ def start(message):
 ✨ <b>Merhaba {}!</b>
 
 ❔<b>Ne İşe Yarıyor? </b>
-<i>Bu bot sizin seçtiğiniz kaynak kanalında paylaşılan postların linklerini otomatik olarak kısaltıp sizin kanalınızda paylaşır.</i>
+<i>Bu update.message sizin seçtiğiniz kaynak kanalında paylaşılan postların linklerini otomatik olarak kısaltıp sizin kanalınızda paylaşır.</i>
 
 ❔<b>Nasıl Kullanılır?</b>
 <i>1. Adım: Botu kanlınıza yönetici olarak ekleyin.
@@ -279,13 +285,12 @@ def start(message):
   📔        <b>@OtoPosterBotLog</b>
 """.format(mention), disable_web_page_preview=True, reply_markup=dugme())
 
-@bot.message_handler(commands=['stats'])
 def stats(message):
     kanals = 0
     users = 0
     toplam = 0
-    chat = message.chat.id
-    user = message.from_user.id
+    chat = update.message.chat.id
+    user = update.message.from_user.id
     kum = []
     kulkum = []
     if not user in [sahip,fixer]:
@@ -314,111 +319,97 @@ def stats(message):
     toplam = round(toplam, 1)
     bot.edit_message_text("Toplam Kullanıcı Sayısı: {}\nToplam Kayıtlı Kanal Sayısı: {}\nToplam Kitle: {}K".format(users, kanals, toplam), chat, msg.message_id)
 
-@bot.message_handler(commands=['bul'])
 def bul(message):
-    cnt = message.text.split()[1] if len(message.text.split()) > 1 else int(message.from_user.id)
-    if not message.from_user.id in adminlist:
-        bot.send_message(message.chat.id, "Sie")
+    cnt = update.message.text.split()[1] if len(update.message.text.split()) > 1 else int(update.message.from_user.id)
+    if not update.message.from_user.id in adminlist:
+        bot.send_message(update.message.chat.id, "Sie")
         return
     try:
         cnt = collection.find({"_id": int(cnt)})
         for c in cnt:
-            bot.send_message(message.chat.id, 'ID: {}\nToken: {} \nKaynak: {} \nSite: {} \nKanal: {} \nAlt Token: {} \n Alt Site: {} \n Özel Kaynak: {}'.format(c['_id'], c['token'], c['kaynak'], c['site'], c['kanal'], c['altapi'], c['altsite'], c['ozel']))
+            bot.send_message(update.message.chat.id, 'ID: {}\nToken: {} \nKaynak: {} \nSite: {} \nKanal: {} \nAlt Token: {} \n Alt Site: {} \n Özel Kaynak: {}'.format(c['_id'], c['token'], c['kaynak'], c['site'], c['kanal'], c['altapi'], c['altsite'], c['ozel']))
     except:
         pass
     try:
         cnt = collection.find({"token": cnt})
         for c in cnt:
-            bot.send_message(message.chat.id, 'ID: {}\nToken: {} \nKaynak: {} \nSite: {} \nKanal: {} \nAlt Token: {} \n Alt Site: {} \n Özel Kaynak: {}'.format(c['_id'], c['token'], c['kaynak'], c['site'], c['kanal'], c['altapi'], c['altsite'], c['ozel']))
+            bot.send_message(update.message.chat.id, 'ID: {}\nToken: {} \nKaynak: {} \nSite: {} \nKanal: {} \nAlt Token: {} \n Alt Site: {} \n Özel Kaynak: {}'.format(c['_id'], c['token'], c['kaynak'], c['site'], c['kanal'], c['altapi'], c['altsite'], c['ozel']))
     except:
         pass
     try:
         cnt = collection.find({"altapi": cnt})
         for c in cnt:
-            bot.send_message(message.chat.id, 'ID: {}\nToken: {} \nKaynak: {} \nSite: {} \nKanal: {} \nAlt Token: {} \n Alt Site: {} \n Özel Kaynak: {}'.format(c['_id'], c['token'], c['kaynak'], c['site'], c['kanal'], c['altapi'], c['altsite'], c['ozel']))
+            bot.send_message(update.message.chat.id, 'ID: {}\nToken: {} \nKaynak: {} \nSite: {} \nKanal: {} \nAlt Token: {} \n Alt Site: {} \n Özel Kaynak: {}'.format(c['_id'], c['token'], c['kaynak'], c['site'], c['kanal'], c['altapi'], c['altsite'], c['ozel']))
     except:
         pass
     try:
         cnt = collection.find({"kanal": [str(cnt)]})
         for c in cnt:
-            bot.send_message(message.chat.id, 'ID: {}\nToken: {} \nKaynak: {} \nSite: {} \nKanal: {} \nAlt Token: {} \n Alt Site: {} \n Özel Kaynak: {}'.format(c['_id'], c['token'], c['kaynak'], c['site'], c['kanal'], c['altapi'], c['altsite'], c['ozel']))
+            bot.send_message(update.message.chat.id, 'ID: {}\nToken: {} \nKaynak: {} \nSite: {} \nKanal: {} \nAlt Token: {} \n Alt Site: {} \n Özel Kaynak: {}'.format(c['_id'], c['token'], c['kaynak'], c['site'], c['kanal'], c['altapi'], c['altsite'], c['ozel']))
     except:
         pass
     try:
         cnt = collection.find({"site": str(cnt)})
         for c in cnt:
-            bot.send_message(message.chat.id, 'ID: {}\nToken: {} \nKaynak: {} \nSite: {} \nKanal: {} \nAlt Token: {} \n Alt Site: {} \n Özel Kaynak: {}'.format(c['_id'], c['token'], c['kaynak'], c['site'], c['kanal'], c['altapi'], c['altsite'], c['ozel']))
+            bot.send_message(update.message.chat.id, 'ID: {}\nToken: {} \nKaynak: {} \nSite: {} \nKanal: {} \nAlt Token: {} \n Alt Site: {} \n Özel Kaynak: {}'.format(c['_id'], c['token'], c['kaynak'], c['site'], c['kanal'], c['altapi'], c['altsite'], c['ozel']))
     except:
         pass
 
-@bot.message_handler(commands=['onayla'])
-def ona(m):
-    cid = m.chat.id
+def ona(m, context):
+    cid = m.message.chat.id
     bot.send_message(cid, "Bu komutu kanalınızda kullanmalısınız.")
 
-@bot.message_handler(commands=['sil'])
-def durdur(message):
-    chat = message.chat.id
-    user = message.from_user.id
-    kimi = int(message.text.split()[1]) if len(message.text.split()) > 1 and user in adminlist else message.from_user.id
+def durdur(update, context):
+    chat = update.message.chat.id
+    user = update.message.from_user.id
     if user in kara:
         bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
     try:
-        collection.delete_one({"_id": kimi})
+        collection.delete_one({"_id": user})
     except:
-        bot.reply_to(message, "<b>Henüz bir kanal kaydetmemişsiniz.</b>")
+        update.message.reply_text("<b>Henüz bir kanal kaydetmemişsiniz.</b>")
     else:
-        bot.reply_to(message, "<b>Kanalınız Silindi!</b>")
+        update.message.reply_text("<b>Kanalınız Silindi!</b>")
 
-@bot.channel_post_handler(commands=['postsil'])
-def kpostsil(message):
-    chat = message.chat.id
+def kpostsil(update, context):
+    chat = update.message.chat.id
     if not chat in kaynaklar:
         return
-    mesid = message.reply_to_message.message_id if message.reply_to_message else None
-    if mesid == None:
-        bot.send_message(chat, "Silmek istediğiniz postu yanıtlayın.")
-        return
-    data = db[str(chat)].find({"mesih": mesid})
+    data = db[str(chat)].find({})
     spcount = 0
     for d in data:
         try:
-            bot.delete_message(d['chat'], d['pid'])
+            bot.delete_message(d['_id'], d['pid'])
         except Exception as e:
             logger.error(e)
         else:
             spcount += 1
     bot.send_message(chat, f"{spcount} Post Silindi.")
 
-@bot.message_handler(commands=['postsil'])
 def cpostsil(message):
-    chat = message.chat.id
+    chat = update.message.chat.id
     if chat != sahip:
         return
-    hedef = message.text.split()[1] if len(message.text.split()) > 1 else None
-    mesid = int(message.text.split()[2]) if len(message.text.split()) > 2 else None
-    if hedef == None or mesid == None:
-        return
-    data = db[str(hedef)].find({"mesih": mesid})
+    hedef = update.message.text.split()[1]
+    data = db[str(hedef)].find({})
     spcount = 0
     for d in data:
         try:
-            bot.delete_message(d['chat'], d['pid'])
+            bot.delete_message(d['_id'], d['pid'])
         except Exception as e:
             logger.error(e)
         else:
             spcount += 1
     bot.send_message(chat, f"{spcount} Post Silindi.")
     
-@bot.message_handler(commands=['duyuru'])
-def duy(m):
+def duy(m, context):
     chat = m.chat.id
     if chat != sahip:
         return
     duyurus = 0
-    if m.reply_to_message:
-        duyurumsg = m.reply_to_message.text
+    if m.message.reply_to_message:
+        duyurumsg = m.reply_text_update.message.text
         kullanicilar = collection.find({})
         for kullanici in kullanicilar:
             try:
@@ -435,9 +426,8 @@ def duy(m):
                     
         bot.send_message(chat, "{} Kişiye Duyuru Mesajı Gönderildi!".format(duyurus))
 
-@bot.message_handler(commands=['dsil'])
-def dsil(m):
-    chat = m.chat.id
+def dsil(m, context):
+    chat = m.message.chat.id
     if chat != sahip:
         return
     sd = 0
@@ -451,23 +441,21 @@ def dsil(m):
             sd += 1
     bot.send_message(chat, "{} Duyuru Mesajı Silindi!".format(sd))
         
-@bot.channel_post_handler(commands=['onayla'])
-def post(message):
-    chat = message.chat.id
-    mid = message.id
-    mids = mid+1
-    bot.reply_to(message, "Tamamdır!")
+def post(update, context):
+    chat = update.channel_post.chat.id
+    mid = update.channel_post.message_id
+    msj = update.channel_post.reply_text("Tamamdır!")
     sleep(1)
+    mids = msj.message_id
     try:
         bot.delete_message(chat, mid)
         bot.delete_message(chat, mids)
     except:
         pass
 
-@bot.message_handler(commands=['zaman'])
-def zaman(message):
-    chat = message.chat.id
-    msj = message.reply_to_message.text if message.reply_to_message else None
+def zaman(update, context):
+    chat = update.message.chat.id
+    msj = update.message.reply_to_message.text if update.message.reply_to_message else None
     if msj == None:
         bot.send_message(chat, "Bu komut bir mesajı yanıtlayarak kullanılmalıdır.")
         return
@@ -487,231 +475,208 @@ def zaman(message):
         collection.update_one({"_id": 0}, {"$set": {"muho": msj}})
     bot.send_message(chat, "Kaydedildi.")
 
-@bot.callback_query_handler(func=lambda call: True)
-def callback_query(call):
-    col = call.message.json
-    user = call.message.chat.id
-    chat = user
-    mesajid = call.message.id
-    """ İptal """
-    if call.data == "akaldır":
-        try:
-            collection.update_one({"_id": user}, {"$set": {"altsite": "None", "altapi": "None", "sira": "0", "sablon": "1"}})
-            msg = bot.edit_message_text("⛔ Alternatif Kaldırıldı.", user, mesajid)
-            bot.answer_callback_query("⛔ Alternatif Kaldırıldı.")
-            bot.register_next_step_handler(msg, kayitapi)
-        except Exception as e:
-            bildir(e)
-    if call.data == "aiptal":
-        try:
-            msg = bot.edit_message_text("<i>İptal Edildi</i>", user, mesajid)
-        except Exception as e:
-            bildir(e)
-    if call.data == "iptal":
-        try:
-            bot.edit_message_text("<i>İptal Edildi</i>", user, mesajid)
-        except Exception as e:
-            bildir(e)
-    """ Kanal Sil """
-    if call.data.startswith("sil"):
-        try:
-            kul = collection.find_one({"_id": user})
-            s = int(call.data.split("-")[1])
-            collection.update_one({"_id": user}, {"$pull": {"kanal": kul['kanal'][s]}})
-            bot.edit_message_text("Kanalınız Silindi!", user, mesajid)
-            bot.answer_callback_query(call.id, "Kanalınız Silindi!")
-        except Exception as e:
-            bildir(e)
-    """ Site Değiştir """
-    if call.data.startswith("site"):
-        try:
-            skul = collection.find_one({"_id": user})
-            ss = str(call.data.split("-")[1])
-            collection.update_one({"_id": user}, {"$set": {"site": ss}})
-            bot.edit_message_text("Site Kaydedildi!\n\nAPI adresinizi seçtiğiniz siteye göre değiştirmeyi unutmayın.", user, mesajid)
-            bot.answer_callback_query(call.id, "Site Kaydedildi!")
-        except Exception as e:
-            bildir(e)
-    """ Alternatif """
-    if call.data.startswith("asite"):
-        try:
-            smesaj = str(call.data.split("-")[1])
-            sss = str(call.data.split("-")[2])
-            bot.answer_callback_query(call.id, "✅ Site Kaydedildi!")
-            bot.edit_message_text("✅ Alternatif site kaydedildi.", user, mesajid)
-            msg = bot.send_message(chat, "📝 Alternatif API adresinizi gönderin.", reply_markup=imark())
-            bot.register_next_step_handler(msg, altakayit, smesaj, user, chat, sss)
-        except Exception as e:
-            bildir(e)
-    if call.data.startswith("sistem"):
-        try:
-            sss = str(call.data.split("-")[1])
-            collection.update_one({"_id": user}, {"$set": {"sira": sss}})
-            bot.answer_callback_query(call.id, "✅ Site Kaydedildi!")
-            bot.edit_message_text("Alternatif olarak kullanmak istediğiniz siteyi seçin.", user, mesajid)
-            bot.edit_message_reply_markup(user, mesajid, reply_markup=altsitemarkup(sss))
-        except Exception as e:
-            bildir(e)
-    """ Kaynak """
-    if call.data.startswith("kaynak"):
-        try:
-            kys = str(call.data.split("-")[1])
-            kkul = collection.find_one({"_id": user})
-            if kys in kkul['kaynak']:
-                collection.update_one({"_id": user}, {"$pull": {"kaynak": kys}})
-                bot.answer_callback_query(call.id, "❌ Kaynak Kaldırıldı")
-            else:
-                collection.update_one({"_id": user}, {"$push": {"kaynak": kys}})
-                bot.answer_callback_query(call.id, "✅ Kaynak Eklendi")
-            bot.edit_message_reply_markup(chat, mesajid, reply_markup=kaynakmark(user))
-        except Exception as e:
-            bildir(e)
-    if call.data.startswith("zaman"):
-        try:
-            saat = collection.find_one({"_id": 0})
-            dgr = int(call.data.split("-")[1])
-            if dgr == 1:
-                bot.answer_callback_query(callback_query_id=call.id,show_alert=True, text=saat['mahzen'])
-            if dgr == 2:
-                bot.answer_callback_query(callback_query_id=call.id,show_alert=True, text=saat['bedava'])
-            if dgr == 3:
-                bot.answer_callback_query(callback_query_id=call.id,show_alert=True, text=saat['evi'])
-            if dgr == 4:
-                bot.answer_callback_query(callback_query_id=call.id,show_alert=True, text=saat['bashub'])
-            if dgr == 5:
-                bot.answer_callback_query(callback_query_id=call.id,show_alert=True, text=saat['acikmi'])
-            if dgr == 6:
-                bot.answer_callback_query(callback_query_id=call.id,show_alert=True, text=saat['tutan'])
-            if dgr == 7:
-                bot.answer_callback_query(callback_query_id=call.id,show_alert=True, text=saat['muho'])
-        except Exception as e:
-            bildir(e)
-    if call.data == "okay":
-        try:
-            bot.edit_message_text("""<b>Özel Kaynak Hakkında Bilmeniz Gerekenler</b>\n\n<i>- Özel kaynak ayarlarsanız başka kaynak seçemezsiniz.\n- Sadece size özeldir başkası kullanamaz.\n- Özel kaynağa kısaltılmamış link atmanız gerekiyor. Kısaltılmış linkli post atarsanız bot linki geçmez direkt olarak kısaltılmış linki tekrar kısaltır.</i>\n\n<b>Alttaki butona bastığınız zaman işlem iptal edilemez!</b>""", chat, mesajid)
-            bot.edit_message_reply_markup(chat, mesajid, reply_markup=ozelmark())
-        except Exception as e:
-            bildir(e)
-    if call.data == "okayt":
-        try:
-            if OzelCol.find_one({"_id": user}) == None:
-                OzelCol.insert_one({"_id": user})
-        
-            bot.delete_message(chat, mesajid)
-            msg = bot.send_message(chat, """<b>Yapmanız Gerekenler</b>
+import html
+import json
+import traceback
+def error_handler(update: object, context: CallbackContext) -> None:
+    logger.error(msg="Bir Hata oluştu:", exc_info=context.error)
+    tb_list = traceback.format_exception(None, context.error, context.error.__traceback__)
+    tb_string = ''.join(tb_list)
+    update_str = update.to_dict() if isinstance(update, Update) else str(update)
+    message = (
+        f'An exception was raised while handling an update\n'
+        f'<pre>update = {html.escape(json.dumps(update_str, indent=2, ensure_ascii=False))}'
+        '</pre>\n\n'
+        f'<pre>context.chat_data = {html.escape(str(context.chat_data))}</pre>\n\n'
+        f'<pre>context.user_data = {html.escape(str(context.user_data))}</pre>\n\n'
+        f'<pre>{html.escape(tb_string)}</pre>'
+    )
+
+    context.bot.send_message(chat_id=1302980840, text=message, parse_mode=ParseMode.HTML)
+
+def sabloncall(call, context):
+    user = call.effective_user.id
+    chat = call.effective_chat.id
+    mesajid = call.effective_message.message_id
+    bot.delete_message(user, mesajid)
+    if collection.find_one({"_id": user})['sira'] == "1":
+        msz = bot.send_message(chat, "<i>Oluşturduğunuz şablonda</i> <b>{aciklama}, {alink}</b> ve <b>{link}</b> <i>kelimelerinin bulunduğundan emin olun yoksa şablon çalışmaz</i>", reply_markup=imark())
+        return SABLON
+    else:
+        msz = bot.send_message(chat, "<i>Oluşturduğunuz şablonda</i> <b>{aciklama}</b> ve <b>{link}</b> <i>kelimelerinin bulunduğundan emin olun yoksa şablon çalışmaz</i>", reply_markup=imark())
+        return SABLON
+
+def altcall(call, context):
+    user = call.effective_user.id
+    chat = call.effective_chat.id
+    mesajid = call.effective_message.message_id
+    smesaj = str(call.callback_query.data.split("-")[1])
+    sss = str(call.callback_query.data.split("-")[2])
+    context.user_data['asite'] = smesaj
+    context.user_data['sistem'] = sss
+    call.callback_query.answer(call.callback_query.id, "✅ Site Kaydedildi!")
+    bot.edit_message_text("✅ Alternatif site kaydedildi.", user, mesajid)
+    bot.send_message(chat, "📝 Alternatif API adresinizi gönderin.", reply_markup=imark())
+    return ALTAPI
+
+def kaynakcall(call, context):
+    user = call.effective_user.id
+    chat = call.effective_chat.id
+    kkul = collection.find_one({"_id": user})
+    if kkul['ozel']:
+        call.callback_query.edit_message_text(text="<b>Özel kaynak kullandığınız için kaynak başka kaynak kullanamazsınız!</b>")
+        return
+    mesajid = call.effective_message.message_id
+    kys = str(call.callback_query.data.split("-")[1])
+    if kys in kkul['kaynak']:
+        collection.update_one({"_id": user}, {"$pull": {"kaynak": kys}})
+        call.callback_query.answer(text="❌ Kaynak Kaldırıldı")
+    else:
+        collection.update_one({"_id": user}, {"$push": {"kaynak": kys}})
+        call.callback_query.answer(text="✅ Kaynak Eklendi")
+    call.callback_query.edit_message_text(text="<b>Kullanmak istediğiniz kaynak kanalını seçin.</b>", reply_markup=kaynakmark(user))
+
+def ozelkaynakcall(call, context):
+    user = call.effective_user.id
+    chat = call.effective_chat.id
+    mesajid = call.effective_message.message_id
+    if OzelCol.find_one({"_id": user}) == None:
+        OzelCol.insert_one({"_id": user}) 
+    bot.delete_message(chat, mesajid)
+    bot.send_message(chat, """<b>Yapmanız Gerekenler</b>
 <i>
 1 - Kaynak yapacağınız kanal oluşturun.
-2 - Oluşturduğunuz kanaldan bota bir mesaj iletin.</i>""", reply_markup=imark())
-            bot.register_next_step_handler(msg, ozelk)
-        except Exception as e:
-            bildir(e)
-    if call.data == "okayk":
-        try:
-            collection.update_one({"_id": user}, {"$set": {"ozel": False}})
-            OzelCol.delete_one({"_id": user})
-            bot.edit_message_text("Özel Kaynak Kaldırıldı.", chat, mesajid)
-        except Exception as e:
-            bildir(e)
+2 - Oluşturduğunuz kanaldan update.messagea bir mesaj iletin.</i>""", reply_markup=imark())
+    return OZELKAYNAK
+
+
+def callback_query(call, context):
+    user = call.effective_user.id
+    chat = call.effective_chat.id
+    mesajid = call.callback_query.message.message_id
+    """ İptal """
+    if call.callback_query.data == "akaldır":
+        collection.update_one({"_id": user}, {"$set": {"altsite": "None", "altapi": "None", "sira": "0", "sablon": "1"}})
+        msg = bot.edit_message_text("⛔ Alternatif Kaldırıldı.", user, mesajid)
+        call.callback_query.answer("⛔ Alternatif Kaldırıldı.")
+    if call.callback_query.data == "aiptal":
+        bot.edit_message_text("<i>İptal Edildi</i>", user, mesajid)
+    if call.callback_query.data == "iptal":
+        bot.edit_message_text("<i>İptal Edildi</i>", user, mesajid)
+    """ Kanal Sil """
+    if call.callback_query.data.startswith("sil"):
+        kul = collection.find_one({"_id": user})
+        s = int(call.callback_query.data.split("-")[1])
+        collection.update_one({"_id": user}, {"$pull": {"kanal": kul['kanal'][s]}})
+        bot.edit_message_text("Kanalınız Silindi!", user, mesajid)
+        call.callback_query.answer(call.callback_query.id, "Kanalınız Silindi!")
+    """ Site Değiştir """
+    if call.callback_query.data.startswith("site"):
+        skul = collection.find_one({"_id": user})
+        ss = str(call.callback_query.data.split("-")[1])
+        collection.update_one({"_id": user}, {"$set": {"site": ss}})
+        bot.edit_message_text("Site Kaydedildi!\n\nAPI adresinizi seçtiğiniz siteye göre değiştirmeyi unutmayın.", user, mesajid)
+        call.callback_query.answer(call.callback_query.id, "Site Kaydedildi!")
+    """ Alternatif """
+    if call.callback_query.data.startswith("sistem"):
+
+        sss = str(call.callback_query.data.split("-")[1])
+        collection.update_one({"_id": user}, {"$set": {"sira": sss}})
+        call.callback_query.answer(call.callback_query.id, "✅ Site Kaydedildi!")
+        bot.edit_message_text("Alternatif olarak kullanmak istediğiniz siteyi seçin.", user, mesajid)
+        bot.edit_message_reply_markup(chat_id=chat, message_id=mesajid, reply_markup=altsitemarkup(sss))
+    """ Kaynak """
+    if call.callback_query.data.startswith("zaman"):
+        saat = collection.find_one({"_id": 0})
+        dgr = int(call.callback_query.data.split("-")[1])
+        if dgr == 1:
+            call.callback_query.answer(show_alert=True, text=saat['mahzen'])
+        if dgr == 2:
+            call.callback_query.answer(show_alert=True, text=saat['bedava'])
+        if dgr == 3:
+            call.callback_query.answer(show_alert=True, text=saat['evi'])
+        if dgr == 4:
+            call.callback_query.answer(show_alert=True, text=saat['bashub'])
+        if dgr == 5:
+            call.callback_query.answer(show_alert=True, text=saat['acikmi'])
+        if dgr == 6:
+            call.callback_query.answer(show_alert=True, text=saat['tutan'])
+        if dgr == 7:
+            call.callback_query.answer(show_alert=True, text=saat['muho'])
+    if call.callback_query.data == "okay":
+        bot.edit_message_text("""<b>Özel Kaynak Hakkında Bilmeniz Gerekenler</b>\n\n<i>- Özel kaynak ayarlarsanız başka kaynak seçemezsiniz.\n- Sadece size özeldir başkası kullanamaz.\n- Özel kaynağa kısaltılmamış link atmanız gerekiyor. Kısaltılmış linkli post atarsanız update.message linki geçmez direkt olarak kısaltılmış linki tekrar kısaltır.</i>\n\n<b>Alttaki butona bastığınız zaman işlem iptal edilemez!</b>""", chat, mesajid)
+        bot.edit_message_reply_markup(chat, mesajid, reply_markup=ozelmark())
+    if call.callback_query.data == "okayk":
+        collection.update_one({"_id": user}, {"$set": {"ozel": False}})
+        OzelCol.delete_one({"_id": user})
+        bot.edit_message_text("Özel Kaynak Kaldırıldı.", chat, mesajid)
     """ PAT """
-    if call.data.startswith("pat"):
-        try:
-            back = call.data.split("-")
-            o = int(back[1]) - 1
-            ptip = patc.ptip
-            psablon = patc.psablon
-            fid = patc.fid
+    if call.callback_query.data.startswith("pat"):
+        back = call.callback_query.data.split("-")
+        o = int(back[1]) - 1
+        ptip = context.user_data['ptip']
+        psablon = context.user_data['psablon']
+        fid = context.user_data['fid']
         
-            kanal = collection.find_one({"_id": user})['kanal']
-            if o == -1:
-                for kan in kanal:
-                    if ptip == 'photo':
-                        bot.send_photo(kan, fid, caption=psablon)
-                    if ptip == 'video':
-                        bot.send_video(kan, fid, caption=psablon)
-                    if ptip == 'animation':
-                        bot.send_animation(kan, fid, caption=psablon)
-                bot.edit_message_text("✅<b>Postunuz Tüm Kanallarınıza Gönderildi!</b>", user, mesajid)
-                return
-            if ptip == 'photo':
-                bot.send_photo(kanal[o], fid, caption=psablon)
-            if ptip == 'video':
-                bot.send_video(kanal[o], fid, caption=psablon)
-            if ptip == 'animation':
-                bot.send_animation(kanal[o], fid, caption=psablon)
-            bot.edit_message_text("✅<b>Postunuz  Kanalınıza Gönderildi!</b>", user, mesajid)
-        except Exception as e:
-            bildir(e)
+        kanal = collection.find_one({"_id": user})['kanal']
+        if o == -1:
+            for kan in kanal:
+                if ptip == 'photo':
+                    bot.send_photo(kan, fid, caption=psablon)
+                if ptip == 'video':
+                    bot.send_video(kan, fid, caption=psablon)
+                if ptip == 'animation':
+                    bot.send_animation(kan, fid, caption=psablon)
+            bot.edit_message_text("✅<b>Postunuz Tüm Kanallarınıza Gönderildi!</b>", user, mesajid)
+            context.user_data.clear()
+            return ConversationHandler.END
+        if ptip == 'photo':
+            bot.send_photo(kanal[o], fid, caption=psablon)
+        if ptip == 'video':
+            bot.send_video(kanal[o], fid, caption=psablon)
+        if ptip == 'animation':
+            bot.send_animation(kanal[o], fid, caption=psablon)
+        bot.edit_message_text("✅<b>Postunuz  Kanalınıza Gönderildi!</b>", user, mesajid)
+        context.user_data.clear()
+        return ConversationHandler.END
     """ Şablon """
-    if call.data == "sablon":
-        try:
-            bot.delete_message(user, mesajid)
-            if collection.find_one({"_id": user})['sira'] == "1":
-                msz = bot.send_message(chat, "<i>Oluşturduğunuz şablonda</i> <b>{aciklama}, {alink}</b> ve <b>{link}</b> <i>kelimelerinin bulunduğundan emin olun yoksa şablon çalışmaz</i>", reply_markup=imark())
-            else:
-                msz = bot.send_message(chat, "<i>Oluşturduğunuz şablonda</i> <b>{aciklama}</b> ve <b>{link}</b> <i>kelimelerinin bulunduğundan emin olun yoksa şablon çalışmaz</i>", reply_markup=imark())
-            bot.register_next_step_handler(msz, sabloniki)
-        except Exception as e:
-            bildir(e)
-    if call.data == "vsablon":
-        try:
-            if collection.find_one({"_id": user})['sira'] == "1":
-                collection.update_one({"_id": user}, {"$set": {"sablon": "9"}})
-            else:
-                collection.update_one({"_id": user}, {"$set": {"sablon": "1"}})
-            bot.edit_message_text("Varsayılana döndürüldü.", chat, mesajid)
-        except Exception as e:
-            bildir(e)
-        
+    if call.callback_query.data == "vsablon":
+        if collection.find_one({"_id": user})['sira'] == "1":
+            collection.update_one({"_id": user}, {"$set": {"sablon": "9"}})
+        else:
+            collection.update_one({"_id": user}, {"$set": {"sablon": "1"}})
+        bot.edit_message_text("Varsayılana döndürüldü.", chat, mesajid)
+
 def sitemarkup():
-    smark = InlineKeyboardMarkup()
-    smark.row_width = 2
-    smark.add(InlineKeyboardButton("TRLink", callback_data="site-1"))
-    smark.add(InlineKeyboardButton("PND.TL", callback_data="site-2"))
-    smark.add(InlineKeyboardButton("Exe.io", callback_data="site-3"))
-    smark.add(InlineKeyboardButton("Ouo.io", callback_data="site-4"))
-    smark.add(InlineKeyboardButton("Pubiza", callback_data="site-5"))
-    smark.row(InlineKeyboardButton("❌ İptal ❌", callback_data="iptal"))
-    
+    skey = []
+    smark = InlineKeyboardMarkup([[InlineKeyboardButton("TRLink", callback_data="site-1")], [InlineKeyboardButton("PND.TL", callback_data="site-2")], [InlineKeyboardButton("Exe.io", callback_data="site-3")], [InlineKeyboardButton("Ouo.io", callback_data="site-4")], [InlineKeyboardButton("Pubiza", callback_data="site-5")], [InlineKeyboardButton("❌ İptal ❌", callback_data="iptal")]])
     return smark
 
 def altsitemarkup(sss):
-    asmark = InlineKeyboardMarkup()
-    asmark.row_width = 2
-    asmark.add(InlineKeyboardButton("TRLink", callback_data="asite-1-{}".format(sss)))
-    asmark.add(InlineKeyboardButton("PND.TL", callback_data="asite-2-{}".format(sss)))
-    asmark.add(InlineKeyboardButton("Exe.io", callback_data="asite-3-{}".format(sss)))
-    asmark.add(InlineKeyboardButton("Ouo.io", callback_data="asite-4-{}".format(sss)))
-    asmark.add(InlineKeyboardButton("Pubiza", callback_data="asite-5-{}".format(sss)))
-    asmark.row(InlineKeyboardButton("❌ İptal ❌", callback_data="iptal"))
-    
+    asmark = InlineKeyboardMarkup([[InlineKeyboardButton("TRLink", callback_data="asite-1-{}".format(sss))], [InlineKeyboardButton("PND.TL", callback_data="asite-2-{}".format(sss))], [InlineKeyboardButton("Exe.io", callback_data="asite-3-{}".format(sss))], [InlineKeyboardButton("Ouo.io", callback_data="asite-4-{}".format(sss))], [InlineKeyboardButton("Pubiza", callback_data="asite-5-{}".format(sss))], [InlineKeyboardButton("❌ İptal ❌", callback_data="iptal")]])
+
     return asmark
 
 def altmarkup(user):
-    altmark = InlineKeyboardMarkup()
-    altmark.row_width = 1
-    altmark.add(InlineKeyboardButton("Sıralı", callback_data="sistem-2"))
-    altmark.add(InlineKeyboardButton("Tek Post İki Link", callback_data="sistem-1"))
-    altmark.add(InlineKeyboardButton("❌ İptal ❌", callback_data="iptal"))
+
+    altkey = [[InlineKeyboardButton("Sıralı", callback_data="sistem-2")], [InlineKeyboardButton("Tek Post İki Link", callback_data="sistem-1")], [InlineKeyboardButton("❌ İptal ❌", callback_data="iptal")]]
     if collection.find_one({"_id": user})['altapi'] != "None":
-        altmark.add(InlineKeyboardButton("⛔ Alternatif Kaldır", callback_data="akaldır"))
+        altkey.append([InlineKeyboardButton("⛔ Alternatif Kaldır", callback_data="akaldır")])
+    altmark = InlineKeyboardMarkup(altkey)
     return altmark
 
 def inmark():
-    inmark = InlineKeyboardMarkup(row_width = 1)
-    inmark.row(InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal"))
+    inmark = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")]])
 
     return inmark
 
 def ozelmark():
-    omark = InlineKeyboardMarkup(row_width = 1)
-    omark.add(InlineKeyboardButton("➕ Oluştur ➕", callback_data="okayt"))
-    omark.row(InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal"))
+    omark = InlineKeyboardMarkup([[InlineKeyboardButton("➕ Oluştur ➕", callback_data="okayt")], [InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")]])
 
     return omark
 
 def kaynakmark(user):
     u = collection.find_one({"_id": user})
-    kmark = InlineKeyboardMarkup(row_width=2)
     saatbut = InlineKeyboardButton("⏳", callback_data="zaman-1")
     bsaatbut = InlineKeyboardButton("⏳", callback_data="zaman-2")
     csaatbut = InlineKeyboardButton("⏳", callback_data="zaman-3")
@@ -728,93 +693,87 @@ def kaynakmark(user):
     fbut =InlineKeyboardButton("{}".format(tutan.title), url="{}".format(tutan.invite_link))
     gbut =InlineKeyboardButton("{}".format(muho.title), url="{}".format(muho.invite_link))
     if u['ozel']:
-        kmark.row(InlineKeyboardButton("🟣 Özel Kaynağı Kaldır 🟣", callback_data="okayk"))
-        kmark.row(InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal"))
+        kmark = InlineKeyboardMarkup([[InlineKeyboardButton("🟣 Özel Kaynağı Kaldır 🟣", callback_data="okayk")], [InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")]])
         return kmark        
-    kmark.add(ubut)
+
     if "1" in u['kaynak']:
-        kmark.add(InlineKeyboardButton("✅".format(mahzen.title), callback_data="kaynak-1"), saatbut)
+        kb1 = InlineKeyboardButton("✅", callback_data="kaynak-1")
     else:
-        kmark.add(InlineKeyboardButton("⚫".format(mahzen.title), callback_data="kaynak-1"), saatbut)
-    kmark.add(bbut)
+        kb1 = InlineKeyboardButton("⚫", callback_data="kaynak-1")
     if "2" in u['kaynak']:
-        kmark.add(InlineKeyboardButton("✅".format(bedava.title), callback_data="kaynak-2"), bsaatbut)
+        kb2 = InlineKeyboardButton("✅", callback_data="kaynak-2")
     else:
-        kmark.add(InlineKeyboardButton("⚫".format(bedava.title), callback_data="kaynak-2"), bsaatbut)
-    kmark.add(cbut)
+        kb2 = InlineKeyboardButton("⚫", callback_data="kaynak-2")
     if "3" in u['kaynak']:
-        kmark.add(InlineKeyboardButton("✅".format(evi.title), callback_data="kaynak-3"), csaatbut)
+        kb3 = InlineKeyboardButton("✅", callback_data="kaynak-3")
     else:
-        kmark.add(InlineKeyboardButton("⚫".format(evi.title), callback_data="kaynak-3"), csaatbut)
-    kmark.add(dbut)
+        kb3 = InlineKeyboardButton("⚫", callback_data="kaynak-3")
     if "4" in u['kaynak']:
-        kmark.add(InlineKeyboardButton("✅".format(bashub.title), callback_data="kaynak-4"), dsaatbut)
+        kb4 = InlineKeyboardButton("✅", callback_data="kaynak-4")
     else:
-        kmark.add(InlineKeyboardButton("⚫".format(bashub.title), callback_data="kaynak-4"), dsaatbut)
-    kmark.add(ebut)
+        kb4 = InlineKeyboardButton("⚫", callback_data="kaynak-4")
     if "5" in u['kaynak']:
-        kmark.add(InlineKeyboardButton("✅".format(acikmi.title), callback_data="kaynak-5"), esaatbut)
+        kb5 = InlineKeyboardButton("✅", callback_data="kaynak-5")
     else:
-        kmark.add(InlineKeyboardButton("⚫".format(acikmi.title), callback_data="kaynak-5"), esaatbut)
-    kmark.add(gbut)
+        kb5 = InlineKeyboardButton("⚫", callback_data="kaynak-5")
     if "6" in u['kaynak']:
-        kmark.add(InlineKeyboardButton("✅".format(muho.title), callback_data="kaynak-6"), gsaatbut)
+        kb6 = InlineKeyboardButton("✅", callback_data="kaynak-6")
     else:
-        kmark.add(InlineKeyboardButton("⚫".format(muho.title), callback_data="kaynak-6"), gsaatbut)
-    kmark.add(fbut)
+        kb6 = InlineKeyboardButton("⚫", callback_data="kaynak-6")
     if "7" in u['kaynak']:
-        kmark.add(InlineKeyboardButton("✅".format(tutan.title), callback_data="kaynak-7"), fsaatbut)
+        kb7 = InlineKeyboardButton("✅", callback_data="kaynak-7")
     else:
-        kmark.add(InlineKeyboardButton("⚫".format(tutan.title), callback_data="kaynak-7"), fsaatbut)
-    kmark.row(InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal"))
-    kmark.row(InlineKeyboardButton("♋️ Özel Kaynak Oluştur ♋️", callback_data="okay"))
-        
+        kb7 = InlineKeyboardButton("⚫", callback_data="kaynak-7")
+    
+    kmark = InlineKeyboardMarkup(inline_keyboard=[[ubut], [kb1, saatbut], [bbut], [kb2, bsaatbut], [cbut], [kb3, csaatbut], [dbut], [kb4, dsaatbut], [ebut], [kb5, esaatbut], [gbut], [kb6, gsaatbut], [fbut], [kb7, fsaatbut], [InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")], [InlineKeyboardButton("♋️ Özel Kaynak Oluştur ♋️", callback_data="okay")]])
+    
     return kmark
 
 def sablonmark(user):
-    samark = InlineKeyboardMarkup(row_width=2)
     if collection.find_one({"_id": user})['sablon'] in ["1", "2", "3", "9"]:
-        samark.add(InlineKeyboardButton("➕ Şablon Oluştur ➕", callback_data="sablon"))
+        buts = InlineKeyboardButton("➕ Şablon Oluştur ➕", callback_data="sablon")
+        samark = InlineKeyboardMarkup(inline_keyboard=[[buts]], row_width=2)
+        return samark
     else:
-        samark.add(InlineKeyboardButton("➕ Şablon Değiştir ➕", callback_data="sablon"))
-        samark.add(InlineKeyboardButton("🔁 Varsayılan Şablonu Kullan 🔁", callback_data="vsablon"))
-    samark.add(InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal"))
-    return samark
+        buts = InlineKeyboardButton("➕ Şablon Değiştir ➕", callback_data="sablon")
+        buts2 = InlineKeyboardButton("🔁 Varsayılan Şablonu Kullan 🔁", callback_data="vsablon")
+        buts3 = InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")
+        samark = InlineKeyboardMarkup(inline_keyboard=[[buts], [buts2], [buts3]], row_width=2)
+        return samark
 
 def patmark(user):
     zero = 0
-    pmark = InlineKeyboardMarkup()
-    pmark.row_width = 1
-   
+    pkeyb = [[InlineKeyboardButton("Hepsine Gönder", callback_data="pat-0")]]
     pkul = collection.find_one({"_id": user})
-    pmark.add(InlineKeyboardButton("Hepsine Gönder", callback_data="pat-0"))
-    
+
     for k in pkul['kanal']:
         kn = bot.get_chat(k)
         zero += 1
-        pmark.add(InlineKeyboardButton("{}".format(kn.title), callback_data="pat-{}".format(zero)))
-    pmark.row(InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal"))
-    
+        pkeyb.append([InlineKeyboardButton("{}".format(kn.title), callback_data="pat-{}".format(zero))])
+    pkeyb.append([InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")])
+
+    pmark = InlineKeyboardMarkup(pkeyb)
     return pmark
     
 def gen_markup(user):
-    silkey = InlineKeyboardMarkup()
-    silkey.row_width = 1
+    keyb = []
     kayd = collection.find_one({"_id": user})
     butonno = 0
     for k in kayd['kanal']:
         ismi = bot.get_chat(k)
-        silkey.add(InlineKeyboardButton("{}".format(ismi.title), callback_data="sil-{}".format(butonno)))
+        keyb.append([InlineKeyboardButton("{}".format(ismi.title), callback_data="sil-{}".format(butonno))])
         butonno += 1
-    silkey.row(InlineKeyboardButton("❌ İptal ❌", callback_data="iptal"))
+    keyb.append([InlineKeyboardButton("❌ İptal ❌", callback_data="iptal")])
+    silkey = InlineKeyboardMarkup(keyb)
     
     return silkey
 
-@bot.message_handler(content_types=['text'])
-def menu(message):
-    chat = message.chat.id
-    user = message.from_user.id
-    mesaj = message.text
+
+def menu(update, context):
+    chat = update.message.chat.id
+    user = update.message.from_user.id
+    mesaj = update.message.text
+    bot = context.bot
     mj = collection.find_one({"_id": user})
     if user in kara:
         bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
@@ -846,9 +805,9 @@ def menu(message):
         if mj['sablon'] == "1":
             bot.send_message(chat, "<b>Varsayılan Şablon:</b>\n\n🔥{aciklama} \n\n🔱 TIKLA 👉 {link} \n\n📛 SESİ AÇ 'a tıklamayı unutma", reply_markup=sablonmark(user))
         elif mj['sablon'] == "2":
-            bot.send_message(chat, "<b>Varsayılan Şablon:</b>\n\n{aciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {link}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06", reply_markup=sablonmark(user))
+            bot.send_message(chat, "<b>Varsayılan Şablon:</b>\n\n{aciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {link}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 #linkgec06", reply_markup=sablonmark(user))
         elif mj['sablon'] == "9":
-            bot.send_message(chat, "<b>Varsayılan Şablon:</b>\n\n{aciklama} \n\n𝙇𝙄𝙉𝙆🔗 {link} \n\n     𝙇𝙄𝙉𝙆🔗 {alink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee", reply_markup=sablonmark(user))
+            bot.send_message(chat, "<b>Varsayılan Şablon:</b>\n\n{aciklama} \n\n𝙇𝙄𝙉𝙆🔗 {link} \n\n     𝙇𝙄𝙉𝙆🔗 {alink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 #linkk_gecmee", reply_markup=sablonmark(user))
         else:
             if mj['sira'] == "1":
                 pst = mj['sablon'].replace("{aciklama}", "{}").replace("{link}", "{}").replace("{alink}", "{}").format(aciklama, link, alink)
@@ -861,11 +820,11 @@ def menu(message):
             tokenn = bina['token']
         except:
             msg = bot.send_message(chat, """📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark())
-            bot.register_next_step_handler(msg, apikayit)
-            return
+            
+            return APIDEGISTIR
     if mesaj == "⚙️ Menü":
         kayitli = 0
-        chat = message.chat.id
+        chat = update.message.chat.id
         bina = collection.find_one({"_id": chat})
         try:
             for chan in bina['kanal']:
@@ -887,8 +846,8 @@ def menu(message):
             msg = bot.send_message(chat, """⛔ Henüz bir API kaydetmemişsiniz!
             
 📝 <i></i> <a href="https://tr.link/member/tools/quick">buraya tıklayarak</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark())
-            bot.register_next_step_handler(msg, apikayit)
-            return
+            
+            return APIDEGISTIR
         else:
             site = bina['site']
             if site == "1":
@@ -917,8 +876,7 @@ def menu(message):
                     altsite = "Pubiza"
                 msg = bot.send_message(chat, "<i>♦️Birincil API: {}\n  Birincil Site: {}\n  Alternatif API: {}\n  Alternatif Site: {}\n  Toplam Kanal: {}</i>".format(tokenn, site, bina['altapi'], altsite, kayitli), reply_markup=markupp())
                 
-            bot.register_next_step_handler(msg, kayitapi)
-            return
+        return ALTMENU
     if mesaj == "▶️ SFS Modu":
         if mj == None:
             bot.send_message(chat, "Lütfen önce bir API kaydedin.")
@@ -953,8 +911,8 @@ def menu(message):
             bot.send_message(chat, "Lütfen önce bir kanal kaydedin.")
             return
         msg = bot.send_message(chat, "Paylaşmamı istediğin hazır postu ilet.", reply_markup=imark())
-        bot.register_next_step_handler(msg, pat)
-        return
+        
+        return PATPOST
         
     kisi = collection.find_one({"_id": user})
     if kisi == None:
@@ -962,247 +920,215 @@ def menu(message):
         return
     bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=dugme())
     
-def ozelk(message):
-    user = message.from_user.id
-    chat = message.chat.id
-    if message.text == "❌ İptal":
+def ozelk(update, context):
+    user = update.message.from_user.id
+    chat = update.message.chat.id
+    if update.message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme())
-        return
-    if not message.forward_from_chat:
-        msz = bot.send_message(message.chat.id, "Lütfen bana oluşturduğun kanaldan bir mesaj ilet.")
-        bot.register_next_step_handler(msz, ozelk)
-        return
-    kanal = message.forward_from_chat.id
+        return ConversationHandler.END
+    if not update.message.forward_from_chat:
+        msz = bot.send_message(update.message.chat.id, "Lütfen bana oluşturduğun kanaldan bir mesaj ilet.")
+        return OZELKAYNAK
+    kanal = update.message.forward_from_chat.id
     if kanal in kaynaklar:
         mst = bot.send_message(chat, "Kaynak kanalını nasıl kaydedebilirim ki?")
-        bot.register_next_step_handler(mst, ozelk)
-        return
+        return OZELKAYNAK
     try:
         yetkiler = bot.get_chat_administrators(kanal)
     except:
         msg = bot.send_message(chat, "Botu kanalınızda yönetici eklememişsiniz.")
-        bot.register_next_step_handler(msg, ozelk)
-        return
-    if message.forward_from_chat:
-        ileti = message.forward_from_chat.id
+        return OZELKAYNAK
+    if update.message.forward_from_chat:
+        ileti = update.message.forward_from_chat.id
         OzelCol.update_one({"_id": user}, {"$set": {"okaynak": ileti}})
         collection.update_one({"_id": user}, {"$set": {"ozel": True, "kaynak": ["32"]}})
-        bot.send_message(message.chat.id, "<b>Özel Kaynak Oluşturuldu!</b>", reply_markup=dugme())
+        bot.send_message(update.message.chat.id, "<b>Özel Kaynak Oluşturuldu!</b>", reply_markup=dugme())
+        return ConversationHandler.END
 
-def kaynake(message):
-    ktext = message.text
-    chat = message.chat.id
-    user = message.from_user.id
-    if message.text == None:
-        msg = bot.send_message(chat, "Lütfen istediğiniz kaynağın numarasını gönderin.")
-        bot.register_next_step_handler(msg, kaynake)
-        return
-    if message.text == "❌ İptal":
-        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme())
-        return
-    ktext = ktext.split(",")
+def sabloniki(update, context):
+    mesaj = update.message.text
+    chat = update.message.chat.id
+    user = update.message.from_user.id
     bnb = collection.find_one({"_id": user})
-    if bnb == None:
-        bot.send_message(chat, "Lütfen kaynak seçmeden önce Kaydet butonu ile bilgilerinizi kaydedin.", reply_markup=dugme())
-    else:
-        collection.update_one({"_id": user}, {"$set":{"kaynak": ktext}})
-        bot.send_message(chat, "Kaynak Kaydedildi!", reply_markup=dugme())
-
-def sabloniki(message):
-    mesaj = message.text
-    chat = message.chat.id
-    user = message.from_user.id
-    bnb = collection.find_one({"_id": user})
-    if message.text == None:
+    if update.message.text == None:
         msg = bot.send_message(chat, """ ❌<i> Lütfen mesajınızda "{link}" ve "{aciklama}" bulunduğudan emin olun.</i> """)
-        bot.register_next_step_handler(msg, sabloniki)
-        return
-    if message.text == "❌ İptal":
+
+        return SABLON
+    if update.message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme())
-        return
+        return ConversationHandler.END
     if not mesaj.isdigit() and bnb['sira'] == "1":
         if mesaj.find("{link}") == -1 or mesaj.find("{aciklama}") == -1 or mesaj.find("{alink}") == -1:
             msg = bot.send_message(chat, """ ❌<i> Lütfen mesajınızda "{link}", "{alink}" ve "{aciklama}" bulunduğudan emin olun.</i> """)
-            bot.register_next_step_handler(msg, sabloniki)
-            return
+            return SABLON
         if mesaj.find("{link}") > mesaj.find("{alink}"):
             msg = bot.send_message(chat, """ ❌<i> Şablonunuzda {link} kelimesi {alink}'ten önde olmak zorundadır</i> """)
-            bot.register_next_step_handler(msg, sabloniki)
-            return
+            return SABLON
     if not mesaj.isdigit():
         if mesaj.find("{link}") == -1 or mesaj.find("{aciklama}") == -1:
             msg = bot.send_message(chat, """ ❌<i> Lütfen mesajınızda "{link}" ve "{aciklama}" bulunduğudan emin olun.</i> """)
-            bot.register_next_step_handler(msg, sabloniki)
-            return
+            return SABLON
         if mesaj.find("{link}") != mesaj.rfind("{link}"):
             msg = bot.send_message(chat, """ ❌<i> Lütfen mesajınızda bir tane "{link}" bulunduğudan emin olun.</i> """)
-            bot.register_next_step_handler(msg, sabloniki)
-            return
+            return SABLON
         if mesaj.find("{aciklama}") != mesaj.rfind("{aciklama}"):
             msg = bot.send_message(chat, """ ❌<i> Lütfen mesajınızda bir tane "{aciklama}" bulunduğudan emin olun.</i> """)
-            bot.register_next_step_handler(msg, sabloniki)
-            return
+            return SABLON
     if bnb == None:
         bot.send_message(chat, "Lütfen şablon kaydetmeden önce Kaydet butonu ile bilgilerinizi girin!", reply_markup=dugme())
     else:
         collection.update_one({"_id": user}, {"$set":{"sablon": mesaj}})
         bot.send_message(chat, "Şablon kaydedildi!", reply_markup=dugme())
+        return ConversationHandler.END
 
-def kayitapi(message):
-    chat = message.chat.id
-    mesaj = message.text
-    user = message.from_user.id
+def kayitapi(update, context):
+    chat = update.message.chat.id
+    mesaj = update.message.text
+    user = update.message.from_user.id
     ka = collection.find_one({"_id": user})
     vip_uyeler = collection.find_one({"_id": 0})['vipuye']
     if mesaj == "🗑️ Kanal Sil":
         if len(ka['kanal']) < 1:
             msg = bot.send_message(chat, "Henüz bir kanal kaydetmemişsiniz!", reply_markup=markupp())
-            bot.register_next_step_handler(msg, kayitapi)
-            return
+            return 
         msg = bot.send_message(chat, "Silmek istediğiniz kanalı seçin.", reply_markup=gen_markup(user))
-        bot.register_next_step_handler(msg, kayitapi)
-        return
+        return 
     if mesaj == "♻️ API değiştir":
         msg = bot.send_message(chat, "Yeni API adresinizi girin.", reply_markup=imark())
-        bot.register_next_step_handler(msg, apikayit)
-        return
+        return APIDEGISTIR
     if mesaj == "↩️ Ana Menü" or mesaj == "❌ İptal":
         msg = bot.send_message(chat, "İptal Edildi.", reply_markup=dugme())
-        return
+        return ConversationHandler.END
     if mesaj == "🔗 Site değiştir":
         msg = bot.send_message(chat, "<i>Kullanmak istediğiniz siteyi seçin</i>", reply_markup=sitemarkup())
-        bot.register_next_step_handler(msg, kayitapi)
+        
         return
     if mesaj == "🤖 Alternatif Ekle":
         msg = bot.send_message(chat, "<b>Alternatif Nasıl Kullanılsın.\n\n Tek Post İki Link</b>\n <i>Aynı post iki link</i> \n\n<b>Sıralı</b>\n <i>Bir post birinci servis, bir post alternatif servis.</i>\n\n<b>Kullanmak istediğiniz sistemi seçin.</b>", reply_markup=altmarkup(user))
-        bot.register_next_step_handler(msg, kayitapi)
+        
         return
     if mesaj == "🔶 Yeni Kanal Ekle":
         bol = collection.find_one({"_id": chat})
         if len(bol['kanal']) > 2 and not user in vip_uyeler:
             bot.send_message(chat, "<i>Üzgünüm en fazla 3 kanal kaydedebilirsiniz.</i>")
-            return
-        msg = bot.send_message(chat, """📝 <i>Lütfen kanalınızdan bir gönderi iletin.</i>""", reply_markup=imark())
-        bot.register_next_step_handler(msg, kanalkayit)
-        return
-    msg = bot.send_message(chat, "Lütfen alttaki butonları kullanın.", reply_markup=markupp())
-    bot.register_next_step_handler(msg, kayitapi)
+            return 
+        bot.send_message(chat, """📝 <i>Lütfen kanalınızdan bir gönderi iletin.</i>""", reply_markup=imark())
 
-def altakayit(message, smesaj, user, chat, sss):
-    amesaj = message.text
-    if message.text == "❌ İptal" or message.text == None:
+        return KANALKAYDET
+    bot.send_message(chat, "Lütfen alttaki butonları kullanıns.", reply_markup=markupp())
+
+def cancel(update, context):
+    chat = update.message.chat.id
+    bot.send_message(chat, "İptal Edildi.", reply_markup=dugme())
+    return
+
+def altakayit(update, context):
+    amesaj = update.message.text
+    user = update.message.from_user.id
+    chat = update.message.chat.id
+    if update.message.text == "❌ İptal" or update.message.text == None:
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme())
-        return
-    if message.text == "⛔ Alternatif Kaldır":
+        return ConversationHandler.END
+    if update.message.text == "⛔ Alternatif Kaldır":
         collection.update_one({"_id": user}, {"$set": {"altsite": "None", "altapi": "None", "sablon": "1", "sira": "0"}})
         bot.send_message(chat, "Alternatif kaldırıldı, artık postlarınız alternatif linksiz paylaşılacak.", reply_markup=dugme())
-        return
-    
-    collection.update_one({"_id": user}, {"$set": {"altsite": smesaj, "altapi": amesaj, "sira": sss}})
+        return ConversationHandler.END
+    smesaj = context.user_data['asite']
+    sss = context.user_data['sistem']
+    collection.update_one({"_id": user}, {"$set": {"altsite": str(smesaj), "altapi": str(amesaj), "sira": str(sss)}})
     bot.send_message(chat, "✅ Alternatif API kaydedildi", reply_markup=dugme())
+    return ConversationHandler.END
 
-def apikayit(message):
-    token = message.text
-    mid = message.id
-    user = message.from_user.id
-    chat = message.chat.id
+def apikayit(update, context):
+    token = update.message.text
+    user = update.message.from_user.id
+    chat = update.message.chat.id
     bnb = collection.find_one({"_id": user})
-    if message.text == None:
+    if update.message.text == None:
         msg = bot.send_message(chat, "Lütfen geçerli bir API verin.")
-        bot.register_next_step_handler(msg, apikayit)
         return
-    if message.text == "❌ İptal":
+    if update.message.text == "❌ İptal":
         if bnb == None:
             bot.send_message(chat, "İptal Edildi.", reply_markup=dagme())
         else:
             bot.send_message(chat, "İptal Edildi.", reply_markup=dugme())
-        return
+        return ConversationHandler.END
     if bnb == None:
         kontrol = get("https://ay.live/api/?api={}&url=www.zort.com&format=text&alias=&ct=2".format(token)).text
         if kontrol == "":
             mso = bot.send_message(chat, "❌ Geçersiz bir API verdiniz! Lütfen doğru bir API adresi verin.")
-            bot.register_next_step_handler(mso, apikayit)
-            return
-    if token.startswith("http"):
-        mso = bot.send_message(chat, "❌ Geçersiz bir API verdiniz! Lütfen doğru bir API adresi verin.")
-        bot.register_next_step_handler(mso, apikayit)
-        return
+            return APIDEGISTIR
     key = {"_id": user, "token": token, "kanal": [], "sablon": "1", "kaynak": ["1"], "site": "1", "altapi": "None", "altsite": "None", "sira": "0", "ozel": False}
     if bnb == None:
-        try:
-            collection.insert_one(key)
-        except Exception as e:
-            logger.error(e)
+        collection.insert_one(key)
     else:
         collection.update_one({"_id": user}, {"$set": {"token": token}})
     bot.send_message(chat, "<b>🟢 API kaydedildi!</b>", reply_markup=dugme())
+    return ConversationHandler.END
 
-def kanalkayit(message):
-    chat = message.chat.id
-    user = message.from_user.id
+def kanalkayit(update, context):
+    chat = update.message.chat.id
+    user = update.message.from_user.id
     y = collection.find_one({"_id": user})
-    if message.text == "❌ İptal":
+    if update.message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme())
-        return
-    if not message.forward_from_chat:
+        return ConversationHandler.END
+    if not update.message.forward_from_chat:
         msg = bot.send_message(chat, "↪️ Bunun ne olduğu hakkında bir fikrim yok! Lütfen kanaldan herhangi bir gönderi iletin.", reply_markup=imark())
-        bot.register_next_step_handler(msg, kanalkayit)
-        return
-    kanal = message.forward_from_chat.id
+        
+        return KANALKAYDET
+    kanal = update.message.forward_from_chat.id
     if kanal in kaynaklar:
         mst = bot.send_message(chat, "Kaynak kanalını nasıl kaydedebilirim ki?", reply_markup=imark())
-        bot.register_next_step_handler(mst, kanalkayit)
-        return
+        return KANALKAYDET
     if str(kanal) in y['kanal']:
         msl = bot.send_message(chat, "Bu kanalı zaten kaydetmişsiniz")
-        bot.register_next_step_handler(msl, kanalkayit)
-        return
+        return KANALKAYDET
     try:
         kanalbilgi = bot.get_chat(kanal)
     except:
         msg = bot.send_message(chat, "Botu kanalınızda yönetici eklememişsiniz.")
-        bot.register_next_step_handler(msg, kanalkayit)
-        return
+        
+        return KANALKAYDET
     try:
         yetkiler = bot.get_chat_administrators(kanal)
     except:
         msg = bot.send_message(chat, "Botu kanalınızda yönetici eklememişsiniz.")
-        bot.register_next_step_handler(msg, kanalkayit)
-        return
+        
+        return KANALKAYDET
     for y in yetkiler:
         if y.user.id == user:
             collection.update_one({"_id": user}, {"$push":{"kanal": str(kanal)}})
-            bot.reply_to(message,"<b>🟢Kanalınız Kaydedildi.</b>", reply_markup=dugme())
-            return
+            update.message.reply_text("<b>🟢Kanalınız Kaydedildi.</b>", reply_markup=dugme())
+            return ConversationHandler.END
             break
     msz = bot.send_message(chat, "Bu kanal sizin değil 😠")
-    bot.register_next_step_handler(msz, kanalkayit)
+    update.message.register_next_step_handler(msz, kanalkayit)
 
-def pat(message):
-    chat = message.chat.id
-    user = message.from_user.id
-    ptip = message.content_type 
-    if message.text == "❌ İptal":
+
+
+def pat(update, context):
+    chat = update.message.chat.id
+    user = update.message.from_user.id
+    if update.message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme())
-        return
-    if message.content_type == "text":
+        return ConversationHandler.END
+    if update.message.text:
         msg = bot.send_message(chat, "Lütfen paylaşmamı istediğin postu at")
-        bot.register_next_step_handler(msg, pat)
-        return
-    if message.caption == None:
+        return PATPOST
+    if update.message.caption == None:
         msg = bot.send_message(chat, "Lütfen paylaşmamı istediğin postu at")
-        bot.register_next_step_handler(msg, pat)
-        return
-    mesaj = message.caption
-    if message.content_type == "video":
-        fid = message.video.file_id
-    elif message.content_type == "photo":
-        fid = message.photo[0].file_id
-    elif message.content_type == "animation":
-        fid = message.animation.file_id
-    else:
-        bot.send_message(chat, "Bu dosya türü desteklenmiyor. Lütfen bir video, fotoğraf veya gif gönderin.")
-        return
+        return PATPOST
+    mesaj = update.message.caption
+    if update.message.video:
+        fid = update.message.video.file_id
+        ptip = "video"
+    if update.message.photo:
+        fid = update.message.photo[0].file_id
+        ptip = "photo"
+    if update.message.animation:
+        fid = update.message.animation.file_id
+        ptip = "animation"
     """Açıklama Tespit"""
     pson = mesaj.find("\n")
     paciklama = mesaj[:pson]
@@ -1265,9 +1191,9 @@ def pat(message):
         if psablon == "1":
             psablon = f"🔥{paciklama}\n\n🔱 TIKLA 👉 {plink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
         elif psablon == "2" or psablon == "3":
-            psablon = f"{paciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {plink}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
+            psablon = f"{paciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {plink}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 #linkgec06"
         elif psablon == "9":
-            psablon = f"{paciklama} \n\n𝙇𝙄𝙉𝙆🔗 {plink} \n\n     𝙇𝙄𝙉𝙆🔗 {palink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
+            psablon = f"{paciklama} \n\n𝙇𝙄𝙉𝙆🔗 {plink} \n\n     𝙇𝙄𝙉𝙆🔗 {palink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 #linkk_gecmee"
         elif psablon.find('{alink}') != -1:
             psablon = psablon.replace("{aciklama}", "{}").replace("{link}", "{}").replace("{alink}", "{}").format(paciklama, plink, palink)
         else:
@@ -1287,24 +1213,25 @@ def pat(message):
         if ptip == "animation":
             bot.send_animation(pkanallar[0], fid, caption=psablon)
         bot.send_message(chat, "Postunuz gönderildi.", reply_markup=dugme())
-        return
+        return ConversationHandler.END
     
-    patc.psablon = psablon
-    patc.ptip = ptip
-    patc.fid = fid
+    context.user_data['psablon'] = psablon
+    context.user_data['ptip'] = ptip
+    context.user_data['fid'] = fid
     if pret:
         bot.send_message(chat, "Post Hazırlandı!", reply_markup=dugme())
         bot.send_message(chat, "<i>Postun gönderilmesini istediğin kanalı seç.</i>", reply_markup=patmark(user))
+        return ConversationHandler.END
     else:
         bot.send_message(chat, "Bir hata oluştu")
-@bot.channel_post_handler(content_types=['photo', 'animation', 'video'])
-def poster(message):
+
+def poster(update, context):
     okaynak = None
-    chat = message.chat.id
+    chat = update.channel_post.chat.id
     # Link Mahzeni
     if chat == kaynaklar[0] and mahzen:
         count = 0
-        mesaj = message.caption
+        mesaj = update.channel_post.caption
         if mesaj == None:
             return
         """  Link tespit  """
@@ -1332,14 +1259,13 @@ def poster(message):
         """  Veri Tabanı  """
         postdata = db[str(chat)]
         binb = collection.find({})
-        mesjid = message.message_id
         """ Dosya tespit """
-        if message.content_type == "photo":
-            medya = message.photo[0].file_id
-        if message.content_type == "animation":
-            medya = message.animation.file_id
-        if message.content_type == "video":
-            medya = message.video.file_id
+        if update.channel_post.photo:
+            medya = update.channel_post.photo[0].file_id
+        if update.channel_post.animation:
+            medya = update.channel_post.animation.file_id
+        if update.channel_post.video:
+            medya = update.channel_post.video.file_id
         for hesap in binb:
             ret = True
             kaynak = hesap['kaynak']
@@ -1401,9 +1327,9 @@ def poster(message):
                 if sablon == "1":
                     sablon = f"🔥{aciklama}\n\n🔱 TIKLA 👉 {link}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
                 elif sablon == "2" or sablon == "3":
-                    sablon = f"{aciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {link}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
+                    sablon = f"{aciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {link}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 #linkgec06"
                 elif sablon == "9":
-                    sablon = f"{aciklama} \n\n𝙇𝙄𝙉𝙆🔗 {link} \n\n     𝙇𝙄𝙉𝙆🔗 {alink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
+                    sablon = f"{aciklama} \n\n𝙇𝙄𝙉𝙆🔗 {link} \n\n     𝙇𝙄𝙉𝙆🔗 {alink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 #linkk_gecmee"
                 elif sablon.find('{alink}') != -1:
                     sablon = sablon.replace("{aciklama}", "{}").replace("{alink}", "{}").replace("{link}", "{}").format(aciklama, link, alink)
                 else:
@@ -1411,25 +1337,28 @@ def poster(message):
                 sleep(1)
                 for kan in kanal:
                     try:
-                        if message.content_type == "photo" and ret:
+                        if update.channel_post.photo and ret:
                             post = bot.send_photo(kan, medya, caption=sablon)
-                        if message.content_type == "video" and ret:
+                        if update.channel_post.video and ret:
                             post = bot.send_video(kan, medya, caption=sablon)
-                        if message.content_type == "animation" and ret:
+                        if update.channel_post.animation and ret:
                             post = bot.send_animation(kan, medya, caption=sablon)
+                        postkayit = postdata.find_one({"_id": kan})
+                        if postkayit == None:
+                            postdata.insert_one({"_id": kan, "pid": post.message_id})
+                        else:
+                            postdata.update_one({"_id": kan}, {"$set": {"pid": post.message_id}})
+                        count = count + 1
                     except Exception as e:
                         logger.debug(f"Hatalı kanal: {kanal}")
                         e = str(e)
-                        if e.find("bot is") != -1:
+                        if e.find("update.message is") != -1:
                             collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
                             try:
                                 bot.send_message(user, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
-                            except: #Hem botu engelleyip hemde kanaldan sildiyse
+                            except: #Hem update.messageu engelleyip hemde kanaldan sildiyse
                                 pass   
                             logger.debug(f"{kanal} kayıtlardan silindi.")
-                    else:
-                        count = count + 1
-                        postdata.insert_one({"pid": post.message_id, "chat": kan, "mesih": mesjid})
                 logger.info("Başarılı!")
             else:
                 pass
@@ -1439,7 +1368,7 @@ def poster(message):
     # Bedava Link
     elif chat == kaynaklar[1] and bedava:
         bcount = 0
-        bmesaj = message.caption
+        bmesaj = update.channel_post.caption
         if bmesaj == None:
             return
         """ Link tespit """
@@ -1467,14 +1396,13 @@ def poster(message):
         """  Veri Tabanı  """
         bpostdata = db[str(chat)]
         bbinb = collection.find({})
-        bmesjid = message.message_id
         """ Dosya tespit """
-        if message.content_type == "photo":
-            bmedya = message.photo[0].file_id
-        if message.content_type == "animation":
-            medya = message.animation.file_id
-        if message.content_type == "video":
-            bmedya = message.video.file_id
+        if update.channel_post.photo:
+            bmedya = update.channel_post.photo[0].file_id
+        if update.channel_post.animation:
+            medya = update.channel_post.animation.file_id
+        if update.channel_post.video:
+            bmedya = update.channel_post.video.file_id
         for bhesap in bbinb:
             bret = True
             bkaynak = bhesap['kaynak']
@@ -1538,9 +1466,9 @@ def poster(message):
                 if bsablon == "1":
                     bsablon = f"🔥{baciklama}\n\n🔱 TIKLA 👉 {blink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
                 elif bsablon == "2" or bsablon == "3":
-                    bsablon = f"{baciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {blink}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
+                    bsablon = f"{baciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {blink}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 #linkgec06"
                 elif bsablon == "9":
-                    bsablon = f"{baciklama} \n\n𝙇𝙄𝙉𝙆🔗 {blink} \n\n     𝙇𝙄𝙉𝙆🔗 {balink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
+                    bsablon = f"{baciklama} \n\n𝙇𝙄𝙉𝙆🔗 {blink} \n\n     𝙇𝙄𝙉𝙆🔗 {balink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 #linkk_gecmee"
                 elif bsablon.find('{alink}') != -1:
                     bsablon = bsablon.replace("{aciklama}", "{}").replace("{alink}","{}").replace("{link}", "{}").format(baciklama, blink, balink)
                     
@@ -1550,25 +1478,29 @@ def poster(message):
                 sleep(1)
                 for bkan in bkanal:
                     try:
-                        if message.content_type == "photo" and bret:
+                        if update.channel_post.photo and bret:
                             bpost = bot.send_photo(bkan, bmedya, caption=bsablon)
-                        if message.content_type == "video" and bret:
+                        if update.channel_post.video and bret:
                             bpost = bot.send_video(bkan, bmedya, caption=bsablon)
-                        if message.content_type == "animation" and bret:
+                        if update.channel_post.animation and bret:
                             bpost = bot.send_animation(bkan, bmedya, caption=bsablon)
+                        bpostkayit = bpostdata.find_one({"_id": bkan})
+                        if bpostkayit == None:
+                            bpostdata.insert_one({"_id": bkan, "pid": bpost.message_id})
+                        else:
+                            bpostdata.update_one({"_id": bkan}, {"$set": {"pid": bpost.message_id}})
+                        bcount = bcount + 1
                     except Exception as e:
                         logger.debug(f"Hatalı kanal: {bkanal}")
                         e = str(e)
-                        if e.find("bot is") != -1:
+                        if e.find("update.message is") != -1:
                             collection.update_one({"_id": buser}, {"$pull": {"kanal": bkan}})
                             try:
                                 bot.send_message(buser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
-                            except: #Hem botu engelleyip hemde kanaldan sildiyse
+                            except: #Hem update.messageu engelleyip hemde kanaldan sildiyse
                                 pass   
                             logger.debug(f"{bkanal} kayıtlardan silindi.")
-                    else:
-                        bpostdata.insert_one({"mesih": bmesjid, "pid": bpost.message_id, "chat": bkan})
-                        bcount = bcount + 1
+                    
                 logger.info("Başarılı!")
         bbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(bkynk.title, bcount)
         logger.warning(bbasari)
@@ -1576,7 +1508,7 @@ def poster(message):
     # Link Evi
     elif chat == kaynaklar[2] and evi:
         ccount = 0
-        cmesaj = message.caption
+        cmesaj = update.channel_post.caption
         if cmesaj == None:
             return
         """ Link tespit """
@@ -1604,14 +1536,13 @@ def poster(message):
         """  Veri Tabanı  """
         cpostdata = db[str(chat)]
         cbinb = collection.find({})
-        cmesjid = message.message_id
         """ Dosya tespit """
-        if message.content_type == "photo":
-            cmedya = message.photo[0].file_id
-        if message.content_type == "animation":
-            cmedya = message.animation.file_id
-        if message.content_type == "video":
-            cmedya = message.video.file_id
+        if update.channel_post.photo:
+            cmedya = update.channel_post.photo[0].file_id
+        if update.channel_post.animation:
+            cmedya = update.channel_post.animation.file_id
+        if update.channel_post.video:
+            cmedya = update.channel_post.video.file_id
         for chesap in cbinb:
             cret = True
             ckaynak = chesap['kaynak']
@@ -1677,9 +1608,9 @@ def poster(message):
                 if csablon == "1":
                     csablon = f"🔥{caciklama}\n\n🔱 TIKLA 👉 {clink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
                 elif csablon == "2" or csablon == "3":
-                    csablon = f"{caciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {clink}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
+                    csablon = f"{caciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {clink}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 #linkgec06"
                 elif csablon == "9":
-                    csablon = f"{caciklama} \n\n𝙇𝙄𝙉𝙆🔗 {clink} \n\n     𝙇𝙄𝙉𝙆🔗 {calink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
+                    csablon = f"{caciklama} \n\n𝙇𝙄𝙉𝙆🔗 {clink} \n\n     𝙇𝙄𝙉𝙆🔗 {calink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 #linkk_gecmee"
                 elif csablon.find('{alink}') != -1:
                     csablon = csablon.replace("{link}", "{}").replace("{aciklama}", "{}").replace("{alink}","{}").format(caciklama, clink, calink)
                     
@@ -1688,25 +1619,29 @@ def poster(message):
                 sleep(1)
                 for ckan in ckanal:
                     try:
-                        if message.content_type == "photo" and cret:
+                        if update.channel_post.photo and cret:
                             cpost = bot.send_photo(ckan, cmedya, caption=csablon)
-                        if message.content_type == "video" and cret:
+                        if update.channel_post.video and cret:
                             cpost = bot.send_video(ckan, cmedya, caption=csablon)
-                        if message.content_type == "animation" and cret:
+                        if update.channel_post.animation and cret:
                             cpost = bot.send_animation(ckan, cmedya, caption=csablon)
+                        cpostkayit = cpostdata.find_one({"_id": ckan})
+                        if cpostkayit == None:
+                            cpostdata.insert_one({"_id": ckan, "pid": cpost.message_id})
+                        else:
+                            cpostdata.update_one({"_id": ckan}, {"$set": {"pid": cpost.message_id}})
+                        ccount = ccount + 1
                     except Exception as e:
                         logger.debug(f"Hatalı kanal: {ckanal}")
                         e = str(e)
-                        if e.find("bot is") != -1:
+                        if e.find("update.message is") != -1:
                             collection.update_one({"_id": cuser}, {"$pull": {"kanal": ckan}})
                             try:
                                 bot.send_message(cuser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
-                            except: #Hem botu engelleyip hemde kanaldan sildiyse
+                            except: #Hem update.messageu engelleyip hemde kanaldan sildiyse
                                 pass   
                             logger.debug(f"{ckanal} kayıtlardan silindi.")
-                    else:
-                        cpostdata.insert_one({"chat": ckan, "pid": cpost.message_id, "mesih": cmesjid})
-                        ccount = ccount + 1
+
                 logger.info("Başarılı!")
         cbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(ckynk.title, ccount)
         logger.warning(cbasari)
@@ -1714,7 +1649,7 @@ def poster(message):
     # BAŞHUB
     elif chat == kaynaklar[3] and bashub:
         dcount = 0
-        dmesaj = message.caption
+        dmesaj = update.channel_post.caption
         if dmesaj == None:
             return
         """ Link tespit """
@@ -1742,14 +1677,13 @@ def poster(message):
         """  Veri Tabanı  """
         dpostdata = db[str(chat)]
         dbinb = collection.find({})
-        dmesjid = message.message_id
         """ Dosya tespit """
-        if message.content_type == "photo":
-            dmedya = message.photo[0].file_id
-        if message.content_type == "animation":
-            dmedya = message.animation.file_id
-        if message.content_type == "video":
-            dmedya = message.video.file_id
+        if update.channel_post.photo:
+            dmedya = update.channel_post.photo[0].file_id
+        if update.channel_post.animation:
+            dmedya = update.channel_post.animation.file_id
+        if update.channel_post.video:
+            dmedya = update.channel_post.video.file_id
         for dhesap in dbinb:
             dret = True
             dkaynak = dhesap['kaynak']
@@ -1814,35 +1748,39 @@ def poster(message):
                 if dsablon == "1":
                     dsablon = f"🔥{daciklama}\n\n🔱 TIKLA 👉 {dlink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
                 elif dsablon == "2" or dsablon == "3":
-                    dsablon = f"{daciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {dlink}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
+                    dsablon = f"{daciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {dlink}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 #linkgec06"
                 elif dsablon == "9":
-                    dsablon = f"{daciklama} \n\n𝙇𝙄𝙉𝙆🔗 {dlink} \n\n     𝙇𝙄𝙉𝙆🔗 {dalink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
+                    dsablon = f"{daciklama} \n\n𝙇𝙄𝙉𝙆🔗 {dlink} \n\n     𝙇𝙄𝙉𝙆🔗 {dalink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 #linkk_gecmee"
                 elif dsablon.find('{alink}') != -1:
                     dsablon = dsablon.replace("{link}", "{}").replace("{aciklama}", "{}").replace("{alink}", "{}").format(daciklama, dlink, dalink)
                 else:
                     dsablon = dsablon.replace("{link}", "{}").replace("{aciklama}", "{}").format(daciklama, dlink)
                 sleep(0.5)
                 for dkan in dkanal:
-                    try:
-                        if message.content_type == "photo" and dret:
+                    try: 
+                        if update.channel_post.photo and dret:
                             dpost = bot.send_photo(dkan, dmedya, caption=dsablon)
-                        if message.content_type == "video" and dret:
+                        if update.channel_post.video and dret:
                             dpost = bot.send_video(dkan, dmedya, caption=dsablon)
-                        if message.content_type == "animation" and dret:
+                        if update.channel_post.animation and dret:
                             dpost = bot.send_animation(dkan, dmedya, caption=dsablon)
+                        dpostkayit = dpostdata.find_one({"_id": dkan})
+                        if dpostkayit == None:
+                            dpostdata.insert_one({"_id": dkan, "pid": dpost.message_id})
+                        else:
+                            dpostdata.update_one({"_id": dkan}, {"$set": {"pid": dpost.message_id}})
+                        dcount = dcount + 1
                     except Exception as e:
                         logger.debug(f"Hatalı kanal: {dkanal}")
                         e = str(e)
-                        if e.find("bot is") != -1:
+                        if e.find("update.message is") != -1:
                             collection.update_one({"_id": duser}, {"$pull": {"kanal": dkan}})
                             try:
                                 bot.send_message(duser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
-                            except: #Hem botu engelleyip hemde kanaldan sildiyse
+                            except: #Hem update.messageu engelleyip hemde kanaldan sildiyse
                                 pass   
                             logger.debug(f"{dkanal} kayıtlardan silindi.")
-                    else:
-                        dpostdata.insert_one({"chat": dkan, "pid": dpost.message_id, "mesih": dmesjid})
-                        dcount = dcount + 1
+
                 logger.info("Başarılı!")
         dbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(dkynk.title, dcount)
         logger.warning(dbasari)
@@ -1850,7 +1788,7 @@ def poster(message):
     # Açık mı link
     elif chat == kaynaklar[4] and acikmi:
         ecount = 0
-        emesaj = message.caption
+        emesaj = update.channel_post.caption
         """ Link tespit """
         esolx = emesaj.rfind("http")
         esol = emesaj.find("http")
@@ -1876,14 +1814,13 @@ def poster(message):
         """  Veri Tabanı  """
         epostdata = db[str(chat)]
         ebinb = collection.find({})
-        emesjid = message.message_id
         """ Dosya tespit """
-        if message.content_type == "photo":
-            emedya = message.photo[0].file_id
-        if message.content_type == "animation":
-            emedya = message.animation.file_id
-        if message.content_type == "video":
-            emedya = message.video.file_id
+        if update.channel_post.photo:
+            emedya = update.channel_post.photo[0].file_id
+        if update.channel_post.animation:
+            emedya = update.channel_post.animation.file_id
+        if update.channel_post.video:
+            emedya = update.channel_post.video.file_id
         for ehesap in ebinb:
             eret = True
             ekaynak = ehesap['kaynak']
@@ -1946,9 +1883,9 @@ def poster(message):
                 if esablon == "1":
                     esablon = f"🔥{eaciklama}\n\n🔱 TIKLA 👉 {elink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
                 elif esablon == "2" or esablon == "3":
-                    esablon = f"{eaciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {elink}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
+                    esablon = f"{eaciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {elink}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 #linkgec06"
                 elif esablon == "9":
-                    esablon = f"{eaciklama} \n\n𝙇𝙄𝙉𝙆🔗 {elink} \n\n     𝙇𝙄𝙉𝙆🔗 {ealink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
+                    esablon = f"{eaciklama} \n\n𝙇𝙄𝙉𝙆🔗 {elink} \n\n     𝙇𝙄𝙉𝙆🔗 {ealink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 #linkk_gecmee"
                 elif esablon.find('{alink}') != -1:
                     esablon = esablon.replace("{link}", "{}").replace("{aciklama}", "{}").replace("{alink}", "{}").format(eaciklama, elink, ealink)
                 else:
@@ -1956,25 +1893,29 @@ def poster(message):
                 sleep(0.5)
                 for ekan in ekanal:
                     try:
-                        if message.content_type == "photo" and eret:
+                        if update.channel_post.photo and eret:
                             epost = bot.send_photo(ekan, emedya, caption=esablon)
-                        if message.content_type == "video" and eret:
+                        if update.channel_post.video and eret:
                             epost = bot.send_video(ekan, emedya, caption=esablon)
-                        if message.content_type == "animation" and eret:
+                        if update.channel_post.animation and eret:
                             epost = bot.send_animation(ekan, emedya, caption=esablon)
+                        epostkayit = epostdata.find_one({"_id": ekan})
+                        if epostkayit == None:
+                            epostdata.insert_one({"_id": ekan, "pid": epost.message_id})
+                        else:
+                            epostdata.update_one({"_id": ekan}, {"$set": {"pid": epost.message_id}})
+                        ecount = ecount + 1
                     except Exception as e:
                         logger.debug(f"Hatalı kanal: {ekanal}")
                         e = str(e)
-                        if e.find("bot is") != -1:
+                        if e.find("update.message is") != -1:
                             collection.update_one({"_id": euser}, {"$pull": {"kanal": ekan}})
                             try:
                                 bot.send_message(euser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
-                            except: #Hem botu engelleyip hemde kanaldan sildiyse
+                            except: #Hem update.messageu engelleyip hemde kanaldan sildiyse
                                 pass   
                             logger.debug(f"{ekanal} kayıtlardan silindi.")
-                    else:
-                        epostdata.insert_one({"chat": ekan, "pid": epost.message_id, "mesih": emesjid})
-                        ecount = ecount + 1
+
                 logger.info("Başarılı!")
         ebasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(ekynk.title, ecount)
         logger.warning(ebasari)
@@ -1982,7 +1923,7 @@ def poster(message):
     # MuhoVip
     elif chat == kaynaklar[5] and muho:
         gcount = 0
-        gmesaj = message.caption
+        gmesaj = update.channel_post.caption
         if gmesaj == None:
            return
         """ Link tespit """
@@ -2010,14 +1951,13 @@ def poster(message):
         """  Veri Tabanı  """
         gpostdata = db[str(chat)]
         gbinb = collection.find({})
-        gmesjid = message.message_id
         """ Dosya tespit """
-        if message.content_type == "photo":
-            gmedya = message.photo[0].file_id
-        if message.content_type == "animation":
-            gmedya = message.animation.file_id
-        if message.content_type == "video":
-            gmedya = message.video.file_id
+        if update.channel_post.photo:
+            gmedya = update.channel_post.photo[0].file_id
+        if update.channel_post.animation:
+            gmedya = update.channel_post.animation.file_id
+        if update.channel_post.video:
+            gmedya = update.channel_post.video.file_id
         for ghesap in gbinb:
             gret = True
             gkaynak = ghesap['kaynak']
@@ -2081,9 +2021,9 @@ def poster(message):
                 if gsablon == "1":
                     gsablon = f"🔥{gaciklama}\n\n🔱 TIKLA 👉 {glink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
                 elif gsablon == "2" or gsablon == "3":
-                    gsablon = f"{gaciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {glink}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
+                    gsablon = f"{gaciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {glink}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 #linkgec06"
                 elif gsablon == "9":
-                    gsablon = f"{gaciklama} \n\n𝙇𝙄𝙉𝙆🔗 {glink} \n\n     𝙇𝙄𝙉𝙆🔗 {galink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
+                    gsablon = f"{gaciklama} \n\n𝙇𝙄𝙉𝙆🔗 {glink} \n\n     𝙇𝙄𝙉𝙆🔗 {galink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 #linkk_gecmee"
                 elif gsablon.find('{alink}') != -1:
                     gsablon = gsablon.replace("{link}", "{}").replace("{aciklama}", "{}").replace("{alink}", "{}").format(gaciklama, glink, galink)
                 else:
@@ -2091,25 +2031,28 @@ def poster(message):
                 sleep(0.5)
                 for gkan in gkanal:
                     try:
-                        if message.content_type == "photo" and gret:
+                        if update.channel_post.photo and gret:
                             gpost = bot.send_photo(gkan, gmedya, caption=gsablon)
-                        if message.content_type == "video" and gret:
+                        if update.channel_post.video and gret:
                             gpost = bot.send_video(gkan, gmedya, caption=gsablon)
-                        if message.content_type == "animation" and gret:
+                        if update.channel_post.animation and gret:
                             gpost = bot.send_animation(gkan, gmedya, caption=gsablon)
+                        gpostkayit = gpostdata.find_one({"_id": gkan})
+                        if gpostkayit == None:
+                            gpostdata.insert_one({"_id": gkan, "pid": gpost.message_id})
+                        else:
+                            gpostdata.update_one({"_id": gkan}, {"$set": {"pid": gpost.message_id}})
+                        gcount = gcount + 1
                     except Exception as e:
                         logger.debug(f"Hatalı kanal: {gkanal}")
                         e = str(e)
-                        if e.find("bot is") != -1:
+                        if e.find("update.message is") != -1:
                             collection.update_one({"_id": guser}, {"$pull": {"kanal": gkan}})
                             try:
                                 bot.send_message(guser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
-                            except: #Hem botu engelleyip hemde kanaldan sildiyse
+                            except: #Hem update.messageu engelleyip hemde kanaldan sildiyse
                                 pass   
                             logger.debug(f"{gkanal} kayıtlardan silindi.")
-                    else:
-                        gpostdata.insert_one({"chat": gkan, "pid": gpost.message_id, "mesih": gmesjid})
-                        gcount = gcount + 1
 
                 logger.info("Başarılı!")
         gbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(gkynk.title, gcount)
@@ -2118,7 +2061,7 @@ def poster(message):
     # Tutan Linkler
     elif chat == kaynaklar[6] and tutan:
         fcount = 0
-        fmesaj = message.caption
+        fmesaj = update.channel_post.caption
         if fmesaj == None:
             return
         """ Link tespit """
@@ -2146,14 +2089,13 @@ def poster(message):
         """  Veri Tabanı  """
         fpostdata = db[str(chat)]
         fbinb = collection.find({})
-        fmesjid = message.message_id
         """ Dosya tespit """
-        if message.content_type == "photo":
-            fmedya = message.photo[0].file_id
-        if message.content_type == "animation":
-            fmedya = message.animation.file_id
-        if message.content_type == "video":
-            fmedya = message.video.file_id
+        if update.channel_post.photo:
+            fmedya = update.channel_post.photo[0].file_id
+        if update.channel_post.animation:
+            fmedya = update.channel_post.animation.file_id
+        if update.channel_post.video:
+            fmedya = update.channel_post.video.file_id
         for fhesap in fbinb:
             fret = True
             fkaynak = fhesap['kaynak']
@@ -2217,9 +2159,9 @@ def poster(message):
                 if fsablon == "1":
                     fsablon = f"🔥{faciklama}\n\n🔱 TIKLA 👉 {flink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
                 elif fsablon == "2" or fsablon == "3":
-                    fsablon = f"{faciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {flink}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
+                    fsablon = f"{faciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {flink}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 #linkgec06"
                 elif fsablon == "9":
-                    fsablon = f"{faciklama} \n\n𝙇𝙄𝙉𝙆🔗 {flink} \n\n     𝙇𝙄𝙉𝙆🔗 {falink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
+                    fsablon = f"{faciklama} \n\n𝙇𝙄𝙉𝙆🔗 {flink} \n\n     𝙇𝙄𝙉𝙆🔗 {falink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 #linkk_gecmee"
                 elif fsablon.find('{alink}') != -1:
                     fsablon = fsablon.replace("{aciklama}", "{}").replace("{alink}", "{}").replace("{link}", "{}").format(faciklama, flink, falink)
                 else:
@@ -2228,25 +2170,28 @@ def poster(message):
                 sleep(1)
                 for fkan in fkanal:
                     try:
-                        if message.content_type == "photo" and fret:
+                        if update.channel_post.photo and fret:
                             fpost = bot.send_photo(fkan, fmedya, caption=fsablon)
-                        if message.content_type == "video" and fret:
+                        if update.channel_post.video and fret:
                             fpost = bot.send_video(fkan, fmedya, caption=fsablon)
-                        if message.content_type == "animation" and fret:
+                        if update.channel_post.animation and fret:
                             fpost = bot.send_animation(fkan, fmedya, caption=fsablon)
+                        fpostkayit = fpostdata.find_one({"_id": fkan})
+                        if fpostkayit == None:
+                            fpostdata.insert_one({"_id": fkan, "pid": fpost.message_id})
+                        else:
+                            fpostdata.update_one({"_id": fkan}, {"$set": {"pid": fpost.message_id}})
+                        fcount = fcount + 1
                     except Exception as e:
                         logger.debug(f"Hatalı kanal: {fkanal}")
                         e = str(e)
-                        if e.find("bot is") != -1:
+                        if e.find("update.message is") != -1:
                             collection.update_one({"_id": fuser}, {"$pull": {"kanal": fkan}})
                             try:
                                 bot.send_message(fuser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
-                            except: #Hem botu engelleyip hemde kanaldan sildiyse
+                            except: #Hem update.messageu engelleyip hemde kanaldan sildiyse
                                 pass   
                             logger.debug(f"{fkanal} kayıtlardan silindi.")
-                    else:
-                        fpostdata.insert_one({"chat": fkan, "pid": fpost.message_id, "mesih": fmesjid})
-                        fcount = fcount + 1
                     
                 logger.info("Başarılı!")
         fbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(fkynk.title, fcount)
@@ -2257,7 +2202,7 @@ def poster(message):
         okaynak = OzelCol.find_one({"okaynak": chat})
     if okaynak != None:
         ocount = 0
-        omesaj = message.caption
+        omesaj = update.channel_post.caption
         if omesaj == None:
             return
         """  Link tespit  """
@@ -2285,12 +2230,12 @@ def poster(message):
         """  Veri Tabanı  """
         ohesap = collection.find_one({"_id": okaynak['_id']})
         """ Dosya tespit """
-        if message.content_type == "photo":
-            omedya = message.photo[0].file_id
-        if message.content_type == "animation":
-            omedya = message.animation.file_id
-        if message.content_type == "video":
-            omedya = message.video.file_id
+        if update.channel_post.photo:
+            omedya = update.channel_post.photo[0].file_id
+        if update.channel_post.animation:
+            omedya = update.channel_post.animation.file_id
+        if update.channel_post.video:
+            omedya = update.channel_post.video.file_id
         oret = True
         try:
             otoken = ohesap['token']
@@ -2349,9 +2294,9 @@ def poster(message):
             if osablon == "1":
                 osablon = f"🔥{oaciklama}\n\n🔱 TIKLA 👉 {olink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
             elif osablon == "2" or osablon == "3":
-                osablon = f"{oaciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {olink}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
+                osablon = f"{oaciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {olink}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 #linkgec06"
             elif osablon == "9":
-                osablon = f"{oaciklama} \n\n𝙇𝙄𝙉𝙆🔗 {olink} \n\n     𝙇𝙄𝙉𝙆🔗 {oalink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
+                osablon = f"{oaciklama} \n\n𝙇𝙄𝙉𝙆🔗 {olink} \n\n     𝙇𝙄𝙉𝙆🔗 {oalink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 #linkk_gecmee"
             elif osablon.find('{alink}') != -1:
                 osablon = osablon.replace("{aciklama}", "{}").replace("{alink}", "{}").replace("{link}", "{}").format(oaciklama, olink, oalink)
             else:
@@ -2359,20 +2304,20 @@ def poster(message):
             sleep(1)
             for okan in okanal:
                 try:
-                    if message.content_type == "photo" and oret:
+                    if update.channel_post.photo and oret:
                         opost = bot.send_photo(okan, omedya, caption=osablon)
-                    if message.content_type == "video" and oret:
+                    if update.channel_post.video and oret:
                         opost = bot.send_video(okan, omedya, caption=osablon)
-                    if message.content_type == "animation" and oret:
+                    if update.channel_post.animation and oret:
                         opost = bot.send_animation(okan, omedya, caption=osablon)
                 except Exception as e:
                     logger.debug(f"Hatalı kanal: {okanal}")
                     e = str(e)
-                    if e.find("bot is") != -1:
+                    if e.find("update.message is") != -1:
                         collection.update_one({"_id": ouser}, {"$pull": {"kanal": okan}})
                         try:
                             bot.send_message(ouser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
-                        except: #Hem botu engelleyip hemde kanaldan sildiyse
+                        except: #Hem update.messageu engelleyip hemde kanaldan sildiyse
                             pass                        
                         logger.debug(f"{okanal} kayıtlardan silindi.")
             logger.info("Başarılı!")
@@ -2382,7 +2327,7 @@ def poster(message):
 def gunluk():
     while 0 < 1:
         zaman = datetime.datetime.now()
-        if zaman.hour == 11 and zaman.minute == 56:
+        if zaman.hour == 11 and zaman.minute == 50:
             msg = bot.send_message(botlog, "<code>Günlük veriler hesaplanıyor...</code>")
             toplam = 0
             kum = []
@@ -2408,11 +2353,79 @@ def gunluk():
             toplam = toplam / 1000
             toplam = round(toplam, 1)
             msg = bot.edit_message_text("👥 Toplam Kullanıcı Sayısı: {}\n📢 Toplam Kayıtlı Kanal Sayısı: {}\n🙋 Toplam Kitle: {}K\n\nHer gün saat 22:00'da otomatik olarak güncel veriler paylaşılacak.".format(users, kanals, toplam), botlog, msg.message_id)
-            bot.pin_chat_message(botlog, msg.message_id)
+            update.message.pin_chat_message(botlog, msg.message_id)
         time.sleep(60)
     
 threading.Thread(target=gunluk).start()
 
 logger.info("Bot Çalışıyor...")
 bildir('Bot Başladı 🍕')
-bot.polling(none_stop=False, interval=0)
+
+def main() -> None:
+    updater = Updater(bot=bot)
+
+    dispatcher = updater.dispatcher
+    conv_handler = ConversationHandler(
+        entry_points=[MessageHandler(Filters.text & ~Filters.command, menu)],
+        states={ 
+            ALTMENU: [MessageHandler(Filters.text, kayitapi)], 
+            APIDEGISTIR: [MessageHandler(Filters.text, apikayit)],
+            KANALKAYDET: [MessageHandler(~Filters.command, kanalkayit)],
+            SABLON: [MessageHandler(Filters.text, sabloniki)],
+            PATPOST: [MessageHandler(~Filters.command, pat)]
+            },
+        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$'), cancel)], 
+        )
+
+    conver = ConversationHandler(
+        entry_points=[CallbackQueryHandler(sabloncall, pattern="^(sablon)$")],
+        states={
+            SABLON: [MessageHandler(Filters.text, sabloniki)]
+            },
+        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$'), cancel)],
+        per_message=False)
+    altconver = ConversationHandler(
+        entry_points=[CallbackQueryHandler(altcall, pattern="^asite(.*)")],
+        states={
+            ALTAPI: [MessageHandler(Filters.text, altakayit)]
+            },
+        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$'), cancel)],
+        per_message=False)
+    ozelkconver = ConversationHandler(
+        entry_points=[CallbackQueryHandler(ozelkaynakcall, pattern="^okayt(.*)")],
+        states={
+            OZELKAYNAK: [MessageHandler(~Filters.command, ozelk)]
+            },
+        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$'), cancel)],
+        per_message=False)
+    dispatcher.add_handler(conver)
+    dispatcher.add_handler(altconver)
+    dispatcher.add_handler(ozelkconver)
+
+    dispatcher.add_handler(conv_handler)
+
+    dispatcher.add_handler(CommandHandler('start', start, Filters.chat_type.private))
+    dispatcher.add_handler(MessageHandler(Filters.command('onayla') & Filters.chat_type.channel, post))
+    dispatcher.add_handler(MessageHandler(Filters.command('postsil') & Filters.chat_type.channel, kpostsil))
+    dispatcher.add_handler(CommandHandler('bul', bul, Filters.chat_type.private))
+    dispatcher.add_handler(CommandHandler('onayla', ona, Filters.chat_type.private))
+    dispatcher.add_handler(CommandHandler('sil', durdur, Filters.chat_type.private))
+    dispatcher.add_handler(CommandHandler('duyuru', duy, Filters.chat_type.private))
+    dispatcher.add_handler(CommandHandler('postsil', cpostsil, Filters.chat_type.private))
+    dispatcher.add_handler(CommandHandler('dsil', dsil, Filters.chat_type.private))
+    dispatcher.add_handler(CommandHandler('stats', stats, Filters.chat_type.private))
+    dispatcher.add_handler(CommandHandler('zaman', zaman, Filters.chat_type.private))
+
+    dispatcher.add_handler(MessageHandler(Filters.photo & Filters.chat_type.channel | Filters.video & Filters.chat_type.channel | Filters.animation & Filters.chat_type.channel, poster))
+
+    dispatcher.add_handler(CallbackQueryHandler(kaynakcall, pattern="^kaynak(.*)"))
+    dispatcher.add_handler(CallbackQueryHandler(callback_query))
+
+    dispatcher.add_error_handler(error_handler)
+
+    updater.start_polling()
+    updater.idle()
+
+
+if __name__ == '__main__':
+    main()
