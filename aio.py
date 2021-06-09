@@ -34,7 +34,7 @@ collection = db["Kanallar"]
 OzelCol = db["Özel Kaynaklar"]
 karaliste = collection.find_one({"_id": 0})
 bottoken = "***REMOVED-BOT-TOKEN***"
-bot = Bot(bottoken, defaults=Defaults(parse_mode='html'))
+bot = Bot(bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True))
 
 sahip = 1302980840
 fixer = 1687646994
@@ -2356,40 +2356,40 @@ def main() -> None:
 
     dispatcher = updater.dispatcher
     conv_handler = ConversationHandler(
-        entry_points=[MessageHandler(Filters.text & ~Filters.command, menu, run_async=True)],
+        entry_points=[MessageHandler(Filters.text & ~Filters.command, menu)],
         states={ 
-            ALTMENU: [MessageHandler(Filters.text, kayitapi, run_async=True)], 
-            APIDEGISTIR: [MessageHandler(Filters.text, apikayit, run_async=True)],
-            KANALKAYDET: [MessageHandler(~Filters.command, kanalkayit, run_async=True)],
-            SABLON: [MessageHandler(Filters.text, sabloniki, run_async=True)],
-            PATPOST: [MessageHandler(~Filters.command, pat, run_async=True)]
+            ALTMENU: [MessageHandler(Filters.text, kayitapi)], 
+            APIDEGISTIR: [MessageHandler(Filters.text, apikayit)],
+            KANALKAYDET: [MessageHandler(~Filters.command, kanalkayit)],
+            SABLON: [MessageHandler(Filters.text, sabloniki)],
+            PATPOST: [MessageHandler(~Filters.command, pat)]
             },
-        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$'), cancel, run_async=True)], 
-        run_async=True)
+        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$'), cancel)], 
+        )
 
     conver = ConversationHandler(
         entry_points=[CallbackQueryHandler(sabloncall, pattern="^(sablon)$")],
         states={
-            SABLON: [MessageHandler(Filters.text, sabloniki, run_async=True)]
+            SABLON: [MessageHandler(Filters.text, sabloniki)]
             },
-        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$'), cancel, run_async=True)],
-        run_async=True, 
+        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$'), cancel)],
+        , 
         per_message=False)
     altconver = ConversationHandler(
         entry_points=[CallbackQueryHandler(altcall, pattern="^asite(.*)")],
         states={
-            ALTAPI: [MessageHandler(Filters.text, altakayit, run_async=True)]
+            ALTAPI: [MessageHandler(Filters.text, altakayit)]
             },
-        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$'), cancel, run_async=True)],
-        run_async=True, 
+        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$'), cancel)],
+        , 
         per_message=False)
     ozelkconver = ConversationHandler(
         entry_points=[CallbackQueryHandler(ozelkaynakcall, pattern="^okayt(.*)")],
         states={
-            OZELKAYNAK: [MessageHandler(~Filters.command, ozelk, run_async=True)]
+            OZELKAYNAK: [MessageHandler(~Filters.command, ozelk)]
             },
-        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$'), cancel, run_async=True)],
-        run_async=True, 
+        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$'), cancel)],
+        , 
         per_message=False)
     dispatcher.add_handler(conver)
     dispatcher.add_handler(altconver)
@@ -2397,22 +2397,22 @@ def main() -> None:
 
     dispatcher.add_handler(conv_handler)
 
-    dispatcher.add_handler(CommandHandler('start', start, Filters.chat_type.private, run_async=True))
-    dispatcher.add_handler(MessageHandler(Filters.command('onayla') & Filters.chat_type.channel, post, run_async=True))
-    dispatcher.add_handler(MessageHandler(Filters.command('postsil') & Filters.chat_type.channel, kpostsil, run_async=True))
-    dispatcher.add_handler(CommandHandler('bul', bul, Filters.chat_type.private, run_async=True))
-    dispatcher.add_handler(CommandHandler('onayla', ona, Filters.chat_type.private, run_async=True))
-    dispatcher.add_handler(CommandHandler('sil', durdur, Filters.chat_type.private, run_async=True))
-    dispatcher.add_handler(CommandHandler('duyuru', duy, Filters.chat_type.private, run_async=True))
-    dispatcher.add_handler(CommandHandler('postsil', cpostsil, Filters.chat_type.private, run_async=True))
-    dispatcher.add_handler(CommandHandler('dsil', dsil, Filters.chat_type.private, run_async=True))
-    dispatcher.add_handler(CommandHandler('stats', stats, Filters.chat_type.private, run_async=True))
-    dispatcher.add_handler(CommandHandler('zaman', zaman, Filters.chat_type.private, run_async=True))
+    dispatcher.add_handler(CommandHandler('start', start, Filters.chat_type.private))
+    dispatcher.add_handler(MessageHandler(Filters.command('onayla') & Filters.chat_type.channel, post))
+    dispatcher.add_handler(MessageHandler(Filters.command('postsil') & Filters.chat_type.channel, kpostsil))
+    dispatcher.add_handler(CommandHandler('bul', bul, Filters.chat_type.private))
+    dispatcher.add_handler(CommandHandler('onayla', ona, Filters.chat_type.private))
+    dispatcher.add_handler(CommandHandler('sil', durdur, Filters.chat_type.private))
+    dispatcher.add_handler(CommandHandler('duyuru', duy, Filters.chat_type.private))
+    dispatcher.add_handler(CommandHandler('postsil', cpostsil, Filters.chat_type.private))
+    dispatcher.add_handler(CommandHandler('dsil', dsil, Filters.chat_type.private))
+    dispatcher.add_handler(CommandHandler('stats', stats, Filters.chat_type.private))
+    dispatcher.add_handler(CommandHandler('zaman', zaman, Filters.chat_type.private))
 
-    dispatcher.add_handler(MessageHandler(Filters.photo & Filters.video & Filters.animation & Filters.chat_type.channel, poster, run_async=True))
+    dispatcher.add_handler(MessageHandler(Filters.photo & Filters.video & Filters.animation & Filters.chat_type.channel, poster))
 
-    dispatcher.add_handler(CallbackQueryHandler(kaynakcall, pattern="^kaynak(.*)", run_async=True))
-    dispatcher.add_handler(CallbackQueryHandler(callback_query, run_async=True))
+    dispatcher.add_handler(CallbackQueryHandler(kaynakcall, pattern="^kaynak(.*)"))
+    dispatcher.add_handler(CallbackQueryHandler(callback_query))
 
     dispatcher.add_error_handler(error_handler)
 
