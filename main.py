@@ -284,7 +284,7 @@ def start(update, context):
   📔        <b>@OtoPosterBotLog</b>
 """.format(mention), disable_web_page_preview=True, reply_markup=dugme())
 
-def stats(message):
+def stats(update, context):
     kanals = 0
     users = 0
     toplam = 0
@@ -318,7 +318,7 @@ def stats(message):
     toplam = round(toplam, 1)
     bot.edit_message_text("Toplam Kullanıcı Sayısı: {}\nToplam Kayıtlı Kanal Sayısı: {}\nToplam Kitle: {}K".format(users, kanals, toplam), chat, msg.message_id)
 
-def bul(message):
+def bul(update, context):
     cnt = update.message.text.split()[1] if len(update.message.text.split()) > 1 else int(update.message.from_user.id)
     if not update.message.from_user.id in adminlist:
         bot.send_message(update.message.chat.id, "Sie")
@@ -386,7 +386,7 @@ def kpostsil(update, context):
             spcount += 1
     bot.send_message(chat, f"{spcount} Post Silindi.")
 
-def cpostsil(message):
+def cpostsil(update, context):
     chat = update.message.chat.id
     if chat != sahip:
         return
