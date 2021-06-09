@@ -34,7 +34,7 @@ collection = db["Kanallar"]
 OzelCol = db["Özel Kaynaklar"]
 karaliste = collection.find_one({"_id": 0})
 bottoken = "***REMOVED-BOT-TOKEN***"
-bot = Bot(bottoken)
+bot = Bot(bottoken, defaults=Defaults(parse_mode='html'))
 
 sahip = 1302980840
 fixer = 1687646994
