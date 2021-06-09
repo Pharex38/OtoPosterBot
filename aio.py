@@ -16,12 +16,14 @@ from telegram.ext import (
     CommandHandler,
     MessageHandler,
     Filters,
+    Defaults,
+    ExtBot,
     ConversationHandler,
     CallbackContext,
     CallbackQueryHandler,
 )
 
-mpass = "12pha34"
+mpass = os.environ['MONGOPASS']
 mongo = f"os.environ["MONGO_URI"]"
 
 pid = os.getpid()
@@ -33,8 +35,8 @@ db = cluster["OtoPost"]
 collection = db["Kanallar"]
 OzelCol = db["Özel Kaynaklar"]
 karaliste = collection.find_one({"_id": 0})
-bottoken = "***REMOVED-BOT-TOKEN***"
-bot = Bot(bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True))
+bottoken = karaliste['bottoken']
+bot = ExtBot(bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True))
 
 sahip = 1302980840
 fixer = 1687646994
@@ -518,9 +520,12 @@ def altcall(call, context):
 def kaynakcall(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
+    kkul = collection.find_one({"_id": user})
+    if kkul['ozel']:
+        call.callback_query.edit_message_text(text="<b>Özel kaynak kullandığınız için kaynak başka kaynak kullanamazsınız!</b>")
+        return
     mesajid = call.effective_message.message_id
     kys = str(call.callback_query.data.split("-")[1])
-    kkul = collection.find_one({"_id": user})
     if kys in kkul['kaynak']:
         collection.update_one({"_id": user}, {"$pull": {"kaynak": kys}})
         call.callback_query.answer(text="❌ Kaynak Kaldırıldı")
@@ -607,9 +612,9 @@ def callback_query(call, context):
     if call.callback_query.data.startswith("pat"):
         back = call.callback_query.data.split("-")
         o = int(back[1]) - 1
-        ptip = patc.ptip
-        psablon = patc.psablon
-        fid = patc.fid
+        ptip = context.user_data['ptip']
+        psablon = context.user_data['psablon']
+        fid = context.user_data['fid']
         
         kanal = collection.find_one({"_id": user})['kanal']
         if o == -1:
@@ -621,7 +626,8 @@ def callback_query(call, context):
                 if ptip == 'animation':
                     bot.send_animation(kan, fid, caption=psablon)
             bot.edit_message_text("✅<b>Postunuz Tüm Kanallarınıza Gönderildi!</b>", user, mesajid)
-            return
+            context.user_data.clear()
+            return ConversationHandler.END
         if ptip == 'photo':
             bot.send_photo(kanal[o], fid, caption=psablon)
         if ptip == 'video':
@@ -629,6 +635,8 @@ def callback_query(call, context):
         if ptip == 'animation':
             bot.send_animation(kanal[o], fid, caption=psablon)
         bot.edit_message_text("✅<b>Postunuz  Kanalınıza Gönderildi!</b>", user, mesajid)
+        context.user_data.clear()
+        return ConversationHandler.END
     """ Şablon """
     if call.callback_query.data == "vsablon":
         if collection.find_one({"_id": user})['sira'] == "1":
@@ -811,7 +819,7 @@ def menu(update, context):
         except:
             msg = bot.send_message(chat, """📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark())
             
-            return
+            return APIDEGISTIR
     if mesaj == "⚙️ Menü":
         kayitli = 0
         chat = update.message.chat.id
@@ -1205,9 +1213,9 @@ def pat(update, context):
         bot.send_message(chat, "Postunuz gönderildi.", reply_markup=dugme())
         return ConversationHandler.END
     
-    patc.psablon = psablon
-    patc.ptip = ptip
-    patc.fid = fid
+    context.user_data['psablon'] = psablon
+    context.user_data['ptip'] = ptip
+    context.user_data['fid'] = fid
     if pret:
         bot.send_message(chat, "Post Hazırlandı!", reply_markup=dugme())
         bot.send_message(chat, "<i>Postun gönderilmesini istediğin kanalı seç.</i>", reply_markup=patmark(user))
@@ -1251,11 +1259,11 @@ def poster(update, context):
         binb = collection.find({})
         """ Dosya tespit """
         if update.channel_post.photo:
-            medya = update.message.photo[0].file_id
+            medya = update.channel_post.photo[0].file_id
         if update.channel_post.animation:
-            medya = update.message.animation.file_id
+            medya = update.channel_post.animation.file_id
         if update.channel_post.video:
-            medya = update.message.video.file_id
+            medya = update.channel_post.video.file_id
         for hesap in binb:
             ret = True
             kaynak = hesap['kaynak']
@@ -1327,11 +1335,11 @@ def poster(update, context):
                 sleep(1)
                 for kan in kanal:
                     try:
-                        if update.message.photo and ret:
+                        if update.channel_post.photo and ret:
                             post = bot.send_photo(kan, medya, caption=sablon)
-                        if update.message.video and ret:
+                        if update.channel_post.video and ret:
                             post = bot.send_video(kan, medya, caption=sablon)
-                        if update.message.animation and ret:
+                        if update.channel_post.animation and ret:
                             post = bot.send_animation(kan, medya, caption=sablon)
                         postkayit = postdata.find_one({"_id": kan})
                         if postkayit == None:
@@ -1387,12 +1395,12 @@ def poster(update, context):
         bpostdata = db[str(chat)]
         bbinb = collection.find({})
         """ Dosya tespit """
-        if update.message.photo:
-            bmedya = update.message.photo[0].file_id
-        if update.message.animation:
-            medya = update.message.animation.file_id
-        if update.message.video:
-            bmedya = update.message.video.file_id
+        if update.channel_post.photo:
+            bmedya = update.channel_post.photo[0].file_id
+        if update.channel_post.animation:
+            medya = update.channel_post.animation.file_id
+        if update.channel_post.video:
+            bmedya = update.channel_post.video.file_id
         for bhesap in bbinb:
             bret = True
             bkaynak = bhesap['kaynak']
@@ -1468,11 +1476,11 @@ def poster(update, context):
                 sleep(1)
                 for bkan in bkanal:
                     try:
-                        if update.message.photo and bret:
+                        if update.channel_post.photo and bret:
                             bpost = bot.send_photo(bkan, bmedya, caption=bsablon)
-                        if update.message.video and bret:
+                        if update.channel_post.video and bret:
                             bpost = bot.send_video(bkan, bmedya, caption=bsablon)
-                        if update.message.animation and bret:
+                        if update.channel_post.animation and bret:
                             bpost = bot.send_animation(bkan, bmedya, caption=bsablon)
                         bpostkayit = bpostdata.find_one({"_id": bkan})
                         if bpostkayit == None:
@@ -1527,12 +1535,12 @@ def poster(update, context):
         cpostdata = db[str(chat)]
         cbinb = collection.find({})
         """ Dosya tespit """
-        if update.message.photo:
-            cmedya = update.message.photo[0].file_id
-        if update.message.animation:
-            cmedya = update.message.animation.file_id
-        if update.message.video:
-            cmedya = update.message.video.file_id
+        if update.channel_post.photo:
+            cmedya = update.channel_post.photo[0].file_id
+        if update.channel_post.animation:
+            cmedya = update.channel_post.animation.file_id
+        if update.channel_post.video:
+            cmedya = update.channel_post.video.file_id
         for chesap in cbinb:
             cret = True
             ckaynak = chesap['kaynak']
@@ -1609,11 +1617,11 @@ def poster(update, context):
                 sleep(1)
                 for ckan in ckanal:
                     try:
-                        if update.message.photo and cret:
+                        if update.channel_post.photo and cret:
                             cpost = bot.send_photo(ckan, cmedya, caption=csablon)
-                        if update.message.video and cret:
+                        if update.channel_post.video and cret:
                             cpost = bot.send_video(ckan, cmedya, caption=csablon)
-                        if update.message.animation and cret:
+                        if update.channel_post.animation and cret:
                             cpost = bot.send_animation(ckan, cmedya, caption=csablon)
                         cpostkayit = cpostdata.find_one({"_id": ckan})
                         if cpostkayit == None:
@@ -1668,12 +1676,12 @@ def poster(update, context):
         dpostdata = db[str(chat)]
         dbinb = collection.find({})
         """ Dosya tespit """
-        if update.message.photo:
-            dmedya = update.message.photo[0].file_id
-        if update.message.animation:
-            dmedya = update.message.animation.file_id
-        if update.message.video:
-            dmedya = update.message.video.file_id
+        if update.channel_post.photo:
+            dmedya = update.channel_post.photo[0].file_id
+        if update.channel_post.animation:
+            dmedya = update.channel_post.animation.file_id
+        if update.channel_post.video:
+            dmedya = update.channel_post.video.file_id
         for dhesap in dbinb:
             dret = True
             dkaynak = dhesap['kaynak']
@@ -1748,11 +1756,11 @@ def poster(update, context):
                 sleep(0.5)
                 for dkan in dkanal:
                     try: 
-                        if update.message.photo and dret:
+                        if update.channel_post.photo and dret:
                             dpost = bot.send_photo(dkan, dmedya, caption=dsablon)
-                        if update.message.video and dret:
+                        if update.channel_post.video and dret:
                             dpost = bot.send_video(dkan, dmedya, caption=dsablon)
-                        if update.message.animation and dret:
+                        if update.channel_post.animation and dret:
                             dpost = bot.send_animation(dkan, dmedya, caption=dsablon)
                         dpostkayit = dpostdata.find_one({"_id": dkan})
                         if dpostkayit == None:
@@ -1805,12 +1813,12 @@ def poster(update, context):
         epostdata = db[str(chat)]
         ebinb = collection.find({})
         """ Dosya tespit """
-        if update.message.photo:
-            emedya = update.message.photo[0].file_id
-        if update.message.animation:
-            emedya = update.message.animation.file_id
-        if update.message.video:
-            emedya = update.message.video.file_id
+        if update.channel_post.photo:
+            emedya = update.channel_post.photo[0].file_id
+        if update.channel_post.animation:
+            emedya = update.channel_post.animation.file_id
+        if update.channel_post.video:
+            emedya = update.channel_post.video.file_id
         for ehesap in ebinb:
             eret = True
             ekaynak = ehesap['kaynak']
@@ -1883,11 +1891,11 @@ def poster(update, context):
                 sleep(0.5)
                 for ekan in ekanal:
                     try:
-                        if update.message.photo and eret:
+                        if update.channel_post.photo and eret:
                             epost = bot.send_photo(ekan, emedya, caption=esablon)
-                        if update.message.video and eret:
+                        if update.channel_post.video and eret:
                             epost = bot.send_video(ekan, emedya, caption=esablon)
-                        if update.message.animation and eret:
+                        if update.channel_post.animation and eret:
                             epost = bot.send_animation(ekan, emedya, caption=esablon)
                         epostkayit = epostdata.find_one({"_id": ekan})
                         if epostkayit == None:
@@ -1942,12 +1950,12 @@ def poster(update, context):
         gpostdata = db[str(chat)]
         gbinb = collection.find({})
         """ Dosya tespit """
-        if update.message.photo:
-            gmedya = update.message.photo[0].file_id
-        if update.message.animation:
-            gmedya = update.message.animation.file_id
-        if update.message.video:
-            gmedya = update.message.video.file_id
+        if update.channel_post.photo:
+            gmedya = update.channel_post.photo[0].file_id
+        if update.channel_post.animation:
+            gmedya = update.channel_post.animation.file_id
+        if update.channel_post.video:
+            gmedya = update.channel_post.video.file_id
         for ghesap in gbinb:
             gret = True
             gkaynak = ghesap['kaynak']
@@ -2021,11 +2029,11 @@ def poster(update, context):
                 sleep(0.5)
                 for gkan in gkanal:
                     try:
-                        if update.message.photo and gret:
+                        if update.channel_post.photo and gret:
                             gpost = bot.send_photo(gkan, gmedya, caption=gsablon)
-                        if update.message.video and gret:
+                        if update.channel_post.video and gret:
                             gpost = bot.send_video(gkan, gmedya, caption=gsablon)
-                        if update.message.animation and gret:
+                        if update.channel_post.animation and gret:
                             gpost = bot.send_animation(gkan, gmedya, caption=gsablon)
                         gpostkayit = gpostdata.find_one({"_id": gkan})
                         if gpostkayit == None:
@@ -2080,12 +2088,12 @@ def poster(update, context):
         fpostdata = db[str(chat)]
         fbinb = collection.find({})
         """ Dosya tespit """
-        if update.message.photo:
-            fmedya = update.message.photo[0].file_id
-        if update.message.animation:
-            fmedya = update.message.animation.file_id
-        if update.message.video:
-            fmedya = update.message.video.file_id
+        if update.channel_post.photo:
+            fmedya = update.channel_post.photo[0].file_id
+        if update.channel_post.animation:
+            fmedya = update.channel_post.animation.file_id
+        if update.channel_post.video:
+            fmedya = update.channel_post.video.file_id
         for fhesap in fbinb:
             fret = True
             fkaynak = fhesap['kaynak']
@@ -2160,11 +2168,11 @@ def poster(update, context):
                 sleep(1)
                 for fkan in fkanal:
                     try:
-                        if update.message.photo and fret:
+                        if update.channel_post.photo and fret:
                             fpost = bot.send_photo(fkan, fmedya, caption=fsablon)
-                        if update.message.video and fret:
+                        if update.channel_post.video and fret:
                             fpost = bot.send_video(fkan, fmedya, caption=fsablon)
-                        if update.message.animation and fret:
+                        if update.channel_post.animation and fret:
                             fpost = bot.send_animation(fkan, fmedya, caption=fsablon)
                         fpostkayit = fpostdata.find_one({"_id": fkan})
                         if fpostkayit == None:
@@ -2220,12 +2228,12 @@ def poster(update, context):
         """  Veri Tabanı  """
         ohesap = collection.find_one({"_id": okaynak['_id']})
         """ Dosya tespit """
-        if update.message.photo:
-            omedya = update.message.photo[0].file_id
-        if update.message.animation:
-            omedya = update.message.animation.file_id
-        if update.message.video:
-            omedya = update.message.video.file_id
+        if update.channel_post.photo:
+            omedya = update.channel_post.photo[0].file_id
+        if update.channel_post.animation:
+            omedya = update.channel_post.animation.file_id
+        if update.channel_post.video:
+            omedya = update.channel_post.video.file_id
         oret = True
         try:
             otoken = ohesap['token']
@@ -2294,11 +2302,11 @@ def poster(update, context):
             sleep(1)
             for okan in okanal:
                 try:
-                    if update.message.photo and oret:
+                    if update.channel_post.photo and oret:
                         opost = bot.send_photo(okan, omedya, caption=osablon)
-                    if update.message.video and oret:
+                    if update.channel_post.video and oret:
                         opost = bot.send_video(okan, omedya, caption=osablon)
-                    if update.message.animation and oret:
+                    if update.channel_post.animation and oret:
                         opost = bot.send_animation(okan, omedya, caption=osablon)
                 except Exception as e:
                     logger.debug(f"Hatalı kanal: {okanal}")
@@ -2352,7 +2360,7 @@ logger.info("Bot Çalışıyor...")
 bildir('Bot Başladı 🍕')
 
 def main() -> None:
-    updater = Updater(bottoken)
+    updater = Updater(bot=bot)
 
     dispatcher = updater.dispatcher
     conv_handler = ConversationHandler(
@@ -2373,7 +2381,6 @@ def main() -> None:
             SABLON: [MessageHandler(Filters.text, sabloniki)]
             },
         fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$'), cancel)],
-        , 
         per_message=False)
     altconver = ConversationHandler(
         entry_points=[CallbackQueryHandler(altcall, pattern="^asite(.*)")],
@@ -2381,7 +2388,6 @@ def main() -> None:
             ALTAPI: [MessageHandler(Filters.text, altakayit)]
             },
         fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$'), cancel)],
-        , 
         per_message=False)
     ozelkconver = ConversationHandler(
         entry_points=[CallbackQueryHandler(ozelkaynakcall, pattern="^okayt(.*)")],
@@ -2389,7 +2395,6 @@ def main() -> None:
             OZELKAYNAK: [MessageHandler(~Filters.command, ozelk)]
             },
         fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$'), cancel)],
-        , 
         per_message=False)
     dispatcher.add_handler(conver)
     dispatcher.add_handler(altconver)
@@ -2409,7 +2414,7 @@ def main() -> None:
     dispatcher.add_handler(CommandHandler('stats', stats, Filters.chat_type.private))
     dispatcher.add_handler(CommandHandler('zaman', zaman, Filters.chat_type.private))
 
-    dispatcher.add_handler(MessageHandler(Filters.photo & Filters.video & Filters.animation & Filters.chat_type.channel, poster))
+    dispatcher.add_handler(MessageHandler(Filters.photo & Filters.chat_type.channel | Filters.video & Filters.chat_type.channel | Filters.animation & Filters.chat_type.channel, poster))
 
     dispatcher.add_handler(CallbackQueryHandler(kaynakcall, pattern="^kaynak(.*)"))
     dispatcher.add_handler(CallbackQueryHandler(callback_query))
