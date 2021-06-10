@@ -37,7 +37,7 @@ collection = db["Kanallar"]
 OzelCol = db["Özel Kaynaklar"]
 karaliste = collection.find_one({"_id": 0})
 bottoken = karaliste['bottoken']
-bot = ExtBot(bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=3))
+bot = ExtBot(bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=9))
 
 botlog = -1001352123979
 sahip = 1302980840
@@ -2364,7 +2364,7 @@ logger.info("Bot Çalışıyor...")
 bildir('Bot Başladı 🍕')
 
 def main() -> None:
-    updater = Updater(bot=bot, request_kwargs={'read_timeout': 100, 'connect_timeout': 110})
+    updater = Updater(bot=bot, request_kwargs={'con_pool_size': 9'read_timeout': 100, 'connect_timeout': 110})
 
     dispatcher = updater.dispatcher
     conv_handler = ConversationHandler(
