@@ -316,7 +316,7 @@ def stats(update, context):
           
     toplam = toplam / 1000
     toplam = str(round(toplam, 1))+"K" if round(toplam, 1) < 1000 else str(round(toplam / 1000, 1))+"M"
-    bot.edit_message_text("Toplam Kullanıcı Sayısı: {}\nToplam Kayıtlı Kanal Sayısı: {}\nToplam Kitle: {}K".format(users, kanals, toplam), chat, msg.message_id)
+    bot.edit_message_text("Toplam Kullanıcı Sayısı: {}\nToplam Kayıtlı Kanal Sayısı: {}\nToplam Kitle: {}".format(users, kanals, toplam), chat, msg.message_id)
 
 def bul(update, context):
     cnt = update.message.text.split()[1] if len(update.message.text.split()) > 1 else int(update.message.from_user.id)
@@ -2367,7 +2367,7 @@ logger.info("Bot Çalışıyor...")
 bildir('Bot Başladı 🍕')
 
 def main() -> None:
-    updater = Updater(token=bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=9), request_kwargs={'con_pool_size': 999, 'read_timeout': 100, 'connect_timeout': 110})
+    updater = Updater(token=bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=90), request_kwargs={'con_pool_size': 999, 'read_timeout': 150, 'connect_timeout': 150})
 
     dispatcher = updater.dispatcher
     conv_handler = ConversationHandler(
