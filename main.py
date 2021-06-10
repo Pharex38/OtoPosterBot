@@ -2368,7 +2368,7 @@ def main() -> None:
 
     dispatcher = updater.dispatcher
     conv_handler = ConversationHandler(
-        entry_points=[MessageHandler(Filters.text & ~Filters.command, menu)],
+        entry_points=[MessageHandler(Filters.update.message & ~Filters.command, menu)],
         states={ 
             ALTMENU: [MessageHandler(Filters.text & Filters.update.message, kayitapi)], 
             APIDEGISTIR: [MessageHandler(Filters.text & Filters.update.message, apikayit)],
