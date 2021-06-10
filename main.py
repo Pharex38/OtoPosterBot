@@ -2409,7 +2409,7 @@ def main() -> None:
     dispatcher.add_handler(CommandHandler('start', start, Filters.update.message))
     dispatcher.add_handler(MessageHandler(Filters.command('onayla') & Filters.update.channel_posts, post))
     dispatcher.add_handler(MessageHandler(Filters.command('postsil') & Filters.update.channel_posts, kpostsil))
-    dispatcher.add_handler(CommandHandler('bul', bul, Filters.c))
+    dispatcher.add_handler(CommandHandler('bul', bul, Filters.update.message))
     dispatcher.add_handler(CommandHandler('onayla', ona, Filters.update.message))
     dispatcher.add_handler(CommandHandler('sil', durdur, Filters.update.message))
     dispatcher.add_handler(CommandHandler('duyuru', duy, Filters.update.message))
