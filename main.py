@@ -593,11 +593,14 @@ def callback_query(call, context):
         if dgr == 7:
             call.callback_query.answer(show_alert=True, text=saat['muho'])
     if call.callback_query.data == "okay":
-        bot.edit_message_text("""<b>Özel Kaynak Hakkında Bilmeniz Gerekenler</b>\n\n<i>- Özel kaynak ayarlarsanız başka kaynak seçemezsiniz.\n- Sadece size özeldir başkası kullanamaz.\n- Özel kaynağa kısaltılmamış link atmanız gerekiyor. Kısaltılmış linkli post atarsanız update.message linki geçmez direkt olarak kısaltılmış linki tekrar kısaltır.</i>\n\n<b>Alttaki butona bastığınız zaman işlem iptal edilemez!</b>""", chat, mesajid)
+        bot.edit_message_text("""<b>Özel Kaynak Hakkında Bilmeniz Gerekenler</b>\n\n<i>- Özel kaynak ayarlarsanız başka kaynak seçemezsiniz.\n- Başkaları da isterse sizin özel kaynağınızı kullanabilir.\n- Kaynağınız @OtoPosterBotLog'da gözükmeyecek.\n- Özel kaynağa kısaltılmamış link atmanız gerekiyor. Kısaltılmış linkli post atarsanız update.message linki geçmez direkt olarak kısaltılmış linki tekrar kısaltır.</i>\n\n<b>Alttaki butona bastığınız zaman işlem iptal edilemez!</b>""", chat, mesajid)
         bot.edit_message_reply_markup(chat, mesajid, reply_markup=ozelmark())
     if call.callback_query.data == "okayk":
         collection.update_one({"_id": user}, {"$set": {"ozel": False}})
-        OzelCol.update_one({"_id": user}, {"$pull": {"kanal": user}})
+        for u in OzelCol.find({}):
+            if user in u['kanal']:
+                use_r = u['_id']
+        OzelCol.update_one({"_id": use_r}, {"$pull": {"kanal": user}})
         bot.edit_message_text("Özel Kaynak Kaldırıldı.", chat, mesajid)
     """ PAT """
     if call.callback_query.data.startswith("pat"):
@@ -785,7 +788,7 @@ def menu(update, context):
                     ozel_kaynak_bilgi = bot.get_chat(m['okaynak'])
                     kullanan_sayisi = len(m['kanal'])
                     break
-            bot.send_message(chat, """<b>Özel Kaynak Kullandığınız için başka kaynak seçemezsiniz.\n\nÖzel Kaynağınız: <a href="{}">{}</a>\n{} Kişi Kullanıyor.</b>""".format(ozel_kaynak_bilgi.invite_link, ozel_kaynak_bilgi.title, kullanan_sayisi), reply_markup=kaynakmark(user))
+            bot.send_message(chat, """<b>Özel Kaynak Kullandığınız için başka kaynak seçemezsiniz.\n\n      Özel Kaynağınız: <a href="{}">{}</a>\n      Kaynağınızı Sizinle Birlikte {} Kişi Kullanıyor.</b>""".format(ozel_kaynak_bilgi.invite_link, ozel_kaynak_bilgi.title, kullanan_sayisi), reply_markup=kaynakmark(user))
             return
         bot.send_message(chat, """<b>Kullanmak istediğiniz kaynak kanalını seçin.</b>""", reply_markup=kaynakmark(user))
         return
