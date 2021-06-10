@@ -530,7 +530,7 @@ def ozelkaynakcall(call, context):
         bot.send_message(user, "<b>Önce Sfs Modunu Kapatın!</b>")
         return ConversationHandler.END
     if OzelCol.find_one({"_id": user}) == None:
-        OzelCol.insert_one({"_id": user}) 
+        OzelCol.insert_one({"_id": user, "okaynak": []}) 
     bot.delete_message(chat, mesajid)
     bot.send_message(chat, """<b>Yapmanız Gerekenler</b>
 <i>
