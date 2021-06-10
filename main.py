@@ -2406,17 +2406,17 @@ def main() -> None:
 
     dispatcher.add_handler(conv_handler)
 
-    dispatcher.add_handler(CommandHandler('start', start, Filters.chat_type.private, edited_updates=False))
+    dispatcher.add_handler(CommandHandler('start', start, Filters.chat_type.private))
     dispatcher.add_handler(MessageHandler(Filters.command('onayla') & Filters.chat_type.channel, post, edited_updates=False))
     dispatcher.add_handler(MessageHandler(Filters.command('postsil') & Filters.chat_type.channel, kpostsil, edited_updates=False))
-    dispatcher.add_handler(CommandHandler('bul', bul, Filters.chat_type.private, edited_updates=False))
-    dispatcher.add_handler(CommandHandler('onayla', ona, Filters.chat_type.private, edited_updates=False))
-    dispatcher.add_handler(CommandHandler('sil', durdur, Filters.chat_type.private, edited_updates=False))
-    dispatcher.add_handler(CommandHandler('duyuru', duy, Filters.chat_type.private, edited_updates=False))
-    dispatcher.add_handler(CommandHandler('postsil', cpostsil, Filters.chat_type.private, edited_updates=False))
-    dispatcher.add_handler(CommandHandler('dsil', dsil, Filters.chat_type.private, edited_updates=False))
-    dispatcher.add_handler(CommandHandler('stats', stats, Filters.chat_type.private, edited_updates=False))
-    dispatcher.add_handler(CommandHandler('zaman', zaman, Filters.chat_type.private, edited_updates=False))
+    dispatcher.add_handler(CommandHandler('bul', bul, Filters.chat_type.private))
+    dispatcher.add_handler(CommandHandler('onayla', ona, Filters.chat_type.private))
+    dispatcher.add_handler(CommandHandler('sil', durdur, Filters.chat_type.private))
+    dispatcher.add_handler(CommandHandler('duyuru', duy, Filters.chat_type.private))
+    dispatcher.add_handler(CommandHandler('postsil', cpostsil, Filters.chat_type.private))
+    dispatcher.add_handler(CommandHandler('dsil', dsil, Filters.chat_type.private))
+    dispatcher.add_handler(CommandHandler('stats', stats, Filters.chat_type.private))
+    dispatcher.add_handler(CommandHandler('zaman', zaman, Filters.chat_type.private))
 
     dispatcher.add_handler(MessageHandler(Filters.photo & Filters.update.channel_posts | Filters.video & Filters.update.channel_posts | Filters.animation & Filters.update.channel_posts, poster, edited_updates=False))
 
