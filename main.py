@@ -780,7 +780,7 @@ def menu(update, context):
             bot.send_message(chat, "Lütfen önce bir API kaydedin.", reply_markup=dagme())
             return
         if mj['ozel']:
-            for m in OzelCol.find({})
+            for m in OzelCol.find({}):
                 if user in m['kanal']:
                     ozel_kaynak_bilgi = bot.get_chat(m['okaynak'])
                     kullanan_sayisi = len(m['kanal'])
