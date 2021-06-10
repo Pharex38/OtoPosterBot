@@ -2380,7 +2380,7 @@ def main() -> None:
         )
 
     conver = ConversationHandler(
-        entry_points=[CallbackQueryHandler(sabloncall, pattern="^(sablon)$", edited_updates=False)],
+        entry_points=[CallbackQueryHandler(sabloncall, pattern="^(sablon)$")],
         states={
             SABLON: [MessageHandler(Filters.text, sabloniki, edited_updates=False)]
             },
