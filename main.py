@@ -787,7 +787,7 @@ def menu(update, context):
                     ozel_kaynak_bilgi = bot.get_chat(m['okaynak'])
                     kullanan_sayisi = len(m['kanal'])
                     break
-            bot.send_message(chat, """<b>Özel Kaynak Kullandığınız için başka kaynak seçemezsiniz.\n\n      Özel Kaynağınız: <a href="{}">{}</a>\n      Kaynağınızı Sizinle Birlikte {} Kişi Kullanıyor.</b>""".format(ozel_kaynak_bilgi.invite_link, ozel_kaynak_bilgi.title, kullanan_sayisi), reply_markup=kaynakmark(user))
+            bot.send_message(chat, """<b>Özel Kaynak Kullandığınız için başka kaynak seçemezsiniz.</b>\n\n      <i>Özel Kaynağınız:</i><b> <a href="{}">{}</a>\n</b>      <i>Bu Kaynağı Toplam </i><code>{}</code> <i>Kişi Kullanıyor.</i>""".format(ozel_kaynak_bilgi.invite_link, ozel_kaynak_bilgi.title, kullanan_sayisi), reply_markup=kaynakmark(user))
             return
         bot.send_message(chat, """<b>Kullanmak istediğiniz kaynak kanalını seçin.</b>""", reply_markup=kaynakmark(user))
         return
