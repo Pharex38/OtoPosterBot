@@ -1008,7 +1008,7 @@ def kayitapi(update, context):
 
 def cancel(update, context):
     chat = update.message.chat.id
-    bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
+    bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(chat))
     return
 
 def altakayit(update, context):
