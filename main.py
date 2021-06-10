@@ -530,7 +530,7 @@ def ozelkaynakcall(call, context):
         bot.send_message(user, "<b>Önce Sfs Modunu Kapatın!</b>")
         return ConversationHandler.END
     if OzelCol.find_one({"_id": user}) == None:
-        OzelCol.insert_one({"_id": user, "okaynak": []}) 
+        OzelCol.insert_one({"_id": user, "okaynak": 546421354}) 
     bot.delete_message(chat, mesajid)
     bot.send_message(chat, """<b>Yapmanız Gerekenler</b>
 <i>
@@ -780,7 +780,12 @@ def menu(update, context):
             bot.send_message(chat, "Lütfen önce bir API kaydedin.", reply_markup=dagme())
             return
         if mj['ozel']:
-            bot.send_message(chat, """<b>Özel Kaynak Kullandığınız için başka kaynak seçemezsiniz.</b>""", reply_markup=kaynakmark(user))
+            for m in OzelCol.find({})
+                if user in m['kanal']:
+                    ozel_kaynak_bilgi = bot.get_chat(m['okaynak'])
+                    kullanan_sayisi = len(m['kanal'])
+                    break
+            bot.send_message(chat, """<b>Özel Kaynak Kullandığınız için başka kaynak seçemezsiniz.\n\nÖzel Kaynağınız: <a href="{}">{}</a>\n{} Kişi Kullanıyor.</b>""".format(ozel_kaynak_bilgi.invite_link, ozel_kaynak_bilgi.title, kullanan_sayisi), reply_markup=kaynakmark(user))
             return
         bot.send_message(chat, """<b>Kullanmak istediğiniz kaynak kanalını seçin.</b>""", reply_markup=kaynakmark(user))
         return
@@ -1358,7 +1363,7 @@ def poster(update, context):
                     except Exception as e:
                         logger.debug(f"Hatalı kanal: {kanal}")
                         e = str(e)
-                        if e.find("update.message is") != -1:
+                        if e.find("bot is") != -1:
                             collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
                             try:
                                 bot.send_message(user, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
@@ -1499,7 +1504,7 @@ def poster(update, context):
                     except Exception as e:
                         logger.debug(f"Hatalı kanal: {bkanal}")
                         e = str(e)
-                        if e.find("update.message is") != -1:
+                        if e.find("bot is") != -1:
                             collection.update_one({"_id": buser}, {"$pull": {"kanal": bkan}})
                             try:
                                 bot.send_message(buser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
@@ -1640,7 +1645,7 @@ def poster(update, context):
                     except Exception as e:
                         logger.debug(f"Hatalı kanal: {ckanal}")
                         e = str(e)
-                        if e.find("update.message is") != -1:
+                        if e.find("bot is") != -1:
                             collection.update_one({"_id": cuser}, {"$pull": {"kanal": ckan}})
                             try:
                                 bot.send_message(cuser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
@@ -1779,7 +1784,7 @@ def poster(update, context):
                     except Exception as e:
                         logger.debug(f"Hatalı kanal: {dkanal}")
                         e = str(e)
-                        if e.find("update.message is") != -1:
+                        if e.find("bot is") != -1:
                             collection.update_one({"_id": duser}, {"$pull": {"kanal": dkan}})
                             try:
                                 bot.send_message(duser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
@@ -1914,7 +1919,7 @@ def poster(update, context):
                     except Exception as e:
                         logger.debug(f"Hatalı kanal: {ekanal}")
                         e = str(e)
-                        if e.find("update.message is") != -1:
+                        if e.find("bot is") != -1:
                             collection.update_one({"_id": euser}, {"$pull": {"kanal": ekan}})
                             try:
                                 bot.send_message(euser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
@@ -2052,7 +2057,7 @@ def poster(update, context):
                     except Exception as e:
                         logger.debug(f"Hatalı kanal: {gkanal}")
                         e = str(e)
-                        if e.find("update.message is") != -1:
+                        if e.find("bot is") != -1:
                             collection.update_one({"_id": guser}, {"$pull": {"kanal": gkan}})
                             try:
                                 bot.send_message(guser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
@@ -2191,7 +2196,7 @@ def poster(update, context):
                     except Exception as e:
                         logger.debug(f"Hatalı kanal: {fkanal}")
                         e = str(e)
-                        if e.find("update.message is") != -1:
+                        if e.find("bot is") != -1:
                             collection.update_one({"_id": fuser}, {"$pull": {"kanal": fkan}})
                             try:
                                 bot.send_message(fuser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
@@ -2307,7 +2312,7 @@ def poster(update, context):
                     osablon = osablon.replace("{aciklama}", "{}").replace("{alink}", "{}").replace("{link}", "{}").format(oaciklama, olink, oalink)
                 else:
                     osablon = osablon.replace("{aciklama}", "{}").replace("{link}", "{}").format(oaciklama, olink)
-                sleep(1.6)
+                sleep(2.3)
                 for okan in okanal:
                     try:
                         if update.channel_post.photo and oret:
@@ -2317,21 +2322,21 @@ def poster(update, context):
                         if update.channel_post.animation and oret:
                             opost = bot.send_animation(okan, omedya, caption=osablon)
                     except Exception as e:
-                        logger.debug(f"Hatalı kanal: {okanal}")
+                        logger.debug(f"Hatalı kanal: {okan}")
                         e = str(e)
-                        if e.find("update.message is") != -1:
+                        if e.find("bot is") != -1:
                             collection.update_one({"_id": ouser}, {"$pull": {"kanal": okan}})
                             try:
                                 bot.send_message(ouser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
                             except Exception as e: 
                                 logger.error(e)
                             else:
-                                logger.debug(f"{okanal} kayıtlardan silindi.")
+                                logger.debug(f"{okan} kayıtlardan silindi.")
                     else:
                         ocount += 1                     
                 logger.info("Başarılı!")
-            obasari = "[ÖZEL] {} kaynağından {} kanalda post paylaşıldı.".format(okynk.title, ocount)
-            logger.warning(obasari)
+        obasari = "[ÖZEL] {} kaynağından {} kanalda post paylaşıldı.".format(okynk.title, ocount)
+        logger.warning(obasari)
 
 def gunluk():
     while 0 < 1:
