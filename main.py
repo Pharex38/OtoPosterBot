@@ -2368,42 +2368,38 @@ def main() -> None:
 
     dispatcher = updater.dispatcher
     conv_handler = ConversationHandler(
-        entry_points=[MessageHandler(Filters.text & ~Filters.command, menu)],
+        entry_points=[MessageHandler(Filters.text & ~Filters.command, menu, edited_updates=False)],
         states={ 
-            ALTMENU: [MessageHandler(Filters.text, kayitapi)], 
-            APIDEGISTIR: [MessageHandler(Filters.text, apikayit)],
-            KANALKAYDET: [MessageHandler(~Filters.command, kanalkayit)],
-            SABLON: [MessageHandler(Filters.text, sabloniki)],
-            PATPOST: [MessageHandler(~Filters.command, pat)]
+            ALTMENU: [MessageHandler(Filters.text, kayitapi, edited_updates=False)], 
+            APIDEGISTIR: [MessageHandler(Filters.text, apikayit, edited_updates=False)],
+            KANALKAYDET: [MessageHandler(~Filters.command, kanalkayit, edited_updates=False)],
+            SABLON: [MessageHandler(Filters.text, sabloniki, edited_updates=False)],
+            PATPOST: [MessageHandler(~Filters.command, pat, edited_updates=False)]
             },
-        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$'), cancel), CommandHandler('start', start)], 
-        edited_updates=False
+        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$'), cancel, edited_updates=False), CommandHandler('start', start, edited_updates=False)]
         )
 
     conver = ConversationHandler(
-        entry_points=[CallbackQueryHandler(sabloncall, pattern="^(sablon)$")],
+        entry_points=[CallbackQueryHandler(sabloncall, pattern="^(sablon)$", edited_updates=False)],
         states={
-            SABLON: [MessageHandler(Filters.text, sabloniki)]
+            SABLON: [MessageHandler(Filters.text, sabloniki, edited_updates=False)]
             },
-        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$'), cancel), CommandHandler('start', start)],
-        per_message=False,
-        edited_updates=False)
+        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$'), cancel, edited_updates=False), CommandHandler('start', start, edited_updates=False)],
+        per_message=False)
     altconver = ConversationHandler(
         entry_points=[CallbackQueryHandler(altcall, pattern="^asite(.*)")],
         states={
-            ALTAPI: [MessageHandler(Filters.text, altakayit)]
+            ALTAPI: [MessageHandler(Filters.text, altakayit, edited_updates=False)]
             },
-        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$'), cancel), CommandHandler('start', start)],
-        per_message=False,
-        edited_updates=False)
+        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$'), cancel, edited_updates=False), CommandHandler('start', start, edited_updates=False)],
+        per_message=False)
     ozelkconver = ConversationHandler(
         entry_points=[CallbackQueryHandler(ozelkaynakcall, pattern="^okayt(.*)")],
         states={
-            OZELKAYNAK: [MessageHandler(~Filters.command, ozelk)]
+            OZELKAYNAK: [MessageHandler(~Filters.command, ozelk, edited_updates=False)]
             },
-        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$'), cancel), CommandHandler('start', start)],
-        per_message=False,
-        edited_updates=False)
+        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$'), cancel, edited_updates=False), CommandHandler('start', start, edited_updates=False)],
+        per_message=False)
     dispatcher.add_handler(conver)
     dispatcher.add_handler(altconver)
     dispatcher.add_handler(ozelkconver)
