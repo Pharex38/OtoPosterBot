@@ -597,7 +597,7 @@ def callback_query(call, context):
         bot.edit_message_reply_markup(chat, mesajid, reply_markup=ozelmark())
     if call.callback_query.data == "okayk":
         collection.update_one({"_id": user}, {"$set": {"ozel": False}})
-        OzelCol.delete_one({"_id": user})
+        OzelCol.update_one({"_id": user}, {"$pull": {"kanal": user}})
         bot.edit_message_text("Özel Kaynak Kaldırıldı.", chat, mesajid)
     """ PAT """
     if call.callback_query.data.startswith("pat"):
@@ -927,9 +927,16 @@ def ozelk(update, context):
     except:
         msg = bot.send_message(chat, "Botu kanalınızda yönetici eklememişsiniz.")
         return OZELKAYNAK
-    if update.message.forward_from_chat:
-        ileti = update.message.forward_from_chat.id
-        OzelCol.update_one({"_id": user}, {"$set": {"okaynak": ileti}})
+    _kume = []
+    for _ok in OzelCol.find({}):
+        _kume.append(_ok['okaynak'])
+    if kanal in _kume:
+        collection.update_one({"_id": user}, {"$set": {"ozel": True, "kaynak": ["32"]}})
+        OzelCol.update_one({"okaynak": kanal}, {"$push": {"kanal": user}})
+        bot.send_message(update.message.chat.id, "<b>Özel Kaynak Kaydedildi!</b>", reply_markup=dugme(user))
+        return ConversationHandler.END
+    else:
+        OzelCol.update_one({"_id": user}, {"$set": {"okaynak": kanal, "kanal": [user]}})
         collection.update_one({"_id": user}, {"$set": {"ozel": True, "kaynak": ["32"]}})
         bot.send_message(update.message.chat.id, "<b>Özel Kaynak Oluşturuldu!</b>", reply_markup=dugme(user))
         return ConversationHandler.END
@@ -2226,8 +2233,6 @@ def poster(update, context):
         s = Session()
         link = s.get("https://ay.live/api")
         cookies = dict(link.cookies)
-        """  Veri Tabanı  """
-        ohesap = collection.find_one({"_id": okaynak['_id']})
         """ Dosya tespit """
         if update.channel_post.photo:
             omedya = update.channel_post.photo[0].file_id
@@ -2236,92 +2241,96 @@ def poster(update, context):
         if update.channel_post.video:
             omedya = update.channel_post.video.file_id
         oret = True
-        try:
-            otoken = ohesap['token']
-        except:
-            oret = False
-        okanal = ohesap['kanal']
-        osablon = ohesap['sablon']
-        ouser = ohesap['_id']
-        osite = ohesap["site"]
-        oaltapi = ohesap['altapi']
-        oaltsite = ohesap['altsite']
-        osira = ohesap['sira']
-        if len(okanal) > 0 and oret:
-            oalink = " "
-            olink = " "
-            if osira == "2":
-                otoken = oaltapi
-                osite = oaltsite
-                collection.update_one({"_id": ouser}, {"$set": {"sira": "3"}})
-            if osira == "3":
-                collection.update_one({"_id": ouser}, {"$set": {"sira": "2"}})
-            try:
-                if not oaltapi == "None":
-                    if oaltsite == "1":
-                        ojson = s.get(f"https://ay.live/api/?", params={'api': oaltapi, 'url': omesajb, 'ct': 1}, cookies=cookies).json()
-                        oalink = ojson['shortenedUrl']
-                    if oaltsite == "2":
-                        ojson = s.get(f"https://www.pnd.tl/api?", params={'api': oaltapi, 'url': omesajb, 'category': 6}).json()
-                        oalink = ojson['shortenedUrl']
-                    if oaltsite == "3":
-                        ojson = s.get(f"https://exe.io/api?", params={'api': oaltapi, 'url': omesajb}).json()
-                        oalink = ojson['shortenedUrl']
-                    if oaltsite == "4":
-                        oalink = s.get(f"http://ouo.io/api/{oaltapi}?", params={'s': omesajb}).text
-                    if oaltsite == "5":
-                        oalink = s.get(f"http://pubiza.com/api.php?", params={'token': oaltapi, 'url': omesajb, 'ads_type': "adult"}).text
-                if osite == "1":
-                    ojson = s.get(f"https://ay.live/api/?", params={'api': otoken, 'url': omesajb, 'ct': 1}, cookies=cookies).json()
-                    olink = ojson['shortenedUrl']
-                if osite == "2":
-                    ojson = s.get(f"https://www.pnd.tl/api?", params={'api': otoken, 'url': omesajb, 'category': 6}).json()
-                    olink = ojson['shortenedUrl']
-                if osite == "3":
-                    ojson = s.get(f"https://exe.io/api?", params={'api': otoken, 'url': omesajb}).json()
-                    olink = ojson['shortenedUrl']
-                if osite == "4":
-                    olink = s.get(f"http://ouo.io/api/{otoken}?", params={'s': omesajb}).text
-                if osite == "5":
-                    olink = s.get(f"http://pubiza.com/api.php?", params={'token': etoken, 'url': omesajb, 'ads_type': "adult"}).text
-                logger.info(f"{okanal} + {olink} + {otoken}")
+        for ozelkanal in okaynak['kanal']:
+            ohesap = collection.find_one({"_id": ozelkanal})
+            try:    
+                otoken = ohesap['token']
             except:
-                bot.send_message(ouser, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
-                logger.error(e)
                 oret = False
-                
-            if osablon == "1":
-                osablon = f"🔥{oaciklama}\n\n🔱 TIKLA 👉 {olink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
-            elif osablon == "2" or osablon == "3":
-                osablon = f"{oaciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {olink}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 #linkgec06"
-            elif osablon == "9":
-                osablon = f"{oaciklama} \n\n𝙇𝙄𝙉𝙆🔗 {olink} \n\n     𝙇𝙄𝙉𝙆🔗 {oalink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 #linkk_gecmee"
-            elif osablon.find('{alink}') != -1:
-                osablon = osablon.replace("{aciklama}", "{}").replace("{alink}", "{}").replace("{link}", "{}").format(oaciklama, olink, oalink)
-            else:
-                osablon = osablon.replace("{aciklama}", "{}").replace("{link}", "{}").format(oaciklama, olink)
-            sleep(1.6)
-            for okan in okanal:
+            okanal = ohesap['kanal']
+            osablon = ohesap['sablon']
+            ouser = ohesap['_id']
+            osite = ohesap["site"]
+            oaltapi = ohesap['altapi']
+            oaltsite = ohesap['altsite']
+            osira = ohesap['sira']
+            if len(okanal) > 0 and oret:
+                oalink = " "
+                olink = " "
+                if osira == "2":
+                    otoken = oaltapi
+                    osite = oaltsite
+                    collection.update_one({"_id": ouser}, {"$set": {"sira": "3"}})
+                if osira == "3":
+                    collection.update_one({"_id": ouser}, {"$set": {"sira": "2"}})
                 try:
-                    if update.channel_post.photo and oret:
-                        opost = bot.send_photo(okan, omedya, caption=osablon)
-                    if update.channel_post.video and oret:
-                        opost = bot.send_video(okan, omedya, caption=osablon)
-                    if update.channel_post.animation and oret:
-                        opost = bot.send_animation(okan, omedya, caption=osablon)
-                except Exception as e:
-                    logger.debug(f"Hatalı kanal: {okanal}")
-                    e = str(e)
-                    if e.find("update.message is") != -1:
-                        collection.update_one({"_id": ouser}, {"$pull": {"kanal": okan}})
-                        try:
-                            bot.send_message(ouser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
-                        except: #Hem update.messageu engelleyip hemde kanaldan sildiyse
-                            pass                        
-                        logger.debug(f"{okanal} kayıtlardan silindi.")
-            logger.info("Başarılı!")
-        obasari = "[ÖZEL] {} kaynağından post Paylaşıldı.".format(okynk.title)
-        logger.warning(obasari)
+                    if not oaltapi == "None":
+                        if oaltsite == "1":
+                            ojson = s.get(f"https://ay.live/api/?", params={'api': oaltapi, 'url': omesajb, 'ct': 1}, cookies=cookies).json()
+                            oalink = ojson['shortenedUrl']
+                        if oaltsite == "2":
+                            ojson = s.get(f"https://www.pnd.tl/api?", params={'api': oaltapi, 'url': omesajb, 'category': 6}).json()
+                            oalink = ojson['shortenedUrl']
+                        if oaltsite == "3":
+                            ojson = s.get(f"https://exe.io/api?", params={'api': oaltapi, 'url': omesajb}).json()
+                            oalink = ojson['shortenedUrl']
+                        if oaltsite == "4":
+                            oalink = s.get(f"http://ouo.io/api/{oaltapi}?", params={'s': omesajb}).text
+                        if oaltsite == "5":
+                            oalink = s.get(f"http://pubiza.com/api.php?", params={'token': oaltapi, 'url': omesajb, 'ads_type': "adult"}).text
+                    if osite == "1":
+                        ojson = s.get(f"https://ay.live/api/?", params={'api': otoken, 'url': omesajb, 'ct': 1}, cookies=cookies).json()
+                        olink = ojson['shortenedUrl']
+                    if osite == "2":
+                        ojson = s.get(f"https://www.pnd.tl/api?", params={'api': otoken, 'url': omesajb, 'category': 6}).json()
+                        olink = ojson['shortenedUrl']
+                    if osite == "3":
+                        ojson = s.get(f"https://exe.io/api?", params={'api': otoken, 'url': omesajb}).json()
+                        olink = ojson['shortenedUrl']
+                    if osite == "4":
+                        olink = s.get(f"http://ouo.io/api/{otoken}?", params={'s': omesajb}).text
+                    if osite == "5":
+                        olink = s.get(f"http://pubiza.com/api.php?", params={'token': etoken, 'url': omesajb, 'ads_type': "adult"}).text
+                    logger.info(f"{okanal} + {olink} + {otoken}")
+                except:
+                    bot.send_message(ouser, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
+                    logger.error(e)
+                    oret = False
+                    
+                if osablon == "1":
+                    osablon = f"🔥{oaciklama}\n\n🔱 TIKLA 👉 {olink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
+                elif osablon == "2" or osablon == "3":
+                    osablon = f"{oaciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {olink}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 #linkgec06"
+                elif osablon == "9":
+                    osablon = f"{oaciklama} \n\n𝙇𝙄𝙉𝙆🔗 {olink} \n\n     𝙇𝙄𝙉𝙆🔗 {oalink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 #linkk_gecmee"
+                elif osablon.find('{alink}') != -1:
+                    osablon = osablon.replace("{aciklama}", "{}").replace("{alink}", "{}").replace("{link}", "{}").format(oaciklama, olink, oalink)
+                else:
+                    osablon = osablon.replace("{aciklama}", "{}").replace("{link}", "{}").format(oaciklama, olink)
+                sleep(1.6)
+                for okan in okanal:
+                    try:
+                        if update.channel_post.photo and oret:
+                            opost = bot.send_photo(okan, omedya, caption=osablon)
+                        if update.channel_post.video and oret:
+                            opost = bot.send_video(okan, omedya, caption=osablon)
+                        if update.channel_post.animation and oret:
+                            opost = bot.send_animation(okan, omedya, caption=osablon)
+                    except Exception as e:
+                        logger.debug(f"Hatalı kanal: {okanal}")
+                        e = str(e)
+                        if e.find("update.message is") != -1:
+                            collection.update_one({"_id": ouser}, {"$pull": {"kanal": okan}})
+                            try:
+                                bot.send_message(ouser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                            except: 
+                                pass
+                    else:
+                        ocount += 1                     
+                            logger.debug(f"{okanal} kayıtlardan silindi.")
+                logger.info("Başarılı!")
+            obasari = "[ÖZEL] {} kaynağından {} kanalda post paylaşıldı.".format(okynk.title, ocount)
+            logger.warning(obasari)
 
 def gunluk():
     while 0 < 1:
