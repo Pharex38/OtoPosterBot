@@ -529,8 +529,6 @@ def ozelkaynakcall(call, context):
     if "31" in collection.find_one({"_id": user})['kaynak']:
         bot.send_message(user, "<b>Önce Sfs Modunu Kapatın!</b>")
         return ConversationHandler.END
-    if OzelCol.find_one({"_id": user}) == None:
-        OzelCol.insert_one({"_id": user, "okaynak": 546421354}) 
     bot.delete_message(chat, mesajid)
     bot.send_message(chat, """<b>Yapmanız Gerekenler</b>
 <i>
@@ -944,6 +942,8 @@ def ozelk(update, context):
         bot.send_message(update.message.chat.id, "<b>Özel Kaynak Kaydedildi!</b>", reply_markup=dugme(user))
         return ConversationHandler.END
     else:
+        if OzelCol.find_one({"_id": user}) == None:
+            OzelCol.insert_one({"_id": user, "okaynak": 546421354}) 
         OzelCol.update_one({"_id": user}, {"$set": {"okaynak": kanal, "kanal": [user]}})
         collection.update_one({"_id": user}, {"$set": {"ozel": True, "kaynak": ["32"]}})
         bot.send_message(update.message.chat.id, "<b>Özel Kaynak Oluşturuldu!</b>", reply_markup=dugme(user))
