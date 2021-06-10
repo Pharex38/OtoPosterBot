@@ -2376,7 +2376,7 @@ def main() -> None:
             SABLON: [MessageHandler(Filters.text & Filters.update.message, sabloniki)],
             PATPOST: [MessageHandler(~Filters.command & Filters.update.message, pat)]
             },
-        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$') & Filters.update.message, cancel), CommandHandler('start', start)]
+        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$') & Filters.update.message, cancel), CommandHandler('start', start, filters=~Filters.update.edited_message)]
         )
 
     conver = ConversationHandler(
@@ -2391,14 +2391,14 @@ def main() -> None:
         states={
             ALTAPI: [MessageHandler(Filters.text & Filters.update.message, altakayit)]
             },
-        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$') & Filters.update.message, cancel), CommandHandler('start', start)],
+        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$') & Filters.update.message, cancel), CommandHandler('start', start, filters=~Filters.update.edited_message)],
         per_message=False)
     ozelkconver = ConversationHandler(
         entry_points=[CallbackQueryHandler(ozelkaynakcall, pattern="^okayt(.*)")],
         states={
             OZELKAYNAK: [MessageHandler(~Filters.command & Filters.update.message, ozelk)]
             },
-        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$') & Filters.update.message, cancel), CommandHandler('start', start)],
+        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$') & Filters.update.message, cancel), CommandHandler('start', start, filters=~Filters.update.edited_message)],
         per_message=False)
     dispatcher.add_handler(conver)
     dispatcher.add_handler(altconver)
@@ -2406,17 +2406,17 @@ def main() -> None:
 
     dispatcher.add_handler(conv_handler)
 
-    dispatcher.add_handler(CommandHandler('start', start, Filters.update.message))
+    dispatcher.add_handler(CommandHandler('start', start, Filters.update.message & Filters.chat_type.private))
     dispatcher.add_handler(MessageHandler(Filters.command('onayla') & Filters.update.channel_post, post))
     dispatcher.add_handler(MessageHandler(Filters.command('postsil') & Filters.update.channel_post, kpostsil))
-    dispatcher.add_handler(CommandHandler('bul', bul, Filters.update.message))
+    dispatcher.add_handler(CommandHandler('bul', bul, Filters.update.message & Filters.chat_type.private))
     dispatcher.add_handler(CommandHandler('onayla', ona, Filters.update.message))
-    dispatcher.add_handler(CommandHandler('sil', durdur, Filters.update.message))
-    dispatcher.add_handler(CommandHandler('duyuru', duy, Filters.update.message))
-    dispatcher.add_handler(CommandHandler('postsil', cpostsil, Filters.update.message))
-    dispatcher.add_handler(CommandHandler('dsil', dsil, Filters.update.message))
-    dispatcher.add_handler(CommandHandler('stats', stats, Filters.update.message))
-    dispatcher.add_handler(CommandHandler('zaman', zaman, Filters.update.message))
+    dispatcher.add_handler(CommandHandler('sil', durdur, Filters.update.message & Filters.chat_type.private))
+    dispatcher.add_handler(CommandHandler('duyuru', duy, Filters.update.message & Filters.chat_type.private))
+    dispatcher.add_handler(CommandHandler('postsil', cpostsil, Filters.update.message & Filters.chat_type.private))
+    dispatcher.add_handler(CommandHandler('dsil', dsil, Filters.update.message & Filters.chat_type.private))
+    dispatcher.add_handler(CommandHandler('stats', stats, Filters.update.message & Filters.chat_type.private))
+    dispatcher.add_handler(CommandHandler('zaman', zaman, Filters.update.message & Filters.chat_type.private))
 
     dispatcher.add_handler(MessageHandler(Filters.photo & Filters.update.channel_post | Filters.video & Filters.update.channel_post | Filters.animation & Filters.update.channel_post, poster))
 
