@@ -2323,11 +2323,12 @@ def poster(update, context):
                             collection.update_one({"_id": ouser}, {"$pull": {"kanal": okan}})
                             try:
                                 bot.send_message(ouser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
-                            except: 
-                                pass
+                            except Exception as e: 
+                                logger.error(e)
+                            else:
+                                logger.debug(f"{okanal} kayıtlardan silindi.")
                     else:
                         ocount += 1                     
-                            logger.debug(f"{okanal} kayıtlardan silindi.")
                 logger.info("Başarılı!")
             obasari = "[ÖZEL] {} kaynağından {} kanalda post paylaşıldı.".format(okynk.title, ocount)
             logger.warning(obasari)
