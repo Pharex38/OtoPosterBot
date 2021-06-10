@@ -1058,6 +1058,9 @@ def apikayit(update, context):
         else:
             bot.send_message(chat, "İptal Edildi.", reply_markup=dugme())
         return ConversationHandler.END
+    if token.startswith('http'):
+        mso = bot.send_message(chat, "❌ Geçersiz bir API verdiniz! Lütfen doğru bir API adresi verin.")
+        return APIDEGISTIR
     if bnb == None:
         kontrol = get("https://ay.live/api/?api={}&url=www.zort.com&format=text&alias=&ct=2".format(token)).text
         if kontrol == "":
