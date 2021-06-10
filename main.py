@@ -311,7 +311,7 @@ def stats(update, context):
                     print(uye)
                 except Exception as e:
                     logger.error(e)
-                    time.sleep(60)
+                    time.sleep(20)
                 toplam += uye
           
     toplam = toplam / 1000
