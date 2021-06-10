@@ -304,7 +304,7 @@ def stats(update, context):
         for kul in kullanici['kanal']:
             if not kul in kum:
                 kum.append(kul)
-                time.sleep(1)
+                time.sleep(1.6)
                 kanals += 1
                 try:
                     uye = bot.get_chat_members_count(kul)
@@ -444,7 +444,7 @@ def post(update, context):
     chat = update.channel_post.chat.id
     mid = update.channel_post.message_id
     msj = update.channel_post.reply_text("Tamamdır!")
-    sleep(1)
+    sleep(1.6)
     mids = msj.message_id
     try:
         bot.delete_message(chat, mid)
@@ -1336,7 +1336,7 @@ def poster(update, context):
                     sablon = sablon.replace("{aciklama}", "{}").replace("{alink}", "{}").replace("{link}", "{}").format(aciklama, link, alink)
                 else:
                     sablon = sablon.replace("{aciklama}", "{}").replace("{link}", "{}").format(aciklama, link)
-                sleep(1)
+                sleep(1.6)
                 for kan in kanal:
                     try:
                         if update.channel_post.photo and ret:
@@ -1445,7 +1445,7 @@ def poster(update, context):
                             balink = s.get(f"http://ouo.io/api/{baltapi}?", params={'s': bmesajb}).text
                         if baltsite == "5":
                             balink = s.get(f"http://pubiza.com/api.php?", params={'token': baltapi, 'url': bmesajb, 'ads_type': "adult"}).text
-                    sleep(1)
+                    sleep(1.6)
                     if bsite == "1":
                         bjson = s.get(f"https://ay.live/api/?", params={'api': btoken, 'url': bmesajb, 'ct': 1}, cookies=cookies).json()
                         blink = bjson['shortenedUrl']
@@ -1477,7 +1477,7 @@ def poster(update, context):
                 else:
                     bsablon = bsablon.replace("{aciklama}", "{}").replace("{link}", "{}")
                     bsablon = str(bsablon).format(baciklama, blink)
-                sleep(1)
+                sleep(1.6)
                 for bkan in bkanal:
                     try:
                         if update.channel_post.photo and bret:
@@ -1585,7 +1585,7 @@ def poster(update, context):
                             calink = s.get(f"http://ouo.io/api/{caltapi}?", params={'s': cmesajb}).text
                         if caltsite == "5":
                             calink = s.get(f"http://pubiza.com/api.php?", params={'token': caltapi, 'url': cmesajb, 'ads_type': "adult"}).text
-                    sleep(1)
+                    sleep(1.6)
                     if csite == "1":
                         cjson = s.get(f"https://ay.live/api/?", params={'api': ctoken, 'url': cmesajb, 'ct': 1},
                                       cookies=cookies).json()
@@ -1618,7 +1618,7 @@ def poster(update, context):
                     
                 else:
                     csablon = csablon.replace("{link}", "{}").replace("aciklama", "").format(caciklama, clink)
-                sleep(1)
+                sleep(1.6)
                 for ckan in ckanal:
                     try:
                         if update.channel_post.photo and cret:
@@ -1726,7 +1726,7 @@ def poster(update, context):
                             dalink = s.get(f"http://ouo.io/api/{daltapi}?", params={'s': dmesajb}).text
                         if daltsite == "5":
                             dalink = s.get(f"http://pubiza.com/api.php?", params={'token': daltapi, 'url': dmesajb, 'ads_type': "adult"}).text
-                    sleep(1)
+                    sleep(1.6)
                     if dsite == "1":
                         djson = s.get(f"https://ay.live/api/?", params={'api': dtoken, 'url': dmesajb, 'ct': 1}, cookies=cookies).json()
                         dlink = djson['shortenedUrl']
@@ -1757,7 +1757,7 @@ def poster(update, context):
                     dsablon = dsablon.replace("{link}", "{}").replace("{aciklama}", "{}").replace("{alink}", "{}").format(daciklama, dlink, dalink)
                 else:
                     dsablon = dsablon.replace("{link}", "{}").replace("{aciklama}", "{}").format(daciklama, dlink)
-                sleep(1)
+                sleep(1.6)
                 for dkan in dkanal:
                     try: 
                         if update.channel_post.photo and dret:
@@ -1892,7 +1892,7 @@ def poster(update, context):
                     esablon = esablon.replace("{link}", "{}").replace("{aciklama}", "{}").replace("{alink}", "{}").format(eaciklama, elink, ealink)
                 else:
                     esablon = esablon.replace("{link}", "{}").replace("{aciklama}", "{}").format(eaciklama, elink)
-                sleep(1)
+                sleep(1.6)
                 for ekan in ekanal:
                     try:
                         if update.channel_post.photo and eret:
@@ -2030,7 +2030,7 @@ def poster(update, context):
                     gsablon = gsablon.replace("{link}", "{}").replace("{aciklama}", "{}").replace("{alink}", "{}").format(gaciklama, glink, galink)
                 else:
                     gsablon = gsablon.replace("{link}", "{}").replace("aciklama", "").format(gaciklama, glink)
-                sleep(1)
+                sleep(1.6)
                 for gkan in gkanal:
                     try:
                         if update.channel_post.photo and gret:
@@ -2138,7 +2138,7 @@ def poster(update, context):
                             falink = s.get(f"http://ouo.io/api/{faltapi}?", params={'s': fmesajb}).text
                         if faltsite == "5":
                             falink = s.get(f"http://pubiza.com/api.php?", params={'token': faltapi, 'url': fmesajb, 'ads_type': "adult"}).text
-                    sleep(1)
+                    sleep(1.6)
                     if fsite == "1":
                         fjson = s.get(f"https://ay.live/api/?", params={'api': ftoken, 'url': fmesajb, 'ct': 1}, cookies=cookies).json()
                         flink = fjson['shortenedUrl']
@@ -2169,7 +2169,7 @@ def poster(update, context):
                 else:
                     fsablon = fsablon.replace("{aciklama}", "{}").replace("{link}", "{}")
                     fsablon = str(fsablon).format(faciklama, flink)
-                sleep(1)
+                sleep(1.6)
                 for fkan in fkanal:
                     try:
                         if update.channel_post.photo and fret:
@@ -2303,7 +2303,7 @@ def poster(update, context):
                 osablon = osablon.replace("{aciklama}", "{}").replace("{alink}", "{}").replace("{link}", "{}").format(oaciklama, olink, oalink)
             else:
                 osablon = osablon.replace("{aciklama}", "{}").replace("{link}", "{}").format(oaciklama, olink)
-            sleep(1)
+            sleep(1.6)
             for okan in okanal:
                 try:
                     if update.channel_post.photo and oret:
