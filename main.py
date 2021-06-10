@@ -2418,7 +2418,7 @@ def main() -> None:
     dispatcher.add_handler(CommandHandler('stats', stats, Filters.chat_type.private))
     dispatcher.add_handler(CommandHandler('zaman', zaman, Filters.chat_type.private))
 
-    dispatcher.add_handler(MessageHandler(Filters.photo & Filters.chat_type.channel | Filters.video & Filters.chat_type.channel | Filters.animation & Filters.chat_type.channel, poster))
+    dispatcher.add_handler(MessageHandler(Filters.photo & Filters.update.channel_posts | Filters.video & Filters.update.channel_posts | Filters.animation & Filters.update.channel_posts, poster))
 
     dispatcher.add_handler(CallbackQueryHandler(kaynakcall, pattern="^kaynak(.*)"))
     dispatcher.add_handler(CallbackQueryHandler(callback_query))
