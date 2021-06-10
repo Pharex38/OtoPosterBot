@@ -481,7 +481,7 @@ def sabloncall(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
     mesajid = call.effective_message.message_id
-    bot.delete_message(user, mesajid) == None:
+    if collection.find_one({"_id": user}) == None:
         call.callback_query.edit_message_text(text="<b>Önce bir API kaydedin!</b>")
         return
     if collection.find_one({"_id": user})
