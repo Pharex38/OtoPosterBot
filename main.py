@@ -793,7 +793,7 @@ def menu(update, context):
         muho = bot.get_chat(kaynaklar[5])
         tutan = bot.get_chat(kaynaklar[6])
         if mj == None:
-            bot.send_message(chat, "Lütfen önce bir API kaydedin.")
+            bot.send_message(chat, "Lütfen önce bir API kaydedin.", reply_markup=dagme())
             return
         if mj['ozel']:
             bot.send_message(chat, """<b>Özel Kaynak Kullandığınız için başka kaynak seçemezsiniz.</b>""", reply_markup=kaynakmark(user))
@@ -805,7 +805,7 @@ def menu(update, context):
         aciklama = "Pharex, lord adminin karısını sikerken lord adminn basıyor."
         alink = "https://pgg.fyi/X0DK3"
         if mj == None:
-            bot.send_message(chat, "Lütfen önce bir API kaydedin.")
+            bot.send_message(chat, "Lütfen önce bir API kaydedin.", reply_markup=dagme()))
             return
         if mj['sablon'] == "1":
             bot.send_message(chat, "<b>Varsayılan Şablon:</b>\n\n🔥{aciklama} \n\n🔱 TIKLA 👉 {link} \n\n📛 SESİ AÇ 'a tıklamayı unutma", reply_markup=sablonmark(user))
@@ -884,7 +884,7 @@ def menu(update, context):
         return ALTMENU
     if mesaj == "▶️ SFS Modu":
         if mj == None:
-            bot.send_message(chat, "Lütfen önce bir API kaydedin.")
+            bot.send_message(chat, "Lütfen önce bir API kaydedin.", reply_markup=dagme()))
             return
         try:
             mod = collection.find_one({"_id": user})
@@ -910,10 +910,10 @@ def menu(update, context):
         return
     if mesaj == "⛓️ Elle Post Paylaş":
         if mj == None:
-            bot.send_message(chat, "Lütfen önce bir API kaydedin.")
+            bot.send_message(chat, "Lütfen önce bir API kaydedin.", reply_markup=dagme()))
             return
         if len(mj['kanal']) < 1:
-            bot.send_message(chat, "Lütfen önce bir kanal kaydedin.")
+            bot.send_message(chat, "Lütfen önce bir kanal kaydedin.", reply_markup=dagme()))
             return
         msg = bot.send_message(chat, "Paylaşmamı istediğin hazır postu ilet.", reply_markup=imark())
         
