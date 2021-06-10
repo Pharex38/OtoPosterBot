@@ -2376,7 +2376,7 @@ def main() -> None:
             SABLON: [MessageHandler(Filters.text, sabloniki)],
             PATPOST: [MessageHandler(~Filters.command, pat)]
             },
-        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$'), cancel)], 
+        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$'), cancel), CommandHandler('start', start)], 
         edited_updates=False
         )
 
@@ -2385,7 +2385,7 @@ def main() -> None:
         states={
             SABLON: [MessageHandler(Filters.text, sabloniki)]
             },
-        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$'), cancel)],
+        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$'), cancel), CommandHandler('start', start)],
         per_message=False,
         edited_updates=False)
     altconver = ConversationHandler(
@@ -2393,7 +2393,7 @@ def main() -> None:
         states={
             ALTAPI: [MessageHandler(Filters.text, altakayit)]
             },
-        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$'), cancel)],
+        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$'), cancel), CommandHandler('start', start)],
         per_message=False,
         edited_updates=False)
     ozelkconver = ConversationHandler(
@@ -2401,7 +2401,7 @@ def main() -> None:
         states={
             OZELKAYNAK: [MessageHandler(~Filters.command, ozelk)]
             },
-        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$'), cancel)],
+        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$'), cancel), CommandHandler('start', start)],
         per_message=False,
         edited_updates=False)
     dispatcher.add_handler(conver)
