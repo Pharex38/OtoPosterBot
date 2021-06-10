@@ -109,7 +109,11 @@ PATPOST = range(1)
 
 markup = ForceReply(selective=False)
 
-def dugme():
+def dugme(user):
+    first = collection.find_one({'_id': user})
+    if first == None:
+        return ReplyKeyboardMarkup(keyboard=[['📝 Kaydet']], row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
+
     dugme = ReplyKeyboardMarkup(keyboard=[['⚙️ Menü'], ['🔧 Kaynak', '📏 Şablon'], ['▶️ SFS Modu', '🥰 Bağış'], ['⛓️ Elle Post Paylaş']], resize_keyboard=True)
     
     return dugme
@@ -246,8 +250,7 @@ def start(update, context):
             return
     
     mention = "@"+update.message.from_user.username if update.message.from_user.username else update.message.from_user.first_name
-    if kat == None:
-        bot.send_message(chat, """
+    bot.send_message(chat, """
 ✨ <b>Merhaba {}!</b>
 
 ❔<b>Ne İşe Yarıyor? </b>
@@ -261,28 +264,9 @@ def start(update, context):
 
 <b>❤️ Geliştirici & Sahip : @Pharex
 👨🏻‍🔧 Fix & Eklentiler : @berce</b>
-
-
-📔        <b>@OtoPosterBotLog</b>
-""".format(mention), disable_web_page_preview=True, reply_markup=dagme())
-    else:
-        bot.send_message(chat, """
-✨ <b>Merhaba {}!</b>
-
-❔<b>Ne İşe Yarıyor? </b>
-<i>Bu update.message sizin seçtiğiniz kaynak kanalında paylaşılan postların linklerini otomatik olarak kısaltıp sizin kanalınızda paylaşır.</i>
-
-❔<b>Nasıl Kullanılır?</b>
-<i>1. Adım: Botu kanlınıza yönetici olarak ekleyin.
-2. Adım: Kaydet butonunu kullanarak bilgilerinizi kaydedin.
-3. Adım: <b>KANALINIZDA</b> /onayla yazın.
-4. Adım: Keyfini çıkarın.</i>
-
-<b>❤️ Geliştirici & Sahip : @Pharex
-👨🏻‍🔧 Fix & Eklentiler : @berce</b>
-
+ 
   📔        <b>@OtoPosterBotLog</b>
-""".format(mention), disable_web_page_preview=True, reply_markup=dugme())
+""".format(mention), disable_web_page_preview=True, reply_markup=dugme(user))
 
 def stats(update, context):
     kanals = 0
@@ -369,7 +353,7 @@ def durdur(update, context):
     except:
         update.message.reply_text("<b>Henüz bir kanal kaydetmemişsiniz.</b>")
     else:
-        update.message.reply_text("<b>Kanalınız Silindi!</b>")
+        update.message.reply_text("<b>Kanalınız Silindi!</b>", reply_markup=dagme())
 
 def kpostsil(update, context):
     chat = update.message.chat.id
@@ -895,12 +879,12 @@ def menu(update, context):
                 collection.update_one({"_id": user}, {"$set": {"kaynak": mod['eski']}})
             except:
                 pass
-            bot.send_message(chat, "SFS modu durduruldu", reply_markup=dugme())
+            bot.send_message(chat, "SFS modu durduruldu", reply_markup=dugme(user))
             return
         else:
             collection.update_one({"_id": user}, {"$set": {"eski": mod['kaynak']}})
             collection.update_one({"_id": user}, {"$set": {"kaynak": ['31']}})
-            bot.send_message(chat, "Kanallarınız SFS moduna alındı. Siz modu kapatana kadar yeni post atılmayacak.", reply_markup=dugme())
+            bot.send_message(chat, "Kanallarınız SFS moduna alındı. Siz modu kapatana kadar yeni post atılmayacak.", reply_markup=dugme(user))
             return
     if mesaj == "🥰 Bağış":
         if user != sahip:
@@ -923,13 +907,13 @@ def menu(update, context):
     if kisi == None:
         bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=dagme())
         return
-    bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=dugme())
+    bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=dugme(user))
     
 def ozelk(update, context):
     user = update.message.from_user.id
     chat = update.message.chat.id
     if update.message.text == "❌ İptal":
-        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme())
+        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
     if not update.message.forward_from_chat:
         msz = bot.send_message(update.message.chat.id, "Lütfen bana oluşturduğun kanaldan bir mesaj ilet.")
@@ -947,7 +931,7 @@ def ozelk(update, context):
         ileti = update.message.forward_from_chat.id
         OzelCol.update_one({"_id": user}, {"$set": {"okaynak": ileti}})
         collection.update_one({"_id": user}, {"$set": {"ozel": True, "kaynak": ["32"]}})
-        bot.send_message(update.message.chat.id, "<b>Özel Kaynak Oluşturuldu!</b>", reply_markup=dugme())
+        bot.send_message(update.message.chat.id, "<b>Özel Kaynak Oluşturuldu!</b>", reply_markup=dugme(user))
         return ConversationHandler.END
 
 def sabloniki(update, context):
@@ -960,7 +944,7 @@ def sabloniki(update, context):
 
         return SABLON
     if update.message.text == "❌ İptal":
-        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme())
+        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
     if not mesaj.isdigit() and bnb['sira'] == "1":
         if mesaj.find("{link}") == -1 or mesaj.find("{aciklama}") == -1 or mesaj.find("{alink}") == -1:
@@ -980,10 +964,10 @@ def sabloniki(update, context):
             msg = bot.send_message(chat, """ ❌<i> Lütfen mesajınızda bir tane "{aciklama}" bulunduğudan emin olun.</i> """)
             return SABLON
     if bnb == None:
-        bot.send_message(chat, "Lütfen şablon kaydetmeden önce Kaydet butonu ile bilgilerinizi girin!", reply_markup=dugme())
+        bot.send_message(chat, "Lütfen şablon kaydetmeden önce Kaydet butonu ile bilgilerinizi girin!", reply_markup=dugme(user))
     else:
         collection.update_one({"_id": user}, {"$set":{"sablon": mesaj}})
-        bot.send_message(chat, "Şablon kaydedildi!", reply_markup=dugme())
+        bot.send_message(chat, "Şablon kaydedildi!", reply_markup=dugme(user))
         return ConversationHandler.END
 
 def kayitapi(update, context):
@@ -1002,7 +986,7 @@ def kayitapi(update, context):
         msg = bot.send_message(chat, "Yeni API adresinizi girin.", reply_markup=imark())
         return APIDEGISTIR
     if mesaj == "↩️ Ana Menü" or mesaj == "❌ İptal":
-        msg = bot.send_message(chat, "İptal Edildi.", reply_markup=dugme())
+        msg = bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
     if mesaj == "🔗 Site değiştir":
         msg = bot.send_message(chat, "<i>Kullanmak istediğiniz siteyi seçin</i>", reply_markup=sitemarkup())
@@ -1024,7 +1008,7 @@ def kayitapi(update, context):
 
 def cancel(update, context):
     chat = update.message.chat.id
-    bot.send_message(chat, "İptal Edildi.", reply_markup=dugme())
+    bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
     return
 
 def altakayit(update, context):
@@ -1032,16 +1016,16 @@ def altakayit(update, context):
     user = update.message.from_user.id
     chat = update.message.chat.id
     if update.message.text == "❌ İptal" or update.message.text == None:
-        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme())
+        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
     if update.message.text == "⛔ Alternatif Kaldır":
         collection.update_one({"_id": user}, {"$set": {"altsite": "None", "altapi": "None", "sablon": "1", "sira": "0"}})
-        bot.send_message(chat, "Alternatif kaldırıldı, artık postlarınız alternatif linksiz paylaşılacak.", reply_markup=dugme())
+        bot.send_message(chat, "Alternatif kaldırıldı, artık postlarınız alternatif linksiz paylaşılacak.", reply_markup=dugme(user))
         return ConversationHandler.END
     smesaj = context.user_data['asite']
     sss = context.user_data['sistem']
     collection.update_one({"_id": user}, {"$set": {"altsite": str(smesaj), "altapi": str(amesaj), "sira": str(sss)}})
-    bot.send_message(chat, "✅ Alternatif API kaydedildi", reply_markup=dugme())
+    bot.send_message(chat, "✅ Alternatif API kaydedildi", reply_markup=dugme(user))
     return ConversationHandler.END
 
 def apikayit(update, context):
@@ -1056,7 +1040,7 @@ def apikayit(update, context):
         if bnb == None:
             bot.send_message(chat, "İptal Edildi.", reply_markup=dagme())
         else:
-            bot.send_message(chat, "İptal Edildi.", reply_markup=dugme())
+            bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
     if token.startswith('http'):
         mso = bot.send_message(chat, "❌ Geçersiz bir API verdiniz! Lütfen doğru bir API adresi verin.")
@@ -1078,7 +1062,7 @@ def apikayit(update, context):
         collection.insert_one(key)
     else:
         collection.update_one({"_id": user}, {"$set": {"token": token}})
-    bot.send_message(chat, "<b>🟢 API kaydedildi!</b>", reply_markup=dugme())
+    bot.send_message(chat, "<b>🟢 API kaydedildi!</b>", reply_markup=dugme(user))
     return ConversationHandler.END
 
 def kanalkayit(update, context):
@@ -1086,7 +1070,7 @@ def kanalkayit(update, context):
     user = update.message.from_user.id
     y = collection.find_one({"_id": user})
     if update.message.text == "❌ İptal":
-        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme())
+        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
     if not update.message.forward_from_chat:
         msg = bot.send_message(chat, "↪️ Bunun ne olduğu hakkında bir fikrim yok! Lütfen kanaldan herhangi bir gönderi iletin.", reply_markup=imark())
@@ -1114,7 +1098,7 @@ def kanalkayit(update, context):
     for y in yetkiler:
         if y.user.id == user:
             collection.update_one({"_id": user}, {"$push":{"kanal": str(kanal)}})
-            update.message.reply_text("<b>🟢Kanalınız Kaydedildi.</b>", reply_markup=dugme())
+            update.message.reply_text("<b>🟢Kanalınız Kaydedildi.</b>", reply_markup=dugme(user))
             return ConversationHandler.END
             break
     msz = bot.send_message(chat, "Bu kanal sizin değil 😠")
@@ -1126,7 +1110,7 @@ def pat(update, context):
     chat = update.message.chat.id
     user = update.message.from_user.id
     if update.message.text == "❌ İptal":
-        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme())
+        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
     if update.message.text:
         msg = bot.send_message(chat, "Lütfen paylaşmamı istediğin postu at")
@@ -1227,14 +1211,14 @@ def pat(update, context):
             bot.send_photo(pkanallar[0], fid, caption=psablon)
         if ptip == "animation":
             bot.send_animation(pkanallar[0], fid, caption=psablon)
-        bot.send_message(chat, "Postunuz gönderildi.", reply_markup=dugme())
+        bot.send_message(chat, "Postunuz gönderildi.", reply_markup=dugme(user))
         return ConversationHandler.END
     
     context.user_data['psablon'] = psablon
     context.user_data['ptip'] = ptip
     context.user_data['fid'] = fid
     if pret:
-        bot.send_message(chat, "Post Hazırlandı!", reply_markup=dugme())
+        bot.send_message(chat, "Post Hazırlandı!", reply_markup=dugme(user))
         bot.send_message(chat, "<i>Postun gönderilmesini istediğin kanalı seç.</i>", reply_markup=patmark(user))
         return ConversationHandler.END
     else:
