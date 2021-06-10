@@ -1115,6 +1115,7 @@ def kanalkayit(update, context):
         if y.user.id == user:
             collection.update_one({"_id": user}, {"$push":{"kanal": str(kanal)}})
             update.message.reply_text("<b>🟢Kanalınız Kaydedildi.</b>", reply_markup=dugme(user))
+            bot.send_message(-1001391561285, f"#YENİ_KANAL\nID: {kanal}\nÜYE: {bot.get_chat_members_count(kanal)}SAHİP: {user}")
             return ConversationHandler.END
             break
     msz = bot.send_message(chat, "Bu kanal sizin değil 😠")
