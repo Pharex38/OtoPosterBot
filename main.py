@@ -2407,8 +2407,8 @@ def main() -> None:
     dispatcher.add_handler(conv_handler)
 
     dispatcher.add_handler(CommandHandler('start', start, Filters.update.message))
-    dispatcher.add_handler(MessageHandler(Filters.command('onayla') & Filters.update.channel_posts, post))
-    dispatcher.add_handler(MessageHandler(Filters.command('postsil') & Filters.update.channel_posts, kpostsil))
+    dispatcher.add_handler(MessageHandler(Filters.command('onayla') & Filters.update.channel_post, post))
+    dispatcher.add_handler(MessageHandler(Filters.command('postsil') & Filters.update.channel_post, kpostsil))
     dispatcher.add_handler(CommandHandler('bul', bul, Filters.update.message))
     dispatcher.add_handler(CommandHandler('onayla', ona, Filters.update.message))
     dispatcher.add_handler(CommandHandler('sil', durdur, Filters.update.message))
@@ -2418,7 +2418,7 @@ def main() -> None:
     dispatcher.add_handler(CommandHandler('stats', stats, Filters.update.message))
     dispatcher.add_handler(CommandHandler('zaman', zaman, Filters.update.message))
 
-    dispatcher.add_handler(MessageHandler(Filters.photo & Filters.update.channel_posts | Filters.video & Filters.update.channel_posts | Filters.animation & Filters.update.channel_posts, poster, edited_updates=False))
+    dispatcher.add_handler(MessageHandler(Filters.photo & Filters.update.channel_post | Filters.video & Filters.update.channel_post | Filters.animation & Filters.update.channel_post, poster))
 
     dispatcher.add_handler(CallbackQueryHandler(kaynakcall, pattern="^kaynak(.*)"))
     dispatcher.add_handler(CallbackQueryHandler(callback_query))
