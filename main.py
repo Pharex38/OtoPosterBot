@@ -481,7 +481,10 @@ def sabloncall(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
     mesajid = call.effective_message.message_id
-    bot.delete_message(user, mesajid)
+    bot.delete_message(user, mesajid) == None:
+        call.callback_query.edit_message_text(text="<b>Önce bir API kaydedin!</b>")
+        return
+    if collection.find_one({"_id": user})
     if collection.find_one({"_id": user})['sira'] == "1":
         msz = bot.send_message(chat, "<i>Oluşturduğunuz şablonda</i> <b>{aciklama}, {alink}</b> ve <b>{link}</b> <i>kelimelerinin bulunduğundan emin olun yoksa şablon çalışmaz</i>", reply_markup=imark())
         return SABLON
@@ -1037,6 +1040,9 @@ def altakayit(update, context):
     amesaj = update.message.text
     user = update.message.from_user.id
     chat = update.message.chat.id
+    if collection.find_one({"_id": user}) == None:
+        bot.send_message(chat, "<b>Önce bir API kaydedin!</b>")
+        return
     if update.message.text == "❌ İptal" or update.message.text == None:
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
