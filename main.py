@@ -2372,9 +2372,12 @@ bildir('Bot Başladı 🍕')
 def main() -> None:
     updater = Updater(token=bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=90), request_kwargs={'con_pool_size': 999, 'read_timeout': 150, 'connect_timeout': 150})
 
-    dispatcher = updater.dispatcher
+    dispatcher = updater.dispatcher(workers=10)
+
+    updater.job_queue
+    
     conv_handler = ConversationHandler(
-        entry_points=[MessageHandler(Filters.update.message & Filters.chat_type.private & ~Filters.command, menu)],
+        entry_points=[MessageHandler(Filters.update.message & ~Filters.command, menu)],
         states={ 
             ALTMENU: [MessageHandler(Filters.text & Filters.update.message, kayitapi)], 
             APIDEGISTIR: [MessageHandler(Filters.text & Filters.update.message, apikayit)],
