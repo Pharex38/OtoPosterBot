@@ -2364,7 +2364,7 @@ logger.info("Bot Çalışıyor...")
 bildir('Bot Başladı 🍕')
 
 def main() -> None:
-    updater = Updater(bot=bot, request_kwargs={'read_timeout': 10, 'connect_timeout': 11})
+    updater = Updater(bot=bot, request_kwargs={'read_timeout': 100, 'connect_timeout': 110})
 
     dispatcher = updater.dispatcher
     conv_handler = ConversationHandler(
