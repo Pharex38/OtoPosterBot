@@ -506,6 +506,9 @@ def kaynakcall(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
     kkul = collection.find_one({"_id": user})
+    if kkul == None:
+        call.callback_query.edit_message_text(text="<b>Önce bir API kaydedin!</b>")
+        return
     if "31" in kkul['kaynak']:
         call.callback_query.edit_message_text(text="<b>Önce SFS modunu kapatın!</b>")
         return
@@ -526,6 +529,9 @@ def ozelkaynakcall(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
     mesajid = call.effective_message.message_id
+    if collection.find_one({"_id": user}) == None:
+        call.callback_query.edit_message_text(text="<b>Önce bir API kaydedin!</b>")
+        return
     if "31" in collection.find_one({"_id": user})['kaynak']:
         bot.send_message(user, "<b>Önce Sfs Modunu Kapatın!</b>")
         return ConversationHandler.END
