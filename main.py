@@ -2376,7 +2376,7 @@ def main() -> None:
             SABLON: [MessageHandler(Filters.text, sabloniki, edited_updates=False)],
             PATPOST: [MessageHandler(~Filters.command, pat, edited_updates=False)]
             },
-        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$'), cancel, edited_updates=False), CommandHandler('start', start, edited_updates=False)]
+        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$'), cancel, edited_updates=False), CommandHandler('start', start)]
         )
 
     conver = ConversationHandler(
@@ -2384,21 +2384,21 @@ def main() -> None:
         states={
             SABLON: [MessageHandler(Filters.text, sabloniki, edited_updates=False)]
             },
-        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$'), cancel, edited_updates=False), CommandHandler('start', start, edited_updates=False)],
+        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$'), cancel, edited_updates=False), CommandHandler('start', start)],
         per_message=False)
     altconver = ConversationHandler(
         entry_points=[CallbackQueryHandler(altcall, pattern="^asite(.*)")],
         states={
             ALTAPI: [MessageHandler(Filters.text, altakayit, edited_updates=False)]
             },
-        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$'), cancel, edited_updates=False), CommandHandler('start', start, edited_updates=False)],
+        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$'), cancel, edited_updates=False), CommandHandler('start', start)],
         per_message=False)
     ozelkconver = ConversationHandler(
         entry_points=[CallbackQueryHandler(ozelkaynakcall, pattern="^okayt(.*)")],
         states={
             OZELKAYNAK: [MessageHandler(~Filters.command, ozelk, edited_updates=False)]
             },
-        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$'), cancel, edited_updates=False), CommandHandler('start', start, edited_updates=False)],
+        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$'), cancel, edited_updates=False), CommandHandler('start', start)],
         per_message=False)
     dispatcher.add_handler(conver)
     dispatcher.add_handler(altconver)
