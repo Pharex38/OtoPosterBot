@@ -2372,7 +2372,7 @@ bildir('Bot Başladı 🍕')
 def main() -> None:
     updater = Updater(token=bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=90), request_kwargs={'con_pool_size': 999, 'read_timeout': 150, 'connect_timeout': 150})
 
-    dispatcher = updater.dispatcher(workers=10)
+    dispatcher = updater.dispatcher
 
     updater.job_queue
     
