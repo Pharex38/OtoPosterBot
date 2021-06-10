@@ -1105,7 +1105,7 @@ def kanalkayit(update, context):
             return ConversationHandler.END
             break
     msz = bot.send_message(chat, "Bu kanal sizin değil 😠")
-    update.message.register_next_step_handler(msz, kanalkayit)
+    return KANALKAYDET
 
 
 
