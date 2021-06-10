@@ -315,7 +315,7 @@ def stats(update, context):
                 toplam += uye
           
     toplam = toplam / 1000
-    toplam = round(toplam, 1)
+    toplam = str(round(toplam, 1))+"K" if round(toplam, 1) < 1000 else str(round(toplam / 1000, 1))+"M"
     bot.edit_message_text("Toplam Kullanıcı Sayısı: {}\nToplam Kayıtlı Kanal Sayısı: {}\nToplam Kitle: {}K".format(users, kanals, toplam), chat, msg.message_id)
 
 def bul(update, context):
@@ -1585,7 +1585,7 @@ def poster(update, context):
                             calink = s.get(f"http://ouo.io/api/{caltapi}?", params={'s': cmesajb}).text
                         if caltsite == "5":
                             calink = s.get(f"http://pubiza.com/api.php?", params={'token': caltapi, 'url': cmesajb, 'ads_type': "adult"}).text
-                    sleep(0.5)
+                    sleep(1)
                     if csite == "1":
                         cjson = s.get(f"https://ay.live/api/?", params={'api': ctoken, 'url': cmesajb, 'ct': 1},
                                       cookies=cookies).json()
@@ -1726,7 +1726,7 @@ def poster(update, context):
                             dalink = s.get(f"http://ouo.io/api/{daltapi}?", params={'s': dmesajb}).text
                         if daltsite == "5":
                             dalink = s.get(f"http://pubiza.com/api.php?", params={'token': daltapi, 'url': dmesajb, 'ads_type': "adult"}).text
-                    sleep(0.5)
+                    sleep(1)
                     if dsite == "1":
                         djson = s.get(f"https://ay.live/api/?", params={'api': dtoken, 'url': dmesajb, 'ct': 1}, cookies=cookies).json()
                         dlink = djson['shortenedUrl']
@@ -1757,7 +1757,7 @@ def poster(update, context):
                     dsablon = dsablon.replace("{link}", "{}").replace("{aciklama}", "{}").replace("{alink}", "{}").format(daciklama, dlink, dalink)
                 else:
                     dsablon = dsablon.replace("{link}", "{}").replace("{aciklama}", "{}").format(daciklama, dlink)
-                sleep(0.5)
+                sleep(1)
                 for dkan in dkanal:
                     try: 
                         if update.channel_post.photo and dret:
@@ -1892,7 +1892,7 @@ def poster(update, context):
                     esablon = esablon.replace("{link}", "{}").replace("{aciklama}", "{}").replace("{alink}", "{}").format(eaciklama, elink, ealink)
                 else:
                     esablon = esablon.replace("{link}", "{}").replace("{aciklama}", "{}").format(eaciklama, elink)
-                sleep(0.5)
+                sleep(1)
                 for ekan in ekanal:
                     try:
                         if update.channel_post.photo and eret:
@@ -2030,7 +2030,7 @@ def poster(update, context):
                     gsablon = gsablon.replace("{link}", "{}").replace("{aciklama}", "{}").replace("{alink}", "{}").format(gaciklama, glink, galink)
                 else:
                     gsablon = gsablon.replace("{link}", "{}").replace("aciklama", "").format(gaciklama, glink)
-                sleep(0.5)
+                sleep(1)
                 for gkan in gkanal:
                     try:
                         if update.channel_post.photo and gret:
@@ -2353,8 +2353,8 @@ def gunluk():
                             kanals += 1
           
             toplam = toplam / 1000
-            toplam = round(toplam, 1)
-            msg = bot.edit_message_text("👥 Toplam Kullanıcı Sayısı: {}\n📢 Toplam Kayıtlı Kanal Sayısı: {}\n🙋 Toplam Kitle: {}K\n\nHer gün saat 22:00'da otomatik olarak güncel veriler paylaşılacak.".format(users, kanals, toplam), botlog, msg.message_id)
+            toplam = str(round(toplam, 1))+"K" if round(toplam, 1) < 1000 else str(round(toplam / 1000, 1))+"M"
+            msg = bot.edit_message_text("👥 Toplam Kullanıcı Sayısı: {}\n📢 Toplam Kayıtlı Kanal Sayısı: {}\n🙋 Toplam Kitle: {}\n\nHer gün saat 22:00'da otomatik olarak güncel veriler paylaşılacak.".format(users, kanals, toplam), botlog, msg.message_id)
             update.message.pin_chat_message(botlog, msg.message_id)
         time.sleep(60)
     
