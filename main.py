@@ -2364,7 +2364,7 @@ logger.info("Bot Çalışıyor...")
 bildir('Bot Başladı 🍕')
 
 def main() -> None:
-    updater = Updater(token=bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=9), request_kwargs={'con_pool_size': 9, 'read_timeout': 100, 'connect_timeout': 110})
+    updater = Updater(token=bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=9), request_kwargs={'con_pool_size': 12, 'read_timeout': 100, 'connect_timeout': 110})
 
     dispatcher = updater.dispatcher
     conv_handler = ConversationHandler(
