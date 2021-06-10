@@ -37,7 +37,7 @@ collection = db["Kanallar"]
 OzelCol = db["Özel Kaynaklar"]
 karaliste = collection.find_one({"_id": 0})
 bottoken = karaliste['bottoken']
-bot = ExtBot(bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True))
+bot = ExtBot(bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=3))
 
 botlog = -1001352123979
 sahip = 1302980840
