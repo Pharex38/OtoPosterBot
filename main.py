@@ -542,6 +542,9 @@ def ozelkaynakcall(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
     mesajid = call.effective_message.message_id
+    if "31" in collection.find_one({"_id": user})['kaynak']:
+        bot.send_message(user, "<b>Önce Sfs Modunu Kapatın!</b>")
+        return ConversationHandler.END
     if OzelCol.find_one({"_id": user}) == None:
         OzelCol.insert_one({"_id": user}) 
     bot.delete_message(chat, mesajid)
