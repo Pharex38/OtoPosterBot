@@ -2364,41 +2364,41 @@ logger.info("Bot Çalışıyor...")
 bildir('Bot Başladı 🍕')
 
 def main() -> None:
-    updater = Updater(bot=bot, request_kwargs={'read_timeout': 8, 'connect_timeout': 9})
+    updater = Updater(bot=bot, request_kwargs={'read_timeout': 10, 'connect_timeout': 11})
 
     dispatcher = updater.dispatcher
     conv_handler = ConversationHandler(
-        entry_points=[MessageHandler(Filters.text & ~Filters.command, menu, edited_updates=False)],
+        entry_points=[MessageHandler(Filters.text & ~Filters.command, menu)],
         states={ 
-            ALTMENU: [MessageHandler(Filters.text, kayitapi, edited_updates=False)], 
-            APIDEGISTIR: [MessageHandler(Filters.text, apikayit, edited_updates=False)],
-            KANALKAYDET: [MessageHandler(~Filters.command, kanalkayit, edited_updates=False)],
-            SABLON: [MessageHandler(Filters.text, sabloniki, edited_updates=False)],
-            PATPOST: [MessageHandler(~Filters.command, pat, edited_updates=False)]
+            ALTMENU: [MessageHandler(Filters.text & Filters.update.message, kayitapi)], 
+            APIDEGISTIR: [MessageHandler(Filters.text & Filters.update.message, apikayit)],
+            KANALKAYDET: [MessageHandler(~Filters.command & Filters.update.message, kanalkayit)],
+            SABLON: [MessageHandler(Filters.text & Filters.update.message, sabloniki)],
+            PATPOST: [MessageHandler(~Filters.command & Filters.update.message, pat)]
             },
-        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$'), cancel, edited_updates=False), CommandHandler('start', start)]
+        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$') & Filters.update.message, cancel), CommandHandler('start', start)]
         )
 
     conver = ConversationHandler(
         entry_points=[CallbackQueryHandler(sabloncall, pattern="^(sablon)$")],
         states={
-            SABLON: [MessageHandler(Filters.text, sabloniki, edited_updates=False)]
+            SABLON: [MessageHandler(Filters.text & Filters.update.message, sabloniki)]
             },
-        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$'), cancel, edited_updates=False), CommandHandler('start', start)],
+        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$') & Filters.update.message, cancel), CommandHandler('start', start, filters=~Filters.update.edited_message)],
         per_message=False)
     altconver = ConversationHandler(
         entry_points=[CallbackQueryHandler(altcall, pattern="^asite(.*)")],
         states={
-            ALTAPI: [MessageHandler(Filters.text, altakayit, edited_updates=False)]
+            ALTAPI: [MessageHandler(Filters.text & Filters.update.message, altakayit)]
             },
-        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$'), cancel, edited_updates=False), CommandHandler('start', start)],
+        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$') & Filters.update.message, cancel), CommandHandler('start', start)],
         per_message=False)
     ozelkconver = ConversationHandler(
         entry_points=[CallbackQueryHandler(ozelkaynakcall, pattern="^okayt(.*)")],
         states={
-            OZELKAYNAK: [MessageHandler(~Filters.command, ozelk, edited_updates=False)]
+            OZELKAYNAK: [MessageHandler(~Filters.command & Filters.update.message, ozelk)]
             },
-        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$'), cancel, edited_updates=False), CommandHandler('start', start)],
+        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$') & Filters.update.message, cancel), CommandHandler('start', start)],
         per_message=False)
     dispatcher.add_handler(conver)
     dispatcher.add_handler(altconver)
@@ -2406,17 +2406,17 @@ def main() -> None:
 
     dispatcher.add_handler(conv_handler)
 
-    dispatcher.add_handler(CommandHandler('start', start, Filters.chat_type.private))
-    dispatcher.add_handler(MessageHandler(Filters.command('onayla') & Filters.chat_type.channel, post, edited_updates=False))
-    dispatcher.add_handler(MessageHandler(Filters.command('postsil') & Filters.chat_type.channel, kpostsil, edited_updates=False))
-    dispatcher.add_handler(CommandHandler('bul', bul, Filters.chat_type.private))
-    dispatcher.add_handler(CommandHandler('onayla', ona, Filters.chat_type.private))
-    dispatcher.add_handler(CommandHandler('sil', durdur, Filters.chat_type.private))
-    dispatcher.add_handler(CommandHandler('duyuru', duy, Filters.chat_type.private))
-    dispatcher.add_handler(CommandHandler('postsil', cpostsil, Filters.chat_type.private))
-    dispatcher.add_handler(CommandHandler('dsil', dsil, Filters.chat_type.private))
-    dispatcher.add_handler(CommandHandler('stats', stats, Filters.chat_type.private))
-    dispatcher.add_handler(CommandHandler('zaman', zaman, Filters.chat_type.private))
+    dispatcher.add_handler(CommandHandler('start', start, Filters.update.message))
+    dispatcher.add_handler(MessageHandler(Filters.command('onayla') & Filters.update.channel_posts, post))
+    dispatcher.add_handler(MessageHandler(Filters.command('postsil') & Filters.update.channel_posts, kpostsil))
+    dispatcher.add_handler(CommandHandler('bul', bul, Filters.c))
+    dispatcher.add_handler(CommandHandler('onayla', ona, Filters.update.message))
+    dispatcher.add_handler(CommandHandler('sil', durdur, Filters.update.message))
+    dispatcher.add_handler(CommandHandler('duyuru', duy, Filters.update.message))
+    dispatcher.add_handler(CommandHandler('postsil', cpostsil, Filters.update.message))
+    dispatcher.add_handler(CommandHandler('dsil', dsil, Filters.update.message))
+    dispatcher.add_handler(CommandHandler('stats', stats, Filters.update.message))
+    dispatcher.add_handler(CommandHandler('zaman', zaman, Filters.update.message))
 
     dispatcher.add_handler(MessageHandler(Filters.photo & Filters.update.channel_posts | Filters.video & Filters.update.channel_posts | Filters.animation & Filters.update.channel_posts, poster, edited_updates=False))
 
