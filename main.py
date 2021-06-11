@@ -44,9 +44,6 @@ sahip = 1302980840
 fixer = 1687646994
 adminlist = [1687646994,1302980840]
 
-for p in OzelCol.find({}):
-    OzelCol.update_one({"_id": p['_id']}, {"$set": {"log": "yok"}})
-
 def bildir(neyi='Boş Bildirim Testi !'):
     for i in adminlist:
         try:
@@ -704,7 +701,7 @@ def kaynakmark(user):
             if user in x['kanal']:
                 y = x['_id']
         if user == y:
-            if OzelCol.find_one({"_id": user})["log"] != "yok":
+            if OzelCol.find_one({"_id": user})["log"] == "yok":
                 kmark = InlineKeyboardMarkup([[InlineKeyboardButton("🟣 Özel Kaynağı Kaldır 🟣", callback_data="okayk")], [InlineKeyboardButton("🤖 Botlog Oluştur 🤖", callback_data="logokay")], [InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")]])
             else:
                 kmark = InlineKeyboardMarkup([[InlineKeyboardButton("🟣 Özel Kaynağı Kaldır 🟣", callback_data="okayk")], [InlineKeyboardButton("🤖 Botlog Kaldır ❌", callback_data="logokaldir")], [InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")]])
