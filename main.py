@@ -966,7 +966,7 @@ def ozelk(update, context):
         return ConversationHandler.END
     else:
         if OzelCol.find_one({"_id": user}) == None:
-            OzelCol.insert_one({"_id": user, "okaynak": 546421354}) 
+            OzelCol.insert_one({"_id": user, "okaynak": 546421354, "log": "yok"}) 
         OzelCol.update_one({"_id": user}, {"$set": {"okaynak": kanal, "kanal": [user]}})
         collection.update_one({"_id": user}, {"$set": {"ozel": True, "kaynak": ["32"]}})
         bot.send_message(update.message.chat.id, "<b>Özel Kaynak Oluşturuldu!</b>", reply_markup=dugme(user))
