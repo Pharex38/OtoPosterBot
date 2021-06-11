@@ -481,15 +481,15 @@ def sabloncall(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
     mesajid = call.effective_message.message_id
+    bot.delete_message(chat, mesajid)
     if collection.find_one({"_id": user}) == None:
         call.callback_query.edit_message_text(text="<b>Önce bir API kaydedin!</b>")
         return
     if collection.find_one({"_id": user})['sira'] == "1":
         msz = bot.send_message(chat, "<i>Oluşturduğunuz şablonda</i> <b>{aciklama}, {alink}</b> ve <b>{link}</b> <i>kelimelerinin bulunduğundan emin olun yoksa şablon çalışmaz</i>", reply_markup=imark())
-        return SABLON
     else:
         msz = bot.send_message(chat, "<i>Oluşturduğunuz şablonda</i> <b>{aciklama}</b> ve <b>{link}</b> <i>kelimelerinin bulunduğundan emin olun yoksa şablon çalışmaz</i>", reply_markup=imark())
-        return SABLON
+    return SABLON
 
 def altcall(call, context):
     user = call.effective_user.id
