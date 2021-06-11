@@ -341,15 +341,16 @@ def ona(m, context):
 def durdur(update, context):
     chat = update.message.chat.id
     user = update.message.from_user.id
+    kimi = int(update.message.text.split()[1]) if len(update.message.text.split()) > 1 and user in adminlist else message.from_user.id
     if user in kara:
         bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
     try:
-        collection.delete_one({"_id": user})
+        collection.delete_one({"_id": kimi})
     except:
         update.message.reply_text("<b>Henüz bir kanal kaydetmemişsiniz.</b>")
     else:
-        update.message.reply_text("<b>Kanalınız Silindi!</b>", reply_markup=dagme())
+        update.message.reply_text("<b>Kanalınız Silindi!</b>")
 
 def kpostsil(update, context):
     chat = update.message.chat.id
