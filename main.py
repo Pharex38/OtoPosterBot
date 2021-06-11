@@ -39,7 +39,7 @@ karaliste = collection.find_one({"_id": 0})
 bottoken = karaliste['bottoken']
 bot = ExtBot(bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=9))
 
-blog -1001391561285
+blog = -1001391561285
 botlog = -1001352123979
 sahip = 1302980840
 fixer = 1687646994
