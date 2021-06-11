@@ -101,6 +101,8 @@ ALTMENU, APIDEGISTIR, KANALKAYDET = range(3)
 
 OZELKAYNAK = range(1)
 
+OZELBOTLOG = range(1)
+
 ALTAPI = range(1)
 
 SABLON = range(1)
@@ -137,13 +139,6 @@ zaman = datetime.datetime.now()
 saat = zaman.hour 
 dakika = zaman.minute
 logd = "{}.{}.{} - {}.{}".format(zaman.year, zaman.month, zaman.day, saat, dakika)
-
-class patc:
-    def __init__(self, sira, psablon, fid, ptip):
-        self.sira = 0
-        self.psablon = None
-        self.fid = None
-        self.ptip = None
 
 def setup_logger():
     global logger
@@ -387,7 +382,7 @@ def cpostsil(update, context):
     bot.send_message(chat, f"{spcount} Post Silindi.")
     
 def duy(m, context):
-    chat = m.chat.id
+    chat = m.message.chat.id
     if chat != sahip:
         return
     duyurus = 0
@@ -609,6 +604,9 @@ def callback_query(call, context):
                 use_r = u['_id']
         OzelCol.update_one({"_id": use_r}, {"$pull": {"kanal": user}})
         bot.edit_message_text("Özel Kaynak Kaldırıldı.", chat, mesajid)
+    if call.callback_query.data == "logkaldir":
+        OzelCol.update_one({"_id": user}, {"$set": {"log": "yok"}})
+        call.callback_query.edit_message_text("Botlog Kaldırıldı.")
     """ PAT """
     if call.callback_query.data.startswith("pat"):
         back = call.callback_query.data.split("-")
@@ -692,7 +690,16 @@ def kaynakmark(user):
     fbut =InlineKeyboardButton("{}".format(tutan.title), url="{}".format(tutan.invite_link))
     gbut =InlineKeyboardButton("{}".format(muho.title), url="{}".format(muho.invite_link))
     if u['ozel']:
-        kmark = InlineKeyboardMarkup([[InlineKeyboardButton("🟣 Özel Kaynağı Kaldır 🟣", callback_data="okayk")], [InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")]])
+        for x in OzelCol.find({}):
+            if user in x['kanal']:
+                y = x['_id']
+        if user == y:
+            if OzelCol.find_one({"_id": user})["log"] != "yok":
+                kmark = InlineKeyboardMarkup([[InlineKeyboardButton("🟣 Özel Kaynağı Kaldır 🟣", callback_data="okayk")], [InlineKeyboardButton("🤖 Botlog Oluştur 🤖", callback_data="logokay")], [InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")]])
+            else:
+                kmark = InlineKeyboardMarkup([[InlineKeyboardButton("🟣 Özel Kaynağı Kaldır 🟣", callback_data="okayk")], [InlineKeyboardButton("🤖 Botlog Kaldır ❌", callback_data="logokaldir")], [InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")]])
+        else:
+            kmark = InlineKeyboardMarkup([[InlineKeyboardButton("🟣 Özel Kaynağı Kaldır 🟣", callback_data="okayk")], [InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")]])
         return kmark        
 
     if "1" in u['kaynak']:
@@ -958,6 +965,29 @@ def ozelk(update, context):
         bot.send_message(update.message.chat.id, "<b>Özel Kaynak Oluşturuldu!</b>", reply_markup=dugme(user))
         return ConversationHandler.END
 
+def ozellog(update, context):
+    user = update.message.from_user.id
+    chat = update.message.chat.id
+    if update.message.text == "❌ İptal":
+        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
+        return ConversationHandler.END
+    if not update.message.forward_from_chat:
+        msz = bot.send_message(update.message.chat.id, "Lütfen bana oluşturduğun kanaldan bir mesaj ilet.")
+        return OZELBOTLOG
+    kanal = update.message.forward_from_chat.id
+    if kanal in kaynaklar:
+        mst = bot.send_message(chat, "Kaynak kanalını nasıl kaydedebilirim ki?")
+        return OZELBOTLOG
+    try:
+        yetkiler = bot.get_chat_administrators(kanal)
+    except:
+        msg = bot.send_message(chat, "Botu kanalınızda yönetici eklememişsiniz.")
+        return OZELBOTLOG
+    OzelCol.update_one({"_id": user}, {"$set": {"log": kanal}})
+    bot.send_message(update.message.chat.id, "<b>Özel Botlog Kaydedildi!</b>", reply_markup=dugme(user))
+    return ConversationHandler.END
+
+
 def sabloniki(update, context):
     mesaj = update.message.text
     chat = update.message.chat.id
@@ -1131,8 +1161,6 @@ def kanalkayit(update, context):
             break
     msz = bot.send_message(chat, "Bu kanal sizin değil 😠")
     return KANALKAYDET
-
-
 
 def pat(update, context):
     chat = update.message.chat.id
@@ -2424,6 +2452,13 @@ def main() -> None:
             },
         fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$') & Filters.update.message, cancel), CommandHandler('start', start, filters=~Filters.update.edited_message)],
         per_message=False)
+    altconver = ConversationHandler(
+        entry_points=[CallbackQueryHandler(altcall, pattern="^logokay(.*)")],
+        states={
+            OZELBOTLOG: [MessageHandler(Filters.all & Filters.update.message, altakayit)]
+            },
+        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$') & Filters.update.message, cancel), CommandHandler('start', start, filters=~Filters.update.edited_message)],
+        per_message=False)
     ozelkconver = ConversationHandler(
         entry_points=[CallbackQueryHandler(ozelkaynakcall, pattern="^okayt(.*)")],
         states={
@@ -2431,6 +2466,7 @@ def main() -> None:
             },
         fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$') & Filters.update.message, cancel), CommandHandler('start', start, filters=~Filters.update.edited_message)],
         per_message=False)
+    
     dispatcher.add_handler(conver)
     dispatcher.add_handler(altconver)
     dispatcher.add_handler(ozelkconver)
