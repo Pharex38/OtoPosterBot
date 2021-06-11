@@ -396,7 +396,7 @@ def duy(m, context):
         return
     duyurus = 0
     if m.message.reply_to_message:
-        duyurumsg = m.reply_text_update.message.text
+        duyurumsg = m.update.reply_to_message.message.text
         kullanicilar = collection.find({})
         for kullanici in kullanicilar:
             try:
