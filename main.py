@@ -1334,7 +1334,7 @@ def poster(update, context):
         """  Veri Tabanı  """
         postdata = db[str(chat)]
         binb = collection.find({})
-        mesjid = update.message.message_id
+        mesjid = update.channel_post.message_id
         """ Dosya tespit """
         if update.channel_post.photo:
             medya = update.channel_post.photo[0].file_id
@@ -1469,7 +1469,7 @@ def poster(update, context):
         """  Veri Tabanı  """
         bpostdata = db[str(chat)]
         bbinb = collection.find({})
-        bmesjid = message.message_id
+        bmesjid = update.channel_post.message_id
         """ Dosya tespit """
         if update.channel_post.photo:
             bmedya = update.channel_post.photo[0].file_id
@@ -1607,7 +1607,7 @@ def poster(update, context):
         """  Veri Tabanı  """
         cpostdata = db[str(chat)]
         cbinb = collection.find({})
-        cmesjid = message.message_id
+        cmesjid = update.channel_post.message_id
         """ Dosya tespit """
         if update.channel_post.photo:
             cmedya = update.channel_post.photo[0].file_id
@@ -1744,7 +1744,7 @@ def poster(update, context):
         """  Veri Tabanı  """
         dpostdata = db[str(chat)]
         dbinb = collection.find({})
-        dmesjid = message.message_id
+        dmesjid = update.channel_post.message_id
         """ Dosya tespit """
         if update.channel_post.photo:
             dmedya = update.channel_post.photo[0].file_id
@@ -1879,7 +1879,7 @@ def poster(update, context):
         """  Veri Tabanı  """
         epostdata = db[str(chat)]
         ebinb = collection.find({})
-        emesjid = message.message_id
+        emesjid = update.channel_post.message_id
         """ Dosya tespit """
         if update.channel_post.photo:
             emedya = update.channel_post.photo[0].file_id
@@ -2014,7 +2014,7 @@ def poster(update, context):
         """  Veri Tabanı  """
         gpostdata = db[str(chat)]
         gbinb = collection.find({})
-        gmesjid = message.message_id
+        gmesjid = update.channel_post.message_id
         """ Dosya tespit """
         if update.channel_post.photo:
             gmedya = update.channel_post.photo[0].file_id
@@ -2150,7 +2150,7 @@ def poster(update, context):
         """  Veri Tabanı  """
         fpostdata = db[str(chat)]
         fbinb = collection.find({})
-        fmesjid = message.message_id
+        fmesjid = update.channel_post.message_id
         """ Dosya tespit """
         if update.channel_post.photo:
             fmedya = update.channel_post.photo[0].file_id
