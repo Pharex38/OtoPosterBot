@@ -44,6 +44,9 @@ sahip = 1302980840
 fixer = 1687646994
 adminlist = [1687646994,1302980840]
 
+for p in OzelCol.find({}):
+    OzelCol.update_one({"_id": p['_id']}, {"$set"{"log": "yok"}})
+
 def bildir(neyi='Boş Bildirim Testi !'):
     for i in adminlist:
         try:
