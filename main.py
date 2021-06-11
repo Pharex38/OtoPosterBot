@@ -2406,6 +2406,7 @@ def gunluk():
                         time.sleep(0.5)
                         try:
                             uye = bot.get_chat_members_count(kul)
+                            print(uye)
                         except Exception as e:
                             logger.error(e)
                             time.sleep(30)
