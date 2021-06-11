@@ -527,7 +527,7 @@ def ozellogcall(call, context):
     chat = call.effective_chat.id
     mesajid = call.effective_message.message_id
     bot.delete_message(chat, mesajid)
-    call.callback_query.send_message("📝 Oluşturduğunuz Log kanalından bir gönderi iletin.", reply_markup=imark())
+    bot.send_message(chat, "📝 Oluşturduğunuz Log kanalından bir gönderi iletin.", reply_markup=imark())
     return OZELBOTLOG
 
 
