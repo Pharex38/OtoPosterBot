@@ -355,11 +355,15 @@ def kpostsil(update, context):
     chat = update.message.chat.id
     if not chat in kaynaklar:
         return
-    data = db[str(chat)].find({})
+    mesid = update.message.reply_to_message.message_id if update.message.reply_to_message else None
+    if mesid == None:
+        bot.send_message(chat, "Silmek istediğiniz postu yanıtlayın.")
+        return
+    data = db[str(chat)].find({"mesih": mesid})
     spcount = 0
     for d in data:
         try:
-            bot.delete_message(d['_id'], d['pid'])
+            bot.delete_message(d['chat'], d['pid'])
         except Exception as e:
             logger.error(e)
         else:
