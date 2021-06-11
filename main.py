@@ -522,6 +522,13 @@ def kaynakcall(call, context):
         call.callback_query.answer(text="✅ Kaynak Eklendi")
     call.callback_query.edit_message_text(text="<b>Kullanmak istediğiniz kaynak kanalını seçin.</b>", reply_markup=kaynakmark(user))
 
+def ozellogcall(call, context):
+    user = call.effective_user.id
+    chat = call.effective_chat.id
+    call.callback_query.edit_message_text("📝 Oluşturduğunuz Log kanalından bir gönderi iletin.")
+    return OZELBOTLOG
+
+
 def ozelkaynakcall(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
@@ -2452,10 +2459,10 @@ def main() -> None:
             },
         fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$') & Filters.update.message, cancel), CommandHandler('start', start, filters=~Filters.update.edited_message)],
         per_message=False)
-    altconver = ConversationHandler(
-        entry_points=[CallbackQueryHandler(altcall, pattern="^logokay(.*)")],
+    logconver = ConversationHandler(
+        entry_points=[CallbackQueryHandler(ozellogcall, pattern="^logokay(.*)")],
         states={
-            OZELBOTLOG: [MessageHandler(Filters.all & Filters.update.message, altakayit)]
+            OZELBOTLOG: [MessageHandler(Filters.all & Filters.update.message, ozellog)]
             },
         fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$') & Filters.update.message, cancel), CommandHandler('start', start, filters=~Filters.update.edited_message)],
         per_message=False)
@@ -2470,6 +2477,7 @@ def main() -> None:
     dispatcher.add_handler(conver)
     dispatcher.add_handler(altconver)
     dispatcher.add_handler(ozelkconver)
+    dispatcher.add_handler(logconver)
 
     dispatcher.add_handler(conv_handler)
 
