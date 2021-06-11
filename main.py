@@ -525,7 +525,9 @@ def kaynakcall(call, context):
 def ozellogcall(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
-    call.callback_query.edit_message_text("📝 Oluşturduğunuz Log kanalından bir gönderi iletin.")
+    mesajid = call.effective_message.message_id
+    bot.delete_message(chat, mesajid)
+    call.callback_query.send_message("📝 Oluşturduğunuz Log kanalından bir gönderi iletin.", reply_markup=imark())
     return OZELBOTLOG
 
 
@@ -611,7 +613,7 @@ def callback_query(call, context):
                 use_r = u['_id']
         OzelCol.update_one({"_id": use_r}, {"$pull": {"kanal": user}})
         bot.edit_message_text("Özel Kaynak Kaldırıldı.", chat, mesajid)
-    if call.callback_query.data == "logkaldir":
+    if call.callback_query.data == "logokaldir":
         OzelCol.update_one({"_id": user}, {"$set": {"log": "yok"}})
         call.callback_query.edit_message_text("Botlog Kaldırıldı.")
     """ PAT """
