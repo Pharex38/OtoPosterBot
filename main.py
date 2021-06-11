@@ -1870,6 +1870,7 @@ def poster(update, context):
         """  Veri Tabanı  """
         epostdata = db[str(chat)]
         ebinb = collection.find({})
+        emesjid = message.message_id
         """ Dosya tespit """
         if update.channel_post.photo:
             emedya = update.channel_post.photo[0].file_id
@@ -1955,12 +1956,6 @@ def poster(update, context):
                             epost = bot.send_video(ekan, emedya, caption=esablon)
                         if update.channel_post.animation and eret:
                             epost = bot.send_animation(ekan, emedya, caption=esablon)
-                        epostkayit = epostdata.find_one({"_id": ekan})
-                        if epostkayit == None:
-                            epostdata.insert_one({"_id": ekan, "pid": epost.message_id})
-                        else:
-                            epostdata.update_one({"_id": ekan}, {"$set": {"pid": epost.message_id}})
-                        ecount = ecount + 1
                     except Exception as e:
                         logger.debug(f"Hatalı kanal: {ekanal}")
                         e = str(e)
@@ -1971,6 +1966,9 @@ def poster(update, context):
                             except: #Hem update.messageu engelleyip hemde kanaldan sildiyse
                                 pass   
                             logger.debug(f"{ekanal} kayıtlardan silindi.")
+                    else:
+                        epostdata.insert_one({"chat": ekan, "pid": epost.message_id, "mesih": emesjid})
+                        ecount = ecount + 1
 
                 logger.info("Başarılı!")
         ebasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(ekynk.title, ecount)
@@ -2007,6 +2005,7 @@ def poster(update, context):
         """  Veri Tabanı  """
         gpostdata = db[str(chat)]
         gbinb = collection.find({})
+        gmesjid = message.message_id
         """ Dosya tespit """
         if update.channel_post.photo:
             gmedya = update.channel_post.photo[0].file_id
@@ -2093,12 +2092,6 @@ def poster(update, context):
                             gpost = bot.send_video(gkan, gmedya, caption=gsablon)
                         if update.channel_post.animation and gret:
                             gpost = bot.send_animation(gkan, gmedya, caption=gsablon)
-                        gpostkayit = gpostdata.find_one({"_id": gkan})
-                        if gpostkayit == None:
-                            gpostdata.insert_one({"_id": gkan, "pid": gpost.message_id})
-                        else:
-                            gpostdata.update_one({"_id": gkan}, {"$set": {"pid": gpost.message_id}})
-                        gcount = gcount + 1
                     except Exception as e:
                         logger.debug(f"Hatalı kanal: {gkanal}")
                         e = str(e)
@@ -2109,6 +2102,9 @@ def poster(update, context):
                             except: #Hem update.messageu engelleyip hemde kanaldan sildiyse
                                 pass   
                             logger.debug(f"{gkanal} kayıtlardan silindi.")
+                    else:
+                        gpostdata.insert_one({"chat": gkan, "pid": gpost.message_id, "mesih": gmesjid})
+                        gcount = gcount + 1
 
                 logger.info("Başarılı!")
         gbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(gkynk.title, gcount)
@@ -2145,6 +2141,7 @@ def poster(update, context):
         """  Veri Tabanı  """
         fpostdata = db[str(chat)]
         fbinb = collection.find({})
+        fmesjid = message.message_id
         """ Dosya tespit """
         if update.channel_post.photo:
             fmedya = update.channel_post.photo[0].file_id
@@ -2232,12 +2229,6 @@ def poster(update, context):
                             fpost = bot.send_video(fkan, fmedya, caption=fsablon)
                         if update.channel_post.animation and fret:
                             fpost = bot.send_animation(fkan, fmedya, caption=fsablon)
-                        fpostkayit = fpostdata.find_one({"_id": fkan})
-                        if fpostkayit == None:
-                            fpostdata.insert_one({"_id": fkan, "pid": fpost.message_id})
-                        else:
-                            fpostdata.update_one({"_id": fkan}, {"$set": {"pid": fpost.message_id}})
-                        fcount = fcount + 1
                     except Exception as e:
                         logger.debug(f"Hatalı kanal: {fkanal}")
                         e = str(e)
@@ -2248,6 +2239,9 @@ def poster(update, context):
                             except: #Hem update.messageu engelleyip hemde kanaldan sildiyse
                                 pass   
                             logger.debug(f"{fkanal} kayıtlardan silindi.")
+                    else:
+                        fpostdata.insert_one({"chat": fkan, "pid": fpost.message_id, "mesih": fmesjid})
+                        fcount = fcount + 1
                     
                 logger.info("Başarılı!")
         fbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(fkynk.title, fcount)
@@ -2388,7 +2382,7 @@ def poster(update, context):
 def gunluk():
     while 0 < 1:
         zaman = datetime.datetime.now()
-        if zaman.hour == 11 and zaman.minute == 54:
+        if zaman.hour == 11 and zaman.minute == 50:
             msg = bot.send_message(botlog, "<code>Günlük veriler hesaplanıyor...</code>")
             toplam = 0
             kum = []
@@ -2410,14 +2404,10 @@ def gunluk():
                         else:
                             toplam += uye
                             kanals += 1
-
+          
             toplam = toplam / 1000
             toplam = str(round(toplam, 1))+"K" if round(toplam, 1) < 1000 else str(round(toplam / 1000, 1))+"M"
-            msg = bot.edit_message_text("""
-👥 <b>Toplam Kullanıcı Sayısı:</b> {}
-📢 <b>Toplam Kayıtlı Kanal Sayısı:</b> {}
-🙋 <b>Toplam Kitle:</b> {}
-<i>Her gün saat 22:00'da otomatik olarak güncel veriler paylaşılacak.</i>""".format(users, kanals, toplam), botlog, msg.message_id)
+            msg = bot.edit_message_text("👥 Toplam Kullanıcı Sayısı: {}\n📢 Toplam Kayıtlı Kanal Sayısı: {}\n🙋 Toplam Kitle: {}\n\nHer gün saat 22:00'da otomatik olarak güncel veriler paylaşılacak.".format(users, kanals, toplam), botlog, msg.message_id)
             update.message.pin_chat_message(botlog, msg.message_id)
         time.sleep(60)
     
