@@ -1325,6 +1325,7 @@ def poster(update, context):
         """  Veri Tabanı  """
         postdata = db[str(chat)]
         binb = collection.find({})
+        mesjid = update.message.message_id
         """ Dosya tespit """
         if update.channel_post.photo:
             medya = update.channel_post.photo[0].file_id
@@ -1409,12 +1410,6 @@ def poster(update, context):
                             post = bot.send_video(kan, medya, caption=sablon)
                         if update.channel_post.animation and ret:
                             post = bot.send_animation(kan, medya, caption=sablon)
-                        postkayit = postdata.find_one({"_id": kan})
-                        if postkayit == None:
-                            postdata.insert_one({"_id": kan, "pid": post.message_id})
-                        else:
-                            postdata.update_one({"_id": kan}, {"$set": {"pid": post.message_id}})
-                        count = count + 1
                     except Exception as e:
                         logger.debug(f"Hatalı kanal: {kanal}")
                         e = str(e)
@@ -1425,6 +1420,9 @@ def poster(update, context):
                             except: #Hem update.messageu engelleyip hemde kanaldan sildiyse
                                 pass   
                             logger.debug(f"{kanal} kayıtlardan silindi.")
+                    else:
+                        count = count + 1
+                        postdata.insert_one({"pid": post.message_id, "chat": kan, "mesih": mesjid})
                 logger.info("Başarılı!")
             else:
                 pass
@@ -1462,6 +1460,7 @@ def poster(update, context):
         """  Veri Tabanı  """
         bpostdata = db[str(chat)]
         bbinb = collection.find({})
+        bmesjid = message.message_id
         """ Dosya tespit """
         if update.channel_post.photo:
             bmedya = update.channel_post.photo[0].file_id
@@ -1550,12 +1549,6 @@ def poster(update, context):
                             bpost = bot.send_video(bkan, bmedya, caption=bsablon)
                         if update.channel_post.animation and bret:
                             bpost = bot.send_animation(bkan, bmedya, caption=bsablon)
-                        bpostkayit = bpostdata.find_one({"_id": bkan})
-                        if bpostkayit == None:
-                            bpostdata.insert_one({"_id": bkan, "pid": bpost.message_id})
-                        else:
-                            bpostdata.update_one({"_id": bkan}, {"$set": {"pid": bpost.message_id}})
-                        bcount = bcount + 1
                     except Exception as e:
                         logger.debug(f"Hatalı kanal: {bkanal}")
                         e = str(e)
@@ -1566,6 +1559,9 @@ def poster(update, context):
                             except: #Hem update.messageu engelleyip hemde kanaldan sildiyse
                                 pass   
                             logger.debug(f"{bkanal} kayıtlardan silindi.")
+                    else:
+                        bpostdata.insert_one({"mesih": bmesjid, "pid": bpost.message_id, "chat": bkan})
+                        bcount = bcount + 1
                     
                 logger.info("Başarılı!")
         bbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(bkynk.title, bcount)
