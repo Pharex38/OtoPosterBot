@@ -1598,6 +1598,7 @@ def poster(update, context):
         """  Veri Tabanı  """
         cpostdata = db[str(chat)]
         cbinb = collection.find({})
+        cmesjid = message.message_id
         """ Dosya tespit """
         if update.channel_post.photo:
             cmedya = update.channel_post.photo[0].file_id
@@ -1687,9 +1688,6 @@ def poster(update, context):
                             cpost = bot.send_video(ckan, cmedya, caption=csablon)
                         if update.channel_post.animation and cret:
                             cpost = bot.send_animation(ckan, cmedya, caption=csablon)
-                        cpostkayit = cpostdata.find_one({"_id": ckan})
-                        if cpostkayit == None:
-                            cpostdata.insert_one({"_id": ckan, "pid": cpost.message_id})
                         else:
                             cpostdata.update_one({"_id": ckan}, {"$set": {"pid": cpost.message_id}})
                         ccount = ccount + 1
@@ -1703,6 +1701,9 @@ def poster(update, context):
                             except: #Hem update.messageu engelleyip hemde kanaldan sildiyse
                                 pass   
                             logger.debug(f"{ckanal} kayıtlardan silindi.")
+                    else:
+                        cpostdata.insert_one({"chat": ckan, "pid": cpost.message_id, "mesih": cmesjid})
+                        ccount = ccount + 1
 
                 logger.info("Başarılı!")
         cbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(ckynk.title, ccount)
