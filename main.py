@@ -16,7 +16,6 @@ from telegram.ext import (
     CommandHandler,
     MessageHandler,
     Filters,
-    run_async,
     Defaults,
     ExtBot,
     ConversationHandler,
@@ -2398,7 +2397,6 @@ def main() -> None:
     dispatcher = updater.dispatcher
 
     updater.job_queue
-    dispatcher.run_async
     
     conv_handler = ConversationHandler(
         entry_points=[MessageHandler(Filters.update.message & ~Filters.command, menu)],
