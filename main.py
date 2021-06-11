@@ -2387,6 +2387,8 @@ def poster(update, context):
                         ocount += 1                     
                 logger.info("Başarılı!")
         obasari = "[ÖZEL] {} kaynağından {} kanalda post paylaşıldı.".format(okynk.title, ocount)
+        if okaynak["log"] != "yok":
+            bot.send_message(okaynak["log"], obasari)
         logger.warning(obasari)
 
 def gunluk():
