@@ -17,7 +17,6 @@ from telegram.ext import (
     MessageHandler,
     Filters,
     Defaults,
-    run_async,
     ExtBot,
     ConversationHandler,
     CallbackContext,
@@ -161,7 +160,6 @@ setup_logger()
 
 logger.info(f"Saat: {saat}:{dakika}")
 
-@run_async
 def start(update, context):
     user = update.message.from_user.id
     chat = update.message.chat.id
@@ -270,7 +268,6 @@ def start(update, context):
   📔        <b>@OtoPosterBotLog</b>
 """.format(mention), disable_web_page_preview=True, reply_markup=dugme(user))
 
-@run_async
 def stats(update, context):
     kanals = 0
     users = 0
@@ -305,7 +302,6 @@ def stats(update, context):
     toplam = str(round(toplam, 1))+"K" if round(toplam, 1) < 1000 else str(round(toplam / 1000, 1))+"M"
     bot.edit_message_text("Toplam Kullanıcı Sayısı: {}\nToplam Kayıtlı Kanal Sayısı: {}\nToplam Kitle: {}".format(users, kanals, toplam), chat, msg.message_id)
 
-@run_async
 def bul(update, context):
     cnt = update.message.text.split()[1] if len(update.message.text.split()) > 1 else int(update.message.from_user.id)
     if not update.message.from_user.id in adminlist:
@@ -342,12 +338,10 @@ def bul(update, context):
     except:
         pass
 
-@run_async
 def ona(m, context):
     cid = m.message.chat.id
     bot.send_message(cid, "Bu komutu kanalınızda kullanmalısınız.")
 
-@run_async
 def durdur(update, context):
     chat = update.message.chat.id
     user = update.message.from_user.id
@@ -361,7 +355,6 @@ def durdur(update, context):
     else:
         update.message.reply_text("<b>Kanalınız Silindi!</b>", reply_markup=dagme())
 
-@run_async
 def kpostsil(update, context):
     chat = update.message.chat.id
     if not chat in kaynaklar:
@@ -377,7 +370,6 @@ def kpostsil(update, context):
             spcount += 1
     bot.send_message(chat, f"{spcount} Post Silindi.")
 
-@run_async
 def cpostsil(update, context):
     chat = update.message.chat.id
     if chat != sahip:
@@ -393,8 +385,7 @@ def cpostsil(update, context):
         else:
             spcount += 1
     bot.send_message(chat, f"{spcount} Post Silindi.")
-
-@run_async
+    
 def duy(m, context):
     chat = m.chat.id
     if chat != sahip:
@@ -418,7 +409,6 @@ def duy(m, context):
                     
         bot.send_message(chat, "{} Kişiye Duyuru Mesajı Gönderildi!".format(duyurus))
 
-@run_async
 def dsil(m, context):
     chat = m.message.chat.id
     if chat != sahip:
@@ -433,8 +423,7 @@ def dsil(m, context):
         else:
             sd += 1
     bot.send_message(chat, "{} Duyuru Mesajı Silindi!".format(sd))
-
-@run_async      
+        
 def post(update, context):
     chat = update.channel_post.chat.id
     mid = update.channel_post.message_id
@@ -447,7 +436,6 @@ def post(update, context):
     except:
         pass
 
-@run_async
 def zaman(update, context):
     chat = update.message.chat.id
     msj = update.message.reply_to_message.text if update.message.reply_to_message else None
@@ -489,7 +477,6 @@ def error_handler(update: object, context: CallbackContext) -> None:
 
     context.bot.send_message(chat_id=1302980840, text=message, parse_mode=ParseMode.HTML)
 
-@run_async
 def sabloncall(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
@@ -504,7 +491,6 @@ def sabloncall(call, context):
         msz = bot.send_message(chat, "<i>Oluşturduğunuz şablonda</i> <b>{aciklama}</b> ve <b>{link}</b> <i>kelimelerinin bulunduğundan emin olun yoksa şablon çalışmaz</i>", reply_markup=imark())
         return SABLON
 
-@run_async
 def altcall(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
@@ -541,7 +527,6 @@ def kaynakcall(call, context):
         call.callback_query.answer(text="✅ Kaynak Eklendi")
     call.callback_query.edit_message_text(text="<b>Kullanmak istediğiniz kaynak kanalını seçin.</b>", reply_markup=kaynakmark(user))
 
-@run_async
 def ozelkaynakcall(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
@@ -559,7 +544,7 @@ def ozelkaynakcall(call, context):
 2 - Oluşturduğunuz kanaldan update.messagea bir mesaj iletin.</i>""", reply_markup=imark())
     return OZELKAYNAK
 
-@run_async
+
 def callback_query(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
@@ -782,7 +767,7 @@ def gen_markup(user):
     
     return silkey
 
-@run_async
+
 def menu(update, context):
     chat = update.message.chat.id
     user = update.message.from_user.id
@@ -939,7 +924,6 @@ def menu(update, context):
         return
     bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=dugme(user))
     
-@run_async
 def ozelk(update, context):
     user = update.message.from_user.id
     chat = update.message.chat.id
@@ -974,7 +958,6 @@ def ozelk(update, context):
         bot.send_message(update.message.chat.id, "<b>Özel Kaynak Oluşturuldu!</b>", reply_markup=dugme(user))
         return ConversationHandler.END
 
-@run_async
 def sabloniki(update, context):
     mesaj = update.message.text
     chat = update.message.chat.id
@@ -1011,7 +994,6 @@ def sabloniki(update, context):
         bot.send_message(chat, "Şablon kaydedildi!", reply_markup=dugme(user))
         return ConversationHandler.END
 
-@run_async
 def kayitapi(update, context):
     chat = update.message.chat.id
     mesaj = update.message.text
@@ -1048,13 +1030,11 @@ def kayitapi(update, context):
         return KANALKAYDET
     bot.send_message(chat, "Lütfen alttaki butonları kullanıns.", reply_markup=markupp())
 
-@run_async
 def cancel(update, context):
     chat = update.message.chat.id
     bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(chat))
     return
 
-@run_async
 def altakayit(update, context):
     amesaj = update.message.text
     user = update.message.from_user.id
@@ -1075,7 +1055,6 @@ def altakayit(update, context):
     bot.send_message(chat, "✅ Alternatif API kaydedildi", reply_markup=dugme(user))
     return ConversationHandler.END
 
-@run_async
 def apikayit(update, context):
     token = update.message.text
     user = update.message.from_user.id
@@ -1113,7 +1092,6 @@ def apikayit(update, context):
     bot.send_message(chat, "<b>🟢 API kaydedildi!</b>", reply_markup=dugme(user))
     return ConversationHandler.END
 
-@run_async
 def kanalkayit(update, context):
     chat = update.message.chat.id
     user = update.message.from_user.id
@@ -1155,7 +1133,7 @@ def kanalkayit(update, context):
     return KANALKAYDET
 
 
-@run_async
+
 def pat(update, context):
     chat = update.message.chat.id
     user = update.message.from_user.id
@@ -1274,7 +1252,6 @@ def pat(update, context):
     else:
         bot.send_message(chat, "Bir hata oluştu")
 
-@run_async
 def poster(update, context):
     okaynak = None
     chat = update.channel_post.chat.id
