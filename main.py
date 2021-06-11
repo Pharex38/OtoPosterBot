@@ -578,7 +578,7 @@ def callback_query(call, context):
         collection.update_one({"_id": user}, {"$pull": {"kanal": kul['kanal'][s]}})
         bot.edit_message_text("Kanalınız Silindi!", user, mesajid)
         call.callback_query.answer(call.callback_query.id, "Kanalınız Silindi!")
-        bot.send_message(blog, f"""#KANAL_SİLİNDİ\nID: {user}\nKANAL: {kul['kanal'][s]}\nÜYE: {BOT.get_chat_members_count(kul['kanal'][s])}""")
+        bot.send_message(blog, f"""#KANAL_SİLİNDİ\nID: {user}\nKANAL: {kul['kanal'][s]}\nÜYE: {bot.get_chat_members_count(kul['kanal'][s])}""")
     """ Site Değiştir """
     if call.callback_query.data.startswith("site"):
         skul = collection.find_one({"_id": user})
