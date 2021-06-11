@@ -1735,6 +1735,7 @@ def poster(update, context):
         """  Veri Tabanı  """
         dpostdata = db[str(chat)]
         dbinb = collection.find({})
+        dmesjid = message.message_id
         """ Dosya tespit """
         if update.channel_post.photo:
             dmedya = update.channel_post.photo[0].file_id
@@ -1822,12 +1823,6 @@ def poster(update, context):
                             dpost = bot.send_video(dkan, dmedya, caption=dsablon)
                         if update.channel_post.animation and dret:
                             dpost = bot.send_animation(dkan, dmedya, caption=dsablon)
-                        dpostkayit = dpostdata.find_one({"_id": dkan})
-                        if dpostkayit == None:
-                            dpostdata.insert_one({"_id": dkan, "pid": dpost.message_id})
-                        else:
-                            dpostdata.update_one({"_id": dkan}, {"$set": {"pid": dpost.message_id}})
-                        dcount = dcount + 1
                     except Exception as e:
                         logger.debug(f"Hatalı kanal: {dkanal}")
                         e = str(e)
@@ -1838,6 +1833,9 @@ def poster(update, context):
                             except: #Hem update.messageu engelleyip hemde kanaldan sildiyse
                                 pass   
                             logger.debug(f"{dkanal} kayıtlardan silindi.")
+                    else:
+                        dpostdata.insert_one({"chat": dkan, "pid": dpost.message_id, "mesih": dmesjid})
+                        dcount = dcount + 1
 
                 logger.info("Başarılı!")
         dbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(dkynk.title, dcount)
