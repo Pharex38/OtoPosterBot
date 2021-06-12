@@ -1,5 +1,6 @@
 from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, KeyboardButton, ForceReply, InlineKeyboardMarkup, InlineKeyboardButton
 from otoposter import *
+from .misc import *
 
 def sitemarkup():
     skey = []
