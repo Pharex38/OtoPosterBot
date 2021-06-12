@@ -786,9 +786,13 @@ def gen_markup(user):
     kayd = collection.find_one({"_id": user})
     butonno = 0
     for k in kayd['kanal']:
-        ismi = bot.get_chat(k)
-        keyb.append([InlineKeyboardButton("{}".format(ismi.title), callback_data="sil-{}".format(butonno))])
-        butonno += 1
+        try:
+            ismi = bot.get_chat(k)
+        except Unauthorized:
+            collection.update_one({"_id": user}, {"$pull": {"kanal": k}})
+        else:
+            keyb.append([InlineKeyboardButton("{}".format(ismi.title), callback_data="sil-{}".format(butonno))])
+            butonno += 1
     keyb.append([InlineKeyboardButton("❌ İptal ❌", callback_data="iptal")])
     silkey = InlineKeyboardMarkup(keyb)
     
