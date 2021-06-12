@@ -3,7 +3,7 @@ import logging
 import datetime, time
 from telegram import ParseMode
 from pymongo import MongoClient
-from telegram.ext import ExtBot, Defaults
+from telegram.ext import ExtBot, Defaults, Updater
 
 mpass = os.environ['MONGOPASS']
 mongo = f"os.environ["MONGO_URI"]"
@@ -45,3 +45,10 @@ def setup_logger():
 #logger = getLogger(__name__)
 
 setup_logger()
+
+updater = Updater(token=bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=90), request_kwargs={'con_pool_size': 999, 'read_timeout': 150, 'connect_timeout': 150})
+
+dispatcher = updater.dispatcher
+
+updater.job_queue
+
