@@ -9,7 +9,7 @@ from telegram.ext import (
     CallbackContext,
     CallbackQueryHandler,
 )
-from cancel import cancel
+from .cancel import cancel
 from otoposter import *
 from .misc import *
 
@@ -475,7 +475,7 @@ conv_handler = ConversationHandler(
         SABLON: [MessageHandler(Filters.text & Filters.update.message, sabloniki)],
         PATPOST: [MessageHandler(~Filters.command & Filters.update.message, pat)]
         },
-    fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$') & Filters.update.message, cancel), CommandHandler('start', start, filters=~Filters.update.edited_message)]
+    fallbacks=[MessageHandler(Filters.regex('^↩️ Ana Menü$') & Filters.update.message, cancel), CommandHandler('start', start, filters=~Filters.update.edited_message)]
     )
 
 altconver = ConversationHandler(
@@ -483,7 +483,7 @@ altconver = ConversationHandler(
     states={
         ALTAPI: [MessageHandler(Filters.text & Filters.update.message, altakayit)]
         },
-    fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$') & Filters.update.message, cancel), CommandHandler('start', start, filters=~Filters.update.edited_message)],
+    fallbacks=[MessageHandler(Filters.regex('^↩️ Ana Menü$') & Filters.update.message, cancel), CommandHandler('start', start, filters=~Filters.update.edited_message)],
     per_message=False)
 
 dispatcher.add_handler(conv_handler)
