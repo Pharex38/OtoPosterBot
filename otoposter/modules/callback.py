@@ -2,6 +2,7 @@ from telegram.ext import CallbackQueryHandler, ConversationHandler, MessageHandl
 from .cancel import cancel
 from otoposter import *
 from .markup import *
+from .misc import *
 
 def kaynakcall(call, context):
     user = call.effective_user.id
