@@ -13,6 +13,113 @@ from .cancel import cancel
 from otoposter import *
 from .misc import *
 
+def start(update, context):
+    user = update.message.from_user.id
+    chat = update.message.chat.id
+    bot = context.bot
+    if user in kara:
+        bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
+        return
+    kat = collection.find_one({"_id": user})
+    ref = update.message.text.split()[1] if len(update.message.text.split()) > 1 else None
+    kyn = str(ref.split('k')[-1]) if len(update.message.text.split()) > 1 else None
+    key = {"_id": user, "kanal": [], "sablon": "1", "kaynak": [kyn], "site": "1", "altapi": "None", "altsite": "None", "sira": "0", "ozel": False}
+    if ref == "Kaynak1":
+        if kat == None:
+            collection.insert_one(key)
+            bot.send_message(chat, "🏋🏻 {} referansı ile geldiniz!".format(mahzen.title))
+        else:
+            if not kat['ozel']:
+                collection.update_one({"_id": user}, {"$push": {"kaynak": "1"}})
+                bot.send_message(chat, "Kaynağınız Eklendi!")
+            else:
+                bot.send_message(chat, "Özel kaynağınız olduğu için başka kaynak kullanamazsınız!")
+            return
+    if ref == "Kaynak2":
+        if kat == None:
+            collection.insert_one(key)
+            bot.send_message(chat, "🏋🏻 {} referansı ile geldiniz!".format(bedava.title))
+        else:
+            if not kat['ozel']:
+                collection.update_one({"_id": user}, {"$push": {"kaynak": "2"}})
+                bot.send_message(chat, "Kaynağınız Eklendi!")
+            else:
+                bot.send_message(chat, "Özel kaynağınız olduğu için başka kaynak kullanamazsınız!")
+            return
+    if ref == "Kaynak3":
+        if kat == None:
+            collection.insert_one(key)
+            bot.send_message(chat, "🏋🏻 {} referansı ile geldiniz!".format(evi.title))
+        else:
+            if not kat['ozel']:
+                collection.update_one({"_id": user}, {"$push": {"kaynak": "3"}})
+                bot.send_message(chat, "Kaynağınız Eklendi!")
+            else:
+                bot.send_message(chat, "Özel kaynağınız olduğu için başka kaynak kullanamazsınız!")
+            return
+    if ref == "Kaynak4":
+        if kat == None:
+            collection.insert_one(key)
+            bot.send_message(chat, "🏋🏻 {} referansı ile geldiniz!".format(bashub.title))
+        else:
+            if not kat['ozel']:
+                collection.update_one({"_id": user}, {"$push": {"kaynak": "4"}})
+                bot.send_message(chat, "Kaynağınız Eklendi!")
+            else:
+                bot.send_message(chat, "Özel kaynağınız olduğu için başka kaynak kullanamazsınız!")
+            return
+    if ref == "Kaynak5":
+        if kat == None:
+            collection.insert_one(key)
+            bot.send_message(chat, "🏋🏻 {} referansı ile geldiniz!".format(acikmi.title))
+        else:
+            if not kat['ozel']:
+                collection.update_one({"_id": user}, {"$push": {"kaynak": "5"}})
+                bot.send_message(chat, "Kaynağınız Eklendi!")
+            else:
+                bot.send_message(chat, "Özel kaynağınız olduğu için başka kaynak kullanamazsınız!")
+            return
+    if ref == "Kaynak6":
+        if kat == None:
+            collection.insert_one(key)
+            bot.send_message(chat, "🏋🏻 {} referansı ile geldiniz!".format(tutan.title))
+        else:
+            if not kat['ozel']:
+                collection.update_one({"_id": user}, {"$push": {"kaynak": "6"}})
+                bot.send_message(chat, "Kaynağınız Eklendi!")
+            else:
+                bot.send_message(chat, "Özel kaynağınız olduğu için başka kaynak kullanamazsınız!")
+            return
+    if ref == "Kaynak7":
+        if kat == None:
+            collection.insert_one(key)
+            bot.send_message(chat, "🏋🏻 {} referansı ile geldiniz!".format(muho.title))
+        else:
+            if not kat['ozel']:
+                collection.update_one({"_id": user}, {"$push": {"kaynak": "7"}})
+                bot.send_message(chat, "Kaynağınız Eklendi!")
+            else:
+                bot.send_message(chat, "Özel kaynağınız olduğu için başka kaynak kullanamazsınız!")
+            return
+    
+    mention = "@"+update.message.from_user.username if update.message.from_user.username else update.message.from_user.first_name
+    bot.send_message(chat, """
+✨ <b>Merhaba {}!</b>
+
+❔<b>Ne İşe Yarıyor? </b>
+<i>Bu update.message sizin seçtiğiniz kaynak kanalında paylaşılan postların linklerini otomatik olarak kısaltıp sizin kanalınızda paylaşır.</i>
+
+❔<b>Nasıl Kullanılır?</b>
+<i>1. Adım: Botu kanlınıza yönetici olarak ekleyin.
+2. Adım: Kaydet butonunu kullanarak bilgilerinizi kaydedin.
+3. Adım: <b>KANALINIZDA</b> /onayla yazın.
+4. Adım: Keyfini çıkarın.</i>
+
+<b>❤️ Geliştirici & Sahip : @Pharex
+👨🏻‍🔧 Fix & Eklentiler : @berce</b>
+ 
+  📔        <b>@OtoPosterBotLog</b>
+""".format(mention), disable_web_page_preview=True, reply_markup=dugme(user))
 
 def menu(update, context):
     chat = update.message.chat.id
