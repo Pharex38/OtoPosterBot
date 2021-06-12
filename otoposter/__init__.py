@@ -3,8 +3,7 @@ import logging
 import datetime, time
 from telegram import ParseMode
 from pymongo import MongoClient
-from telegram.ext.ExtBot import ExtBot
-from telegram.ext import Defaults, Updater
+from telegram.ext import ExtBot, Defaults, Updater
 
 mpass = os.environ['MONGOPASS']
 mongo = f"os.environ["MONGO_URI"]"
