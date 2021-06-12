@@ -18,4 +18,4 @@ def test(update, context):
     bot.send_message(chat, "🥰 I'm Alive!")
 
 
-dispatcher.add_handler(CommandHandler('test', start, Filters.update.message & Filters.chat_type.private))
+dispatcher.add_handler(CommandHandler('test', test, Filters.update.message & Filters.chat_type.private))
