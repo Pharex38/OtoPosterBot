@@ -572,6 +572,18 @@ def pat(update, context):
     else:
         bot.send_message(chat, "Bir hata oluştu")
 
+def altcall(call, context):
+    user = call.effective_user.id
+    chat = call.effective_chat.id
+    mesajid = call.effective_message.message_id
+    smesaj = str(call.callback_query.data.split("-")[1])
+    sss = str(call.callback_query.data.split("-")[2])
+    context.user_data['asite'] = smesaj
+    context.user_data['sistem'] = sss
+    call.callback_query.answer(call.callback_query.id, "✅ Site Kaydedildi!")
+    bot.edit_message_text("✅ Alternatif site kaydedildi.", user, mesajid)
+    bot.send_message(chat, "📝 Alternatif API adresinizi gönderin.", reply_markup=imark())
+    return ALTAPI
 
 conv_handler = ConversationHandler(
     entry_points=[MessageHandler(Filters.update.message & ~Filters.command, menu)],
