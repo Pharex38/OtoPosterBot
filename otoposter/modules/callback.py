@@ -1,4 +1,4 @@
-from telegram.ext import CallbackQueryHandler, ConversationHandler, MessageHandler
+from telegram.ext import CallbackQueryHandler, ConversationHandler, MessageHandler, CommandHandler, Filters
 from otoposter import *
 from .markup import *
 
