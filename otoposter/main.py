@@ -1,14 +1,16 @@
-from . import logger
+from telegram.ext import Updater, Defaults 
+from importlib import import_module
+from .modules import ALL_MODULES
+from telegram import ParseMode
+from . import *
 
-def __list_all_modules():
-    from os.path import dirname, basename, isfile
-    import glob
-    mod_paths = glob.glob(dirname(__file__) + "/*.py")
-    all_modules = [
-        basename(f)[:-3] for f in mod_paths
-        if isfile(f) and f.endswith(".py") and not f.endswith("__init__.py")
-    ]
-    return all_modules
-ALL_MODULES = sorted(__list_all_modules())
-logger.info("Yüklenen modüller: %s", str(ALL_MODULES))
-__all__ = ALL_MODULES + ["ALL_MODULES"]
+
+for module_name in ALL_MODULES:
+    imported_module = import_module("otoposter.modules." + module_name)
+
+
+updater = Updater(token=bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=90), request_kwargs={'con_pool_size': 999, 'read_timeout': 150, 'connect_timeout': 150})
+
+updater.start_polling()
+updater.idle()
+
