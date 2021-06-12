@@ -10,6 +10,7 @@ import os, signal
 import logging
 from typing import Dict
 import Colorer
+from telegram.error import Unauthorized
 from telegram import Bot, ParseMode, ReplyKeyboardMarkup, Update, ReplyKeyboardRemove, KeyboardButton, ForceReply, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import (
     Updater,
