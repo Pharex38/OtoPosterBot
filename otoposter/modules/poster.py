@@ -1,3 +1,4 @@
+import requests
 from telegram.ext import (
     Updater,
     CommandHandler,
@@ -9,7 +10,9 @@ from telegram.ext import (
     CallbackContext,
     CallbackQueryHandler,
 )
+from requests import get, Session
 from otoposter import *
+from time import sleep
 from .misc import *
 
 def poster(update, context):
