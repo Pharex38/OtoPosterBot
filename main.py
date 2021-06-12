@@ -1428,6 +1428,11 @@ def poster(update, context):
                             post = bot.send_video(kan, medya, caption=sablon)
                         if update.channel_post.animation and ret:
                             post = bot.send_animation(kan, medya, caption=sablon)
+                    except BadRequest as bd:
+                        if bd.args = "Chat is not found":
+                            raise Unauthorized
+                        else:
+                            logger.error(bd)
                     except Unauthorized:
                         logger.debug(f"Hatalı kanal: {kanal}")
                         collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
