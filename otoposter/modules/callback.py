@@ -1,4 +1,5 @@
 from telegram.ext import CallbackQueryHandler, ConversationHandler, MessageHandler, CommandHandler, Filters
+from .cancel import cancel
 from otoposter import *
 from .markup import *
 
