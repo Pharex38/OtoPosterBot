@@ -10,6 +10,7 @@ from telegram.ext import (
     CallbackQueryHandler,
 )
 from .cancel import cancel
+from .callback import *
 from otoposter import *
 from .misc import *
 
