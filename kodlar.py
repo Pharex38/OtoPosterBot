@@ -1,17 +1,8 @@
-import requests
-from requests import get, Session
 from os import environ
 import asyncio
-from time import sleep
-from pymongo import MongoClient
-import time, datetime
-import threading
 import os, signal
-import logging
 from typing import Dict
 import Colorer
-from telegram.error import Unauthorized, BadRequest
-from telegram import Bot, ParseMode, ReplyKeyboardMarkup, Update, ReplyKeyboardRemove, KeyboardButton, ForceReply, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import (
     Updater,
     CommandHandler,
@@ -24,17 +15,6 @@ from telegram.ext import (
     CallbackQueryHandler,
 )
 
-
-def bildir(neyi='Boş Bildirim Testi !'):
-    for i in adminlist:
-        try:
-            bot.send_message(i,neyi)
-        except:
-            pass
-
-
-
-logger.info(f"Saat: {saat}:{dakika}")
 
 
 def stats(update, context):
