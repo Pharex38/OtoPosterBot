@@ -1,0 +1,27 @@
+import os
+from pymongo import MongoClient
+from telegram.ext import ExtBot
+
+mpass = os.environ['MONGOPASS']
+mongo = f"os.environ["MONGO_URI"]"
+
+
+pid = os.getpid()
+open("pid.txt", "w").write(str(pid))
+print(pid)
+
+cluster = MongoClient(mongo)
+db = cluster["OtoPost"]
+collection = db["Kanallar"]
+OzelCol = db["Özel Kaynaklar"]
+karaliste = collection.find_one({"_id": 0})
+bottoken = karaliste['bottoken']
+
+
+bot = ExtBot(bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=9))
+
+blog = -1001391561285
+botlog = -1001352123979
+sahip = 1302980840
+fixer = 1687646994
+adminlist = [1687646994,1302980840]
