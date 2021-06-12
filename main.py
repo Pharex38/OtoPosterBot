@@ -1561,16 +1561,14 @@ def poster(update, context):
                             bpost = bot.send_video(bkan, bmedya, caption=bsablon)
                         if update.channel_post.animation and bret:
                             bpost = bot.send_animation(bkan, bmedya, caption=bsablon)
-                    except Exception as e:
+                    except Unauthorized:
                         logger.debug(f"Hatalı kanal: {bkanal}")
-                        e = str(e)
-                        if e.find("bot is") != -1:
-                            collection.update_one({"_id": buser}, {"$pull": {"kanal": bkan}})
-                            try:
-                                bot.send_message(buser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
-                            except: #Hem update.messageu engelleyip hemde kanaldan sildiyse
-                                pass   
-                            logger.debug(f"{bkanal} kayıtlardan silindi.")
+                        collection.update_one({"_id": buser}, {"$pull": {"kanal": bkan}})
+                        try:
+                            bot.send_message(buser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                        except:
+                            pass   
+                        logger.debug(f"{bkanal} kayıtlardan silindi.")
                     else:
                         bpostdata.insert_one({"mesih": bmesjid, "pid": bpost.message_id, "chat": bkan})
                         bcount = bcount + 1
@@ -1698,16 +1696,14 @@ def poster(update, context):
                             cpost = bot.send_photo(ckan, cmedya, caption=csablon)
                         if update.channel_post.video and cret:
                             cpost = bot.send_video(ckan, cmedya, caption=csablon)
-                    except Exception as e:
+                    except Unauthorized:
                         logger.debug(f"Hatalı kanal: {ckanal}")
-                        e = str(e)
-                        if e.find("bot is") != -1:
-                            collection.update_one({"_id": cuser}, {"$pull": {"kanal": ckan}})
-                            try:
-                                bot.send_message(cuser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
-                            except: #Hem update.messageu engelleyip hemde kanaldan sildiyse
-                                pass   
-                            logger.debug(f"{ckanal} kayıtlardan silindi.")
+                        collection.update_one({"_id": cuser}, {"$pull": {"kanal": ckan}})
+                        try:
+                            bot.send_message(cuser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                        except: 
+                            pass   
+                        logger.debug(f"{ckanal} kayıtlardan silindi.")
                     else:
                         cpostdata.insert_one({"chat": ckan, "pid": cpost.message_id, "mesih": cmesjid})
                         ccount = ccount + 1
@@ -1835,16 +1831,14 @@ def poster(update, context):
                             dpost = bot.send_video(dkan, dmedya, caption=dsablon)
                         if update.channel_post.animation and dret:
                             dpost = bot.send_animation(dkan, dmedya, caption=dsablon)
-                    except Exception as e:
+                    except Unauthorized:
                         logger.debug(f"Hatalı kanal: {dkanal}")
-                        e = str(e)
-                        if e.find("bot is") != -1:
-                            collection.update_one({"_id": duser}, {"$pull": {"kanal": dkan}})
-                            try:
-                                bot.send_message(duser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
-                            except: #Hem update.messageu engelleyip hemde kanaldan sildiyse
-                                pass   
-                            logger.debug(f"{dkanal} kayıtlardan silindi.")
+                        collection.update_one({"_id": duser}, {"$pull": {"kanal": dkan}})
+                        try:
+                            bot.send_message(duser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                        except: 
+                            pass   
+                        logger.debug(f"{dkanal} kayıtlardan silindi.")
                     else:
                         dpostdata.insert_one({"chat": dkan, "pid": dpost.message_id, "mesih": dmesjid})
                         dcount = dcount + 1
@@ -1968,16 +1962,14 @@ def poster(update, context):
                             epost = bot.send_video(ekan, emedya, caption=esablon)
                         if update.channel_post.animation and eret:
                             epost = bot.send_animation(ekan, emedya, caption=esablon)
-                    except Exception as e:
+                    except Unauthorized:
                         logger.debug(f"Hatalı kanal: {ekanal}")
-                        e = str(e)
-                        if e.find("bot is") != -1:
-                            collection.update_one({"_id": euser}, {"$pull": {"kanal": ekan}})
-                            try:
-                                bot.send_message(euser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
-                            except: #Hem update.messageu engelleyip hemde kanaldan sildiyse
-                                pass   
-                            logger.debug(f"{ekanal} kayıtlardan silindi.")
+                        collection.update_one({"_id": euser}, {"$pull": {"kanal": ekan}})
+                        try:
+                            bot.send_message(euser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                        except: 
+                            pass   
+                        logger.debug(f"{ekanal} kayıtlardan silindi.")
                     else:
                         epostdata.insert_one({"chat": ekan, "pid": epost.message_id, "mesih": emesjid})
                         ecount = ecount + 1
@@ -2104,16 +2096,14 @@ def poster(update, context):
                             gpost = bot.send_video(gkan, gmedya, caption=gsablon)
                         if update.channel_post.animation and gret:
                             gpost = bot.send_animation(gkan, gmedya, caption=gsablon)
-                    except Exception as e:
+                    except Unauthorized:
                         logger.debug(f"Hatalı kanal: {gkanal}")
-                        e = str(e)
-                        if e.find("bot is") != -1:
-                            collection.update_one({"_id": guser}, {"$pull": {"kanal": gkan}})
-                            try:
-                                bot.send_message(guser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
-                            except: #Hem update.messageu engelleyip hemde kanaldan sildiyse
-                                pass   
-                            logger.debug(f"{gkanal} kayıtlardan silindi.")
+                        collection.update_one({"_id": guser}, {"$pull": {"kanal": gkan}})
+                        try:
+                            bot.send_message(guser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                        except: 
+                            pass   
+                        logger.debug(f"{gkanal} kayıtlardan silindi.")
                     else:
                         gpostdata.insert_one({"chat": gkan, "pid": gpost.message_id, "mesih": gmesjid})
                         gcount = gcount + 1
@@ -2241,16 +2231,14 @@ def poster(update, context):
                             fpost = bot.send_video(fkan, fmedya, caption=fsablon)
                         if update.channel_post.animation and fret:
                             fpost = bot.send_animation(fkan, fmedya, caption=fsablon)
-                    except Exception as e:
+                    except Unauthorized:
                         logger.debug(f"Hatalı kanal: {fkanal}")
-                        e = str(e)
-                        if e.find("bot is") != -1:
-                            collection.update_one({"_id": fuser}, {"$pull": {"kanal": fkan}})
-                            try:
-                                bot.send_message(fuser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
-                            except: #Hem update.messageu engelleyip hemde kanaldan sildiyse
-                                pass   
-                            logger.debug(f"{fkanal} kayıtlardan silindi.")
+                        collection.update_one({"_id": fuser}, {"$pull": {"kanal": fkan}})
+                        try:
+                            bot.send_message(fuser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                        except: 
+                            pass   
+                        logger.debug(f"{fkanal} kayıtlardan silindi.")
                     else:
                         fpostdata.insert_one({"chat": fkan, "pid": fpost.message_id, "mesih": fmesjid})
                         fcount = fcount + 1
@@ -2372,17 +2360,15 @@ def poster(update, context):
                             opost = bot.send_video(okan, omedya, caption=osablon)
                         if update.channel_post.animation and oret:
                             opost = bot.send_animation(okan, omedya, caption=osablon)
-                    except Exception as e:
+                    except Unauthorized:
                         logger.debug(f"Hatalı kanal: {okan}")
-                        e = str(e)
-                        if e.find("bot is") != -1:
-                            collection.update_one({"_id": ouser}, {"$pull": {"kanal": okan}})
-                            try:
-                                bot.send_message(ouser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
-                            except Exception as e: 
-                                logger.error(e)
-                            else:
-                                logger.debug(f"{okan} kayıtlardan silindi.")
+                        collection.update_one({"_id": ouser}, {"$pull": {"kanal": okan}})
+                        try:
+                            bot.send_message(ouser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                        except Exception as e: 
+                            logger.error(e)
+                        else:
+                            logger.debug(f"{okan} kayıtlardan silindi.")
                     else:
                         ocount += 1                     
                 logger.info("Başarılı!")
