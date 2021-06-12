@@ -1436,6 +1436,8 @@ def poster(update, context):
                         except:
                             pass   
                         logger.debug(f"{kanal} kayıtlardan silindi.")
+                    except Exception as e:
+                        logger.error(e)
                     else:
                         count = count + 1
                         postdata.insert_one({"pid": post.message_id, "chat": kan, "mesih": mesjid})
@@ -1573,6 +1575,8 @@ def poster(update, context):
                         except:
                             pass   
                         logger.debug(f"{bkanal} kayıtlardan silindi.")
+                    except Exception as e:
+                        logger.error(e)
                     else:
                         bpostdata.insert_one({"mesih": bmesjid, "pid": bpost.message_id, "chat": bkan})
                         bcount = bcount + 1
@@ -1708,6 +1712,8 @@ def poster(update, context):
                         except: 
                             pass   
                         logger.debug(f"{ckanal} kayıtlardan silindi.")
+                    except Exception as e:
+                        logger.error(e)
                     else:
                         cpostdata.insert_one({"chat": ckan, "pid": cpost.message_id, "mesih": cmesjid})
                         ccount = ccount + 1
@@ -1843,6 +1849,8 @@ def poster(update, context):
                         except: 
                             pass   
                         logger.debug(f"{dkanal} kayıtlardan silindi.")
+                    except Exception as e:
+                        logger.error(e)
                     else:
                         dpostdata.insert_one({"chat": dkan, "pid": dpost.message_id, "mesih": dmesjid})
                         dcount = dcount + 1
@@ -1974,6 +1982,8 @@ def poster(update, context):
                         except: 
                             pass   
                         logger.debug(f"{ekanal} kayıtlardan silindi.")
+                    except Exception as e:
+                        logger.error(e)
                     else:
                         epostdata.insert_one({"chat": ekan, "pid": epost.message_id, "mesih": emesjid})
                         ecount = ecount + 1
@@ -2108,6 +2118,8 @@ def poster(update, context):
                         except: 
                             pass   
                         logger.debug(f"{gkanal} kayıtlardan silindi.")
+                    except Exception as e:
+                        logger.error(e)
                     else:
                         gpostdata.insert_one({"chat": gkan, "pid": gpost.message_id, "mesih": gmesjid})
                         gcount = gcount + 1
@@ -2243,6 +2255,8 @@ def poster(update, context):
                         except: 
                             pass   
                         logger.debug(f"{fkanal} kayıtlardan silindi.")
+                    except Exception as e:
+                        logger.error(e)
                     else:
                         fpostdata.insert_one({"chat": fkan, "pid": fpost.message_id, "mesih": fmesjid})
                         fcount = fcount + 1
@@ -2373,6 +2387,8 @@ def poster(update, context):
                             logger.error(e)
                         else:
                             logger.debug(f"{okan} kayıtlardan silindi.")
+                    except Exception as e:
+                        logger.error(e)
                     else:
                         ocount += 1                     
                 logger.info("Başarılı!")
