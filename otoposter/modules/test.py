@@ -9,7 +9,7 @@ from telegram.ext import (
     CallbackContext,
     CallbackQueryHandler,
 )
-from otoposter import main
+from otoposter.main import *
 
 def test(update, context):
     user = update.message.from_user.id
