@@ -8,6 +8,10 @@ from telegram.ext import ExtBot, Defaults
 mpass = os.environ['MONGOPASS']
 mongo = f"os.environ["MONGO_URI"]"
 
+zaman = datetime.datetime.now()
+saat = zaman.hour 
+dakika = zaman.minute
+logd = "{}.{}.{} - {}.{}".format(zaman.year, zaman.month, zaman.day, saat, dakika)
 
 pid = os.getpid()
 open("pid.txt", "w").write(str(pid))
