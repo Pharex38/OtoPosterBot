@@ -52,3 +52,16 @@ dispatcher = updater.dispatcher
 
 updater.job_queue
 
+
+def bildir(neyi='Boş Bildirim Testi !'):
+    for i in adminlist:
+        try:
+            bot.send_message(i,neyi)
+        except:
+            pass
+
+
+logger.info(f"Saat: {saat}:{dakika}")
+
+
+
