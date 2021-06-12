@@ -9,7 +9,7 @@ from telegram.ext import (
     CallbackContext,
     CallbackQueryHandler,
 )
-from requests import grt
+from requests import get
 from .cancel import cancel
 from .callback import *
 from otoposter import *
