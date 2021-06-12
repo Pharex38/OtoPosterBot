@@ -1,4 +1,4 @@
-from telegram.ext import Updater, Defaults, CallbackContext 
+from telegram.ext import CallbackContext 
 from importlib import import_module
 from .modules import ALL_MODULES
 from telegram import ParseMode
@@ -27,11 +27,6 @@ def error_handler(update: object, context: CallbackContext) -> None:
     for i in adminlist:
         context.bot.send_message(chat_id=i, text=message, parse_mode=ParseMode.HTML)
 
-updater = Updater(token=bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=90), request_kwargs={'con_pool_size': 999, 'read_timeout': 150, 'connect_timeout': 150})
-
-dispatcher = updater.dispatcher
-
-updater.job_queue
 
 def main() -> None:
     dispatcher.add_error_handler(error_handler)
