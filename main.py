@@ -354,10 +354,10 @@ def durdur(update, context):
         update.message.reply_text("<b>Kanalınız Silindi!</b>")
 
 def kpostsil(update, context):
-    chat = update.message.chat.id
+    chat = update.channel_post.chat.id
     if not chat in kaynaklar:
         return
-    mesid = update.message.reply_to_message.message_id if update.message.reply_to_message else None
+    mesid = update.channel_post.reply_to_message.message_id if update.message.reply_to_message else None
     if mesid == None:
         bot.send_message(chat, "Silmek istediğiniz postu yanıtlayın.")
         return
