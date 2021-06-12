@@ -10,6 +10,7 @@ from telegram.ext import (
     CallbackContext,
     CallbackQueryHandler,
 )
+from telegram.error import BadRequest, Unauthorized
 from requests import get, Session
 from otoposter import *
 from time import sleep
