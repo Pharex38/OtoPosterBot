@@ -788,6 +788,11 @@ def gen_markup(user):
     for k in kayd['kanal']:
         try:
             ismi = bot.get_chat(k)
+        except BadRequest as bd:
+            if bd.args = "Chat is not found":
+                raise Unauthorized
+            else:
+                logger.error(bd)
         except Unauthorized:
             collection.update_one({"_id": user}, {"$pull": {"kanal": k}})
         else:
@@ -1572,6 +1577,11 @@ def poster(update, context):
                             bpost = bot.send_video(bkan, bmedya, caption=bsablon)
                         if update.channel_post.animation and bret:
                             bpost = bot.send_animation(bkan, bmedya, caption=bsablon)
+                    except BadRequest as bd:
+                        if bd.args = "Chat is not found":
+                            raise Unauthorized
+                        else:
+                            logger.error(bd)
                     except Unauthorized:
                         logger.debug(f"Hatalı kanal: {bkanal}")
                         collection.update_one({"_id": buser}, {"$pull": {"kanal": bkan}})
@@ -1709,6 +1719,11 @@ def poster(update, context):
                             cpost = bot.send_photo(ckan, cmedya, caption=csablon)
                         if update.channel_post.video and cret:
                             cpost = bot.send_video(ckan, cmedya, caption=csablon)
+                    except BadRequest as bd:
+                        if bd.args = "Chat is not found":
+                            raise Unauthorized
+                        else:
+                            logger.error(bd)
                     except Unauthorized:
                         logger.debug(f"Hatalı kanal: {ckanal}")
                         collection.update_one({"_id": cuser}, {"$pull": {"kanal": ckan}})
@@ -1846,6 +1861,11 @@ def poster(update, context):
                             dpost = bot.send_video(dkan, dmedya, caption=dsablon)
                         if update.channel_post.animation and dret:
                             dpost = bot.send_animation(dkan, dmedya, caption=dsablon)
+                    except BadRequest as bd:
+                        if bd.args = "Chat is not found":
+                            raise Unauthorized
+                        else:
+                            logger.error(bd)
                     except Unauthorized:
                         logger.debug(f"Hatalı kanal: {dkanal}")
                         collection.update_one({"_id": duser}, {"$pull": {"kanal": dkan}})
@@ -1979,6 +1999,11 @@ def poster(update, context):
                             epost = bot.send_video(ekan, emedya, caption=esablon)
                         if update.channel_post.animation and eret:
                             epost = bot.send_animation(ekan, emedya, caption=esablon)
+                    except BadRequest as bd:
+                        if bd.args = "Chat is not found":
+                            raise Unauthorized
+                        else:
+                            logger.error(bd)
                     except Unauthorized:
                         logger.debug(f"Hatalı kanal: {ekanal}")
                         collection.update_one({"_id": euser}, {"$pull": {"kanal": ekan}})
@@ -2115,6 +2140,11 @@ def poster(update, context):
                             gpost = bot.send_video(gkan, gmedya, caption=gsablon)
                         if update.channel_post.animation and gret:
                             gpost = bot.send_animation(gkan, gmedya, caption=gsablon)
+                    except BadRequest as bd:
+                        if bd.args = "Chat is not found":
+                            raise Unauthorized
+                        else:
+                            logger.error(bd)
                     except Unauthorized:
                         logger.debug(f"Hatalı kanal: {gkanal}")
                         collection.update_one({"_id": guser}, {"$pull": {"kanal": gkan}})
@@ -2252,6 +2282,11 @@ def poster(update, context):
                             fpost = bot.send_video(fkan, fmedya, caption=fsablon)
                         if update.channel_post.animation and fret:
                             fpost = bot.send_animation(fkan, fmedya, caption=fsablon)
+                    except BadRequest as bd:
+                        if bd.args = "Chat is not found":
+                            raise Unauthorized
+                        else:
+                            logger.error(bd)
                     except Unauthorized:
                         logger.debug(f"Hatalı kanal: {fkanal}")
                         collection.update_one({"_id": fuser}, {"$pull": {"kanal": fkan}})
@@ -2383,6 +2418,11 @@ def poster(update, context):
                             opost = bot.send_video(okan, omedya, caption=osablon)
                         if update.channel_post.animation and oret:
                             opost = bot.send_animation(okan, omedya, caption=osablon)
+                    except BadRequest as bd:
+                        if bd.args = "Chat is not found":
+                            raise Unauthorized
+                        else:
+                            logger.error(bd)
                     except Unauthorized:
                         logger.debug(f"Hatalı kanal: {okan}")
                         collection.update_one({"_id": ouser}, {"$pull": {"kanal": okan}})
