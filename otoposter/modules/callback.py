@@ -1,4 +1,4 @@
-from telegram.ext import CallBackQueryHandler
+from telegram.ext import CallbackQueryHandler
 
 def kaynakcall(call, context):
     user = call.effective_user.id
@@ -154,6 +154,21 @@ def callback_query(call, context):
         else:
             collection.update_one({"_id": user}, {"$set": {"sablon": "1"}})
         bot.edit_message_text("Varsayılana döndürüldü.", chat, mesajid)
+
+
+def sabloncall(call, context):
+    user = call.effective_user.id
+    chat = call.effective_chat.id
+    mesajid = call.effective_message.message_id
+    bot.delete_message(chat, mesajid)
+    if collection.find_one({"_id": user}) == None:
+        call.callback_query.edit_message_text(text="<b>Önce bir API kaydedin!</b>")
+        return
+    if collection.find_one({"_id": user})['sira'] == "1":
+        msz = bot.send_message(chat, "<i>Oluşturduğunuz şablonda</i> <b>{aciklama}, {alink}</b> ve <b>{link}</b> <i>kelimelerinin bulunduğundan emin olun yoksa şablon çalışmaz</i>", reply_markup=imark())
+    else:
+        msz = bot.send_message(chat, "<i>Oluşturduğunuz şablonda</i> <b>{aciklama}</b> ve <b>{link}</b> <i>kelimelerinin bulunduğundan emin olun yoksa şablon çalışmaz</i>", reply_markup=imark())
+    return SABLON
 
 
 dispatcher.add_handler(CallbackQueryHandler(kaynakcall, pattern="^kaynak(.*)"))
