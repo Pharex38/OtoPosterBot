@@ -818,7 +818,10 @@ def menu(update, context):
         if mj['ozel']:
             for m in OzelCol.find({}):
                 if user in m['kanal']:
-                    ozel_kaynak_bilgi = bot.get_chat(m['okaynak'])
+                    try:
+                        ozel_kaynak_bilgi = bot.get_chat(m['okaynak'])
+                    except Unauthorized:
+                        bot.send_message(chat, "Botu kaynak kanalınızdan çıkarttığınız için post atılmayacak.", reply_markup=kaynakmark(user))
                     kullanan_sayisi = len(m['kanal'])
                     break
             bot.send_message(chat, """<b>Özel Kaynak Kullandığınız için başka kaynak seçemezsiniz.</b>\n\n      <i>Özel Kaynağınız:</i><b> <a href="{}">{}</a>\n</b>      <i>Bu Kaynağı Toplam </i><code>{}</code> <i>Kişi Kullanıyor.</i>""".format(ozel_kaynak_bilgi.invite_link, ozel_kaynak_bilgi.title, kullanan_sayisi), reply_markup=kaynakmark(user))
