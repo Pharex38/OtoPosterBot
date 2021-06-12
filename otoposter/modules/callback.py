@@ -1,4 +1,5 @@
 from telegram.ext import CallbackQueryHandler
+from otoposter import *
 
 def kaynakcall(call, context):
     user = call.effective_user.id
