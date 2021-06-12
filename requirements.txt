@@ -5,3 +5,4 @@ pyrogram
 requests
 telethon
 APScheduler
+python-telegram-bot
