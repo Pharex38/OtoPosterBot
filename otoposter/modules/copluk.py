@@ -322,26 +322,6 @@ def sabloniki(update, context):
         return ConversationHandler.END
 
 
-def altakayit(update, context):
-    amesaj = update.message.text
-    user = update.message.from_user.id
-    chat = update.message.chat.id
-    if collection.find_one({"_id": user}) == None:
-        bot.send_message(chat, "<b>Önce bir API kaydedin!</b>")
-        return
-    if update.message.text == "❌ İptal" or update.message.text == None:
-        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
-        return ConversationHandler.END
-    if update.message.text == "⛔ Alternatif Kaldır":
-        collection.update_one({"_id": user}, {"$set": {"altsite": "None", "altapi": "None", "sablon": "1", "sira": "0"}})
-        bot.send_message(chat, "Alternatif kaldırıldı, artık postlarınız alternatif linksiz paylaşılacak.", reply_markup=dugme(user))
-        return ConversationHandler.END
-    smesaj = context.user_data['asite']
-    sss = context.user_data['sistem']
-    collection.update_one({"_id": user}, {"$set": {"altsite": str(smesaj), "altapi": str(amesaj), "sira": str(sss)}})
-    bot.send_message(chat, "✅ Alternatif API kaydedildi", reply_markup=dugme(user))
-    return ConversationHandler.END
-
 def apikayit(update, context):
     token = update.message.text
     user = update.message.from_user.id
@@ -574,18 +554,6 @@ def pat(update, context):
     else:
         bot.send_message(chat, "Bir hata oluştu")
 
-def altcall(call, context):
-    user = call.effective_user.id
-    chat = call.effective_chat.id
-    mesajid = call.effective_message.message_id
-    smesaj = str(call.callback_query.data.split("-")[1])
-    sss = str(call.callback_query.data.split("-")[2])
-    context.user_data['asite'] = smesaj
-    context.user_data['sistem'] = sss
-    call.callback_query.answer(call.callback_query.id, "✅ Site Kaydedildi!")
-    bot.edit_message_text("✅ Alternatif site kaydedildi.", user, mesajid)
-    bot.send_message(chat, "📝 Alternatif API adresinizi gönderin.", reply_markup=imark())
-    return ALTAPI
 
 conv_handler = ConversationHandler(
     entry_points=[MessageHandler(Filters.update.message & ~Filters.command, menu)],
@@ -599,15 +567,8 @@ conv_handler = ConversationHandler(
     fallbacks=[MessageHandler(Filters.regex('^↩️ Ana Menü$') & Filters.update.message, cancel), CommandHandler('start', start, filters=~Filters.update.edited_message)]
     )
 
-altconver = ConversationHandler(
-    entry_points=[CallbackQueryHandler(altcall, pattern="^asite(.*)")],
-    states={
-        ALTAPI: [MessageHandler(Filters.text & Filters.update.message, altakayit)]
-        },
-    fallbacks=[MessageHandler(Filters.regex('^↩️ Ana Menü$') & Filters.update.message, cancel), CommandHandler('start', start, filters=~Filters.update.edited_message)],
-    per_message=False)
 
 dispatcher.add_handler(conv_handler)
-dispatcher.add_handler(altconver)
+
 
 
