@@ -1424,16 +1424,14 @@ def poster(update, context):
                             post = bot.send_video(kan, medya, caption=sablon)
                         if update.channel_post.animation and ret:
                             post = bot.send_animation(kan, medya, caption=sablon)
-                    except Exception as e:
+                    except Unauthorized:
                         logger.debug(f"Hatalı kanal: {kanal}")
-                        e = str(e)
-                        if e.find("bot is") != -1:
-                            collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
-                            try:
-                                bot.send_message(user, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
-                            except: #Hem update.messageu engelleyip hemde kanaldan sildiyse
-                                pass   
-                            logger.debug(f"{kanal} kayıtlardan silindi.")
+                        collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
+                        try:
+                            bot.send_message(user, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                        except:
+                            pass   
+                        logger.debug(f"{kanal} kayıtlardan silindi.")
                     else:
                         count = count + 1
                         postdata.insert_one({"pid": post.message_id, "chat": kan, "mesih": mesjid})
