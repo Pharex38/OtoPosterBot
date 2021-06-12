@@ -789,7 +789,7 @@ def gen_markup(user):
         try:
             ismi = bot.get_chat(k)
         except BadRequest as bd:
-            if bd.args = "Chat is not found":
+            if bd.args == "Chat is not found":
                 raise Unauthorized
             else:
                 logger.error(bd)
@@ -1434,7 +1434,7 @@ def poster(update, context):
                         if update.channel_post.animation and ret:
                             post = bot.send_animation(kan, medya, caption=sablon)
                     except BadRequest as bd:
-                        if bd.args = "Chat is not found":
+                        if bd.args == "Chat is not found":
                             raise Unauthorized
                         else:
                             logger.error(bd)
@@ -1578,7 +1578,7 @@ def poster(update, context):
                         if update.channel_post.animation and bret:
                             bpost = bot.send_animation(bkan, bmedya, caption=bsablon)
                     except BadRequest as bd:
-                        if bd.args = "Chat is not found":
+                        if bd.args == "Chat is not found":
                             raise Unauthorized
                         else:
                             logger.error(bd)
@@ -1720,7 +1720,7 @@ def poster(update, context):
                         if update.channel_post.video and cret:
                             cpost = bot.send_video(ckan, cmedya, caption=csablon)
                     except BadRequest as bd:
-                        if bd.args = "Chat is not found":
+                        if bd.args == "Chat is not found":
                             raise Unauthorized
                         else:
                             logger.error(bd)
@@ -1862,7 +1862,7 @@ def poster(update, context):
                         if update.channel_post.animation and dret:
                             dpost = bot.send_animation(dkan, dmedya, caption=dsablon)
                     except BadRequest as bd:
-                        if bd.args = "Chat is not found":
+                        if bd.args == "Chat is not found":
                             raise Unauthorized
                         else:
                             logger.error(bd)
@@ -2000,7 +2000,7 @@ def poster(update, context):
                         if update.channel_post.animation and eret:
                             epost = bot.send_animation(ekan, emedya, caption=esablon)
                     except BadRequest as bd:
-                        if bd.args = "Chat is not found":
+                        if bd.args == "Chat is not found":
                             raise Unauthorized
                         else:
                             logger.error(bd)
@@ -2141,7 +2141,7 @@ def poster(update, context):
                         if update.channel_post.animation and gret:
                             gpost = bot.send_animation(gkan, gmedya, caption=gsablon)
                     except BadRequest as bd:
-                        if bd.args = "Chat is not found":
+                        if bd.args == "Chat is not found":
                             raise Unauthorized
                         else:
                             logger.error(bd)
@@ -2283,7 +2283,7 @@ def poster(update, context):
                         if update.channel_post.animation and fret:
                             fpost = bot.send_animation(fkan, fmedya, caption=fsablon)
                     except BadRequest as bd:
-                        if bd.args = "Chat is not found":
+                        if bd.args == "Chat is not found":
                             raise Unauthorized
                         else:
                             logger.error(bd)
@@ -2419,7 +2419,7 @@ def poster(update, context):
                         if update.channel_post.animation and oret:
                             opost = bot.send_animation(okan, omedya, caption=osablon)
                     except BadRequest as bd:
-                        if bd.args = "Chat is not found":
+                        if bd.args == "Chat is not found":
                             raise Unauthorized
                         else:
                             logger.error(bd)
