@@ -1,0 +1,1 @@
+from otoposter import main
