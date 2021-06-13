@@ -1,2 +1,4 @@
 
 *.txt
+__pycache__/Colorer.cpython-39.pyc
+*.pyc
