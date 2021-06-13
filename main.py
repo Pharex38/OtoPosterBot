@@ -797,6 +797,8 @@ def gen_markup(user):
                 logger.error(bd)
         except Unauthorized:
             collection.update_one({"_id": user}, {"$pull": {"kanal": k}})
+        except Exception as e:
+            print(e)
         else:
             keyb.append([InlineKeyboardButton("{}".format(ismi.title), callback_data="sil-{}".format(butonno))])
             butonno += 1
