@@ -278,7 +278,7 @@ def stats(update, context):
         bot.send_message(chat, "Sen benim sahibim değilsin!")
         return
     msg = bot.send_message(chat, "<code> Veriler toplanıyor...</code>")
-    kullanicilar = collection.find({})
+    kullanicilar = [x for x in collection.find({})]
     for kullanici in kullanicilar:
         if not kullanici in kulkum:
             kulkum.append(kullanici)
@@ -2488,7 +2488,7 @@ def gunluk():
                             kanals += 1
           
             toplam = toplam / 1000
-            toplam = str(round(toplam, 1))+"K" if round(toplam, 1) < 1000 else str(round(toplam / 1000, 1))+"M"
+            toplam = str(round(toplam, 1))+"K" if round(toplam, 1) < 1000 else str(round(toplam / 1000, 2))+"M"
             msg = bot.edit_message_text("👥 Toplam Kullanıcı Sayısı: {}\n📢 Toplam Kayıtlı Kanal Sayısı: {}\n🙋 Toplam Kitle: {}\n\nHer gün saat 22:00'da otomatik olarak güncel veriler paylaşılacak.".format(users, kanals, toplam), botlog, msg.message_id)
             bot.pin_chat_message(botlog, msg.message_id)
         time.sleep(60)
