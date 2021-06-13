@@ -7,6 +7,7 @@ from pymongo import MongoClient
 import time, datetime
 import threading
 import os, signal
+import ssl
 import logging
 from typing import Dict
 import Colorer
@@ -32,7 +33,7 @@ pid = os.getpid()
 open("pid.txt", "w").write(str(pid))
 print(pid)
 
-cluster = MongoClient(mongo)
+cluster = MongoClient(mongo, ssl_cert_reqs=ssl.CERT_NONE)
 db = cluster["OtoPost"]
 collection = db["Kanallar"]
 OzelCol = db["Özel Kaynaklar"]
