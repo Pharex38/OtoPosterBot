@@ -306,32 +306,32 @@ def bul(update, context):
         bot.send_message(update.message.chat.id, "Sie")
         return
     try:
-        cnt = collection.find({"_id": int(cnt)})
-        for c in cnt:
+        cntt = collection.find({"_id": int(cnt)})
+        for c in cntt:
             bot.send_message(update.message.chat.id, 'ID: {}\nToken: {} \nKaynak: {} \nSite: {} \nKanal: {} \nAlt Token: {} \n Alt Site: {} \n Özel Kaynak: {}'.format(c['_id'], c['token'], c['kaynak'], c['site'], c['kanal'], c['altapi'], c['altsite'], c['ozel']))
     except:
         pass
     try:
-        cnt = collection.find({"token": cnt})
-        for c in cnt:
+        cntt = collection.find({"token": cnt})
+        for c in cntt:
             bot.send_message(update.message.chat.id, 'ID: {}\nToken: {} \nKaynak: {} \nSite: {} \nKanal: {} \nAlt Token: {} \n Alt Site: {} \n Özel Kaynak: {}'.format(c['_id'], c['token'], c['kaynak'], c['site'], c['kanal'], c['altapi'], c['altsite'], c['ozel']))
     except:
         pass
     try:
-        cnt = collection.find({"altapi": cnt})
-        for c in cnt:
+        cntt = collection.find({"altapi": cnt})
+        for c in cntt:
             bot.send_message(update.message.chat.id, 'ID: {}\nToken: {} \nKaynak: {} \nSite: {} \nKanal: {} \nAlt Token: {} \n Alt Site: {} \n Özel Kaynak: {}'.format(c['_id'], c['token'], c['kaynak'], c['site'], c['kanal'], c['altapi'], c['altsite'], c['ozel']))
     except:
         pass
     try:
-        cnt = collection.find({"kanal": [str(cnt)]})
-        for c in cnt:
+        cntt = collection.find({"kanal": [str(cnt)]})
+        for c in cntt:
             bot.send_message(update.message.chat.id, 'ID: {}\nToken: {} \nKaynak: {} \nSite: {} \nKanal: {} \nAlt Token: {} \n Alt Site: {} \n Özel Kaynak: {}'.format(c['_id'], c['token'], c['kaynak'], c['site'], c['kanal'], c['altapi'], c['altsite'], c['ozel']))
     except:
         pass
     try:
-        cnt = collection.find({"site": str(cnt)})
-        for c in cnt:
+        cntt = collection.find({"site": cnt})
+        for c in cntt:
             bot.send_message(update.message.chat.id, 'ID: {}\nToken: {} \nKaynak: {} \nSite: {} \nKanal: {} \nAlt Token: {} \n Alt Site: {} \n Özel Kaynak: {}'.format(c['_id'], c['token'], c['kaynak'], c['site'], c['kanal'], c['altapi'], c['altsite'], c['ozel']))
     except:
         pass
@@ -624,6 +624,7 @@ def callback_query(call, context):
             if user in u['kanal']:
                 use_r = u['_id']
         OzelCol.update_one({"_id": use_r}, {"$pull": {"kanal": user}})
+        collection.update_one({"_id": user}, {"$pull": {"kaynak": "32"}})
         bot.edit_message_text("Özel Kaynak Kaldırıldı.", chat, mesajid)
     if call.callback_query.data == "logokaldir":
         OzelCol.update_one({"_id": user}, {"$set": {"log": "yok"}})
