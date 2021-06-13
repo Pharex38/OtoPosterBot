@@ -1719,6 +1719,8 @@ def poster(update, context):
                             cpost = bot.send_photo(ckan, cmedya, caption=csablon)
                         if update.channel_post.video and cret:
                             cpost = bot.send_video(ckan, cmedya, caption=csablon)
+                        if update.channel_post.animation:
+                            cpost = bot.send_animation(ckan, cmedya, caption = csablon)
                     except BadRequest as bd:
                         if bd.args == "Chat is not found":
                             raise Unauthorized
