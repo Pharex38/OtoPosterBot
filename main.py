@@ -1212,12 +1212,15 @@ def pat(update, context):
     if update.message.video:
         fid = update.message.video.file_id
         ptip = "video"
-    if update.message.photo:
+    elif update.message.photo:
         fid = update.message.photo[0].file_id
         ptip = "photo"
-    if update.message.animation:
+    elif update.message.animation:
         fid = update.message.animation.file_id
         ptip = "animation"
+    else:
+        bot.send_message(chat, "Üzgünüm bu dosya türü desteklenmiyor. Video, Fotoğraf veya Gif ile deneyin.")
+        return
     """Açıklama Tespit"""
     pson = mesaj.find("\n")
     paciklama = mesaj[:pson]
@@ -1225,6 +1228,9 @@ def pat(update, context):
     psol = mesaj.find("http")
     psag = mesaj.find("\n", psol)
     plink = mesaj[psol:psag].strip()
+    if plink.startswith("https://ay") or plink.startswith("https://pgg") or plink.startswith("https://pnd") or plink.startswith("https://ouo") or plink.startswith("https://exe") or plink.startswith("https://lnk"):
+        bot.send_message(chat, "Oops sanırım zaten kısaltılmış bir linki kısaltmaya çalışıyorsun. Üzgünüm bu bot linkleri kendisi geçemez.", reply_markup=imark())
+        return PATPOST
     if mesaj.find("\n", psol) == -1:
         plink = mesaj[psol:].strip()
     pathesap = collection.find_one({"_id": user})
