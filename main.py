@@ -790,6 +790,7 @@ def gen_markup(user):
         try:
             ismi = bot.get_chat(k)
         except BadRequest as bd:
+            bot.send_message(sahip, bd.args)
             if bd.args == "Chat is not found":
                 raise Unauthorized
             else:
