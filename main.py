@@ -2505,21 +2505,21 @@ def main() -> None:
     conver = ConversationHandler(
         entry_points=[CallbackQueryHandler(sabloncall, pattern="^(sablon)$")],
         states={
-            SABLON: [MessageHandler(Filters.text & Filters.update.message, sabloniki)]
+            SABLON: [MessageHandler(~Filters.command & Filters.update.message, sabloniki)]
             },
         fallbacks=[CommandHandler('start', start, filters=~Filters.update.edited_message)],
         per_message=False)
     altconver = ConversationHandler(
         entry_points=[CallbackQueryHandler(altcall, pattern="^asite(.*)")],
         states={
-            ALTAPI: [MessageHandler(Filters.text & Filters.update.message, altakayit)]
+            ALTAPI: [MessageHandler(~Filters.command & Filters.update.message, altakayit)]
             },
         fallbacks=[CommandHandler('start', start, filters=~Filters.update.edited_message)],
         per_message=False)
     logconver = ConversationHandler(
         entry_points=[CallbackQueryHandler(ozellogcall, pattern="^logokay(.*)")],
         states={
-            OZELBOTLOG: [MessageHandler(Filters.all & Filters.update.message, ozellog)]
+            OZELBOTLOG: [MessageHandler(~Filters.command & Filters.update.message, ozellog)]
             },
         fallbacks=[CommandHandler('start', start, filters=~Filters.update.edited_message)],
         per_message=False)
