@@ -138,7 +138,7 @@ def dagme():
 
     return dagme
 
-def deep(u_kod, user):
+#def deep(u_kod, user):
     
     
 
