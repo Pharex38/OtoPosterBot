@@ -275,6 +275,8 @@ def stats(update, context):
     user = update.message.from_user.id
     kum = []
     kulkum = []
+    ozel_kaynak_kullanan_sayisi, mahzen_kullanan_sayisi, hazır_kullanan_sayisi, tutan_kullanan_sayisi, acikmi_kullanan_sayisi, bedava_kullanan_sayisi, evi_kullanan_sayisi, bashub_kullanan_sayisi = 0, 0, 0, 0, 0, 0, 0, 0
+    exe_kullanan_sayisi, pubiza_kullanan_sayisi, ouo_kullanan_sayisi, trlink_kullanan_sayisi, pnd_kullanan_sayisi = 0, 0, 0, 0, 0
     if not user in [sahip,fixer]:
         bot.send_message(chat, "Sen benim sahibim değilsin!")
         return
@@ -284,22 +286,48 @@ def stats(update, context):
         if not kullanici in kulkum:
             kulkum.append(kullanici)
             users += 1
-        for kul in kullanici['kanal']:
-            if not kul in kum:
-                kum.append(kul)
-                time.sleep(1.6)
-                kanals += 1
-                try:
-                    uye = bot.get_chat_members_count(kul)
-                    print(uye)
-                except Exception as e:
-                    logger.error(e)
-                    time.sleep(20)
-                toplam += uye
+            if kullanici['site'] == "1":
+                trlink_kullanan_sayisi += 1
+            elif kullanici['site'] == "2":
+                pnd_kullanan_sayisi += 1
+            elif kullanici['site'] == "3":
+                exe_kullanan_sayisi += 1
+            elif kullanici['site'] == "4":
+                ouo_kullanan_sayisi += 1
+            elif kullanici['site'] == "5":
+                pubiza_kullanan_sayisi += 1
+            if "1" in kullanici['kaynak']:
+                mahzen_kullanan_sayisi += 1
+            if "2" in kullanici['kaynak']:
+                bedava_kullanan_sayisi += 1
+            if "3" in kullanici['kaynak']:
+                evi_kullanan_sayisi += 1
+            if "4" in kullanici['kaynak']:
+                bashub_kullanan_sayisi += 1
+            if "5" in kullanici['kaynak']:
+                acikmi_kullanan_sayisi += 1
+            if "6" in kullanici['kaynak']:
+                hazır_kullanan_sayisi += 1
+            if "7" in kullanici['kaynak']:
+                tutan_kullanan_sayisi += 1
+            if kullanici['ozel']:
+                ozel_kaynak_kullanan_sayisi += 1
+            for kul in kullanici['kanal']:
+                if not kul in kum:
+                    kum.append(kul)
+                    time.sleep(1.6)
+                    kanals += 1
+                    try:
+                        uye = bot.get_chat_members_count(kul)
+                        print(uye)
+                    except Exception as e:
+                        logger.error(e)
+                        time.sleep(20)
+                    toplam += uye
           
     toplam = toplam / 1000
     toplam = str(round(toplam, 1))+"K" if round(toplam, 1) < 1000 else str(round(toplam / 1000, 1))+"M"
-    bot.edit_message_text("Toplam Kullanıcı Sayısı: {}\nToplam Kayıtlı Kanal Sayısı: {}\nToplam Kitle: {}".format(users, kanals, toplam), chat, msg.message_id)
+    bot.edit_message_text("Toplam Kullanıcı Sayısı: {}\nToplam Kayıtlı Kanal Sayısı: {}\nToplam Kitle: {}\n\n<b>Toplam Site Kullanan Sayısı;</b>\nTRLink: {}\nPND.TL: {}\nExe.io: {}\nOuo.io: {}\nPubiza: {}\n\n<b>Toplam Kaynak Kullanan Sayıları:</b>\n{}: {}\n{}: {}\n{}: {}\n{}: {}\n{}: {}\n{}: {}\n{}: {} ".format(users, kanals, toplam, trlink_kullanan_sayisi, pnd_kullanan_sayisi, exe_kullanan_sayisi, ouo_kullanan_sayisi, pubiza_kullanan_sayisi, mahzen.title, mahzen_kullanan_sayisi, bedava.title, bedava_kullanan_sayisi, evi.title, evi_kullanan_sayisi, bashub.title, bashub_kullanan_sayisi, acikmi.title, acikmi_kullanan_sayisi, muho.title, hazır_kullanan_sayisi, tutan.title, tutan_kullanan_sayisi), chat, msg.message_id)
 
 def bul(update, context):
     cnt = update.message.text.split()[1] if len(update.message.text.split()) > 1 else int(update.message.from_user.id)
