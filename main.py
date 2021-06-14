@@ -710,6 +710,7 @@ def callback_query(call, context):
             eskidata = context.chat_data[str(mesajid)]
         except:
             call.callback_query.answer("Butonların geçerlilik süresi dolmuş.")
+            return
         eskidata.append(user)
         context.chat_data[str(mesajid)] = eskidata
         if pushed == "1":
