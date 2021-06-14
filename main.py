@@ -1449,6 +1449,8 @@ def poster(update, context):
                     except Exception as e:
                         if e == "Chat is not found":
                             raise Unauthorized
+                        if e == "Need administrator rights in the channel chat":
+                            raise Unauthorized
                         else:
                             logger.error(e)
                     else:
@@ -1595,6 +1597,8 @@ def poster(update, context):
                         logger.debug(f"{bkanal} kayıtlardan silindi.")
                     except Exception as e:
                         if e == "Chat is not found":
+                            raise Unauthorized
+                        if e == "Need administrator rights in the channel chat":
                             raise Unauthorized
                         else:
                             logger.error(e)
@@ -1744,6 +1748,8 @@ def poster(update, context):
                     except Exception as e:
                         if e == "Chat is not found":
                             raise Unauthorized
+                        if e == "Need administrator rights in the channel chat":
+                            raise Unauthorized
                         else:
                             logger.error(e)
                         logger.error(e)
@@ -1890,6 +1896,8 @@ def poster(update, context):
                     except Exception as e:
                         if e == "Chat is not found":
                             raise Unauthorized
+                        if e == "Need administrator rights in the channel chat":
+                            raise Unauthorized
                         else:
                             logger.error(e)
                         logger.error(e)
@@ -2031,6 +2039,8 @@ def poster(update, context):
                         logger.debug(f"{ekanal} kayıtlardan silindi.")
                     except Exception as e:
                         if e == "Chat is not found":
+                            raise Unauthorized
+                        if e == "Need administrator rights in the channel chat":
                             raise Unauthorized
                         else:
                             logger.error(e)
@@ -2176,6 +2186,8 @@ def poster(update, context):
                         logger.debug(f"{gkanal} kayıtlardan silindi.")
                     except Exception as e:
                         if e == "Chat is not found":
+                            raise Unauthorized
+                        if e == "Need administrator rights in the channel chat":
                             raise Unauthorized
                         else:
                             logger.error(e)
@@ -2323,6 +2335,8 @@ def poster(update, context):
                     except Exception as e:
                         if e == "Chat is not found":
                             raise Unauthorized
+                        if e == "Need administrator rights in the channel chat":
+                            raise Unauthorized
                         else:
                             logger.error(e)
                         logger.error(e)
@@ -2463,6 +2477,8 @@ def poster(update, context):
                             logger.debug(f"{okan} kayıtlardan silindi.")
                     except Exception as e:
                         if e == "Chat is not found":
+                            raise Unauthorized
+                        if e == "Need administrator rights in the channel chat":
                             raise Unauthorized
                         else:
                             logger.error(e)
