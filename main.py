@@ -874,7 +874,8 @@ def begenimark(kalp, bomb, rose):
     return bmark
 
 def eminmisin():
-    return InlineKeyboardMarkup([[InlineKeyboardButton("Emin misin?", callback_data="yoket")], [InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")])
+    return InlineKeyboardMarkup([[InlineKeyboardButton("Emin misin?", callback_data="yoket")], [InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")]])
+    
 #########################################
 def site_isim(no):
     if no == "1":
