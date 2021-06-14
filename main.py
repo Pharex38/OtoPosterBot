@@ -146,19 +146,20 @@ def deep(u_kod, user):
         if kat == None:
             collection.insert_one(key)
             OzelCol.update_one({"_id": int(u_kod)}, {"$push": {"kanal": user}})
-            bot.send_message(user, "🏋🏻 {} referansı ile geldiniz!".format(ref_kanal_ismi))
+            bot.send_message(user, "🏋🏻 {} referansı ile geldiniz!".format(ref_kanal_ismi), reply_markup=dugme(user))
+            bot.send_message(user, "📝 Alternatif API adresinizi gönderin.", reply_markup=imark())
             return False
         else:
             collection.update_one({"_id": user}, {"$set": {"ozel": True, "kaynak": ["32"]}})
             OzelCol.update_one({"_id": int(u_kod)}, {"$push": {"kanal": user}})
-            bot.send_message(user, "🏋🏻 {} referansı ile geldiniz!".format(ref_kanal_ismi))
+            bot.send_message(user, "🏋🏻 {} referansı ile geldiniz!".format(ref_kanal_ismi), reply_markup=dugme(user))
             return True
     key = {"_id": user, "kanal": [], "sablon": "1", "kaynak": [u_kod], "site": "1", "altapi": "None", "altsite": "None", "sira": "0", "ozel": False}
     ref_kanal_ismi = bot.get_chat(kaynaklar[int(u_kod)]).title
     if kat == None:
         collection.insert_one(key)
         bot.send_message(user, "🏋🏻 {} referansı ile geldiniz!".format(ref_kanal_ismi))
-        bot.send_message(user, "📝 Alternatif API adresinizi gönderin.")
+        bot.send_message(user, "📝 Alternatif API adresinizi gönderin.", reply_markup=imark())
         return False
     else:
         if not kat['ozel']:
