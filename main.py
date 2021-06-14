@@ -353,7 +353,7 @@ def bul(update, context):
     except:
         pass
     try:
-        cntt = collection.find({"kanal": [str(cnt)]})
+        cntt = collection.find({"kanal": list(cnt)})
         for c in cntt:
             bot.send_message(update.message.chat.id, 'ID: {}\nToken: {} \nKaynak: {} \nSite: {} \nKanal: {} \nAlt Token: {} \n Alt Site: {} \n Özel Kaynak: {}'.format(c['_id'], c['token'], c['kaynak'], c['site'], c['kanal'], c['altapi'], c['altsite'], c['ozel']))
     except:
