@@ -368,8 +368,7 @@ def bul(update, context):
 
 def ona(m, context):
     cid = m.message.chat.id
-    msj = bot.send_message(cid, "Bu komutu kanalınızda kullanmalısınız.", reply_markup=begenimark(0, 0, 0))
-    context.chat_data[str(msj.message_id)] = []
+    msj = bot.send_message(cid, "Bu komutu kanalınızda kullanmalısınız.")
 
 def durdur(update, context):
     chat = update.message.chat.id
@@ -2571,6 +2570,7 @@ def gunluk():
             ozel_kaynak_kullanan_sayisi, mahzen_kullanan_sayisi, hazır_kullanan_sayisi, tutan_kullanan_sayisi, acikmi_kullanan_sayisi, bedava_kullanan_sayisi, evi_kullanan_sayisi, bashub_kullanan_sayisi = 0, 0, 0, 0, 0, 0, 0, 0
             exe_kullanan_sayisi, pubiza_kullanan_sayisi, ouo_kullanan_sayisi, trlink_kullanan_sayisi, pnd_kullanan_sayisi = 0, 0, 0, 0, 0
             msg = bot.send_message(botlog, "<code>Günlük veriler hesaplanıyor...</code>")
+            context.chat_data[str(msg.message_id)] = []
             toplam = 0
             kum = []
             kanals = 0
