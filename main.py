@@ -1437,8 +1437,6 @@ def poster(update, context):
                         if bd.args == "Chat is not found":
                             raise Unauthorized
                         else:
-                            bot.send_message(sahip, bd.args)
-                            bot.send_message(sahip, bd.args)
                             logger.error(bd)
                     except Unauthorized:
                         logger.debug(f"Hatalı kanal: {kanal}")
@@ -1583,7 +1581,6 @@ def poster(update, context):
                         if bd.args == "Chat is not found":
                             raise Unauthorized
                         else:
-                            bot.send_message(sahip, bd.args)
                             logger.error(bd)
                     except Unauthorized:
                         logger.debug(f"Hatalı kanal: {bkanal}")
@@ -1728,7 +1725,6 @@ def poster(update, context):
                         if bd.args == "Chat is not found":
                             raise Unauthorized
                         else:
-                            bot.send_message(sahip, bd.args)
                             logger.error(bd)
                     except Unauthorized:
                         logger.debug(f"Hatalı kanal: {ckanal}")
@@ -1871,7 +1867,6 @@ def poster(update, context):
                         if bd.args == "Chat is not found":
                             raise Unauthorized
                         else:
-                            bot.send_message(sahip, bd.args)
                             logger.error(bd)
                     except Unauthorized:
                         logger.debug(f"Hatalı kanal: {dkanal}")
@@ -2010,7 +2005,6 @@ def poster(update, context):
                         if bd.args == "Chat is not found":
                             raise Unauthorized
                         else:
-                            bot.send_message(sahip, bd.args)
                             logger.error(bd)
                     except Unauthorized:
                         logger.debug(f"Hatalı kanal: {ekanal}")
@@ -2152,7 +2146,6 @@ def poster(update, context):
                         if bd.args == "Chat is not found":
                             raise Unauthorized
                         else:
-                            bot.send_message(sahip, bd.args)
                             logger.error(bd)
                     except Unauthorized:
                         logger.debug(f"Hatalı kanal: {gkanal}")
@@ -2295,7 +2288,6 @@ def poster(update, context):
                         if bd.args == "Chat is not found":
                             raise Unauthorized
                         else:
-                            bot.send_message(sahip, bd.args)
                             logger.error(bd)
                     except Unauthorized:
                         logger.debug(f"Hatalı kanal: {fkanal}")
@@ -2432,7 +2424,6 @@ def poster(update, context):
                         if bd.args == "Chat is not found":
                             raise Unauthorized
                         else:
-                            bot.send_message(sahip, bd.args)
                             logger.error(bd)
                     except Unauthorized:
                         logger.debug(f"Hatalı kanal: {okan}")
