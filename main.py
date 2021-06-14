@@ -24,6 +24,7 @@ from telegram.ext import (
     CallbackContext,
     CallbackQueryHandler,
 )
+from telegram.utils import helpers
 
 mpass = os.environ['MONGOPASS']
 mongo = f"os.environ["MONGO_URI"]"
@@ -147,7 +148,7 @@ def deep(u_kod, user):
             if not user in OzelCol.find_one({"_id": int(u_kod)})['kanal']:
                 OzelCol.update_one({"_id": int(u_kod)}, {"$push": {"kanal": user}})
             collection.insert_one(key)
-            bot.send_message(user, "🏋🏻 {} referansı ile geldiniz!".format(ref_kanal_ismi), reply_markup=dugme(user))
+            bot.send_message(user, "🏋🏻 {} referansı ile geldiniz!".format(ref_kanal_ismi))
             bot.send_message(user, "📝 Alternatif API adresinizi gönderin.", reply_markup=imark())
             return False
         else:
@@ -169,7 +170,7 @@ def deep(u_kod, user):
     else:
         if not kat['ozel']:
             collection.update_one({"_id": user}, {"$push": {"kaynak": str(u_kod)}})
-            bot.send_message(user, "Kaynağınız Eklendi!")
+            bot.send_message(user, "Kaynağınız Eklendi!", reply_markup=dugme(user))
         else:
             bot.send_message(user, "Özel kaynağınız olduğu için başka kaynak kullanamazsınız!")
         return True
@@ -875,7 +876,11 @@ def menu(update, context):
                         return
                     kullanan_sayisi = len(m['kanal'])
                     break
-            bot.send_message(chat, """<b>Özel Kaynak Kullandığınız için başka kaynak seçemezsiniz.</b>\n\n      <i>Özel Kaynağınız:</i><b> <a href="{}">{}</a>\n</b>      <i>Bu Kaynağı Toplam </i><code>{}</code> <i>Kişi Kullanıyor.</i>""".format(ozel_kaynak_bilgi.invite_link, ozel_kaynak_bilgi.title, kullanan_sayisi), reply_markup=kaynakmark(user))
+            for ox in OzelCol.find({}):
+                if user in ox['kanal']:
+                    refsahip = ox["_id"]
+            ref_link = helpers.create_deep_linked_url(context.bot.username, str(refsahip))
+            bot.send_message(chat, """<b>Özel Kaynak Kullandığınız için başka kaynak seçemezsiniz.</b>\n\n      <i>Özel Kaynağınız:</i><b> <a href="{}">{}</a>\n</b>      <i>Bu Kaynağı Toplam </i><code>{}</code> <i>Kişi Kullanıyor.\n\nKaynak Referans Linki;</i>\n<code>{}</code>\n<i>Bu link ile botu başlatan herkes otomatik olarak sizin kaynağınıza bağlanacak.</i>""".format(ozel_kaynak_bilgi.invite_link, ozel_kaynak_bilgi.title, kullanan_sayisi, ref_link), reply_markup=kaynakmark(user))
             return
         bot.send_message(chat, """<b>Kullanmak istediğiniz kaynak kanalını seçin.</b>""", reply_markup=kaynakmark(user))
         return
