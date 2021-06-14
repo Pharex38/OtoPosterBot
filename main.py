@@ -712,15 +712,14 @@ def callback_query(call, context):
         kalp = int(deger[1])
         pushed = deger[-1]
         try:
-            eskidata = context.chat_data[str(mesajid)]
+            eskidata = db[str(sahip)].find_one({"_id": mesajid})
         except:
             call.callback_query.answer("Butonların geçerlilik süresi dolmuş.")
             return
-        if user in eskidata:
+        if user in eskidata['basan']:
             call.callback_query.answer("Sadece bir kez kullanabilirsiniz.")
             return
-        eskidata.append(user)
-        context.chat_data[str(mesajid)] = eskidata
+        db[str(sahip)].update_one({"_id": mesajid}, {"$push": {"basan": user}})
         if pushed == "1":
             kalp += 1
         if pushed == "2":
