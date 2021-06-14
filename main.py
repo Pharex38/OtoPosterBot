@@ -158,7 +158,8 @@ def deep(u_kod, user):
             OzelCol.update_one({"_id": int(u_kod)}, {"$push": {"kanal": user}})
             bot.send_message(user, "🏋🏻 {} referansı ile geldiniz!".format(ref_kanal_ismi), reply_markup=dugme(user))
             return True
-    key = {"_id": user, "kanal": [], "sablon": "1", "kaynak": [u_kod], "site": "1", "altapi": "None", "altsite": "None", "sira": "0", "ozel": False}
+    u_kod = int(u_kod) - 1
+    key = {"_id": user, "kanal": [], "sablon": "1", "kaynak": [str(u_kod)], "site": "1", "altapi": "None", "altsite": "None", "sira": "0", "ozel": False}
     ref_kanal_ismi = bot.get_chat(kaynaklar[int(u_kod)]).title
     if kat == None:
         collection.insert_one(key)
@@ -167,7 +168,7 @@ def deep(u_kod, user):
         return False
     else:
         if not kat['ozel']:
-            collection.update_one({"_id": user}, {"$push": {"kaynak": u_kod}})
+            collection.update_one({"_id": user}, {"$push": {"kaynak": str(u_kod)}})
             bot.send_message(user, "Kaynağınız Eklendi!")
         else:
             bot.send_message(user, "Özel kaynağınız olduğu için başka kaynak kullanamazsınız!")
