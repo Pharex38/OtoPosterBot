@@ -88,17 +88,27 @@ def run(message):
         except:
             pass
         time.sleep(1)
-        os.startfile('main.py')
+        baslangic = time.time()
+        os.startfile('basla.bat')
         bot.send_message(chat, "Yeniden Başlatıldı!")
         return
-    os.startfile('main.py')
+    os.startfile('basla.bat')
     baslangic = time.time()
     bot.send_message(chat, "Bot Başlatıldı!")
     return
 
-@bot.channel_post_handler(commands=['postsil'])
-def hhhh(m):
-    print(m.reply_to_message.date)
+@bot.message_handler(commands=['pull'])
+def pull(message):
+    pidd = open("pid.txt", "r+")
+    pid = pidd.read()
+    os.system("git pull")
+    try:
+        os.kill(int(pid), 9)
+    except:
+        pass
+    os.startfile('basla.bat')
+    bot.send_message(message.chat.id, "Pull")
+
 
 dpid = os.getpid()
 eskipidfile = open("dpid.txt", "w+")
