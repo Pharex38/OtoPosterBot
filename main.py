@@ -704,7 +704,7 @@ def callback_query(call, context):
         kalp = int(deger[1])
         pushed = deger[-1]
         if user in context.chat_data[str(mesajid)]:
-            call.callback_data.answer("Sadece bir kez kullanabilirsiniz.")
+            call.callback_query.answer("Sadece bir kez kullanabilirsiniz.")
             return
         eskidata = context.chat_data[str(mesajid)]
         eskidata.append(user)
