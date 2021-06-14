@@ -875,7 +875,7 @@ def begenimark(kalp, bomb, rose):
     return bmark
 
 def eminmisin():
-    return InlineKeyboardMarkup([[InlineKeyboardButton("Emin misin?", callback_data="yoket")], [InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")]])
+    return InlineKeyboardMarkup([[InlineKeyboardButton("Evet, kesinlikle eminim.", callback_data="yoket")], [InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")]])
     
 #########################################
 def site_isim(no):
@@ -1059,7 +1059,7 @@ def ozelk(update, context):
             OzelCol.insert_one({"_id": user, "okaynak": 546421354, "log": "yok"}) 
         OzelCol.update_one({"_id": user}, {"$set": {"okaynak": kanal, "kanal": [user]}})
         collection.update_one({"_id": user}, {"$set": {"ozel": True, "kaynak": ["32"]}})
-        bot.send_message(update.message.chat.id, "<b>Özel Kaynak Oluşturuldu!</b>", reply_markup=dugme(user))
+        bot.send_message(update.message.chat.id, "<b>Özel Kaynak Oluşturuldu!</b>", reply_markup=kaynakmark(user))
         return ConversationHandler.END
 
 def ozellog(update, context):
