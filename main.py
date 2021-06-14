@@ -152,6 +152,7 @@ def deep(u_kod, user):
             collection.update_one({"_id": user}, {"$set": {"ozel": True, "kaynak": ["32"]}})
             OzelCol.update_one({"_id": int(u_kod)}, {"$push": {"kanal": user}})
             bot.send_message(user, "🏋🏻 {} referansı ile geldiniz!".format(ref_kanal_ismi))
+            return True
     key = {"_id": user, "kanal": [], "sablon": "1", "kaynak": [u_kod], "site": "1", "altapi": "None", "altsite": "None", "sira": "0", "ozel": False}
     ref_kanal_ismi = bot.get_chat(kaynaklar[int(u_kod)]).title
     if kat == None:
