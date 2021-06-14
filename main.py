@@ -378,6 +378,7 @@ def cpostsil(update, context):
 
 def viple(update, context):
     chat = update.message.chat.id
+    bot.send_message(context.args[0], "Hesabınız Artık VIP!")
     try:
         collection.update_one({"_id": 0}, {"$push": {"vipuye": context.args[0]}})
     except Exception as e:
@@ -389,7 +390,7 @@ def banla(update, context):
     global kara
     chat = update.message.chat.id
     try:
-        collection.update_one({"_id": 0}, {"$push": {"": context.args[0]}})
+        collection.update_one({"_id": 0}, {"$push": {"kara": context.args[0]}})
     except Exception as e:
         bot.send_message(chat, e)
     else:
@@ -400,7 +401,7 @@ def unbanla(update, context):
     global kara
     chat = update.message.chat.id
     try:
-        collection.update_one({"_id": 0}, {"$pull": {"": context.args[0]}})
+        collection.update_one({"_id": 0}, {"$pull": {"kara": context.args[0]}})
     except Exception as e:
         bot.send_message(chat, e)
     else:
