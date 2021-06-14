@@ -706,7 +706,10 @@ def callback_query(call, context):
         if user in context.chat_data[str(mesajid)]:
             call.callback_query.answer("Sadece bir kez kullanabilirsiniz.")
             return
-        eskidata = context.chat_data[str(mesajid)]
+        try:
+            eskidata = context.chat_data[str(mesajid)]
+        except:
+            call.callback_query.answer("Butonların geçerlilik süresi dolmuş.")
         eskidata.append(user)
         context.chat_data[str(mesajid)] = eskidata
         if pushed == "1":
@@ -1143,7 +1146,7 @@ def kayitapi(update, context):
 def cancel(update, context):
     chat = update.message.chat.id
     bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(chat))
-    return
+    return ConversationHandler.END
 
 def altakayit(update, context):
     amesaj = update.message.text
