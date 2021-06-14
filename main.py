@@ -2493,11 +2493,11 @@ def main() -> None:
     conv_handler = ConversationHandler(
         entry_points=[MessageHandler(Filters.update.message & ~Filters.command, menu)],
         states={ 
-            ALTMENU: [MessageHandler(~Filters.command & Filters.update.message & ~Filters.regex('^(↩️ Ana Menü)$'), kayitapi)], 
-            APIDEGISTIR: [MessageHandler(~Filters.command & Filters.update.message & ~Filters.regex('^(↩️ Ana Menü)$'), apikayit)],
-            KANALKAYDET: [MessageHandler(~Filters.command & Filters.update.message & ~Filters.regex('^(↩️ Ana Menü)$'), kanalkayit)],
-            SABLON: [MessageHandler(~Filters.command & Filters.update.message & ~Filters.regex('^(↩️ Ana Menü)$'), sabloniki)],
-            PATPOST: [MessageHandler(~Filters.command & Filters.update.message & ~Filters.regex('^(↩️ Ana Menü)$'), pat)]
+            ALTMENU: [MessageHandler(~Filters.command & Filters.update.message, kayitapi)], 
+            APIDEGISTIR: [MessageHandler(~Filters.command & Filters.update.message, apikayit)],
+            KANALKAYDET: [MessageHandler(~Filters.command & Filters.update.message, kanalkayit)],
+            SABLON: [MessageHandler(~Filters.command & Filters.update.message, sabloniki)],
+            PATPOST: [MessageHandler(~Filters.command & Filters.update.message, pat)]
             },
         fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$') & Filters.update.message, cancel), CommandHandler('start', start, filters=~Filters.update.edited_message)]
         )
