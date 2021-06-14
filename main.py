@@ -144,8 +144,9 @@ def deep(u_kod, user):
     if int(u_kod) > 10:
         ref_kanal_ismi = bot.get_chat(OzelCol.find_one({"_id": int(u_kod)})['okaynak']).title
         if kat == None:
+            if not user in OzelCol.find_one({"_id": int(u_kod)})['kanal']:
+                OzelCol.update_one({"_id": int(u_kod)}, {"$push": {"kanal": user}})
             collection.insert_one(key)
-            OzelCol.update_one({"_id": int(u_kod)}, {"$push": {"kanal": user}})
             bot.send_message(user, "🏋🏻 {} referansı ile geldiniz!".format(ref_kanal_ismi), reply_markup=dugme(user))
             bot.send_message(user, "📝 Alternatif API adresinizi gönderin.", reply_markup=imark())
             return False
@@ -968,7 +969,7 @@ def menu(update, context):
             bot.send_message(chat, "Lütfen önce bir API kaydedin.", reply_markup=dagme())
             return
         if len(mj['kanal']) < 1:
-            bot.send_message(chat, "Lütfen önce bir kanal kaydedin.", reply_markup=dagme())
+            bot.send_message(chat, "Lütfen önce bir kanal kaydedin.", reply_markup=dugme())
             return
         msg = bot.send_message(chat, "Paylaşmamı istediğin hazır postu ilet.", reply_markup=imark())
         
