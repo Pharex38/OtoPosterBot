@@ -2491,7 +2491,7 @@ def main() -> None:
     updater.job_queue
     
     conv_handler = ConversationHandler(
-        entry_points=[MessageHandler(Filters.update.message & ~Filters.command & ~Filters.regex('^(↩️ Ana Menü)$'), menu)],
+        entry_points=[MessageHandler(Filters.update.message & ~Filters.command, menu)],
         states={ 
             ALTMENU: [MessageHandler(~Filters.command & Filters.update.message & ~Filters.regex('^(↩️ Ana Menü)$'), kayitapi)], 
             APIDEGISTIR: [MessageHandler(~Filters.command & Filters.update.message & ~Filters.regex('^(↩️ Ana Menü)$'), apikayit)],
