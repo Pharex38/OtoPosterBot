@@ -1059,7 +1059,7 @@ def ozelk(update, context):
             OzelCol.insert_one({"_id": user, "okaynak": 546421354, "log": "yok"}) 
         OzelCol.update_one({"_id": user}, {"$set": {"okaynak": kanal, "kanal": [user]}})
         collection.update_one({"_id": user}, {"$set": {"ozel": True, "kaynak": ["32"]}})
-        bot.send_message(update.message.chat.id, "<b>Özel Kaynak Oluşturuldu!</b>", reply_markup=kaynakmark(user))
+        bot.send_message(update.message.chat.id, "<b>Özel Kaynak Oluşturuldu!\n\nKaynak butonuna basarak ayarlarını görebilirsin.</b>", reply_markup=dugme(user))
         return ConversationHandler.END
 
 def ozellog(update, context):
