@@ -265,6 +265,7 @@ def start(update, context):
  
   📔        <b>@OtoPosterBotLog</b>
 """.format(mention), disable_web_page_preview=True, reply_markup=dugme(user))
+    return ConversationHandler.END
 
 def stats(update, context):
     kanals = 0
@@ -805,6 +806,19 @@ def gen_markup(user):
     
     return silkey
 
+def site_isim(no):
+    if no == "1":
+        return "TRLink"
+    if no == "2":
+        return "PND.TL"
+    if no == "3":
+        return "Exe.io"
+    if no == "4":
+        return "Ouo.io"
+    if no == "5":
+        return "Pubiza"
+
+
 
 def menu(update, context):
     chat = update.message.chat.id
@@ -869,23 +883,7 @@ def menu(update, context):
             
             return APIDEGISTIR
     if mesaj == "⚙️ Menü":
-        kayitli = 0
-        chat = update.message.chat.id
         bina = collection.find_one({"_id": chat})
-        try:
-            for chan in bina['kanal']:
-                try:
-                    kbilgi = bot.get_chat(chan)
-                except Exception as e:
-                    logger.error(e)
-                    collection.update_one({"_id": chat}, {"$pull": {"kanal": chan}})
-                    kayitli = kayitli - 1
-                    logger.debug("Kanal silindi")
-                else:    
-                    bot.send_message(chat, """Kanalınız: <a href="{}">{}</a>""".format(kbilgi.invite_link, kbilgi.title))
-                kayitli = kayitli + 1
-        except Exception as e:
-            pass
         try:
             tokenn = bina['token']
         except:
@@ -894,34 +892,27 @@ def menu(update, context):
 📝 <i></i> <a href="https://tr.link/member/tools/quick">buraya tıklayarak</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark())
             
             return APIDEGISTIR
+        kayitli = 0
+        site = bina['site']
+        site = site_isim(site)
+        if bina['altsite'] == "None":
+            menu_mesaj = "<i>♦️Kayıtlı API: {}\nSite: {}</i>".format(tokenn, site)
         else:
-            site = bina['site']
-            if site == "1":
-                site = "TRLink"
-            if site == "2":
-                site = "PND.TL"
-            if site == "3":
-                site = "Exe.io"
-            if site == "4":
-                site = "Ouo.io"
-            if site == "5":
-                site = "Pubiza"
-            if bina['altsite'] == "None":
-                msg = bot.send_message(chat, "<i>♦️Kayıtlı API: {}\nSite: {}\nToplam Kanal: {}</i>".format(tokenn, site, kayitli), reply_markup=markupp())
-            else:
-                altsite = bina['altsite']
-                if altsite == "1":
-                    altsite = "TRLink"
-                if altsite == "2":
-                    altsite = "PND.TL"
-                if altsite == "3":
-                    altsite = "Exe.io"
-                if altsite == "4":
-                    altsite = "Ouo.io"
-                if altsite == "5":
-                    altsite = "Pubiza"
-                msg = bot.send_message(chat, "<i>♦️Birincil API: {}\n  Birincil Site: {}\n  Alternatif API: {}\n  Alternatif Site: {}\n  Toplam Kanal: {}</i>".format(tokenn, site, bina['altapi'], altsite, kayitli), reply_markup=markupp())
-                
+            altsite = bina['altsite']
+            altsite = site_isim(altsite)
+            menu_mesaj = "<i>♦️Birincil API: {}\n  Birincil Site: {}\n  Alternatif API: {}\n  Alternatif Site: {}</i>".format(tokenn, site, bina['altapi'], altsite)
+        for chan in bina['kanal']:
+            try:
+                kbilgi = bot.get_chat(chan)
+            except Exception as e:
+                logger.error(e)
+                collection.update_one({"_id": chat}, {"$pull": {"kanal": chan}})
+                logger.debug("Kanal silindi")
+            else:    
+                kanal_mesaj = """\n\n     <a href="{}">{}</a>""".format(kbilgi.invite_link, kbilgi.title)
+                menu_mesaj += kanal_mesaj
+                kayitli = kayitli + 1
+        menu_mesaj += f"Toplam {kayitli} Kanalınız Bulunuyor."
         return ALTMENU
     if mesaj == "▶️ SFS Modu":
         if mj == None:
@@ -2480,6 +2471,8 @@ def gunluk():
                         try:
                             uye = bot.get_chat_members_count(kul)
                             print(uye)
+                        except Unauthorized:
+                            pass
                         except Exception as e:
                             logger.error(e)
                             time.sleep(30)
@@ -2522,28 +2515,28 @@ def main() -> None:
         states={
             SABLON: [MessageHandler(Filters.text & Filters.update.message, sabloniki)]
             },
-        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$') & Filters.update.message, cancel), CommandHandler('start', start, filters=~Filters.update.edited_message)],
+        fallbacks=[CommandHandler('start', start, filters=~Filters.update.edited_message)],
         per_message=False)
     altconver = ConversationHandler(
         entry_points=[CallbackQueryHandler(altcall, pattern="^asite(.*)")],
         states={
             ALTAPI: [MessageHandler(Filters.text & Filters.update.message, altakayit)]
             },
-        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$') & Filters.update.message, cancel), CommandHandler('start', start, filters=~Filters.update.edited_message)],
+        fallbacks=[CommandHandler('start', start, filters=~Filters.update.edited_message)],
         per_message=False)
     logconver = ConversationHandler(
         entry_points=[CallbackQueryHandler(ozellogcall, pattern="^logokay(.*)")],
         states={
             OZELBOTLOG: [MessageHandler(Filters.all & Filters.update.message, ozellog)]
             },
-        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$') & Filters.update.message, cancel), CommandHandler('start', start, filters=~Filters.update.edited_message)],
+        fallbacks=[CommandHandler('start', start, filters=~Filters.update.edited_message)],
         per_message=False)
     ozelkconver = ConversationHandler(
         entry_points=[CallbackQueryHandler(ozelkaynakcall, pattern="^okayt(.*)")],
         states={
             OZELKAYNAK: [MessageHandler(~Filters.command & Filters.update.message, ozelk)]
             },
-        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$') & Filters.update.message, cancel), CommandHandler('start', start, filters=~Filters.update.edited_message)],
+        fallbacks=[CommandHandler('start', start, filters=~Filters.update.edited_message)],
         per_message=False)
     
     dispatcher.add_handler(conver)
