@@ -138,13 +138,16 @@ def dagme():
 
     return dagme
 
-zaman = datetime.datetime.now()
-saat = zaman.hour 
-dakika = zaman.minute
-logd = "{}.{}.{} - {}.{}".format(zaman.year, zaman.month, zaman.day, saat, dakika)
+def deep(u_kod, user):
+    key = {"_id": user, "kanal": [], "sablon": "1", "kaynak": [kyn], "site": "1", "altapi": "None", "altsite": "None", "sira": "0", "ozel": False}
+    kat = collection.find_one({"_id": user})
+    
+    
 
 def setup_logger():
     global logger
+    zaman = datetime.datetime.now()
+    logd = "{}.{}.{} - {}.{}".format(zaman.year, zaman.month, zaman.day, zaman.hour, zaman.minute)
     file_handler = logging.FileHandler(f'Loglar/{logd}.txt', 'w', 'utf-8')
     stream_handler = logging.StreamHandler()
     logger = logging.getLogger("main_log")
@@ -152,24 +155,21 @@ def setup_logger():
     logger.addHandler(file_handler)
     logger.addHandler(stream_handler)
 
-#logger = getLogger(__name__)
-
 setup_logger()
-
-logger.info(f"Saat: {saat}:{dakika}")
 
 ############## Komutlar #####################
 def start(update, context):
     user = update.message.from_user.id
     chat = update.message.chat.id
     bot = context.bot
+    print(context.args[0], context.args[1])
     if user in kara:
         bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
-    kat = collection.find_one({"_id": user})
     ref = update.message.text.split()[1] if len(update.message.text.split()) > 1 else None
     kyn = str(ref.split('k')[-1]) if len(update.message.text.split()) > 1 else None
-    key = {"_id": user, "kanal": [], "sablon": "1", "kaynak": [kyn], "site": "1", "altapi": "None", "altsite": "None", "sira": "0", "ozel": False}
+    if kyn != None:
+        deep(kyn, user) 
     if ref == "Kaynak1":
         if kat == None:
             collection.insert_one(key)
@@ -228,7 +228,7 @@ def start(update, context):
     if ref == "Kaynak6":
         if kat == None:
             collection.insert_one(key)
-            bot.send_message(chat, "🏋🏻 {} referansı ile geldiniz!".format(tutan.title))
+            bot.send_message(chat, "🏋🏻 {} referansı ile geldiniz!".format(muho.title))
         else:
             if not kat['ozel']:
                 collection.update_one({"_id": user}, {"$push": {"kaynak": "6"}})
@@ -239,7 +239,7 @@ def start(update, context):
     if ref == "Kaynak7":
         if kat == None:
             collection.insert_one(key)
-            bot.send_message(chat, "🏋🏻 {} referansı ile geldiniz!".format(muho.title))
+            bot.send_message(chat, "🏋🏻 {} referansı ile geldiniz!".format(tutan.title))
         else:
             if not kat['ozel']:
                 collection.update_one({"_id": user}, {"$push": {"kaynak": "7"}})
