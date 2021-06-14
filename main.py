@@ -1479,6 +1479,8 @@ def poster(update, context):
                             raise Unauthorized
                         if e == "Need administrator rights in the channel chat":
                             raise Unauthorized
+                        if e == "Forbidden: bot is not a member of the channel chat":
+                            raise Unauthorized
                         else:
                             logger.error(e)
                     else:
@@ -1627,6 +1629,8 @@ def poster(update, context):
                         if e == "Chat is not found":
                             raise Unauthorized
                         if e == "Need administrator rights in the channel chat":
+                            raise Unauthorized
+                        if e == "Forbidden: bot is not a member of the channel chat":
                             raise Unauthorized
                         else:
                             logger.error(e)
@@ -1778,6 +1782,8 @@ def poster(update, context):
                             raise Unauthorized
                         if e == "Need administrator rights in the channel chat":
                             raise Unauthorized
+                        if e == "Forbidden: bot is not a member of the channel chat":
+                            raise Unauthorized
                         else:
                             logger.error(e)
                         logger.error(e)
@@ -1926,6 +1932,8 @@ def poster(update, context):
                             raise Unauthorized
                         if e == "Need administrator rights in the channel chat":
                             raise Unauthorized
+                        if e == "Forbidden: bot is not a member of the channel chat":
+                            raise Unauthorized
                         else:
                             logger.error(e)
                         logger.error(e)
@@ -2069,6 +2077,8 @@ def poster(update, context):
                         if e == "Chat is not found":
                             raise Unauthorized
                         if e == "Need administrator rights in the channel chat":
+                            raise Unauthorized
+                        if e == "Forbidden: bot is not a member of the channel chat":
                             raise Unauthorized
                         else:
                             logger.error(e)
@@ -2216,6 +2226,8 @@ def poster(update, context):
                         if e == "Chat is not found":
                             raise Unauthorized
                         if e == "Need administrator rights in the channel chat":
+                            raise Unauthorized
+                        if e == "Forbidden: bot is not a member of the channel chat":
                             raise Unauthorized
                         else:
                             logger.error(e)
@@ -2365,6 +2377,8 @@ def poster(update, context):
                             raise Unauthorized
                         if e == "Need administrator rights in the channel chat":
                             raise Unauthorized
+                        if e == "Forbidden: bot is not a member of the channel chat":
+                            raise Unauthorized
                         else:
                             logger.error(e)
                         logger.error(e)
@@ -2507,6 +2521,8 @@ def poster(update, context):
                         if e == "Chat is not found":
                             raise Unauthorized
                         if e == "Need administrator rights in the channel chat":
+                            raise Unauthorized
+                        if e == "Forbidden: bot is not a member of the channel chat":
                             raise Unauthorized
                         else:
                             logger.error(e)
