@@ -326,8 +326,8 @@ def stats(update, context):
                     toplam += uye
           
     toplam = toplam / 1000
-    toplam = str(round(toplam, 1))+"K" if round(toplam, 1) < 1000 else str(round(toplam / 1000, 1))+"M"
-    bot.edit_message_text("Toplam Kullanıcı Sayısı: {}\nToplam Kayıtlı Kanal Sayısı: {}\nToplam Kitle: {}\n\n<b>Toplam Site Kullanan Sayısı;</b>\nTRLink: {}\nPND.TL: {}\nExe.io: {}\nOuo.io: {}\nPubiza: {}\n\n<b>Toplam Kaynak Kullanan Sayıları:</b>\n{}: {}\n{}: {}\n{}: {}\n{}: {}\n{}: {}\n{}: {}\n{}: {} ".format(users, kanals, toplam, trlink_kullanan_sayisi, pnd_kullanan_sayisi, exe_kullanan_sayisi, ouo_kullanan_sayisi, pubiza_kullanan_sayisi, mahzen.title, mahzen_kullanan_sayisi, bedava.title, bedava_kullanan_sayisi, evi.title, evi_kullanan_sayisi, bashub.title, bashub_kullanan_sayisi, acikmi.title, acikmi_kullanan_sayisi, muho.title, hazır_kullanan_sayisi, tutan.title, tutan_kullanan_sayisi), chat, msg.message_id)
+    toplam = str(round(toplam, 1))+"K" if round(toplam, 1) < 1000 else str(round(toplam / 1000, 2))+"M"
+    bot.edit_message_text("Toplam Kullanıcı Sayısı: {}\nToplam Kayıtlı Kanal Sayısı: {}\nToplam Kitle: {}\n\n<b>Toplam Site Kullanan Sayısı;</b>\nTRLink: {}\nPND.TL: {}\nExe.io: {}\nOuo.io: {}\nPubiza: {}\n\n<b>Toplam Kaynak Kullanan Sayıları:</b>\n{}: {}\n{}: {}\n{}: {}\n{}: {}\n{}: {}\n{}: {}\n{}: {}\n{}: {} ".format(users, kanals, toplam, trlink_kullanan_sayisi, pnd_kullanan_sayisi, exe_kullanan_sayisi, ouo_kullanan_sayisi, pubiza_kullanan_sayisi, mahzen.title, mahzen_kullanan_sayisi, bedava.title, bedava_kullanan_sayisi, evi.title, evi_kullanan_sayisi, bashub.title, bashub_kullanan_sayisi, acikmi.title, acikmi_kullanan_sayisi, muho.title, hazır_kullanan_sayisi, tutan.title, tutan_kullanan_sayisi, "Özel Kaynak:", ozel_kaynak_kullanan_sayisi), chat, msg.message_id)
 
 def bul(update, context):
     cnt = update.message.text.split()[1] if len(update.message.text.split()) > 1 else int(update.message.from_user.id)
@@ -2539,6 +2539,8 @@ def gunluk():
     while 0 < 1:
         zaman = datetime.datetime.now()
         if zaman.hour == 11 and zaman.minute == 50:
+            ozel_kaynak_kullanan_sayisi, mahzen_kullanan_sayisi, hazır_kullanan_sayisi, tutan_kullanan_sayisi, acikmi_kullanan_sayisi, bedava_kullanan_sayisi, evi_kullanan_sayisi, bashub_kullanan_sayisi = 0, 0, 0, 0, 0, 0, 0, 0
+            exe_kullanan_sayisi, pubiza_kullanan_sayisi, ouo_kullanan_sayisi, trlink_kullanan_sayisi, pnd_kullanan_sayisi = 0, 0, 0, 0, 0
             msg = bot.send_message(botlog, "<code>Günlük veriler hesaplanıyor...</code>")
             toplam = 0
             kum = []
@@ -2546,6 +2548,32 @@ def gunluk():
             users = 0
             kullanicilar = collection.find({})
             for kullanici in kullanicilar:
+                if kullanici['site'] == "1":
+                    trlink_kullanan_sayisi += 1
+                elif kullanici['site'] == "2":
+                    pnd_kullanan_sayisi += 1
+                elif kullanici['site'] == "3":
+                    exe_kullanan_sayisi += 1
+                elif kullanici['site'] == "4":
+                    ouo_kullanan_sayisi += 1
+                elif kullanici['site'] == "5":
+                    pubiza_kullanan_sayisi += 1
+                if "1" in kullanici['kaynak']:
+                    mahzen_kullanan_sayisi += 1
+                if "2" in kullanici['kaynak']:
+                    bedava_kullanan_sayisi += 1
+                if "3" in kullanici['kaynak']:
+                    evi_kullanan_sayisi += 1
+                if "4" in kullanici['kaynak']:
+                    bashub_kullanan_sayisi += 1
+                if "5" in kullanici['kaynak']:
+                    acikmi_kullanan_sayisi += 1
+                if "6" in kullanici['kaynak']:
+                    hazır_kullanan_sayisi += 1
+                if "7" in kullanici['kaynak']:
+                    tutan_kullanan_sayisi += 1
+                if kullanici['ozel']:
+                    ozel_kaynak_kullanan_sayisi += 1
                 users += 1
                 for kul in kullanici['kanal']:
                     if not kul in kum:
@@ -2565,7 +2593,7 @@ def gunluk():
           
             toplam = toplam / 1000
             toplam = str(round(toplam, 1))+"K" if round(toplam, 1) < 1000 else str(round(toplam / 1000, 2))+"M"
-            msg = bot.edit_message_text("👥 Toplam Kullanıcı Sayısı: {}\n📢 Toplam Kayıtlı Kanal Sayısı: {}\n🙋 Toplam Kitle: {}\n\nHer gün saat 22:00'da otomatik olarak güncel veriler paylaşılacak.".format(users, kanals, toplam), botlog, msg.message_id)
+            msg = bot.edit_message_text("👥 Toplam Kullanıcı Sayısı: {}\n📢 Toplam Kayıtlı Kanal Sayısı: {}\n🙋 Toplam Kitle: {}\n\n<b>Sitelerin Toplam Kullanıcı Sayısı;</b>\nTRLink -> {}\nPND.TL -> {}\nExe.io -> {}\nOuo.io -> {}\nPubiza -> {}\n\n<b>Kaynakların Toplam Kullanan Sayıları:</b>\n{} -> {}\n{} -> {}\n{} -> {}\n{} -> {}\n{} -> {}\n{} -> {}\n{} -> {}\nÖzel Kaynak -> {}".format(users, kanals, toplam, trlink_kullanan_sayisi, pnd_kullanan_sayisi, exe_kullanan_sayisi, ouo_kullanan_sayisi, pubiza_kullanan_sayisi, mahzen.title, mahzen_kullanan_sayisi, bedava.title, bedava_kullanan_sayisi, evi.title, evi_kullanan_sayisi, bashub.title, bashub_kullanan_sayisi, acikmi.title, acikmi_kullanan_sayisi, muho.title, hazır_kullanan_sayisi, tutan.title, tutan_kullanan_sayisi, ozel_kaynak_kullanan_sayisi), botlog, msg.message_id)
             bot.pin_chat_message(botlog, msg.message_id)
         time.sleep(60)
     
