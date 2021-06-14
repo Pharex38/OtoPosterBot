@@ -703,13 +703,13 @@ def callback_query(call, context):
         bomb = int(deger[2])
         kalp = int(deger[1])
         pushed = deger[-1]
-        if user in context.chat_data[str(mesajid)]:
-            call.callback_query.answer("Sadece bir kez kullanabilirsiniz.")
-            return
         try:
             eskidata = context.chat_data[str(mesajid)]
         except:
             call.callback_query.answer("Butonların geçerlilik süresi dolmuş.")
+            return
+        if user in eskidata:
+            call.callback_query.answer("Sadece bir kez kullanabilirsiniz.")
             return
         eskidata.append(user)
         context.chat_data[str(mesajid)] = eskidata
