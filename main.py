@@ -138,10 +138,35 @@ def dagme():
 
     return dagme
 
-#def deep(u_kod, user):
+def deep(u_kod, user):
+    kat = collection.find_one({"_id": user})
+    ref_kanal_ismi = bot.get_chat(OzelCol.find_one({"_id": int(u_kod)})['okaynak']).title
+    key = {"_id": user, "kanal": [], "sablon": "1", "kaynak": ["32"], "site": "1", "altapi": "None", "altsite": "None", "sira": "0", "ozel": True}
+    if int(u_kod) > 10:
+        if kat == None:
+            collection.insert_one(key)
+            OzelCol.update_one({"_id": int(u_kod)}, {"$push": {"kanal": user}})
+            bot.send_message(user, "🏋🏻 {} referansı ile geldiniz!".format(ref_kanal_ismi))
+            return False
+        else:
+            collection.update_one({"_id": user}, {"$set": {"ozel": True, "kaynak": ["32"]}})
+            OzelCol.update_one({"_id": int(u_kod)}, {"$push": {"kanal": user}})
+            bot.send_message(user, "🏋🏻 {} referansı ile geldiniz!".format(ref_kanal_ismi))
+    key = {"_id": user, "kanal": [], "sablon": "1", "kaynak": [u_kod], "site": "1", "altapi": "None", "altsite": "None", "sira": "0", "ozel": False}
+    ref_kanal_ismi = bot.get_chat(kaynaklar[int(u_kod)]).title
+    if kat == None:
+        collection.insert_one(key)
+        bot.send_message(user, "🏋🏻 {} referansı ile geldiniz!".format(ref_kanal_ismi))
+        bot.send_message(user, "📝 Alternatif API adresinizi gönderin.")
+        return False
+    else:
+        if not kat['ozel']:
+            collection.update_one({"_id": user}, {"$push": {"kaynak": u_kod}})
+            bot.send_message(user, "Kaynağınız Eklendi!")
+        else:
+            bot.send_message(user, "Özel kaynağınız olduğu için başka kaynak kullanamazsınız!")
+        return True
     
-    
-
 def setup_logger():
     global logger
     zaman = datetime.datetime.now()
@@ -160,92 +185,16 @@ def start(update, context):
     user = update.message.from_user.id
     chat = update.message.chat.id
     bot = context.bot
-    kat = collection.find_one({"_id": user})
     if user in kara:
         bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
-    key = {"_id": user, "kanal": [], "sablon": "1", "kaynak": [kyn], "site": "1", "altapi": "None", "altsite": "None", "sira": "0", "ozel": False}
-    ref = update.message.text.split()[1] if len(update.message.text.split()) > 1 else None
-    kyn = str(ref.split('k')[-1]) if len(update.message.text.split()) > 1 else None
-    if kyn != None:
-        deep(kyn, user) 
-    if ref == "Kaynak1":
-        if kat == None:
-            collection.insert_one(key)
-            bot.send_message(chat, "🏋🏻 {} referansı ile geldiniz!".format(mahzen.title))
-        else:
-            if not kat['ozel']:
-                collection.update_one({"_id": user}, {"$push": {"kaynak": "1"}})
-                bot.send_message(chat, "Kaynağınız Eklendi!")
-            else:
-                bot.send_message(chat, "Özel kaynağınız olduğu için başka kaynak kullanamazsınız!")
+    
+    if len(context.args) > 0:
+        ref = context.args[0]
+        kyn = str(ref.split('k')[-1]) if len(update.message.text.split()) > 1 else None
+        if deep(kyn, user):
             return
-    if ref == "Kaynak2":
-        if kat == None:
-            collection.insert_one(key)
-            bot.send_message(chat, "🏋🏻 {} referansı ile geldiniz!".format(bedava.title))
-        else:
-            if not kat['ozel']:
-                collection.update_one({"_id": user}, {"$push": {"kaynak": "2"}})
-                bot.send_message(chat, "Kaynağınız Eklendi!")
-            else:
-                bot.send_message(chat, "Özel kaynağınız olduğu için başka kaynak kullanamazsınız!")
-            return
-    if ref == "Kaynak3":
-        if kat == None:
-            collection.insert_one(key)
-            bot.send_message(chat, "🏋🏻 {} referansı ile geldiniz!".format(evi.title))
-        else:
-            if not kat['ozel']:
-                collection.update_one({"_id": user}, {"$push": {"kaynak": "3"}})
-                bot.send_message(chat, "Kaynağınız Eklendi!")
-            else:
-                bot.send_message(chat, "Özel kaynağınız olduğu için başka kaynak kullanamazsınız!")
-            return
-    if ref == "Kaynak4":
-        if kat == None:
-            collection.insert_one(key)
-            bot.send_message(chat, "🏋🏻 {} referansı ile geldiniz!".format(bashub.title))
-        else:
-            if not kat['ozel']:
-                collection.update_one({"_id": user}, {"$push": {"kaynak": "4"}})
-                bot.send_message(chat, "Kaynağınız Eklendi!")
-            else:
-                bot.send_message(chat, "Özel kaynağınız olduğu için başka kaynak kullanamazsınız!")
-            return
-    if ref == "Kaynak5":
-        if kat == None:
-            collection.insert_one(key)
-            bot.send_message(chat, "🏋🏻 {} referansı ile geldiniz!".format(acikmi.title))
-        else:
-            if not kat['ozel']:
-                collection.update_one({"_id": user}, {"$push": {"kaynak": "5"}})
-                bot.send_message(chat, "Kaynağınız Eklendi!")
-            else:
-                bot.send_message(chat, "Özel kaynağınız olduğu için başka kaynak kullanamazsınız!")
-            return
-    if ref == "Kaynak6":
-        if kat == None:
-            collection.insert_one(key)
-            bot.send_message(chat, "🏋🏻 {} referansı ile geldiniz!".format(muho.title))
-        else:
-            if not kat['ozel']:
-                collection.update_one({"_id": user}, {"$push": {"kaynak": "6"}})
-                bot.send_message(chat, "Kaynağınız Eklendi!")
-            else:
-                bot.send_message(chat, "Özel kaynağınız olduğu için başka kaynak kullanamazsınız!")
-            return
-    if ref == "Kaynak7":
-        if kat == None:
-            collection.insert_one(key)
-            bot.send_message(chat, "🏋🏻 {} referansı ile geldiniz!".format(tutan.title))
-        else:
-            if not kat['ozel']:
-                collection.update_one({"_id": user}, {"$push": {"kaynak": "7"}})
-                bot.send_message(chat, "Kaynağınız Eklendi!")
-            else:
-                bot.send_message(chat, "Özel kaynağınız olduğu için başka kaynak kullanamazsınız!")
-            return
+        return APIDEGISTIR
     
     mention = "@"+update.message.from_user.username if update.message.from_user.username else update.message.from_user.first_name
     bot.send_message(chat, """
@@ -1676,7 +1625,7 @@ def poster(update, context):
                         logger.error(e)
                     else:
                         bpostdata.insert_one({"mesih": bmesjid, "pid": bpost.message_id, "chat": bkan})
-                        bcount = bcount + 1
+                        bcount += 1
                     
                 logger.info("Başarılı!")
         bbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(bkynk.title, bcount)
@@ -2577,7 +2526,7 @@ def poster(update, context):
 def gunluk():
     while 0 < 1:
         zaman = datetime.datetime.now()
-        if zaman.hour == 11 and zaman.minute == 55:
+        if zaman.hour == 11 and zaman.minute == 50:
             ozel_kaynak_kullanan_sayisi, mahzen_kullanan_sayisi, hazır_kullanan_sayisi, tutan_kullanan_sayisi, acikmi_kullanan_sayisi, bedava_kullanan_sayisi, evi_kullanan_sayisi, bashub_kullanan_sayisi = 0, 0, 0, 0, 0, 0, 0, 0
             exe_kullanan_sayisi, pubiza_kullanan_sayisi, ouo_kullanan_sayisi, trlink_kullanan_sayisi, pnd_kullanan_sayisi = 0, 0, 0, 0, 0
             msg = bot.send_message(botlog, "<code>Günlük veriler hesaplanıyor...</code>")
