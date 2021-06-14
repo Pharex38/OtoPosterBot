@@ -1113,6 +1113,9 @@ def kayitapi(update, context):
     chat = update.message.chat.id
     mesaj = update.message.text
     user = update.message.from_user.id
+    if user in kara:
+        bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
+        return
     ka = collection.find_one({"_id": user})
     vip_uyeler = collection.find_one({"_id": 0})['vipuye']
     if mesaj == "🗑️ Kanal Sil":
