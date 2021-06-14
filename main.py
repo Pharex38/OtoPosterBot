@@ -703,12 +703,12 @@ def callback_query(call, context):
         bomb = int(deger[2])
         kalp = int(deger[1])
         pushed = deger[-1]
-        if user in context.chat_data[mesajid]:
+        if user in context.chat_data[str(mesajid)]:
             call.callback_data.answer("Sadece bir kez kullanabilirsiniz.")
             return
-        eskidata = context.chat_data[mesajid]
+        eskidata = context.chat_data[str(mesajid)]
         eskidata.append(user)
-        context.chat_data[mesajid] = eskidata
+        context.chat_data[str(mesajid)] = eskidata
         if pushed == "1":
             kalp += 1
         if pushed == "2":
