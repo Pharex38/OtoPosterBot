@@ -326,7 +326,7 @@ def ona(m, context):
 def durdur(update, context):
     chat = update.message.chat.id
     user = update.message.from_user.id
-    kimi = int(update.message.text.split()[1]) if len(update.message.text.split()) > 1 and user in adminlist else message.from_user.id
+    kimi = int(update.message.text.split()[1]) if len(update.message.text.split()) > 1 and user in adminlist else update.message.from_user.id
     if user in kara:
         bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
@@ -2614,7 +2614,7 @@ def main() -> None:
     updater.job_queue
     
     conv_handler = ConversationHandler(
-        entry_points=[MessageHandler(Filters.update.message & ~Filters.command, menu)],
+        entry_points=[MessageHandler(Filters.update.message & ~Filters.command, menu), CommandHandler('start', start)],
         states={ 
             ALTMENU: [MessageHandler(~Filters.command & Filters.update.message, kayitapi)], 
             APIDEGISTIR: [MessageHandler(~Filters.command & Filters.update.message, apikayit)],
