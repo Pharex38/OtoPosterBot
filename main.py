@@ -709,7 +709,6 @@ def callback_query(call, context):
             bomb += 1
         if pushed == "3":
             rose += 1
-        if 
         cal.callback_query.edit_message_reply_markup(begenimark(kalp, bomb, rose))
 
 ################## Markup #####################
