@@ -139,8 +139,6 @@ def dagme():
     return dagme
 
 def deep(u_kod, user):
-    key = {"_id": user, "kanal": [], "sablon": "1", "kaynak": [kyn], "site": "1", "altapi": "None", "altsite": "None", "sira": "0", "ozel": False}
-    kat = collection.find_one({"_id": user})
     
     
 
@@ -162,9 +160,11 @@ def start(update, context):
     user = update.message.from_user.id
     chat = update.message.chat.id
     bot = context.bot
+    kat = collection.find_one({"_id": user})
     if user in kara:
         bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
+    key = {"_id": user, "kanal": [], "sablon": "1", "kaynak": [kyn], "site": "1", "altapi": "None", "altsite": "None", "sira": "0", "ozel": False}
     ref = update.message.text.split()[1] if len(update.message.text.split()) > 1 else None
     kyn = str(ref.split('k')[-1]) if len(update.message.text.split()) > 1 else None
     if kyn != None:
