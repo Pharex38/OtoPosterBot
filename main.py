@@ -662,7 +662,8 @@ def callback_query(call, context):
     if call.callback_query.data == "yoket":
         kayna_k = OzelCol.find_one({"_id": user})
         for xk in kayna_k['kanal']:
-            bot.send_message(xk, "Özel kaynağınız sahibi kaynağı <b>yok etti</b>, bence başka kaynak ayarlamalısın")
+            if user != xk:
+                bot.send_message(xk, "Özel kaynağınız sahibi tarafından <b>yok edildi!</b> Bence başka kaynak aramaya başlamalısın.")
         OzelCol.delete_one({"_id": user})
         collection.update_one({"_id": user}, {"$set": {"ozel": False}})
         call.callback_query.edit_message_text("Kaynak, sen de dahil bütün kullanıcılardan silindi. 💣")
