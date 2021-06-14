@@ -913,6 +913,7 @@ def menu(update, context):
                 menu_mesaj += kanal_mesaj
                 kayitli = kayitli + 1
         menu_mesaj += f"Toplam {kayitli} Kanalınız Bulunuyor."
+        bot.send_message(chat, menu_mesaj, reply_markup=markupp())
         return ALTMENU
     if mesaj == "▶️ SFS Modu":
         if mj == None:
