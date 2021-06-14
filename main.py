@@ -338,7 +338,7 @@ def bul(update, context):
     try:
         cntt = collection.find({"_id": int(cnt)})
         for c in cntt:
-            bot.send_message(update.message.chat.id, 'ID: {}\nToken: {} \nKaynak: {} \nSite: {} \nKanal: {} \nAlt Token: {} \n Alt Site: {} \n Özel Kaynak: {}'.format(c['_id'], c['token'], c['kaynak'], c['site'], c['kanal'], c['altapi'], c['altsite'], c['ozel']), reply_markup=begenimark("0", "0", "0"))
+            bot.send_message(update.message.chat.id, 'ID: {}\nToken: {} \nKaynak: {} \nSite: {} \nKanal: {} \nAlt Token: {} \n Alt Site: {} \n Özel Kaynak: {}'.format(c['_id'], c['token'], c['kaynak'], c['site'], c['kanal'], c['altapi'], c['altsite'], c['ozel']))
     except:
         pass
     try:
@@ -368,7 +368,8 @@ def bul(update, context):
 
 def ona(m, context):
     cid = m.message.chat.id
-    bot.send_message(cid, "Bu komutu kanalınızda kullanmalısınız.", reply_markup=begenimark(0, 0, 0))
+    msj = bot.send_message(cid, "Bu komutu kanalınızda kullanmalısınız.", reply_markup=begenimark(0, 0, 0))
+    context.chat_data[str(msj.message_id)] = []
 
 def durdur(update, context):
     chat = update.message.chat.id
@@ -573,7 +574,6 @@ def ozellogcall(call, context):
     bot.send_message(chat, "📝 Oluşturduğunuz Log kanalından bir gönderi iletin.", reply_markup=imark())
     return OZELBOTLOG
 
-
 def ozelkaynakcall(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
@@ -703,6 +703,12 @@ def callback_query(call, context):
         bomb = int(deger[2])
         kalp = int(deger[1])
         pushed = deger[-1]
+        if user in context.chat_data[mesajid]:
+            call.callback_data.answer("Sadece bir kez kullanabilirsiniz.")
+            return
+        eskidata = context.chat_data[mesajid]
+        eskidata.append(user)
+        context.chat_data[mesajid] = eskidata
         if pushed == "1":
             kalp += 1
         if pushed == "2":
