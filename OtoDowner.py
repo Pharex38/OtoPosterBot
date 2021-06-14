@@ -101,13 +101,13 @@ def run(message):
 def pull(message):
     pidd = open("pid.txt", "r+")
     pid = pidd.read()
-    os.system("git pull")
+    pull = os.system("git pull")
     try:
         os.kill(int(pid), 9)
     except:
         pass
     os.startfile('basla.bat')
-    bot.send_message(message.chat.id, "Pull")
+    bot.send_message(message.chat.id, "Pull isteği gönderildi. \n\n{}".format(pull))
 
 
 dpid = os.getpid()
