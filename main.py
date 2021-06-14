@@ -150,7 +150,7 @@ def deep(u_kod, user):
             bot.send_message(user, "📝 Alternatif API adresinizi gönderin.", reply_markup=imark())
             return False
         else:
-            if user in OzelCol.find_one({"_id": u_kod})['kanal']:
+            if user in OzelCol.find_one({"_id": int(u_kod)})['kanal']:
                 bot.send_message(user, "Zaten Bu Kaynağı Kullanıyorsunuz!", reply_markup=dugme(user))
                 return True
             collection.update_one({"_id": user}, {"$set": {"ozel": True, "kaynak": ["32"]}})
