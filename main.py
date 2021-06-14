@@ -368,7 +368,7 @@ def bul(update, context):
 
 def ona(m, context):
     cid = m.message.chat.id
-    bot.send_message(cid, "Bu komutu kanalınızda kullanmalısınız.")
+    bot.send_message(cid, "Bu komutu kanalınızda kullanmalısınız.", reply_markup=begenimark(0, 0, 0))
 
 def durdur(update, context):
     chat = update.message.chat.id
