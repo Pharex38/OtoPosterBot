@@ -2550,13 +2550,23 @@ def gunluk():
             for kullanici in kullanicilar:
                 if kullanici['site'] == "1":
                     trlink_kullanan_sayisi += 1
+                if kullanici['altsite'] == "1":
+                    trlink_kullanan_sayisi += 1
                 elif kullanici['site'] == "2":
+                    pnd_kullanan_sayisi += 1
+                elif kullanici['altsite'] == "2":
                     pnd_kullanan_sayisi += 1
                 elif kullanici['site'] == "3":
                     exe_kullanan_sayisi += 1
+                elif kullanici['altsite'] == "3":
+                    exe_kullanan_sayisi += 1
                 elif kullanici['site'] == "4":
                     ouo_kullanan_sayisi += 1
+                elif kullanici['altsite'] == "4":
+                    ouo_kullanan_sayisi += 1
                 elif kullanici['site'] == "5":
+                    pubiza_kullanan_sayisi += 1
+                elif kullanici['altsite'] == "5":
                     pubiza_kullanan_sayisi += 1
                 if "1" in kullanici['kaynak']:
                     mahzen_kullanan_sayisi += 1
@@ -2603,7 +2613,7 @@ logger.info("Bot Çalışıyor...")
 bildir('Bot Başladı 🍕')
 
 def main() -> None:
-    updater = Updater(token=bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=90), request_kwargs={'con_pool_size': 999, 'read_timeout': 150, 'connect_timeout': 150})
+    updater = Updater(token=bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=90), request_kwargs={'con_pool_size': 999, 'read_timeout': 150, 'connect_timeout': 150}, workers=40)
 
     dispatcher = updater.dispatcher
 
