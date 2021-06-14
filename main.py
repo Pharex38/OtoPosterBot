@@ -1,4 +1,4 @@
-import requests
+
 from requests import get, Session
 from os import environ
 import asyncio
@@ -6,7 +6,7 @@ from time import sleep
 from pymongo import MongoClient
 import time, datetime
 import threading
-import os, signal
+import os
 from ssl import CERT_NONE
 import logging
 from typing import Dict
@@ -39,7 +39,7 @@ collection = db["Kanallar"]
 OzelCol = db["Özel Kaynaklar"]
 karaliste = collection.find_one({"_id": 0})
 bottoken = karaliste['bottoken']
-bot = ExtBot(bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=9))
+bot = ExtBot(bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=99))
 
 blog = -1001391561285
 botlog = -1001352123979
@@ -158,6 +158,7 @@ setup_logger()
 
 logger.info(f"Saat: {saat}:{dakika}")
 
+############## Komutlar #####################
 def start(update, context):
     user = update.message.from_user.id
     chat = update.message.chat.id
@@ -337,7 +338,7 @@ def bul(update, context):
     try:
         cntt = collection.find({"_id": int(cnt)})
         for c in cntt:
-            bot.send_message(update.message.chat.id, 'ID: {}\nToken: {} \nKaynak: {} \nSite: {} \nKanal: {} \nAlt Token: {} \n Alt Site: {} \n Özel Kaynak: {}'.format(c['_id'], c['token'], c['kaynak'], c['site'], c['kanal'], c['altapi'], c['altsite'], c['ozel']))
+            bot.send_message(update.message.chat.id, 'ID: {}\nToken: {} \nKaynak: {} \nSite: {} \nKanal: {} \nAlt Token: {} \n Alt Site: {} \n Özel Kaynak: {}'.format(c['_id'], c['token'], c['kaynak'], c['site'], c['kanal'], c['altapi'], c['altsite'], c['ozel']), reply_markup=begenimark(0, 0, 0))
     except:
         pass
     try:
@@ -493,6 +494,7 @@ def zaman(update, context):
         collection.update_one({"_id": 0}, {"$set": {"muho": msj}})
     bot.send_message(chat, "Kaydedildi.")
 
+############# Error Handler ##################
 import html
 import json
 import traceback
@@ -512,6 +514,7 @@ def error_handler(update: object, context: CallbackContext) -> None:
 
     context.bot.send_message(chat_id=1302980840, text=message, parse_mode=ParseMode.HTML)
 
+################ Callback ###################
 def sabloncall(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
@@ -587,7 +590,6 @@ def ozelkaynakcall(call, context):
 1 - Kaynak yapacağınız kanal oluşturun.
 2 - Oluşturduğunuz kanaldan update.messagea bir mesaj iletin.</i>""", reply_markup=imark())
     return OZELKAYNAK
-
 
 def callback_query(call, context):
     user = call.effective_user.id
@@ -694,7 +696,23 @@ def callback_query(call, context):
         else:
             collection.update_one({"_id": user}, {"$set": {"sablon": "1"}})
         bot.edit_message_text("Varsayılana döndürüldü.", chat, mesajid)
+    """ Emoji """
+    if call.callback_query.data.startswith("emo"):
+        deger = call.callback_query.data.split("-")
+        rose = int(deger[2])
+        bomb = int(deger[1])
+        kalp = int(deger[0])
+        pushed = deger[-1]
+        if pushed == "1":
+            kalp += 1
+        if pushed == "2":
+            bomb += 1
+        if pushed == "3":
+            rose += 1
+        if 
+        cal.callback_query.edit_message_reply_markup(begenimark(kalp, bomb, rose))
 
+################## Markup #####################
 def sitemarkup():
     skey = []
     smark = InlineKeyboardMarkup([[InlineKeyboardButton("TRLink", callback_data="site-1")], [InlineKeyboardButton("PND.TL", callback_data="site-2")], [InlineKeyboardButton("Exe.io", callback_data="site-3")], [InlineKeyboardButton("Ouo.io", callback_data="site-4")], [InlineKeyboardButton("Pubiza", callback_data="site-5")], [InlineKeyboardButton("❌ İptal ❌", callback_data="iptal")]])
@@ -746,7 +764,7 @@ def kaynakmark(user):
                 y = x['_id']
         if user == y:
             if OzelCol.find_one({"_id": user})["log"] == "yok":
-                kmark = InlineKeyboardMarkup([[InlineKeyboardButton("🟣 Özel Kaynağı Kaldır 🟣", callback_data="okayk")], [InlineKeyboardButton("🤖 Botlog Oluştur 🤖", callback_data="logokay")], [InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")]])
+                kmark = InlineKeyboardMarkup([[InlineKeyboardButton("🟣 Özel Kaynağı Kaldır 🟣", callback_data="okayk")], [InlineKeyboardButton("🤖 Botlog Oluştur 🤖", callback_data="logokay")], [InlineKeyboardButton("💣 Kaynağı Yok Et 💣", callback_data="yoket-0"], [InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")]])
             else:
                 kmark = InlineKeyboardMarkup([[InlineKeyboardButton("🟣 Özel Kaynağı Kaldır 🟣", callback_data="okayk")], [InlineKeyboardButton("🤖 Botlog Kaldır ❌", callback_data="logokaldir")], [InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")]])
         else:
@@ -834,6 +852,11 @@ def gen_markup(user):
     
     return silkey
 
+def begenimark(kalp, bomb, rose):
+    bmark = InlineKeyboardMarkup([[InlineKeyboardButton(f"♥️{kalp}", call="emo-{}-{}-{}-1".format(kalp, bomb, rose)), InlineKeyboardButton(f"💣{bomb}", callback_data="emo-{}-{}-{}-2".format(kalp, bomb, rose)), InlineKeyboardButton(f"🌹{rose}", callback_data="emo-{}-{}-{}-3".format(kalp, bomb, rose))]])
+    return bmark
+
+#########################################
 def site_isim(no):
     if no == "1":
         return "TRLink"
@@ -845,8 +868,6 @@ def site_isim(no):
         return "Ouo.io"
     if no == "5":
         return "Pubiza"
-
-
 
 def menu(update, context):
     chat = update.message.chat.id
@@ -1041,7 +1062,6 @@ def ozellog(update, context):
     OzelCol.update_one({"_id": user}, {"$set": {"log": kanal}})
     bot.send_message(update.message.chat.id, "<b>Özel Botlog Kaydedildi!</b>", reply_markup=dugme(user))
     return ConversationHandler.END
-
 
 def sabloniki(update, context):
     mesaj = update.message.text
@@ -2688,7 +2708,6 @@ def main() -> None:
 
     updater.start_polling()
     updater.idle()
-
 
 if __name__ == '__main__':
     main()
