@@ -2495,9 +2495,9 @@ def main() -> None:
         states={ 
             ALTMENU: [MessageHandler(Filters.text & Filters.update.message, kayitapi)], 
             APIDEGISTIR: [MessageHandler(Filters.text & Filters.update.message, apikayit)],
-            KANALKAYDET: [MessageHandler(~Filters.command & Filters.update.message, kanalkayit)],
+            KANALKAYDET: [MessageHandler(Filters.update.message, kanalkayit)],
             SABLON: [MessageHandler(Filters.text & Filters.update.message, sabloniki)],
-            PATPOST: [MessageHandler(~Filters.command & Filters.update.message, pat)]
+            PATPOST: [MessageHandler(Filters.update.message, pat)]
             },
         fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$') & Filters.update.message, cancel), CommandHandler('start', start, filters=~Filters.update.edited_message)]
         )
