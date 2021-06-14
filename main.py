@@ -659,6 +659,15 @@ def callback_query(call, context):
     if call.callback_query.data == "logokaldir":
         OzelCol.update_one({"_id": user}, {"$set": {"log": "yok"}})
         call.callback_query.edit_message_text("Botlog Kaldırıldı.")
+    if call.callback_query.data == "yoket":
+        kayna_k = OzelCol.find_one({"_id": user})
+        for xk in kayna_k['kanal']:
+            bot.send_message(xk, "Özel kaynağınız sahibi kaynağı <b>yok etti</b>, bence başka kaynak ayarlamalısın")
+        OzelCol.delete_one({"_id": user})
+        collection.update_one({"_id": user}, {"$set": {"ozel": False}})
+        call.callback_query.edit_message_text("Kaynak, sen de dahil bütün kullanıcılardan silindi. 💣")
+    if call.callback_query.data == "eminmisin":
+        call.callback_query.edit_message_text("Alttaki düğmeye basarsan, bu kaynağı kullanan herkesi güzel postlarından mahrum ediceksin.", reply_markup=eminmisin())
     """ PAT """
     if call.callback_query.data.startswith("pat"):
         back = call.callback_query.data.split("-")
@@ -772,7 +781,7 @@ def kaynakmark(user):
                 y = x['_id']
         if user == y:
             if OzelCol.find_one({"_id": user})["log"] == "yok":
-                kmark = InlineKeyboardMarkup([[InlineKeyboardButton("🟣 Özel Kaynağı Kaldır 🟣", callback_data="okayk")], [InlineKeyboardButton("🤖 Botlog Oluştur 🤖", callback_data="logokay")], [InlineKeyboardButton("💣 Kaynağı Yok Et 💣", callback_data="yoket-0")], [InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")]])
+                kmark = InlineKeyboardMarkup([[InlineKeyboardButton("🟣 Özel Kaynağı Kaldır 🟣", callback_data="okayk")], [InlineKeyboardButton("🤖 Botlog Oluştur 🤖", callback_data="logokay")], [InlineKeyboardButton("💣 Kaynağı Yok Et 💣", callback_data="eminmisin")], [InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")]])
             else:
                 kmark = InlineKeyboardMarkup([[InlineKeyboardButton("🟣 Özel Kaynağı Kaldır 🟣", callback_data="okayk")], [InlineKeyboardButton("🤖 Botlog Kaldır ❌", callback_data="logokaldir")], [InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")]])
         else:
@@ -864,6 +873,8 @@ def begenimark(kalp, bomb, rose):
     bmark = InlineKeyboardMarkup([[InlineKeyboardButton(f"♥️{kalp}", callback_data="emo-{}-{}-{}-1".format(kalp, bomb, rose)), InlineKeyboardButton(f"💣{bomb}", callback_data="emo-{}-{}-{}-2".format(kalp, bomb, rose)), InlineKeyboardButton(f"🌹{rose}", callback_data="emo-{}-{}-{}-3".format(kalp, bomb, rose))]])
     return bmark
 
+def eminmisin():
+    return InlineKeyboardMarkup([[InlineKeyboardButton("Emin misin?", callback_data="yoket")], [InlineKeyboardButton("❌ İptal ❌)"], callback_data="aiptal"])
 #########################################
 def site_isim(no):
     if no == "1":
