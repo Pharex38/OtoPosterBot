@@ -375,7 +375,38 @@ def cpostsil(update, context):
         else:
             spcount += 1
     bot.send_message(chat, f"{spcount} Post Silindi.")
-    
+
+def viple(update, context):
+    chat = update.message.chat.id
+    try:
+        collection.update_one({"_id": 0}, {"$push": {"vipuye": context.args[0]}})
+    except Exception as e:
+        bot.send_message(chat, e)
+    else:
+        bot.send_message(chat, "Kullanıcı artık VIP!")
+
+def banla(update, context):
+    global kara
+    chat = update.message.chat.id
+    try:
+        collection.update_one({"_id": 0}, {"$push": {"": context.args[0]}})
+    except Exception as e:
+        bot.send_message(chat, e)
+    else:
+        bot.send_message(chat, "Kullanıcı yasaklandı!")
+    kara = collection.find_one({"_id": 0})['kara']
+
+def unbanla(update, context):
+    global kara
+    chat = update.message.chat.id
+    try:
+        collection.update_one({"_id": 0}, {"$pull": {"": context.args[0]}})
+    except Exception as e:
+        bot.send_message(chat, e)
+    else:
+        bot.send_message(chat, "Kullanıcının yasağı kaldırıldı!")
+    kara = collection.find_one({"_id": 0})['kara']
+
 def duy(m, context):
     chat = m.message.chat.id
     if chat != sahip:
@@ -2677,6 +2708,9 @@ def main() -> None:
     dispatcher.add_handler(CommandHandler('dsil', dsil, Filters.update.message & Filters.chat_type.private))
     dispatcher.add_handler(CommandHandler('stats', stats, Filters.update.message & Filters.chat_type.private))
     dispatcher.add_handler(CommandHandler('zaman', zaman, Filters.update.message & Filters.chat_type.private))
+    dispatcher.add_handler(CommandHandler('vip', viple, Filters.chat(sahip)))
+    dispatcher.add_handler(CommandHandler('unban', unbanla, Filters.chat(sahip)))
+    dispatcher.add_handler(CommandHandler('ban', banla, Filters.chat(sahip)))
 
     dispatcher.add_handler(MessageHandler(Filters.photo & Filters.update.channel_post | Filters.video & Filters.update.channel_post | Filters.animation & Filters.update.channel_post, poster))
 
