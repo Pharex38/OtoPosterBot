@@ -699,9 +699,9 @@ def callback_query(call, context):
     """ Emoji """
     if call.callback_query.data.startswith("emo"):
         deger = call.callback_query.data.split("-")
-        rose = int(deger[2])
-        bomb = int(deger[1])
-        kalp = int(deger[0])
+        rose = int(deger[3])
+        bomb = int(deger[2])
+        kalp = int(deger[1])
         pushed = deger[-1]
         if pushed == "1":
             kalp += 1
