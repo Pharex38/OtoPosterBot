@@ -209,7 +209,7 @@ def start(update, context):
 ✨ <b>Merhaba {}!</b>
 
 ❔<b>Ne İşe Yarıyor? </b>
-<i>Bu update.message sizin seçtiğiniz kaynak kanalında paylaşılan postların linklerini otomatik olarak kısaltıp sizin kanalınızda paylaşır.</i>
+<i>Bu bot sizin seçtiğiniz kaynak kanalında paylaşılan postların linklerini otomatik olarak kısaltıp sizin kanalınızda paylaşır.</i>
 
 ❔<b>Nasıl Kullanılır?</b>
 <i>1. Adım: Botu kanlınıza yönetici olarak ekleyin.
@@ -573,7 +573,7 @@ def ozelkaynakcall(call, context):
     bot.send_message(chat, """<b>Yapmanız Gerekenler</b>
 <i>
 1 - Kaynak yapacağınız kanal oluşturun.
-2 - Oluşturduğunuz kanaldan update.messagea bir mesaj iletin.</i>""", reply_markup=imark())
+2 - Oluşturduğunuz kanaldan bot bir mesaj iletin.</i>""", reply_markup=imark())
     return OZELKAYNAK
 
 def callback_query(call, context):
