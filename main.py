@@ -573,7 +573,7 @@ def ozelkaynakcall(call, context):
     bot.send_message(chat, """<b>Yapmanız Gerekenler</b>
 <i>
 1 - Kaynak yapacağınız kanal oluşturun.
-2 - Oluşturduğunuz kanaldan bot bir mesaj iletin.</i>""", reply_markup=imark())
+2 - Oluşturduğunuz kanaldan bota bir mesaj iletin.</i>""", reply_markup=imark())
     return OZELKAYNAK
 
 def callback_query(call, context):
