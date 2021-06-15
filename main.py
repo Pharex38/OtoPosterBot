@@ -330,13 +330,16 @@ def durdur(update, context):
     chat = update.message.chat.id
     user = update.message.from_user.id
     kimi = int(update.message.text.split()[1]) if len(update.message.text.split()) > 1 and user in adminlist else update.message.from_user.id
+    if collection.find_one({"_id": kimi}) == None:
+        bot.send_message(chat, "Henüz bir bilgi kaydetmemişsin.", reply_markup=dagme())
+        return
     if collection.find_one({"_id": kimi})['ozel']:
         for oc in OzelCol.find({}):
             if kimi in oc['kanal']:
                 OzelCol.update_one({"_id": oc['_id']}, {"$pull": {"kanal": kimi}})
                 break
     collection.delete_one({"_id": kimi})
-    bot.send_message("<b>Kanalınız Silindi!</b>", reply_markup=dagme())
+    bot.send_message(chat, "<b>Kanalınız Silindi!</b>", reply_markup=dagme())
 
 def kpostsil(update, context):
     chat = update.channel_post.chat.id
