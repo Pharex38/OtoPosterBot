@@ -1008,7 +1008,7 @@ def menu(update, context):
             bot.send_message(chat, "Lütfen önce bir API kaydedin.", reply_markup=dagme())
             return
         if len(mj['kanal']) < 1:
-            bot.send_message(chat, "Lütfen önce bir kanal kaydedin.", reply_markup=dugme())
+            bot.send_message(chat, "Lütfen önce bir kanal kaydedin.", reply_markup=dugme(user))
             return
         msg = bot.send_message(chat, "Paylaşmamı istediğin hazır postu ilet.", reply_markup=imark())
         
