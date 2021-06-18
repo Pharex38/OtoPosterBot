@@ -2515,7 +2515,7 @@ def poster(update, context):
                     if osite == "5":
                         olink = s.get(f"http://pubiza.com/api.php?", params={'token': etoken, 'url': omesajb, 'ads_type': "adult"}).text
                     logger.info(f"{okanal} + {olink} + {otoken}")
-                except:
+                except Exception as e:
                     bot.send_message(ouser, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
                     logger.error(e)
                     oret = False
