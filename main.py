@@ -1986,6 +1986,8 @@ def poster(update, context):
         ecount = 0
         emesaj = update.channel_post.caption
         """ Link tespit """
+        if emesaj == None:
+            return
         esolx = emesaj.rfind("http")
         esol = emesaj.find("http")
         if esol == -1:
