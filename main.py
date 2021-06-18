@@ -1490,6 +1490,7 @@ def poster(update, context):
                     sablon = sablon.replace("{aciklama}", "{}").replace("{link}", "{}").format(aciklama, link)
                 sleep(1.6)
                 for kan in kanal:
+                    post = update.channel_post
                     try:
                         if update.channel_post.photo and ret:
                             post = bot.send_photo(kan, medya, caption=sablon)
@@ -1641,6 +1642,7 @@ def poster(update, context):
                     bsablon = str(bsablon).format(baciklama, blink)
                 sleep(1.6)
                 for bkan in bkanal:
+                    bpost = update.channel_post
                     try:
                         if update.channel_post.photo and bret:
                             bpost = bot.send_photo(bkan, bmedya, caption=bsablon)
@@ -1793,6 +1795,7 @@ def poster(update, context):
                     csablon = csablon.replace("{link}", "{}").replace("aciklama", "").format(caciklama, clink)
                 sleep(1.6)
                 for ckan in ckanal:
+                    cpost = update.channel_post
                     try:
                         if update.channel_post.photo and cret:
                             cpost = bot.send_photo(ckan, cmedya, caption=csablon)
@@ -1943,6 +1946,7 @@ def poster(update, context):
                     dsablon = dsablon.replace("{link}", "{}").replace("{aciklama}", "{}").format(daciklama, dlink)
                 sleep(1.6)
                 for dkan in dkanal:
+                    dpost = update.channel_post
                     try: 
                         if update.channel_post.photo and dret:
                             dpost = bot.send_photo(dkan, dmedya, caption=dsablon)
@@ -2089,7 +2093,7 @@ def poster(update, context):
                     esablon = esablon.replace("{link}", "{}").replace("{aciklama}", "{}").format(eaciklama, elink)
                 sleep(1.6)
                 for ekan in ekanal:
-                    epost = "643799"
+                    epost = update.channel_post
                     try:
                         if update.channel_post.photo and eret:
                             epost = bot.send_photo(ekan, emedya, caption=esablon)
@@ -2238,6 +2242,7 @@ def poster(update, context):
                     gsablon = gsablon.replace("{link}", "{}").replace("aciklama", "").format(gaciklama, glink)
                 sleep(1.6)
                 for gkan in gkanal:
+                    gpost = update.channel_post
                     try:
                         if update.channel_post.photo and gret:
                             gpost = bot.send_photo(gkan, gmedya, caption=gsablon)
@@ -2388,6 +2393,7 @@ def poster(update, context):
                     fsablon = str(fsablon).format(faciklama, flink)
                 sleep(1.6)
                 for fkan in fkanal:
+                    fpost = update.channel_post
                     try:
                         if update.channel_post.photo and fret:
                             fpost = bot.send_photo(fkan, fmedya, caption=fsablon)
@@ -2395,11 +2401,6 @@ def poster(update, context):
                             fpost = bot.send_video(fkan, fmedya, caption=fsablon)
                         if update.channel_post.animation and fret:
                             fpost = bot.send_animation(fkan, fmedya, caption=fsablon)
-                    except BadRequest as bd:
-                        if bd.args == "Chat is not found":
-                            raise Unauthorized
-                        else:
-                            logger.error(bd)
                     except Unauthorized:
                         logger.debug(f"Hatalı kanal: {fkanal}")
                         collection.update_one({"_id": fuser}, {"$pull": {"kanal": fkan}})
