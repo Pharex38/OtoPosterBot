@@ -2089,6 +2089,7 @@ def poster(update, context):
                     esablon = esablon.replace("{link}", "{}").replace("{aciklama}", "{}").format(eaciklama, elink)
                 sleep(1.6)
                 for ekan in ekanal:
+                    epost = "643799"
                     try:
                         if update.channel_post.photo and eret:
                             epost = bot.send_photo(ekan, emedya, caption=esablon)
@@ -2118,7 +2119,6 @@ def poster(update, context):
                             raise Unauthorized
                         else:
                             logger.error(e)
-                        logger.error(e)
                     else:
                         epostdata.insert_one({"chat": ekan, "pid": epost.message_id, "mesih": emesjid})
                         ecount = ecount + 1
