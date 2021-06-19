@@ -662,9 +662,12 @@ def callback_query(call, context):
     if call.callback_query.data.startswith("pat"):
         back = call.callback_query.data.split("-")
         o = int(back[1]) - 1
-        ptip = context.user_data['ptip']
-        psablon = context.user_data['psablon']
-        fid = context.user_data['fid']
+        try:
+            ptip = context.user_data['ptip']
+            psablon = context.user_data['psablon']
+            fid = context.user_data['fid']
+        except:
+            return
         
         kanal = collection.find_one({"_id": user})['kanal']
         if o == -1:
