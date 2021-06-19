@@ -149,7 +149,7 @@ def deep(u_kod, user):
                 OzelCol.update_one({"_id": int(u_kod)}, {"$push": {"kanal": user}})
             collection.insert_one(key)
             bot.send_message(user, "🏋🏻 {} referansı ile geldiniz!".format(ref_kanal_ismi))
-            bot.send_message(user, "📝 Alternatif API adresinizi gönderin.", reply_markup=imark())
+            bot.send_message(user, "📝 API adresinizi gönderin.", reply_markup=imark())
             return False
         else:
             if user in OzelCol.find_one({"_id": int(u_kod)})['kanal']:
@@ -165,7 +165,7 @@ def deep(u_kod, user):
     if kat == None:
         collection.insert_one(key)
         bot.send_message(user, "🏋🏻 {} referansı ile geldiniz!".format(ref_kanal_ismi))
-        bot.send_message(user, "📝 Alternatif API adresinizi gönderin.", reply_markup=imark())
+        bot.send_message(user, "📝 API adresinizi gönderin.", reply_markup=imark())
         return False
     else:
         if not kat['ozel']:
