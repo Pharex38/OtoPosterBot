@@ -232,6 +232,7 @@ def stats(update, context):
     user = update.message.from_user.id
     kum = []
     kulkum = []
+    mahzen_kitle, bedava_kitle, hazır_kitle, acikmi_kitle, bashub_kitle, evi_kitle, tutan_kitle = 0, 0, 0, 0, 0, 0, 0
     ozel_kaynak_kullanan_sayisi, mahzen_kullanan_sayisi, hazır_kullanan_sayisi, tutan_kullanan_sayisi, acikmi_kullanan_sayisi, bedava_kullanan_sayisi, evi_kullanan_sayisi, bashub_kullanan_sayisi = 0, 0, 0, 0, 0, 0, 0, 0
     exe_kullanan_sayisi, pubiza_kullanan_sayisi, ouo_kullanan_sayisi, trlink_kullanan_sayisi, pnd_kullanan_sayisi = 0, 0, 0, 0, 0
     if not user in [sahip,fixer]:
@@ -280,11 +281,26 @@ def stats(update, context):
                     except Exception as e:
                         logger.error(e)
                         time.sleep(20)
-                    toplam += uye
+                    else:
+                        toplam += uye
+                        if "1" in kullanici['kaynak']:
+                            mahzen_kitle += uye
+                        if "2" in kullanici['kaynak']:
+                            bedava_kitle += uye
+                        if "3" in kullanici['kaynak']:
+                            evi_kitle += uye
+                        if "4" in kullanici['kaynak']:
+                            bashub_kitle += uye
+                        if "5" in kullanici['kaynak']:
+                            acikmi_kitle += uye
+                        if "6" in kullanici['kaynak']:
+                            hazır_kitle += uye
+                        if "7" in kullanici['kaynak']:
+                            tutan_kitle += uye
           
     toplam = toplam / 1000
     toplam = str(round(toplam, 1))+"K" if round(toplam, 1) < 1000 else str(round(toplam / 1000, 2))+"M"
-    bot.edit_message_text("Toplam Kullanıcı Sayısı: {}\nToplam Kayıtlı Kanal Sayısı: {}\nToplam Kitle: {}\n\n<b>Toplam Site Kullanan Sayısı;</b>\nTRLink: {}\nPND.TL: {}\nExe.io: {}\nOuo.io: {}\nPubiza: {}\n\n<b>Toplam Kaynak Kullanan Sayıları:</b>\n{}: {}\n{}: {}\n{}: {}\n{}: {}\n{}: {}\n{}: {}\n{}: {}\n{}: {} ".format(users, kanals, toplam, trlink_kullanan_sayisi, pnd_kullanan_sayisi, exe_kullanan_sayisi, ouo_kullanan_sayisi, pubiza_kullanan_sayisi, mahzen.title, mahzen_kullanan_sayisi, bedava.title, bedava_kullanan_sayisi, evi.title, evi_kullanan_sayisi, bashub.title, bashub_kullanan_sayisi, acikmi.title, acikmi_kullanan_sayisi, muho.title, hazır_kullanan_sayisi, tutan.title, tutan_kullanan_sayisi, "Özel Kaynak:", ozel_kaynak_kullanan_sayisi), chat, msg.message_id)
+    bot.edit_message_text("Toplam Kullanıcı Sayısı: {}\nToplam Kayıtlı Kanal Sayısı: {}\nToplam Kitle: {}\n\n<b>Toplam Site Kullanan Sayısı;</b>\nTRLink: {}\nPND.TL: {}\nExe.io: {}\nOuo.io: {}\nPubiza: {}\n\n<b>Toplam Kaynak Kullanan Sayıları:</b>\n{}: {} Kitle: {}\n{}: {} Kitle: {}\n{}: {} Kitle: {}\n{}: {} Kitle: {}\n{}: {} Kitle: {}\n{}: {} Kitle: {}\n{}: {} Kitle: {}\n{}: {} Kitle: {} ".format(users, kanals, toplam, trlink_kullanan_sayisi, pnd_kullanan_sayisi, exe_kullanan_sayisi, ouo_kullanan_sayisi, pubiza_kullanan_sayisi, mahzen.title, mahzen_kullanan_sayisi, mahzen_kitle, bedava.title, bedava_kullanan_sayisi, bedava_kitle, evi.title, evi_kullanan_sayisi, evi_kitle, bashub.title, bashub_kullanan_sayisi, bashub_kitle, acikmi.title, acikmi_kullanan_sayisi, acikmi_kitle, muho.title, hazır_kullanan_sayisi, hazır_kitle, tutan.title, tutan_kullanan_sayisi, tutan_kitle, "Özel Kaynak:", ozel_kaynak_kullanan_sayisi), chat, msg.message_id)
 
 def bul(update, context):
     cnt = update.message.text.split()[1] if len(update.message.text.split()) > 1 else int(update.message.from_user.id)
