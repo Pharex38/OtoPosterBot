@@ -2802,8 +2802,8 @@ def main() -> None:
     dispatcher.add_handler(conv_handler)
 
     dispatcher.add_handler(CommandHandler('start', start, Filters.update.message & Filters.chat_type.private))
-    dispatcher.add_handler(MessageHandler(Filters.regex("^postsil(.*)") & Filters.update.channel_post, kpostsil))
-    dispatcher.add_handler(MessageHandler(Filters.regex("^onayla(.*)") & Filters.update.channel_post, post))
+    dispatcher.add_handler(MessageHandler(Filters.regex("^/postsil(.*)") & Filters.update.channel_post, kpostsil))
+    dispatcher.add_handler(MessageHandler(Filters.regex("^/onayla(.*)") & Filters.update.channel_post, post))
     dispatcher.add_handler(CommandHandler('bul', bul, Filters.update.message & Filters.chat_type.private))
     dispatcher.add_handler(CommandHandler('onayla', ona, Filters.update.message))
     dispatcher.add_handler(CommandHandler('sil', durdur, Filters.update.message & Filters.chat_type.private))
