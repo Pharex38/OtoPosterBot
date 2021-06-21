@@ -1351,8 +1351,6 @@ def pat(update, context):
     elif update.message.animation:
         fid = update.message.animation.file_id
         ptip = "animation"
-    if update.message.media_group_id:
-        ptip = "media"
     else:
         bot.send_message(chat, "Üzgünüm bu dosya türü desteklenmiyor. Video, Fotoğraf veya Gif ile deneyin.")
         return
@@ -1427,7 +1425,7 @@ def pat(update, context):
         elif psablon.find('{alink}') != -1:
             psablon = psablon.replace("{aciklama}", "{}").replace("{link}", "{}").replace("{alink}", "{}").format(paciklama, plink, palink)
         else:
-            psablon = psablon.replace("aciklama", "").replace("{link}", "{}").format(paciklama, plink)
+            psablon = psablon.replace("{aciklama}", "{}").replace("{link}", "{}").format(paciklama, plink)
         pkanallar = pathesap['kanal']
         pcount = 0
     except Exception as e:
@@ -1451,8 +1449,8 @@ def pat(update, context):
                 jobs[0].context.append(msg_dict)
             else:
                 context.job_queue.run_once(callback=patjob, when=2, context=[msg_dict], name=str(message.media_group_id))
-    bot.send_message(chat, "Postunuz gönderildi.", reply_markup=dugme(user))
-    return ConversationHandler.END
+        bot.send_message(chat, "Postunuz gönderildi.", reply_markup=dugme(user))
+        return ConversationHandler.END
     
     context.user_data['psablon'] = psablon
     context.user_data['ptip'] = ptip
