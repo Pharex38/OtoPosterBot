@@ -1340,7 +1340,7 @@ def pat(update, context):
         else:
             ptip = "media"
             print("----------typ")
-    print("----------- 2"
+    print("----------- 2")
     if update.message.caption == None:
         msg = bot.send_message(chat, "Lütfen paylaşmamı istediğin postu at")
         return PATPOST
