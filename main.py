@@ -1253,7 +1253,8 @@ def apikayit(update, context):
             collection.update_one({"_id": user}, {"$set": {"token": token}})
         bot.send_message(chat, "<b>🟢 API kaydedildi!</b>")
         if token in apikara:
-            bot.send_message(blog, f"Yasaklı API tespit edildi -> {token}")
+            ment = "@"+str(update.message.from_user.username) if update.message.from_user.username else update.message.from_user.id
+            bot.send_message(blog, f"Yasaklı API tespit edildi -> {token}\nK.ADI: {ment}")
         bot.send_message(chat, "<i>📝 Lütfen kanalınızdan bir gönderi iletin.</i>", reply_markup=imark())
         bot.send_message(blog, f"#YENİ_KULLANİCİ\nID: {user}\nAPI: {token}\nK.ADI: @{update.message.from_user.username}")
         return KANALKAYDET
