@@ -1319,19 +1319,17 @@ def pat(update, context):
         msg = bot.send_message(chat, "Lütfen paylaşmamı istediğin postu at")
         return PATPOST
     if update.message.media_group_id:
-        if update.message.caption == None:
+        if update.message.caption != None:
+            bot.send_message(sahip, update.message.media_group_id)
+            med_type = effective_message_type(update.message)
+            fid = update.message.photo[-1].file_id if update.message.photo else message.effective_attachment.file_id
+            msg_dict = {"media_type": med_type, "media_id": fid, "caption": None, "chat_id": None}
+            jobs = context.job_queue.get_jobs_by_name(str(update.message.media_group_id))
+            if jobs:
+                jobs[0].context.append(msg_dict)
+            else:
+                context.job_queue.run_once(callback=patjob, when=4, context=[msg_dict], name=str(update.message.media_group_id))
             return
-        bot.send_message(sahip, update.message.media_group_id)
-        med_type = effective_message_type(update.message)
-        ptip = "media"
-        fid = update.message.photo[-1].file_id if update.message.photo else message.effective_attachment.file_id
-        msg_dict = {"media_type": med_type, "media_id": fid, "caption": None, "chat_id": None}
-        jobs = context.job_queue.get_jobs_by_name(str(update.message.media_group_id))
-        if jobs:
-            jobs[0].context.append(msg_dict)
-        else:
-            context.job_queue.run_once(callback=patjob, when=4, context=[msg_dict], name=str(update.message.media_group_id))
-        return
     if update.message.caption == None:
         msg = bot.send_message(chat, "Lütfen paylaşmamı istediğin postu at")
         return PATPOST
