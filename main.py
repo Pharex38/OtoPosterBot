@@ -9,10 +9,10 @@ import threading
 import os
 from ssl import CERT_NONE
 import logging
-from typing import Dict
+from typing import Dict, cast
 import Colorer
-from telegram.error import *
 from telegram import *
+from telegram.error import *
 from telegram.ext import *
 from telegram.utils.helpers import *
 
@@ -1115,7 +1115,7 @@ def ozellog(update, context):
     return ConversationHandler.END
 
 def sabloniki(update, context):
-    mesaj = update.message.text
+    mesaj = update.message.text_html_urled
     chat = update.message.chat.id
     user = update.message.from_user.id
     bnb = collection.find_one({"_id": user})
@@ -1297,6 +1297,16 @@ def kanalkayit(update, context):
 
 MEDIA_GROUP_TYPES = {"audio": InputMediaAudio, "document": InputMediaDocument, "photo": InputMediaPhoto, "video": InputMediaVideo}
 
+def patjob(context):
+    context.job.context = cast(List[MsgDict], context.job.context)
+    media = []
+    for msg_dict in context.job.context:
+        media.append(MEDIA_GROUP_TYPES[msg_dict["media_type"]](media=msg_dict["media_id"], caption=msg_dict["caption"]))
+    pkan = context.job.context[0]["chat_id"]
+    if not media:
+        return
+    bot.send_media_group(chat_id=pkan, media=media)
+    
 
 def pat(update, context):
     chat = update.message.chat.id
@@ -1309,15 +1319,21 @@ def pat(update, context):
     if update.message.text:
         msg = bot.send_message(chat, "Lütfen paylaşmamı istediğin postu at")
         return PATPOST
-    if update.message.caption == None:
-        msg = bot.send_message(chat, "Lütfen paylaşmamı istediğin postu at")
-        return PATPOST
-    mesaj = update.message.caption
-    if update.message.media_group_id:
+    if update.message.media_group_id and update.message.caption == None:
         bot.send_message(sahip, update.message.media_group_id)
         med_type = effective_message_type(update.message)
         ptip = "media"
         fid = update.message.photo[-1].file_id if update.message.photo else message.effective_attachment.file_id
+        jobs = context.job_queue.get_jobs_by_name(str(message.media_group_id))
+        if jobs:
+            jobs[0].context.append(msg_dict)
+        else:
+            context.job_queue.run_once(callback=media_group_sender, when=2, context=[msg_dict], name=str(message.media_group_id))
+        return
+    if update.message.caption == None:
+        msg = bot.send_message(chat, "Lütfen paylaşmamı istediğin postu at")
+        return PATPOST
+    mesaj = update.message.caption
     if update.message.video:
         fid = update.message.video.file_id
         ptip = "video"
@@ -1417,7 +1433,12 @@ def pat(update, context):
         elif ptip == "animation":
             bot.send_animation(pkanallar[0], fid, caption=psablon)
         elif ptip == "media":
-            bot.send_media_group([MEDIA_GROUP_TYPES[med_type](media=fid, caption=psablon)])
+            msg_dict = {"media_type": med_type, "media_id": fid, "caption": psablon, "chat_id": pkanallar[0]}
+            jobs = context.job_queue.get_jobs_by_name(str(message.media_group_id))
+            if jobs:
+                jobs[0].context.append(msg_dict)
+            else:
+                context.job_queue.run_once(callback=media_group_sender, when=2, context=[msg_dict], name=str(message.media_group_id))
         bot.send_message(chat, "Postunuz gönderildi.", reply_markup=dugme(user))
         return ConversationHandler.END
     
