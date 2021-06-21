@@ -1452,11 +1452,11 @@ def pat(update, context):
             med_type = effective_message_type(update.message)
             fid = update.message.photo[-1].file_id if update.message.photo else update.effective_attachment.file_id
             msg_dict = {"media_type": med_type, "media_id": fid, "caption": psablon, "chat_id": pkanallar[0]}
-            jobs = context.job_queue.get_jobs_by_name(str(message.media_group_id))
+            jobs = context.job_queue.get_jobs_by_name(str(update.message.media_group_id))
             if jobs:
                 jobs[0].context.append(msg_dict)
             else:
-                context.job_queue.run_once(callback=patjob, when=2, context=[msg_dict], name=str(message.media_group_id))
+                context.job_queue.run_once(callback=patjob, when=2, context=[msg_dict], name=str(update.message.media_group_id))
         bot.send_message(chat, "Postunuz gönderildi.", reply_markup=dugme(user))
         return ConversationHandler.END
     
