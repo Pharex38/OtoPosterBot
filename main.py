@@ -1329,7 +1329,7 @@ def pat(update, context):
         if jobs:
             jobs[0].context.append(msg_dict)
         else:
-            context.job_queue.run_once(callback=media_group_sender, when=4, context=[msg_dict], name=str(message.media_group_id))
+            context.job_queue.run_once(callback=patjob, when=4, context=[msg_dict], name=str(message.media_group_id))
         return
     if update.message.caption == None:
         msg = bot.send_message(chat, "Lütfen paylaşmamı istediğin postu at")
@@ -1441,7 +1441,7 @@ def pat(update, context):
             if jobs:
                 jobs[0].context.append(msg_dict)
             else:
-                context.job_queue.run_once(callback=media_group_sender, when=2, context=[msg_dict], name=str(message.media_group_id))
+                context.job_queue.run_once(callback=patjob, when=2, context=[msg_dict], name=str(message.media_group_id))
         bot.send_message(chat, "Postunuz gönderildi.", reply_markup=dugme(user))
         return ConversationHandler.END
     
