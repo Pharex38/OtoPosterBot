@@ -1297,6 +1297,12 @@ def kanalkayit(update, context):
 
 MEDIA_GROUP_TYPES = {"audio": InputMediaAudio, "document": InputMediaDocument, "photo": InputMediaPhoto, "video": InputMediaVideo}
 
+class MsgDict(TypedDict):
+    media_type: Literal["video", "photo"]
+    media_id: str
+    caption: str
+    chat_id: int
+
 def patjob(context):
     context.job.context = cast(List[MsgDict], context.job.context)
     media = []
