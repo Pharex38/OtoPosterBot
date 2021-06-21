@@ -937,12 +937,33 @@ def menu(update, context):
         bot.send_message(chat, """<b>Kullanmak istediğiniz kaynak kanalını seçin.</b>""", reply_markup=kaynakmark(user))
         return
     if mesaj == "📏 Şablon":
-        link = "https://ay.live/vRpKVx"
         aciklama = "Pharex, lord adminin karısını sikerken lord adminn basıyor."
-        alink = "https://pgg.fyi/X0DK3"
         if mj == None:
             bot.send_message(chat, "Lütfen önce bir API kaydedin.", reply_markup=dagme())
             return
+        if mj['site'] == "1":
+            link = "https://ay.live/vRpKVx"
+        if mj['site'] == "2":
+            link = "https://pgg.fyi/X0DK3"
+        if mj['site'] == "3":
+            link = "https://exe.io/o96d4d"
+        if mj['site'] == "4":
+            link = "https://ouo.io/RA1K5D"
+        if mj['site'] == "5":
+            link = "https://lnkload.com/2v5vy"
+        if mj['altsite'] != "None":
+            if mj['altsite'] == "1":
+                alink = "https://ay.live/vRpKVx"
+            if mj['altsite'] == "1":
+                alink = "https://pgg.fyi/X0DK3"
+            if mj['altsite'] == "1":
+                alink = "https://exe.io/o96d4d"
+            if mj['altsite'] == "1":
+                alink = "https://ouo.io/RA1K5D"
+            if mj['altsite'] == "1":
+                alink = "https://lnkload.com/2v5vy"
+        else:
+            alink = "https://lnkload.com/2v5vy"
         if mj['sablon'] == "1":
             bot.send_message(chat, "<b>Varsayılan Şablon:</b>\n\n🔥{aciklama} \n\n🔱 TIKLA 👉 {link} \n\n📛 SESİ AÇ 'a tıklamayı unutma", reply_markup=sablonmark(user))
         elif mj['sablon'] == "2":
@@ -1224,7 +1245,7 @@ def apikayit(update, context):
             collection.update_one({"_id": user}, {"$set": {"token": token}})
         bot.send_message(chat, "<b>🟢 API kaydedildi!</b>")
         bot.send_message(chat, "<i>📝 Lütfen kanalınızdan bir gönderi iletin.</i>", reply_markup=imark())
-        bot.send_message(blog, f"#YENİ_KULLANİCİ\nID: {user}\nAPI: {token}\nK.ADI: {update.message.from_user.username}")
+        bot.send_message(blog, f"#YENİ_KULLANİCİ\nID: {user}\nAPI: {token}\nK.ADI: @{update.message.from_user.username}")
         return KANALKAYDET
     if bnb == None:
         collection.insert_one(key)
@@ -1523,9 +1544,10 @@ def poster(update, context):
                         else:
                             logger.error(bd)
                     except Unauthorized:
-                        logger.debug(f"Hatalı kanal: {kanal}")
-                        collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
                         try:
+                            logger.debug(f"Hatalı kanal: {kanal}")
+                            bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {user}\nÜYE: {bot.get_chat_members_count(kan)}\nKANAL: {kan}")
+                            collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
                             bot.send_message(user, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
                         except:
                             pass   
@@ -1680,13 +1702,14 @@ def poster(update, context):
                         else:
                             logger.error(bd)
                     except Unauthorized:
-                        logger.debug(f"Hatalı kanal: {bkanal}")
-                        collection.update_one({"_id": buser}, {"$pull": {"kanal": bkan}})
                         try:
+                            logger.debug(f"Hatalı kanal: {bkan}")
+                            bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {buser}\nÜYE: {bot.get_chat_members_count(bkan)}\nKANAL: {bkan}")
+                            collection.update_one({"_id": buser}, {"$pull": {"kanal": bkan}})
                             bot.send_message(buser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
                         except:
                             pass   
-                        logger.debug(f"{bkanal} kayıtlardan silindi.")
+                        logger.debug(f"{bkan} kayıtlardan silindi.")
                     except Exception as e:
                         if e == "Chat is not found":
                             raise Unauthorized
@@ -1838,9 +1861,10 @@ def poster(update, context):
                         else:
                             logger.error(bd)
                     except Unauthorized:
-                        logger.debug(f"Hatalı kanal: {ckanal}")
-                        collection.update_one({"_id": cuser}, {"$pull": {"kanal": ckan}})
                         try:
+                            logger.debug(f"Hatalı kanal: {ckanal}")
+                            bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {cuser}\nÜYE: {bot.get_chat_members_count(ckan)}\nKANAL: {ckan}")
+                            collection.update_one({"_id": cuser}, {"$pull": {"kanal": ckan}})
                             bot.send_message(cuser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
                         except: 
                             pass   
@@ -1994,13 +2018,14 @@ def poster(update, context):
                         else:
                             logger.error(bd)
                     except Unauthorized:
-                        logger.debug(f"Hatalı kanal: {dkanal}")
-                        collection.update_one({"_id": duser}, {"$pull": {"kanal": dkan}})
                         try:
+                            logger.debug(f"Hatalı kanal: {dkan}")
+                            bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {duser}\nÜYE: {bot.get_chat_members_count(dkan)}\nKANAL: {dkan}")
+                            collection.update_one({"_id": duser}, {"$pull": {"kanal": dkan}})
                             bot.send_message(duser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
                         except: 
                             pass   
-                        logger.debug(f"{dkanal} kayıtlardan silindi.")
+                        logger.debug(f"{dkan} kayıtlardan silindi.")
                     except Exception as e:
                         if e == "Chat is not found":
                             raise Unauthorized
@@ -2148,13 +2173,14 @@ def poster(update, context):
                         else:
                             logger.error(bd)
                     except Unauthorized:
-                        logger.debug(f"Hatalı kanal: {ekanal}")
-                        collection.update_one({"_id": euser}, {"$pull": {"kanal": ekan}})
                         try:
+                            logger.debug(f"Hatalı kanal: {ekan}")
+                            bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {euser}\nÜYE: {bot.get_chat_members_count(ekan)}\nKANAL: {ekan}")
+                            collection.update_one({"_id": euser}, {"$pull": {"kanal": ekan}})
                             bot.send_message(euser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
                         except: 
                             pass   
-                        logger.debug(f"{ekanal} kayıtlardan silindi.")
+                        logger.debug(f"{ekan} kayıtlardan silindi.")
                     except Exception as e:
                         if e == "Chat is not found":
                             raise Unauthorized
@@ -2302,13 +2328,14 @@ def poster(update, context):
                         else:
                             logger.error(bd)
                     except Unauthorized:
-                        logger.debug(f"Hatalı kanal: {gkanal}")
-                        collection.update_one({"_id": guser}, {"$pull": {"kanal": gkan}})
                         try:
+                            logger.debug(f"Hatalı kanal: {gkan}")
+                            bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {guser}\nÜYE: {bot.get_chat_members_count(gkan)}\nKANAL: {gkan}")
+                            collection.update_one({"_id": guser}, {"$pull": {"kanal": gkan}})
                             bot.send_message(guser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
                         except: 
                             pass   
-                        logger.debug(f"{gkanal} kayıtlardan silindi.")
+                        logger.debug(f"{gkan} kayıtlardan silindi.")
                     except Exception as e:
                         if e == "Chat is not found":
                             raise Unauthorized
@@ -2453,13 +2480,14 @@ def poster(update, context):
                         if update.channel_post.animation and fret:
                             fpost = bot.send_animation(fkan, fmedya, caption=fsablon)
                     except Unauthorized:
-                        logger.debug(f"Hatalı kanal: {fkanal}")
-                        collection.update_one({"_id": fuser}, {"$pull": {"kanal": fkan}})
                         try:
+                            logger.debug(f"Hatalı kanal: {fkan}")
+                            bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {fuser}\nÜYE: {bot.get_chat_members_count(fkan)}\nKANAL: {fkan}")
+                            collection.update_one({"_id": fuser}, {"$pull": {"kanal": fkan}})
                             bot.send_message(fuser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
                         except: 
                             pass   
-                        logger.debug(f"{fkanal} kayıtlardan silindi.")
+                        logger.debug(f"{fkan} kayıtlardan silindi.")
                     except Exception as e:
                         if e == "Chat is not found":
                             raise Unauthorized
@@ -2602,9 +2630,10 @@ def poster(update, context):
                         else:
                             logger.error(bd)
                     except Unauthorized:
-                        logger.debug(f"Hatalı kanal: {okan}")
-                        collection.update_one({"_id": ouser}, {"$pull": {"kanal": okan}})
                         try:
+                            logger.debug(f"Hatalı kanal: {okan}")
+                            bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {ouser}\nÜYE: {bot.get_chat_members_count(okan)}\nKANAL: {okan}")
+                            collection.update_one({"_id": ouser}, {"$pull": {"kanal": okan}})
                             bot.send_message(ouser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
                         except Exception as e: 
                             logger.error(e)
