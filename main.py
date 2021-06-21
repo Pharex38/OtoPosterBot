@@ -38,7 +38,8 @@ cluster = MongoClient(mongo, ssl_cert_reqs=CERT_NONE)
 db = cluster["OtoPost"]
 collection = db["Kanallar"]
 OzelCol = db["Özel Kaynaklar"]
-karaliste = collection.find_one({"_id": 0})
+kara = collection.find_one({"_id": 0})['kara']
+apikara = collection.find_one({"_id": 0})['apikara']
 bottoken = karaliste['bottoken']
 bot = ExtBot(bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=99))
 
@@ -99,7 +100,6 @@ for i in kaynaklar:
         bildir(qqq)
 
 
-kara = karaliste['kara']
 
 ALTMENU, APIDEGISTIR, KANALKAYDET = range(3)
 
@@ -405,6 +405,17 @@ def viple(update, context):
     else:
         bot.send_message(chat, "Kullanıcı artık VIP!")
 
+def apibanla(update, context):
+    global apikara
+    chat = update.message.chat.id
+    try:
+        collection.update_one({"_id": 0}, {"$push": {"apikara": str(context.args[0])}})
+    except Exception as e:
+        bot.send_message(chat, e)
+    else:
+        bot.send_message(chat, "API yasaklandı!")
+    apikara = collection.find_one({"_id": 0})['apikara']
+
 def banla(update, context):
     global kara
     chat = update.message.chat.id
@@ -703,7 +714,7 @@ def callback_query(call, context):
             bot.send_video(kanal[o], fid, caption=psablon)
         if ptip == 'animation':
             bot.send_animation(kanal[o], fid, caption=psablon)
-        bot.edit_message_text("✅<b>Postunuz  Kanalınıza Gönderildi!</b>", user, mesajid)
+        bot.edit_message_text("✅<b>Postunuz Kanalınıza Gönderildi!</b>", user, mesajid)
         context.user_data.clear()
         return ConversationHandler.END
     """ Şablon """
@@ -1038,9 +1049,6 @@ def menu(update, context):
             bot.send_message(chat, "Kanallarınız SFS moduna alındı. Siz modu kapatana kadar yeni post atılmayacak.", reply_markup=dugme(user))
             return
     if mesaj == "🥰 Bağış":
-        if user != sahip:
-            bot.send_message(chat, "Bu komut bakımda.")
-            return
         bot.send_message(chat, "🥰Madem bu kadar çok istiyorsun. \n\n🏧Papara: <code>1666982412</code> \n🏦İninal: <code>4003140030544</code>")
         return
     if mesaj == "⛓️ Elle Post Paylaş":
@@ -1244,6 +1252,8 @@ def apikayit(update, context):
         else:
             collection.update_one({"_id": user}, {"$set": {"token": token}})
         bot.send_message(chat, "<b>🟢 API kaydedildi!</b>")
+        if token in apikara:
+            bot.send_message(blog, f"Yasaklı API tespit edildi -> {token}")
         bot.send_message(chat, "<i>📝 Lütfen kanalınızdan bir gönderi iletin.</i>", reply_markup=imark())
         bot.send_message(blog, f"#YENİ_KULLANİCİ\nID: {user}\nAPI: {token}\nK.ADI: @{update.message.from_user.username}")
         return KANALKAYDET
@@ -2660,7 +2670,7 @@ def poster(update, context):
 def gunluk():
     while 0 < 1:
         zaman = datetime.datetime.now()
-        if zaman.hour == 11 and zaman.minute == 50:
+        if zaman.hour == 11 and zaman.minute == 55:
             ozel_kaynak_kullanan_sayisi, mahzen_kullanan_sayisi, hazır_kullanan_sayisi, tutan_kullanan_sayisi, acikmi_kullanan_sayisi, bedava_kullanan_sayisi, evi_kullanan_sayisi, bashub_kullanan_sayisi = 0, 0, 0, 0, 0, 0, 0, 0
             exe_kullanan_sayisi, pubiza_kullanan_sayisi, ouo_kullanan_sayisi, trlink_kullanan_sayisi, pnd_kullanan_sayisi = 0, 0, 0, 0, 0
             msg = bot.send_message(botlog, "<code>Günlük veriler hesaplanıyor...</code>")
@@ -2802,6 +2812,7 @@ def main() -> None:
     dispatcher.add_handler(CommandHandler('stats', stats, Filters.update.message & Filters.chat_type.private))
     dispatcher.add_handler(CommandHandler('zaman', zaman, Filters.update.message & Filters.chat_type.private))
     dispatcher.add_handler(CommandHandler('vip', viple, Filters.chat(sahip)))
+    dispatcher.add_handler(CommandHandler('apiban', apibanla, Filters.chat(sahip)))
     dispatcher.add_handler(CommandHandler('unban', unbanla, Filters.chat(sahip)))
     dispatcher.add_handler(CommandHandler('ban', banla, Filters.chat(sahip)))
 
