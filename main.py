@@ -1312,7 +1312,7 @@ def pat(update, context):
         return PATPOST
     mesaj = update.message.caption
     if update.message.media_group_id:
-        med_type = effective_message_type(message)
+        med_type = effective_message_type(update.message)
         ptip = "media"
         fid = update.message.photo[-1].file_id if update.message.photo else message.effective_attachment.file_id
     if update.message.video:
