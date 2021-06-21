@@ -1308,7 +1308,7 @@ def patjob(context):
     media = []
     for msg_dict in context.job.context:
         media.append(MEDIA_GROUP_TYPES[msg_dict["media_type"]](media=msg_dict["media_id"], caption=msg_dict["caption"]))
-    pkan = context.job.context[0]["chat_id"]
+    pkan = context.job.context[0]["chat_id"] if context.job.context[0]["chat_id"] != None else context.job.context[1]["chat_id"]
     if not media:
         return
     bot.send_media_group(chat_id=pkan, media=media)
