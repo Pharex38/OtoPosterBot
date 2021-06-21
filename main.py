@@ -1336,6 +1336,8 @@ def pat(update, context):
             else:
                 context.job_queue.run_once(callback=patjob, when=4, context=[msg_dict], name=str(update.message.media_group_id))
             return
+        else:
+            ptip = "media"
     if update.message.caption == None:
         msg = bot.send_message(chat, "Lütfen paylaşmamı istediğin postu at")
         return PATPOST
@@ -1449,8 +1451,8 @@ def pat(update, context):
                 jobs[0].context.append(msg_dict)
             else:
                 context.job_queue.run_once(callback=patjob, when=2, context=[msg_dict], name=str(message.media_group_id))
-        bot.send_message(chat, "Postunuz gönderildi.", reply_markup=dugme(user))
-        return ConversationHandler.END
+    bot.send_message(chat, "Postunuz gönderildi.", reply_markup=dugme(user))
+    return ConversationHandler.END
     
     context.user_data['psablon'] = psablon
     context.user_data['ptip'] = ptip
