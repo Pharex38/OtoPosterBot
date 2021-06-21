@@ -1325,7 +1325,7 @@ def pat(update, context):
         med_type = effective_message_type(update.message)
         ptip = "media"
         fid = update.message.photo[-1].file_id if update.message.photo else message.effective_attachment.file_id
-        msg_dict = {"media_type": med_type, "media_id": fid, "caption": message.caption, "chat_id": None}
+        msg_dict = {"media_type": med_type, "media_id": fid, "caption": None, "chat_id": None}
         
         jobs = context.job_queue.get_jobs_by_name(str(message.media_group_id))
         if jobs:
