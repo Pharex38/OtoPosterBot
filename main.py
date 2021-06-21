@@ -1301,7 +1301,7 @@ MEDIA_GROUP_TYPES = {"audio": InputMediaAudio, "document": InputMediaDocument, "
 def pat(update, context):
     chat = update.message.chat.id
     user = update.message.from_user.id
-    print(update.message)
+    pent = update.message.media_group_id if update.message.media_group_id else update.message.photo[-1].file_id
     if update.message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
