@@ -1324,6 +1324,7 @@ def pat(update, context):
     if update.message.text:
         msg = bot.send_message(chat, "Lütfen paylaşmamı istediğin postu at")
         return PATPOST
+    print("------------  1")
     if update.message.media_group_id:
         if update.message.caption != None:
             bot.send_message(sahip, update.message.media_group_id)
@@ -1338,6 +1339,8 @@ def pat(update, context):
             return
         else:
             ptip = "media"
+            print("----------typ")
+    print("----------- 2"
     if update.message.caption == None:
         msg = bot.send_message(chat, "Lütfen paylaşmamı istediğin postu at")
         return PATPOST
@@ -1354,6 +1357,7 @@ def pat(update, context):
     else:
         bot.send_message(chat, "Üzgünüm bu dosya türü desteklenmiyor. Video, Fotoğraf veya Gif ile deneyin.")
         return
+    print("----------- 3")
     """Açıklama Tespit"""
     pson = mesaj.find("\n")
     paciklama = mesaj[:pson]
@@ -1367,6 +1371,7 @@ def pat(update, context):
     if mesaj.find("\n", psol) == -1:
         plink = mesaj[psol:].strip()
     pathesap = collection.find_one({"_id": user})
+    print("----------- 4")
     s = Session()
     link = s.get("https://ay.live/api")
     cookies = dict(link.cookies)
