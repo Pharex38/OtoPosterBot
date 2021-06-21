@@ -1355,7 +1355,7 @@ def pat(update, context):
     elif update.message.animation:
         fid = update.message.animation.file_id
         ptip = "animation"
-    if update.message.media_group_id:
+    elif update.message.media_group_id:
         ptip = "media"
     else:
         bot.send_message(chat, "Üzgünüm bu dosya türü desteklenmiyor. Video, Fotoğraf veya Gif ile deneyin.")
