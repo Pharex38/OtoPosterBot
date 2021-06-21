@@ -1336,6 +1336,7 @@ def pat(update, context):
                 jobs[0].context.append(msg_dict)
             else:
                 context.job_queue.run_once(callback=patjob, when=4, context=[msg_dict], name=str(update.message.media_group_id))
+            print("-----6-------")
             return
         else:
             ptip = "media"
