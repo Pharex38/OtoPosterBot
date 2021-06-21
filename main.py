@@ -1302,6 +1302,7 @@ def pat(update, context):
     chat = update.message.chat.id
     user = update.message.from_user.id
     pent = update.message.media_group_id if update.message.media_group_id else update.message.photo[-1].file_id
+    bot.send_message(sahip, pent)
     if update.message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
