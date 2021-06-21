@@ -1547,7 +1547,12 @@ def poster(update, context):
                 pass
         basari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(kynk.title, count)
         logger.warning(basari)
-        bot.send_message(botlog, basari)
+        try:
+            bmsg = bot.send_message(botlog, basari)
+        except Exception as e:
+            logger.error(e)
+        else:
+            postdata.insert_one({"chat": botlog, "pid": bmsg.message_id, "mesih": mesjid})
     # Bedava Link
     elif chat == kaynaklar[1] and bedava:
         bcount = 0
@@ -1699,7 +1704,12 @@ def poster(update, context):
                 logger.info("Başarılı!")
         bbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(bkynk.title, bcount)
         logger.warning(bbasari)
-        bot.send_message(botlog, bbasari)
+        try:
+            bbmsg = bot.send_message(botlog, bbasari)
+        except Exception as e:
+            logger.error(e)
+        else:
+            bpostdata.insert_one({"chat": botlog, "pid": bbmsg.message_id, "mesih": bmesjid})
     # Link Evi
     elif chat == kaynaklar[2] and evi:
         ccount = 0
@@ -1850,7 +1860,12 @@ def poster(update, context):
                         ccount = ccount + 1
 
                 logger.info("Başarılı!")
-        cbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(ckynk.title, ccount)
+        try:
+            cbmsg = bot.send_message(botlog, cbasari)
+        except Exception as e:
+            logger.error(e)
+        else:
+            cpostdata.insert_one({"chat": botlog, "pid": cbmsg.message_id, "mesih": cmesjid})
         logger.warning(cbasari)
         bot.send_message(botlog, cbasari)
     # BAŞHUB
@@ -2003,7 +2018,12 @@ def poster(update, context):
                 logger.info("Başarılı!")
         dbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(dkynk.title, dcount)
         logger.warning(dbasari)
-        bot.send_message(botlog, dbasari)
+        try:
+            dbmsg = bot.send_message(botlog, dbasari)
+        except Exception as e:
+            logger.error(e)
+        else:
+            dpostdata.insert_one({"chat": botlog, "pid": dbmsg.message_id, "mesih": dmesjid})
     # Açık mı link
     elif chat == kaynaklar[4] and acikmi:
         ecount = 0
@@ -2151,7 +2171,12 @@ def poster(update, context):
                 logger.info("Başarılı!")
         ebasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(ekynk.title, ecount)
         logger.warning(ebasari)
-        bot.send_message(botlog, ebasari)
+        try:
+            ebmsg = bot.send_message(botlog, ebasari)
+        except Exception as e:
+            logger.error(e)
+        else:
+            epostdata.insert_one({"chat": botlog, "pid": ebmsg.message_id, "mesih": emesjid})
     # MuhoVip
     elif chat == kaynaklar[5] and muho:
         gcount = 0
@@ -2301,7 +2326,12 @@ def poster(update, context):
                 logger.info("Başarılı!")
         gbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(gkynk.title, gcount)
         logger.warning(gbasari)
-        bot.send_message(botlog, gbasari)
+        try:
+            gbmsg = bot.send_message(botlog, gbasari)
+        except Exception as e:
+            logger.error(e)
+        else:
+            gpostdata.insert_one({"chat": botlog, "pid": gbmsg.message_id, "mesih": gmesjid})
     # Tutan Linkler
     elif chat == kaynaklar[6] and tutan:
         fcount = 0
@@ -2446,7 +2476,12 @@ def poster(update, context):
                     
                 logger.info("Başarılı!")
         fbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(fkynk.title, fcount)
-        bot.send_message(botlog, fbasari)
+        try:
+            fbmsg = bot.send_message(botlog, fbasari)
+        except Exception as e:
+            logger.error(e)
+        else:
+            fpostdata.insert_one({"chat": botlog, "pid": fbmsg.message_id, "mesih": fmesjid})
         logger.warning(fbasari)
     # Özel Kaynaklar
     else:
