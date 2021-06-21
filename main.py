@@ -955,13 +955,13 @@ def menu(update, context):
         if mj['altsite'] != "None":
             if mj['altsite'] == "1":
                 alink = "https://ay.live/vRpKVx"
-            if mj['altsite'] == "1":
+            if mj['altsite'] == "2":
                 alink = "https://pgg.fyi/X0DK3"
-            if mj['altsite'] == "1":
+            if mj['altsite'] == "3":
                 alink = "https://exe.io/o96d4d"
-            if mj['altsite'] == "1":
+            if mj['altsite'] == "4":
                 alink = "https://ouo.io/RA1K5D"
-            if mj['altsite'] == "1":
+            if mj['altsite'] == "5":
                 alink = "https://lnkload.com/2v5vy"
         else:
             alink = "https://lnkload.com/2v5vy"
