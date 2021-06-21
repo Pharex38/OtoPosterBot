@@ -9,7 +9,7 @@ import threading
 import os
 from ssl import CERT_NONE
 import logging
-from typing import Dict, cast
+from typing import Dict, TypedDict, List, Literal, cast
 import Colorer
 from telegram import *
 from telegram.error import *
