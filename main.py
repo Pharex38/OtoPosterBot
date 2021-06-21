@@ -2569,7 +2569,7 @@ def poster(update, context):
         okaynak = OzelCol.find_one({"okaynak": chat})
     if okaynak != None:
         try:
-            print(update.message.media_group_id)
+            print(update.channel_post.media_group_id)
         except:
             pass
         ocount = 0
