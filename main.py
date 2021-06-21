@@ -1306,13 +1306,12 @@ def patjob(context):
     if not media:
         return
     bot.send_media_group(chat_id=pkan, media=media)
+    print("MEDYA GÖNDERİLDİ")
     
 
 def pat(update, context):
     chat = update.message.chat.id
     user = update.message.from_user.id
-    pent = update.message.media_group_id if update.message.media_group_id else update.message.photo[-1].file_id
-    bot.send_message(sahip, pent)
     if update.message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
@@ -1324,16 +1323,20 @@ def pat(update, context):
         med_type = effective_message_type(update.message)
         ptip = "media"
         fid = update.message.photo[-1].file_id if update.message.photo else message.effective_attachment.file_id
+        msg_dict = {"media_type": med_type, "media_id": fid, "caption": message.caption, "chat_id": None}
+        
         jobs = context.job_queue.get_jobs_by_name(str(message.media_group_id))
         if jobs:
             jobs[0].context.append(msg_dict)
         else:
-            context.job_queue.run_once(callback=media_group_sender, when=2, context=[msg_dict], name=str(message.media_group_id))
+            context.job_queue.run_once(callback=media_group_sender, when=4, context=[msg_dict], name=str(message.media_group_id))
         return
     if update.message.caption == None:
         msg = bot.send_message(chat, "Lütfen paylaşmamı istediğin postu at")
         return PATPOST
     mesaj = update.message.caption
+    if update.message.media_group_id:
+        ptip = "media"
     if update.message.video:
         fid = update.message.video.file_id
         ptip = "video"
