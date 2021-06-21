@@ -11,20 +11,10 @@ from ssl import CERT_NONE
 import logging
 from typing import Dict
 import Colorer
-from telegram.error import Unauthorized, BadRequest
-from telegram import Bot, ParseMode, ReplyKeyboardMarkup, Update, ReplyKeyboardRemove, KeyboardButton, ForceReply, InlineKeyboardMarkup, InlineKeyboardButton
-from telegram.ext import (
-    Updater,
-    CommandHandler,
-    MessageHandler,
-    Filters,
-    Defaults,
-    ExtBot,
-    ConversationHandler,
-    CallbackContext,
-    CallbackQueryHandler,
-)
-from telegram.utils import helpers
+from telegram.error import *
+from telegram import *
+from telegram.ext import *
+from telegram.utils.helpers import *
 
 mpass = os.environ['MONGOPASS']
 mongo = f"os.environ["MONGO_URI"]"
@@ -942,7 +932,7 @@ def menu(update, context):
             for ox in OzelCol.find({}):
                 if user in ox['kanal']:
                     refsahip = ox["_id"]
-            ref_link = helpers.create_deep_linked_url(context.bot.username, str(refsahip))
+            ref_link = create_deep_linked_url(context.bot.username, str(refsahip))
             bot.send_message(chat, """<b>Özel Kaynak Kullandığınız için başka kaynak seçemezsiniz.</b>\n\n      <i>Özel Kaynağınız:</i><b> <a href="{}">{}</a>\n</b>      <i>Bu Kaynağı Toplam </i><code>{}</code> <i>Kişi Kullanıyor.</i>\n\n<b>Kaynak Referans Linki;</b>\n<code>{}</code>\n<i>Bu link ile botu başlatan herkes otomatik olarak sizin kaynağınıza bağlanacak.</i>""".format(ozel_kaynak_bilgi.invite_link, ozel_kaynak_bilgi.title, kullanan_sayisi, ref_link), reply_markup=kaynakmark(user))
             return
         bot.send_message(chat, """<b>Kullanmak istediğiniz kaynak kanalını seçin.</b>""", reply_markup=kaynakmark(user))
@@ -1305,7 +1295,6 @@ def kanalkayit(update, context):
     msz = bot.send_message(chat, "Bu kanal sizin değil 😠")
     return KANALKAYDET
 
-from telegram.utils.helpers import effective_message_type
 MEDIA_GROUP_TYPES = {"audio": InputMediaAudio, "document": InputMediaDocument, "photo": InputMediaPhoto, "video": InputMediaVideo}
 
 
