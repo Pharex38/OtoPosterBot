@@ -40,7 +40,7 @@ collection = db["Kanallar"]
 OzelCol = db["Özel Kaynaklar"]
 kara = collection.find_one({"_id": 0})['kara']
 apikara = collection.find_one({"_id": 0})['apikara']
-bottoken = karaliste['bottoken']
+bottoken = collection.find_one({"_id": 0})['bottoken']
 bot = ExtBot(bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=99))
 
 blog = -1001391561285
