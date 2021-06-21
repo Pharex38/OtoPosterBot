@@ -1305,6 +1305,10 @@ def kanalkayit(update, context):
     msz = bot.send_message(chat, "Bu kanal sizin değil 😠")
     return KANALKAYDET
 
+from telegram.utils.helpers import effective_message_type
+MEDIA_GROUP_TYPES = {"audio": InputMediaAudio, "document": InputMediaDocument, "photo": InputMediaPhoto, "video": InputMediaVideo}
+
+
 def pat(update, context):
     chat = update.message.chat.id
     user = update.message.from_user.id
@@ -1318,6 +1322,10 @@ def pat(update, context):
         msg = bot.send_message(chat, "Lütfen paylaşmamı istediğin postu at")
         return PATPOST
     mesaj = update.message.caption
+    if update.message.media_group_id:
+        med_type = effective_message_type(message)
+        ptip = "media"
+        fid = update.message.photo[-1].file_id if update.message.photo else message.effective_attachment.file_id
     if update.message.video:
         fid = update.message.video.file_id
         ptip = "video"
@@ -1412,10 +1420,12 @@ def pat(update, context):
         pmesaj = 0
         if ptip == "video":
             bot.send_video(pkanallar[0], fid, caption=psablon)
-        if ptip == "photo":
+        elif ptip == "photo":
             bot.send_photo(pkanallar[0], fid, caption=psablon)
-        if ptip == "animation":
+        elif ptip == "animation":
             bot.send_animation(pkanallar[0], fid, caption=psablon)
+        elif ptip == "media":
+            bot.send_media_group([MEDIA_GROUP_TYPES[med_type](media=fid, caption=psablon)])
         bot.send_message(chat, "Postunuz gönderildi.", reply_markup=dugme(user))
         return ConversationHandler.END
     
