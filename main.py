@@ -1326,7 +1326,7 @@ def pat(update, context):
         return PATPOST
     print("------------  1")
     if update.message.media_group_id:
-        if update.message.caption != None:
+        if update.message.caption == None:
             bot.send_message(sahip, update.message.media_group_id)
             med_type = effective_message_type(update.message)
             fid = update.message.photo[-1].file_id if update.message.photo else message.effective_attachment.file_id
