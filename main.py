@@ -1895,6 +1895,7 @@ def poster(update, context):
                         ccount = ccount + 1
 
                 logger.info("Başarılı!")
+        cbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(ckynk.title, ccount)
         try:
             cbmsg = bot.send_message(botlog, cbasari)
         except Exception as e:
