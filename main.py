@@ -1903,7 +1903,6 @@ def poster(update, context):
         else:
             cpostdata.insert_one({"chat": botlog, "pid": cbmsg.message_id, "mesih": cmesjid})
         logger.warning(cbasari)
-        bot.send_message(botlog, cbasari)
     # BAŞHUB
     elif chat == kaynaklar[3] and bashub:
         dcount = 0
@@ -2803,8 +2802,8 @@ def main() -> None:
     dispatcher.add_handler(conv_handler)
 
     dispatcher.add_handler(CommandHandler('start', start, Filters.update.message & Filters.chat_type.private))
-    dispatcher.add_handler(MessageHandler(Filters.command('onayla') & Filters.update.channel_post, post))
     dispatcher.add_handler(MessageHandler(Filters.command('postsil') & Filters.update.channel_post, kpostsil))
+    dispatcher.add_handler(MessageHandler(Filters.command('onayla') & Filters.update.channel_post, post))
     dispatcher.add_handler(CommandHandler('bul', bul, Filters.update.message & Filters.chat_type.private))
     dispatcher.add_handler(CommandHandler('onayla', ona, Filters.update.message))
     dispatcher.add_handler(CommandHandler('sil', durdur, Filters.update.message & Filters.chat_type.private))
