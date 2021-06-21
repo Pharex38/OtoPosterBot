@@ -1318,7 +1318,9 @@ def pat(update, context):
     if update.message.text:
         msg = bot.send_message(chat, "Lütfen paylaşmamı istediğin postu at")
         return PATPOST
-    if update.message.media_group_id and update.message.caption == None:
+    if update.message.media_group_id:
+        if update.message.caption == None:
+            return
         bot.send_message(sahip, update.message.media_group_id)
         med_type = effective_message_type(update.message)
         ptip = "media"
@@ -1335,8 +1337,6 @@ def pat(update, context):
         msg = bot.send_message(chat, "Lütfen paylaşmamı istediğin postu at")
         return PATPOST
     mesaj = update.message.caption
-    if update.message.media_group_id:
-        ptip = "media"
     if update.message.video:
         fid = update.message.video.file_id
         ptip = "video"
@@ -1346,6 +1346,8 @@ def pat(update, context):
     elif update.message.animation:
         fid = update.message.animation.file_id
         ptip = "animation"
+    if update.message.media_group_id:
+        ptip = "media"
     else:
         bot.send_message(chat, "Üzgünüm bu dosya türü desteklenmiyor. Video, Fotoğraf veya Gif ile deneyin.")
         return
