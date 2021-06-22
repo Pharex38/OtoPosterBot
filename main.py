@@ -2932,12 +2932,10 @@ def main() -> None:
         upjob.run_once(patjob, name=str(uh['name'], context=uh['msgdict'], when=uh['when']))
         collection.update_one({"_id": 0}, {"$pull": {"jobs": uh}})
         yjcount += 1
-    logger.warning(str(yjcount)+" Adet Job Yüklendi")
+    logger.warning(str(yjcount)+" Adet Job Yüklendi!")
     updater.start_polling()
     updater.idle()
-
-if __name__ == '__main__':
-    main()
+    yjcount = 0
     for kap in upjob.jobs():
         jobstr = str(jop.job)
         jnam = jobstr.find("date[")
@@ -2945,4 +2943,9 @@ if __name__ == '__main__':
         kzamani = kap.job
         kapdct = {'msgdict': kap.context, 'name': kap.name, 'when': jname}
         collection.update_one({"_id": 0}, {"$push": {"jobs": kapdct}})
+        yjcount += 1
+    logger.warning(str(yjcount)+" Adet Job Yedeklendi!")
+
+if __name__ == '__main__':
+    main()
     bildir("Bot kapandı!")
