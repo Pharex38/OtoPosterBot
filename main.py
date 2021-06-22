@@ -732,6 +732,7 @@ def callback_query(call, context):
                     msg_dict.append({"pkan": kan, "psablon": psablon, "ptip": ptip, "fid": fid, "user": user})
                 bot.delete_message(user, mesajid)
                 bot.send_message(user, "⏱ Postunuz zamanlandı.", reply_markup=dugme(user))
+                context.job_queue.run_once(callback=zamanjob, when=zamani, context=msg_dict, name=str(user)+"--"+str(zamani))
                 return ConversationHandler.END
 
             msg_dict.append({"pkan": kanal[o], "psablon": psablon, "ptip": ptip, "fid": fid, "user": user})
