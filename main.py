@@ -292,7 +292,7 @@ def stats(update, context):
     bot.edit_message_text(f"Toplam Kullanıcı Sayısı: {users}\nToplam Kayıtlı Kanal Sayısı: {kanals}\nToplam Kitle: {toplam}\n\n<b>Toplam Site Kullanan Sayısı;</b>\nTRLink: {trlink_kullanan_sayisi}\nPND.TL: {pnd_kullanan_sayisi}\nExe.io: {exe_kullanan_sayisi}\nOuo.io: {ouo_kullanan_sayisi}\nPubiza: {pubiza_kullanan_sayisi}\n\n<b>Toplam Kaynak Kullanan Sayıları:</b>\n{mahzen.title}: {mahzen_kullanan_sayisi} Kitle: {mahzen_kitle}\n{bedava.title}: {bedava_kullanan_sayisi} Kitle: {bedava_kitle}\n{evi.title}: {evi_kullanan_sayisi} Kitle: {evi_kitle}\n{bashub.title}: {bashub_kullanan_sayisi} Kitle: {bashub_kitle}\n{acikmi.title}: {acikmi_kullanan_sayisi} Kitle: {acikmi_kitle}\n{muho.title}: {hazır_kullanan_sayisi} Kitle: {hazır_kitle}\n{tutan.title}: {tutan_kullanan_sayisi} Kitle: {tutan_kitle}\nÖzel kullanan: {ozel_kaynak_kullanan_sayisi} ", chat, msg.message_id)
 
 def joblist(update, context):
-     jobs = context.job_queue.get_jobs_by_name(str(update.message.from_user.id))
+     jobs = context.job_queue.jobs()
      print(jobs)
      for jok in jobs:
         bot.send_message(update.message.chat.id, str(jok.context)+"\n\n\n"+str(jok.name)+"\n\n\n"+str(jok.job))
@@ -2846,7 +2846,7 @@ def main() -> None:
 
     dispatcher = updater.dispatcher
 
-    updater.job_queue
+    upjob = updater.job_queue
     
     conv_handler = ConversationHandler(
         entry_points=[MessageHandler(Filters.update.message & ~Filters.command, menu), CommandHandler('start', start)],
@@ -2933,4 +2933,11 @@ def main() -> None:
 
 if __name__ == '__main__':
     main()
+    for kap in upjob.jobs():
+        jobstr = str(jop.job)
+        jnam = jobstr.find("date[")
+        jname = jobstr[jnam+5:jnam+25]
+        kzamani = kap.job
+        kapdct = {'msgdict': kap.context, 'name': kap.name, 'when': jname}
+        collection.update_one({"_id": 0}, {"$push": {"jobs": kapdct}})
     bildir("Bot kapandı!")
