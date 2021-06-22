@@ -1390,10 +1390,12 @@ def patzamansaat(update, context):
         return
     if dak < 0:
         dak = dak + dak * 2
-        sat += 1
+        satt = True
     if sat < 0:
         sat = sat + sat * 2
         day += 1
+    if satt:
+        sat += 1
     print(int(sat) * 3600 + int(dak) * 60 + int(day) * 86400)
     context.user_data['zaman'] = int(sat) * 3600 + int(dak) * 60 + int(day) * 86400
     bot.send_message(update.message.chat.id, "Hangi kanalınıza gönderilecek.", reply_markup=patmark(update.message.from_user.id))
