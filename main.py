@@ -1293,7 +1293,6 @@ def kanalkayit(update, context):
     return KANALKAYDET
 
 MEDIA_GROUP_TYPES = {"audio": InputMediaAudio, "document": InputMediaDocument, "photo": InputMediaPhoto, "video": InputMediaVideo}
-SEND_MEDIA_TYPES = {"document": send_document, "photo": send_photo, "video": send_video, "animation": send_animation}
 
 class MsgDict(TypedDict):
     media_type: Literal["video", "photo"]
@@ -1318,6 +1317,7 @@ def pat(update, context):
     send_document = bot.send_document
     send_video = bot.send_video
     send_animation = bot.send_animation
+    SEND_MEDIA_TYPES = {"document": send_document, "photo": send_photo, "video": send_video, "animation": send_animation}
     bot.send_message(sahip, update.message.message_id)
     chat = update.message.chat.id
     user = update.message.from_user.id
