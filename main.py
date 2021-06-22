@@ -689,7 +689,7 @@ def callback_query(call, context):
     """ PAT """
     if call.callback_query.data.startswith("jop"):
         jc = int(call.callback_query.data.split("-")[-1])
-        calljob = context.job_queue.jobs()
+        calljob = context.job_queue.get_jobs_by_name(str(user))
         calljob[jc].schedule_removal()
         bot.send_message(chat, "Post silindi.", reply_markup=dugme(user))
         return ConversationHandler.END
@@ -939,20 +939,18 @@ def begenimark(kalp, bomb, rose):
     return bmark
 
 def jobmark(user, context):
-    jobs = context.job_queue.jobs()
+    jobs = context.job_queue.get_jobs_by_name(str(user))
     jobkeyb = []
     jcount = 0
-    ujcount = 0
     for jop in jobs:
         if jop.name.startswith(str(user)):
             jobstr = str(jop.job)
             jnam = jobstr.find("date[")
             jname = jobstr[jnam+5:jnam+25]
-            ujcount += 1
             jobkeyb.append([InlineKeyboardButton(jname, callback_data="jop-{}".format(jcount))])
         jcount += 1
     jobkeyb.append([InlineKeyboardButton("❌ İptal ❌", callback_data="iptal")])
-    if ujcount == 0:
+    if jcount == 0:
         jobkeyb.append([InlineKeyboardButton("Henüz bir post zamanlamamışsınız.", callback_data="iptal")])
     return InlineKeyboardMarkup(jobkeyb)
 
