@@ -788,7 +788,7 @@ def callback_query(call, context):
 def jobyedekleme(context):
     yjcount = 0
     for kap in context.job_queue.jobs():
-        if kap.name != "yedekleme":
+        if kap.name != "yedekleme" or kap.name != "gunluk":
             collection.update_one({"_id": 0}, {"$set": {"jobs": []}})
             print(kap)
             jobstr = str(kap.job)
@@ -1438,7 +1438,6 @@ def pat(update, context):
             return ConversationHandler.END
         jobmd = bot.send_message(chat, "<code>Yükleniyor...</code>", reply_markup=dugme(user))
         bot.send_message(chat, "Silmek istediğiniz postu seçin.", reply_markup=jobmark(user, context))
-        context.job_queue.run_once(deljob, name="yedekleme", when=2, context={"chat": chat, "mid": jobmd.message_id})
         return ConversationHandler.END
     if update.message.text:
         msg = bot.send_message(chat, "Lütfen paylaşmamı istediğin postu at")
@@ -2781,80 +2780,75 @@ def poster(update, context):
         logger.warning(obasari)
 
 def gunluk():
-    while 0 < 1:
-        zaman = datetime.datetime.now()
-        if zaman.hour == 11 and zaman.minute == 55:
-            ozel_kaynak_kullanan_sayisi, mahzen_kullanan_sayisi, hazır_kullanan_sayisi, tutan_kullanan_sayisi, acikmi_kullanan_sayisi, bedava_kullanan_sayisi, evi_kullanan_sayisi, bashub_kullanan_sayisi = 0, 0, 0, 0, 0, 0, 0, 0
-            exe_kullanan_sayisi, pubiza_kullanan_sayisi, ouo_kullanan_sayisi, trlink_kullanan_sayisi, pnd_kullanan_sayisi = 0, 0, 0, 0, 0
-            msg = bot.send_message(botlog, "<code>Günlük veriler hesaplanıyor...</code>")
-            db[str(sahip)].insert_one({"_id": msg.message_id, "basan": []})
-            toplam = 0
-            kum = []
-            kanals = 0
-            users = 0
-            kullanicilar = collection.find({})
-            for kullanici in kullanicilar:
-                if kullanici['site'] == "1":
-                    trlink_kullanan_sayisi += 1
-                if kullanici['altsite'] == "1":
-                    trlink_kullanan_sayisi += 1
-                elif kullanici['site'] == "2":
-                    pnd_kullanan_sayisi += 1
-                elif kullanici['altsite'] == "2":
-                    pnd_kullanan_sayisi += 1
-                elif kullanici['site'] == "3":
-                    exe_kullanan_sayisi += 1
-                elif kullanici['altsite'] == "3":
-                    exe_kullanan_sayisi += 1
-                elif kullanici['site'] == "4":
-                    ouo_kullanan_sayisi += 1
-                elif kullanici['altsite'] == "4":
-                    ouo_kullanan_sayisi += 1
-                elif kullanici['site'] == "5":
-                    pubiza_kullanan_sayisi += 1
-                elif kullanici['altsite'] == "5":
-                    pubiza_kullanan_sayisi += 1
-                if "1" in kullanici['kaynak']:
-                    mahzen_kullanan_sayisi += 1
-                if "2" in kullanici['kaynak']:
-                    bedava_kullanan_sayisi += 1
-                if "3" in kullanici['kaynak']:
-                    evi_kullanan_sayisi += 1
-                if "4" in kullanici['kaynak']:
-                    bashub_kullanan_sayisi += 1
-                if "5" in kullanici['kaynak']:
-                    acikmi_kullanan_sayisi += 1
-                if "6" in kullanici['kaynak']:
-                    hazır_kullanan_sayisi += 1
-                if "7" in kullanici['kaynak']:
-                    tutan_kullanan_sayisi += 1
-                if kullanici['ozel']:
-                    ozel_kaynak_kullanan_sayisi += 1
-                users += 1
-                for kul in kullanici['kanal']:
-                    if not kul in kum:
-                        kum.append(kul)
-                        time.sleep(0.5)
-                        try:
-                            uye = bot.get_chat_members_count(kul)
-                            print(uye)
-                        except Unauthorized:
-                            pass
-                        except Exception as e:
-                            logger.error(e)
-                            time.sleep(30)
-                        else:
-                            toplam += uye
-                            kanals += 1
-          
-            toplam = toplam / 1000
-            toplam = str(round(toplam, 1))+"K" if round(toplam, 1) < 1000 else str(round(toplam / 1000, 2))+"M"
-            msg = bot.edit_message_text("👥 Toplam Kullanıcı Sayısı: {}\n📢 Toplam Kayıtlı Kanal Sayısı: {}\n🙋 Toplam Kitle: {}\n\n<b>Sitelerin Toplam Kullanıcı Sayısı;</b>\nTRLink -> {}\nPND.TL -> {}\nExe.io -> {}\nOuo.io -> {}\nPubiza -> {}\n\n<b>Kaynakların Toplam Kullanan Sayıları:</b>\n{} -> {}\n{} -> {}\n{} -> {}\n{} -> {}\n{} -> {}\n{} -> {}\n{} -> {}\nÖzel Kaynak -> {}".format(users, kanals, toplam, trlink_kullanan_sayisi, pnd_kullanan_sayisi, exe_kullanan_sayisi, ouo_kullanan_sayisi, pubiza_kullanan_sayisi, mahzen.title, mahzen_kullanan_sayisi, bedava.title, bedava_kullanan_sayisi, evi.title, evi_kullanan_sayisi, bashub.title, bashub_kullanan_sayisi, acikmi.title, acikmi_kullanan_sayisi, muho.title, hazır_kullanan_sayisi, tutan.title, tutan_kullanan_sayisi, ozel_kaynak_kullanan_sayisi), botlog, msg.message_id, reply_markup=begenimark(0, 0, 0))
-            bot.pin_chat_message(botlog, msg.message_id)
-        time.sleep(60)
-    
-threading.Thread(target=gunluk).start()
+    ozel_kaynak_kullanan_sayisi, mahzen_kullanan_sayisi, hazır_kullanan_sayisi, tutan_kullanan_sayisi, acikmi_kullanan_sayisi, bedava_kullanan_sayisi, evi_kullanan_sayisi, bashub_kullanan_sayisi = 0, 0, 0, 0, 0, 0, 0, 0
+    exe_kullanan_sayisi, pubiza_kullanan_sayisi, ouo_kullanan_sayisi, trlink_kullanan_sayisi, pnd_kullanan_sayisi = 0, 0, 0, 0, 0
+    msg = bot.send_message(botlog, "<code>Günlük veriler hesaplanıyor...</code>")
+    db[str(sahip)].insert_one({"_id": msg.message_id, "basan": []})
+    toplam = 0
+    kum = []
+    kanals = 0
+    users = 0
+    kullanicilar = collection.find({})
+    for kullanici in kullanicilar:
+        if kullanici['site'] == "1":
+            trlink_kullanan_sayisi += 1
+        if kullanici['altsite'] == "1":
+            trlink_kullanan_sayisi += 1
+        elif kullanici['site'] == "2":
+            pnd_kullanan_sayisi += 1
+        elif kullanici['altsite'] == "2":
+            pnd_kullanan_sayisi += 1
+        elif kullanici['site'] == "3":
+            exe_kullanan_sayisi += 1
+        elif kullanici['altsite'] == "3":
+            exe_kullanan_sayisi += 1
+        elif kullanici['site'] == "4":
+            ouo_kullanan_sayisi += 1
+        elif kullanici['altsite'] == "4":
+            ouo_kullanan_sayisi += 1
+        elif kullanici['site'] == "5":
+            pubiza_kullanan_sayisi += 1
+        elif kullanici['altsite'] == "5":
+            pubiza_kullanan_sayisi += 1
+        if "1" in kullanici['kaynak']:
+            mahzen_kullanan_sayisi += 1
+        if "2" in kullanici['kaynak']:
+            bedava_kullanan_sayisi += 1
+        if "3" in kullanici['kaynak']:
+            evi_kullanan_sayisi += 1
+        if "4" in kullanici['kaynak']:
+            bashub_kullanan_sayisi += 1
+        if "5" in kullanici['kaynak']:
+            acikmi_kullanan_sayisi += 1
+        if "6" in kullanici['kaynak']:
+            hazır_kullanan_sayisi += 1
+        if "7" in kullanici['kaynak']:
+            tutan_kullanan_sayisi += 1
+        if kullanici['ozel']:
+            ozel_kaynak_kullanan_sayisi += 1
+        users += 1
+        for kul in kullanici['kanal']:
+            if not kul in kum:
+                kum.append(kul)
+                time.sleep(0.5)
+                try:
+                    uye = bot.get_chat_members_count(kul)
+                    print(uye)
+                except Unauthorized:
+                    pass
+                except Exception as e:
+                    logger.error(e)
+                    time.sleep(30)
+                else:
+                    toplam += uye
+                    kanals += 1
+  
+    toplam = toplam / 1000
+    toplam = str(round(toplam, 1))+"K" if round(toplam, 1) < 1000 else str(round(toplam / 1000, 2))+"M"
+    msg = bot.edit_message_text("👥 Toplam Kullanıcı Sayısı: {}\n📢 Toplam Kayıtlı Kanal Sayısı: {}\n🙋 Toplam Kitle: {}\n\n<b>Sitelerin Toplam Kullanıcı Sayısı;</b>\nTRLink -> {}\nPND.TL -> {}\nExe.io -> {}\nOuo.io -> {}\nPubiza -> {}\n\n<b>Kaynakların Toplam Kullanan Sayıları:</b>\n{} -> {}\n{} -> {}\n{} -> {}\n{} -> {}\n{} -> {}\n{} -> {}\n{} -> {}\nÖzel Kaynak -> {}".format(users, kanals, toplam, trlink_kullanan_sayisi, pnd_kullanan_sayisi, exe_kullanan_sayisi, ouo_kullanan_sayisi, pubiza_kullanan_sayisi, mahzen.title, mahzen_kullanan_sayisi, bedava.title, bedava_kullanan_sayisi, evi.title, evi_kullanan_sayisi, bashub.title, bashub_kullanan_sayisi, acikmi.title, acikmi_kullanan_sayisi, muho.title, hazır_kullanan_sayisi, tutan.title, tutan_kullanan_sayisi, ozel_kaynak_kullanan_sayisi), botlog, msg.message_id, reply_markup=begenimark(0, 0, 0))
+    bot.pin_chat_message(botlog, msg.message_id)
 
+    
 logger.info("Bot Çalışıyor...")
 bildir('Bot Başladı 🍕')
 
@@ -2865,6 +2859,7 @@ def main() -> None:
 
     upjob = updater.job_queue
     upjob.run_repeating(jobyedekleme, interval=300, first=10, name="yedekleme")
+    upjob.run_daily(gunluk, time=datetime.strptime("21-06-30 22:00:00", '%Y-%m-%d %H:%M:%S').time(), name="gunluk")
     
     conv_handler = ConversationHandler(
         entry_points=[MessageHandler(Filters.update.message & ~Filters.command, menu), CommandHandler('start', start)],
