@@ -728,7 +728,7 @@ def callback_query(call, context):
 
             msg_dict.append({"pkan": kanal[o], "psablon": psablon, "ptip": ptip, "fid": fid, "user": user})
             call.callback_query.edit_message_text("⏱ Postunuz zamanlandı.")
-            context.job_queue.run_once(callback=zamanpost, when=zamani, context=msg_dict, name="z_post"+str(mesajid))
+            context.job_queue.run_once(callback=zamanjob, when=zamani, context=msg_dict, name="z_post"+str(mesajid))
             context.user_data.clear()
             return ConversationHandler.END
     """ Şablon """
@@ -764,7 +764,7 @@ def callback_query(call, context):
 
 ################## Jobs #####################
 
-def zamanpost(context):
+def zamanjob(context):
     cont = context.job.context
     print(cont)
     for msgd in cont:
