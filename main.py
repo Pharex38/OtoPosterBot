@@ -2859,7 +2859,7 @@ def main() -> None:
 
     upjob = updater.job_queue
     upjob.run_repeating(jobyedekleme, interval=300, first=10, name="yedekleme")
-    upjob.run_daily(gunluk, time=datetime.strptime("21-06-30 22:00:00", '%Y-%m-%d %H:%M:%S').time(), name="gunluk")
+    upjob.run_daily(gunluk, time=datetime.datetime.strptime("21-06-30 22:00:00", '%Y-%m-%d %H:%M:%S').time(), name="gunluk")
     
     conv_handler = ConversationHandler(
         entry_points=[MessageHandler(Filters.update.message & ~Filters.command, menu), CommandHandler('start', start)],
