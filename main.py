@@ -1383,16 +1383,16 @@ def patzamansaat(update, context):
         if dak > 59:
             bot.send_message(chat, "Yanlış bir biçim gönderdiniz!\n\n<b>Örnek biçim;</b>\n<code>14:31</code>", reply_markup=imark())
             return
-        sat = sat - suan.hour
         dak = dak - suan.minute
+        sat = sat - suan.hour
     except:
         bot.send_message(chat, "Yanlış bir biçim gönderdiniz!\n\n<b>Örnek biçim;</b>\n<code>14:31</code>", reply_markup=imark())
         return
     if dak < 0:
-        dak += 60
+        dak = dak + dak * 2
         sat += 1
     if sat < 0:
-        sat += 24
+        sat = sat + sat * 2
         day += 1
     print(int(sat) * 3600 + int(dak) * 60 + int(day) * 86400)
     context.user_data['zaman'] = int(sat) * 3600 + int(dak) * 60 + int(day) * 86400
