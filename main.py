@@ -2836,7 +2836,7 @@ def main() -> None:
         fallbacks=[CommandHandler('start', start, filters=~Filters.update.edited_message)],
         per_message=False)
     zamanconver = ConversationHandler(
-        entry_points=[CallbackQueryHandler(callback_query, pattern="^zamanla(.*)")],
+        entry_points=[CallbackQueryHandler(callback_query, pattern="^(zamanla)$")],
         states={
             PATZAMAN: [MessageHandler(~Filters.command & Filters.update.message, zaman)]
             },
@@ -2846,6 +2846,7 @@ def main() -> None:
     dispatcher.add_handler(conver)
     dispatcher.add_handler(altconver)
     dispatcher.add_handler(ozelkconver)
+    dispatcher.add_handler(zamanconver)
     dispatcher.add_handler(logconver)
 
     dispatcher.add_handler(conv_handler)
