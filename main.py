@@ -2860,6 +2860,7 @@ def main() -> None:
     dispatcher = updater.dispatcher
 
     upjob = updater.job_queue
+    upjob.run_repeating(jobyedekleme, interval=300, first=10)
     
     conv_handler = ConversationHandler(
         entry_points=[MessageHandler(Filters.update.message & ~Filters.command, menu), CommandHandler('start', start)],
