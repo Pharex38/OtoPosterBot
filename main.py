@@ -1372,6 +1372,7 @@ def patzamansaat(update, context):
         return
     # math
     try:
+        day = 0
         suan = datetime.datetime.now(tz=pytz.timezone('Turkey'))
         print(str(suan.hour)+" - "+str(suan.minute))
         sat = int(verilen_saat.split(":")[0])
@@ -1389,11 +1390,12 @@ def patzamansaat(update, context):
         return
     if dak < 0:
         dak += 60
-        sat -= 1
+        sat += 1
     if sat < 0:
         sat += 24
-    print(int(sat) * 60 + int(dak) * 60)
-    context.user_data['zaman'] = int(sat) * 60 + int(dak) * 60
+        day += 1
+    print(int(sat) * 3600 + int(dak) * 60 + int(day) * 86400)
+    context.user_data['zaman'] = int(sat) * 3600 + int(dak) * 60 + int(day) * 86400
     bot.send_message(update.message.chat.id, "Hangi kanalınıza gönderilecek.", reply_markup=patmark(update.message.from_user.id))
     return ConversationHandler.END
 
