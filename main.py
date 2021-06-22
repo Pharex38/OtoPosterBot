@@ -1421,7 +1421,7 @@ def pat(update, context):
         logger.error(e)
         pret = False
     if len(pathesap['kanal']) < 2 and pret:
-        bot.SEND_MEDIA_TYPES[ptip](pkanallar[0], fid, caption=psablon)
+        SEND_MEDIA_TYPES[ptip](pkanallar[0], fid, caption=psablon)
         bot.send_message(chat, "Postunuz gönderildi.", reply_markup=dugme(user))
         return ConversationHandler.END
     
