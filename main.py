@@ -784,7 +784,7 @@ def jobyedekleme(context):
     yjcount = 0
     for kap in context.job_queue.jobs():
         print(kap)
-        jobstr = str(jop.job)
+        jobstr = str(kap.job)
         jnam = jobstr.find("date[")
         jname = jobstr[jnam+5:jnam+25]
         jname = datetime.datetime.strptime(jname, '%d/%m/%y %H:%M:%S')
