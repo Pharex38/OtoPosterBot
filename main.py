@@ -691,7 +691,7 @@ def callback_query(call, context):
         jc = int(call.callback_query.data.split("-")[-1])
         calljob = context.job_queue.jobs()
         calljob[jc].schedule_removal()
-        call.callback_query.edit_message_text("Post silindi.")
+        bot.send_message(chat, "Post silindi.", reply_markup=dugme(user))
         return ConversationHandler.END
     if call.callback_query.data == "pzamanla":
         call.callback_query.edit_message_text("Postun gönderilmesini istediğiniz saati gönderin.\n\n<b>Örnek biçim;</b>\n<code>31/06/21 18:30:00</code>")
@@ -738,13 +738,13 @@ def callback_query(call, context):
                     msg_dict.append({"pkan": kan, "psablon": psablon, "ptip": ptip, "fid": fid, "user": user})
                 bot.delete_message(user, mesajid)
                 bot.send_message(user, "⏱ Postunuz zamanlandı.", reply_markup=dugme(user))
-                context.job_queue.run_once(callback=zamanjob, when=zamani, context=msg_dict, name=str(user)+"--"+str(zamani))
+                context.job_queue.run_once(callback=zamanjob, when=zamani, context=msg_dict, name=str(user))
                 return ConversationHandler.END
 
             msg_dict.append({"pkan": kanal[o], "psablon": psablon, "ptip": ptip, "fid": fid, "user": user})
             bot.delete_message(user, mesajid)
             bot.send_message(user, "⏱ Postunuz zamanlandı.", reply_markup=dugme(user))
-            context.job_queue.run_once(callback=zamanjob, when=zamani, context=msg_dict, name=str(user)+"--"+str(zamani))
+            context.job_queue.run_once(callback=zamanjob, when=zamani, context=msg_dict, name=str(user))
             context.user_data.clear()
             return ConversationHandler.END
     """ Şablon """
@@ -1396,14 +1396,18 @@ def patzamansaat(update, context):
         bot.send_message(chat, "İptal edildi.")
         return ConversationHandler.END
     if verilen_saat.find(":") == -1 or len(verilen_saat) != 17:
-        bot.send_message(chat, "Yanlış bir biçim gönderdiniz!\n\n<b>Örnek biçim;</b>\n<code>31/06/21 14:31:00</code>", reply_markup=imark())
+        bot.send_message(chat, "Yanlış bir biçim gönderdiniz!\n\n<b>Örnek biçim;</b>\n<code>30/06/21 14:31:00</code>", reply_markup=imark())
         return
-    zamanii = datetime.datetime.strptime(verilen_saat, '%d/%m/%y %H:%M:%S')
+    try:
+        zamanii = datetime.datetime.strptime(verilen_saat, '%d/%m/%y %H:%M:%S')
+    except:
+        bot.send_message(chat, "Yanlış bir biçim gönderdiniz!\n\n<b>Örnek biçim;</b>\n<code>30/06/21 14:31:00</code>", reply_markup=imark())
+        return
     context.user_data['zaman'] = zamanii
     satkat = collection.find_one({"_id": user})
     if len(satkat['kanal']) < 2:
         msg_dict = {"pkan": satkat['kanal'][0], "psablon": context.user_data['psablon'], "ptip": context.user_data['ptip'], "fid": context.user_data['fid'], "user": user}
-        context.job_queue.run_once(callback=zamanjob, when=zamanii, context=[msg_dict], name=str(user)+"--"+str(zamanii))
+        context.job_queue.run_once(callback=zamanjob, when=zamanii, context=[msg_dict], name=str(user))
         bot.send_message(chat, "⏱ Postunuz zamanlandı", reply_markup=dugme(user))
         return ConversationHandler.END
 
