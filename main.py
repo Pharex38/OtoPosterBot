@@ -933,7 +933,7 @@ def begenimark(kalp, bomb, rose):
     return bmark
 
 def jobmark(user, context):
-    jobs = context.job_queue.jobs
+    jobs = context.job_queue.jobs()
     jobkeyb = []
     jcount = 0
     for jop in jobs:
