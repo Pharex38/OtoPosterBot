@@ -12,6 +12,7 @@ from telegram import *
 from telegram.error import *
 from telegram.ext import *
 from telegram.utils.helpers import *
+from telegram.Bot import send_video, send_photo, send_document, send_animation
 
 mpass = os.environ['MONGOPASS']
 mongo = f"os.environ["MONGO_URI"]"
