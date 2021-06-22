@@ -1394,7 +1394,7 @@ def patzamansaat(update, context):
         dak = dak + dak * 2
         satt = True
     print(str(sat)+" - "+str(dak))
-    if sat < 0:
+    if sat <= 0:
         sat = sat + sat * 2
         day += 1
     print(str(sat)+" - "+str(dak))
