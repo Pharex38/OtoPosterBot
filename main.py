@@ -2948,7 +2948,7 @@ def main() -> None:
     yjcount = 0
     for uh in collection.find_one({"_id": 0})['jobs']:
         uhzamani = datetime.datetime.strptime(uh['when'], '%y-%m-%d %H:%M:%S')
-        upjob.run_once(patjob, name=str(uh['name'], context=uh['msgdict'], when=uhzamani))
+        upjob.run_once(patjob, name=str(uh['name']), context=uh['msgdict'], when=uhzamani)
         collection.update_one({"_id": 0}, {"$pull": {"jobs": uh}})
         yjcount += 1
     logger.warning(str(yjcount)+" Adet Job Yüklendi!")
