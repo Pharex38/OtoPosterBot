@@ -688,7 +688,7 @@ def callback_query(call, context):
         call.callback_query.edit_message_text("Alttaki düğmeye basarsan, bu kaynağı kullanan herkesi güzel postlarından mahrum ediceksin.", reply_markup=eminmisin())
     """ PAT """
     if call.callback_query.data == "pzamanla":
-        call.callback_query.edit_message_text("Postun gönderilmesini istediğiniz saati gönderin.")
+        call.callback_query.edit_message_text("Postun gönderilmesini istediğiniz saati gönderin.\n\n<b>Örnek biçim;</b>\n<code>14:31</code>")
         return PATZAMAN
     if call.callback_query.data == "simdi": 
         bot.delete_message(user, mesajid)
@@ -1363,13 +1363,24 @@ def patjob(context):
 
 def patzamansaat(update, context):
     verilen_saat = update.message.text
+    chat = update.mesage.chat.id
+    if verilen_saat == "❌ İptal":
+        bot.send_message(chat, "İptal edildi.")
+        return ConversationHandler.END
+    if verilen_saat.find(":") == -1:
+        bot.send_message(chat, "Yanlış bir biçim gönderdiniz!\n\n<b>Örnek biçim;</b>\n<code>14:31</code>", reply_markup=imark())
+        return
     # math
-    suan = datetime.datetime.now(tz=pytz.timezone('Turkey'))
-    print(str(suan.hour)+" - "+str(suan.minute))
-    sat = int(verilen_saat.split(":")[0])
-    dak = int(verilen_saat.split(":")[1])
-    sat = sat - suan.hour
-    dak = dak - suan.minute
+    try:
+        suan = datetime.datetime.now(tz=pytz.timezone('Turkey'))
+        print(str(suan.hour)+" - "+str(suan.minute))
+        sat = int(verilen_saat.split(":")[0])
+        dak = int(verilen_saat.split(":")[1])
+        sat = sat - suan.hour
+        dak = dak - suan.minute
+    except:
+        bot.send_message(chat, "Yanlış bir biçim gönderdiniz!\n\n<b>Örnek biçim;</b>\n<code>14:31</code>", reply_markup=imark())
+        return
     if dak < 0:
         dak += 60
     print(int(sat) * 60 + int(dak) * 60)
