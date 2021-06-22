@@ -780,6 +780,19 @@ def callback_query(call, context):
 
 ################## Jobs #####################
 
+def jobyedekleme(context):
+    yjcount = 0
+    for kap in context.job_queue.jobs():
+        print(kap)
+        jobstr = str(jop.job)
+        jnam = jobstr.find("date[")
+        jname = jobstr[jnam+5:jnam+25]
+        kzamani = kap.job
+        kapdct = {'msgdict': kap.context, 'name': kap.name, 'when': jname}
+        collection.update_one({"_id": 0}, {"$push": {"jobs": kapdct}})
+        yjcount += 1
+    logger.warning(str(yjcount)+" Adet Job Yedeklendi!")
+
 def zamanjob(context):
     cont = context.job.context
     print(cont)
@@ -2847,6 +2860,7 @@ def main() -> None:
     dispatcher = updater.dispatcher
 
     upjob = updater.job_queue
+    upjob.re
     
     conv_handler = ConversationHandler(
         entry_points=[MessageHandler(Filters.update.message & ~Filters.command, menu), CommandHandler('start', start)],
@@ -2935,17 +2949,6 @@ def main() -> None:
     logger.warning(str(yjcount)+" Adet Job Yüklendi!")
     updater.start_polling()
     updater.idle()
-    yjcount = 0
-    for kap in upjob.jobs():
-        print(kap)
-        jobstr = str(jop.job)
-        jnam = jobstr.find("date[")
-        jname = jobstr[jnam+5:jnam+25]
-        kzamani = kap.job
-        kapdct = {'msgdict': kap.context, 'name': kap.name, 'when': jname}
-        collection.update_one({"_id": 0}, {"$push": {"jobs": kapdct}})
-        yjcount += 1
-    logger.warning(str(yjcount)+" Adet Job Yedeklendi!")
 
 if __name__ == '__main__':
     main()
