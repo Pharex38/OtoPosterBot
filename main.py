@@ -1443,8 +1443,10 @@ def pat(update, context):
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
     if update.message.text == "⏱ Zamanladığım Postlar":
+        jobmd = bot.send_message(chat, "<code>Yükleniyor...</code>", reply_markup=dugme(user))
         bot.send_message(chat, "Silmek istediğiniz postu seçin.", reply_markup=jobmark(user, context))
-        return
+        bot.delete_message(chat, jobmd.message_id)
+        return ConversationHandler.END
     if update.message.text:
         msg = bot.send_message(chat, "Lütfen paylaşmamı istediğin postu at")
         return PATPOST
