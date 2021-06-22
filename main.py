@@ -945,17 +945,8 @@ def jobmark(user, context):
     ujcount = 0
     for jop in jobs:
         if jop.name.startswith(str(user)):
-            jsuan = datetime.datetime.now(tz=pytz.timezone('Turkey'))
-            jay = jsuan.day
-            jsuan = jsuan.hour * 3600 + jsuan.minute * 60
-            saniye = int(jop.name.split("--")[-1]) + jsuan
-            dakika = int(saniye / 60 if saniye > 60 else 0)
-            saniye = saniye - dakika * 60
-            saat = int(dakika / 60 if dakika > 60 else 0)
-            dakika = dakika - saat * 60
-            gun = int(saat / 24 if saat > 24 else 0)
-            saat = saat - gun *24
-            jname = str(gun+jay).zfill(2)+" Gün "+str(saat).zfill(2)+":"+str(dakika).zfill(2)
+            jnam = str(jop.job).find("date[")
+            jname str(jop.job)[jnam+5:-3]
             ujcount += 1
             jobkeyb.append([InlineKeyboardButton(jname, callback_data="jop-{}".format(jcount))])
         jcount += 1
