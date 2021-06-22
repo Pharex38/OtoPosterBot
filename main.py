@@ -1360,11 +1360,11 @@ def patjob(context):
         return
     bot.send_media_group(chat_id=pkan, media=media)
     print("MEDYA GÖNDERİLDİ")
-    
+
 def patzamansaat(update, context):
     verilen_saat = update.message.text
     # math
-    suan = datetime.datetime.now()
+    suan = datetime.datetime.now(tz=pytz.timezone('Turkey'))
     print(str(suan.hour)+" - "+str(suan.minute))
     sat = int(verilen_saat.split(":")[0])
     dak = int(verilen_saat.split(":")[1])
