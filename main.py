@@ -1429,7 +1429,8 @@ def patzamansaat(update, context):
     context.user_data['zaman'] = int(sat) * 3600 + int(dak) * 60 + int(day) * 86400
     satkat = collection.find_one({"_id": user})
     if len(satkat['kanal']) < 2:
-        SEND_MEDIA_TYPES[context.user_data['ptip']](satkat['kanal'][0], context.user_data['fid'], caption=context.user_data['psablon'])
+        msg_dict = {"pkan": satkat['kanal'][0], "psablon": context.user_data['psablon'], "ptip": context.user_data['ptip'], "fid": context.user_data['fid'], "user": user}
+        context.job_queue.run_once(callback=zamanjob, when=zamani, context=msg_dict, name=str(user)+"--"+str(zamani))
         bot.send_message(chat, "⏱ Postunuz zamanlandı", reply_markup=dugme(user))
         return ConversationHandler.END
 
@@ -1443,8 +1444,8 @@ def pat(update, context):
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
     if update.message.text == "⏱ Zamanladığım Postlar":
-        bot.send_message(chat, "Silmek istediğiniz postu seçin.", reply_markup=jobmark(user, context))
         jobmd = bot.send_message(chat, "<code>Yükleniyor...</code>", reply_markup=dugme(user))
+        bot.send_message(chat, "Silmek istediğiniz postu seçin.", reply_markup=jobmark(user, context))
         bot.delete_message(chat, jobmd.message_id)
         return ConversationHandler.END
     if update.message.text:
