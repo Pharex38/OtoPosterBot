@@ -783,7 +783,7 @@ def callback_query(call, context):
 def jobyedekleme(context):
     yjcount = 0
     for kap in context.job_queue.jobs():
-        if kap.name != "yedekleme"
+        if kap.name != "yedekleme":
             print(kap)
             jobstr = str(kap.job)
             jnam = jobstr.find("date[")
