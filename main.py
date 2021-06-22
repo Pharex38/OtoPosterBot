@@ -932,6 +932,24 @@ def begenimark(kalp, bomb, rose):
     bmark = InlineKeyboardMarkup([[InlineKeyboardButton(f"♥️{kalp}", callback_data="emo-{}-{}-{}-1".format(kalp, bomb, rose)), InlineKeyboardButton(f"💣{bomb}", callback_data="emo-{}-{}-{}-2".format(kalp, bomb, rose)), InlineKeyboardButton(f"🌹{rose}", callback_data="emo-{}-{}-{}-3".format(kalp, bomb, rose))]])
     return bmark
 
+def jobmark(user):
+    jobs = context.job_queue.get_jobs_by_name(str(user))
+    jobkeyb = []
+    jcount = 0
+    for jop in jobs:
+        if jop.name.startswith(str(user)):
+            saniye = jop.name.split("--")[-1]
+            dakika = int(saniye / 60 if saniye > 60 else 0)
+            saniye = saniye - dakika * 60
+            saat = int(dakika / 60 if dakika > 60 else 0)
+            dakika = dakika - saat * 60
+            gun = int(saat / 24 if saat > 24 else 0)
+            saat = saat - gun
+            jname = str(gun).zfill(2)+" Gün "+str(saat).zfill(2)+":"+str(dakika).zfill(2)+":"+str(saniye).zfill(2)
+                
+            jobkeyb.append([InlineKeyboardButton(jname, callback_data="jop-{}".format(jcount))])
+        jcount += 1
+
 def eminmisin():
     return InlineKeyboardMarkup([[InlineKeyboardButton("Evet, kesinlikle eminim.", callback_data="yoket")], [InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")]])
     
@@ -1098,7 +1116,7 @@ def menu(update, context):
         if len(mj['kanal']) < 1:
             bot.send_message(chat, "Lütfen önce bir kanal kaydedin.", reply_markup=dugme(user))
             return
-        msg = bot.send_message(chat, "Paylaşmamı istediğin hazır postu ilet.", reply_markup=imark())
+        msg = bot.send_message(chat, "Paylaşmamı istediğin hazır postu ilet.", reply_markup=ReplyKeyboardMarkup(keyboard=[['❌ İptal'], ['⏱ Zamanladığım Postlar']], one_time_keyboard=True, resize_keyboard=True, selective=True))
         
         return PATPOST
         
@@ -1366,11 +1384,12 @@ def patjob(context):
 
 def patzamansaat(update, context):
     verilen_saat = update.message.text
+    user = update.message.from_user.id
     chat = update.message.chat.id
     if verilen_saat == "❌ İptal":
         bot.send_message(chat, "İptal edildi.")
         return ConversationHandler.END
-    if verilen_saat.find(":") == -1:
+    if verilen_saat.find(":") == -1 or len(verilen_saat) > 5 or len(verilen_saat) < 5:
         bot.send_message(chat, "Yanlış bir biçim gönderdiniz!\n\n<b>Örnek biçim;</b>\n<code>14:31</code>", reply_markup=imark())
         return
     # math
@@ -1402,6 +1421,11 @@ def patzamansaat(update, context):
     print(str(sat)+" - "+str(dak))
     print(int(sat) * 3600 + int(dak) * 60 + int(day) * 86400)
     context.user_data['zaman'] = int(sat) * 3600 + int(dak) * 60 + int(day) * 86400
+    if len(collection.find_one({"_id": user})['kanal']) < 2:
+        SEND_MEDIA_TYPES[context.user_data['ptip']](collection.find_one({"_id": user}['kanal'][0], context.user_data['fid'], caption=context.user_data['psablon']))
+        bot.send_message(chat, "⏱ Postunuz zamanlandı", reply_markup=dugme(user))
+        return ConversationHandler.END
+
     bot.send_message(update.message.chat.id, "Hangi kanalınıza gönderilecek.", reply_markup=patmark(update.message.from_user.id))
     return ConversationHandler.END
 
@@ -1411,6 +1435,9 @@ def pat(update, context):
     if update.message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
+    if update.message.text == "⏱ Zamanladığım Postlar":
+        bot.send_message(chat, "Silmek istediğiniz postu seçin.", reply_markup=jobmark(user))
+        return
     if update.message.text:
         msg = bot.send_message(chat, "Lütfen paylaşmamı istediğin postu at")
         return PATPOST
