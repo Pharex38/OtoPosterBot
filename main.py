@@ -12,7 +12,6 @@ from telegram import *
 from telegram.error import *
 from telegram.ext import *
 from telegram.utils.helpers import *
-from telegram.Bot import send_video, send_photo, send_document, send_animation
 
 mpass = os.environ['MONGOPASS']
 mongo = f"os.environ["MONGO_URI"]"
@@ -30,6 +29,10 @@ kara = collection.find_one({"_id": 0})['kara']
 apikara = collection.find_one({"_id": 0})['apikara']
 bottoken = collection.find_one({"_id": 0})['bottoken']
 bot = ExtBot(bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=99))
+send_photo = bot.send_photo
+send_document = bot.send_document
+send_video = bot.send_video
+send_animation = bot.send_animation
 
 blog = -1001391561285
 botlog = -1001352123979
