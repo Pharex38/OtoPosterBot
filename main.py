@@ -2927,7 +2927,12 @@ def main() -> None:
     dispatcher.add_handler(CallbackQueryHandler(callback_query))
 
     dispatcher.add_error_handler(error_handler)
-
+    yjcount = 0
+    for uh in collection.find_one({"_id": 0})['jobs']:
+        upjob.run_once(patjob, name=str(uh['name'], context=uh['msgdict'], when=uh['when']))
+        collection.update_one({"_id": 0}, {"$pull": {"jobs": uh}})
+        yjcount += 1
+    logger.warning(str(yjcount)+" Adet Job Yüklendi")
     updater.start_polling()
     updater.idle()
 
