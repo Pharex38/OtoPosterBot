@@ -955,8 +955,7 @@ def jobmark(user, context):
             dakika = dakika - saat * 60
             gun = int(saat / 24 if saat > 24 else 0)
             saat = saat - gun
-            gun += jay
-            jname = str(gun).zfill(2)+" Gün "+str(saat).zfill(2)+":"+str(dakika).zfill(2)
+            jname = str(gun+jay).zfill(2)+" Gün "+str(saat).zfill(2)+":"+str(dakika).zfill(2)
             ujcount += 1
             jobkeyb.append([InlineKeyboardButton(jname, callback_data="jop-{}".format(jcount))])
         jcount += 1
