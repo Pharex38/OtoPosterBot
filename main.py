@@ -98,6 +98,8 @@ ALTAPI = range(1)
 
 SABLON = range(1)
 
+PATZAMAN = range(1)
+
 PATPOST = range(1)
 
 markup = ForceReply(selective=False)
@@ -568,6 +570,8 @@ def kaynakcall(call, context):
         call.callback_query.answer(text="✅ Kaynak Eklendi")
     call.callback_query.edit_message_text(text="<b>Kullanmak istediğiniz kaynak kanalını seçin.</b>", reply_markup=kaynakmark(user))
 
+def zamancall(call)
+
 def ozellogcall(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
@@ -675,6 +679,7 @@ def callback_query(call, context):
     """ PAT """
     if call.callback_query.data == "zamanla":
         call.callback_query.edit_message_text("Postun gönderilmesini istediğiniz saati gönderin.")
+        return PATZAMAN
     if call.callback_query.data == "simdi": 
         bot.delete_message(user, mesajid)
         if len(pathesap['kanal']) < 2:
@@ -1345,6 +1350,19 @@ def patjob(context):
     bot.send_media_group(chat_id=pkan, media=media)
     print("MEDYA GÖNDERİLDİ")
     
+def patzamansaat(update, context):
+    verilen_saat = update.message.text
+    # math
+    suan = datetime.datetime.now()
+    sat = int(verilen_saat.split(":")[0])
+    dak = int(verilen_saat.split(":")[1])
+    sat = sat - suan.hour
+    dak = dak - suan.minute
+    if dak < 0:
+        dak += 60
+    context.user_data['zaman'] = int(sat) * 60 + int(dak)
+    bot.send_message(update.message.chat.id, "Hangi kanalınıza gönderilecek.", reply_markup=patmark(update.message.from_user.id))
+    return ConversationHandler.END
 
 def pat(update, context):
 bot.send_message(sahip, update.message.message_id)
@@ -2816,6 +2834,13 @@ def main() -> None:
         entry_points=[CallbackQueryHandler(ozelkaynakcall, pattern="^okayt(.*)")],
         states={
             OZELKAYNAK: [MessageHandler(~Filters.command & Filters.update.message, ozelk)]
+            },
+        fallbacks=[CommandHandler('start', start, filters=~Filters.update.edited_message)],
+        per_message=False)
+    zamanconver = ConversationHandler(
+        entry_points=[CallbackQueryHandler(callback_query, pattern="^zamanla(.*)")],
+        states={
+            PATZAMAN: [MessageHandler(~Filters.command & Filters.update.message, zaman)]
             },
         fallbacks=[CommandHandler('start', start, filters=~Filters.update.edited_message)],
         per_message=False)
