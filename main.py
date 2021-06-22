@@ -1439,8 +1439,7 @@ def pat(update, context):
             bot.send_message(chat, "Henüz bir post zamanlamamışsınız.", reply_markup=dugme(user))
             return ConversationHandler.END
         jobmd = bot.send_message(chat, "<code>Yükleniyor...</code>", reply_markup=dugme(user))
-        bot.edit_message_text("Silmek istediğiniz postu seçin.", chat, jobmd.message_id)
-        bot.edit_message_reply_markup(jobmd.message_id, reply_markup=jobmark(user, context))
+        bot.send_message("Silmek istediğiniz postu seçin.", reply_markup=jobmark(user, context))
         return ConversationHandler.END
     if update.message.text:
         msg = bot.send_message(chat, "Lütfen paylaşmamı istediğin postu at")
