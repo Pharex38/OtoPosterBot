@@ -1468,7 +1468,7 @@ def pat(update, context):
     context.user_data['psablon'] = psablon
     context.user_data['ptip'] = ptip
     context.user_data['fid'] = fid
-    bot.send_message(chat, "Zamanlamak ister misiniz?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Şimdi Gönder", callback_data="simdi")], [InlineKeyboardButton("Zamanla", callback_data="zamanla")]]))
+    bot.send_message(chat, "Zamanlamak ister misiniz?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Şimdi Gönder", callback_data="simdi")], [InlineKeyboardButton("Zamanla", callback_data="pzamanla")]]))
     return
         
 def poster(update, context):
@@ -2836,7 +2836,7 @@ def main() -> None:
         fallbacks=[CommandHandler('start', start, filters=~Filters.update.edited_message)],
         per_message=False)
     zamanconver = ConversationHandler(
-        entry_points=[CallbackQueryHandler(callback_query, pattern="^(zamanla)$")],
+        entry_points=[CallbackQueryHandler(callback_query, pattern="^pzamanla(.*)")],
         states={
             PATZAMAN: [MessageHandler(~Filters.command & Filters.update.message, zaman)]
             },
