@@ -1389,6 +1389,7 @@ def patzamansaat(update, context):
         return
     if dak < 0:
         dak += 60
+        sat -= 1
     if sat < 0:
         sat += 24
     print(int(sat) * 60 + int(dak) * 60)
@@ -1409,7 +1410,7 @@ def pat(update, context):
         msg = bot.send_message(chat, "Lütfen paylaşmamı istediğin postu at")
         return PATPOST
     mesaj = update.message.caption
-    fid = update.message.photo[0].file_id if update.message.photo else update.mesage.effective_attachment.file_id
+    fid = update.message.photo[0].file_id if update.message.photo else update.message.effective_attachment.file_id
     if update.message.video:
         ptip = "video"
     elif update.message.photo:
