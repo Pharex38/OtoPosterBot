@@ -694,7 +694,7 @@ def callback_query(call, context):
         call.callback_query.edit_message_text("Post silindi.")
         return ConversationHandler.END
     if call.callback_query.data == "pzamanla":
-        call.callback_query.edit_message_text("Postun gönderilmesini istediğiniz saati gönderin.\n\n<b>Örnek biçim;</b>\n<code>14:31</code>")
+        call.callback_query.edit_message_text("Postun gönderilmesini istediğiniz saati gönderin.\n\n<b>Örnek biçim;</b>\n<code>31/06/21 18:30:00</code>")
         return PATZAMAN
     if call.callback_query.data == "simdi": 
         bot.delete_message(user, mesajid)
@@ -1395,40 +1395,9 @@ def patzamansaat(update, context):
     if verilen_saat == "❌ İptal":
         bot.send_message(chat, "İptal edildi.")
         return ConversationHandler.END
-    """
-    if verilen_saat.find(":") == -1 or len(verilen_saat) > 5 or len(verilen_saat) < 5:
-        bot.send_message(chat, "Yanlış bir biçim gönderdiniz!\n\n<b>Örnek biçim;</b>\n<code>14:31</code>", reply_markup=imark())
+    if verilen_saat.find(":") == -1 or len(verilen_saat) != 17:
+        bot.send_message(chat, "Yanlış bir biçim gönderdiniz!\n\n<b>Örnek biçim;</b>\n<code>31/06/21 14:31:00</code>", reply_markup=imark())
         return
-    # math
-    try:
-        day = 0
-        suan = datetime.datetime.now(tz=pytz.timezone('Turkey'))
-        print(str(suan.hour)+" - "+str(suan.minute))
-        sat = int(verilen_saat.split(":")[0])
-        dak = int(verilen_saat.split(":")[1])
-        print(str(sat)+" - "+str(dak))
-        if sat > 23:
-            bot.send_message(chat, "Yanlış bir biçim gönderdiniz!\n\n<b>Örnek biçim;</b>\n<code>14:31</code>", reply_markup=imark())
-            return
-        if dak > 59:
-            bot.send_message(chat, "Yanlış bir biçim gönderdiniz!\n\n<b>Örnek biçim;</b>\n<code>14:31</code>", reply_markup=imark())
-            return
-        dak = dak - suan.minute
-        sat = sat - suan.hour
-        print(str(sat)+" - "+str(dak))
-    except:
-        bot.send_message(chat, "Yanlış bir biçim gönderdiniz!\n\n<b>Örnek biçim;</b>\n<code>14:31</code>", reply_markup=imark())
-        return
-    if dak < 0:
-        dak = dak + 60
-        sat -= 1
-    print(str(sat)+" - "+str(dak))
-    if sat < 0:
-        sat = sat + 24
-    print(str(sat)+" - "+str(dak))
-    print(int(sat) * 3600 + int(dak) * 60 + int(day) * 86400)
-    zamanii = int(sat) * 3600 + int(dak) * 60 + int(day) * 86400
-    """
     zamanii = datetime.datetime.strptime(verilen_saat, '%d/%m/%y %H:%M:%S')
     context.user_data['zaman'] = zamanii
     satkat = collection.find_one({"_id": user})
