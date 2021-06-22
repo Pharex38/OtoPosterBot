@@ -787,9 +787,8 @@ def jobyedekleme(context):
             print(kap)
             jobstr = str(kap.job)
             jnam = jobstr.find("date[")
-            jname = jobstr[jnam+5:jnam+25]
+            jname = jobstr[jnam+7:jnam+25]
             print(jname)
-            jname = datetime.datetime.strptime(jname, '%d/%m/%y %H:%M:%S')
             kapdct = {'msgdict': kap.context, 'name': kap.name, 'when': jname}
             collection.update_one({"_id": 0}, {"$push": {"jobs": kapdct}})
             yjcount += 1
@@ -1434,9 +1433,12 @@ def pat(update, context):
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
     if update.message.text == "⏱ Zamanladığım Postlar":
+        zjobs = context.job_queue.get_jobs_by_name(str(user))
+        if len(zjobs) < 1:
+            bot.send_message(chat, "Henüz bir post zamanlamamışsınız.", reply_markup=dugme(user))
+            return ConversationHandler.END
         jobmd = bot.send_message(chat, "<code>Yükleniyor...</code>", reply_markup=dugme(user))
-        bot.send_message(chat, "Silmek istediğiniz postu seçin.", reply_markup=jobmark(user, context))
-        bot.delete_message(chat, jobmd.message_id)
+        bot.edit_message_text(chat, jobmd.message_id, "Silmek istediğiniz postu seçin.", reply_markup=jobmark(user, context))
         return ConversationHandler.END
     if update.message.text:
         msg = bot.send_message(chat, "Lütfen paylaşmamı istediğin postu at")
