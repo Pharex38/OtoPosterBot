@@ -1395,6 +1395,7 @@ def patzamansaat(update, context):
     if verilen_saat == "❌ İptal":
         bot.send_message(chat, "İptal edildi.")
         return ConversationHandler.END
+    """
     if verilen_saat.find(":") == -1 or len(verilen_saat) > 5 or len(verilen_saat) < 5:
         bot.send_message(chat, "Yanlış bir biçim gönderdiniz!\n\n<b>Örnek biçim;</b>\n<code>14:31</code>", reply_markup=imark())
         return
@@ -1427,6 +1428,8 @@ def patzamansaat(update, context):
     print(str(sat)+" - "+str(dak))
     print(int(sat) * 3600 + int(dak) * 60 + int(day) * 86400)
     zamanii = int(sat) * 3600 + int(dak) * 60 + int(day) * 86400
+    """
+    zamanii = datetime.strptime(verilen_saat, '%d/%m/%y %H:%M:%S')
     context.user_data['zaman'] = zamanii
     satkat = collection.find_one({"_id": user})
     if len(satkat['kanal']) < 2:
