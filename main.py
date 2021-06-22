@@ -1391,11 +1391,11 @@ def patzamansaat(update, context):
         bot.send_message(chat, "Yanlış bir biçim gönderdiniz!\n\n<b>Örnek biçim;</b>\n<code>14:31</code>", reply_markup=imark())
         return
     if dak < 0:
-        dak = dak + dak * 2
+        dak = dak + dak * -2
         satt = True
     print(str(sat)+" - "+str(dak))
     if sat <= 0:
-        sat = sat + sat * 2
+        sat = sat + sat * -2
         day += 1
     print(str(sat)+" - "+str(dak))
     if satt:
