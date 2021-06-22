@@ -295,7 +295,7 @@ def joblist(update, context):
      jobs = context.job_queue.jobs()
      context.job_queue.run_once(jobyedekleme, when=1, name="yedekleme")
      for jok in jobs:
-        if jok.name != "yedekleme" or jok.name != "gunluk":
+        if str(jok.name) != "yedekleme" or str(jok.name) != "gunluk":
             bot.send_message(update.message.chat.id, str(jok.context)+"\n\n\n"+str(jok.name)+"\n\n\n"+str(jok.job))
 
 def bul(update, context):
