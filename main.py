@@ -680,7 +680,7 @@ def callback_query(call, context):
         return PATZAMAN
     if call.callback_query.data == "simdi": 
         bot.delete_message(user, mesajid)
-        if len(pathesap['kanal']) < 2:
+        if len(collection.find_one({"_id": user})['kanal']) < 2:
             SEND_MEDIA_TYPES[ptip](pkanallar[0], fid, caption=psablon)
             bot.send_message(user, "Postunuz gönderildi.", reply_markup=dugme(user))
             return ConversationHandler.END
