@@ -293,6 +293,7 @@ def stats(update, context):
 
 def joblist(update, context):
      jobs = context.job_queue.jobs()
+     print(jobs)
      for jok in jobs:
          bot.send_message(update.message.chat.id, str(jok))
 
