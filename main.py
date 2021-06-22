@@ -1390,7 +1390,7 @@ def patzamansaat(update, context):
         return
     if dak < 0:
         dak = dak + dak * 2
-        sat -= 1
+        sat += 1
     if sat < 0:
         sat = sat + sat * 2
         day += 1
