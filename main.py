@@ -936,10 +936,11 @@ def jobmark(user, context):
     jobs = context.job_queue.jobs()
     jobkeyb = []
     jcount = 0
+    ujcount = 0
     for jop in jobs:
         if jop.name.startswith(str(user)):
             jsuan = datetime.datetime.now(tz=pytz.timezone('Turkey'))
-            jsuan = jsuan.hour * 3600 + jsuan.minute * 60 + jsuan.second
+            jsuan = jsuan.hour * 3600 + jsuan.minute * 60
             saniye = int(jop.name.split("--")[-1]) + jsuan
             dakika = int(saniye / 60 if saniye > 60 else 0)
             saniye = saniye - dakika * 60
@@ -947,10 +948,13 @@ def jobmark(user, context):
             dakika = dakika - saat * 60
             gun = int(saat / 24 if saat > 24 else 0)
             saat = saat - gun
-            jname = str(gun).zfill(2)+" Gün "+str(saat).zfill(2)+":"+str(dakika).zfill(2)+":"+str(saniye).zfill(2)
-                
+            jname = str(gun).zfill(2)+" Gün "+str(saat).zfill(2)+":"+str(dakika).zfill(2)
+            ujcount += 1
             jobkeyb.append([InlineKeyboardButton(jname, callback_data="jop-{}".format(jcount))])
         jcount += 1
+    jobkeyb.append([InlineKeyboardButton("❌ İptal ❌", callback_data="iptal")])
+    if ujcount == 0:
+        jobkeyb.append([InlineKeyboardButton("Henüz bir post zamanlamamışsınız.", callback_data="iptal")])
     return InlineKeyboardMarkup(jobkeyb)
 
 def eminmisin():
