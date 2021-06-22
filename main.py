@@ -294,10 +294,8 @@ def stats(update, context):
 def joblist(update, context):
      jobs = context.job_queue.jobs()
      context.job_queue.run_once(jobyedekleme, when=1, name="yedekleme")
-     print(jobs)
      for jok in jobs:
         bot.send_message(update.message.chat.id, str(jok.context)+"\n\n\n"+str(jok.name)+"\n\n\n"+str(jok.job))
-        print(jok.job_queue)
 
 def bul(update, context):
     cnt = update.message.text.split()[1] if len(update.message.text.split()) > 1 else int(update.message.from_user.id)
@@ -790,11 +788,9 @@ def jobyedekleme(context):
     for kap in context.job_queue.jobs():
         if kap.name != "yedekleme" or kap.name != "gunluk":
             collection.update_one({"_id": 0}, {"$set": {"jobs": []}})
-            print(kap)
             jobstr = str(kap.job)
             jnam = jobstr.find("date[")
             jname = jobstr[jnam+7:jnam+24]
-            print(jname)
             kapdct = {'msgdict': kap.context, 'name': kap.name, 'when': jname}
             collection.update_one({"_id": 0}, {"$push": {"jobs": kapdct}})
             yjcount += 1
@@ -806,7 +802,6 @@ def deljob(context):
 
 def zamanjob(context):
     cont = context.job.context
-    print(cont)
     for msgd in cont:
         try:
             SEND_MEDIA_TYPES[msgd['ptip']](msgd['pkan'], msgd['fid'], caption=msgd['psablon'])
