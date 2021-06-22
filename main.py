@@ -1376,6 +1376,12 @@ def patzamansaat(update, context):
         print(str(suan.hour)+" - "+str(suan.minute))
         sat = int(verilen_saat.split(":")[0])
         dak = int(verilen_saat.split(":")[1])
+        if sat > 23:
+            bot.send_message(chat, "Yanlış bir biçim gönderdiniz!\n\n<b>Örnek biçim;</b>\n<code>14:31</code>", reply_markup=imark())
+            return
+        if dak > 59:
+            bot.send_message(chat, "Yanlış bir biçim gönderdiniz!\n\n<b>Örnek biçim;</b>\n<code>14:31</code>", reply_markup=imark())
+            return
         sat = sat - suan.hour
         dak = dak - suan.minute
     except:
