@@ -2937,6 +2937,7 @@ def main() -> None:
     updater.idle()
     yjcount = 0
     for kap in upjob.jobs():
+        print(kap)
         jobstr = str(jop.job)
         jnam = jobstr.find("date[")
         jname = jobstr[jnam+5:jnam+25]
