@@ -1,14 +1,11 @@
 
 from requests import get, Session
 from os import environ
-import asyncio
 from time import sleep
 from pymongo import MongoClient
 import time, datetime
-import threading
-import os
+import threading, pytz, os, asyncio, logging
 from ssl import CERT_NONE
-import logging
 from typing import Dict, TypedDict, List, Literal, cast
 import Colorer
 from telegram import *
@@ -1296,6 +1293,7 @@ def kanalkayit(update, context):
     return KANALKAYDET
 
 MEDIA_GROUP_TYPES = {"audio": InputMediaAudio, "document": InputMediaDocument, "photo": InputMediaPhoto, "video": InputMediaVideo}
+SEND_MEDIA_TYPES = {"document": send_document, "photo": send_photo, "video": send_video, "animation": send_animation}
 
 class MsgDict(TypedDict):
     media_type: Literal["video", "photo"]
@@ -1325,39 +1323,17 @@ def pat(update, context):
     if update.message.text:
         msg = bot.send_message(chat, "Lütfen paylaşmamı istediğin postu at")
         return PATPOST
-    print("------------  1")
-    if update.message.media_group_id:
-        if update.message.caption == None:
-            bot.send_message(sahip, update.message.media_group_id)
-            med_type = effective_message_type(update.message)
-            fid = update.message.photo[-1].file_id if update.message.photo else message.effective_attachment.file_id
-            msg_dict = {"media_type": med_type, "media_id": fid, "caption": None, "chat_id": None}
-            jobs = context.job_queue.get_jobs_by_name(str(update.message.media_group_id))
-            if jobs:
-                jobs[0].context.append(msg_dict)
-            else:
-                context.job_queue.run_once(callback=patjob, when=4, context=[msg_dict], name=str(update.message.media_group_id))
-            print("-----6-------")
-            return
-        else:
-            ptip = "media"
-            print("----------typ")
-    print("----------- 2")
     if update.message.caption == None:
         msg = bot.send_message(chat, "Lütfen paylaşmamı istediğin postu at")
         return PATPOST
     mesaj = update.message.caption
+    fid = update.message.photo[0].file_id if update.message.photo else update.mesage.effective_attachment.file_id
     if update.message.video:
-        fid = update.message.video.file_id
         ptip = "video"
     elif update.message.photo:
-        fid = update.message.photo[0].file_id
         ptip = "photo"
     elif update.message.animation:
-        fid = update.message.animation.file_id
         ptip = "animation"
-    elif update.message.media_group_id:
-        ptip = "media"
     else:
         bot.send_message(chat, "Üzgünüm bu dosya türü desteklenmiyor. Video, Fotoğraf veya Gif ile deneyin.")
         return
@@ -1375,7 +1351,6 @@ def pat(update, context):
     if mesaj.find("\n", psol) == -1:
         plink = mesaj[psol:].strip()
     pathesap = collection.find_one({"_id": user})
-    print("----------- 4")
     s = Session()
     link = s.get("https://ay.live/api")
     cookies = dict(link.cookies)
@@ -1442,22 +1417,7 @@ def pat(update, context):
         logger.error(e)
         pret = False
     if len(pathesap['kanal']) < 2 and pret:
-        pmesaj = 0
-        if ptip == "video":
-            bot.send_video(pkanallar[0], fid, caption=psablon)
-        elif ptip == "photo":
-            bot.send_photo(pkanallar[0], fid, caption=psablon)
-        elif ptip == "animation":
-            bot.send_animation(pkanallar[0], fid, caption=psablon)
-        elif ptip == "media":
-            med_type = effective_message_type(update.message)
-            fid = update.message.photo[-1].file_id if update.message.photo else update.effective_attachment.file_id
-            msg_dict = {"media_type": med_type, "media_id": fid, "caption": psablon, "chat_id": pkanallar[0]}
-            jobs = context.job_queue.get_jobs_by_name(str(update.message.media_group_id))
-            if jobs:
-                jobs[0].context.append(msg_dict)
-            else:
-                context.job_queue.run_once(callback=patjob, when=2, context=[msg_dict], name=str(update.message.media_group_id))
+        bot.SEND_MEDIA_TYPES[ptip](pkanallar[0], fid, caption=psablon)
         bot.send_message(chat, "Postunuz gönderildi.", reply_markup=dugme(user))
         return ConversationHandler.END
     
@@ -2789,7 +2749,7 @@ logger.info("Bot Çalışıyor...")
 bildir('Bot Başladı 🍕')
 
 def main() -> None:
-    updater = Updater(token=bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=90), request_kwargs={'con_pool_size': 999, 'read_timeout': 150, 'connect_timeout': 150}, workers=40)
+    updater = Updater(token=bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=90, disable_web_page_preview=True, tzinfo=pytz.timezone('Turkey')), request_kwargs={'con_pool_size': 999, 'read_timeout': 150, 'connect_timeout': 150}, workers=40)
 
     dispatcher = updater.dispatcher
 
