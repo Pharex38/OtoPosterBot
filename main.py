@@ -938,7 +938,9 @@ def jobmark(user, context):
     jcount = 0
     for jop in jobs:
         if jop.name.startswith(str(user)):
-            saniye = int(jop.name.split("--")[-1])
+            jsuan = datetime.datetime.now(tz=pytz.timezone('Turkey'))
+            jsuan = jsuan.hour * 3600 + jsuan.minute * 60 + jsuan.second
+            saniye = int(jop.name.split("--")[-1]) + jsuan
             dakika = int(saniye / 60 if saniye > 60 else 0)
             saniye = saniye - dakika * 60
             saat = int(dakika / 60 if dakika > 60 else 0)
