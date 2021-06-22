@@ -1365,6 +1365,7 @@ def patzamansaat(update, context):
     verilen_saat = update.message.text
     # math
     suan = datetime.datetime.now()
+    print(str(suan.hour)+" - "+str(suan.minute))
     sat = int(verilen_saat.split(":")[0])
     dak = int(verilen_saat.split(":")[1])
     sat = sat - suan.hour
