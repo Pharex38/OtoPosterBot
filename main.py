@@ -86,7 +86,7 @@ for i in kaynaklar:
         qqq = 'Bu ne ? : {}'.format(i)
         bildir(qqq)
 
-
+SEND_MEDIA_TYPES = {"document": bot.send_document, "photo": bot.send_photo, "video": bot.send_video, "animation": bot.send_animation}
 
 ALTMENU, APIDEGISTIR, KANALKAYDET = range(3)
 
@@ -686,21 +686,11 @@ def callback_query(call, context):
         kanal = collection.find_one({"_id": user})['kanal']
         if o == -1:
             for kan in kanal:
-                if ptip == 'photo':
-                    bot.send_photo(kan, fid, caption=psablon)
-                if ptip == 'video':
-                    bot.send_video(kan, fid, caption=psablon)
-                if ptip == 'animation':
-                    bot.send_animation(kan, fid, caption=psablon)
+                SEND_MEDIA_TYPES[ptip](kan, fid, caption=psablon)
             bot.edit_message_text("✅<b>Postunuz Tüm Kanallarınıza Gönderildi!</b>", user, mesajid)
             context.user_data.clear()
             return ConversationHandler.END
-        if ptip == 'photo':
-            bot.send_photo(kanal[o], fid, caption=psablon)
-        if ptip == 'video':
-            bot.send_video(kanal[o], fid, caption=psablon)
-        if ptip == 'animation':
-            bot.send_animation(kanal[o], fid, caption=psablon)
+        SEND_MEDIA_TYPES[ptip](kanal[o], fid, caption=psablon)
         bot.edit_message_text("✅<b>Postunuz Kanalınıza Gönderildi!</b>", user, mesajid)
         context.user_data.clear()
         return ConversationHandler.END
@@ -1313,12 +1303,7 @@ def patjob(context):
     
 
 def pat(update, context):
-    send_photo = bot.send_photo
-    send_document = bot.send_document
-    send_video = bot.send_video
-    send_animation = bot.send_animation
-    SEND_MEDIA_TYPES = {"document": send_document, "photo": send_photo, "video": send_video, "animation": send_animation}
-    bot.send_message(sahip, update.message.message_id)
+bot.send_message(sahip, update.message.message_id)
     chat = update.message.chat.id
     user = update.message.from_user.id
     if update.message.text == "❌ İptal":
