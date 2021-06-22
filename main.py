@@ -787,7 +787,7 @@ def jobyedekleme(context):
         jobstr = str(jop.job)
         jnam = jobstr.find("date[")
         jname = jobstr[jnam+5:jnam+25]
-        jname = datetime.datetime.strptime(jname)
+        jname = datetime.datetime.strptime(jname, '%d/%m/%y %H:%M:%S')
         kapdct = {'msgdict': kap.context, 'name': kap.name, 'when': jname}
         collection.update_one({"_id": 0}, {"$push": {"jobs": kapdct}})
         yjcount += 1
