@@ -595,6 +595,11 @@ def ozelkaynakcall(call, context):
 2 - Oluşturduğunuz kanaldan bota bir mesaj iletin.</i>""", reply_markup=imark())
     return OZELKAYNAK
 
+def patzamancall(call, context):
+    user = call.effective_user.id
+    chat = call.effective_chat.id
+    mesajid = call.callback_query.message.message_id
+
 def callback_query(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
@@ -675,7 +680,7 @@ def callback_query(call, context):
     if call.callback_query.data == "eminmisin":
         call.callback_query.edit_message_text("Alttaki düğmeye basarsan, bu kaynağı kullanan herkesi güzel postlarından mahrum ediceksin.", reply_markup=eminmisin())
     """ PAT """
-    if call.callback_query.data == "zamanla":
+    if call.callback_query.data == "pzamanla":
         call.callback_query.edit_message_text("Postun gönderilmesini istediğiniz saati gönderin.")
         return PATZAMAN
     if call.callback_query.data == "simdi": 
