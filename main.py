@@ -1426,11 +1426,12 @@ def patzamansaat(update, context):
         sat = sat + 24
     print(str(sat)+" - "+str(dak))
     print(int(sat) * 3600 + int(dak) * 60 + int(day) * 86400)
-    context.user_data['zaman'] = int(sat) * 3600 + int(dak) * 60 + int(day) * 86400
+    zamanii = int(sat) * 3600 + int(dak) * 60 + int(day) * 86400
+    context.user_data['zaman'] = zamanii
     satkat = collection.find_one({"_id": user})
     if len(satkat['kanal']) < 2:
         msg_dict = {"pkan": satkat['kanal'][0], "psablon": context.user_data['psablon'], "ptip": context.user_data['ptip'], "fid": context.user_data['fid'], "user": user}
-        context.job_queue.run_once(callback=zamanjob, when=zamani, context=[msg_dict], name=str(user)+"--"+str(zamani))
+        context.job_queue.run_once(callback=zamanjob, when=zamanii, context=[msg_dict], name=str(user)+"--"+str(zamani))
         bot.send_message(chat, "⏱ Postunuz zamanlandı", reply_markup=dugme(user))
         return ConversationHandler.END
 
