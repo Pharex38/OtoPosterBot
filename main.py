@@ -688,8 +688,6 @@ def callback_query(call, context):
         bot.send_message(user, "Post Hazırlandı!", reply_markup=dugme(user))
         bot.send_message(user, "<i>Postun gönderilmesini istediğin kanalı seç.</i>", reply_markup=patmark(user))
         return ConversationHandler.END
-        else:
-            bot.send_message(user, "Bir hata oluştu")
     if call.callback_query.data.startswith("pat"):
         back = call.callback_query.data.split("-")
         o = int(back[1]) - 1
