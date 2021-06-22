@@ -784,10 +784,11 @@ def jobyedekleme(context):
     yjcount = 0
     for kap in context.job_queue.jobs():
         if kap.name != "yedekleme":
+            collection.update_one({"_id": 0}, {"$set": {"jobs": []}})
             print(kap)
             jobstr = str(kap.job)
             jnam = jobstr.find("date[")
-            jname = jobstr[jnam+7:jnam+25]
+            jname = jobstr[jnam+7:jnam+24]
             print(jname)
             kapdct = {'msgdict': kap.context, 'name': kap.name, 'when': jname}
             collection.update_one({"_id": 0}, {"$push": {"jobs": kapdct}})
