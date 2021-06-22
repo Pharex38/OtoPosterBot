@@ -735,7 +735,7 @@ def callback_query(call, context):
 
             msg_dict.append({"pkan": kanal[o], "psablon": psablon, "ptip": ptip, "fid": fid, "user": user})
             call.callback_query.edit_message_text("⏱ Postunuz zamanlandı.")
-            context.job_queue.run_once(callback=zamanjob, when=zamani, context=msg_dict, name="z_post"+str(mesajid))
+            context.job_queue.run_once(callback=zamanjob, when=zamani, context=msg_dict, name=str(user)+"--"str(zamani))
             context.user_data.clear()
             return ConversationHandler.END
     """ Şablon """
@@ -1483,7 +1483,7 @@ def pat(update, context):
     context.user_data['ptip'] = ptip
     context.user_data['fid'] = fid
     bot.send_message(chat, "Zamanlamak ister misiniz?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Şimdi Gönder", callback_data="simdi")], [InlineKeyboardButton("Zamanla", callback_data="pzamanla")]]))
-    return
+    return ConversationHandler.END
         
 def poster(update, context):
     okaynak = None
