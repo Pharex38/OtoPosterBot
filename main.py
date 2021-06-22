@@ -2874,6 +2874,7 @@ def main() -> None:
     dispatcher.add_handler(CommandHandler('zaman', zaman, Filters.update.message & Filters.chat_type.private))
     dispatcher.add_handler(CommandHandler('vip', viple, Filters.chat(sahip)))
     dispatcher.add_handler(CommandHandler('apiban', apibanla, Filters.chat(sahip)))
+    dispatcher.add_handler(CommandHandler('joblist', joblist, Filters.chat(sahip)))
     dispatcher.add_handler(CommandHandler('unban', unbanla, Filters.chat(sahip)))
     dispatcher.add_handler(CommandHandler('ban', banla, Filters.chat(sahip)))
 
