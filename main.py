@@ -1363,7 +1363,7 @@ def patjob(context):
 
 def patzamansaat(update, context):
     verilen_saat = update.message.text
-    chat = update.mesage.chat.id
+    chat = update.message.chat.id
     if verilen_saat == "❌ İptal":
         bot.send_message(chat, "İptal edildi.")
         return ConversationHandler.END
