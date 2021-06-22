@@ -783,15 +783,16 @@ def callback_query(call, context):
 def jobyedekleme(context):
     yjcount = 0
     for kap in context.job_queue.jobs():
-        print(kap)
-        jobstr = str(kap.job)
-        jnam = jobstr.find("date[")
-        jname = jobstr[jnam+5:jnam+25]
-        print(jname)
-        jname = datetime.datetime.strptime(jname, '%d/%m/%y %H:%M:%S')
-        kapdct = {'msgdict': kap.context, 'name': kap.name, 'when': jname}
-        collection.update_one({"_id": 0}, {"$push": {"jobs": kapdct}})
-        yjcount += 1
+        if kap.name != "yedekleme"
+            print(kap)
+            jobstr = str(kap.job)
+            jnam = jobstr.find("date[")
+            jname = jobstr[jnam+5:jnam+25]
+            print(jname)
+            jname = datetime.datetime.strptime(jname, '%d/%m/%y %H:%M:%S')
+            kapdct = {'msgdict': kap.context, 'name': kap.name, 'when': jname}
+            collection.update_one({"_id": 0}, {"$push": {"jobs": kapdct}})
+            yjcount += 1
     logger.warning(str(yjcount)+" Adet Job Yedeklendi!")
 
 def zamanjob(context):
@@ -2861,7 +2862,7 @@ def main() -> None:
     dispatcher = updater.dispatcher
 
     upjob = updater.job_queue
-    upjob.run_repeating(jobyedekleme, interval=300, first=10)
+    upjob.run_repeating(jobyedekleme, interval=300, first=10, name="yedekleme")
     
     conv_handler = ConversationHandler(
         entry_points=[MessageHandler(Filters.update.message & ~Filters.command, menu), CommandHandler('start', start)],
