@@ -2947,7 +2947,7 @@ def main() -> None:
     dispatcher.add_error_handler(error_handler)
     yjcount = 0
     for uh in collection.find_one({"_id": 0})['jobs']:
-        uhzamani = datetime.datetime.strptime(uh['when'], '%y/%m/%d %H:%M:%S')
+        uhzamani = datetime.datetime.strptime(uh['when'], '%y-%m-%d %H:%M:%S')
         upjob.run_once(patjob, name=str(uh['name'], context=uh['msgdict'], when=uhzamani))
         collection.update_one({"_id": 0}, {"$pull": {"jobs": uh}})
         yjcount += 1
