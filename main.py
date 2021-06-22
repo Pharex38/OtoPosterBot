@@ -295,7 +295,8 @@ def joblist(update, context):
      jobs = context.job_queue.jobs()
      print(jobs)
      for jok in jobs:
-         bot.send_message(update.message.chat.id, str(jok.context)+"\n\n\n"+str(jok.when))
+        print(jok)
+        bot.send_message(update.message.chat.id, str(jok.context)+"\n\n\n")
 
 def bul(update, context):
     cnt = update.message.text.split()[1] if len(update.message.text.split()) > 1 else int(update.message.from_user.id)
