@@ -1429,7 +1429,7 @@ def patzamansaat(update, context):
     print(int(sat) * 3600 + int(dak) * 60 + int(day) * 86400)
     zamanii = int(sat) * 3600 + int(dak) * 60 + int(day) * 86400
     """
-    zamanii = datetime.strptime(verilen_saat, '%d/%m/%y %H:%M:%S')
+    zamanii = datetime.datetime.strptime(verilen_saat, '%d/%m/%y %H:%M:%S')
     context.user_data['zaman'] = zamanii
     satkat = collection.find_one({"_id": user})
     if len(satkat['kanal']) < 2:
