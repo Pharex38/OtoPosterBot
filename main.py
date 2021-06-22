@@ -932,7 +932,7 @@ def begenimark(kalp, bomb, rose):
     bmark = InlineKeyboardMarkup([[InlineKeyboardButton(f"♥️{kalp}", callback_data="emo-{}-{}-{}-1".format(kalp, bomb, rose)), InlineKeyboardButton(f"💣{bomb}", callback_data="emo-{}-{}-{}-2".format(kalp, bomb, rose)), InlineKeyboardButton(f"🌹{rose}", callback_data="emo-{}-{}-{}-3".format(kalp, bomb, rose))]])
     return bmark
 
-def jobmark(user):
+def jobmark(user, context):
     jobs = context.job_queue.jobs
     jobkeyb = []
     jcount = 0
@@ -1436,7 +1436,7 @@ def pat(update, context):
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
     if update.message.text == "⏱ Zamanladığım Postlar":
-        bot.send_message(chat, "Silmek istediğiniz postu seçin.", reply_markup=jobmark(user))
+        bot.send_message(chat, "Silmek istediğiniz postu seçin.", reply_markup=jobmark(user, context))
         return
     if update.message.text:
         msg = bot.send_message(chat, "Lütfen paylaşmamı istediğin postu at")
