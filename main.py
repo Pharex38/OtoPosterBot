@@ -1392,11 +1392,11 @@ def patzamansaat(update, context):
         return
     if dak < 0:
         dak = dak + 60
-        sat += 1
+        sat -= 1
     print(str(sat)+" - "+str(dak))
     if sat <= 0:
         sat = sat + 24
-        day += 1
+        day -= 1
     print(str(sat)+" - "+str(dak))
     print(int(sat) * 3600 + int(dak) * 60 + int(day) * 86400)
     context.user_data['zaman'] = int(sat) * 3600 + int(dak) * 60 + int(day) * 86400
