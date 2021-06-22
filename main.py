@@ -949,6 +949,7 @@ def jobmark(user, context):
                 
             jobkeyb.append([InlineKeyboardButton(jname, callback_data="jop-{}".format(jcount))])
         jcount += 1
+    return InlineKeyboardMarkup(jkeyb)
 
 def eminmisin():
     return InlineKeyboardMarkup([[InlineKeyboardButton("Evet, kesinlikle eminim.", callback_data="yoket")], [InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")]])
@@ -1416,7 +1417,7 @@ def patzamansaat(update, context):
         dak = dak + 60
         sat -= 1
     print(str(sat)+" - "+str(dak))
-    if sat <= 0:
+    if sat < 0:
         sat = sat + 24
     print(str(sat)+" - "+str(dak))
     print(int(sat) * 3600 + int(dak) * 60 + int(day) * 86400)
