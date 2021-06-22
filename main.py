@@ -673,6 +673,20 @@ def callback_query(call, context):
     if call.callback_query.data == "eminmisin":
         call.callback_query.edit_message_text("Alttaki düğmeye basarsan, bu kaynağı kullanan herkesi güzel postlarından mahrum ediceksin.", reply_markup=eminmisin())
     """ PAT """
+    if call.callback_query.data == "zamanla":
+        call.callback_query.edit_message_text("Postun gönderilmesini istediğiniz saati gönderin.")
+    if call.callback_query.data == "simdi": 
+        bot.delete_message(user, mesajid)
+        if len(pathesap['kanal']) < 2:
+            SEND_MEDIA_TYPES[ptip](pkanallar[0], fid, caption=psablon)
+            bot.send_message(user, "Postunuz gönderildi.", reply_markup=dugme(user))
+            return ConversationHandler.END
+        context.user_data['zaman'] = "yok"
+        bot.send_message(user, "Post Hazırlandı!", reply_markup=dugme(user))
+        bot.send_message(user, "<i>Postun gönderilmesini istediğin kanalı seç.</i>", reply_markup=patmark(user))
+        return ConversationHandler.END
+        else:
+            bot.send_message(user, "Bir hata oluştu")
     if call.callback_query.data.startswith("pat"):
         back = call.callback_query.data.split("-")
         o = int(back[1]) - 1
@@ -682,18 +696,32 @@ def callback_query(call, context):
             fid = context.user_data['fid']
         except:
             return
-        
         kanal = collection.find_one({"_id": user})['kanal']
-        if o == -1:
-            for kan in kanal:
-                SEND_MEDIA_TYPES[ptip](kan, fid, caption=psablon)
-            bot.edit_message_text("✅<b>Postunuz Tüm Kanallarınıza Gönderildi!</b>", user, mesajid)
+        if context.user_data['zaman'] == "yok":
+            if o == -1:
+                for kan in kanal:
+                    SEND_MEDIA_TYPES[ptip](kan, fid, caption=psablon)
+                bot.edit_message_text("✅<b>Postunuz Tüm Kanallarınıza Gönderildi!</b>", user, mesajid)
+                context.user_data.clear()
+                return ConversationHandler.END
+            SEND_MEDIA_TYPES[ptip](kanal[o], fid, caption=psablon)
+            bot.edit_message_text("✅<b>Postunuz Kanalınıza Gönderildi!</b>", user, mesajid)
             context.user_data.clear()
             return ConversationHandler.END
-        SEND_MEDIA_TYPES[ptip](kanal[o], fid, caption=psablon)
-        bot.edit_message_text("✅<b>Postunuz Kanalınıza Gönderildi!</b>", user, mesajid)
-        context.user_data.clear()
-        return ConversationHandler.END
+        else:
+            zamani = context.user_data['zaman']
+            msg_dict = []
+            if o == -1:
+                for kan in kanal:
+                    msg_dict.append({"pkan": kan, "psablon": psablon, "ptip": ptip, "fid": fid, "user": user})
+                call.callback_query.edit_message_text("⏱ Postunuz zamanlandı.")
+                return ConversationHandler.END
+
+            msg_dict.append({"pkan": kanal[o], "psablon": psablon, "ptip": ptip, "fid": fid, "user": user})
+            call.callback_query.edit_message_text("⏱ Postunuz zamanlandı.")
+            context.job_queue.run_once(callback=zamanpost, when=zamani, context=msg_dict, name="z_post"+str(mesajid))
+            context.user_data.clear()
+            return ConversationHandler.END
     """ Şablon """
     if call.callback_query.data == "vsablon":
         if collection.find_one({"_id": user})['sira'] == "1":
@@ -724,6 +752,22 @@ def callback_query(call, context):
         if pushed == "3":
             rose += 1
         call.callback_query.edit_message_reply_markup(begenimark(kalp, bomb, rose))
+
+################## Jobs #####################
+
+def zamanpost(context):
+    cont = context.job.context
+    print(cont)
+    for msgd in cont:
+        try:
+            SEND_MEDIA_TYPES[msgd['ptip']](msgd['pkan'], msgd['fid'], caption=msgd['psablon'])
+        except Exception as e:
+            logger.error(e)
+            try:
+                bot.send_message(msgd['user'], "Zamanlı Postunuz gönderilemedi.")
+            except:
+                pass
+
 
 ################## Markup #####################
 def sitemarkup():
@@ -1405,20 +1449,11 @@ bot.send_message(sahip, update.message.message_id)
         bot.send_message(chat, f"Bir sorun oluştu: \n\n{e}")
         logger.error(e)
         pret = False
-    if len(pathesap['kanal']) < 2 and pret:
-        SEND_MEDIA_TYPES[ptip](pkanallar[0], fid, caption=psablon)
-        bot.send_message(chat, "Postunuz gönderildi.", reply_markup=dugme(user))
-        return ConversationHandler.END
-    
     context.user_data['psablon'] = psablon
     context.user_data['ptip'] = ptip
     context.user_data['fid'] = fid
-    if pret:
-        bot.send_message(chat, "Post Hazırlandı!", reply_markup=dugme(user))
-        bot.send_message(chat, "<i>Postun gönderilmesini istediğin kanalı seç.</i>", reply_markup=patmark(user))
-        return ConversationHandler.END
-    else:
-        bot.send_message(chat, "Bir hata oluştu")
+    bot.send_message(chat, "Zamanlamak ister misiniz?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Şimdi Gönder", callback_data="simdi")], [InlineKeyboardButton("Zamanla", callback_data="zamanla")]]))
+    return
         
 def poster(update, context):
     okaynak = None
