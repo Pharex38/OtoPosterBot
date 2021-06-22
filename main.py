@@ -949,7 +949,7 @@ def jobmark(user, context):
                 
             jobkeyb.append([InlineKeyboardButton(jname, callback_data="jop-{}".format(jcount))])
         jcount += 1
-    return InlineKeyboardMarkup(jkeyb)
+    return InlineKeyboardMarkup(jobkeyb)
 
 def eminmisin():
     return InlineKeyboardMarkup([[InlineKeyboardButton("Evet, kesinlikle eminim.", callback_data="yoket")], [InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")]])
