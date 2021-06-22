@@ -735,7 +735,7 @@ def callback_query(call, context):
 
             msg_dict.append({"pkan": kanal[o], "psablon": psablon, "ptip": ptip, "fid": fid, "user": user})
             call.callback_query.edit_message_text("⏱ Postunuz zamanlandı.")
-            context.job_queue.run_once(callback=zamanjob, when=zamani, context=msg_dict, name=str(user)+"--"str(zamani))
+            context.job_queue.run_once(callback=zamanjob, when=zamani, context=msg_dict, name=str(user)+"--"+str(zamani))
             context.user_data.clear()
             return ConversationHandler.END
     """ Şablon """
@@ -1411,7 +1411,6 @@ def pat(update, context):
     else:
         bot.send_message(chat, "Üzgünüm bu dosya türü desteklenmiyor. Video, Fotoğraf veya Gif ile deneyin.")
         return
-    print("----------- 3")
     """Açıklama Tespit"""
     pson = mesaj.find("\n")
     paciklama = mesaj[:pson]
