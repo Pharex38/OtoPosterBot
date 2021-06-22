@@ -570,8 +570,6 @@ def kaynakcall(call, context):
         call.callback_query.answer(text="✅ Kaynak Eklendi")
     call.callback_query.edit_message_text(text="<b>Kullanmak istediğiniz kaynak kanalını seçin.</b>", reply_markup=kaynakmark(user))
 
-def zamancall(call)
-
 def ozellogcall(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
