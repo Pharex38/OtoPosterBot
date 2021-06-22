@@ -800,6 +800,10 @@ def jobyedekleme(context):
             yjcount += 1
     logger.warning(str(yjcount)+" Adet Job Yedeklendi!")
 
+def deljob(context):
+    delcont = context.job.context
+    bot.delete_message(delcont['chat'], delcont['mid'])
+
 def zamanjob(context):
     cont = context.job.context
     print(cont)
@@ -1395,17 +1399,6 @@ class MsgDict(TypedDict):
     caption: str
     chat_id: int
 
-def patjob(context):
-    context.job.context = cast(List[MsgDict], context.job.context)
-    media = []
-    for msg_dict in context.job.context:
-        media.append(MEDIA_GROUP_TYPES[msg_dict["media_type"]](media=msg_dict["media_id"], caption=msg_dict["caption"]))
-    pkan = context.job.context[0]["chat_id"] if context.job.context[0]["chat_id"] != None else context.job.context[1]["chat_id"]
-    if not media:
-        return
-    bot.send_media_group(chat_id=pkan, media=media)
-    print("MEDYA GÖNDERİLDİ")
-
 def patzamansaat(update, context):
     verilen_saat = update.message.text
     user = update.message.from_user.id
@@ -1445,6 +1438,7 @@ def pat(update, context):
             return ConversationHandler.END
         jobmd = bot.send_message(chat, "<code>Yükleniyor...</code>", reply_markup=dugme(user))
         bot.send_message(chat, "Silmek istediğiniz postu seçin.", reply_markup=jobmark(user, context))
+        context.job_queue.run_once(deljob, name="yedekleme", when=2, context={"chat": chat, "mid": jobmd.message_id})
         return ConversationHandler.END
     if update.message.text:
         msg = bot.send_message(chat, "Lütfen paylaşmamı istediğin postu at")
@@ -2954,7 +2948,7 @@ def main() -> None:
     yjcount = 0
     for uh in collection.find_one({"_id": 0})['jobs']:
         uhzamani = datetime.datetime.strptime(uh['when'], '%y-%m-%d %H:%M:%S')
-        upjob.run_once(patjob, name=str(uh['name']), context=uh['msgdict'], when=uhzamani)
+        upjob.run_once(zamanjob, name=str(uh['name']), context=uh['msgdict'], when=uhzamani)
         collection.update_one({"_id": 0}, {"$pull": {"jobs": uh}})
         yjcount += 1
     logger.warning(str(yjcount)+" Adet Job Yüklendi!")
