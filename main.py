@@ -1427,8 +1427,9 @@ def patzamansaat(update, context):
     print(str(sat)+" - "+str(dak))
     print(int(sat) * 3600 + int(dak) * 60 + int(day) * 86400)
     context.user_data['zaman'] = int(sat) * 3600 + int(dak) * 60 + int(day) * 86400
-    if len(collection.find_one({"_id": user})['kanal']) < 2:
-        SEND_MEDIA_TYPES[context.user_data['ptip']](collection.find_one({"_id": user}['kanal'][0], context.user_data['fid'], caption=context.user_data['psablon']))
+    satkat = collection.find_one({"_id": user})
+    if len(satkat['kanal']) < 2:
+        SEND_MEDIA_TYPES[context.user_data['ptip']](satkat['kanal'][0], context.user_data['fid'], caption=context.user_data['psablon']))
         bot.send_message(chat, "⏱ Postunuz zamanlandı", reply_markup=dugme(user))
         return ConversationHandler.END
 
