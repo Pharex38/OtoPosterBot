@@ -947,7 +947,7 @@ def jobmark(user, context):
         if jop.name.startswith(str(user)):
             jobstr = str(jop.job)
             jnam = jobstr.find("date[")
-            jname = jobstr[jnam+5:-3]
+            jname = jobstr[jnam+5:19:]
             ujcount += 1
             jobkeyb.append([InlineKeyboardButton(jname, callback_data="jop-{}".format(jcount))])
         jcount += 1
