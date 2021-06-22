@@ -687,6 +687,12 @@ def callback_query(call, context):
     if call.callback_query.data == "eminmisin":
         call.callback_query.edit_message_text("Alttaki düğmeye basarsan, bu kaynağı kullanan herkesi güzel postlarından mahrum ediceksin.", reply_markup=eminmisin())
     """ PAT """
+    if call.callback_query.data.startswith("jop"):
+        jc = int(call.callback_query.data.split("-")[-1])
+        calljob = context.job_queue.jobs()
+        calljob[jc].schedule_removal()
+        call.callback_query.edit_message_text("Post silindi.")
+        return ConversationHandler.END
     if call.callback_query.data == "pzamanla":
         call.callback_query.edit_message_text("Postun gönderilmesini istediğiniz saati gönderin.\n\n<b>Örnek biçim;</b>\n<code>14:31</code>")
         return PATZAMAN
@@ -940,6 +946,7 @@ def jobmark(user, context):
     for jop in jobs:
         if jop.name.startswith(str(user)):
             jsuan = datetime.datetime.now(tz=pytz.timezone('Turkey'))
+            jay = jsuan.day
             jsuan = jsuan.hour * 3600 + jsuan.minute * 60
             saniye = int(jop.name.split("--")[-1]) + jsuan
             dakika = int(saniye / 60 if saniye > 60 else 0)
@@ -948,6 +955,7 @@ def jobmark(user, context):
             dakika = dakika - saat * 60
             gun = int(saat / 24 if saat > 24 else 0)
             saat = saat - gun
+            gun += jay
             jname = str(gun).zfill(2)+" Gün "+str(saat).zfill(2)+":"+str(dakika).zfill(2)
             ujcount += 1
             jobkeyb.append([InlineKeyboardButton(jname, callback_data="jop-{}".format(jcount))])
