@@ -690,7 +690,11 @@ def callback_query(call, context):
     if call.callback_query.data.startswith("jop"):
         jc = int(call.callback_query.data.split("-")[-1])
         calljob = context.job_queue.get_jobs_by_name(str(user))
-        calljob[jc].schedule_removal()
+        try:
+            calljob[jc].schedule_removal()
+        except:
+            call.callback_query.edit_message_text("Bu post gönderilmiş veya zaten silinmiş.")
+            return ConversationHandler.END
         bot.send_message(chat, "Post silindi.", reply_markup=dugme(user))
         return ConversationHandler.END
     if call.callback_query.data == "pzamanla":
