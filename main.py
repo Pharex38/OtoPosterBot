@@ -785,10 +785,10 @@ def callback_query(call, context):
 ################## Jobs #####################
 
 def jobyedekleme(context):
+    collection.update_one({"_id": 0}, {"$set": {"jobs": []}})
     yjcount = 0
     for kap in context.job_queue.jobs():
         if kap.name != "yedekleme" or kap.name != "gunluk":
-            collection.update_one({"_id": 0}, {"$set": {"jobs": []}})
             jobstr = str(kap.job)
             jnam = jobstr.find("date[")
             jname = jobstr[jnam+7:jnam+24]
