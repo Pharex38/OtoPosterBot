@@ -1979,6 +1979,7 @@ def poster(update, context):
                         if csite == "1":
                             cjson = s.get(f"https://ay.live/api/?", params={'api': ctoken, 'url': cmesajb, 'ct': 1}, cookies=cookies).json()
                             clink = cjson['shortenedUrl']
+                            print(cjson)
                         if csite == "2":
                             cjson = s.get(f"https://www.pnd.tl/api?", params={'api': ctoken, 'url': cmesajb, 'category': 6}).json()
                             clink = cjson['shortenedUrl']
