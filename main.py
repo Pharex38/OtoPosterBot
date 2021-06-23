@@ -1297,7 +1297,7 @@ def kayitapi(update, context):
         return
     if mesaj == "🔶 Yeni Kanal Ekle":
         bol = collection.find_one({"_id": chat})
-        if len(bol['kanal']) > 2 and not user in vip_uyeler:
+        if len(bol['kanal']) > 4 and not user in vip_uyeler:
             bot.send_message(chat, "<i>Üzgünüm en fazla 3 kanal kaydedebilirsiniz.</i>")
             return 
         bot.send_message(chat, """📝 <i>Lütfen kanalınızdan bir gönderi iletin.</i>""", reply_markup=imark())
