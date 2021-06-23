@@ -1836,7 +1836,7 @@ def poster(update, context):
                     bsablon = bsablon.replace("{aciklama}", "{}").replace("{link}", "{}")
                     bsablon = str(bsablon).format(baciklama, blink)
                 sleep(0.5)
-                if bcount == 30 or count == 60:
+                if bcount == 30 or bcount == 60:
                     sleep(30)
                 for bkan in bkanal:
                     bpost = update.channel_post
@@ -1966,9 +1966,6 @@ def poster(update, context):
                             calink = s.get(f"http://ouo.io/api/{caltapi}?", params={'s': cmesajb}).text
                         if caltsite == "5":
                             calink = s.get(f"http://pubiza.com/api.php?", params={'token': caltapi, 'url': cmesajb, 'ads_type': "adult"}).text
-                    
-                    if ccount == 30 or count == 60:
-                        sleep(30)
                     if csite == "1":
                         cjson = s.get(f"https://ay.live/api/?", params={'api': ctoken, 'url': cmesajb, 'ct': 1},
                                       cookies=cookies).json()
@@ -2002,7 +1999,7 @@ def poster(update, context):
                 else:
                     csablon = csablon.replace("{link}", "{}").replace("aciklama", "").format(caciklama, clink)
                 sleep(0.5)
-                if ccount == 30 or count == 60:
+                if ccount == 30 or ccount == 60:
                     sleep(30)
                 for ckan in ckanal:
                     cpost = update.channel_post
@@ -2164,7 +2161,7 @@ def poster(update, context):
                 else:
                     dsablon = dsablon.replace("{link}", "{}").replace("{aciklama}", "{}").format(daciklama, dlink)
                 sleep(0.5)
-                if dcount == 30 or count == 60:
+                if dcount == 30 or dcount == 60:
                     sleep(30)
                 for dkan in dkanal:
                     dpost = update.channel_post
@@ -2324,7 +2321,7 @@ def poster(update, context):
                 else:
                     esablon = esablon.replace("{link}", "{}").replace("{aciklama}", "{}").format(eaciklama, elink)
                 sleep(0.5)
-                if ecount == 30 or count == 60:
+                if ecount == 30 or ecount == 60:
                     sleep(30)
                 for ekan in ekanal:
                     epost = update.channel_post
@@ -2484,7 +2481,7 @@ def poster(update, context):
                 else:
                     gsablon = gsablon.replace("{link}", "{}").replace("aciklama", "").format(gaciklama, glink)
                 sleep(0.5)
-                if gcount == 30 or count == 60:
+                if gcount == 30 or ecount == 60:
                     sleep(30)
                 for gkan in gkanal:
                     gpost = update.channel_post
@@ -2646,7 +2643,7 @@ def poster(update, context):
                     fsablon = fsablon.replace("{aciklama}", "{}").replace("{link}", "{}")
                     fsablon = str(fsablon).format(faciklama, flink)
                 sleep(0.5)
-                if fcount == 30 or count == 60:
+                if fcount == 30 or fcount == 60:
                     sleep(30)
                 for fkan in fkanal:
                     fpost = update.channel_post
