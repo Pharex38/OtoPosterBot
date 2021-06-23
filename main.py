@@ -2889,7 +2889,7 @@ def gunluk(context):
 bildir('Bot Başladı 🍕')
 
 def main() -> None:
-    mypers = PicklePersistence(filename='pers'))
+    mypers = PicklePersistence(filename='pers')
     
     updater = Updater(token=bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=90, disable_web_page_preview=True, tzinfo=pytz.timezone('Turkey')), persistance=mypers, request_kwargs={'con_pool_size': 999, 'read_timeout': 150, 'connect_timeout': 150}, workers=40)
 
