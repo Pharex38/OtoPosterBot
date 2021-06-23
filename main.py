@@ -695,7 +695,7 @@ def callback_query(call, context):
         except:
             call.callback_query.edit_message_text("Bu post gönderilmiş veya zaten silinmiş.")
             return ConversationHandler.END
-        bot.send_message(chat, "Post silindi.", reply_markup=dugme(user))
+        call.callback_query.edit_message_text("Post silindi.")
         return ConversationHandler.END
     if call.callback_query.data == "pzamanla":
         call.callback_query.edit_message_text("Postun gönderilmesini istediğiniz saati gönderin.\n\n<b>Örnek biçim;</b>\n<code>31/06/21 18:30:00</code>")
@@ -1295,7 +1295,7 @@ def altakayit(update, context):
         bot.send_message(chat, "<b>Önce bir API kaydedin!</b>")
         return
     if update.message.text == "❌ İptal" or update.message.text == None:
-        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
+        bot.send_message(chat, "İptal Edildi.", reply_markup=markupp())
         return ConversationHandler.END
     if update.message.text == "⛔ Alternatif Kaldır":
         collection.update_one({"_id": user}, {"$set": {"altsite": "None", "altapi": "None", "sablon": "1", "sira": "0"}})
@@ -1433,7 +1433,7 @@ def pat(update, context):
         if len(zjobs) < 1:
             bot.send_message(chat, "Henüz bir post zamanlamamışsınız.", reply_markup=dugme(user))
             return ConversationHandler.END
-        jobmd = bot.send_message(chat, "<code>Yükleniyor...</code>", reply_markup=dugme(user))
+        jobmd = bot.send_message(chat, "<code>...</code>", reply_markup=dugme(user))
         bot.send_message(chat, "Silmek istediğiniz postu seçin.", reply_markup=jobmark(user, context))
         return ConversationHandler.END
     if update.message.text:
@@ -1526,7 +1526,6 @@ def pat(update, context):
         else:
             psablon = psablon.replace("{aciklama}", "{}").replace("{link}", "{}").format(paciklama, plink)
         pkanallar = pathesap['kanal']
-        pcount = 0
     except Exception as e:
         bot.send_message(chat, f"Bir sorun oluştu: \n\n{e}")
         logger.error(e)
@@ -1573,12 +1572,7 @@ def poster(update, context):
         binb = collection.find({})
         mesjid = update.channel_post.message_id
         """ Dosya tespit """
-        if update.channel_post.photo:
-            medya = update.channel_post.photo[0].file_id
-        if update.channel_post.animation:
-            medya = update.channel_post.animation.file_id
-        if update.channel_post.video:
-            medya = update.channel_post.video.file_id
+        medya = update.channel_post.photo[0].file_id if update.channel_post.photo else update.channel_post.effective_attachment
         for hesap in binb:
             ret = True
             kaynak = hesap['kaynak']
@@ -1593,6 +1587,7 @@ def poster(update, context):
             altapi = hesap['altapi']
             altsite = hesap['altsite']
             sira = hesap['sira']
+            pcount = hesap['pcount']
             if "1" in kaynak and len(kanal) > 0 and ret:
                 link = " "
                 alink = " "
@@ -1648,6 +1643,8 @@ def poster(update, context):
                 else:
                     sablon = sablon.replace("{aciklama}", "{}").replace("{link}", "{}").format(aciklama, link)
                 sleep(2)
+                if pcount != 20:
+                    collection.update_one({"_id": user}, {"$inc": {"pcount": 1}})
                 for kan in kanal:
                     post = update.channel_post
                     try:
