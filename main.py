@@ -314,7 +314,7 @@ def parak(update, context):
     if collection.find_one({"_id": 0})['para']:
         collection.update_one({"_id": 0}, {"$set": {"para": False}})
     else:
-        collection.update_one({"_id": 0}, {"$set": {"para": False}})
+        collection.update_one({"_id": 0}, {"$set": {"para": True}})
     pment = collection.find_one({"_id": 0})
     bot.send_message(update.message.chat.id, f"Para: {pment['para']}")
 
