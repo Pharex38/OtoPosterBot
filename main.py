@@ -1963,6 +1963,7 @@ def poster(update, context):
                             if caltsite == "1":
                                 cjson = s.get(f"https://ay.live/api/?", params={'api': caltapi, 'url': cmesajb, 'ct': 1}, cookies=cookies).json()
                                 calink = cjson['shortenedUrl']
+                                print(cjson)
                             if caltsite == "2":
                                 cjson = s.get(f"https://www.pnd.tl/api?", params={'api': caltapi, 'url': cmesajb, 'category': 6}).json()
                                 calink =     cjson['shortenedUrl']
