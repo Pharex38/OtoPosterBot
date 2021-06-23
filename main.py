@@ -2989,5 +2989,6 @@ def main() -> None:
     updater.idle()
 
 if __name__ == '__main__':
+    setup_logger()
     main()
     bildir("Bot kapandı!")
