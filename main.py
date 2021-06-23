@@ -1559,6 +1559,7 @@ def pat(update, context):
 def poster(update, context):
     okaynak = None
     chat = update.channel_post.chat.id
+    vipler = collection.find_one({"_id": 0})['vipuye']
     # Link Mahzeni
     if chat == kaynaklar[0] and mahzen:
         count = 0
