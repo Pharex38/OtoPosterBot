@@ -2909,7 +2909,10 @@ def main() -> None:
             SABLON: [MessageHandler(~Filters.command & Filters.update.message, sabloniki)],
             PATPOST: [MessageHandler(~Filters.command & Filters.update.message, pat)]
             },
-        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$') & Filters.update.message, cancel), CommandHandler('start', start, filters=~Filters.update.edited_message)]
+        fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$') & Filters.update.message, cancel), CommandHandler('start', start, filters=~Filters.update.edited_message)],
+        per_message=False, 
+        persistent=True, 
+        name='anamenuconv'
         )
 
     conver = ConversationHandler(
@@ -2918,39 +2921,49 @@ def main() -> None:
             SABLON: [MessageHandler(~Filters.command & Filters.update.message, sabloniki)]
             },
         fallbacks=[CommandHandler('start', start, filters=~Filters.update.edited_message)],
-        per_message=False)
+        per_message=False, 
+        persistent=True, 
+        name='anaconv')
     altconver = ConversationHandler(
         entry_points=[CallbackQueryHandler(altcall, pattern="^asite(.*)")],
         states={
             ALTAPI: [MessageHandler(~Filters.command & Filters.update.message, altakayit)]
             },
         fallbacks=[CommandHandler('start', start, filters=~Filters.update.edited_message)],
-        per_message=False)
+        per_message=False, 
+        persistent=True, 
+        name='altkconv')
     logconver = ConversationHandler(
         entry_points=[CallbackQueryHandler(ozellogcall, pattern="^logokay(.*)")],
         states={
             OZELBOTLOG: [MessageHandler(~Filters.command & Filters.update.message, ozellog)]
             },
         fallbacks=[CommandHandler('start', start, filters=~Filters.update.edited_message)],
-        per_message=False)
+        per_message=False, 
+        persistent=True, 
+        name='logconv')
     ozelkconver = ConversationHandler(
         entry_points=[CallbackQueryHandler(ozelkaynakcall, pattern="^okayt(.*)")],
         states={
             OZELKAYNAK: [MessageHandler(~Filters.command & Filters.update.message, ozelk)]
             },
         fallbacks=[CommandHandler('start', start, filters=~Filters.update.edited_message)],
-        per_message=False)
+        per_message=False, 
+        persistent=True, 
+        name='ozelconv')
     zamanconver = ConversationHandler(
         entry_points=[CallbackQueryHandler(callback_query, pattern="^pzamanla(.*)")],
         states={
             PATZAMAN: [MessageHandler(~Filters.command & Filters.update.message, patzamansaat)]
             },
         fallbacks=[CommandHandler('start', start, filters=~Filters.update.edited_message)],
-        per_message=False)
+        per_message=False, 
+        persistent=True, 
+        name='zamanconv')
     
-    dispatcher.add_handler(conver, persistent=True, name='menuconv')
-    dispatcher.add_handler(altconver, persistent=True, name='altconv')
-    dispatcher.add_handler(ozelkconver, persistent=True, name='ozelkconv')
+    dispatcher.add_handler(conver)
+    dispatcher.add_handler(altconver)
+    dispatcher.add_handler(ozelkconver)
     dispatcher.add_handler(zamanconver, persistent=True, name='zamamconv')
     dispatcher.add_handler(logconver, persistent=True, name='logconv')
 
