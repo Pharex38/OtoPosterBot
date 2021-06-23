@@ -2910,7 +2910,7 @@ def main() -> None:
             PATPOST: [MessageHandler(~Filters.command & Filters.update.message, pat)]
             },
         fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$') & Filters.update.message, cancel), CommandHandler('start', start, filters=~Filters.update.edited_message)],
-        per_message=False, run_async=False,
+        per_message=False, 
         persistent=True, 
         name='anamenuconv'
         )
@@ -2921,7 +2921,7 @@ def main() -> None:
             SABLON: [MessageHandler(~Filters.command & Filters.update.message, sabloniki)]
             },
         fallbacks=[CommandHandler('start', start, filters=~Filters.update.edited_message)],
-        per_message=False, run_async=False,
+        per_message=False, 
         persistent=True, 
         name='anaconv')
     altconver = ConversationHandler(
@@ -2930,7 +2930,7 @@ def main() -> None:
             ALTAPI: [MessageHandler(~Filters.command & Filters.update.message, altakayit)]
             },
         fallbacks=[CommandHandler('start', start, filters=~Filters.update.edited_message)],
-        per_message=False, run_async=False,
+        per_message=False, 
         persistent=True, 
         name='altkconv')
     logconver = ConversationHandler(
@@ -2939,7 +2939,7 @@ def main() -> None:
             OZELBOTLOG: [MessageHandler(~Filters.command & Filters.update.message, ozellog)]
             },
         fallbacks=[CommandHandler('start', start, filters=~Filters.update.edited_message)],
-        per_message=False, run_async=False,
+        per_message=False, 
         persistent=True, 
         name='logconv')
     ozelkconver = ConversationHandler(
@@ -2948,7 +2948,7 @@ def main() -> None:
             OZELKAYNAK: [MessageHandler(~Filters.command & Filters.update.message, ozelk)]
             },
         fallbacks=[CommandHandler('start', start, filters=~Filters.update.edited_message)],
-        per_message=False, run_async=False,
+        per_message=False, 
         persistent=True, 
         name='ozelconv')
     zamanconver = ConversationHandler(
@@ -2957,7 +2957,7 @@ def main() -> None:
             PATZAMAN: [MessageHandler(~Filters.command & Filters.update.message, patzamansaat)]
             },
         fallbacks=[CommandHandler('start', start, filters=~Filters.update.edited_message)],
-        per_message=False, run_async=False,
+        per_message=False, 
         persistent=True, 
         name='zamanconv')
     
