@@ -1452,12 +1452,7 @@ def pat(update, context):
         if len(zjobs) < 1:
             bot.send_message(chat, "Henüz bir post zamanlamamışsınız.", reply_markup=dugme(user))
             return ConversationHandler.END
-<<<<<<< HEAD
         jobmd = bot.send_message(chat, "<code>...</code>", reply_markup=dugme(user))
-=======
-        jobmd = bot.send_message(chat, "<b>Ana menü</b>", reply_markup=dugme(user))
-        jobmd = bot.send_message(chat, "<b>Ana menü</b>", reply_markup=dugme(user))
->>>>>>> 4e37e14d49351e0f91f06fa8a0ecfba02d46b685
         bot.send_message(chat, "Silmek istediğiniz postu seçin.", reply_markup=jobmark(user, context))
         return ConversationHandler.END
     if update.message.text:
