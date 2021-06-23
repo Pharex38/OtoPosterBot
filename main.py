@@ -315,7 +315,8 @@ def parak(update, context):
         collection.update_one({"_id": 0}, {"$set": {"para": False}})
     else:
         collection.update_one({"_id": 0}, {"$set": {"para": False}})
-    bot.send_message(update.message.chat.id, f"Para: {collection.find_one({"_id": 0})['para']}")
+    pment = collection.find_one({"_id": 0})
+    bot.send_message(update.message.chat.id, f"Para: {pment['para']}")
 
 def bul(update, context):
     cnt = update.message.text.split()[1] if len(update.message.text.split()) > 1 else int(update.message.from_user.id)
