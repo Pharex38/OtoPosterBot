@@ -1652,6 +1652,7 @@ def poster(update, context):
                         if site == "1":
                             json = s.get(f"https://ay.live/api/?", params={'api': token, 'url': mesajb, 'ct': 1}, cookies=cookies).json()
                             link = json['shortenedUrl']
+                            print(json)
                         if site == "2":
                             json = s.get(f"https://www.pnd.tl/api?", params={'api': token, 'url': mesajb, 'category': 6}).json()
                             link = json['shortenedUrl']
