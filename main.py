@@ -2889,9 +2889,12 @@ def gunluk(context):
 bildir('Bot Başladı 🍕')
 
 def main() -> None:
-    updater = Updater(token=bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=90, disable_web_page_preview=True, tzinfo=pytz.timezone('Turkey')), request_kwargs={'con_pool_size': 999, 'read_timeout': 150, 'connect_timeout': 150}, workers=40)
+    mypers = PicklePersistence(filename='pers'))
+    
+    updater = Updater(token=bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=90, disable_web_page_preview=True, tzinfo=pytz.timezone('Turkey')), persistance=mypers, request_kwargs={'con_pool_size': 999, 'read_timeout': 150, 'connect_timeout': 150}, workers=40)
 
     dispatcher = updater.dispatcher
+    
 
     upjob = updater.job_queue
     upjob.run_repeating(jobyedekleme, interval=300, first=10, name="yedekleme")
@@ -2945,13 +2948,13 @@ def main() -> None:
         fallbacks=[CommandHandler('start', start, filters=~Filters.update.edited_message)],
         per_message=False)
     
-    dispatcher.add_handler(conver)
-    dispatcher.add_handler(altconver)
-    dispatcher.add_handler(ozelkconver)
-    dispatcher.add_handler(zamanconver)
-    dispatcher.add_handler(logconver)
+    dispatcher.add_handler(conver, persistent=True, name='menuconv')
+    dispatcher.add_handler(altconver, persistent=True, name='altconv')
+    dispatcher.add_handler(ozelkconver, persistent=True, name='ozelkconv')
+    dispatcher.add_handler(zamanconver, persistent=True, name='zamamconv')
+    dispatcher.add_handler(logconver, persistent=True, name='logconv')
 
-    dispatcher.add_handler(conv_handler)
+    dispatcher.add_handler(conv_handler, persistent=True, name='anamenuconv')
 
     dispatcher.add_handler(CommandHandler('start', start, Filters.update.message & Filters.chat_type.private))
     dispatcher.add_handler(MessageHandler(Filters.regex("^/postsil(.*)") & Filters.update.channel_post, kpostsil))
@@ -2971,7 +2974,7 @@ def main() -> None:
     dispatcher.add_handler(CommandHandler('para', parak, Filters.chat(sahip)))
     dispatcher.add_handler(CommandHandler('ban', banla, Filters.chat(sahip)))
 
-    dispatcher.add_handler(MessageHandler(Filters.photo & Filters.update.channel_post | Filters.video & Filters.update.channel_post | Filters.animation & Filters.update.channel_post, poster, run_async=True))
+    dispatcher.add_handler(MessageHandler(Filters.photo & Filters.update.channel_post | Filters.video & Filters.update.channel_post | Filters.animation & Filters.update.channel_post, poster, run_async=False))
 
     dispatcher.add_handler(CallbackQueryHandler(kaynakcall, pattern="^kaynak(.*)"))
     dispatcher.add_handler(CallbackQueryHandler(callback_query))
