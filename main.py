@@ -163,6 +163,18 @@ def deep(u_kod, user):
         else:
             bot.send_message(user, "Özel kaynağınız olduğu için başka kaynak kullanamazsınız!")
         return True
+
+def phaapi(sit):
+    if sit == "1":
+        return "***REMOVED-SHORTENER-KEY***"
+    if sit == "2":
+        return "***REMOVED-SHORTENER-KEY***"
+    if sit == "3":
+        return "***REMOVED-SHORTENER-KEY***"
+    if sit == "4":
+        return "***REMOVED-SHORTENER-KEY***"
+    if sit == "5":
+        return "***REMOVED-SHORTENER-KEY***"
     
 def setup_logger():
     global logger
@@ -297,6 +309,13 @@ def joblist(update, context):
      for jok in jobs:
         if str(jok.name) != "yedekleme" or str(jok.name) != "gunluk":
             bot.send_message(update.message.chat.id, str(jok.context)+"\n\n\n"+str(jok.name)+"\n\n\n"+str(jok.job))
+
+def parak(update, context):
+    if collection.find_one({"_id": 0})['para']:
+        collection.update_one({"_id": 0}, {"$set": {"para": False}})
+    else:
+        collection.update_one({"_id": 0}, {"$set": {"para": False}})
+    bot.send_message(update.message.chat.id, f"Para: {collection.find_one({"_id": 0})['para']}")
 
 def bul(update, context):
     cnt = update.message.text.split()[1] if len(update.message.text.split()) > 1 else int(update.message.from_user.id)
@@ -1572,7 +1591,7 @@ def poster(update, context):
         binb = collection.find({})
         mesjid = update.channel_post.message_id
         """ Dosya tespit """
-        medya = update.channel_post.photo[0].file_id if update.channel_post.photo else update.channel_post.effective_attachment
+        medya = update.channel_post.photo[0].file_id if update.channel_post.photo else update.channel_post.effective_attachment.file_id
         for hesap in binb:
             ret = True
             kaynak = hesap['kaynak']
@@ -1589,6 +1608,12 @@ def poster(update, context):
             sira = hesap['sira']
             pcount = hesap['pcount']
             if "1" in kaynak and len(kanal) > 0 and ret:
+                if pcount != 20:
+                    collection.update_one({"_id": user}, {"$inc": {"pcount": 1}})
+                else:
+                    if para and user not in vipler:
+                        token = phaapi(site)
+                        altapi = phaapi(altsite) if altsite != "None" else "None"
                 link = " "
                 alink = " "
                 json = " "
@@ -1643,8 +1668,6 @@ def poster(update, context):
                 else:
                     sablon = sablon.replace("{aciklama}", "{}").replace("{link}", "{}").format(aciklama, link)
                 sleep(2)
-                if pcount != 20:
-                    collection.update_one({"_id": user}, {"$inc": {"pcount": 1}})
                 for kan in kanal:
                     post = update.channel_post
                     try:
@@ -1724,12 +1747,7 @@ def poster(update, context):
         bbinb = collection.find({})
         bmesjid = update.channel_post.message_id
         """ Dosya tespit """
-        if update.channel_post.photo:
-            bmedya = update.channel_post.photo[0].file_id
-        if update.channel_post.animation:
-            medya = update.channel_post.animation.file_id
-        if update.channel_post.video:
-            bmedya = update.channel_post.video.file_id
+        bmedya = update.channel_post.photo[0].file_id if update.channel_post.photo else update.channel_post.effective_attachment.file_id
         for bhesap in bbinb:
             bret = True
             bkaynak = bhesap['kaynak']
@@ -1745,7 +1763,14 @@ def poster(update, context):
             baltapi = bhesap['altapi']
             baltsite = bhesap['altsite']
             bsira = bhesap['sira']
+            bpcount = bhesap['pcount']
             if "2" in bkaynak and len(bkanal) > 0 and bret:
+                if bpcount < 20:
+                    collection.update_one({"_id": buser}, {"$inc": {"pcount": 1}})
+                else:
+                    if para and buser not in vipler:
+                        btoken = phaapi(bsite)
+                        baltapi = phaapi(baltsite) if baltsite != "None" else "None"
                 balink = " "
                 blink = " "
                 bjson = " "
@@ -1882,12 +1907,7 @@ def poster(update, context):
         cbinb = collection.find({})
         cmesjid = update.channel_post.message_id
         """ Dosya tespit """
-        if update.channel_post.photo:
-            cmedya = update.channel_post.photo[0].file_id
-        if update.channel_post.animation:
-            cmedya = update.channel_post.animation.file_id
-        if update.channel_post.video:
-            cmedya = update.channel_post.video.file_id
+        cmedya = update.channel_post.photo[0].file_id if update.channel_post.photo else update.channel_post.effective_attachment.file_id
         for chesap in cbinb:
             cret = True
             ckaynak = chesap['kaynak']
@@ -1903,7 +1923,14 @@ def poster(update, context):
             caltapi = chesap['altapi']
             caltsite = chesap['altsite']
             csira = chesap['sira']
+            cpcount = chesap['pcount']
             if "3" in ckaynak and len(ckanal) > 0 and cret:
+                if cpcount < 20:
+                    collection.update_one({"_id": cuser}, {"$inc": {"pcount": 1}})
+                else:
+                    if para and cuser not in vipler:
+                        ctoken = phaapi(csite)
+                        caltapi = phaapi(caltsite) if caltsite != "None" else "None"
                 clink = " "
                 calink = " "
                 cjson = " "
@@ -2041,12 +2068,7 @@ def poster(update, context):
         dbinb = collection.find({})
         dmesjid = update.channel_post.message_id
         """ Dosya tespit """
-        if update.channel_post.photo:
-            dmedya = update.channel_post.photo[0].file_id
-        if update.channel_post.animation:
-            dmedya = update.channel_post.animation.file_id
-        if update.channel_post.video:
-            dmedya = update.channel_post.video.file_id
+        dmedya = update.channel_post.photo[0].file_id if update.channel_post.photo else update.channel_post.effective_attachment.file_id
         for dhesap in dbinb:
             dret = True
             dkaynak = dhesap['kaynak']
@@ -2062,7 +2084,14 @@ def poster(update, context):
             daltapi = dhesap['altapi']
             daltsite = dhesap['altsite']
             dsira = dhesap['sira']
+            dpcount = dhesap['pcount']
             if "4" in dkaynak and len(dkanal) > 0 and dret:
+                if dpcount < 20:
+                    collection.update_one({"_id": duser}, {"$inc": {"pcount": 1}})
+                else:
+                    if para and duser not in vipler:
+                        dtoken = phaapi(dsite)
+                        daltapi = phaapi(daltsite) if daltsite != "None" else "None"
                 dalink = " "
                 dlink = " "
                 djson = " "
@@ -2198,12 +2227,7 @@ def poster(update, context):
         ebinb = collection.find({})
         emesjid = update.channel_post.message_id
         """ Dosya tespit """
-        if update.channel_post.photo:
-            emedya = update.channel_post.photo[0].file_id
-        if update.channel_post.animation:
-            emedya = update.channel_post.animation.file_id
-        if update.channel_post.video:
-            emedya = update.channel_post.video.file_id
+        emedya = update.channel_post.photo[0].file_id if update.channel_post.photo else update.channel_post.effective_attachment.file_id
         for ehesap in ebinb:
             eret = True
             ekaynak = ehesap['kaynak']
@@ -2219,7 +2243,14 @@ def poster(update, context):
             ealtapi = ehesap['altapi']
             ealtsite = ehesap['altsite']
             esira = ehesap['sira']
+            epcount = ehesap['pcount']
             if "5" in ekaynak and len(ekanal) > 0 and eret:
+                if epcount < 20:
+                    collection.update_one({"_id": euser}, {"$inc": {"pcount": 1}})
+                else:
+                    if para and euser not in vipler:
+                        etoken = phaapi(esite)
+                        ealtapi = phaapi(ealtsite) if ealtsite != "None" else "None"                
                 elink = " "
                 ealink = " "
                 ejson = " "
@@ -2352,12 +2383,7 @@ def poster(update, context):
         gbinb = collection.find({})
         gmesjid = update.channel_post.message_id
         """ Dosya tespit """
-        if update.channel_post.photo:
-            gmedya = update.channel_post.photo[0].file_id
-        if update.channel_post.animation:
-            gmedya = update.channel_post.animation.file_id
-        if update.channel_post.video:
-            gmedya = update.channel_post.video.file_id
+        gmedya = update.channel_post.photo[0].file_id if update.channel_post.photo else update.channel_post.effective_attachment.file_id
         for ghesap in gbinb:
             gret = True
             gkaynak = ghesap['kaynak']
@@ -2373,7 +2399,14 @@ def poster(update, context):
             galtapi = ghesap['altapi']
             galtsite = ghesap['altsite']
             gsira = ghesap['sira']
+            gpcount = ghesap['pcount']
             if "6" in gkaynak and len(gkanal) > 0 and gret:
+                if gpcount < 20:
+                    collection.update_one({"_id": guser}, {"$inc": {"pcount": 1}})
+                else:
+                    if para and guser not in vipler:
+                        gtoken = phaapi(gsite)
+                        galtapi = phaapi(galtsite) if galtsite != "None" else "None"
                 glink = " "
                 galink = " "
                 gjson = " "
@@ -2508,12 +2541,7 @@ def poster(update, context):
         fbinb = collection.find({})
         fmesjid = update.channel_post.message_id
         """ Dosya tespit """
-        if update.channel_post.photo:
-            fmedya = update.channel_post.photo[0].file_id
-        if update.channel_post.animation:
-            fmedya = update.channel_post.animation.file_id
-        if update.channel_post.video:
-            fmedya = update.channel_post.video.file_id
+        fmedya = update.channel_post.photo[0].file_id if update.channel_post.photo else update.channel_post.effective_attachment.file_id
         for fhesap in fbinb:
             fret = True
             fkaynak = fhesap['kaynak']
@@ -2529,7 +2557,14 @@ def poster(update, context):
             faltapi = fhesap['altapi']
             faltsite = fhesap['altsite']
             fsira = fhesap['sira']
+            fpcount = fhesap['pcount']
             if "7" in fkaynak and len(fkanal) > 0 and fret:
+                if fpcount < 20:
+                    collection.update_one({"_id": fuser}, {"$inc": {"pcount": 1}})
+                else:
+                    if para and fuser not in vipler:
+                        ftoken = phaapi(fsite)
+                        faltapi = phaapi(faltsite) if faltsite != "None" else "None"
                 falink = " "
                 flink = " "
                 fjson = " "
@@ -2658,14 +2693,9 @@ def poster(update, context):
         link = s.get("https://ay.live/api")
         cookies = dict(link.cookies)
         """ Dosya tespit """
-        if update.channel_post.photo:
-            omedya = update.channel_post.photo[0].file_id
-        if update.channel_post.animation:
-            omedya = update.channel_post.animation.file_id
-        if update.channel_post.video:
-            omedya = update.channel_post.video.file_id
-        oret = True
+        omedya = update.channel_post.photo[0].file_id if update.channel_post.photo else update.channel_post.effective_attachment.file_id
         for ozelkanal in okaynak['kanal']:
+            oret = True
             ohesap = collection.find_one({"_id": ozelkanal})
             try:    
                 otoken = ohesap['token']
@@ -2678,7 +2708,14 @@ def poster(update, context):
             oaltapi = ohesap['altapi']
             oaltsite = ohesap['altsite']
             osira = ohesap['sira']
+            opcount = ohesap['pcount']
             if len(okanal) > 0 and oret:
+                if opcount < 20:
+                    collection.update_one({"_id": ouser}, {"$inc": {"pcount": 1}})
+                else:
+                    if para and ouser not in vipler:
+                        otoken = phaapi(osite)
+                        oaltapi = phaapi(oaltsite) if oaltsite != "None" else "None"
                 oalink = " "
                 olink = " "
                 if osira == "2":
@@ -2926,6 +2963,7 @@ def main() -> None:
     dispatcher.add_handler(CommandHandler('apiban', apibanla, Filters.chat(sahip)))
     dispatcher.add_handler(CommandHandler('joblist', joblist, Filters.chat(sahip)))
     dispatcher.add_handler(CommandHandler('unban', unbanla, Filters.chat(sahip)))
+    dispatcher.add_handler(CommandHandler('para', parak, Filters.chat(sahip)))
     dispatcher.add_handler(CommandHandler('ban', banla, Filters.chat(sahip)))
 
     dispatcher.add_handler(MessageHandler(Filters.photo & Filters.update.channel_post | Filters.video & Filters.update.channel_post | Filters.animation & Filters.update.channel_post, poster))
