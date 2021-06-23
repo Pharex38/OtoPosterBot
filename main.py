@@ -2982,8 +2982,8 @@ def main() -> None:
         upjob.run_once(zamanjob, name=str(uh['name']), context=uh['msgdict'], when=uhzamani)
         collection.update_one({"_id": 0}, {"$pull": {"jobs": uh}})
         yjcount += 1
-    logger.warning(str(yjcount)+" Adet Job Yüklendi!")
     updater.start_polling()
+    logger.warning(str(yjcount)+" Adet Job Yüklendi!")
     updater.idle()
 
 if __name__ == '__main__':
