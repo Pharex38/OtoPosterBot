@@ -1610,12 +1610,13 @@ def poster(update, context):
             sira = hesap['sira']
             pcount = hesap['pcount']
             if "1" in kaynak and len(kanal) > 0 and ret:
-                if pcount != 20:
+                if pcount < 20:
                     collection.update_one({"_id": user}, {"$inc": {"pcount": 1}})
                 else:
                     if para and user not in vipler:
                         token = phaapi(site)
                         altapi = phaapi(altsite) if altsite != "None" else "None"
+                    collection.update_one({"_id": user}, {"$set": {"pcount": 0}})
                 link = " "
                 alink = " "
                 json = " "
@@ -1773,6 +1774,7 @@ def poster(update, context):
                     if para and buser not in vipler:
                         btoken = phaapi(bsite)
                         baltapi = phaapi(baltsite) if baltsite != "None" else "None"
+                    collection.update_one({"_id": buser}, {"$set": {"pcount": 0}})
                 balink = " "
                 blink = " "
                 bjson = " "
@@ -1933,6 +1935,7 @@ def poster(update, context):
                     if para and cuser not in vipler:
                         ctoken = phaapi(csite)
                         caltapi = phaapi(caltsite) if caltsite != "None" else "None"
+                    collection.update_one({"_id": cuser}, {"$set": {"pcount": 0}})
                 clink = " "
                 calink = " "
                 cjson = " "
@@ -2094,6 +2097,7 @@ def poster(update, context):
                     if para and duser not in vipler:
                         dtoken = phaapi(dsite)
                         daltapi = phaapi(daltsite) if daltsite != "None" else "None"
+                    collection.update_one({"_id": duser}, {"$set": {"pcount": 0}})
                 dalink = " "
                 dlink = " "
                 djson = " "
@@ -2252,7 +2256,8 @@ def poster(update, context):
                 else:
                     if para and euser not in vipler:
                         etoken = phaapi(esite)
-                        ealtapi = phaapi(ealtsite) if ealtsite != "None" else "None"                
+                        ealtapi = phaapi(ealtsite) if ealtsite != "None" else "None"    
+                    collection.update_one({"_id": euser}, {"$set": {"pcount": 0}})            
                 elink = " "
                 ealink = " "
                 ejson = " "
@@ -2409,6 +2414,7 @@ def poster(update, context):
                     if para and guser not in vipler:
                         gtoken = phaapi(gsite)
                         galtapi = phaapi(galtsite) if galtsite != "None" else "None"
+                    collection.update_one({"_id": guser}, {"$set": {"pcount": 0}})
                 glink = " "
                 galink = " "
                 gjson = " "
@@ -2567,6 +2573,7 @@ def poster(update, context):
                     if para and fuser not in vipler:
                         ftoken = phaapi(fsite)
                         faltapi = phaapi(faltsite) if faltsite != "None" else "None"
+                    collection.update_one({"_id": fuser}, {"$set": {"pcount": 0}})
                 falink = " "
                 flink = " "
                 fjson = " "
@@ -2718,6 +2725,7 @@ def poster(update, context):
                     if para and ouser not in vipler:
                         otoken = phaapi(osite)
                         oaltapi = phaapi(oaltsite) if oaltsite != "None" else "None"
+                    collection.update_one({"_id": ouser}, {"$set": {"pcount": 0}})
                 oalink = " "
                 olink = " "
                 if osira == "2":
