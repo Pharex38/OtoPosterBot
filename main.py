@@ -2481,7 +2481,7 @@ def poster(update, context):
                 else:
                     gsablon = gsablon.replace("{link}", "{}").replace("aciklama", "").format(gaciklama, glink)
                 sleep(0.5)
-                if gcount == 30 or ecount == 60:
+                if gcount == 30 or gcount == 60:
                     sleep(30)
                 for gkan in gkanal:
                     gpost = update.channel_post
