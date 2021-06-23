@@ -1632,8 +1632,10 @@ def poster(update, context):
                         collection.update_one({"_id": user}, {"$set": {"sira": "2"}})
                     if not altapi == "None":
                         while alink == "":
+                            time.sleep(1)
                             if altsite == "1":
                                 json = s.get(f"https://ay.live/api/?", params={'api': altapi, 'url': mesajb, 'ct': 1}, cookies=cookies).json()
+                                print(json)
                                 alink = json['shortenedUrl']
                             if altsite == "2":
                                 json = s.get(f"https://www.pnd.tl/api?", params={'api': altapi, 'url': mesajb, 'category': 6}).json()
@@ -1646,6 +1648,7 @@ def poster(update, context):
                             if altsite == "5":
                                 alink = s.get(f"http://pubiza.com/api.php?", params={'token': altapi, 'url': mesajb, 'ads_type': "adult"}).text
                     while link == "":
+                        time.sleep(1)
                         if site == "1":
                             json = s.get(f"https://ay.live/api/?", params={'api': token, 'url': mesajb, 'ct': 1}, cookies=cookies).json()
                             link = json['shortenedUrl']
@@ -1676,8 +1679,6 @@ def poster(update, context):
                 else:
                     sablon = sablon.replace("{aciklama}", "{}").replace("{link}", "{}").format(aciklama, link)
                 sleep(0.5)
-                if count == 30 or count == 60:
-                    sleep(30)
                 for kan in kanal:
                     post = update.channel_post
                     try:
@@ -1794,6 +1795,7 @@ def poster(update, context):
                 try:
                     if not baltapi == "None":
                         while balink == "":
+                            time.sleep(1)
                             if baltsite == "1":
                                 bjson = s.get(f"https://ay.live/api/?", params={'api': baltapi, 'url': bmesajb, 'ct': 1}, cookies=cookies).json()
                                 balink = bjson['shortenedUrl']
@@ -1808,6 +1810,7 @@ def poster(update, context):
                             if baltsite == "5":
                                 balink = s.get(f"http://pubiza.com/api.php?", params={'token': baltapi, 'url': bmesajb, 'ads_type': "adult"}).text
                     while blink == "":
+                        time.sleep(1)
                         if bsite == "1":
                             bjson = s.get(f"https://ay.live/api/?", params={'api': btoken, 'url': bmesajb, 'ct': 1}, cookies=cookies).json()
                             blink = bjson['shortenedUrl']
@@ -1840,8 +1843,6 @@ def poster(update, context):
                     bsablon = bsablon.replace("{aciklama}", "{}").replace("{link}", "{}")
                     bsablon = str(bsablon).format(baciklama, blink)
                 sleep(0.5)
-                if bcount == 30 or bcount == 60:
-                    sleep(30)
                 for bkan in bkanal:
                     bpost = update.channel_post
                     try:
@@ -1958,6 +1959,7 @@ def poster(update, context):
                 try:
                     if not caltapi == "None":
                         while calink == "":
+                            time.sleep(1)
                             if caltsite == "1":
                                 cjson = s.get(f"https://ay.live/api/?", params={'api': caltapi, 'url': cmesajb, 'ct': 1}, cookies=cookies).json()
                                 calink = cjson['shortenedUrl']
@@ -1972,6 +1974,7 @@ def poster(update, context):
                             if caltsite == "5":
                                 calink = s.get(f"http://pubiza.com/api.php?", params={'token': caltapi, 'url': cmesajb, 'ads_type': "adult"}).text
                     while clink == "":
+                        time.sleep(1)
                         if csite == "1":
                             cjson = s.get(f"https://ay.live/api/?", params={'api': ctoken, 'url': cmesajb, 'ct': 1}, cookies=cookies).json()
                             clink = cjson['shortenedUrl']
@@ -2004,8 +2007,6 @@ def poster(update, context):
                 else:
                     csablon = csablon.replace("{link}", "{}").replace("aciklama", "").format(caciklama, clink)
                 sleep(0.5)
-                if ccount == 30 or ccount == 60:
-                    sleep(30)
                 for ckan in ckanal:
                     cpost = update.channel_post
                     try:
@@ -2122,6 +2123,7 @@ def poster(update, context):
                 try:
                     if not daltapi == "None":
                         while dalink == "":
+                            time.sleep(1)
                             if daltsite == "1":
                                 djson = s.get(f"https://ay.live/api/?", params={'api': daltapi, 'url': dmesajb, 'ct': 1}, cookies=cookies).json()
                                 dalink = djson['shortenedUrl']
@@ -2136,6 +2138,7 @@ def poster(update, context):
                             if daltsite == "5":
                                 dalink = s.get(f"http://pubiza.com/api.php?", params={'token': daltapi, 'url': dmesajb, 'ads_type': "adult"}).text
                     while dlink == "":
+                        time.sleep(1)
                         if dsite == "1":
                             djson = s.get(f"https://ay.live/api/?", params={'api': dtoken, 'url': dmesajb, 'ct': 1}, cookies=cookies).json()
                             dlink = djson['shortenedUrl']
@@ -2167,8 +2170,6 @@ def poster(update, context):
                 else:
                     dsablon = dsablon.replace("{link}", "{}").replace("{aciklama}", "{}").format(daciklama, dlink)
                 sleep(0.5)
-                if dcount == 30 or dcount == 60:
-                    sleep(30)
                 for dkan in dkanal:
                     dpost = update.channel_post
                     try: 
@@ -2285,6 +2286,7 @@ def poster(update, context):
                 try:
                     if not ealtapi == "None":
                         while ealink == "":
+                            time.sleep(1)
                             if ealtsite == "1":
                                 ejson = s.get(f"https://ay.live/api/?", params={'api': ealtapi, 'url': emesajb, 'ct': 1}, cookies=cookies).json()
                                 ealink = ejson['shortenedUrl']
@@ -2299,6 +2301,7 @@ def poster(update, context):
                             if ealtsite == "5":
                                 ealink = s.get(f"http://pubiza.com/api.php?", params={'token': ealtapi, 'url': emesajb, 'ads_type': "adult"}).text
                     while elink == "":
+                        time.sleep(1)
                         if esite == "1":
                             ejson = s.get(f"https://ay.live/api/?", params={'api': etoken, 'url': emesajb, 'ct': 1}, cookies=cookies).json()
                             elink = ejson['shortenedUrl']
@@ -2329,8 +2332,6 @@ def poster(update, context):
                 else:
                     esablon = esablon.replace("{link}", "{}").replace("{aciklama}", "{}").format(eaciklama, elink)
                 sleep(0.5)
-                if ecount == 30 or ecount == 60:
-                    sleep(30)
                 for ekan in ekanal:
                     epost = update.channel_post
                     try:
@@ -2446,6 +2447,7 @@ def poster(update, context):
                 try:
                     if not galtapi == "None":
                         while galink == "":
+                            time.sleep(1)
                             if galtsite == "1":
                                 gjson = s.get(f"https://ay.live/api/?", params={'api': galtapi, 'url': gmesajb, 'ct': 1}, cookies=cookies).json()
                                 galink = gjson['shortenedUrl']
@@ -2460,6 +2462,7 @@ def poster(update, context):
                             if galtsite == "5":
                                 galink = s.get(f"http://pubiza.com/api.php?", params={'token': galtapi, 'url': gmesajb, 'ads_type': "adult"}).text
                     while glink == "":
+                        time.sleep(1)
                         if gsite == "1":
                             gjson = s.get(f"https://ay.live/api/?", params={'api': gtoken, 'url': gmesajb, 'ct': 1},
                                           cookies=cookies).json()
@@ -2491,8 +2494,6 @@ def poster(update, context):
                 else:
                     gsablon = gsablon.replace("{link}", "{}").replace("aciklama", "").format(gaciklama, glink)
                 sleep(0.5)
-                if gcount == 30 or gcount == 60:
-                    sleep(30)
                 for gkan in gkanal:
                     gpost = update.channel_post
                     try:
@@ -2609,6 +2610,7 @@ def poster(update, context):
                 try:
                     if not faltapi == "None":
                         while falink == "":
+                            time.sleep(1)
                             if faltsite == "1":
                                 fjson = s.get(f"https://ay.live/api/?", params={'api': faltapi, 'url': fmesajb, 'ct': 1}, cookies=cookies).json()
                                 falink = fjson['shortenedUrl']
@@ -2623,6 +2625,7 @@ def poster(update, context):
                             if faltsite == "5":
                                 falink = s.get(f"http://pubiza.com/api.php?", params={'token': faltapi, 'url': fmesajb, 'ads_type': "adult"}).text
                     while flink == "":
+                        time.sleep(1)
                         if fsite == "1":
                             fjson = s.get(f"https://ay.live/api/?", params={'api': ftoken, 'url': fmesajb, 'ct': 1}, cookies=cookies).json()
                             flink = fjson['shortenedUrl']
@@ -2654,8 +2657,6 @@ def poster(update, context):
                     fsablon = fsablon.replace("{aciklama}", "{}").replace("{link}", "{}")
                     fsablon = str(fsablon).format(faciklama, flink)
                 sleep(0.5)
-                if fcount == 30 or fcount == 60:
-                    sleep(30)
                 for fkan in fkanal:
                     fpost = update.channel_post
                     try:
@@ -2756,6 +2757,7 @@ def poster(update, context):
                 try:
                     if not oaltapi == "None":
                         while oalink == "":
+                            time.sleep(1)
                             if oaltsite == "1":
                                 ojson = s.get(f"https://ay.live/api/?", params={'api': oaltapi, 'url': omesajb, 'ct': 1}, cookies=cookies).json()
                                 oalink = ojson['shortenedUrl']
@@ -2770,6 +2772,7 @@ def poster(update, context):
                             if oaltsite == "5":
                                 oalink = s.get(f"http://pubiza.com/api.php?", params={'token': oaltapi, 'url': omesajb, 'ads_type': "adult"}).text
                     while olink == "":
+                        time.sleep(1)
                         if osite == "1":
                             ojson = s.get(f"https://ay.live/api/?", params={'api': otoken, 'url': omesajb, 'ct': 1}, cookies=cookies).json()
                             olink = ojson['shortenedUrl']
