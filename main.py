@@ -28,6 +28,7 @@ OzelCol = db["Özel Kaynaklar"]
 kara = collection.find_one({"_id": 0})['kara']
 apikara = collection.find_one({"_id": 0})['apikara']
 bottoken = collection.find_one({"_id": 0})['bottoken']
+para = collection.find_one({"_id": 0})['para']
 bot = ExtBot(bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=99))
 
 blog = -1001391561285
@@ -311,12 +312,13 @@ def joblist(update, context):
             bot.send_message(update.message.chat.id, str(jok.context)+"\n\n\n"+str(jok.name)+"\n\n\n"+str(jok.job))
 
 def parak(update, context):
+    global para
     if collection.find_one({"_id": 0})['para']:
         collection.update_one({"_id": 0}, {"$set": {"para": False}})
     else:
         collection.update_one({"_id": 0}, {"$set": {"para": True}})
-    pment = collection.find_one({"_id": 0})
-    bot.send_message(update.message.chat.id, f"Para: {pment['para']}")
+    para = collection.find_one({"_id": 0})['para']
+    bot.send_message(update.message.chat.id, f"Para: {para}")
 
 def bul(update, context):
     cnt = update.message.text.split()[1] if len(update.message.text.split()) > 1 else int(update.message.from_user.id)
