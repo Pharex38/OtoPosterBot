@@ -2964,10 +2964,10 @@ def main() -> None:
     dispatcher.add_handler(conver)
     dispatcher.add_handler(altconver)
     dispatcher.add_handler(ozelkconver)
-    dispatcher.add_handler(zamanconver, persistent=True, name='zamamconv')
-    dispatcher.add_handler(logconver, persistent=True, name='logconv')
+    dispatcher.add_handler(zamanconver)
+    dispatcher.add_handler(logconver)
 
-    dispatcher.add_handler(conv_handler, persistent=True, name='anamenuconv')
+    dispatcher.add_handler(conv_handler)
 
     dispatcher.add_handler(CommandHandler('start', start, Filters.update.message & Filters.chat_type.private))
     dispatcher.add_handler(MessageHandler(Filters.regex("^/postsil(.*)") & Filters.update.channel_post, kpostsil))
