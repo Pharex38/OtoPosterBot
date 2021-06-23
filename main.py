@@ -2719,13 +2719,6 @@ def poster(update, context):
             osira = ohesap['sira']
             opcount = ohesap['pcount']
             if len(okanal) > 0 and oret:
-                if opcount < 20:
-                    collection.update_one({"_id": ouser}, {"$inc": {"pcount": 1}})
-                else:
-                    if para and ouser not in vipler:
-                        otoken = phaapi(osite)
-                        oaltapi = phaapi(oaltsite) if oaltsite != "None" else "None"
-                    collection.update_one({"_id": ouser}, {"$set": {"pcount": 0}})
                 oalink = " "
                 olink = " "
                 if osira == "2":
