@@ -2886,7 +2886,6 @@ def gunluk(context):
     bot.pin_chat_message(botlog, msg.message_id)
 
     
-logger.info("Bot Çalışıyor...")
 bildir('Bot Başladı 🍕')
 
 def main() -> None:
@@ -2990,5 +2989,6 @@ def main() -> None:
 
 if __name__ == '__main__':
     setup_logger()
+    logger.info("Bot Çalışıyor...")
     main()
     bildir("Bot kapandı!")
