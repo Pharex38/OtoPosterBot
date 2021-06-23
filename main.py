@@ -396,8 +396,9 @@ def cpostsil(update, context):
     chat = update.message.chat.id
     if chat != sahip:
         return
-    hedef = update.message.text.split()[1] if len(update.message.text.split()) > 1 else None
-    mesid = int(update.message.text.split()[2]) if len(update.message.text.split()) > 2 else None
+
+    hedef = update.message.text.split("/")[-2] if len(update.message.text.split()) > 1 else None
+    mesid = int(update.message.text.split("/")[-1]) if len(update.message.text.split()) > 1 else None
     if hedef == None or mesid == None:
         return
     data = db[str(hedef)].find({"mesih": mesid})
