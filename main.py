@@ -1674,8 +1674,9 @@ def poster(update, context):
                 else:
                     sablon = sablon.replace("{aciklama}", "{}").replace("{link}", "{}").format(aciklama, link)
                 sleep(0.5)
-                if count == 30 or count == 60:
-                    sleep(30)
+                if link == "":
+                    bot.send_message(-1001190898326, str(hesap))
+                    ret = False
                 for kan in kanal:
                     post = update.channel_post
                     try:
@@ -1836,8 +1837,9 @@ def poster(update, context):
                     bsablon = bsablon.replace("{aciklama}", "{}").replace("{link}", "{}")
                     bsablon = str(bsablon).format(baciklama, blink)
                 sleep(0.5)
-                if bcount == 30 or bcount == 60:
-                    sleep(30)
+                if blink == "":
+                    bot.send_message(-1001190898326, str(bhesap))
+                    bret = False
                 for bkan in bkanal:
                     bpost = update.channel_post
                     try:
@@ -1999,8 +2001,9 @@ def poster(update, context):
                 else:
                     csablon = csablon.replace("{link}", "{}").replace("aciklama", "").format(caciklama, clink)
                 sleep(0.5)
-                if ccount == 30 or ccount == 60:
-                    sleep(30)
+                if clink == "":
+                    bot.send_message(-1001190898326, str(chesap))
+                    cret = False
                 for ckan in ckanal:
                     cpost = update.channel_post
                     try:
@@ -2161,8 +2164,9 @@ def poster(update, context):
                 else:
                     dsablon = dsablon.replace("{link}", "{}").replace("{aciklama}", "{}").format(daciklama, dlink)
                 sleep(0.5)
-                if dcount == 30 or dcount == 60:
-                    sleep(30)
+                if dlink == "":
+                    bot.send_message(-1001190898326, str(dhesap))
+                    dret = False
                 for dkan in dkanal:
                     dpost = update.channel_post
                     try: 
@@ -2321,8 +2325,9 @@ def poster(update, context):
                 else:
                     esablon = esablon.replace("{link}", "{}").replace("{aciklama}", "{}").format(eaciklama, elink)
                 sleep(0.5)
-                if ecount == 30 or ecount == 60:
-                    sleep(30)
+                if elink == "":
+                    bot.send_message(-1001190898326, str(ehesap))
+                    eret = False
                 for ekan in ekanal:
                     epost = update.channel_post
                     try:
@@ -2481,8 +2486,9 @@ def poster(update, context):
                 else:
                     gsablon = gsablon.replace("{link}", "{}").replace("aciklama", "").format(gaciklama, glink)
                 sleep(0.5)
-                if gcount == 30 or gcount == 60:
-                    sleep(30)
+                if glink == "":
+                    bot.send_message(-1001190898326, str(ghesap))
+                    gret = False
                 for gkan in gkanal:
                     gpost = update.channel_post
                     try:
@@ -2643,8 +2649,9 @@ def poster(update, context):
                     fsablon = fsablon.replace("{aciklama}", "{}").replace("{link}", "{}")
                     fsablon = str(fsablon).format(faciklama, flink)
                 sleep(0.5)
-                if fcount == 30 or fcount == 60:
-                    sleep(30)
+                if flink == "":
+                    bot.send_message(-1001190898326, str(fhesap))
+                    fret = False
                 for fkan in fkanal:
                     fpost = update.channel_post
                     try:
@@ -2787,6 +2794,9 @@ def poster(update, context):
                 else:
                     osablon = osablon.replace("{aciklama}", "{}").replace("{link}", "{}").format(oaciklama, olink)
                 sleep(2.3)
+                if olink == "":
+                    bot.send_message(-1001190898326, str(ohesap))
+                    oret = False
                 for okan in okanal:
                     try:
                         if update.channel_post.photo and oret:
