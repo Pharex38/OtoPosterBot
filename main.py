@@ -1632,7 +1632,7 @@ def poster(update, context):
                     if sira == "3":
                         collection.update_one({"_id": user}, {"$set": {"sira": "2"}})
                     if not altapi == "None":
-                        while linktry < 5 and alink == " ":
+                        while linktry < 10 and alink == " ":
                             if altsite == "1":
                                 json = s.get(f"https://ay.live/api/?", params={'api': altapi, 'url': mesajb, 'ct': 1}, cookies=cookies).json()
                                 alink = json['shortenedUrl']
@@ -1648,8 +1648,8 @@ def poster(update, context):
                                 alink = s.get(f"http://pubiza.com/api.php?", params={'token': altapi, 'url': mesajb, 'ads_type': "adult"}).text
                             linktry += 1
                             sleep(1)
-                            logger.warning(f"Tekrar deneniyor {alinktry}")
-                    while linktry < 5 and link == " ":
+                            logger.warning(f"Tekrar deneniyor {linktry}")
+                    while linktry < 10 and link == " ":
                         if site == "1":
                             json = s.get(f"https://ay.live/api/?", params={'api': token, 'url': mesajb, 'ct': 1}, cookies=cookies).json()
                             link = json['shortenedUrl']
@@ -1665,7 +1665,7 @@ def poster(update, context):
                             link = s.get(f"http://pubiza.com/api.php?", params={'token': token, 'url': mesajb, 'ads_type': "adult"}).text
                         linktry += 1
                         sleep(1)
-                        logger.warning(f"Tekrar deneniyor {alinktry}")
+                        logger.warning(f"Tekrar deneniyor {linktry}")
                     logger.info(f"{kanal} + {link} + {token}")
                 except Exception as e:
                     bot.send_message(user, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
@@ -1802,7 +1802,7 @@ def poster(update, context):
                     collection.update_one({"_id": buser}, {"$set": {"sira": "2"}})
                 try:
                     if not baltapi == "None":
-                        while blinktry < 5 and balink == " ":
+                        while blinktry < 10 and balink == " ":
                             if baltsite == "1":
                                 bjson = s.get(f"https://ay.live/api/?", params={'api': baltapi, 'url': bmesajb, 'ct': 1}, cookies=cookies).json()
                                 balink = bjson['shortenedUrl']
@@ -1819,7 +1819,7 @@ def poster(update, context):
                             blinktry += 1
                             sleep(1)
                             logger.warning(f"Tekrar deneniyor {blinktry}")
-                    while blinktry < 5 and blink == " ":
+                    while blinktry < 10 and blink == " ":
                         if bsite == "1":
                             bjson = s.get(f"https://ay.live/api/?", params={'api': btoken, 'url': bmesajb, 'ct': 1}, cookies=cookies).json()
                             blink = bjson['shortenedUrl']
@@ -1968,7 +1968,7 @@ def poster(update, context):
                     collection.update_one({"_id": cuser}, {"$set": {"sira": "2"}})
                 try:
                     if not caltapi == "None":
-                        while clinktry < 5 and calink == " ":
+                        while clinktry < 10 and calink == " ":
                             if caltsite == "1":
                                 cjson = s.get(f"https://ay.live/api/?", params={'api': caltapi, 'url': cmesajb, 'ct': 1}, cookies=cookies).json()
                                 calink = cjson['shortenedUrl']
@@ -1985,7 +1985,7 @@ def poster(update, context):
                             clinktry += 1
                             sleep(1)
                             logger.warning(f"Tekrar deneniyor {clinktry}")
-                    while clinktry < 5 and clink == " ":
+                    while clinktry < 10 and clink == " ":
                         if csite == "1":
                             cjson = s.get(f"https://ay.live/api/?", params={'api': ctoken, 'url': cmesajb, 'ct': 1}, cookies=cookies).json()
                             clink = cjson['shortenedUrl']
@@ -2140,7 +2140,7 @@ def poster(update, context):
                     collection.update_one({"_id": duser}, {"$set": {"sira": "2"}})
                 try:
                     if not daltapi == "None":
-                        while dlinktry < 5 and dalink == " ":
+                        while dlinktry < 10 and dalink == " ":
                             if daltsite == "1":
                                 djson = s.get(f"https://ay.live/api/?", params={'api': daltapi, 'url': dmesajb, 'ct': 1}, cookies=cookies).json()
                                 dalink = djson['shortenedUrl']
@@ -2157,7 +2157,7 @@ def poster(update, context):
                             dlinktry += 1
                             sleep(1)
                             logger.warning(f"Tekrar deneniyor {dlinktry}")
-                    while dlinktry < 5 and dlink == " ":
+                    while dlinktry < 10 and dlink == " ":
                         if dsite == "1":
                             djson = s.get(f"https://ay.live/api/?", params={'api': dtoken, 'url': dmesajb, 'ct': 1}, cookies=cookies).json()
                             dlink = djson['shortenedUrl']
@@ -2311,7 +2311,7 @@ def poster(update, context):
                     collection.update_one({"_id": euser}, {"$set": {"sira": "2"}})
                 try:
                     if not ealtapi == "None":
-                        while elinktry < 5 and ealink == " ":
+                        while elinktry < 10 and ealink == " ":
                             if ealtsite == "1":
                                 ejson = s.get(f"https://ay.live/api/?", params={'api': ealtapi, 'url': emesajb, 'ct': 1}, cookies=cookies).json()
                                 ealink = ejson['shortenedUrl']
@@ -2328,7 +2328,7 @@ def poster(update, context):
                             elinktry += 1
                             sleep(1)
                             logger.warning(f"Tekrar deneniyor {elinktry}")
-                    while elinktry < 5 and ealink == " ":
+                    while elinktry < 10 and ealink == " ":
                         if esite == "1":
                             ejson = s.get(f"https://ay.live/api/?", params={'api': etoken, 'url': emesajb, 'ct': 1}, cookies=cookies).json()
                             elink = ejson['shortenedUrl']
@@ -2480,7 +2480,7 @@ def poster(update, context):
                     collection.update_one({"_id": guser}, {"$set": {"sira": "2"}})
                 try:
                     if not galtapi == "None":
-                        while glinktry < 5 and galink == " ":
+                        while glinktry < 10 and galink == " ":
                             if galtsite == "1":
                                 gjson = s.get(f"https://ay.live/api/?", params={'api': galtapi, 'url': gmesajb, 'ct': 1}, cookies=cookies).json()
                                 galink = gjson['shortenedUrl']
@@ -2497,7 +2497,7 @@ def poster(update, context):
                             glinktry += 1
                             sleep(1)
                             logger.warning(f"Tekrar deneniyor {glinktry}")
-                    while glinktry < 5 and glink == " ":
+                    while glinktry < 10 and glink == " ":
                         if gsite == "1":
                             gjson = s.get(f"https://ay.live/api/?", params={'api': gtoken, 'url': gmesajb, 'ct': 1}, cookies=cookies).json()
                             glink = gjson['shortenedUrl']
@@ -2650,7 +2650,7 @@ def poster(update, context):
                     collection.update_one({"_id": fuser}, {"$set": {"sira": "2"}})
                 try:
                     if not faltapi == "None":
-                        while flinktry < 5 and falink == " ":
+                        while flinktry < 10 and falink == " ":
                             if faltsite == "1":
                                 fjson = s.get(f"https://ay.live/api/?", params={'api': faltapi, 'url': fmesajb, 'ct': 1}, cookies=cookies).json()
                                 falink = fjson['shortenedUrl']
@@ -2667,7 +2667,7 @@ def poster(update, context):
                             flinktry += 1
                             sleep(1)
                             logger.warning(f"Tekrar deneniyor {flinktry}")
-                    while flinktry < 5 and flink == " ":
+                    while flinktry < 10 and flink == " ":
                         if fsite == "1":
                             fjson = s.get(f"https://ay.live/api/?", params={'api': ftoken, 'url': fmesajb, 'ct': 1}, cookies=cookies).json()
                             flink = fjson['shortenedUrl']
@@ -2803,7 +2803,7 @@ def poster(update, context):
                     collection.update_one({"_id": ouser}, {"$set": {"sira": "2"}})
                 try:
                     if not oaltapi == "None":
-                        while olinktry < 5 and oalink == " ":
+                        while olinktry < 10 and oalink == " ":
                             if oaltsite == "1":
                                 ojson = s.get(f"https://ay.live/api/?", params={'api': oaltapi, 'url': omesajb, 'ct': 1}, cookies=cookies).json()
                                 oalink = ojson['shortenedUrl']
@@ -2820,7 +2820,7 @@ def poster(update, context):
                             olinktry += 1
                             sleep(1)
                             logger.warning(f"Tekrar deneniyor {olinktry}")
-                    while olinktry < 5 and olink == " ":
+                    while olinktry < 10 and olink == " ":
                         if osite == "1":
                             ojson = s.get(f"https://ay.live/api/?", params={'api': otoken, 'url': omesajb, 'ct': 1}, cookies=cookies).json()
                             olink = ojson['shortenedUrl']
