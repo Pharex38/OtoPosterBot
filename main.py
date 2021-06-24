@@ -2065,12 +2065,12 @@ def poster(update, context):
                         cret = False
                     if not cuser in cyetkililer and cret:
                         try:
-                            membersayi = bot.get_chat_members_count(ckan)
+                            cmembersayi = bot.get_chat_members_count(ckan)
                         except:
-                            membersayi = "Bot kanaldan çıkarılmış."
+                            cmembersayi = "Bot kanaldan çıkarılmış."
                         try:
                             logger.debug(f"Hatalı kanal: {ckan}")
-                            bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {cuser}\nÜYE: {membersayi}\nKANAL: {ckan}")
+                            bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {cuser}\nÜYE: {cmembersayi}\nKANAL: {ckan}")
                             collection.update_one({"_id": cuser}, {"$pull": {"kanal": ckan}})
                             ret = False
                         except:
@@ -2251,7 +2251,7 @@ def poster(update, context):
                             dmembersayi = "Bot kanaldan çıkarılmış."
                         try:
                             logger.debug(f"Hatalı kanal: {dkan}")
-                            bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {user}\nÜYE: {dmembersayi}\nKANAL: {dkan}")
+                            bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {duser}\nÜYE: {dmembersayi}\nKANAL: {dkan}")
                             collection.update_one({"_id": duser}, {"$pull": {"kanal": dkan}})
                             dret = False
                         except:
