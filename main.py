@@ -1574,6 +1574,7 @@ def pat(update, context):
     return ConversationHandler.END
    
 def poster(update, context):
+    global postersira
     okaynak = None
     chat = update.channel_post.chat.id
     vipler = collection.find_one({"_id": 0})['vipuye']
