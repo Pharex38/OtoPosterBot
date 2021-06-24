@@ -466,17 +466,18 @@ def duy(update, context):
         duyurumsg = update.message.reply_to_message.text
         kullanicilar = collection.find({})
         for kullanici in kullanicilar:
-            try:
-                dmsg = bot.send_message(kullanici['_id'], duyurumsg, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("😕 Bilgilerimi sil", callback_data="dsil")], [InlineKeyboardButton("✅ Kullanmaya devam etmek istiyorum.", callback_data="devam")]]))
-            except Exception as e:
-                logger.error(e)
-            else:
-                duyurus += 1
-                kont = db[str(chat)].find_one({"_id": kullanici['_id']})
-                if kont == None:
-                    db[str(chat)].insert_one({"_id": kullanici['_id'], "mid": dmsg.message_id})
+            if len(kullanici['kanal']) > 0
+                try:
+                    dmsg = bot.send_message(kullanici['_id'], duyurumsg, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("😕 Bilgilerimi sil", callback_data="dsil")], [InlineKeyboardButton("✅ Kullanmaya devam etmek istiyorum.", callback_data="devam")]]))
+                except Exception as e:
+                    logger.error(e)
                 else:
-                    db[str(chat)].update_one({"_id": kullanici['_id']}, {"$set": {"mid": dmsg.message_id}})
+                    duyurus += 1
+                    kont = db[str(chat)].find_one({"_id": kullanici['_id']})
+                    if kont == None:
+                        db[str(chat)].insert_one({"_id": kullanici['_id'], "mid": dmsg.message_id})
+                    else:
+                        db[str(chat)].update_one({"_id": kullanici['_id']}, {"$set": {"mid": dmsg.message_id}})
                     
         bot.send_message(chat, "{} Kişiye Duyuru Mesajı Gönderildi!".format(duyurus))
 
