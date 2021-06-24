@@ -1687,7 +1687,7 @@ def poster(update, context):
                     ret = False
                 for kan in kanal:
                     post = update.channel_post
-                    yetkililer = [xy.id for xy in bot.get_chat_administrators(kan)]
+                    yetkililer = [xy.user.id for xy in bot.get_chat_administrators(kan)]
                     if not user in yetkililer:
                         try:
                             logger.debug(f"Hatalı kanal: {kanal}")
@@ -2031,7 +2031,7 @@ def poster(update, context):
                     cret = False
                 for ckan in ckanal:
                     cpost = update.channel_post
-                    cyetkililer = [cxy.id for cxy in bot.get_chat_administrators(ckan)]
+                    cyetkililer = [cxy.user.id for cxy in bot.get_chat_administrators(ckan)]
                     if not cuser in cyetkililer:
                         try:
                             logger.debug(f"Hatalı kanal: {ckan}")
