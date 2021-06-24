@@ -2841,6 +2841,8 @@ def poster(update, context):
                                 logger.error(e)
                             else:
                                 logger.debug(f"{okan} kayıtlardan silindi.")
+                        else:
+                            logger.error(e)
                     else:
                         ocount += 1                     
                 logger.info("Başarılı!")
