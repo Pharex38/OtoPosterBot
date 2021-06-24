@@ -2179,6 +2179,7 @@ def poster(update, context):
                             dlinktry += 1
                             sleep(1)
                             if dlinktry > 1:
+                                print(djson,"\n")
                                 logger.warning(f"Tekrar deneniyor {dlinktry}")
                     while dlinktry < 10 and dlink == " ":
                         if dsite == "1":
@@ -2197,6 +2198,7 @@ def poster(update, context):
                         dlinktry += 1
                         sleep(1)
                         if dlinktry > 1:
+                            print(djson,"\n")
                             logger.warning(f"Tekrar deneniyor {dlinktry}")
                     logger.info(f"{dkanal} + {dlink} + {dtoken}")
                 except Exception as e:
