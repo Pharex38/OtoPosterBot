@@ -186,7 +186,7 @@ def setup_logger():
     logger = logging.getLogger("main_log")
     logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=logging.INFO)
     logger.addHandler(file_handler)
-    logger.addHandler(stream_handler)
+    #logger.addHandler(stream_handler)
 
 
 ############## Komutlar #####################
