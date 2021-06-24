@@ -821,6 +821,7 @@ def callback_query(call, context):
 ################## Jobs #####################
 
 def jobyedekleme(context):
+    global postersira
     collection.update_one({"_id": 0}, {"$set": {"jobs": []}})
     yjcount = 0
     for kap in context.job_queue.jobs():
