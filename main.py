@@ -399,7 +399,7 @@ def cpostsil(update, context):
     if chat != sahip:
         return
 
-    hedef = update.message.text.split("/")[-2] if len(update.message.text.split()) > 1 else None
+    hedef = "-100"+update.message.text.split("/")[-2] if len(update.message.text.split()) > 1 else None
     mesid = int(update.message.text.split("/")[-1]) if len(update.message.text.split()) > 1 else None
     if hedef == None or mesid == None:
         return
