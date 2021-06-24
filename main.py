@@ -464,8 +464,7 @@ def duy(update, context):
     duyurus = 0
     if update.message.reply_to_message:
         duyurumsg = update.message.reply_to_message.text
-        #kullanicilar = collection.find({})
-        kullanicilar = [{"_id": sahip}]
+        kullanicilar = collection.find({})
         for kullanici in kullanicilar:
             try:
                 dmsg = bot.send_message(kullanici['_id'], duyurumsg, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("😕 Bilgilerimi sil", callback_data="dsil")], [InlineKeyboardButton("✅ Kullanmaya devam etmek istiyorum.", callback_data="devam")]]))
