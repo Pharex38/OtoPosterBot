@@ -1479,7 +1479,8 @@ def pat(update, context):
     """Link Tespit"""
     psol = mesaj.find("http")
     psag = mesaj.find("\n", psol)
-    print(update.message.parse_caption_entity.type)
+    print(update.message.parse_caption_entity())
+    print(update.message.parse_caption_entity().type)
     plink = mesaj[psol:psag].strip()
     if plink.startswith("https://ay") or plink.startswith("https://pgg") or plink.startswith("https://pnd") or plink.startswith("https://ouo") or plink.startswith("https://exe") or plink.startswith("https://lnk"):
         bot.send_message(chat, "Oops sanırım zaten kısaltılmış bir linki kısaltmaya çalışıyorsun. Üzgünüm bu bot linkleri kendisi geçemez.", reply_markup=imark())
