@@ -2022,7 +2022,7 @@ def poster(update, context):
                         if update.channel_post.animation:
                             cpost = bot.send_animation(ckan, cmedya, caption = csablon)
                     except Exception as e:
-                        if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or e == str(e).find("bot is not a member of ") != -1:
+                        if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not a member of ") != -1:
                             try:
                                 logger.debug(f"Hatalı kanal: {ckanal}")
                                 bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {cuser}\nÜYE: {bot.get_chat_members_count(ckan)}\nKANAL: {ckan}")
