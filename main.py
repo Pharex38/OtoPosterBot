@@ -2344,13 +2344,6 @@ def poster(update, context):
                             epost = bot.send_video(ekan, emedya, caption=esablon)
                         if update.channel_post.animation and eret:
                             epost = bot.send_animation(ekan, emedya, caption=esablon)
-                    except BadRequest as bd:
-                        if bd.args == "Chat is not found":
-                            raise Unauthorized
-                        else:
-                            logger.error(bd)
-                    except Unauthorized:
-                        
                     except Exception as e:
                         if e.find("Chat is not found") != -1 or e.find("Forbidden: bot is not a member of the channel chat") != -1 or e.find("Need administrator rights in the channel chat") != -1:
                             try:
