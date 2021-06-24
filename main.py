@@ -1513,7 +1513,7 @@ def pat(update, context):
     try:
         if not paltapi == "None":
             if paltsite == "1":
-                pjson = s.get(f"https://ay.live/api/?", params={"api": paltapi, "url": plink, "ct": 1}, cookies=cookies).json()
+                pjson = s.get(f"https://ay.live/api/?", params={"api": paltapi, "url": plink, "ct": 1}).json()
                 palink = pjson['shortenedUrl']
             if paltsite == "2":
                 pjson = s.get(f"https://www.pnd.tl/api?", params={'api': paltapi, 'url': plink, 'category': 6}).json()
@@ -1526,7 +1526,7 @@ def pat(update, context):
             if paltsite == "5":
                 palink = s.get(f"http://pubiza.com/api.php?", params={"token": paltapi, "url": plink, "ads_type": "adult"}).text
         if psite == "1":
-            pjson = s.get(f"https://ay.live/api/?", params={"api": ptoken, "url": plink, "ct": 1}, cookies=cookies).json()
+            pjson = s.get(f"https://ay.live/api/?", params={"api": ptoken, "url": plink, "ct": 1}).json()
             plink = pjson['shortenedUrl']
         if psite == "2":
             pjson = get(f"https://www.pnd.tl/api?", params={'api': ptoken, 'url': plink, 'category': 6}).json()
@@ -1634,7 +1634,7 @@ def poster(update, context):
                     if not altapi == "None":
                         while linktry < 10 and alink == " ":
                             if altsite == "1":
-                                json = s.get(f"https://ay.live/api/?", params={'api': altapi, 'url': mesajb, 'ct': 1}, cookies=cookies).json()
+                                json = s.get(f"https://ay.live/api/?", params={'api': altapi, 'url': mesajb, 'ct': 1}).json()
                                 alink = json['shortenedUrl']
                             if altsite == "2":
                                 json = s.get(f"https://www.pnd.tl/api?", params={'api': altapi, 'url': mesajb, 'category': 6}).json()
@@ -1652,7 +1652,7 @@ def poster(update, context):
                                 logger.warning(f"Tekrar deneniyor {linktry}")
                     while linktry < 10 and link == " ":
                         if site == "1":
-                            json = s.get(f"https://ay.live/api/?", params={'api': token, 'url': mesajb, 'ct': 1}, cookies=cookies).json()
+                            json = s.get(f"https://ay.live/api/?", params={'api': token, 'url': mesajb, 'ct': 1}).json()
                             link = json['shortenedUrl']
                         if site == "2":
                             json = s.get(f"https://www.pnd.tl/api?", params={'api': token, 'url': mesajb, 'category': 6}).json()
@@ -1709,6 +1709,8 @@ def poster(update, context):
                                 pass   
                             else:
                                 logger.debug(f"{kanal} kayıtlardan silindi.")
+                        else:
+                            logger.error(e)
                     else:
                         count = count + 1
                         postdata.insert_one({"pid": post.message_id, "chat": kan, "mesih": mesjid})
@@ -1795,7 +1797,7 @@ def poster(update, context):
                     if not baltapi == "None":
                         while blinktry < 10 and balink == " ":
                             if baltsite == "1":
-                                bjson = s.get(f"https://ay.live/api/?", params={'api': baltapi, 'url': bmesajb, 'ct': 1}, cookies=cookies).json()
+                                bjson = s.get(f"https://ay.live/api/?", params={'api': baltapi, 'url': bmesajb, 'ct': 1}).json()
                                 balink = bjson['shortenedUrl']
                             if baltsite == "2":
                                 bjson = s.get(f"https://www.pnd.tl/api?", params={'api': baltapi, 'url': bmesajb, 'category': 6}).json()
@@ -1813,7 +1815,7 @@ def poster(update, context):
                                 logger.warning(f"Tekrar deneniyor {blinktry}")
                     while blinktry < 10 and blink == " ":
                         if bsite == "1":
-                            bjson = s.get(f"https://ay.live/api/?", params={'api': btoken, 'url': bmesajb, 'ct': 1}, cookies=cookies).json()
+                            bjson = s.get(f"https://ay.live/api/?", params={'api': btoken, 'url': bmesajb, 'ct': 1}).json()
                             blink = bjson['shortenedUrl']
                         if bsite == "2":
                             bjson = s.get(f"https://www.pnd.tl/api?", params={'api': btoken, 'url': bmesajb, 'category': 6}).json()
@@ -1975,7 +1977,7 @@ def poster(update, context):
                                 logger.warning(f"Tekrar deneniyor {clinktry}")
                     while clinktry < 10 and clink == " ":
                         if csite == "1":
-                            cjson = s.get(f"https://ay.live/api/?", params={'api': ctoken, 'url': cmesajb, 'ct': 1}, cookies=cookies).json()
+                            cjson = s.get(f"https://ay.live/api/?", params={'api': ctoken, 'url': cmesajb, 'ct': 1}).json()
                             clink = cjson['shortenedUrl']
                         if csite == "2":
                             cjson = s.get(f"https://www.pnd.tl/api?", params={'api': ctoken, 'url': cmesajb, 'category': 6}).json()
@@ -2120,7 +2122,7 @@ def poster(update, context):
                     if not daltapi == "None":
                         while dlinktry < 10 and dalink == " ":
                             if daltsite == "1":
-                                djson = s.get(f"https://ay.live/api/?", params={'api': daltapi, 'url': dmesajb, 'ct': 1}, cookies=cookies).json()
+                                djson = s.get(f"https://ay.live/api/?", params={'api': daltapi, 'url': dmesajb, 'ct': 1}).json()
                                 dalink = djson['shortenedUrl']
                             if daltsite == "2":
                                 djson = s.get(f"https://www.pnd.tl/api?", params={'api': daltapi, 'url': dmesajb, 'category': 6}).json()
@@ -2138,7 +2140,7 @@ def poster(update, context):
                                 logger.warning(f"Tekrar deneniyor {dlinktry}")
                     while dlinktry < 10 and dlink == " ":
                         if dsite == "1":
-                            djson = s.get(f"https://ay.live/api/?", params={'api': dtoken, 'url': dmesajb, 'ct': 1}, cookies=cookies).json()
+                            djson = s.get(f"https://ay.live/api/?", params={'api': dtoken, 'url': dmesajb, 'ct': 1}).json()
                             dlink = djson['shortenedUrl']
                         if dsite == "2":
                             djson = s.get(f"https://www.pnd.tl/api?", params={'api': dtoken, 'url': dmesajb, 'category': 6}).json()
@@ -2282,7 +2284,7 @@ def poster(update, context):
                     if not ealtapi == "None":
                         while elinktry < 10 and ealink == " ":
                             if ealtsite == "1":
-                                ejson = s.get(f"https://ay.live/api/?", params={'api': ealtapi, 'url': emesajb, 'ct': 1}, cookies=cookies).json()
+                                ejson = s.get(f"https://ay.live/api/?", params={'api': ealtapi, 'url': emesajb, 'ct': 1}).json()
                                 ealink = ejson['shortenedUrl']
                             if ealtsite == "2":
                                 ejson = s.get(f"https://www.pnd.tl/api?", params={'api': ealtapi, 'url': emesajb, 'category': 6}).json()
@@ -2300,7 +2302,7 @@ def poster(update, context):
                                 logger.warning(f"Tekrar deneniyor {elinktry}")
                     while elinktry < 10 and ealink == " ":
                         if esite == "1":
-                            ejson = s.get(f"https://ay.live/api/?", params={'api': etoken, 'url': emesajb, 'ct': 1}, cookies=cookies).json()
+                            ejson = s.get(f"https://ay.live/api/?", params={'api': etoken, 'url': emesajb, 'ct': 1}).json()
                             elink = ejson['shortenedUrl']
                         if esite == "2":
                             ejson = s.get(f"https://www.pnd.tl/api?", params={'api': etoken, 'url': emesajb, 'category': 6}).json()
@@ -2443,7 +2445,7 @@ def poster(update, context):
                     if not galtapi == "None":
                         while glinktry < 10 and galink == " ":
                             if galtsite == "1":
-                                gjson = s.get(f"https://ay.live/api/?", params={'api': galtapi, 'url': gmesajb, 'ct': 1}, cookies=cookies).json()
+                                gjson = s.get(f"https://ay.live/api/?", params={'api': galtapi, 'url': gmesajb, 'ct': 1}).json()
                                 galink = gjson['shortenedUrl']
                             if galtsite == "2":
                                 gjson = s.get(f"https://www.pnd.tl/api?", params={'api': galtapi, 'url': gmesajb, 'category': 6}).json()
@@ -2461,7 +2463,7 @@ def poster(update, context):
                                 logger.warning(f"Tekrar deneniyor {glinktry}")
                     while glinktry < 10 and glink == " ":
                         if gsite == "1":
-                            gjson = s.get(f"https://ay.live/api/?", params={'api': gtoken, 'url': gmesajb, 'ct': 1}, cookies=cookies).json()
+                            gjson = s.get(f"https://ay.live/api/?", params={'api': gtoken, 'url': gmesajb, 'ct': 1}).json()
                             glink = gjson['shortenedUrl']
                         if gsite == "2":
                             gjson = s.get(f"https://www.pnd.tl/api?", params={'api': gtoken, 'url': gmesajb, 'category': 6}).json()
@@ -2604,7 +2606,7 @@ def poster(update, context):
                     if not faltapi == "None":
                         while flinktry < 10 and falink == " ":
                             if faltsite == "1":
-                                fjson = s.get(f"https://ay.live/api/?", params={'api': faltapi, 'url': fmesajb, 'ct': 1}, cookies=cookies).json()
+                                fjson = s.get(f"https://ay.live/api/?", params={'api': faltapi, 'url': fmesajb, 'ct': 1}).json()
                                 falink = fjson['shortenedUrl']
                             if faltsite == "2":
                                 fjson = s.get(f"https://www.pnd.tl/api?", params={'api': faltapi, 'url': fmesajb, 'category': 6}).json()
@@ -2622,7 +2624,7 @@ def poster(update, context):
                                 logger.warning(f"Tekrar deneniyor {flinktry}")
                     while flinktry < 10 and flink == " ":
                         if fsite == "1":
-                            fjson = s.get(f"https://ay.live/api/?", params={'api': ftoken, 'url': fmesajb, 'ct': 1}, cookies=cookies).json()
+                            fjson = s.get(f"https://ay.live/api/?", params={'api': ftoken, 'url': fmesajb, 'ct': 1}).json()
                             flink = fjson['shortenedUrl']
                         if fsite == "2":
                             fjson = s.get(f"https://www.pnd.tl/api?", params={'api': ftoken, 'url': fmesajb, 'category': 6}).json()
@@ -2755,7 +2757,7 @@ def poster(update, context):
                     if not oaltapi == "None":
                         while olinktry < 10 and oalink == " ":
                             if oaltsite == "1":
-                                ojson = s.get(f"https://ay.live/api/?", params={'api': oaltapi, 'url': omesajb, 'ct': 1}, cookies=cookies).json()
+                                ojson = s.get(f"https://ay.live/api/?", params={'api': oaltapi, 'url': omesajb, 'ct': 1}).json()
                                 oalink = ojson['shortenedUrl']
                             if oaltsite == "2":
                                 ojson = s.get(f"https://www.pnd.tl/api?", params={'api': oaltapi, 'url': omesajb, 'category': 6}).json()
@@ -2773,7 +2775,7 @@ def poster(update, context):
                                 logger.warning(f"Tekrar deneniyor {olinktry}")
                     while olinktry < 10 and olink == " ":
                         if osite == "1":
-                            ojson = s.get(f"https://ay.live/api/?", params={'api': otoken, 'url': omesajb, 'ct': 1}, cookies=cookies).json()
+                            ojson = s.get(f"https://ay.live/api/?", params={'api': otoken, 'url': omesajb, 'ct': 1}).json()
                             olink = ojson['shortenedUrl']
                         if osite == "2":
                             ojson = s.get(f"https://www.pnd.tl/api?", params={'api': otoken, 'url': omesajb, 'category': 6}).json()
