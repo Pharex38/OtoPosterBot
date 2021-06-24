@@ -493,7 +493,7 @@ def dsil(m, context):
             logger.error(e)
         else:
             sd += 1
-            db[str(chat)].remove({"_id": t['_id']})
+            db[str(chat)].delete_one({"_id": t['_id']})
     bot.send_message(chat, "{} Duyuru Mesajı Silindi!".format(sd))
         
 def post(update, context):
@@ -641,7 +641,7 @@ def callback_query(call, context):
         call.callback_query.answer("Adamsın.")
         call.callback_query.edit_message_text("❤️")
     if call.callback_query.data == "dsil":
-        collection.remove({"_id": user})
+        collection.delete_one({"_id": user})
         call.callback_query.answer("💔")
         call.callback_query.edit_message_text("💔")
         bot.send_message(chat, "Tüm bilgileriniz silindi.", reply_markup=dagme())
