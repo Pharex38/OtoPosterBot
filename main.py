@@ -1690,6 +1690,7 @@ def poster(update, context):
                     ret = False
                 for kan in kanal:
                     post = update.channel_post
+                    yetkililer = [xy.id for xy in bot.get_chat_administrators(kan)]
                     try:
                         if update.channel_post.photo and ret:
                             post = bot.send_photo(kan, medya, caption=sablon)
