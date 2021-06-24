@@ -16,7 +16,7 @@ from telegram.utils.helpers import *
 mpass = os.environ['MONGOPASS']
 mongo = f"os.environ["MONGO_URI"]"
 
-
+postersira = 0
 pid = os.getpid()
 open("pid.txt", "w").write(str(pid))
 print(pid)
@@ -833,6 +833,8 @@ def jobyedekleme(context):
                 collection.update_one({"_id": 0}, {"$push": {"jobs": kapdct}})
                 yjcount += 1
     logger.warning(str(yjcount)+" Adet Job Yedeklendi!")
+    if postersira > 2 or postersira < 0:
+        postersira = 0
 
 def deljob(context):
     delcont = context.job.context
@@ -1570,16 +1572,14 @@ def pat(update, context):
     context.user_data['fid'] = fid
     bot.send_message(chat, "Zamanlamak ister misiniz?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Şimdi Gönder", callback_data="simdi")], [InlineKeyboardButton("Zamanla", callback_data="pzamanla")]]))
     return ConversationHandler.END
-
-postersira = 0
-
+   
 def poster(update, context):
     okaynak = None
     chat = update.channel_post.chat.id
     vipler = collection.find_one({"_id": 0})['vipuye']
     # Link Mahzeni
     if chat == kaynaklar[0] and mahzen:
-        while postersira == 2:
+        while postersira >= 2:
             sleep(2)
         postersira += 1
         count = 0
@@ -1762,7 +1762,7 @@ def poster(update, context):
         postersira -= 1
     # Bedava Link
     elif chat == kaynaklar[1] and bedava:
-        while postersira == 2:
+        while postersira >= 2:
             sleep(2)
         postersira += 1
         bcount = 0
@@ -1946,7 +1946,7 @@ def poster(update, context):
         postersira -= 1
     # Link Evi
     elif chat == kaynaklar[2] and evi:
-        while postersira == 2:
+        while postersira >= 2:
             sleep(2)
         postersira += 1
         ccount = 0
@@ -2137,7 +2137,7 @@ def poster(update, context):
         postersira -= 1
     # BAŞHUB
     elif chat == kaynaklar[3] and bashub:
-        while postersira == 2:
+        while postersira >= 2:
             sleep(2)
         postersira += 1
         dcount = 0
@@ -2323,7 +2323,7 @@ def poster(update, context):
         postersira -= 1
     # Açık mı link
     elif chat == kaynaklar[4] and acikmi:
-        while postersira == 2:
+        while postersira >= 2:
             sleep(2)
         postersira += 1
         ecount = 0
@@ -2507,7 +2507,7 @@ def poster(update, context):
         postersira -= 1
     # MuhoVip
     elif chat == kaynaklar[5] and muho:
-        while postersira == 2:
+        while postersira >= 2:
             sleep(2)
         postersira += 1
         gcount = 0
@@ -2690,7 +2690,7 @@ def poster(update, context):
         postersira -= 1
     # Tutan Linkler
     elif chat == kaynaklar[6] and tutan:
-        while postersira == 2:
+        while postersira >= 2:
             sleep(2)
         postersira += 1
         fcount = 0
@@ -2876,7 +2876,7 @@ def poster(update, context):
     else:
         okaynak = OzelCol.find_one({"okaynak": chat})
     if okaynak != None:
-        while postersira == 2:
+        while postersira >= 2:
             sleep(2)
         postersira += 1
         ocount = 0
