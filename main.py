@@ -1815,6 +1815,7 @@ def poster(update, context):
                         if bsite == "1":
                             bjson = s.get(f"https://ay.live/api/?", params={'api': btoken, 'url': bmesajb, 'ct': 1}, cookies=cookies).json()
                             blink = bjson['shortenedUrl']
+                            print(bjson)
                         if bsite == "2":
                             bjson = s.get(f"https://www.pnd.tl/api?", params={'api': btoken, 'url': bmesajb, 'category': 6}).json()
                             blink = bjson['shortenedUrl']
