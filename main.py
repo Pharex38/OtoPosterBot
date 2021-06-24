@@ -2362,7 +2362,7 @@ def poster(update, context):
                             sleep(1)
                             if elinktry > 1:
                                 logger.warning(f"Tekrar deneniyor {elinktry}")
-                    while elinktry < 10 and ealink == " ":
+                    while elinktry < 10 and elink == " ":
                         if esite == "1":
                             ejson = s.get(f"https://ay.live/api/?", params={'api': etoken, 'url': emesajb, 'ct': 1}).json()
                             elink = ejson['shortenedUrl']
