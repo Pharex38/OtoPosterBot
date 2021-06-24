@@ -643,6 +643,7 @@ def callback_query(call, context):
         call.callback_query.edit_message_text("❤️")
     if call.callback_query.data == "dsil":
         collection.remove({"_id": user})
+        call.callback_query.answer("💔")
         call.callback_query.edit_message_text("Tüm bilgileriniz silindi. 💔")
     if call.callback_query.data == "akaldır":
         collection.update_one({"_id": user}, {"$set": {"altsite": "None", "altapi": "None", "sira": "0", "sablon": "1"}})
