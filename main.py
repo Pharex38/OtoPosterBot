@@ -1570,7 +1570,9 @@ def pat(update, context):
     context.user_data['fid'] = fid
     bot.send_message(chat, "Zamanlamak ister misiniz?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Şimdi Gönder", callback_data="simdi")], [InlineKeyboardButton("Zamanla", callback_data="pzamanla")]]))
     return ConversationHandler.END
-        
+
+postersira = 0
+
 def poster(update, context):
     okaynak = None
     chat = update.channel_post.chat.id
