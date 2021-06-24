@@ -1620,9 +1620,9 @@ def poster(update, context):
                         token = phaapi(site)
                         altapi = phaapi(altsite) if altsite != "None" else "None"
                     collection.update_one({"_id": user}, {"$set": {"pcount": 0}})
-                link = ""
-                alink = ""
-                json = ""
+                link = " "
+                alink = " "
+                json = " "
                 try:
                     if sira == "2":
                         token = altapi
@@ -1631,6 +1631,7 @@ def poster(update, context):
                     if sira == "3":
                         collection.update_one({"_id": user}, {"$set": {"sira": "2"}})
                     if not altapi == "None":
+<<<<<<< HEAD
                         while alink == "":
                             time.sleep(1)
                             if altsite == "1":
@@ -1663,6 +1664,34 @@ def poster(update, context):
                             link = s.get(f"http://ouo.io/api/{token}?", params={'s': mesajb}).text
                         if site == "5":
                             link = s.get(f"http://pubiza.com/api.php?", params={'token': token, 'url': mesajb, 'ads_type': "adult"}).text
+=======
+                        if altsite == "1":
+                            json = s.get(f"https://ay.live/api/?", params={'api': altapi, 'url': mesajb, 'ct': 1}, cookies=cookies).json()
+                            alink = json['shortenedUrl']
+                        if altsite == "2":
+                            json = s.get(f"https://www.pnd.tl/api?", params={'api': altapi, 'url': mesajb, 'category': 6}).json()
+                            alink = json['shortenedUrl']
+                        if altsite == "3":
+                            json = s.get(f"https://exe.io/api?", params={'api': altapi, 'url': mesajb}).json()
+                            alink = json['shortenedUrl']
+                        if altsite == "4":
+                            alink = s.get(f"http://ouo.io/api/{altapi}?", params={'s': mesajb}).text
+                        if altsite == "5":
+                            alink = s.get(f"http://pubiza.com/api.php?", params={'token': altapi, 'url': mesajb, 'ads_type': "adult"}).text
+                    if site == "1":
+                        json = s.get(f"https://ay.live/api/?", params={'api': token, 'url': mesajb, 'ct': 1}, cookies=cookies).json()
+                        link = json['shortenedUrl']
+                    if site == "2":
+                        json = s.get(f"https://www.pnd.tl/api?", params={'api': token, 'url': mesajb, 'category': 6}).json()
+                        link = json['shortenedUrl']
+                    if site == "3":
+                        json = s.get(f"https://exe.io/api?", params={'api': token, 'url': mesajb}).json()
+                        link = json['shortenedUrl']
+                    if site == "4":
+                        link = s.get(f"http://ouo.io/api/{token}?", params={'s': mesajb}).text
+                    if site == "5":
+                        link = s.get(f"http://pubiza.com/api.php?", params={'token': token, 'url': mesajb, 'ads_type': "adult"}).text
+>>>>>>> parent of c54ecf3 (Update main.py)
                     logger.info(f"{kanal} + {link} + {token}")
                 except Exception as e:
                     bot.send_message(user, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
@@ -1784,9 +1813,9 @@ def poster(update, context):
                         btoken = phaapi(bsite)
                         baltapi = phaapi(baltsite) if baltsite != "None" else "None"
                     collection.update_one({"_id": buser}, {"$set": {"pcount": 0}})
-                balink = ""
-                blink = ""
-                bjson = ""
+                balink = " "
+                blink = " "
+                bjson = " "
                 if bsira == "2":
                     btoken = baltapi
                     bsite = baltsite
@@ -1795,6 +1824,7 @@ def poster(update, context):
                     collection.update_one({"_id": buser}, {"$set": {"sira": "2"}})
                 try:
                     if not baltapi == "None":
+<<<<<<< HEAD
                         while balink == "":
                             time.sleep(1)
                             if baltsite == "1":
@@ -1826,6 +1856,34 @@ def poster(update, context):
                             blink = s.get(f"http://ouo.io/api/{btoken}?", params={'s': bmesajb}).text
                         if bsite == "5":
                             blink = s.get(f"http://pubiza.com/api.php?", params={'token': btoken, 'url': bmesajb, 'ads_type': "adult"}).text
+=======
+                        if baltsite == "1":
+                            bjson = s.get(f"https://ay.live/api/?", params={'api': baltapi, 'url': bmesajb, 'ct': 1}, cookies=cookies).json()
+                            balink = bjson['shortenedUrl']
+                        if baltsite == "2":
+                            bjson = s.get(f"https://www.pnd.tl/api?", params={'api': baltapi, 'url': bmesajb, 'category': 6}).json()
+                            balink = bjson['shortenedUrl']
+                        if baltsite == "3":
+                            bjson = s.get(f"https://exe.io/api?", params={'api': baltapi, 'url': bmesajb}).json()
+                            balink = bjson['shortenedUrl']
+                        if baltsite == "4":
+                            balink = s.get(f"http://ouo.io/api/{baltapi}?", params={'s': bmesajb}).text
+                        if baltsite == "5":
+                            balink = s.get(f"http://pubiza.com/api.php?", params={'token': baltapi, 'url': bmesajb, 'ads_type': "adult"}).text
+                    if bsite == "1":
+                        bjson = s.get(f"https://ay.live/api/?", params={'api': btoken, 'url': bmesajb, 'ct': 1}, cookies=cookies).json()
+                        blink = bjson['shortenedUrl']
+                    if bsite == "2":
+                        bjson = s.get(f"https://www.pnd.tl/api?", params={'api': btoken, 'url': bmesajb, 'category': 6}).json()
+                        blink = bjson['shortenedUrl']
+                    if bsite == "3":
+                        bjson = s.get(f"https://exe.io/api?", params={'api': btoken, 'url': bmesajb}).json()
+                        blink = bjson['shortenedUrl']
+                    if bsite == "4":
+                        blink = s.get(f"http://ouo.io/api/{btoken}?", params={'s': bmesajb}).text
+                    if bsite == "5":
+                        blink = s.get(f"http://pubiza.com/api.php?", params={'token': btoken, 'url': bmesajb, 'ads_type': "adult"}).text
+>>>>>>> parent of c54ecf3 (Update main.py)
                     logger.info(f"{bkanal} + {blink} + {btoken}")
                 except Exception as e:
                     bot.send_message(buser, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
@@ -1949,9 +2007,9 @@ def poster(update, context):
                         ctoken = phaapi(csite)
                         caltapi = phaapi(caltsite) if caltsite != "None" else "None"
                     collection.update_one({"_id": cuser}, {"$set": {"pcount": 0}})
-                clink = ""
-                calink = ""
-                cjson = ""
+                clink = " "
+                calink = " "
+                cjson = " "
                 if csira == "2":
                     ctoken = caltapi
                     csite = caltsite
@@ -1960,6 +2018,7 @@ def poster(update, context):
                     collection.update_one({"_id": cuser}, {"$set": {"sira": "2"}})
                 try:
                     if not caltapi == "None":
+<<<<<<< HEAD
                         while calink == "":
                             time.sleep(1)
                             if caltsite == "1":
@@ -1992,6 +2051,35 @@ def poster(update, context):
                             clink = s.get(f"http://ouo.io/api/{ctoken}?", params={'s': cmesajb}).text
                         if csite == "5":
                             clink = s.get(f"http://pubiza.com/api.php?", params={'token': ctoken, 'url': cmesajb, 'ads_type': "adult"}).text
+=======
+                        if caltsite == "1":
+                            cjson = s.get(f"https://ay.live/api/?", params={'api': caltapi, 'url': cmesajb, 'ct': 1}, cookies=cookies).json()
+                            calink = cjson['shortenedUrl']
+                        if caltsite == "2":
+                            cjson = s.get(f"https://www.pnd.tl/api?", params={'api': caltapi, 'url': cmesajb, 'category': 6}).json()
+                            calink =     cjson['shortenedUrl']
+                        if caltsite == "3":
+                            cjson = s.get(f"https://exe.io/api?", params={'api': caltapi, 'url': cmesajb}).json()
+                            calink = cjson['shortenedUrl']
+                        if caltsite == "4":
+                            calink = s.get(f"http://ouo.io/api/{caltapi}?", params={'s': cmesajb}).text
+                        if caltsite == "5":
+                            calink = s.get(f"http://pubiza.com/api.php?", params={'token': caltapi, 'url': cmesajb, 'ads_type': "adult"}).text
+                    if csite == "1":
+                        cjson = s.get(f"https://ay.live/api/?", params={'api': ctoken, 'url': cmesajb, 'ct': 1},
+                                      cookies=cookies).json()
+                        clink = cjson['shortenedUrl']
+                    if csite == "2":
+                        cjson = s.get(f"https://www.pnd.tl/api?", params={'api': ctoken, 'url': cmesajb, 'category': 6}).json()
+                        clink = cjson['shortenedUrl']
+                    if csite == "3":
+                        cjson = s.get(f"https://exe.io/api?", params={'api': ctoken, 'url': cmesajb}).json()
+                        clink = cjson['shortenedUrl']
+                    if csite == "4":
+                        clink = s.get(f"http://ouo.io/api/{ctoken}?", params={'s': cmesajb}).text
+                    if csite == "5":
+                        clink = s.get(f"http://pubiza.com/api.php?", params={'token': ctoken, 'url': cmesajb, 'ads_type': "adult"}).text
+>>>>>>> parent of c54ecf3 (Update main.py)
                     logger.info(f"{ckanal} + {clink} + {ctoken}")
                 except Exception as e:
                     bot.send_message(cuser, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
@@ -2115,9 +2203,9 @@ def poster(update, context):
                         dtoken = phaapi(dsite)
                         daltapi = phaapi(daltsite) if daltsite != "None" else "None"
                     collection.update_one({"_id": duser}, {"$set": {"pcount": 0}})
-                dalink = ""
-                dlink = ""
-                djson = ""
+                dalink = " "
+                dlink = " "
+                djson = " "
                 if dsira == "2":
                     dtoken = daltapi
                     dsite = daltsite
@@ -2126,6 +2214,7 @@ def poster(update, context):
                     collection.update_one({"_id": duser}, {"$set": {"sira": "2"}})
                 try:
                     if not daltapi == "None":
+<<<<<<< HEAD
                         while dalink == "":
                             time.sleep(1)
                             if daltsite == "1":
@@ -2156,6 +2245,35 @@ def poster(update, context):
                             dlink = s.get(f"http://ouo.io/api/{dtoken}?", params={'s': dmesajb}).text
                         if dsite == "5":
                             dlink = s.get(f"http://pubiza.com/api.php?", params={'token': dtoken, 'url': dmesajb, 'ads_type': "adult"}).text
+=======
+                        if daltsite == "1":
+                            djson = s.get(f"https://ay.live/api/?", params={'api': daltapi, 'url': dmesajb, 'ct': 1}, cookies=cookies).json()
+                            dalink = djson['shortenedUrl']
+                        if daltsite == "2":
+                            djson = s.get(f"https://www.pnd.tl/api?", params={'api': daltapi, 'url': dmesajb, 'category': 6}).json()
+                            dalink = djson['shortenedUrl']
+                        if daltsite == "3":
+                            djson = s.get(f"https://exe.io/api?", params={'api': daltapi, 'url': dmesajb}).json()
+                            dalink = djson['shortenedUrl']
+                        if daltsite == "4":
+                            dalink = s.get(f"http://ouo.io/api/{daltapi}?", params={'s': dmesajb}).text
+                        if daltsite == "5":
+                            dalink = s.get(f"http://pubiza.com/api.php?", params={'token': daltapi, 'url': dmesajb, 'ads_type': "adult"}).text
+                  
+                    if dsite == "1":
+                        djson = s.get(f"https://ay.live/api/?", params={'api': dtoken, 'url': dmesajb, 'ct': 1}, cookies=cookies).json()
+                        dlink = djson['shortenedUrl']
+                    if dsite == "2":
+                        djson = s.get(f"https://www.pnd.tl/api?", params={'api': dtoken, 'url': dmesajb, 'category': 6}).json()
+                        dlink = djson['shortenedUrl']
+                    if dsite == "3":
+                        djson = s.get(f"https://exe.io/api?", params={'api': dtoken, 'url': dmesajb}).json()
+                        dlink = djson['shortenedUrl']
+                    if dsite == "4":
+                        dlink = s.get(f"http://ouo.io/api/{dtoken}?", params={'s': dmesajb}).text
+                    if dsite == "5":
+                        dlink = s.get(f"http://pubiza.com/api.php?", params={'token': dtoken, 'url': dmesajb, 'ads_type': "adult"}).text
+>>>>>>> parent of c54ecf3 (Update main.py)
                     logger.info(f"{dkanal} + {dlink} + {dtoken}")
                 except Exception as e:
                     bot.send_message(duser, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
@@ -2278,9 +2396,9 @@ def poster(update, context):
                         etoken = phaapi(esite)
                         ealtapi = phaapi(ealtsite) if ealtsite != "None" else "None"    
                     collection.update_one({"_id": euser}, {"$set": {"pcount": 0}})            
-                elink = ""
-                ealink = ""
-                ejson = ""
+                elink = " "
+                ealink = " "
+                ejson = " "
                 if esira == "2":
                     etoken = ealtapi
                     esite = ealtsite
@@ -2289,6 +2407,7 @@ def poster(update, context):
                     collection.update_one({"_id": euser}, {"$set": {"sira": "2"}})
                 try:
                     if not ealtapi == "None":
+<<<<<<< HEAD
                         while ealink == "":
                             time.sleep(1)
                             if ealtsite == "1":
@@ -2319,6 +2438,34 @@ def poster(update, context):
                             elink = s.get(f"http://ouo.io/api/{etoken}?", params={'s': emesajb}).text
                         if esite == "5":
                             elink = s.get(f"http://pubiza.com/api.php?", params={'token': etoken, 'url': emesajb, 'ads_type': "adult"}).text
+=======
+                        if ealtsite == "1":
+                            ejson = s.get(f"https://ay.live/api/?", params={'api': ealtapi, 'url': emesajb, 'ct': 1}, cookies=cookies).json()
+                            ealink = ejson['shortenedUrl']
+                        if ealtsite == "2":
+                            ejson = s.get(f"https://www.pnd.tl/api?", params={'api': ealtapi, 'url': emesajb, 'category': 6}).json()
+                            ealink = ejson['shortenedUrl']
+                        if ealtsite == "3":
+                            ejson = s.get(f"https://exe.io/api?", params={'api': ealtapi, 'url': emesajb}).json()
+                            ealink = ejson['shortenedUrl']
+                        if ealtsite == "4":
+                            ealink = s.get(f"http://ouo.io/api/{ealtapi}?", params={'s': emesajb}).text
+                        if ealtsite == "5":
+                            ealink = s.get(f"http://pubiza.com/api.php?", params={'token': ealtapi, 'url': emesajb, 'ads_type': "adult"}).text
+                    if esite == "1":
+                        ejson = s.get(f"https://ay.live/api/?", params={'api': etoken, 'url': emesajb, 'ct': 1}, cookies=cookies).json()
+                        elink = ejson['shortenedUrl']
+                    if esite == "2":
+                        ejson = s.get(f"https://www.pnd.tl/api?", params={'api': etoken, 'url': emesajb, 'category': 6}).json()
+                        elink = ejson['shortenedUrl']
+                    if esite == "3":
+                        ejson = s.get(f"https://exe.io/api?", params={'api': etoken, 'url': emesajb}).json()
+                        elink = ejson['shortenedUrl']
+                    if esite == "4":
+                        elink = s.get(f"http://ouo.io/api/{etoken}?", params={'s': emesajb}).text
+                    if esite == "5":
+                        elink = s.get(f"http://pubiza.com/api.php?", params={'token': etoken, 'url': emesajb, 'ads_type': "adult"}).text
+>>>>>>> parent of c54ecf3 (Update main.py)
                     logger.info(f"{ekanal} + {elink} + {etoken}")
                 except Exception as e:
                     bot.send_message(euser, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
@@ -2439,9 +2586,9 @@ def poster(update, context):
                         gtoken = phaapi(gsite)
                         galtapi = phaapi(galtsite) if galtsite != "None" else "None"
                     collection.update_one({"_id": guser}, {"$set": {"pcount": 0}})
-                glink = ""
-                galink = ""
-                gjson = ""
+                glink = " "
+                galink = " "
+                gjson = " "
                 if gsira == "2":
                     gtoken = galtapi
                     gsite = galtsite
@@ -2450,6 +2597,7 @@ def poster(update, context):
                     collection.update_one({"_id": guser}, {"$set": {"sira": "2"}})
                 try:
                     if not galtapi == "None":
+<<<<<<< HEAD
                         while galink == "":
                             time.sleep(1)
                             if galtsite == "1":
@@ -2481,6 +2629,35 @@ def poster(update, context):
                           glink = s.get(f"http://ouo.io/api/{gtoken}?", params={'s': gmesajb}).text
                         if gsite == "5":
                             glink = s.get(f"http://pubiza.com/api.php?", params={'token': gtoken, 'url': gmesajb, 'ads_type': "adult"}).text
+=======
+                        if galtsite == "1":
+                            gjson = s.get(f"https://ay.live/api/?", params={'api': galtapi, 'url': gmesajb, 'ct': 1}, cookies=cookies).json()
+                            galink = gjson['shortenedUrl']
+                        if galtsite == "2":
+                            gjson = s.get(f"https://www.pnd.tl/api?", params={'api': galtapi, 'url': gmesajb, 'category': 6}).json()
+                            galink = gjson['shortenedUrl']
+                        if galtsite == "3":
+                            gjson = s.get(f"https://exe.io/api?", params={'api': galtapi, 'url': gmesajb}).json()
+                            galink = gjson['shortenedUrl']
+                        if galtsite == "4":
+                            galink = s.get(f"http://ouo.io/api/{galtapi}?", params={'s': gmesajb}).text
+                        if galtsite == "5":
+                            galink = s.get(f"http://pubiza.com/api.php?", params={'token': galtapi, 'url': gmesajb, 'ads_type': "adult"}).text
+                    if gsite == "1":
+                        gjson = s.get(f"https://ay.live/api/?", params={'api': gtoken, 'url': gmesajb, 'ct': 1},
+                                      cookies=cookies).json()
+                        glink = gjson['shortenedUrl']
+                    if gsite == "2":
+                        gjson = s.get(f"https://www.pnd.tl/api?", params={'api': gtoken, 'url': gmesajb, 'category': 6}).json()
+                        glink = gjson['shortenedUrl']
+                    if gsite == "3":
+                        gjson = s.get(f"https://exe.io/api?", params={'api': gtoken, 'url': gmesajb}).json()
+                        glink = gjson['shortenedUrl']
+                    if gsite == "4":
+                      glink = s.get(f"http://ouo.io/api/{gtoken}?", params={'s': gmesajb}).text
+                    if gsite == "5":
+                        glink = s.get(f"http://pubiza.com/api.php?", params={'token': gtoken, 'url': gmesajb, 'ads_type': "adult"}).text
+>>>>>>> parent of c54ecf3 (Update main.py)
                     logger.info(f"{gkanal} + {glink} + {gtoken}")
                 except Exception as e:
                     bot.send_message(guser, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
@@ -2602,9 +2779,9 @@ def poster(update, context):
                         ftoken = phaapi(fsite)
                         faltapi = phaapi(faltsite) if faltsite != "None" else "None"
                     collection.update_one({"_id": fuser}, {"$set": {"pcount": 0}})
-                falink = ""
-                flink = ""
-                fjson = ""
+                falink = " "
+                flink = " "
+                fjson = " "
                 if fsira == "2":
                     ftoken = faltapi
                     fsite = faltsite
@@ -2613,6 +2790,7 @@ def poster(update, context):
                     collection.update_one({"_id": fuser}, {"$set": {"sira": "2"}})
                 try:
                     if not faltapi == "None":
+<<<<<<< HEAD
                         while falink == "":
                             time.sleep(1)
                             if faltsite == "1":
@@ -2643,6 +2821,35 @@ def poster(update, context):
                             flink = s.get(f"http://ouo.io/api/{ftoken}?", params={'s': fmesajb}).text
                         if fsite == "5":
                             flink = s.get(f"http://pubiza.com/api.php?", params={'token': faltapi, 'url': fmesajb, 'ads_type': "adult"}).text
+=======
+                        if faltsite == "1":
+                            fjson = s.get(f"https://ay.live/api/?", params={'api': faltapi, 'url': fmesajb, 'ct': 1}, cookies=cookies).json()
+                            falink = fjson['shortenedUrl']
+                        if faltsite == "2":
+                            fjson = s.get(f"https://www.pnd.tl/api?", params={'api': faltapi, 'url': fmesajb, 'category': 6}).json()
+                            falink = fjson['shortenedUrl']
+                        if faltsite == "3":
+                            fjson = s.get(f"https://exe.io/api?", params={'api': faltapi, 'url': fmesajb}).json()
+                            falink = fjson['shortenedUrl']
+                        if faltsite == "4":
+                            falink = s.get(f"http://ouo.io/api/{faltapi}?", params={'s': fmesajb}).text
+                        if faltsite == "5":
+                            falink = s.get(f"http://pubiza.com/api.php?", params={'token': faltapi, 'url': fmesajb, 'ads_type': "adult"}).text
+                    
+                    if fsite == "1":
+                        fjson = s.get(f"https://ay.live/api/?", params={'api': ftoken, 'url': fmesajb, 'ct': 1}, cookies=cookies).json()
+                        flink = fjson['shortenedUrl']
+                    if fsite == "2":
+                        fjson = s.get(f"https://www.pnd.tl/api?", params={'api': ftoken, 'url': fmesajb, 'category': 6}).json()
+                        flink = fjson['shortenedUrl']
+                    if fsite == "3":
+                        fjson = s.get(f"https://exe.io/api?", params={'api': ftoken, 'url': fmesajb}).json()
+                        flink = fjson['shortenedUrl']
+                    if fsite == "4":
+                        flink = s.get(f"http://ouo.io/api/{ftoken}?", params={'s': fmesajb}).text
+                    if fsite == "5":
+                        flink = s.get(f"http://pubiza.com/api.php?", params={'token': faltapi, 'url': fmesajb, 'ads_type': "adult"}).text
+>>>>>>> parent of c54ecf3 (Update main.py)
                     logger.info(f"{fkanal} + {flink} + {ftoken}")
                 except Exception as e:
                     bot.send_message(fuser, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
@@ -2750,8 +2957,8 @@ def poster(update, context):
             osira = ohesap['sira']
             opcount = ohesap['pcount']
             if len(okanal) > 0 and oret:
-                oalink = ""
-                olink = ""
+                oalink = " "
+                olink = " "
                 if osira == "2":
                     otoken = oaltapi
                     osite = oaltsite
@@ -2760,6 +2967,7 @@ def poster(update, context):
                     collection.update_one({"_id": ouser}, {"$set": {"sira": "2"}})
                 try:
                     if not oaltapi == "None":
+<<<<<<< HEAD
                         while oalink == "":
                             time.sleep(1)
                             if oaltsite == "1":
@@ -2790,6 +2998,34 @@ def poster(update, context):
                             olink = s.get(f"http://ouo.io/api/{otoken}?", params={'s': omesajb}).text
                         if osite == "5":
                             olink = s.get(f"http://pubiza.com/api.php?", params={'token': etoken, 'url': omesajb, 'ads_type': "adult"}).text
+=======
+                        if oaltsite == "1":
+                            ojson = s.get(f"https://ay.live/api/?", params={'api': oaltapi, 'url': omesajb, 'ct': 1}, cookies=cookies).json()
+                            oalink = ojson['shortenedUrl']
+                        if oaltsite == "2":
+                            ojson = s.get(f"https://www.pnd.tl/api?", params={'api': oaltapi, 'url': omesajb, 'category': 6}).json()
+                            oalink = ojson['shortenedUrl']
+                        if oaltsite == "3":
+                            ojson = s.get(f"https://exe.io/api?", params={'api': oaltapi, 'url': omesajb}).json()
+                            oalink = ojson['shortenedUrl']
+                        if oaltsite == "4":
+                            oalink = s.get(f"http://ouo.io/api/{oaltapi}?", params={'s': omesajb}).text
+                        if oaltsite == "5":
+                            oalink = s.get(f"http://pubiza.com/api.php?", params={'token': oaltapi, 'url': omesajb, 'ads_type': "adult"}).text
+                    if osite == "1":
+                        ojson = s.get(f"https://ay.live/api/?", params={'api': otoken, 'url': omesajb, 'ct': 1}, cookies=cookies).json()
+                        olink = ojson['shortenedUrl']
+                    if osite == "2":
+                        ojson = s.get(f"https://www.pnd.tl/api?", params={'api': otoken, 'url': omesajb, 'category': 6}).json()
+                        olink = ojson['shortenedUrl']
+                    if osite == "3":
+                        ojson = s.get(f"https://exe.io/api?", params={'api': otoken, 'url': omesajb}).json()
+                        olink = ojson['shortenedUrl']
+                    if osite == "4":
+                        olink = s.get(f"http://ouo.io/api/{otoken}?", params={'s': omesajb}).text
+                    if osite == "5":
+                        olink = s.get(f"http://pubiza.com/api.php?", params={'token': etoken, 'url': omesajb, 'ads_type': "adult"}).text
+>>>>>>> parent of c54ecf3 (Update main.py)
                     logger.info(f"{okanal} + {olink} + {otoken}")
                 except Exception as e:
                     bot.send_message(ouser, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
