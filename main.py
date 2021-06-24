@@ -1454,11 +1454,10 @@ def pat(update, context):
     if update.message.text == "⏱ Zamanladığım Postlar":
         zjobs = context.job_queue.get_jobs_by_name(str(user))
         if len(zjobs) < 1:
-            bot.send_message(chat, "Henüz bir post zamanlamamışsınız.", reply_markup=dugme(user))
-            return ConversationHandler.END
-        jobmd = bot.send_message(chat, "<code>...</code>", reply_markup=dugme(user))
+            bot.send_message(chat, "Henüz bir post zamanlamamışsınız.", reply_markup=imark())
+            return 
         bot.send_message(chat, "Silmek istediğiniz postu seçin.", reply_markup=jobmark(user, context))
-        return ConversationHandler.END
+        return 
     if update.message.text:
         msg = bot.send_message(chat, "Lütfen paylaşmamı istediğin postu at")
         return PATPOST
