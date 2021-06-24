@@ -1689,8 +1689,16 @@ def poster(update, context):
                     post = update.channel_post
                     yetkililer = [xy.id for xy in bot.get_chat_administrators(kan)]
                     if not user in yetkililer:
-                        bot.send_message(user, f"{bot.get_chat(kan).title} Kanalında artık yetkili olmadığınız için sizden silindi.")
-                        ret = False
+                        try:
+                            logger.debug(f"Hatalı kanal: {kanal}")
+                            bot.send_message(user, f"{bot.get_chat(kan).title} Kanalında artık yetkili olmadığınız için sizden silindi.")
+                            bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {user}\nÜYE: {bot.get_chat_members_count(kan)}\nKANAL: {kan}")
+                            collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
+                            ret = False
+                        except:
+                            pass
+                        else:
+                            logger.debug(f"{kanal} kayıtlardan silindi.")
                     try:
                         if update.channel_post.photo and ret:
                             post = bot.send_photo(kan, medya, caption=sablon)
