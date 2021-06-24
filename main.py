@@ -1971,6 +1971,9 @@ def poster(update, context):
                             clinktry += 1
                             sleep(1)
                             if clinktry > 1:
+                                print(calink)
+                                print("\n")
+                                print(cjson)
                                 logger.warning(f"Tekrar deneniyor {clinktry}")
                     while clinktry < 10 and clink == " ":
                         if csite == "1":
@@ -1989,6 +1992,9 @@ def poster(update, context):
                         clinktry += 1
                         sleep(1)
                         if clinktry > 1:
+                            print(clink)
+                            print("\n")
+                            print(cjson)
                             logger.warning(f"Tekrar deneniyor {clinktry}")
                     logger.info(f"{ckanal} + {clink} + {ctoken}")
                 except Exception as e:
