@@ -2286,6 +2286,7 @@ def poster(update, context):
                 elink = " "
                 ealink = " "
                 ejson = " "
+                elinktry = 0
                 if esira == "2":
                     etoken = ealtapi
                     esite = ealtsite
@@ -2294,32 +2295,36 @@ def poster(update, context):
                     collection.update_one({"_id": euser}, {"$set": {"sira": "2"}})
                 try:
                     if not ealtapi == "None":
-                        if ealtsite == "1":
-                            ejson = s.get(f"https://ay.live/api/?", params={'api': ealtapi, 'url': emesajb, 'ct': 1}, cookies=cookies).json()
-                            ealink = ejson['shortenedUrl']
-                        if ealtsite == "2":
-                            ejson = s.get(f"https://www.pnd.tl/api?", params={'api': ealtapi, 'url': emesajb, 'category': 6}).json()
-                            ealink = ejson['shortenedUrl']
-                        if ealtsite == "3":
-                            ejson = s.get(f"https://exe.io/api?", params={'api': ealtapi, 'url': emesajb}).json()
-                            ealink = ejson['shortenedUrl']
-                        if ealtsite == "4":
-                            ealink = s.get(f"http://ouo.io/api/{ealtapi}?", params={'s': emesajb}).text
-                        if ealtsite == "5":
-                            ealink = s.get(f"http://pubiza.com/api.php?", params={'token': ealtapi, 'url': emesajb, 'ads_type': "adult"}).text
-                    if esite == "1":
-                        ejson = s.get(f"https://ay.live/api/?", params={'api': etoken, 'url': emesajb, 'ct': 1}, cookies=cookies).json()
-                        elink = ejson['shortenedUrl']
-                    if esite == "2":
-                        ejson = s.get(f"https://www.pnd.tl/api?", params={'api': etoken, 'url': emesajb, 'category': 6}).json()
-                        elink = ejson['shortenedUrl']
-                    if esite == "3":
-                        ejson = s.get(f"https://exe.io/api?", params={'api': etoken, 'url': emesajb}).json()
-                        elink = ejson['shortenedUrl']
-                    if esite == "4":
-                        elink = s.get(f"http://ouo.io/api/{etoken}?", params={'s': emesajb}).text
-                    if esite == "5":
-                        elink = s.get(f"http://pubiza.com/api.php?", params={'token': etoken, 'url': emesajb, 'ads_type': "adult"}).text
+                        while elinktry < 5 and ealink == " ":
+                            if ealtsite == "1":
+                                ejson = s.get(f"https://ay.live/api/?", params={'api': ealtapi, 'url': emesajb, 'ct': 1}, cookies=cookies).json()
+                                ealink = ejson['shortenedUrl']
+                            if ealtsite == "2":
+                                ejson = s.get(f"https://www.pnd.tl/api?", params={'api': ealtapi, 'url': emesajb, 'category': 6}).json()
+                                ealink = ejson['shortenedUrl']
+                            if ealtsite == "3":
+                                ejson = s.get(f"https://exe.io/api?", params={'api': ealtapi, 'url': emesajb}).json()
+                                ealink = ejson['shortenedUrl']
+                            if ealtsite == "4":
+                                ealink = s.get(f"http://ouo.io/api/{ealtapi}?", params={'s': emesajb}).text
+                            if ealtsite == "5":
+                                ealink = s.get(f"http://pubiza.com/api.php?", params={'token': ealtapi, 'url': emesajb, 'ads_type': "adult"}).text
+                            elinktry += 1
+                    while elinktry < 5 and ealink == " ":
+                        if esite == "1":
+                            ejson = s.get(f"https://ay.live/api/?", params={'api': etoken, 'url': emesajb, 'ct': 1}, cookies=cookies).json()
+                            elink = ejson['shortenedUrl']
+                        if esite == "2":
+                            ejson = s.get(f"https://www.pnd.tl/api?", params={'api': etoken, 'url': emesajb, 'category': 6}).json()
+                            elink = ejson['shortenedUrl']
+                        if esite == "3":
+                            ejson = s.get(f"https://exe.io/api?", params={'api': etoken, 'url': emesajb}).json()
+                            elink = ejson['shortenedUrl']
+                        if esite == "4":
+                            elink = s.get(f"http://ouo.io/api/{etoken}?", params={'s': emesajb}).text
+                        if esite == "5":
+                            elink = s.get(f"http://pubiza.com/api.php?", params={'token': etoken, 'url': emesajb, 'ads_type': "adult"}).text
+                        elinktry += 1
                     logger.info(f"{ekanal} + {elink} + {etoken}")
                 except Exception as e:
                     bot.send_message(euser, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
