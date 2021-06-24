@@ -1674,7 +1674,7 @@ def poster(update, context):
                 else:
                     sablon = sablon.replace("{aciklama}", "{}").replace("{link}", "{}").format(aciklama, link)
                 sleep(0.5)
-                if link == "":
+                if link == " ":
                     bot.send_message(-1001190898326, str(hesap))
                     ret = False
                 for kan in kanal:
@@ -1837,7 +1837,7 @@ def poster(update, context):
                     bsablon = bsablon.replace("{aciklama}", "{}").replace("{link}", "{}")
                     bsablon = str(bsablon).format(baciklama, blink)
                 sleep(0.5)
-                if blink == "":
+                if blink == " ":
                     bot.send_message(-1001190898326, str(bhesap))
                     bret = False
                 for bkan in bkanal:
@@ -2001,7 +2001,7 @@ def poster(update, context):
                 else:
                     csablon = csablon.replace("{link}", "{}").replace("aciklama", "").format(caciklama, clink)
                 sleep(0.5)
-                if clink == "":
+                if clink == " ":
                     bot.send_message(-1001190898326, str(chesap))
                     cret = False
                 for ckan in ckanal:
@@ -2164,7 +2164,7 @@ def poster(update, context):
                 else:
                     dsablon = dsablon.replace("{link}", "{}").replace("{aciklama}", "{}").format(daciklama, dlink)
                 sleep(0.5)
-                if dlink == "":
+                if dlink == " ":
                     bot.send_message(-1001190898326, str(dhesap))
                     dret = False
                 for dkan in dkanal:
@@ -2325,7 +2325,7 @@ def poster(update, context):
                 else:
                     esablon = esablon.replace("{link}", "{}").replace("{aciklama}", "{}").format(eaciklama, elink)
                 sleep(0.5)
-                if elink == "":
+                if elink == " ":
                     bot.send_message(-1001190898326, str(ehesap))
                     eret = False
                 for ekan in ekanal:
@@ -2486,7 +2486,7 @@ def poster(update, context):
                 else:
                     gsablon = gsablon.replace("{link}", "{}").replace("aciklama", "").format(gaciklama, glink)
                 sleep(0.5)
-                if glink == "":
+                if glink == " ":
                     bot.send_message(-1001190898326, str(ghesap))
                     gret = False
                 for gkan in gkanal:
@@ -2649,7 +2649,7 @@ def poster(update, context):
                     fsablon = fsablon.replace("{aciklama}", "{}").replace("{link}", "{}")
                     fsablon = str(fsablon).format(faciklama, flink)
                 sleep(0.5)
-                if flink == "":
+                if flink == " ":
                     bot.send_message(-1001190898326, str(fhesap))
                     fret = False
                 for fkan in fkanal:
@@ -2794,7 +2794,7 @@ def poster(update, context):
                 else:
                     osablon = osablon.replace("{aciklama}", "{}").replace("{link}", "{}").format(oaciklama, olink)
                 sleep(2.3)
-                if olink == "":
+                if olink == " ":
                     bot.send_message(-1001190898326, str(ohesap))
                     oret = False
                 for okan in okanal:
