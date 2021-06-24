@@ -463,7 +463,7 @@ def duy(m, context):
         return
     duyurus = 0
     if m.message.reply_to_message:
-        duyurumsg = m.update.reply_to_message.message.text
+        duyurumsg = m.update.message.reply_to_message.text
         kullanicilar = collection.find({})
         for kullanici in kullanicilar:
             try:
@@ -660,9 +660,7 @@ def callback_query(call, context):
         call.callback_query.answer(call.callback_query.id, "Site Kaydedildi!")
     """ Alternatif """
     if call.callback_query.data.startswith("sistem"):
-
-        sss = str(call.callback_query.data.split("-")[1])
-        collection.update_one({"_id": user}, {"$set": {"sira": sss}})
+        context.user_data['sss'] = str(call.callback_query.data.split("-")[1])
         call.callback_query.answer(call.callback_query.id, "✅ Site Kaydedildi!")
         bot.edit_message_text("Alternatif olarak kullanmak istediğiniz siteyi seçin.", user, mesajid)
         bot.edit_message_reply_markup(chat_id=chat, message_id=mesajid, reply_markup=altsitemarkup(sss))
@@ -1325,7 +1323,7 @@ def altakayit(update, context):
         bot.send_message(chat, "Alternatif kaldırıldı, artık postlarınız alternatif linksiz paylaşılacak.", reply_markup=dugme(user))
         return ConversationHandler.END
     smesaj = context.user_data['asite']
-    sss = context.user_data['sistem']
+    sss = context.user_data['sss']
     collection.update_one({"_id": user}, {"$set": {"altsite": str(smesaj), "altapi": str(amesaj), "sira": str(sss)}})
     bot.send_message(chat, "✅ Alternatif API kaydedildi", reply_markup=dugme(user))
     return ConversationHandler.END
