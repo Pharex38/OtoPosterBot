@@ -1648,7 +1648,8 @@ def poster(update, context):
                                 alink = s.get(f"http://pubiza.com/api.php?", params={'token': altapi, 'url': mesajb, 'ads_type': "adult"}).text
                             linktry += 1
                             sleep(1)
-                            logger.warning(f"Tekrar deneniyor {linktry}")
+                            if linktry > 1:
+                                logger.warning(f"Tekrar deneniyor {linktry}")
                     while linktry < 10 and link == " ":
                         if site == "1":
                             json = s.get(f"https://ay.live/api/?", params={'api': token, 'url': mesajb, 'ct': 1}, cookies=cookies).json()
@@ -1665,7 +1666,8 @@ def poster(update, context):
                             link = s.get(f"http://pubiza.com/api.php?", params={'token': token, 'url': mesajb, 'ads_type': "adult"}).text
                         linktry += 1
                         sleep(1)
-                        logger.warning(f"Tekrar deneniyor {linktry}")
+                        if linktry > 1:
+                            logger.warning(f"Tekrar deneniyor {linktry}")
                     logger.info(f"{kanal} + {link} + {token}")
                 except Exception as e:
                     bot.send_message(user, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
@@ -1818,7 +1820,8 @@ def poster(update, context):
                                 balink = s.get(f"http://pubiza.com/api.php?", params={'token': baltapi, 'url': bmesajb, 'ads_type': "adult"}).text
                             blinktry += 1
                             sleep(1)
-                            logger.warning(f"Tekrar deneniyor {blinktry}")
+                            if blinktry > 1:
+                                logger.warning(f"Tekrar deneniyor {blinktry}")
                     while blinktry < 10 and blink == " ":
                         if bsite == "1":
                             bjson = s.get(f"https://ay.live/api/?", params={'api': btoken, 'url': bmesajb, 'ct': 1}, cookies=cookies).json()
@@ -1835,7 +1838,8 @@ def poster(update, context):
                             blink = s.get(f"http://pubiza.com/api.php?", params={'token': btoken, 'url': bmesajb, 'ads_type': "adult"}).text
                         blinktry += 1
                         sleep(1)
-                        logger.warning(f"Tekrar deneniyor {blinktry}")
+                        if blinktry > 1:
+                            logger.warning(f"Tekrar deneniyor {blinktry}")
                     logger.info(f"{bkanal} + {blink} + {btoken}")
                 except Exception as e:
                     bot.send_message(buser, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
@@ -1984,7 +1988,8 @@ def poster(update, context):
                                 calink = s.get(f"http://pubiza.com/api.php?", params={'token': caltapi, 'url': cmesajb, 'ads_type': "adult"}).text
                             clinktry += 1
                             sleep(1)
-                            logger.warning(f"Tekrar deneniyor {clinktry}")
+                            if clinktry > 1:
+                                logger.warning(f"Tekrar deneniyor {clinktry}")
                     while clinktry < 10 and clink == " ":
                         if csite == "1":
                             cjson = s.get(f"https://ay.live/api/?", params={'api': ctoken, 'url': cmesajb, 'ct': 1}, cookies=cookies).json()
@@ -2001,7 +2006,8 @@ def poster(update, context):
                             clink = s.get(f"http://pubiza.com/api.php?", params={'token': ctoken, 'url': cmesajb, 'ads_type': "adult"}).text
                         clinktry += 1
                         sleep(1)
-                        logger.warning(f"Tekrar deneniyor {clinktry}")
+                        if clinktry > 1:
+                            logger.warning(f"Tekrar deneniyor {clinktry}")
                     logger.info(f"{ckanal} + {clink} + {ctoken}")
                 except Exception as e:
                     bot.send_message(cuser, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
@@ -2156,7 +2162,8 @@ def poster(update, context):
                                 dalink = s.get(f"http://pubiza.com/api.php?", params={'token': daltapi, 'url': dmesajb, 'ads_type': "adult"}).text
                             dlinktry += 1
                             sleep(1)
-                            logger.warning(f"Tekrar deneniyor {dlinktry}")
+                            if dlinktry > 1:
+                                logger.warning(f"Tekrar deneniyor {dlinktry}")
                     while dlinktry < 10 and dlink == " ":
                         if dsite == "1":
                             djson = s.get(f"https://ay.live/api/?", params={'api': dtoken, 'url': dmesajb, 'ct': 1}, cookies=cookies).json()
@@ -2173,7 +2180,8 @@ def poster(update, context):
                             dlink = s.get(f"http://pubiza.com/api.php?", params={'token': dtoken, 'url': dmesajb, 'ads_type': "adult"}).text
                         dlinktry += 1
                         sleep(1)
-                        logger.warning(f"Tekrar deneniyor {dlinktry}")
+                        if dlinktry > 1:
+                            logger.warning(f"Tekrar deneniyor {dlinktry}")
                     logger.info(f"{dkanal} + {dlink} + {dtoken}")
                 except Exception as e:
                     bot.send_message(duser, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
@@ -2327,7 +2335,8 @@ def poster(update, context):
                                 ealink = s.get(f"http://pubiza.com/api.php?", params={'token': ealtapi, 'url': emesajb, 'ads_type': "adult"}).text
                             elinktry += 1
                             sleep(1)
-                            logger.warning(f"Tekrar deneniyor {elinktry}")
+                            if elinktry > 1:
+                                logger.warning(f"Tekrar deneniyor {elinktry}")
                     while elinktry < 10 and ealink == " ":
                         if esite == "1":
                             ejson = s.get(f"https://ay.live/api/?", params={'api': etoken, 'url': emesajb, 'ct': 1}, cookies=cookies).json()
@@ -2344,7 +2353,8 @@ def poster(update, context):
                             elink = s.get(f"http://pubiza.com/api.php?", params={'token': etoken, 'url': emesajb, 'ads_type': "adult"}).text
                         elinktry += 1
                         sleep(1)
-                        logger.warning(f"Tekrar deneniyor {elinktry}")
+                        if elinktry > 1:
+                            logger.warning(f"Tekrar deneniyor {elinktry}")
                     logger.info(f"{ekanal} + {elink} + {etoken}")
                 except Exception as e:
                     bot.send_message(euser, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
@@ -2496,7 +2506,8 @@ def poster(update, context):
                                 galink = s.get(f"http://pubiza.com/api.php?", params={'token': galtapi, 'url': gmesajb, 'ads_type': "adult"}).text
                             glinktry += 1
                             sleep(1)
-                            logger.warning(f"Tekrar deneniyor {glinktry}")
+                            if glinktry > 1:
+                                logger.warning(f"Tekrar deneniyor {glinktry}")
                     while glinktry < 10 and glink == " ":
                         if gsite == "1":
                             gjson = s.get(f"https://ay.live/api/?", params={'api': gtoken, 'url': gmesajb, 'ct': 1}, cookies=cookies).json()
@@ -2513,7 +2524,8 @@ def poster(update, context):
                             glink = s.get(f"http://pubiza.com/api.php?", params={'token': gtoken, 'url': gmesajb, 'ads_type': "adult"}).text
                         glinktry += 1
                         sleep(1)
-                        logger.warning(f"Tekrar deneniyor {glinktry}")
+                        if glinktry > 1:
+                            logger.warning(f"Tekrar deneniyor {glinktry}")
                     logger.info(f"{gkanal} + {glink} + {gtoken}")
                 except Exception as e:
                     bot.send_message(guser, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
@@ -2666,7 +2678,8 @@ def poster(update, context):
                                 falink = s.get(f"http://pubiza.com/api.php?", params={'token': faltapi, 'url': fmesajb, 'ads_type': "adult"}).text
                             flinktry += 1
                             sleep(1)
-                            logger.warning(f"Tekrar deneniyor {flinktry}")
+                            if flinktry > 1:
+                                logger.warning(f"Tekrar deneniyor {flinktry}")
                     while flinktry < 10 and flink == " ":
                         if fsite == "1":
                             fjson = s.get(f"https://ay.live/api/?", params={'api': ftoken, 'url': fmesajb, 'ct': 1}, cookies=cookies).json()
@@ -2683,7 +2696,8 @@ def poster(update, context):
                             flink = s.get(f"http://pubiza.com/api.php?", params={'token': faltapi, 'url': fmesajb, 'ads_type': "adult"}).text
                         flinktry += 1
                         sleep(1)
-                        logger.warning(f"Tekrar deneniyor {flinktry}")
+                        if flinktry > 1:
+                            logger.warning(f"Tekrar deneniyor {flinktry}")
                     logger.info(f"{fkanal} + {flink} + {ftoken}")
                 except Exception as e:
                     bot.send_message(fuser, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
@@ -2819,7 +2833,8 @@ def poster(update, context):
                                 oalink = s.get(f"http://pubiza.com/api.php?", params={'token': oaltapi, 'url': omesajb, 'ads_type': "adult"}).text
                             olinktry += 1
                             sleep(1)
-                            logger.warning(f"Tekrar deneniyor {olinktry}")
+                            if olinktry > 1:
+                                logger.warning(f"Tekrar deneniyor {olinktry}")
                     while olinktry < 10 and olink == " ":
                         if osite == "1":
                             ojson = s.get(f"https://ay.live/api/?", params={'api': otoken, 'url': omesajb, 'ct': 1}, cookies=cookies).json()
@@ -2836,7 +2851,8 @@ def poster(update, context):
                             olink = s.get(f"http://pubiza.com/api.php?", params={'token': etoken, 'url': omesajb, 'ads_type': "adult"}).text
                         olinktry += 1
                         sleep(1)
-                        logger.warning(f"Tekrar deneniyor {olinktry}")
+                        if olinktry > 1:
+                            logger.warning(f"Tekrar deneniyor {olinktry}")
                     logger.info(f"{okanal} + {olink} + {otoken}")
                 except Exception as e:
                     bot.send_message(ouser, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
