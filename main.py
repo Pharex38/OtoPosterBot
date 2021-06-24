@@ -1688,6 +1688,9 @@ def poster(update, context):
                 for kan in kanal:
                     post = update.channel_post
                     yetkililer = [xy.id for xy in bot.get_chat_administrators(kan)]
+                    if not user in yetkililer:
+                        bot.send_message(user, f"{bot.get_chat(kan).title} Kanalında artık yetkili olmadığınız için sizden silindi.")
+                        ret = False
                     try:
                         if update.channel_post.photo and ret:
                             post = bot.send_photo(kan, medya, caption=sablon)
