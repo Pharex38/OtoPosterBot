@@ -2031,6 +2031,18 @@ def poster(update, context):
                     cret = False
                 for ckan in ckanal:
                     cpost = update.channel_post
+                    cyetkililer = [cxy.id for cxy in bot.get_chat_administrators(ckan)]
+                    if not cuser in cyetkililer:
+                        try:
+                            logger.debug(f"Hatalı kanal: {ckan}")
+                            bot.send_message(cuser, f"{bot.get_chat(ckan).title} Kanalında artık yetkili olmadığınız için sizden silindi.")
+                            bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {cuser}\nÜYE: {bot.get_chat_members_count(ckan)}\nKANAL: {ckan}")
+                            collection.update_one({"_id": cuser}, {"$pull": {"kanal": ckan}})
+                            ret = False
+                        except:
+                            pass
+                        else:
+                            logger.debug(f"{ckan} kayıtlardan silindi.")
                     try:
                         if update.channel_post.photo and cret:
                             cpost = bot.send_photo(ckan, cmedya, caption=csablon)
