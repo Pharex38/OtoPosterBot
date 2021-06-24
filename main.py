@@ -1623,6 +1623,7 @@ def poster(update, context):
                 link = " "
                 alink = " "
                 json = " "
+                linktry = 0
                 try:
                     if sira == "2":
                         token = altapi
@@ -1631,32 +1632,36 @@ def poster(update, context):
                     if sira == "3":
                         collection.update_one({"_id": user}, {"$set": {"sira": "2"}})
                     if not altapi == "None":
-                        if altsite == "1":
-                            json = s.get(f"https://ay.live/api/?", params={'api': altapi, 'url': mesajb, 'ct': 1}, cookies=cookies).json()
-                            alink = json['shortenedUrl']
-                        if altsite == "2":
-                            json = s.get(f"https://www.pnd.tl/api?", params={'api': altapi, 'url': mesajb, 'category': 6}).json()
-                            alink = json['shortenedUrl']
-                        if altsite == "3":
-                            json = s.get(f"https://exe.io/api?", params={'api': altapi, 'url': mesajb}).json()
-                            alink = json['shortenedUrl']
-                        if altsite == "4":
-                            alink = s.get(f"http://ouo.io/api/{altapi}?", params={'s': mesajb}).text
-                        if altsite == "5":
-                            alink = s.get(f"http://pubiza.com/api.php?", params={'token': altapi, 'url': mesajb, 'ads_type': "adult"}).text
-                    if site == "1":
-                        json = s.get(f"https://ay.live/api/?", params={'api': token, 'url': mesajb, 'ct': 1}, cookies=cookies).json()
-                        link = json['shortenedUrl']
-                    if site == "2":
-                        json = s.get(f"https://www.pnd.tl/api?", params={'api': token, 'url': mesajb, 'category': 6}).json()
-                        link = json['shortenedUrl']
-                    if site == "3":
-                        json = s.get(f"https://exe.io/api?", params={'api': token, 'url': mesajb}).json()
-                        link = json['shortenedUrl']
-                    if site == "4":
-                        link = s.get(f"http://ouo.io/api/{token}?", params={'s': mesajb}).text
-                    if site == "5":
-                        link = s.get(f"http://pubiza.com/api.php?", params={'token': token, 'url': mesajb, 'ads_type': "adult"}).text
+                        while linktry < 5 and alink == " ":
+                            if altsite == "1":
+                                json = s.get(f"https://ay.live/api/?", params={'api': altapi, 'url': mesajb, 'ct': 1}, cookies=cookies).json()
+                                alink = json['shortenedUrl']
+                            if altsite == "2":
+                                json = s.get(f"https://www.pnd.tl/api?", params={'api': altapi, 'url': mesajb, 'category': 6}).json()
+                                alink = json['shortenedUrl']
+                            if altsite == "3":
+                                json = s.get(f"https://exe.io/api?", params={'api': altapi, 'url': mesajb}).json()
+                                alink = json['shortenedUrl']
+                            if altsite == "4":
+                                alink = s.get(f"http://ouo.io/api/{altapi}?", params={'s': mesajb}).text
+                            if altsite == "5":
+                                alink = s.get(f"http://pubiza.com/api.php?", params={'token': altapi, 'url': mesajb, 'ads_type': "adult"}).text
+                            linktry += 1
+                    while linktry < 5 and link == " ":
+                        if site == "1":
+                            json = s.get(f"https://ay.live/api/?", params={'api': token, 'url': mesajb, 'ct': 1}, cookies=cookies).json()
+                            link = json['shortenedUrl']
+                        if site == "2":
+                            json = s.get(f"https://www.pnd.tl/api?", params={'api': token, 'url': mesajb, 'category': 6}).json()
+                            link = json['shortenedUrl']
+                        if site == "3":
+                            json = s.get(f"https://exe.io/api?", params={'api': token, 'url': mesajb}).json()
+                            link = json['shortenedUrl']
+                        if site == "4":
+                            link = s.get(f"http://ouo.io/api/{token}?", params={'s': mesajb}).text
+                        if site == "5":
+                            link = s.get(f"http://pubiza.com/api.php?", params={'token': token, 'url': mesajb, 'ads_type': "adult"}).text
+                        linktry += 1
                     logger.info(f"{kanal} + {link} + {token}")
                 except Exception as e:
                     bot.send_message(user, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
@@ -1701,11 +1706,11 @@ def poster(update, context):
                             pass   
                         logger.debug(f"{kanal} kayıtlardan silindi.")
                     except Exception as e:
-                        if e == "Chat is not found":
+                        if e.find("Chat is not found") != -1:
                             raise Unauthorized
-                        if e == "Need administrator rights in the channel chat":
+                        if e.find("Need administrator rights in the channel chat") != -1:
                             raise Unauthorized
-                        if e == "Forbidden: bot is not a member of the channel chat":
+                        if e.find("Forbidden: bot is not a member of the channel chat") != -1:
                             raise Unauthorized
                         else:
                             logger.error(e)
@@ -1784,6 +1789,7 @@ def poster(update, context):
                 balink = " "
                 blink = " "
                 bjson = " "
+                blinktry = 0
                 if bsira == "2":
                     btoken = baltapi
                     bsite = baltsite
@@ -1792,32 +1798,36 @@ def poster(update, context):
                     collection.update_one({"_id": buser}, {"$set": {"sira": "2"}})
                 try:
                     if not baltapi == "None":
-                        if baltsite == "1":
-                            bjson = s.get(f"https://ay.live/api/?", params={'api': baltapi, 'url': bmesajb, 'ct': 1}, cookies=cookies).json()
-                            balink = bjson['shortenedUrl']
-                        if baltsite == "2":
-                            bjson = s.get(f"https://www.pnd.tl/api?", params={'api': baltapi, 'url': bmesajb, 'category': 6}).json()
-                            balink = bjson['shortenedUrl']
-                        if baltsite == "3":
-                            bjson = s.get(f"https://exe.io/api?", params={'api': baltapi, 'url': bmesajb}).json()
-                            balink = bjson['shortenedUrl']
-                        if baltsite == "4":
-                            balink = s.get(f"http://ouo.io/api/{baltapi}?", params={'s': bmesajb}).text
-                        if baltsite == "5":
-                            balink = s.get(f"http://pubiza.com/api.php?", params={'token': baltapi, 'url': bmesajb, 'ads_type': "adult"}).text
-                    if bsite == "1":
-                        bjson = s.get(f"https://ay.live/api/?", params={'api': btoken, 'url': bmesajb, 'ct': 1}, cookies=cookies).json()
-                        blink = bjson['shortenedUrl']
-                    if bsite == "2":
-                        bjson = s.get(f"https://www.pnd.tl/api?", params={'api': btoken, 'url': bmesajb, 'category': 6}).json()
-                        blink = bjson['shortenedUrl']
-                    if bsite == "3":
-                        bjson = s.get(f"https://exe.io/api?", params={'api': btoken, 'url': bmesajb}).json()
-                        blink = bjson['shortenedUrl']
-                    if bsite == "4":
-                        blink = s.get(f"http://ouo.io/api/{btoken}?", params={'s': bmesajb}).text
-                    if bsite == "5":
-                        blink = s.get(f"http://pubiza.com/api.php?", params={'token': btoken, 'url': bmesajb, 'ads_type': "adult"}).text
+                        while blinktry < 5 and balink == " ":
+                            if baltsite == "1":
+                                bjson = s.get(f"https://ay.live/api/?", params={'api': baltapi, 'url': bmesajb, 'ct': 1}, cookies=cookies).json()
+                                balink = bjson['shortenedUrl']
+                            if baltsite == "2":
+                                bjson = s.get(f"https://www.pnd.tl/api?", params={'api': baltapi, 'url': bmesajb, 'category': 6}).json()
+                                balink = bjson['shortenedUrl']
+                            if baltsite == "3":
+                                bjson = s.get(f"https://exe.io/api?", params={'api': baltapi, 'url': bmesajb}).json()
+                                balink = bjson['shortenedUrl']
+                            if baltsite == "4":
+                                balink = s.get(f"http://ouo.io/api/{baltapi}?", params={'s': bmesajb}).text
+                            if baltsite == "5":
+                                balink = s.get(f"http://pubiza.com/api.php?", params={'token': baltapi, 'url': bmesajb, 'ads_type': "adult"}).text
+                            blinktry += 1
+                    while blinktry < 5 and blink == " ":
+                        if bsite == "1":
+                            bjson = s.get(f"https://ay.live/api/?", params={'api': btoken, 'url': bmesajb, 'ct': 1}, cookies=cookies).json()
+                            blink = bjson['shortenedUrl']
+                        if bsite == "2":
+                            bjson = s.get(f"https://www.pnd.tl/api?", params={'api': btoken, 'url': bmesajb, 'category': 6}).json()
+                            blink = bjson['shortenedUrl']
+                        if bsite == "3":
+                            bjson = s.get(f"https://exe.io/api?", params={'api': btoken, 'url': bmesajb}).json()
+                            blink = bjson['shortenedUrl']
+                        if bsite == "4":
+                            blink = s.get(f"http://ouo.io/api/{btoken}?", params={'s': bmesajb}).text
+                        if bsite == "5":
+                            blink = s.get(f"http://pubiza.com/api.php?", params={'token': btoken, 'url': bmesajb, 'ads_type': "adult"}).text
+                        blinktry += 1
                     logger.info(f"{bkanal} + {blink} + {btoken}")
                 except Exception as e:
                     bot.send_message(buser, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
@@ -1832,7 +1842,6 @@ def poster(update, context):
                     bsablon = f"{baciklama} \n\n𝙇𝙄𝙉𝙆🔗 {blink} \n\n     𝙇𝙄𝙉𝙆🔗 {balink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
                 elif bsablon.find('{alink}') != -1:
                     bsablon = bsablon.replace("{aciklama}", "{}").replace("{alink}","{}").replace("{link}", "{}").format(baciklama, blink, balink)
-                    
                 else:
                     bsablon = bsablon.replace("{aciklama}", "{}").replace("{link}", "{}")
                     bsablon = str(bsablon).format(baciklama, blink)
@@ -1848,12 +1857,7 @@ def poster(update, context):
                         if update.channel_post.video and bret:
                             bpost = bot.send_video(bkan, bmedya, caption=bsablon)
                         if update.channel_post.animation and bret:
-                            bpost = bot.send_animation(bkan, bmedya, caption=bsablon)
-                    except BadRequest as bd:
-                        if bd.args == "Chat is not found":
-                            raise Unauthorized
-                        else:
-                            logger.error(bd)
+                                bpost = bot.send_animation(bkan, bmedya, caption=bsablon)
                     except Unauthorized:
                         try:
                             logger.debug(f"Hatalı kanal: {bkan}")
@@ -1864,11 +1868,11 @@ def poster(update, context):
                             pass   
                         logger.debug(f"{bkan} kayıtlardan silindi.")
                     except Exception as e:
-                        if e == "Chat is not found":
+                        if e.find("Chat is not found") != -1:
                             raise Unauthorized
-                        if e == "Need administrator rights in the channel chat":
+                        if e.find("Need administrator rights in the channel chat") != -1:
                             raise Unauthorized
-                        if e == "Forbidden: bot is not a member of the channel chat":
+                        if e.find("Forbidden: bot is not a member of the channel chat") != -1:
                             raise Unauthorized
                         else:
                             logger.error(e)
@@ -1947,6 +1951,7 @@ def poster(update, context):
                 clink = " "
                 calink = " "
                 cjson = " "
+                clinktry = 0
                 if csira == "2":
                     ctoken = caltapi
                     csite = caltsite
@@ -1955,33 +1960,36 @@ def poster(update, context):
                     collection.update_one({"_id": cuser}, {"$set": {"sira": "2"}})
                 try:
                     if not caltapi == "None":
-                        if caltsite == "1":
-                            cjson = s.get(f"https://ay.live/api/?", params={'api': caltapi, 'url': cmesajb, 'ct': 1}, cookies=cookies).json()
-                            calink = cjson['shortenedUrl']
-                        if caltsite == "2":
-                            cjson = s.get(f"https://www.pnd.tl/api?", params={'api': caltapi, 'url': cmesajb, 'category': 6}).json()
-                            calink =     cjson['shortenedUrl']
-                        if caltsite == "3":
-                            cjson = s.get(f"https://exe.io/api?", params={'api': caltapi, 'url': cmesajb}).json()
-                            calink = cjson['shortenedUrl']
-                        if caltsite == "4":
-                            calink = s.get(f"http://ouo.io/api/{caltapi}?", params={'s': cmesajb}).text
-                        if caltsite == "5":
-                            calink = s.get(f"http://pubiza.com/api.php?", params={'token': caltapi, 'url': cmesajb, 'ads_type': "adult"}).text
-                    if csite == "1":
-                        cjson = s.get(f"https://ay.live/api/?", params={'api': ctoken, 'url': cmesajb, 'ct': 1},
-                                      cookies=cookies).json()
-                        clink = cjson['shortenedUrl']
-                    if csite == "2":
-                        cjson = s.get(f"https://www.pnd.tl/api?", params={'api': ctoken, 'url': cmesajb, 'category': 6}).json()
-                        clink = cjson['shortenedUrl']
-                    if csite == "3":
-                        cjson = s.get(f"https://exe.io/api?", params={'api': ctoken, 'url': cmesajb}).json()
-                        clink = cjson['shortenedUrl']
-                    if csite == "4":
-                        clink = s.get(f"http://ouo.io/api/{ctoken}?", params={'s': cmesajb}).text
-                    if csite == "5":
-                        clink = s.get(f"http://pubiza.com/api.php?", params={'token': ctoken, 'url': cmesajb, 'ads_type': "adult"}).text
+                        while clinktry < 5 and calink == " ":
+                            if caltsite == "1":
+                                cjson = s.get(f"https://ay.live/api/?", params={'api': caltapi, 'url': cmesajb, 'ct': 1}, cookies=cookies).json()
+                                calink = cjson['shortenedUrl']
+                            if caltsite == "2":
+                                cjson = s.get(f"https://www.pnd.tl/api?", params={'api': caltapi, 'url': cmesajb, 'category': 6}).json()
+                                calink =     cjson['shortenedUrl']
+                            if caltsite == "3":
+                                cjson = s.get(f"https://exe.io/api?", params={'api': caltapi, 'url': cmesajb}).json()
+                                calink = cjson['shortenedUrl']
+                            if caltsite == "4":
+                                calink = s.get(f"http://ouo.io/api/{caltapi}?", params={'s': cmesajb}).text
+                            if caltsite == "5":
+                                calink = s.get(f"http://pubiza.com/api.php?", params={'token': caltapi, 'url': cmesajb, 'ads_type': "adult"}).text
+                            clinktry += 1
+                    while clinktry < 5 and clink == " ":
+                        if csite == "1":
+                            cjson = s.get(f"https://ay.live/api/?", params={'api': ctoken, 'url': cmesajb, 'ct': 1}, cookies=cookies).json()
+                            clink = cjson['shortenedUrl']
+                        if csite == "2":
+                            cjson = s.get(f"https://www.pnd.tl/api?", params={'api': ctoken, 'url': cmesajb, 'category': 6}).json()
+                            clink = cjson['shortenedUrl']
+                        if csite == "3":
+                            cjson = s.get(f"https://exe.io/api?", params={'api': ctoken, 'url': cmesajb}).json()
+                            clink = cjson['shortenedUrl']
+                        if csite == "4":
+                            clink = s.get(f"http://ouo.io/api/{ctoken}?", params={'s': cmesajb}).text
+                        if csite == "5":
+                            clink = s.get(f"http://pubiza.com/api.php?", params={'token': ctoken, 'url': cmesajb, 'ads_type': "adult"}).text
+                        clinktry += 1
                     logger.info(f"{ckanal} + {clink} + {ctoken}")
                 except Exception as e:
                     bot.send_message(cuser, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
@@ -2111,6 +2119,7 @@ def poster(update, context):
                 dalink = " "
                 dlink = " "
                 djson = " "
+                dlinktry = 0
                 if dsira == "2":
                     dtoken = daltapi
                     dsite = daltsite
@@ -2119,33 +2128,36 @@ def poster(update, context):
                     collection.update_one({"_id": duser}, {"$set": {"sira": "2"}})
                 try:
                     if not daltapi == "None":
-                        if daltsite == "1":
-                            djson = s.get(f"https://ay.live/api/?", params={'api': daltapi, 'url': dmesajb, 'ct': 1}, cookies=cookies).json()
-                            dalink = djson['shortenedUrl']
-                        if daltsite == "2":
-                            djson = s.get(f"https://www.pnd.tl/api?", params={'api': daltapi, 'url': dmesajb, 'category': 6}).json()
-                            dalink = djson['shortenedUrl']
-                        if daltsite == "3":
-                            djson = s.get(f"https://exe.io/api?", params={'api': daltapi, 'url': dmesajb}).json()
-                            dalink = djson['shortenedUrl']
-                        if daltsite == "4":
-                            dalink = s.get(f"http://ouo.io/api/{daltapi}?", params={'s': dmesajb}).text
-                        if daltsite == "5":
-                            dalink = s.get(f"http://pubiza.com/api.php?", params={'token': daltapi, 'url': dmesajb, 'ads_type': "adult"}).text
-                  
-                    if dsite == "1":
-                        djson = s.get(f"https://ay.live/api/?", params={'api': dtoken, 'url': dmesajb, 'ct': 1}, cookies=cookies).json()
-                        dlink = djson['shortenedUrl']
-                    if dsite == "2":
-                        djson = s.get(f"https://www.pnd.tl/api?", params={'api': dtoken, 'url': dmesajb, 'category': 6}).json()
-                        dlink = djson['shortenedUrl']
-                    if dsite == "3":
-                        djson = s.get(f"https://exe.io/api?", params={'api': dtoken, 'url': dmesajb}).json()
-                        dlink = djson['shortenedUrl']
-                    if dsite == "4":
-                        dlink = s.get(f"http://ouo.io/api/{dtoken}?", params={'s': dmesajb}).text
-                    if dsite == "5":
-                        dlink = s.get(f"http://pubiza.com/api.php?", params={'token': dtoken, 'url': dmesajb, 'ads_type': "adult"}).text
+                        while dlinktry < 5 and dalink == " ":
+                            if daltsite == "1":
+                                djson = s.get(f"https://ay.live/api/?", params={'api': daltapi, 'url': dmesajb, 'ct': 1}, cookies=cookies).json()
+                                dalink = djson['shortenedUrl']
+                            if daltsite == "2":
+                                djson = s.get(f"https://www.pnd.tl/api?", params={'api': daltapi, 'url': dmesajb, 'category': 6}).json()
+                                dalink = djson['shortenedUrl']
+                            if daltsite == "3":
+                                djson = s.get(f"https://exe.io/api?", params={'api': daltapi, 'url': dmesajb}).json()
+                                dalink = djson['shortenedUrl']
+                            if daltsite == "4":
+                                dalink = s.get(f"http://ouo.io/api/{daltapi}?", params={'s': dmesajb}).text
+                            if daltsite == "5":
+                                dalink = s.get(f"http://pubiza.com/api.php?", params={'token': daltapi, 'url': dmesajb, 'ads_type': "adult"}).text
+                            dlinktry += 1
+                    while dlinktry < 5 and dlink == " ":
+                        if dsite == "1":
+                            djson = s.get(f"https://ay.live/api/?", params={'api': dtoken, 'url': dmesajb, 'ct': 1}, cookies=cookies).json()
+                            dlink = djson['shortenedUrl']
+                        if dsite == "2":
+                            djson = s.get(f"https://www.pnd.tl/api?", params={'api': dtoken, 'url': dmesajb, 'category': 6}).json()
+                            dlink = djson['shortenedUrl']
+                        if dsite == "3":
+                            djson = s.get(f"https://exe.io/api?", params={'api': dtoken, 'url': dmesajb}).json()
+                            dlink = djson['shortenedUrl']
+                        if dsite == "4":
+                            dlink = s.get(f"http://ouo.io/api/{dtoken}?", params={'s': dmesajb}).text
+                        if dsite == "5":
+                            dlink = s.get(f"http://pubiza.com/api.php?", params={'token': dtoken, 'url': dmesajb, 'ads_type': "adult"}).text
+                        dlinktry += 1
                     logger.info(f"{dkanal} + {dlink} + {dtoken}")
                 except Exception as e:
                     bot.send_message(duser, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
@@ -2352,11 +2364,11 @@ def poster(update, context):
                             pass   
                         logger.debug(f"{ekan} kayıtlardan silindi.")
                     except Exception as e:
-                        if e == "Chat is not found":
+                        if e.find("Chat is not found") != -1:
                             raise Unauthorized
-                        if e == "Need administrator rights in the channel chat":
+                        if e.find("Need administrator rights in the channel chat") != -1:
                             raise Unauthorized
-                        if e == "Forbidden: bot is not a member of the channel chat":
+                        if e.find("Forbidden: bot is not a member of the channel chat") != -1:
                             raise Unauthorized
                         else:
                             logger.error(e)
@@ -2434,6 +2446,7 @@ def poster(update, context):
                 glink = " "
                 galink = " "
                 gjson = " "
+                glinktry = 0
                 if gsira == "2":
                     gtoken = galtapi
                     gsite = galtsite
@@ -2442,33 +2455,36 @@ def poster(update, context):
                     collection.update_one({"_id": guser}, {"$set": {"sira": "2"}})
                 try:
                     if not galtapi == "None":
-                        if galtsite == "1":
-                            gjson = s.get(f"https://ay.live/api/?", params={'api': galtapi, 'url': gmesajb, 'ct': 1}, cookies=cookies).json()
-                            galink = gjson['shortenedUrl']
-                        if galtsite == "2":
-                            gjson = s.get(f"https://www.pnd.tl/api?", params={'api': galtapi, 'url': gmesajb, 'category': 6}).json()
-                            galink = gjson['shortenedUrl']
-                        if galtsite == "3":
-                            gjson = s.get(f"https://exe.io/api?", params={'api': galtapi, 'url': gmesajb}).json()
-                            galink = gjson['shortenedUrl']
-                        if galtsite == "4":
-                            galink = s.get(f"http://ouo.io/api/{galtapi}?", params={'s': gmesajb}).text
-                        if galtsite == "5":
-                            galink = s.get(f"http://pubiza.com/api.php?", params={'token': galtapi, 'url': gmesajb, 'ads_type': "adult"}).text
-                    if gsite == "1":
-                        gjson = s.get(f"https://ay.live/api/?", params={'api': gtoken, 'url': gmesajb, 'ct': 1},
-                                      cookies=cookies).json()
-                        glink = gjson['shortenedUrl']
-                    if gsite == "2":
-                        gjson = s.get(f"https://www.pnd.tl/api?", params={'api': gtoken, 'url': gmesajb, 'category': 6}).json()
-                        glink = gjson['shortenedUrl']
-                    if gsite == "3":
-                        gjson = s.get(f"https://exe.io/api?", params={'api': gtoken, 'url': gmesajb}).json()
-                        glink = gjson['shortenedUrl']
-                    if gsite == "4":
-                      glink = s.get(f"http://ouo.io/api/{gtoken}?", params={'s': gmesajb}).text
-                    if gsite == "5":
-                        glink = s.get(f"http://pubiza.com/api.php?", params={'token': gtoken, 'url': gmesajb, 'ads_type': "adult"}).text
+                        while glinktry < 5 and galink == " ":
+                            if galtsite == "1":
+                                gjson = s.get(f"https://ay.live/api/?", params={'api': galtapi, 'url': gmesajb, 'ct': 1}, cookies=cookies).json()
+                                galink = gjson['shortenedUrl']
+                            if galtsite == "2":
+                                gjson = s.get(f"https://www.pnd.tl/api?", params={'api': galtapi, 'url': gmesajb, 'category': 6}).json()
+                                galink = gjson['shortenedUrl']
+                            if galtsite == "3":
+                                gjson = s.get(f"https://exe.io/api?", params={'api': galtapi, 'url': gmesajb}).json()
+                                galink = gjson['shortenedUrl']
+                            if galtsite == "4":
+                                galink = s.get(f"http://ouo.io/api/{galtapi}?", params={'s': gmesajb}).text
+                            if galtsite == "5":
+                                galink = s.get(f"http://pubiza.com/api.php?", params={'token': galtapi, 'url': gmesajb, 'ads_type': "adult"}).text
+                            glinktry += 1
+                    while glinktry < 5 and glink == " ":
+                        if gsite == "1":
+                            gjson = s.get(f"https://ay.live/api/?", params={'api': gtoken, 'url': gmesajb, 'ct': 1}, cookies=cookies).json()
+                            glink = gjson['shortenedUrl']
+                        if gsite == "2":
+                            gjson = s.get(f"https://www.pnd.tl/api?", params={'api': gtoken, 'url': gmesajb, 'category': 6}).json()
+                            glink = gjson['shortenedUrl']
+                        if gsite == "3":
+                            gjson = s.get(f"https://exe.io/api?", params={'api': gtoken, 'url': gmesajb}).json()
+                            glink = gjson['shortenedUrl']
+                        if gsite == "4":
+                          glink = s.get(f"http://ouo.io/api/{gtoken}?", params={'s': gmesajb}).text
+                        if gsite == "5":
+                            glink = s.get(f"http://pubiza.com/api.php?", params={'token': gtoken, 'url': gmesajb, 'ads_type': "adult"}).text
+                        glinktry += 1
                     logger.info(f"{gkanal} + {glink} + {gtoken}")
                 except Exception as e:
                     bot.send_message(guser, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
@@ -2513,11 +2529,11 @@ def poster(update, context):
                             pass   
                         logger.debug(f"{gkan} kayıtlardan silindi.")
                     except Exception as e:
-                        if e == "Chat is not found":
+                        if e.find("Chat is not found") != -1:
                             raise Unauthorized
-                        if e == "Need administrator rights in the channel chat":
+                        if e.find("Need administrator rights in the channel chat") != -1:
                             raise Unauthorized
-                        if e == "Forbidden: bot is not a member of the channel chat":
+                        if e.find("Forbidden: bot is not a member of the channel chat") != -1:
                             raise Unauthorized
                         else:
                             logger.error(e)
@@ -2596,6 +2612,7 @@ def poster(update, context):
                 falink = " "
                 flink = " "
                 fjson = " "
+                flinktry = 0
                 if fsira == "2":
                     ftoken = faltapi
                     fsite = faltsite
@@ -2604,33 +2621,36 @@ def poster(update, context):
                     collection.update_one({"_id": fuser}, {"$set": {"sira": "2"}})
                 try:
                     if not faltapi == "None":
-                        if faltsite == "1":
-                            fjson = s.get(f"https://ay.live/api/?", params={'api': faltapi, 'url': fmesajb, 'ct': 1}, cookies=cookies).json()
-                            falink = fjson['shortenedUrl']
-                        if faltsite == "2":
-                            fjson = s.get(f"https://www.pnd.tl/api?", params={'api': faltapi, 'url': fmesajb, 'category': 6}).json()
-                            falink = fjson['shortenedUrl']
-                        if faltsite == "3":
-                            fjson = s.get(f"https://exe.io/api?", params={'api': faltapi, 'url': fmesajb}).json()
-                            falink = fjson['shortenedUrl']
-                        if faltsite == "4":
-                            falink = s.get(f"http://ouo.io/api/{faltapi}?", params={'s': fmesajb}).text
-                        if faltsite == "5":
-                            falink = s.get(f"http://pubiza.com/api.php?", params={'token': faltapi, 'url': fmesajb, 'ads_type': "adult"}).text
-                    
-                    if fsite == "1":
-                        fjson = s.get(f"https://ay.live/api/?", params={'api': ftoken, 'url': fmesajb, 'ct': 1}, cookies=cookies).json()
-                        flink = fjson['shortenedUrl']
-                    if fsite == "2":
-                        fjson = s.get(f"https://www.pnd.tl/api?", params={'api': ftoken, 'url': fmesajb, 'category': 6}).json()
-                        flink = fjson['shortenedUrl']
-                    if fsite == "3":
-                        fjson = s.get(f"https://exe.io/api?", params={'api': ftoken, 'url': fmesajb}).json()
-                        flink = fjson['shortenedUrl']
-                    if fsite == "4":
-                        flink = s.get(f"http://ouo.io/api/{ftoken}?", params={'s': fmesajb}).text
-                    if fsite == "5":
-                        flink = s.get(f"http://pubiza.com/api.php?", params={'token': faltapi, 'url': fmesajb, 'ads_type': "adult"}).text
+                        while flinktry < 5 and falink == " ":
+                            if faltsite == "1":
+                                fjson = s.get(f"https://ay.live/api/?", params={'api': faltapi, 'url': fmesajb, 'ct': 1}, cookies=cookies).json()
+                                falink = fjson['shortenedUrl']
+                            if faltsite == "2":
+                                fjson = s.get(f"https://www.pnd.tl/api?", params={'api': faltapi, 'url': fmesajb, 'category': 6}).json()
+                                falink = fjson['shortenedUrl']
+                            if faltsite == "3":
+                                fjson = s.get(f"https://exe.io/api?", params={'api': faltapi, 'url': fmesajb}).json()
+                                falink = fjson['shortenedUrl']
+                            if faltsite == "4":
+                                falink = s.get(f"http://ouo.io/api/{faltapi}?", params={'s': fmesajb}).text
+                            if faltsite == "5":
+                                falink = s.get(f"http://pubiza.com/api.php?", params={'token': faltapi, 'url': fmesajb, 'ads_type': "adult"}).text
+                            flinktry += 1
+                    while flinktry < 5 and flink == " ":
+                        if fsite == "1":
+                            fjson = s.get(f"https://ay.live/api/?", params={'api': ftoken, 'url': fmesajb, 'ct': 1}, cookies=cookies).json()
+                            flink = fjson['shortenedUrl']
+                        if fsite == "2":
+                            fjson = s.get(f"https://www.pnd.tl/api?", params={'api': ftoken, 'url': fmesajb, 'category': 6}).json()
+                            flink = fjson['shortenedUrl']
+                        if fsite == "3":
+                            fjson = s.get(f"https://exe.io/api?", params={'api': ftoken, 'url': fmesajb}).json()
+                            flink = fjson['shortenedUrl']
+                        if fsite == "4":
+                            flink = s.get(f"http://ouo.io/api/{ftoken}?", params={'s': fmesajb}).text
+                        if fsite == "5":
+                            flink = s.get(f"http://pubiza.com/api.php?", params={'token': faltapi, 'url': fmesajb, 'ads_type': "adult"}).text
+                        flinktry += 1
                     logger.info(f"{fkanal} + {flink} + {ftoken}")
                 except Exception as e:
                     bot.send_message(fuser, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
@@ -2671,14 +2691,12 @@ def poster(update, context):
                             pass   
                         logger.debug(f"{fkan} kayıtlardan silindi.")
                     except Exception as e:
-                        if e == "Chat is not found":
+                        if e.find("Chat is not found") != -1:
                             raise Unauthorized
-                        if e == "Need administrator rights in the channel chat":
+                        if e.find("Need administrator rights in the channel chat") != -1:
                             raise Unauthorized
-                        if e == "Forbidden: bot is not a member of the channel chat":
+                        if e.find("Forbidden: bot is not a member of the channel chat") != -1:
                             raise Unauthorized
-                        else:
-                            logger.error(e)
                         logger.error(e)
                     else:
                         fpostdata.insert_one({"chat": fkan, "pid": fpost.message_id, "mesih": fmesjid})
@@ -2743,6 +2761,7 @@ def poster(update, context):
             if len(okanal) > 0 and oret:
                 oalink = " "
                 olink = " "
+                olinktry = 0
                 if osira == "2":
                     otoken = oaltapi
                     osite = oaltsite
@@ -2751,32 +2770,36 @@ def poster(update, context):
                     collection.update_one({"_id": ouser}, {"$set": {"sira": "2"}})
                 try:
                     if not oaltapi == "None":
-                        if oaltsite == "1":
-                            ojson = s.get(f"https://ay.live/api/?", params={'api': oaltapi, 'url': omesajb, 'ct': 1}, cookies=cookies).json()
-                            oalink = ojson['shortenedUrl']
-                        if oaltsite == "2":
-                            ojson = s.get(f"https://www.pnd.tl/api?", params={'api': oaltapi, 'url': omesajb, 'category': 6}).json()
-                            oalink = ojson['shortenedUrl']
-                        if oaltsite == "3":
-                            ojson = s.get(f"https://exe.io/api?", params={'api': oaltapi, 'url': omesajb}).json()
-                            oalink = ojson['shortenedUrl']
-                        if oaltsite == "4":
-                            oalink = s.get(f"http://ouo.io/api/{oaltapi}?", params={'s': omesajb}).text
-                        if oaltsite == "5":
-                            oalink = s.get(f"http://pubiza.com/api.php?", params={'token': oaltapi, 'url': omesajb, 'ads_type': "adult"}).text
-                    if osite == "1":
-                        ojson = s.get(f"https://ay.live/api/?", params={'api': otoken, 'url': omesajb, 'ct': 1}, cookies=cookies).json()
-                        olink = ojson['shortenedUrl']
-                    if osite == "2":
-                        ojson = s.get(f"https://www.pnd.tl/api?", params={'api': otoken, 'url': omesajb, 'category': 6}).json()
-                        olink = ojson['shortenedUrl']
-                    if osite == "3":
-                        ojson = s.get(f"https://exe.io/api?", params={'api': otoken, 'url': omesajb}).json()
-                        olink = ojson['shortenedUrl']
-                    if osite == "4":
-                        olink = s.get(f"http://ouo.io/api/{otoken}?", params={'s': omesajb}).text
-                    if osite == "5":
-                        olink = s.get(f"http://pubiza.com/api.php?", params={'token': etoken, 'url': omesajb, 'ads_type': "adult"}).text
+                        while olinktry < 5 and oalink == " ":
+                            if oaltsite == "1":
+                                ojson = s.get(f"https://ay.live/api/?", params={'api': oaltapi, 'url': omesajb, 'ct': 1}, cookies=cookies).json()
+                                oalink = ojson['shortenedUrl']
+                            if oaltsite == "2":
+                                ojson = s.get(f"https://www.pnd.tl/api?", params={'api': oaltapi, 'url': omesajb, 'category': 6}).json()
+                                oalink = ojson['shortenedUrl']
+                            if oaltsite == "3":
+                                ojson = s.get(f"https://exe.io/api?", params={'api': oaltapi, 'url': omesajb}).json()
+                                oalink = ojson['shortenedUrl']
+                            if oaltsite == "4":
+                                oalink = s.get(f"http://ouo.io/api/{oaltapi}?", params={'s': omesajb}).text
+                            if oaltsite == "5":
+                                oalink = s.get(f"http://pubiza.com/api.php?", params={'token': oaltapi, 'url': omesajb, 'ads_type': "adult"}).text
+                            olinktry += 1
+                    while olinktry < 5 and olink == " ":
+                        if osite == "1":
+                            ojson = s.get(f"https://ay.live/api/?", params={'api': otoken, 'url': omesajb, 'ct': 1}, cookies=cookies).json()
+                            olink = ojson['shortenedUrl']
+                        if osite == "2":
+                            ojson = s.get(f"https://www.pnd.tl/api?", params={'api': otoken, 'url': omesajb, 'category': 6}).json()
+                            olink = ojson['shortenedUrl']
+                        if osite == "3":
+                            ojson = s.get(f"https://exe.io/api?", params={'api': otoken, 'url': omesajb}).json()
+                            olink = ojson['shortenedUrl']
+                        if osite == "4":
+                            olink = s.get(f"http://ouo.io/api/{otoken}?", params={'s': omesajb}).text
+                        if osite == "5":
+                            olink = s.get(f"http://pubiza.com/api.php?", params={'token': etoken, 'url': omesajb, 'ads_type': "adult"}).text
+                        olinktry += 1
                     logger.info(f"{okanal} + {olink} + {otoken}")
                 except Exception as e:
                     bot.send_message(ouser, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
@@ -2805,11 +2828,6 @@ def poster(update, context):
                             opost = bot.send_video(okan, omedya, caption=osablon)
                         if update.channel_post.animation and oret:
                             opost = bot.send_animation(okan, omedya, caption=osablon)
-                    except BadRequest as bd:
-                        if bd.args == "Chat is not found":
-                            raise Unauthorized
-                        else:
-                            logger.error(bd)
                     except Unauthorized:
                         try:
                             logger.debug(f"Hatalı kanal: {okan}")
@@ -2821,14 +2839,12 @@ def poster(update, context):
                         else:
                             logger.debug(f"{okan} kayıtlardan silindi.")
                     except Exception as e:
-                        if e == "Chat is not found":
+                        if e.find("Chat is not found") != -1:
                             raise Unauthorized
-                        if e == "Need administrator rights in the channel chat":
+                        if e.find("Need administrator rights in the channel chat") != -1:
                             raise Unauthorized
-                        if e == "Forbidden: bot is not a member of the channel chat":
+                        if e.find("Forbidden: bot is not a member of the channel chat") != -1:
                             raise Unauthorized
-                        else:
-                            logger.error(e)
                         logger.error(e)
                     else:
                         ocount += 1                     
