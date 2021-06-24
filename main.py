@@ -723,9 +723,13 @@ def callback_query(call, context):
         return PATZAMAN
     if call.callback_query.data == "simdi": 
         bot.delete_message(user, mesajid)
-        ptip = context.user_data['ptip']
-        fid = context.user_data['fid']
-        psablon = context.user_data['psablon']
+        try:
+            ptip = context.user_data['ptip']
+            fid = context.user_data['fid']
+            psablon = context.user_data['psablon']
+        except:
+            call.callback_query.edit_message_text("Bir hata oluştı! Lütfen tekrar deneyin.")
+            return
         if len(collection.find_one({"_id": user})['kanal']) < 2:
             SEND_MEDIA_TYPES[ptip](collection.find_one({"_id": user})['kanal'][0], fid, caption=psablon)
             bot.send_message(user, "Postunuz gönderildi.", reply_markup=dugme(user))
