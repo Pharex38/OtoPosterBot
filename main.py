@@ -2504,31 +2504,20 @@ def poster(update, context):
                         if update.channel_post.video and gret:
                             gpost = bot.send_video(gkan, gmedya, caption=gsablon)
                         if update.channel_post.animation and gret:
-                            gpost = bot.send_animation(gkan, gmedya, caption=gsablon)
-                    except BadRequest as bd:
-                        if bd.args == "Chat is not found":
-                            raise Unauthorized
-                        else:
-                            logger.error(bd)
-                    except Unauthorized:
-                        try:
-                            logger.debug(f"Hatalı kanal: {gkan}")
-                            bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {guser}\nÜYE: {bot.get_chat_members_count(gkan)}\nKANAL: {gkan}")
-                            collection.update_one({"_id": guser}, {"$pull": {"kanal": gkan}})
-                            bot.send_message(guser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
-                        except: 
-                            pass   
-                        logger.debug(f"{gkan} kayıtlardan silindi.")
+                            gpost = bot.send_animation(gkan, gmedya, caption=gsablon)                        
                     except Exception as e:
-                        if str(e).find("Chat is not found") != -1:
-                            raise Unauthorized
-                        if str(e).find("Need administrator") != -1:
-                            raise Unauthorized
-                        if str(e).find("bot is not") != -1:
-                            raise Unauthorized
+                        if str(e).find("Chat is not found") != -1 or str(e).find("bot is not") != -1 or str(e).find("Need administrator") != -1:
+                            try:
+                                logger.debug(f"Hatalı kanal: {gkan}")
+                                bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {guser}\nÜYE: {bot.get_chat_members_count(gkan)}\nKANAL: {gkan}")
+                                collection.update_one({"_id": guser}, {"$pull": {"kanal": gkan}})
+                                bot.send_message(guser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                            except: 
+                                pass   
+                            else:
+                                logger.debug(f"{gkan} kayıtlardan silindi.")
                         else:
                             logger.error(e)
-                        logger.error(e)
                     else:
                         gpostdata.insert_one({"chat": gkan, "pid": gpost.message_id, "mesih": gmesjid})
                         gcount = gcount + 1
@@ -2679,22 +2668,20 @@ def poster(update, context):
                         if update.channel_post.animation and fret:
                             fpost = bot.send_animation(fkan, fmedya, caption=fsablon)
                     except Unauthorized:
-                        try:
-                            logger.debug(f"Hatalı kanal: {fkan}")
-                            bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {fuser}\nÜYE: {bot.get_chat_members_count(fkan)}\nKANAL: {fkan}")
-                            collection.update_one({"_id": fuser}, {"$pull": {"kanal": fkan}})
-                            bot.send_message(fuser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
-                        except: 
-                            pass   
-                        logger.debug(f"{fkan} kayıtlardan silindi.")
+                        
                     except Exception as e:
-                        if str(e).find("Chat is not found") != -1:
-                            raise Unauthorized
-                        if str(e).find("Need administrator") != -1:
-                            raise Unauthorized
-                        if str(e).find("bot is not") != -1:
-                            raise Unauthorized
-                        logger.error(e)
+                        if str(e).find("Chat is not found") != -1 or str(e).find("bot is not") != -1 or str(e).find("Need administrator") != -1:
+                            try:
+                                logger.debug(f"Hatalı kanal: {fkan}")
+                                bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {fuser}\nÜYE: {bot.get_chat_members_count(fkan)}\nKANAL: {fkan}")
+                                collection.update_one({"_id": fuser}, {"$pull": {"kanal": fkan}})
+                                bot.send_message(fuser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                            except: 
+                                pass   
+                            else:
+                                logger.debug(f"{fkan} kayıtlardan silindi.")
+                        else:
+                            logger.error(e)
                     else:
                         fpostdata.insert_one({"chat": fkan, "pid": fpost.message_id, "mesih": fmesjid})
                         fcount = fcount + 1
