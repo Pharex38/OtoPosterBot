@@ -1681,7 +1681,7 @@ def poster(update, context):
                     sablon = sablon.replace("{aciklama}", "{}").replace("{alink}", "{}").replace("{link}", "{}").format(aciklama, link, alink)
                 else:
                     sablon = sablon.replace("{aciklama}", "{}").replace("{link}", "{}").format(aciklama, link)
-                sleep(0.5)
+                
                 if link == " ":
                     bot.send_message(-1001190898326, str(hesap))
                     ret = False
@@ -1845,7 +1845,7 @@ def poster(update, context):
                 else:
                     bsablon = bsablon.replace("{aciklama}", "{}").replace("{link}", "{}")
                     bsablon = str(bsablon).format(baciklama, blink)
-                sleep(0.5)
+                
                 if blink == " ":
                     bot.send_message(-1001190898326, str(bhesap))
                     bret = False
@@ -2014,7 +2014,7 @@ def poster(update, context):
                     
                 else:
                     csablon = csablon.replace("{link}", "{}").replace("aciklama", "").format(caciklama, clink)
-                sleep(0.5)
+                
                 if clink == " ":
                     bot.send_message(-1001190898326, str(chesap))
                     cret = False
@@ -2176,7 +2176,7 @@ def poster(update, context):
                     dsablon = dsablon.replace("{link}", "{}").replace("{aciklama}", "{}").replace("{alink}", "{}").format(daciklama, dlink, dalink)
                 else:
                     dsablon = dsablon.replace("{link}", "{}").replace("{aciklama}", "{}").format(daciklama, dlink)
-                sleep(0.5)
+                
                 if dlink == " ":
                     bot.send_message(-1001190898326, str(dhesap))
                     dret = False
@@ -2337,7 +2337,7 @@ def poster(update, context):
                     esablon = esablon.replace("{link}", "{}").replace("{aciklama}", "{}").replace("{alink}", "{}").format(eaciklama, elink, ealink)
                 else:
                     esablon = esablon.replace("{link}", "{}").replace("{aciklama}", "{}").format(eaciklama, elink)
-                sleep(0.5)
+                
                 if elink == " ":
                     bot.send_message(-1001190898326, str(ehesap))
                     eret = False
@@ -2498,7 +2498,7 @@ def poster(update, context):
                     gsablon = gsablon.replace("{link}", "{}").replace("{aciklama}", "{}").replace("{alink}", "{}").format(gaciklama, glink, galink)
                 else:
                     gsablon = gsablon.replace("{link}", "{}").replace("aciklama", "").format(gaciklama, glink)
-                sleep(0.5)
+                
                 if glink == " ":
                     bot.send_message(-1001190898326, str(ghesap))
                     gret = False
@@ -2660,7 +2660,7 @@ def poster(update, context):
                 else:
                     fsablon = fsablon.replace("{aciklama}", "{}").replace("{link}", "{}")
                     fsablon = str(fsablon).format(faciklama, flink)
-                sleep(0.5)
+                
                 if flink == " ":
                     bot.send_message(-1001190898326, str(fhesap))
                     fret = False
