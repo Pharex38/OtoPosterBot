@@ -1693,7 +1693,7 @@ def poster(update, context):
                         ret = False
                     if not user in yetkililer and ret:
                         try:
-                            membersayi = bot.get_chat(kan).title
+                            membersayi = bot.get_chat_members_count(kan)
                         except:
                             membersayi = "Bot kanaldan çıkarılmış."
                         try:
@@ -2043,7 +2043,7 @@ def poster(update, context):
                         cret = False
                     if not cuser in cyetkililer and cret:
                         try:
-                            membersayi = bot.get_chat(ckan).title
+                            membersayi = bot.get_chat_members_count(ckan)
                         except:
                             membersayi = "Bot kanaldan çıkarılmış."
                         try:
