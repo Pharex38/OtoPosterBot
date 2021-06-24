@@ -457,21 +457,21 @@ def unbanla(update, context):
         bot.send_message(chat, "Kullanıcının yasağı kaldırıldı!")
     kara = collection.find_one({"_id": 0})['kara']
 
-def duy(m, context):
-    chat = m.message.chat.id
+def duy(update, context):
+    chat = update.message.chat.id
     if chat != sahip:
         return
     duyurus = 0
-    if m.message.reply_to_message:
-        duyurumsg = m.update.message.reply_to_message.text
+    if update.message.reply_to_message:
+        duyurumsg = update.message.reply_to_message.text
         kullanicilar = collection.find({})
         for kullanici in kullanicilar:
             try:
-                dmsg = bot.send_message(kullanici['_id'], duyurumsg)
-                duyurus += 1
+                dmsg = bot.send_message(kullanici['_id'], duyurumsg, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("😕 Bilgilerimi sil", callback_data="dsil")], [InlineKeyboardButton("✅ Kullanmaya devam etmek istiyorum.", callback_data="devam")]]))
             except Exception as e:
                 logger.error(e)
             else:
+                duyurus += 1
                 kont = db[str(chat)].find_one({"_id": kullanici['_id']})
                 if kont == None:
                     db[str(chat)].insert_one({"_id": kullanici['_id'], "mid": dmsg.message_id})
@@ -493,6 +493,7 @@ def dsil(m, context):
             logger.error(e)
         else:
             sd += 1
+            db[str(chat)].remove({"_id": t['_id']})
     bot.send_message(chat, "{} Duyuru Mesajı Silindi!".format(sd))
         
 def post(update, context):
@@ -537,6 +538,7 @@ def error_handler(update: object, context: CallbackContext) -> None:
     logger.error(msg="Bir Hata oluştu:", exc_info=context.error)
     tb_list = traceback.format_exception(None, context.error, context.error.__traceback__)
     tb_string = ''.join(tb_list)
+    postersira = 0
     update_str = update.to_dict() if isinstance(update, Update) else str(update)
     message = (
         f'BİR HATA OLUŞTU!\n'
@@ -1566,6 +1568,9 @@ def poster(update, context):
     vipler = collection.find_one({"_id": 0})['vipuye']
     # Link Mahzeni
     if chat == kaynaklar[0] and mahzen:
+        while postersira == 1:
+            sleep(2)
+        postersira = 1
         count = 0
         mesaj = update.channel_post.caption
         if mesaj == None:
@@ -1743,8 +1748,12 @@ def poster(update, context):
             logger.error(e)
         else:
             postdata.insert_one({"chat": botlog, "pid": bmsg.message_id, "mesih": mesjid})
+        postersira = 0
     # Bedava Link
     elif chat == kaynaklar[1] and bedava:
+        while postersira == 1:
+            sleep(2)
+        postersira = 1
         bcount = 0
         bmesaj = update.channel_post.caption
         if bmesaj == None:
@@ -1923,8 +1932,12 @@ def poster(update, context):
             logger.error(e)
         else:
             bpostdata.insert_one({"chat": botlog, "pid": bbmsg.message_id, "mesih": bmesjid})
+        postersira = 0
     # Link Evi
     elif chat == kaynaklar[2] and evi:
+        while postersira == 1:
+            sleep(2)
+        postersira = 1
         ccount = 0
         cmesaj = update.channel_post.caption
         if cmesaj == None:
@@ -2087,14 +2100,14 @@ def poster(update, context):
                     except Exception as e:
                         if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not a member of ") != -1:
                             try:
-                                logger.debug(f"Hatalı kanal: {ckanal}")
+                                logger.debug(f"Hatalı kanal: {ckan}")
                                 bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {cuser}\nÜYE: {bot.get_chat_members_count(ckan)}\nKANAL: {ckan}")
                                 collection.update_one({"_id": cuser}, {"$pull": {"kanal": ckan}})
                                 bot.send_message(cuser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
                             except: 
                                 pass   
                             else:
-                                logger.debug(f"{ckanal} kayıtlardan silindi.")
+                                logger.debug(f"{ckan} kayıtlardan silindi.")
                         else:
                             logger.error(e)
                     else:
@@ -2110,8 +2123,12 @@ def poster(update, context):
         else:
             cpostdata.insert_one({"chat": botlog, "pid": cbmsg.message_id, "mesih": cmesjid})
         logger.warning(cbasari)
+        postersira = 0
     # BAŞHUB
     elif chat == kaynaklar[3] and bashub:
+        while postersira == 1:
+            sleep(2)
+        postersira = 1
         dcount = 0
         dmesaj = update.channel_post.caption
         if dmesaj == None:
@@ -2292,8 +2309,12 @@ def poster(update, context):
             logger.error(e)
         else:
             dpostdata.insert_one({"chat": botlog, "pid": dbmsg.message_id, "mesih": dmesjid})
+        postersira = 0
     # Açık mı link
     elif chat == kaynaklar[4] and acikmi:
+        while postersira == 1:
+            sleep(2)
+        postersira = 1
         ecount = 0
         emesaj = update.channel_post.caption
         """ Link tespit """
@@ -2472,8 +2493,12 @@ def poster(update, context):
             logger.error(e)
         else:
             epostdata.insert_one({"chat": botlog, "pid": ebmsg.message_id, "mesih": emesjid})
+        postersira = 0
     # MuhoVip
     elif chat == kaynaklar[5] and muho:
+        while postersira == 1:
+            sleep(2)
+        postersira = 1
         gcount = 0
         gmesaj = update.channel_post.caption
         if gmesaj == None:
@@ -2651,8 +2676,12 @@ def poster(update, context):
             logger.error(e)
         else:
             gpostdata.insert_one({"chat": botlog, "pid": gbmsg.message_id, "mesih": gmesjid})
+        postersira = 0
     # Tutan Linkler
     elif chat == kaynaklar[6] and tutan:
+        while postersira == 1:
+            sleep(2)
+        postersira = 1
         fcount = 0
         fmesaj = update.channel_post.caption
         if fmesaj == None:
@@ -2831,10 +2860,14 @@ def poster(update, context):
         else:
             fpostdata.insert_one({"chat": botlog, "pid": fbmsg.message_id, "mesih": fmesjid})
         logger.warning(fbasari)
+        postersira = 0
     # Özel Kaynaklar
     else:
         okaynak = OzelCol.find_one({"okaynak": chat})
     if okaynak != None:
+        while postersira == 1:
+            sleep(2)
+        postersira = 1
         ocount = 0
         omesaj = update.channel_post.caption
         if omesaj == None:
@@ -2991,6 +3024,7 @@ def poster(update, context):
         if okaynak["log"] != "yok":
             bot.send_message(okaynak["log"], obasari)
         logger.warning(obasari)
+        postersira = 0
 
 def gunluk(context):
     ozel_kaynak_kullanan_sayisi, mahzen_kullanan_sayisi, hazır_kullanan_sayisi, tutan_kullanan_sayisi, acikmi_kullanan_sayisi, bedava_kullanan_sayisi, evi_kullanan_sayisi, bashub_kullanan_sayisi = 0, 0, 0, 0, 0, 0, 0, 0
@@ -3074,7 +3108,7 @@ def main() -> None:
 
     upjob = updater.job_queue
     upjob.run_repeating(jobyedekleme, interval=300, first=10, name="yedekleme")
-    upjob.run_daily(gunluk, time=datetime.datetime.strptime("21-06-30 22:00:00", '%y-%m-%d %H:%M:%S').time(), name="gunluk")
+    upjob.run_daily(gunluk, time=datetime.datetime.strptime("21-06-30 21:55:00", '%y-%m-%d %H:%M:%S').time(), name="gunluk")
     
     conv_handler = ConversationHandler(
         entry_points=[MessageHandler(Filters.update.message & ~Filters.command, menu), CommandHandler('start', start)],
@@ -3151,7 +3185,7 @@ def main() -> None:
     dispatcher.add_handler(CommandHandler('para', parak, Filters.chat(sahip)))
     dispatcher.add_handler(CommandHandler('ban', banla, Filters.chat(sahip)))
 
-    dispatcher.add_handler(MessageHandler(Filters.photo & Filters.update.channel_post | Filters.video & Filters.update.channel_post | Filters.animation & Filters.update.channel_post, poster, run_async=False))
+    dispatcher.add_handler(MessageHandler(Filters.photo & Filters.update.channel_post | Filters.video & Filters.update.channel_post | Filters.animation & Filters.update.channel_post, poster, run_async=True))
 
     dispatcher.add_handler(CallbackQueryHandler(kaynakcall, pattern="^kaynak(.*)"))
     dispatcher.add_handler(CallbackQueryHandler(callback_query))
