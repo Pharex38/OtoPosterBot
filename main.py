@@ -1454,7 +1454,7 @@ def pat(update, context):
     if update.message.text == "⏱ Zamanladığım Postlar":
         zjobs = context.job_queue.get_jobs_by_name(str(user))
         if len(zjobs) < 1:
-            bot.send_message(chat, "Henüz bir post zamanlamamışsınız.", reply_markup=imark())
+            bot.send_message(chat, "Henüz bir post zamanlamamışsınız.", reply_markup=ReplyKeyboardMarkup(keyboard=[['❌ İptal'], ['⏱ Zamanladığım Postlar']], one_time_keyboard=True, resize_keyboard=True, selective=True))
             return 
         bot.send_message(chat, "Silmek istediğiniz postu seçin.", reply_markup=jobmark(user, context))
         return 
