@@ -2220,6 +2220,24 @@ def poster(update, context):
                     bot.send_message(-1001190898326, str(dhesap))
                     dret = False
                 for dkan in dkanal:
+                    try:
+                        dyetkililer = [dxy.user.id for dxy in bot.get_chat_administrators(dkan)]
+                    except:
+                        dret = False
+                    if not duser in dyetkililer and dret:
+                        try:
+                            dmembersayi = bot.get_chat_members_count(dkan)
+                        except:
+                            dmembersayi = "Bot kanaldan çıkarılmış."
+                        try:
+                            logger.debug(f"Hatalı kanal: {dkan}")
+                            bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {user}\nÜYE: {dmembersayi}\nKANAL: {dkan}")
+                            collection.update_one({"_id": duser}, {"$pull": {"kanal": dkan}})
+                            dret = False
+                        except:
+                            pass
+                        else:
+                            logger.debug(f"{dkan} kayıtlardan silindi.")
                     dpost = update.channel_post
                     try: 
                         if update.channel_post.photo and dret:
