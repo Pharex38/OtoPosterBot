@@ -644,7 +644,8 @@ def callback_query(call, context):
     if call.callback_query.data == "dsil":
         collection.remove({"_id": user})
         call.callback_query.answer("💔")
-        call.callback_query.edit_message_text("Tüm bilgileriniz silindi. 💔")
+        call.callback_query.edit_message_text("💔")
+        bot.send_message(chat, "Tüm bilgileriniz silindi.", reply_markup=dagme())
     if call.callback_query.data == "akaldır":
         collection.update_one({"_id": user}, {"$set": {"altsite": "None", "altapi": "None", "sira": "0", "sablon": "1"}})
         msg = bot.edit_message_text("⛔ Alternatif Kaldırıldı.", user, mesajid)
