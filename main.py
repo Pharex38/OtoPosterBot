@@ -2667,8 +2667,6 @@ def poster(update, context):
                             fpost = bot.send_video(fkan, fmedya, caption=fsablon)
                         if update.channel_post.animation and fret:
                             fpost = bot.send_animation(fkan, fmedya, caption=fsablon)
-                    except Unauthorized:
-                        
                     except Exception as e:
                         if str(e).find("Chat is not found") != -1 or str(e).find("bot is not") != -1 or str(e).find("Need administrator") != -1:
                             try:
