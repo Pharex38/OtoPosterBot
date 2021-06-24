@@ -1698,7 +1698,7 @@ def poster(update, context):
                         if update.channel_post.animation and ret:
                             post = bot.send_animation(kan, medya, caption=sablon)
                     except Exception as e:
-                        if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator rights in the channel chat") != -1 or str(e).find("Forbidden: bot is not a member of the channel chat") != -1:
+                        if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
                             try:
                                 logger.debug(f"Hatalı kanal: {kanal}")
                                 bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {user}\nÜYE: {bot.get_chat_members_count(kan)}\nKANAL: {kan}")
@@ -1859,7 +1859,7 @@ def poster(update, context):
                         if update.channel_post.animation and bret:
                                 bpost = bot.send_animation(bkan, bmedya, caption=bsablon)
                     except Exception as e:
-                        if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator rights in the channel chat") != -1 or str(e).find("Forbidden: bot is not a member of the channel chat") != -1:
+                        if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
                             try:
                                 logger.debug(f"Hatalı kanal: {bkan}")
                                 bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {buser}\nÜYE: {bot.get_chat_members_count(bkan)}\nKANAL: {bkan}")
@@ -1956,7 +1956,7 @@ def poster(update, context):
                     if not caltapi == "None":
                         while clinktry < 10 and calink == " ":
                             if caltsite == "1":
-                                cjson = s.get(f"https://ay.live/api/?", params={'api': caltapi, 'url': cmesajb, 'ct': 1}, cookies=cookies).json()
+                                cjson = s.get(f"https://ay.live/api/?", params={'api': caltapi, 'url': cmesajb, 'ct': 1}).json()
                                 calink = cjson['shortenedUrl']
                             if caltsite == "2":
                                 cjson = s.get(f"https://www.pnd.tl/api?", params={'api': caltapi, 'url': cmesajb, 'category': 6}).json()
@@ -2022,7 +2022,7 @@ def poster(update, context):
                         if update.channel_post.animation:
                             cpost = bot.send_animation(ckan, cmedya, caption = csablon)
                     except Exception as e:
-                        if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator rights in the channel chat") != -1 or e == str(e).find("Forbidden: bot is not a member of the channel chat") != -1:
+                        if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or e == str(e).find("bot is not a member of ") != -1:
                             try:
                                 logger.debug(f"Hatalı kanal: {ckanal}")
                                 bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {cuser}\nÜYE: {bot.get_chat_members_count(ckan)}\nKANAL: {ckan}")
@@ -2184,7 +2184,7 @@ def poster(update, context):
                         if update.channel_post.animation and dret:
                             dpost = bot.send_animation(dkan, dmedya, caption=dsablon)
                     except Exception as e:
-                        if str(e).find("Need administrator rights in the channel chat") != -1 or str(e).find("Chat is not found") != -1 or str(e).find("Forbidden: bot is not a member of the channel chat") != -1:
+                        if str(e).find("Need administrator") != -1 or str(e).find("Chat is not found") != -1 or str(e).find("bot is not") != -1:
                             try:
                                 logger.debug(f"Hatalı kanal: {dkan}")
                                 bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {duser}\nÜYE: {bot.get_chat_members_count(dkan)}\nKANAL: {dkan}")
@@ -2345,7 +2345,7 @@ def poster(update, context):
                         if update.channel_post.animation and eret:
                             epost = bot.send_animation(ekan, emedya, caption=esablon)
                     except Exception as e:
-                        if str(e).find("Chat is not found") != -1 or str(e).find("Forbidden: bot is not a member of the channel chat") != -1 or str(e).find("Need administrator rights in the channel chat") != -1:
+                        if str(e).find("Chat is not found") != -1 or str(e).find("bot is not") != -1 or str(e).find("Need administrator") != -1:
                             try:
                                 logger.debug(f"Hatalı kanal: {ekan}")
                                 bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {euser}\nÜYE: {bot.get_chat_members_count(ekan)}\nKANAL: {ekan}")
@@ -2522,9 +2522,9 @@ def poster(update, context):
                     except Exception as e:
                         if str(e).find("Chat is not found") != -1:
                             raise Unauthorized
-                        if str(e).find("Need administrator rights in the channel chat") != -1:
+                        if str(e).find("Need administrator") != -1:
                             raise Unauthorized
-                        if str(e).find("Forbidden: bot is not a member of the channel chat") != -1:
+                        if str(e).find("bot is not") != -1:
                             raise Unauthorized
                         else:
                             logger.error(e)
@@ -2690,9 +2690,9 @@ def poster(update, context):
                     except Exception as e:
                         if str(e).find("Chat is not found") != -1:
                             raise Unauthorized
-                        if str(e).find("Need administrator rights in the channel chat") != -1:
+                        if str(e).find("Need administrator") != -1:
                             raise Unauthorized
-                        if str(e).find("Forbidden: bot is not a member of the channel chat") != -1:
+                        if str(e).find("bot is not") != -1:
                             raise Unauthorized
                         logger.error(e)
                     else:
@@ -2819,7 +2819,6 @@ def poster(update, context):
                     osablon = osablon.replace("{aciklama}", "{}").replace("{alink}", "{}").replace("{link}", "{}").format(oaciklama, olink, oalink)
                 else:
                     osablon = osablon.replace("{aciklama}", "{}").replace("{link}", "{}").format(oaciklama, olink)
-                sleep(2.3)
                 if olink == " ":
                     bot.send_message(-1001190898326, str(ohesap))
                     oret = False
@@ -2832,7 +2831,7 @@ def poster(update, context):
                         if update.channel_post.animation and oret:
                             opost = bot.send_animation(okan, omedya, caption=osablon)
                     except Exception as e:
-                        if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator rights in the channel chat") != -1 or str(e).find("Forbidden: bot is not a member of the channel chat") != -1:
+                        if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
                             try:
                                 logger.debug(f"Hatalı kanal: {okan}")
                                 bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {ouser}\nÜYE: {bot.get_chat_members_count(okan)}\nKANAL: {okan}")
