@@ -1568,9 +1568,9 @@ def poster(update, context):
     vipler = collection.find_one({"_id": 0})['vipuye']
     # Link Mahzeni
     if chat == kaynaklar[0] and mahzen:
-        while postersira == 1:
+        while postersira == 2:
             sleep(2)
-        postersira = 1
+        postersira += 1
         count = 0
         mesaj = update.channel_post.caption
         if mesaj == None:
@@ -1748,12 +1748,12 @@ def poster(update, context):
             logger.error(e)
         else:
             postdata.insert_one({"chat": botlog, "pid": bmsg.message_id, "mesih": mesjid})
-        postersira = 0
+        postersira -= 1
     # Bedava Link
     elif chat == kaynaklar[1] and bedava:
-        while postersira == 1:
+        while postersira == 2:
             sleep(2)
-        postersira = 1
+        postersira += 1
         bcount = 0
         bmesaj = update.channel_post.caption
         if bmesaj == None:
@@ -1932,12 +1932,12 @@ def poster(update, context):
             logger.error(e)
         else:
             bpostdata.insert_one({"chat": botlog, "pid": bbmsg.message_id, "mesih": bmesjid})
-        postersira = 0
+        postersira -= 1
     # Link Evi
     elif chat == kaynaklar[2] and evi:
-        while postersira == 1:
+        while postersira == 2:
             sleep(2)
-        postersira = 1
+        postersira += 1
         ccount = 0
         cmesaj = update.channel_post.caption
         if cmesaj == None:
@@ -2123,12 +2123,12 @@ def poster(update, context):
         else:
             cpostdata.insert_one({"chat": botlog, "pid": cbmsg.message_id, "mesih": cmesjid})
         logger.warning(cbasari)
-        postersira = 0
+        postersira -= 1
     # BAŞHUB
     elif chat == kaynaklar[3] and bashub:
-        while postersira == 1:
+        while postersira == 2:
             sleep(2)
-        postersira = 1
+        postersira += 1
         dcount = 0
         dmesaj = update.channel_post.caption
         if dmesaj == None:
@@ -2309,12 +2309,12 @@ def poster(update, context):
             logger.error(e)
         else:
             dpostdata.insert_one({"chat": botlog, "pid": dbmsg.message_id, "mesih": dmesjid})
-        postersira = 0
+        postersira -= 1
     # Açık mı link
     elif chat == kaynaklar[4] and acikmi:
-        while postersira == 1:
+        while postersira == 2:
             sleep(2)
-        postersira = 1
+        postersira += 1
         ecount = 0
         emesaj = update.channel_post.caption
         """ Link tespit """
@@ -2493,12 +2493,12 @@ def poster(update, context):
             logger.error(e)
         else:
             epostdata.insert_one({"chat": botlog, "pid": ebmsg.message_id, "mesih": emesjid})
-        postersira = 0
+        postersira -= 1
     # MuhoVip
     elif chat == kaynaklar[5] and muho:
-        while postersira == 1:
+        while postersira == 2:
             sleep(2)
-        postersira = 1
+        postersira += 1
         gcount = 0
         gmesaj = update.channel_post.caption
         if gmesaj == None:
@@ -2676,12 +2676,12 @@ def poster(update, context):
             logger.error(e)
         else:
             gpostdata.insert_one({"chat": botlog, "pid": gbmsg.message_id, "mesih": gmesjid})
-        postersira = 0
+        postersira -= 1
     # Tutan Linkler
     elif chat == kaynaklar[6] and tutan:
-        while postersira == 1:
+        while postersira == 2:
             sleep(2)
-        postersira = 1
+        postersira += 1
         fcount = 0
         fmesaj = update.channel_post.caption
         if fmesaj == None:
@@ -2860,14 +2860,14 @@ def poster(update, context):
         else:
             fpostdata.insert_one({"chat": botlog, "pid": fbmsg.message_id, "mesih": fmesjid})
         logger.warning(fbasari)
-        postersira = 0
+        postersira -= 1
     # Özel Kaynaklar
     else:
         okaynak = OzelCol.find_one({"okaynak": chat})
     if okaynak != None:
-        while postersira == 1:
+        while postersira == 2:
             sleep(2)
-        postersira = 1
+        postersira += 1
         ocount = 0
         omesaj = update.channel_post.caption
         if omesaj == None:
@@ -3024,7 +3024,7 @@ def poster(update, context):
         if okaynak["log"] != "yok":
             bot.send_message(okaynak["log"], obasari)
         logger.warning(obasari)
-        postersira = 0
+        postersira -= 1
 
 def gunluk(context):
     ozel_kaynak_kullanan_sayisi, mahzen_kullanan_sayisi, hazır_kullanan_sayisi, tutan_kullanan_sayisi, acikmi_kullanan_sayisi, bedava_kullanan_sayisi, evi_kullanan_sayisi, bashub_kullanan_sayisi = 0, 0, 0, 0, 0, 0, 0, 0
