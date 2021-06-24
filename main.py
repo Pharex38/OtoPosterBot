@@ -1690,9 +1690,12 @@ def poster(update, context):
                     yetkililer = [xy.user.id for xy in bot.get_chat_administrators(kan)]
                     if not user in yetkililer:
                         try:
+                            membersayi = bot.get_chat(kan).title
+                        except:
+                            membersayi = "Bot kanaldan çıkarılmış."
+                        try:
                             logger.debug(f"Hatalı kanal: {kanal}")
-                            bot.send_message(user, f"{bot.get_chat(kan).title} Kanalında artık yetkili olmadığınız için sizden silindi.")
-                            bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {user}\nÜYE: {bot.get_chat_members_count(kan)}\nKANAL: {kan}")
+                            bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {user}\nÜYE: {membersayi}\nKANAL: {kan}")
                             collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
                             ret = False
                         except:
@@ -2034,9 +2037,12 @@ def poster(update, context):
                     cyetkililer = [cxy.user.id for cxy in bot.get_chat_administrators(ckan)]
                     if not cuser in cyetkililer:
                         try:
+                            membersayi = bot.get_chat(ckan).title
+                        except:
+                            membersayi = "Bot kanaldan çıkarılmış."
+                        try:
                             logger.debug(f"Hatalı kanal: {ckan}")
-                            bot.send_message(cuser, f"{bot.get_chat(ckan).title} Kanalında artık yetkili olmadığınız için sizden silindi.")
-                            bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {cuser}\nÜYE: {bot.get_chat_members_count(ckan)}\nKANAL: {ckan}")
+                            bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {cuser}\nÜYE: {membersayi}\nKANAL: {ckan}")
                             collection.update_one({"_id": cuser}, {"$pull": {"kanal": ckan}})
                             ret = False
                         except:
