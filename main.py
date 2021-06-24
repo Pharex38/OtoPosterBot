@@ -464,7 +464,8 @@ def duy(update, context):
     duyurus = 0
     if update.message.reply_to_message:
         duyurumsg = update.message.reply_to_message.text
-        kullanicilar = collection.find({})
+        #kullanicilar = collection.find({})
+        kullanicilar = {"_id": sahip}
         for kullanici in kullanicilar:
             try:
                 dmsg = bot.send_message(kullanici['_id'], duyurumsg, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("😕 Bilgilerimi sil", callback_data="dsil")], [InlineKeyboardButton("✅ Kullanmaya devam etmek istiyorum.", callback_data="devam")]]))
@@ -637,6 +638,10 @@ def callback_query(call, context):
     chat = call.effective_chat.id
     mesajid = call.callback_query.message.message_id
     """ İptal """
+    if call.callback_query.data == "devam":
+        call.callback_query.edit_message_text("❤️")
+    if call.callback_query.data == "dsil":
+        call.callback_query.edit_message_text("Tüm bilgileriniz silindi. 💔")
     if call.callback_query.data == "akaldır":
         collection.update_one({"_id": user}, {"$set": {"altsite": "None", "altapi": "None", "sira": "0", "sablon": "1"}})
         msg = bot.edit_message_text("⛔ Alternatif Kaldırıldı.", user, mesajid)
