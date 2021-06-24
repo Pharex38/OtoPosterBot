@@ -1687,8 +1687,11 @@ def poster(update, context):
                     ret = False
                 for kan in kanal:
                     post = update.channel_post
-                    yetkililer = [xy.user.id for xy in bot.get_chat_administrators(kan)]
-                    if not user in yetkililer:
+                    try:
+                        yetkililer = [xy.user.id for xy in bot.get_chat_administrators(kan)]
+                    except:
+                        ret = False
+                    if not user in yetkililer and ret:
                         try:
                             membersayi = bot.get_chat(kan).title
                         except:
@@ -2034,8 +2037,11 @@ def poster(update, context):
                     cret = False
                 for ckan in ckanal:
                     cpost = update.channel_post
-                    cyetkililer = [cxy.user.id for cxy in bot.get_chat_administrators(ckan)]
-                    if not cuser in cyetkililer:
+                    try:
+                        cyetkililer = [cxy.user.id for cxy in bot.get_chat_administrators(ckan)]
+                    except:
+                        cret = False
+                    if not cuser in cyetkililer and cret:
                         try:
                             membersayi = bot.get_chat(ckan).title
                         except:
