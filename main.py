@@ -1873,6 +1873,24 @@ def poster(update, context):
                 for bkan in bkanal:
                     bpost = update.channel_post
                     try:
+                        byetkililer = [bxy.user.id for bxy in bot.get_chat_administrators(bkan)]
+                    except:
+                        bret = False
+                    if not buser in byetkililer and bret:
+                        try:
+                            bmembersayi = bot.get_chat_members_count(bkan)
+                        except:
+                            bmembersayi = "Bot kanaldan çıkarılmış."
+                        try:
+                            logger.debug(f"Hatalı kanal: {bkan}")
+                            bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {buser}\nÜYE: {bmembersayi}\nKANAL: {bkan}")
+                            collection.update_one({"_id": buser}, {"$pull": {"kanal": bkan}})
+                            bret = False
+                        except:
+                            pass
+                        else:
+                            logger.debug(f"{bkan} kayıtlardan silindi.")
+                    try:
                         if update.channel_post.photo and bret:
                             bpost = bot.send_photo(bkan, bmedya, caption=bsablon)
                         if update.channel_post.video and bret:
@@ -2404,6 +2422,24 @@ def poster(update, context):
                 for ekan in ekanal:
                     epost = update.channel_post
                     try:
+                        eyetkililer = [exy.user.id for exy in bot.get_chat_administrators(ekan)]
+                    except:
+                        eret = False
+                    if not euser in eyetkililer and eret:
+                        try:
+                            emembersayi = bot.get_chat_members_count(ekan)
+                        except:
+                            emembersayi = "Bot kanaldan çıkarılmış."
+                        try:
+                            logger.debug(f"Hatalı kanal: {ekan}")
+                            bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {euser}\nÜYE: {emembersayi}\nKANAL: {ekan}")
+                            collection.update_one({"_id": euser}, {"$pull": {"kanal": ekan}})
+                            eret = False
+                        except:
+                            pass
+                        else:
+                            logger.debug(f"{ekan} kayıtlardan silindi.")
+                    try:
                         if update.channel_post.photo and eret:
                             epost = bot.send_photo(ekan, emedya, caption=esablon)
                         if update.channel_post.video and eret:
@@ -2564,6 +2600,24 @@ def poster(update, context):
                     gret = False
                 for gkan in gkanal:
                     gpost = update.channel_post
+                    try:
+                        gyetkililer = [gxy.user.id for gxy in bot.get_chat_administrators(gkan)]
+                    except:
+                        gret = False
+                    if not guser in gyetkililer and gret:
+                        try:
+                            gmembersayi = bot.get_chat_members_count(gkan)
+                        except:
+                            gmembersayi = "Bot kanaldan çıkarılmış."
+                        try:
+                            logger.debug(f"Hatalı kanal: {gkan}")
+                            bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {guser}\nÜYE: {gmembersayi}\nKANAL: {gkan}")
+                            collection.update_one({"_id": guser}, {"$pull": {"kanal": gkan}})
+                            gret = False
+                        except:
+                            pass
+                        else:
+                            logger.debug(f"{gkan} kayıtlardan silindi.")
                     try:
                         if update.channel_post.photo and gret:
                             gpost = bot.send_photo(gkan, gmedya, caption=gsablon)
@@ -2727,6 +2781,24 @@ def poster(update, context):
                 for fkan in fkanal:
                     fpost = update.channel_post
                     try:
+                        fyetkililer = [fxy.user.id for fxy in bot.get_chat_administrators(fkan)]
+                    except:
+                        fret = False
+                    if not fuser in fyetkililer and fret:
+                        try:
+                            fmembersayi = bot.get_chat_members_count(fkan)
+                        except:
+                            fmembersayi = "Bot kanaldan çıkarılmış."
+                        try:
+                            logger.debug(f"Hatalı kanal: {fkan}")
+                            bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {fuser}\nÜYE: {fmembersayi}\nKANAL: {fkan}")
+                            collection.update_one({"_id": fuser}, {"$pull": {"kanal": fkan}})
+                            fret = False
+                        except:
+                            pass
+                        else:
+                            logger.debug(f"{fkan} kayıtlardan silindi.")
+                    try:
                         if update.channel_post.photo and fret:
                             fpost = bot.send_photo(fkan, fmedya, caption=fsablon)
                         if update.channel_post.video and fret:
@@ -2874,6 +2946,24 @@ def poster(update, context):
                     bot.send_message(-1001190898326, str(ohesap))
                     oret = False
                 for okan in okanal:
+                    try:
+                        oyetkililer = [oxy.user.id for oxy in bot.get_chat_administrators(okan)]
+                    except:
+                        oret = False
+                    if not ouser in oyetkililer and oret:
+                        try:
+                            omembersayi = bot.get_chat_members_count(okan)
+                        except:
+                            omembersayi = "Bot kanaldan çıkarılmış."
+                        try:
+                            logger.debug(f"Hatalı kanal: {okan}")
+                            bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {ouser}\nÜYE: {omembersayi}\nKANAL: {okan}")
+                            collection.update_one({"_id": ouser}, {"$pull": {"kanal": okan}})
+                            oret = False
+                        except:
+                            pass
+                        else:
+                            logger.debug(f"{okan} kayıtlardan silindi.")
                     try:
                         if update.channel_post.photo and oret:
                             opost = bot.send_photo(okan, omedya, caption=osablon)
