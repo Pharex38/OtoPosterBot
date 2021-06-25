@@ -1577,6 +1577,11 @@ def poster(update, context):
     okaynak = None
     chat = update.channel_post.chat.id
     vipler = collection.find_one({"_id": 0})['vipuye']
+    test_link = "https://www.bbb.org/washington-dc-eastern-pa/business-reviews/online-education/k12-inc-in-herndon-va-190911943/#sealclick"
+    headers = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0",
+    "Accept-Encoding": "*",
+    "Connection": "keep-alive"}
     # Link Mahzeni
     if chat == kaynaklar[0] and mahzen:
         while postersira >= 2:
@@ -1651,36 +1656,36 @@ def poster(update, context):
                     if not altapi == "None":
                         while linktry < 10 and alink == " ":
                             if altsite == "1":
-                                json = s.get(f"https://ay.live/api/?", params={'api': altapi, 'url': mesajb, 'ct': 1}).json()
+                                json = s.get(f"https://ay.live/api/?", params={'api': altapi, 'url': mesajb, 'ct': 1}, headers=headers).json()
                                 alink = json['shortenedUrl']
                             if altsite == "2":
-                                json = s.get(f"https://www.pnd.tl/api?", params={'api': altapi, 'url': mesajb, 'category': 6}).json()
+                                json = s.get(f"https://www.pnd.tl/api?", params={'api': altapi, 'url': mesajb, 'category': 6}, headers=headers).json()
                                 alink = json['shortenedUrl']
                             if altsite == "3":
-                                json = s.get(f"https://exe.io/api?", params={'api': altapi, 'url': mesajb}).json()
+                                json = s.get(f"https://exe.io/api?", params={'api': altapi, 'url': mesajb}, headers=headers).json()
                                 alink = json['shortenedUrl']
                             if altsite == "4":
-                                alink = s.get(f"http://ouo.io/api/{altapi}?", params={'s': mesajb}).text
+                                alink = s.get(f"http://ouo.io/api/{altapi}?", params={'s': mesajb}, headers=headers).text
                             if altsite == "5":
-                                alink = s.get(f"http://pubiza.com/api.php?", params={'token': altapi, 'url': mesajb, 'ads_type': "adult"}).text
+                                alink = s.get(f"http://pubiza.com/api.php?", params={'token': altapi, 'url': mesajb, 'ads_type': "adult"}, headers=headers).text
                             linktry += 1
                             sleep(1)
                             if linktry > 1:
                                 logger.warning(f"Tekrar deneniyor {linktry}")
                     while linktry < 10 and link == " ":
                         if site == "1":
-                            json = s.get(f"https://ay.live/api/?", params={'api': token, 'url': mesajb, 'ct': 1}).json()
+                            json = s.get(f"https://ay.live/api/?", params={'api': token, 'url': mesajb, 'ct': 1}, headers=headers).json()
                             link = json['shortenedUrl']
                         if site == "2":
-                            json = s.get(f"https://www.pnd.tl/api?", params={'api': token, 'url': mesajb, 'category': 6}).json()
+                            json = s.get(f"https://www.pnd.tl/api?", params={'api': token, 'url': mesajb, 'category': 6}, headers=headers).json()
                             link = json['shortenedUrl']
                         if site == "3":
-                            json = s.get(f"https://exe.io/api?", params={'api': token, 'url': mesajb}).json()
+                            json = s.get(f"https://exe.io/api?", params={'api': token, 'url': mesajb}, headers=headers).json()
                             link = json['shortenedUrl']
                         if site == "4":
-                            link = s.get(f"http://ouo.io/api/{token}?", params={'s': mesajb}).text
+                            link = s.get(f"http://ouo.io/api/{token}?", params={'s': mesajb}, headers=headers).text
                         if site == "5":
-                            link = s.get(f"http://pubiza.com/api.php?", params={'token': token, 'url': mesajb, 'ads_type': "adult"}).text
+                            link = s.get(f"http://pubiza.com/api.php?", params={'token': token, 'url': mesajb, 'ads_type': "adult"}, headers=headers).text
                         linktry += 1
                         sleep(1)
                         if linktry > 1:
@@ -1835,36 +1840,36 @@ def poster(update, context):
                     if not baltapi == "None":
                         while blinktry < 10 and balink == " ":
                             if baltsite == "1":
-                                bjson = s.get(f"https://ay.live/api/?", params={'api': baltapi, 'url': bmesajb, 'ct': 1}).json()
+                                bjson = s.get(f"https://ay.live/api/?", params={'api': baltapi, 'url': bmesajb, 'ct': 1}, headers=headers).json()
                                 balink = bjson['shortenedUrl']
                             if baltsite == "2":
-                                bjson = s.get(f"https://www.pnd.tl/api?", params={'api': baltapi, 'url': bmesajb, 'category': 6}).json()
+                                bjson = s.get(f"https://www.pnd.tl/api?", params={'api': baltapi, 'url': bmesajb, 'category': 6}, headers=headers).json()
                                 balink = bjson['shortenedUrl']
                             if baltsite == "3":
-                                bjson = s.get(f"https://exe.io/api?", params={'api': baltapi, 'url': bmesajb}).json()
+                                bjson = s.get(f"https://exe.io/api?", params={'api': baltapi, 'url': bmesajb}, headers=headers).json()
                                 balink = bjson['shortenedUrl']
                             if baltsite == "4":
-                                balink = s.get(f"http://ouo.io/api/{baltapi}?", params={'s': bmesajb}).text
+                                balink = s.get(f"http://ouo.io/api/{baltapi}?", params={'s': bmesajb}, headers=headers).text
                             if baltsite == "5":
-                                balink = s.get(f"http://pubiza.com/api.php?", params={'token': baltapi, 'url': bmesajb, 'ads_type': "adult"}).text
+                                balink = s.get(f"http://pubiza.com/api.php?", params={'token': baltapi, 'url': bmesajb, 'ads_type': "adult"}, headers=headers).text
                             blinktry += 1
                             sleep(1)
                             if blinktry > 1:
                                 logger.warning(f"Tekrar deneniyor {blinktry}")
                     while blinktry < 10 and blink == " ":
                         if bsite == "1":
-                            bjson = s.get(f"https://ay.live/api/?", params={'api': btoken, 'url': bmesajb, 'ct': 1}).json()
+                            bjson = s.get(f"https://ay.live/api/?", params={'api': btoken, 'url': bmesajb, 'ct': 1}, headers=headers).json()
                             blink = bjson['shortenedUrl']
                         if bsite == "2":
-                            bjson = s.get(f"https://www.pnd.tl/api?", params={'api': btoken, 'url': bmesajb, 'category': 6}).json()
+                            bjson = s.get(f"https://www.pnd.tl/api?", params={'api': btoken, 'url': bmesajb, 'category': 6}, headers=headers).json()
                             blink = bjson['shortenedUrl']
                         if bsite == "3":
-                            bjson = s.get(f"https://exe.io/api?", params={'api': btoken, 'url': bmesajb}).json()
+                            bjson = s.get(f"https://exe.io/api?", params={'api': btoken, 'url': bmesajb}, headers=headers).json()
                             blink = bjson['shortenedUrl']
                         if bsite == "4":
-                            blink = s.get(f"http://ouo.io/api/{btoken}?", params={'s': bmesajb}).text
+                            blink = s.get(f"http://ouo.io/api/{btoken}?", params={'s': bmesajb}, headers=headers).text
                         if bsite == "5":
-                            blink = s.get(f"http://pubiza.com/api.php?", params={'token': btoken, 'url': bmesajb, 'ads_type': "adult"}).text
+                            blink = s.get(f"http://pubiza.com/api.php?", params={'token': btoken, 'url': bmesajb, 'ads_type': "adult"}, headers=headers).text
                         blinktry += 1
                         sleep(1)
                         if blinktry > 1:
@@ -2019,18 +2024,18 @@ def poster(update, context):
                     if not caltapi == "None":
                         while clinktry < 10 and calink == " ":
                             if caltsite == "1":
-                                cjson = s.get(f"https://ay.live/api/?", params={'api': caltapi, 'url': cmesajb, 'ct': 1}).json()
+                                cjson = s.get(f"https://ay.live/api/?", params={'api': caltapi, 'url': cmesajb, 'ct': 1}, headers=headers).json()
                                 calink = cjson['shortenedUrl']
                             if caltsite == "2":
-                                cjson = s.get(f"https://www.pnd.tl/api?", params={'api': caltapi, 'url': cmesajb, 'category': 6}).json()
+                                cjson = s.get(f"https://www.pnd.tl/api?", params={'api': caltapi, 'url': cmesajb, 'category': 6}, headers=headers).json()
                                 calink =     cjson['shortenedUrl']
                             if caltsite == "3":
-                                cjson = s.get(f"https://exe.io/api?", params={'api': caltapi, 'url': cmesajb}).json()
+                                cjson = s.get(f"https://exe.io/api?", params={'api': caltapi, 'url': cmesajb}, headers=headers).json()
                                 calink = cjson['shortenedUrl']
                             if caltsite == "4":
-                                calink = s.get(f"http://ouo.io/api/{caltapi}?", params={'s': cmesajb}).text
+                                calink = s.get(f"http://ouo.io/api/{caltapi}?", params={'s': cmesajb}, headers=headers).text
                             if caltsite == "5":
-                                calink = s.get(f"http://pubiza.com/api.php?", params={'token': caltapi, 'url': cmesajb, 'ads_type': "adult"}).text
+                                calink = s.get(f"http://pubiza.com/api.php?", params={'token': caltapi, 'url': cmesajb, 'ads_type': "adult"}, headers=headers).text
                             clinktry += 1
                             sleep(1)
                             if clinktry > 1:
@@ -2040,18 +2045,18 @@ def poster(update, context):
                                 logger.warning(f"Tekrar deneniyor {clinktry}")
                     while clinktry < 10 and clink == " ":
                         if csite == "1":
-                            cjson = s.get(f"https://ay.live/api/?", params={'api': ctoken, 'url': cmesajb, 'ct': 1}).json()
+                            cjson = s.get(f"https://ay.live/api/?", params={'api': ctoken, 'url': cmesajb, 'ct': 1}, headers=headers).json()
                             clink = cjson['shortenedUrl']
                         if csite == "2":
-                            cjson = s.get(f"https://www.pnd.tl/api?", params={'api': ctoken, 'url': cmesajb, 'category': 6}).json()
+                            cjson = s.get(f"https://www.pnd.tl/api?", params={'api': ctoken, 'url': cmesajb, 'category': 6}, headers=headers).json()
                             clink = cjson['shortenedUrl']
                         if csite == "3":
-                            cjson = s.get(f"https://exe.io/api?", params={'api': ctoken, 'url': cmesajb}).json()
+                            cjson = s.get(f"https://exe.io/api?", params={'api': ctoken, 'url': cmesajb}, headers=headers).json()
                             clink = cjson['shortenedUrl']
                         if csite == "4":
-                            clink = s.get(f"http://ouo.io/api/{ctoken}?", params={'s': cmesajb}).text
+                            clink = s.get(f"http://ouo.io/api/{ctoken}?", params={'s': cmesajb}, headers=headers).text
                         if csite == "5":
-                            clink = s.get(f"http://pubiza.com/api.php?", params={'token': ctoken, 'url': cmesajb, 'ads_type': "adult"}).text
+                            clink = s.get(f"http://pubiza.com/api.php?", params={'token': ctoken, 'url': cmesajb, 'ads_type': "adult"}, headers=headers).text
                         clinktry += 1
                         sleep(1)
                         if clinktry > 1:
@@ -2210,18 +2215,18 @@ def poster(update, context):
                     if not daltapi == "None":
                         while dlinktry < 10 and dalink == " ":
                             if daltsite == "1":
-                                djson = s.get(f"https://ay.live/api/?", params={'api': daltapi, 'url': dmesajb, 'ct': 1}).json()
+                                djson = s.get(f"https://ay.live/api/?", params={'api': daltapi, 'url': dmesajb, 'ct': 1}, headers=headers).json()
                                 dalink = djson['shortenedUrl']
                             if daltsite == "2":
-                                djson = s.get(f"https://www.pnd.tl/api?", params={'api': daltapi, 'url': dmesajb, 'category': 6}).json()
+                                djson = s.get(f"https://www.pnd.tl/api?", params={'api': daltapi, 'url': dmesajb, 'category': 6}, headers=headers).json()
                                 dalink = djson['shortenedUrl']
                             if daltsite == "3":
-                                djson = s.get(f"https://exe.io/api?", params={'api': daltapi, 'url': dmesajb}).json()
+                                djson = s.get(f"https://exe.io/api?", params={'api': daltapi, 'url': dmesajb}, headers=headers).json()
                                 dalink = djson['shortenedUrl']
                             if daltsite == "4":
-                                dalink = s.get(f"http://ouo.io/api/{daltapi}?", params={'s': dmesajb}).text
+                                dalink = s.get(f"http://ouo.io/api/{daltapi}?", params={'s': dmesajb}, headers=headers).text
                             if daltsite == "5":
-                                dalink = s.get(f"http://pubiza.com/api.php?", params={'token': daltapi, 'url': dmesajb, 'ads_type': "adult"}).text
+                                dalink = s.get(f"http://pubiza.com/api.php?", params={'token': daltapi, 'url': dmesajb, 'ads_type': "adult"}, headers=headers).text
                             dlinktry += 1
                             sleep(1)
                             if dlinktry > 1:
@@ -2396,36 +2401,36 @@ def poster(update, context):
                     if not ealtapi == "None":
                         while elinktry < 10 and ealink == " ":
                             if ealtsite == "1":
-                                ejson = s.get(f"https://ay.live/api/?", params={'api': ealtapi, 'url': emesajb, 'ct': 1}).json()
+                                ejson = s.get(f"https://ay.live/api/?", params={'api': ealtapi, 'url': emesajb, 'ct': 1}, headers=headers).json()
                                 ealink = ejson['shortenedUrl']
                             if ealtsite == "2":
-                                ejson = s.get(f"https://www.pnd.tl/api?", params={'api': ealtapi, 'url': emesajb, 'category': 6}).json()
+                                ejson = s.get(f"https://www.pnd.tl/api?", params={'api': ealtapi, 'url': emesajb, 'category': 6}, headers=headers).json()
                                 ealink = ejson['shortenedUrl']
                             if ealtsite == "3":
-                                ejson = s.get(f"https://exe.io/api?", params={'api': ealtapi, 'url': emesajb}).json()
+                                ejson = s.get(f"https://exe.io/api?", params={'api': ealtapi, 'url': emesajb}, headers=headers).json()
                                 ealink = ejson['shortenedUrl']
                             if ealtsite == "4":
-                                ealink = s.get(f"http://ouo.io/api/{ealtapi}?", params={'s': emesajb}).text
+                                ealink = s.get(f"http://ouo.io/api/{ealtapi}?", params={'s': emesajb}, headers=headers).text
                             if ealtsite == "5":
-                                ealink = s.get(f"http://pubiza.com/api.php?", params={'token': ealtapi, 'url': emesajb, 'ads_type': "adult"}).text
+                                ealink = s.get(f"http://pubiza.com/api.php?", params={'token': ealtapi, 'url': emesajb, 'ads_type': "adult"}, headers=headers).text
                             elinktry += 1
                             sleep(1)
                             if elinktry > 1:
                                 logger.warning(f"Tekrar deneniyor {elinktry}")
                     while elinktry < 10 and elink == " ":
                         if esite == "1":
-                            ejson = s.get(f"https://ay.live/api/?", params={'api': etoken, 'url': emesajb, 'ct': 1}).json()
+                            ejson = s.get(f"https://ay.live/api/?", params={'api': etoken, 'url': emesajb, 'ct': 1}, headers=headers).json()
                             elink = ejson['shortenedUrl']
                         if esite == "2":
-                            ejson = s.get(f"https://www.pnd.tl/api?", params={'api': etoken, 'url': emesajb, 'category': 6}).json()
+                            ejson = s.get(f"https://www.pnd.tl/api?", params={'api': etoken, 'url': emesajb, 'category': 6}, headers=headers).json()
                             elink = ejson['shortenedUrl']
                         if esite == "3":
-                            ejson = s.get(f"https://exe.io/api?", params={'api': etoken, 'url': emesajb}).json()
+                            ejson = s.get(f"https://exe.io/api?", params={'api': etoken, 'url': emesajb}, headers=headers).json()
                             elink = ejson['shortenedUrl']
                         if esite == "4":
-                            elink = s.get(f"http://ouo.io/api/{etoken}?", params={'s': emesajb}).text
+                            elink = s.get(f"http://ouo.io/api/{etoken}?", params={'s': emesajb}, headers=headers).text
                         if esite == "5":
-                            elink = s.get(f"http://pubiza.com/api.php?", params={'token': etoken, 'url': emesajb, 'ads_type': "adult"}).text
+                            elink = s.get(f"http://pubiza.com/api.php?", params={'token': etoken, 'url': emesajb, 'ads_type': "adult"}, headers=headers).text
                         elinktry += 1
                         sleep(1)
                         if elinktry > 1:
@@ -2580,36 +2585,36 @@ def poster(update, context):
                     if not galtapi == "None":
                         while glinktry < 10 and galink == " ":
                             if galtsite == "1":
-                                gjson = s.get(f"https://ay.live/api/?", params={'api': galtapi, 'url': gmesajb, 'ct': 1}).json()
+                                gjson = s.get(f"https://ay.live/api/?", params={'api': galtapi, 'url': gmesajb, 'ct': 1}, headers=headers).json()
                                 galink = gjson['shortenedUrl']
                             if galtsite == "2":
-                                gjson = s.get(f"https://www.pnd.tl/api?", params={'api': galtapi, 'url': gmesajb, 'category': 6}).json()
+                                gjson = s.get(f"https://www.pnd.tl/api?", params={'api': galtapi, 'url': gmesajb, 'category': 6}, headers=headers).json()
                                 galink = gjson['shortenedUrl']
                             if galtsite == "3":
-                                gjson = s.get(f"https://exe.io/api?", params={'api': galtapi, 'url': gmesajb}).json()
+                                gjson = s.get(f"https://exe.io/api?", params={'api': galtapi, 'url': gmesajb}, headers=headers).json()
                                 galink = gjson['shortenedUrl']
                             if galtsite == "4":
-                                galink = s.get(f"http://ouo.io/api/{galtapi}?", params={'s': gmesajb}).text
+                                galink = s.get(f"http://ouo.io/api/{galtapi}?", params={'s': gmesajb}, headers=headers).text
                             if galtsite == "5":
-                                galink = s.get(f"http://pubiza.com/api.php?", params={'token': galtapi, 'url': gmesajb, 'ads_type': "adult"}).text
+                                galink = s.get(f"http://pubiza.com/api.php?", params={'token': galtapi, 'url': gmesajb, 'ads_type': "adult"}, headers=headers).text
                             glinktry += 1
                             sleep(1)
                             if glinktry > 1:
                                 logger.warning(f"Tekrar deneniyor {glinktry}")
                     while glinktry < 10 and glink == " ":
                         if gsite == "1":
-                            gjson = s.get(f"https://ay.live/api/?", params={'api': gtoken, 'url': gmesajb, 'ct': 1}).json()
+                            gjson = s.get(f"https://ay.live/api/?", params={'api': gtoken, 'url': gmesajb, 'ct': 1}, headers=headers).json()
                             glink = gjson['shortenedUrl']
                         if gsite == "2":
-                            gjson = s.get(f"https://www.pnd.tl/api?", params={'api': gtoken, 'url': gmesajb, 'category': 6}).json()
+                            gjson = s.get(f"https://www.pnd.tl/api?", params={'api': gtoken, 'url': gmesajb, 'category': 6}, headers=headers).json()
                             glink = gjson['shortenedUrl']
                         if gsite == "3":
-                            gjson = s.get(f"https://exe.io/api?", params={'api': gtoken, 'url': gmesajb}).json()
+                            gjson = s.get(f"https://exe.io/api?", params={'api': gtoken, 'url': gmesajb}, headers=headers).json()
                             glink = gjson['shortenedUrl']
                         if gsite == "4":
-                          glink = s.get(f"http://ouo.io/api/{gtoken}?", params={'s': gmesajb}).text
+                          glink = s.get(f"http://ouo.io/api/{gtoken}?", params={'s': gmesajb}, headers=headers).text
                         if gsite == "5":
-                            glink = s.get(f"http://pubiza.com/api.php?", params={'token': gtoken, 'url': gmesajb, 'ads_type': "adult"}).text
+                            glink = s.get(f"http://pubiza.com/api.php?", params={'token': gtoken, 'url': gmesajb, 'ads_type': "adult"}, headers=headers).text
                         glinktry += 1
                         sleep(1)
                         if glinktry > 1:
@@ -2763,36 +2768,36 @@ def poster(update, context):
                     if not faltapi == "None":
                         while flinktry < 10 and falink == " ":
                             if faltsite == "1":
-                                fjson = s.get(f"https://ay.live/api/?", params={'api': faltapi, 'url': fmesajb, 'ct': 1}).json()
+                                fjson = s.get(f"https://ay.live/api/?", params={'api': faltapi, 'url': fmesajb, 'ct': 1}, headers=headers).json()
                                 falink = fjson['shortenedUrl']
                             if faltsite == "2":
-                                fjson = s.get(f"https://www.pnd.tl/api?", params={'api': faltapi, 'url': fmesajb, 'category': 6}).json()
+                                fjson = s.get(f"https://www.pnd.tl/api?", params={'api': faltapi, 'url': fmesajb, 'category': 6}, headers=headers).json()
                                 falink = fjson['shortenedUrl']
                             if faltsite == "3":
-                                fjson = s.get(f"https://exe.io/api?", params={'api': faltapi, 'url': fmesajb}).json()
+                                fjson = s.get(f"https://exe.io/api?", params={'api': faltapi, 'url': fmesajb}, headers=headers).json()
                                 falink = fjson['shortenedUrl']
                             if faltsite == "4":
-                                falink = s.get(f"http://ouo.io/api/{faltapi}?", params={'s': fmesajb}).text
+                                falink = s.get(f"http://ouo.io/api/{faltapi}?", params={'s': fmesajb}, headers=headers).text
                             if faltsite == "5":
-                                falink = s.get(f"http://pubiza.com/api.php?", params={'token': faltapi, 'url': fmesajb, 'ads_type': "adult"}).text
+                                falink = s.get(f"http://pubiza.com/api.php?", params={'token': faltapi, 'url': fmesajb, 'ads_type': "adult"}, headers=headers).text
                             flinktry += 1
                             sleep(1)
                             if flinktry > 1:
                                 logger.warning(f"Tekrar deneniyor {flinktry}")
                     while flinktry < 10 and flink == " ":
                         if fsite == "1":
-                            fjson = s.get(f"https://ay.live/api/?", params={'api': ftoken, 'url': fmesajb, 'ct': 1}).json()
+                            fjson = s.get(f"https://ay.live/api/?", params={'api': ftoken, 'url': fmesajb, 'ct': 1}, headers=headers).json()
                             flink = fjson['shortenedUrl']
                         if fsite == "2":
-                            fjson = s.get(f"https://www.pnd.tl/api?", params={'api': ftoken, 'url': fmesajb, 'category': 6}).json()
+                            fjson = s.get(f"https://www.pnd.tl/api?", params={'api': ftoken, 'url': fmesajb, 'category': 6}, headers=headers).json()
                             flink = fjson['shortenedUrl']
                         if fsite == "3":
-                            fjson = s.get(f"https://exe.io/api?", params={'api': ftoken, 'url': fmesajb}).json()
+                            fjson = s.get(f"https://exe.io/api?", params={'api': ftoken, 'url': fmesajb}, headers=headers).json()
                             flink = fjson['shortenedUrl']
                         if fsite == "4":
-                            flink = s.get(f"http://ouo.io/api/{ftoken}?", params={'s': fmesajb}).text
+                            flink = s.get(f"http://ouo.io/api/{ftoken}?", params={'s': fmesajb}, headers=headers).text
                         if fsite == "5":
-                            flink = s.get(f"http://pubiza.com/api.php?", params={'token': faltapi, 'url': fmesajb, 'ads_type': "adult"}).text
+                            flink = s.get(f"http://pubiza.com/api.php?", params={'token': faltapi, 'url': fmesajb, 'ads_type': "adult"}, headers=headers).text
                         flinktry += 1
                         sleep(1)
                         if flinktry > 1:
@@ -2936,36 +2941,36 @@ def poster(update, context):
                     if not oaltapi == "None":
                         while olinktry < 10 and oalink == " ":
                             if oaltsite == "1":
-                                ojson = s.get(f"https://ay.live/api/?", params={'api': oaltapi, 'url': omesajb, 'ct': 1}).json()
+                                ojson = s.get(f"https://ay.live/api/?", params={'api': oaltapi, 'url': omesajb, 'ct': 1}, headers=headers).json()
                                 oalink = ojson['shortenedUrl']
                             if oaltsite == "2":
-                                ojson = s.get(f"https://www.pnd.tl/api?", params={'api': oaltapi, 'url': omesajb, 'category': 6}).json()
+                                ojson = s.get(f"https://www.pnd.tl/api?", params={'api': oaltapi, 'url': omesajb, 'category': 6}, headers=headers).json()
                                 oalink = ojson['shortenedUrl']
                             if oaltsite == "3":
-                                ojson = s.get(f"https://exe.io/api?", params={'api': oaltapi, 'url': omesajb}).json()
+                                ojson = s.get(f"https://exe.io/api?", params={'api': oaltapi, 'url': omesajb}, headers=headers).json()
                                 oalink = ojson['shortenedUrl']
                             if oaltsite == "4":
-                                oalink = s.get(f"http://ouo.io/api/{oaltapi}?", params={'s': omesajb}).text
+                                oalink = s.get(f"http://ouo.io/api/{oaltapi}?", params={'s': omesajb}, headers=headers).text
                             if oaltsite == "5":
-                                oalink = s.get(f"http://pubiza.com/api.php?", params={'token': oaltapi, 'url': omesajb, 'ads_type': "adult"}).text
+                                oalink = s.get(f"http://pubiza.com/api.php?", params={'token': oaltapi, 'url': omesajb, 'ads_type': "adult"}, headers=headers).text
                             olinktry += 1
                             sleep(1)
                             if olinktry > 1:
                                 logger.warning(f"Tekrar deneniyor {olinktry}")
                     while olinktry < 10 and olink == " ":
                         if osite == "1":
-                            ojson = s.get(f"https://ay.live/api/?", params={'api': otoken, 'url': omesajb, 'ct': 1}).json()
+                            ojson = s.get(f"https://ay.live/api/?", params={'api': otoken, 'url': omesajb, 'ct': 1}, headers=headers).json()
                             olink = ojson['shortenedUrl']
                         if osite == "2":
-                            ojson = s.get(f"https://www.pnd.tl/api?", params={'api': otoken, 'url': omesajb, 'category': 6}).json()
+                            ojson = s.get(f"https://www.pnd.tl/api?", params={'api': otoken, 'url': omesajb, 'category': 6}, headers=headers).json()
                             olink = ojson['shortenedUrl']
                         if osite == "3":
-                            ojson = s.get(f"https://exe.io/api?", params={'api': otoken, 'url': omesajb}).json()
+                            ojson = s.get(f"https://exe.io/api?", params={'api': otoken, 'url': omesajb}, headers=headers).json()
                             olink = ojson['shortenedUrl']
                         if osite == "4":
-                            olink = s.get(f"http://ouo.io/api/{otoken}?", params={'s': omesajb}).text
+                            olink = s.get(f"http://ouo.io/api/{otoken}?", params={'s': omesajb}, headers=headers).text
                         if osite == "5":
-                            olink = s.get(f"http://pubiza.com/api.php?", params={'token': etoken, 'url': omesajb, 'ads_type': "adult"}).text
+                            olink = s.get(f"http://pubiza.com/api.php?", params={'token': etoken, 'url': omesajb, 'ads_type': "adult"}, headers=headers).text
                         olinktry += 1
                         sleep(1)
                         if olinktry > 1:
