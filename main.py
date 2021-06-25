@@ -3,7 +3,7 @@ from requests import get, Session
 from os import environ
 from time import sleep
 from pymongo import MongoClient
-import time, datetime
+import time, datetime, dnspython
 import threading, pytz, os, asyncio, logging
 from ssl import CERT_NONE
 from typing import Dict, TypedDict, List, Literal, cast
