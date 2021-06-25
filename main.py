@@ -728,7 +728,7 @@ def callback_query(call, context):
         call.callback_query.edit_message_text("Post silindi.")
         return ConversationHandler.END
     if call.callback_query.data == "pzamanla":
-        call.callback_query.edit_message_text("Postun gönderilmesini istediğiniz saati gönderin.\n\n<b>Örnek biçim;</b>\n<code>31/06/21 18:30:00</code>")
+        call.callback_query.edit_message_text("Postun gönderilmesini istediğiniz saati gönderin.\n\n<b>Örnek biçim;</b>\n<code>30/06/21 18:30:00</code>")
         return PATZAMAN
     if call.callback_query.data == "simdi": 
         bot.delete_message(user, mesajid)
