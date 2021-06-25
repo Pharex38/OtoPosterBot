@@ -572,9 +572,7 @@ def altcall(call, context):
     chat = call.effective_chat.id
     mesajid = call.effective_message.message_id
     smesaj = str(call.callback_query.data.split("-")[1])
-    sss = str(call.callback_query.data.split("-")[2])
     context.user_data['asite'] = smesaj
-    context.user_data['sistem'] = sss
     call.callback_query.answer(call.callback_query.id, "✅ Site Kaydedildi!")
     bot.edit_message_text("✅ Alternatif site kaydedildi.", user, mesajid)
     bot.send_message(chat, "📝 Alternatif API adresinizi gönderin.", reply_markup=imark())
@@ -674,7 +672,7 @@ def callback_query(call, context):
         context.user_data['sss'] = str(call.callback_query.data.split("-")[1])
         call.callback_query.answer(call.callback_query.id, "✅ Site Kaydedildi!")
         bot.edit_message_text("Alternatif olarak kullanmak istediğiniz siteyi seçin.", user, mesajid)
-        bot.edit_message_reply_markup(chat_id=chat, message_id=mesajid, reply_markup=altsitemarkup(sss))
+        bot.edit_message_reply_markup(chat_id=chat, message_id=mesajid, reply_markup=altsitemarkup())
     """ Kaynak """
     if call.callback_query.data.startswith("zaman"):
         saat = collection.find_one({"_id": 0})
@@ -860,8 +858,8 @@ def sitemarkup():
     smark = InlineKeyboardMarkup([[InlineKeyboardButton("TRLink", callback_data="site-1")], [InlineKeyboardButton("PND.TL", callback_data="site-2")], [InlineKeyboardButton("Exe.io", callback_data="site-3")], [InlineKeyboardButton("Ouo.io", callback_data="site-4")], [InlineKeyboardButton("Pubiza", callback_data="site-5")], [InlineKeyboardButton("❌ İptal ❌", callback_data="iptal")]])
     return smark
 
-def altsitemarkup(sss):
-    asmark = InlineKeyboardMarkup([[InlineKeyboardButton("TRLink", callback_data="asite-1-{}".format(sss))], [InlineKeyboardButton("PND.TL", callback_data="asite-2-{}".format(sss))], [InlineKeyboardButton("Exe.io", callback_data="asite-3-{}".format(sss))], [InlineKeyboardButton("Ouo.io", callback_data="asite-4-{}".format(sss))], [InlineKeyboardButton("Pubiza", callback_data="asite-5-{}".format(sss))], [InlineKeyboardButton("❌ İptal ❌", callback_data="iptal")]])
+def altsitemarkup():
+    asmark = InlineKeyboardMarkup([[InlineKeyboardButton("TRLink", callback_data="asite-1")], [InlineKeyboardButton("PND.TL", callback_data="asite-2")], [InlineKeyboardButton("Exe.io", callback_data="asite-3")], [InlineKeyboardButton("Ouo.io", callback_data="asite-4")], [InlineKeyboardButton("Pubiza", callback_data="asite-5-")], [InlineKeyboardButton("❌ İptal ❌", callback_data="iptal")]])
 
     return asmark
 
