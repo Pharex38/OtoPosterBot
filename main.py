@@ -728,7 +728,7 @@ def callback_query(call, context):
         call.callback_query.edit_message_text("Post silindi.")
         return ConversationHandler.END
     if call.callback_query.data == "pzamanla":
-        call.callback_query.edit_message_text("Postun gönderilmesini istediğiniz saati gönderin.\n\n<b>Örnek biçim;</b>\n<code>30/06/21 18:30:00</code>")
+        call.callback_query.edit_message_text("Postun gönderilmesini istediğiniz saati gönderin.\n\n<b>Örnek biçim;</b>\n<code>30/03/21 18:30:00</code>")
         return PATZAMAN
     if call.callback_query.data == "simdi": 
         bot.delete_message(user, mesajid)
@@ -1441,7 +1441,7 @@ def patzamansaat(update, context):
         bot.send_message(chat, "İptal edildi.")
         return ConversationHandler.END
     if verilen_saat.find(":") == -1 or len(verilen_saat) != 17:
-        bot.send_message(chat, "Yanlış bir biçim gönderdiniz!\n\n<b>Örnek biçim;</b>\n<code>30/06/21 14:31:00</code>", reply_markup=imark())
+        bot.send_message(chat, "Yanlış bir biçim gönderdiniz!\n\n<b>Örnek biçim;</b>\n<code>30/03/21 14:31:00</code>", reply_markup=imark())
         return
     try:
         zamanii = datetime.datetime.strptime(verilen_saat, '%d/%m/%y %H:%M:%S')
