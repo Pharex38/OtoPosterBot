@@ -3047,7 +3047,7 @@ def gunluk(context):
     exe_kullanan_sayisi, pubiza_kullanan_sayisi, ouo_kullanan_sayisi, trlink_kullanan_sayisi, pnd_kullanan_sayisi = 0, 0, 0, 0, 0
     msg = bot.send_message(botlog, "<code>Günlük veriler hesaplanıyor...</code>")
     db[str(sahip)].insert_one({"_id": msg.message_id, "basan": []})
-    while postersira > 2:
+    while postersira > 1:
         sleep(2)
     postersira += 1
     toplam = 0
