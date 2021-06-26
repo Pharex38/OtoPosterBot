@@ -16,7 +16,6 @@ from telegram.utils.helpers import *
 mpass = os.environ['MONGOPASS']
 mongo = f"os.environ["MONGO_URI"]"
 
-postersira = 0
 pid = os.getpid()
 open("pid.txt", "w").write(str(pid))
 print(pid)
@@ -539,7 +538,6 @@ def error_handler(update: object, context: CallbackContext) -> None:
     logger.error(msg="Bir Hata oluştu:", exc_info=context.error)
     tb_list = traceback.format_exception(None, context.error, context.error.__traceback__)
     tb_string = ''.join(tb_list)
-    postersira = 0
     update_str = update.to_dict() if isinstance(update, Update) else str(update)
     message = (
         f'BİR HATA OLUŞTU!\n'
@@ -819,7 +817,6 @@ def callback_query(call, context):
 ################## Jobs #####################
 
 def jobyedekleme(context):
-    global postersira
     collection.update_one({"_id": 0}, {"$set": {"jobs": []}})
     yjcount = 0
     for kap in context.job_queue.jobs():
@@ -832,8 +829,6 @@ def jobyedekleme(context):
                 collection.update_one({"_id": 0}, {"$push": {"jobs": kapdct}})
                 yjcount += 1
     logger.warning(str(yjcount)+" Adet Job Yedeklendi!")
-    if postersira > 2 or postersira < 0:
-        postersira = 0
 
 def deljob(context):
     delcont = context.job.context
@@ -1573,7 +1568,6 @@ def pat(update, context):
     return ConversationHandler.END
    
 def poster(update, context):
-    global postersira
     okaynak = None
     chat = update.channel_post.chat.id
     vipler = collection.find_one({"_id": 0})['vipuye']
@@ -1584,9 +1578,6 @@ def poster(update, context):
     "Connection": "keep-alive"}
     # Link Mahzeni
     if chat == kaynaklar[0] and mahzen:
-        while postersira >= 2:
-            sleep(2)
-        postersira += 1
         count = 0
         mesaj = update.channel_post.caption
         if mesaj == None:
@@ -1764,12 +1755,9 @@ def poster(update, context):
             logger.error(e)
         else:
             postdata.insert_one({"chat": botlog, "pid": bmsg.message_id, "mesih": mesjid})
-        postersira -= 1
+
     # Bedava Link
     elif chat == kaynaklar[1] and bedava:
-        while postersira >= 2:
-            sleep(2)
-        postersira += 1
         bcount = 0
         bmesaj = update.channel_post.caption
         if bmesaj == None:
@@ -1948,12 +1936,8 @@ def poster(update, context):
             logger.error(e)
         else:
             bpostdata.insert_one({"chat": botlog, "pid": bbmsg.message_id, "mesih": bmesjid})
-        postersira -= 1
     # Link Evi
     elif chat == kaynaklar[2] and evi:
-        while postersira >= 2:
-            sleep(2)
-        postersira += 1
         ccount = 0
         cmesaj = update.channel_post.caption
         if cmesaj == None:
@@ -2139,12 +2123,8 @@ def poster(update, context):
         else:
             cpostdata.insert_one({"chat": botlog, "pid": cbmsg.message_id, "mesih": cmesjid})
         logger.warning(cbasari)
-        postersira -= 1
     # BAŞHUB
     elif chat == kaynaklar[3] and bashub:
-        while postersira >= 2:
-            sleep(2)
-        postersira += 1
         dcount = 0
         dmesaj = update.channel_post.caption
         if dmesaj == None:
@@ -2325,12 +2305,8 @@ def poster(update, context):
             logger.error(e)
         else:
             dpostdata.insert_one({"chat": botlog, "pid": dbmsg.message_id, "mesih": dmesjid})
-        postersira -= 1
     # Açık mı link
     elif chat == kaynaklar[4] and acikmi:
-        while postersira >= 2:
-            sleep(2)
-        postersira += 1
         ecount = 0
         emesaj = update.channel_post.caption
         """ Link tespit """
@@ -2509,12 +2485,8 @@ def poster(update, context):
             logger.error(e)
         else:
             epostdata.insert_one({"chat": botlog, "pid": ebmsg.message_id, "mesih": emesjid})
-        postersira -= 1
     # MuhoVip
     elif chat == kaynaklar[5] and muho:
-        while postersira >= 2:
-            sleep(2)
-        postersira += 1
         gcount = 0
         gmesaj = update.channel_post.caption
         if gmesaj == None:
@@ -2692,12 +2664,8 @@ def poster(update, context):
             logger.error(e)
         else:
             gpostdata.insert_one({"chat": botlog, "pid": gbmsg.message_id, "mesih": gmesjid})
-        postersira -= 1
     # Tutan Linkler
     elif chat == kaynaklar[6] and tutan:
-        while postersira >= 2:
-            sleep(2)
-        postersira += 1
         fcount = 0
         fmesaj = update.channel_post.caption
         if fmesaj == None:
@@ -2876,14 +2844,10 @@ def poster(update, context):
         else:
             fpostdata.insert_one({"chat": botlog, "pid": fbmsg.message_id, "mesih": fmesjid})
         logger.warning(fbasari)
-        postersira -= 1
     # Özel Kaynaklar
     else:
         okaynak = OzelCol.find_one({"okaynak": chat})
     if okaynak != None:
-        while postersira >= 2:
-            sleep(2)
-        postersira += 1
         ocount = 0
         omesaj = update.channel_post.caption
         if omesaj == None:
@@ -3040,16 +3004,12 @@ def poster(update, context):
         if okaynak["log"] != "yok":
             bot.send_message(okaynak["log"], obasari)
         logger.warning(obasari)
-        postersira -= 1
 
 def gunluk(context):
     ozel_kaynak_kullanan_sayisi, mahzen_kullanan_sayisi, hazır_kullanan_sayisi, tutan_kullanan_sayisi, acikmi_kullanan_sayisi, bedava_kullanan_sayisi, evi_kullanan_sayisi, bashub_kullanan_sayisi = 0, 0, 0, 0, 0, 0, 0, 0
     exe_kullanan_sayisi, pubiza_kullanan_sayisi, ouo_kullanan_sayisi, trlink_kullanan_sayisi, pnd_kullanan_sayisi = 0, 0, 0, 0, 0
     msg = bot.send_message(botlog, "<code>Günlük veriler hesaplanıyor...</code>")
     db[str(sahip)].insert_one({"_id": msg.message_id, "basan": []})
-    while postersira > 1:
-        sleep(2)
-    postersira += 1
     toplam = 0
     kum = []
     kanals = 0
@@ -3113,7 +3073,6 @@ def gunluk(context):
     toplam = str(round(toplam, 1))+"K" if round(toplam, 1) < 1000 else str(round(toplam / 1000, 2))+"M"
     msg = bot.edit_message_text("👥 Toplam Kullanıcı Sayısı: {}\n📢 Toplam Kayıtlı Kanal Sayısı: {}\n🙋 Toplam Kitle: {}\n\n<b>Sitelerin Toplam Kullanıcı Sayısı;</b>\nTRLink -> {}\nPND.TL -> {}\nExe.io -> {}\nOuo.io -> {}\nPubiza -> {}\n\n<b>Kaynakların Toplam Kullanan Sayıları:</b>\n{} -> {}\n{} -> {}\n{} -> {}\n{} -> {}\n{} -> {}\n{} -> {}\n{} -> {}\nÖzel Kaynak -> {}".format(users, kanals, toplam, trlink_kullanan_sayisi, pnd_kullanan_sayisi, exe_kullanan_sayisi, ouo_kullanan_sayisi, pubiza_kullanan_sayisi, mahzen.title, mahzen_kullanan_sayisi, bedava.title, bedava_kullanan_sayisi, evi.title, evi_kullanan_sayisi, bashub.title, bashub_kullanan_sayisi, acikmi.title, acikmi_kullanan_sayisi, muho.title, hazır_kullanan_sayisi, tutan.title, tutan_kullanan_sayisi, ozel_kaynak_kullanan_sayisi), botlog, msg.message_id, reply_markup=begenimark(0, 0, 0))
     bot.pin_chat_message(botlog, msg.message_id)
-    postersira -= 1
     
 bildir('Bot Başladı 🍕')
 
