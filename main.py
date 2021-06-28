@@ -689,7 +689,11 @@ def callback_query(call, context):
             call.callback_query.edit_message_text("Bir hata oluştı! Lütfen tekrar deneyin.")
             return
         if len(collection.find_one({"_id": user})['kanal']) < 2:
-            SEND_MEDIA_TYPES[ptip](collection.find_one({"_id": user})['kanal'][0], fid, caption=psablon)
+            try:
+                SEND_MEDIA_TYPES[ptip](collection.find_one({"_id": user})['kanal'][0], fid, caption=psablon)
+            except:
+                bot.send_message(user, "Postunuz gönderilemedi, botu kanaldan çıkarmış olabilirsiniz.", reply_markup=dugme(user))
+                return ConversationHandler.END
             bot.send_message(user, "Postunuz gönderildi.", reply_markup=dugme(user))
             return ConversationHandler.END
         context.user_data['zaman'] = "yok"
