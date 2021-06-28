@@ -218,7 +218,7 @@ def start(update, context):
 4. Adım: Keyfini çıkarın.</i>
 
 ❔<b>Senin kazancın nedir?</b>
-<i>kanalınıza atılan <b>yirmi</b> linkte bir benim API adresim kullanılır.</i>
+<i>kanalınıza atılan <b>yirmi</b> linkten birisi benim API adresim ile kısaltılır.</i>
 
 <b>❤️ Geliştirici & Sahip : @Pharex
 👨🏻‍🔧 Fix & Eklentiler : @berce</b>
