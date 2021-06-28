@@ -1523,13 +1523,13 @@ def poster(update, context):
         medya = update.channel_post.photo[0].file_id if update.channel_post.photo else update.channel_post.effective_attachment.file_id
         for hesap in binb:
             ret = True
+            kaynak = hesap['kaynak']
             kanal = hesap['kanal']
             try:
                 token = hesap['token']
             except:
                 ret = False
             if "1" in kaynak and len(kanal) > 0 and ret:
-                kaynak = hesap['kaynak']
                 sablon = hesap['sablon']
                 user = hesap['_id']
                 site = hesap["site"]
