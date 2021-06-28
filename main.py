@@ -846,7 +846,7 @@ def kaynakmark(user):
     for kaynak in kaynaklar:
         kaynakcount += 1
         if kaynakcount == 8:
-            return
+            continue
         getkaynak = bot.get_chat(kaynak)
         kaynakkeyb.append([InlineKeyboardButton("{}".format(getkaynak.title), url="{}".format(getkaynak.invite_link))])
         
