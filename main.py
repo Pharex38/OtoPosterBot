@@ -1285,6 +1285,8 @@ def kayitapi(update, context):
     ka = collection.find_one({"_id": user})
     vip_uyeler = collection.find_one({"_id": 0})['vipuye']
     if mesaj == "🗑️ Kanal Sil":
+        if ka == None:
+            msg = bot.send_message(chat, "Henüz bir kanal kaydetmemişsiniz!", reply_markup=markupp())
         if len(ka['kanal']) < 1:
             msg = bot.send_message(chat, "Henüz bir kanal kaydetmemişsiniz!", reply_markup=markupp())
             return 
@@ -1306,6 +1308,9 @@ def kayitapi(update, context):
         return
     if mesaj == "🔶 Yeni Kanal Ekle":
         bol = collection.find_one({"_id": chat})
+        if bol == None:
+            bot.send_message(chat, "<i>Önce bir API kaydedin.</i>", reply_markup=dagme())
+            return ConversationHandler.END
         if len(bol['kanal']) > 4 and not user in vip_uyeler:
             bot.send_message(chat, "<i>Üzgünüm en fazla 5 kanal kaydedebilirsiniz.</i>")
             return 
