@@ -16,7 +16,7 @@ from telegram.utils.helpers import *
 mpass = os.environ['MONGOPASS']
 mongo = f"os.environ["MONGO_URI"]"
 
-pid = ogetpid()
+pid = os.getpid()
 open("pid.txt", "w").write(str(pid))
 print(pid)
 
