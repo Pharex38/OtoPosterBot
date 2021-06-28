@@ -1528,7 +1528,7 @@ def poster(update, context):
             try:
                 token = hesap['token']
             except:
-                ret = False
+                continue
             if "1" in kaynak and len(kanal) > 0 and ret:
                 sablon = hesap['sablon']
                 user = hesap['_id']
@@ -1597,7 +1597,7 @@ def poster(update, context):
                     bot.send_message(user, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
                     logger.error(e)
                     logger.debug(json)
-                    ret = False
+                    continue
                 if sablon == "1":
                     sablon = f"🔥{aciklama}\n\n🔱 TIKLA 👉 {link}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
                 elif sablon == "2" or sablon == "3":
@@ -1611,7 +1611,7 @@ def poster(update, context):
                 
                 if link == " ":
                     bot.send_message(-1001190898326, str(hesap))
-                    ret = False
+                    continue
                 for kan in kanal:
                     post = update.channel_post
                     try:
@@ -1628,7 +1628,7 @@ def poster(update, context):
                             logger.debug(f"Hatalı kanal: {kanal}")
                             bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {user}\nÜYE: {membersayi}\nKANAL: {kan}")
                             collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
-                            ret = False
+                            continue
                         except:
                             pass
                         else:
@@ -1705,7 +1705,7 @@ def poster(update, context):
             try:
                 btoken = bhesap['token']
             except:
-                bret = False
+                continue
             if "2" in bkaynak and len(bkanal) > 0 and bret:
                 bsablon = bhesap['sablon']
                 bsablon = str(bsablon)
@@ -1775,7 +1775,7 @@ def poster(update, context):
                     bot.send_message(buser, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
                     logger.error(e)
                     logger.debug(bjson)
-                    bret = False
+                    continue
                 if bsablon == "1":
                     bsablon = f"🔥{baciklama}\n\n🔱 TIKLA 👉 {blink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
                 elif bsablon == "2" or bsablon == "3":
@@ -1790,7 +1790,7 @@ def poster(update, context):
                 
                 if blink == " ":
                     bot.send_message(-1001190898326, str(bhesap))
-                    bret = False
+                    continue
                 for bkan in bkanal:
                     bpost = update.channel_post
                     try:
@@ -1807,7 +1807,7 @@ def poster(update, context):
                             logger.debug(f"Hatalı kanal: {bkan}")
                             bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {buser}\nÜYE: {bmembersayi}\nKANAL: {bkan}")
                             collection.update_one({"_id": buser}, {"$pull": {"kanal": bkan}})
-                            bret = False
+                            continue
                         except:
                             pass
                         else:
@@ -1881,7 +1881,7 @@ def poster(update, context):
             try:
                 ctoken = chesap['token']
             except:
-                cret = False
+                continue
             ckaynak = chesap['kaynak']
             if "3" in ckaynak and len(ckanal) > 0 and cret:
                 csablon = chesap['sablon']
@@ -1958,7 +1958,7 @@ def poster(update, context):
                     bot.send_message(cuser, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
                     logger.error(e)
                     logger.debug(cjson)
-                    cret = False
+                    continue
                     
                 if csablon == "1":
                     csablon = f"🔥{caciklama}\n\n🔱 TIKLA 👉 {clink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
@@ -1974,7 +1974,7 @@ def poster(update, context):
                 
                 if clink == " ":
                     bot.send_message(-1001190898326, str(chesap))
-                    cret = False
+                    continue
                 for ckan in ckanal:
                     cpost = update.channel_post
                     try:
@@ -1991,7 +1991,7 @@ def poster(update, context):
                             logger.debug(f"Hatalı kanal: {ckan}")
                             bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {cuser}\nÜYE: {cmembersayi}\nKANAL: {ckan}")
                             collection.update_one({"_id": cuser}, {"$pull": {"kanal": ckan}})
-                            ret = False
+                            continue
                         except:
                             pass
                         else:
@@ -2065,7 +2065,7 @@ def poster(update, context):
             try:
                 dtoken = dhesap['token']
             except:
-                dret = False
+                continue
             dkanal = dhesap['kanal']
             if "4" in dkaynak and len(dkanal) > 0 and dret:
                 dsablon = dhesap['sablon']
@@ -2138,7 +2138,7 @@ def poster(update, context):
                     bot.send_message(duser, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
                     logger.error(e)
                     logger.debug(djson)
-                    dret = False
+                    continue
                     
                 if dsablon == "1":
                     dsablon = f"🔥{daciklama}\n\n🔱 TIKLA 👉 {dlink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
@@ -2153,7 +2153,7 @@ def poster(update, context):
                 
                 if dlink == " ":
                     bot.send_message(-1001190898326, str(dhesap))
-                    dret = False
+                    continue
                 for dkan in dkanal:
                     try:
                         dyetkililer = [dxy.user.id for dxy in bot.get_chat_administrators(dkan)]
@@ -2169,7 +2169,7 @@ def poster(update, context):
                             logger.debug(f"Hatalı kanal: {dkan}")
                             bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {duser}\nÜYE: {dmembersayi}\nKANAL: {dkan}")
                             collection.update_one({"_id": duser}, {"$pull": {"kanal": dkan}})
-                            dret = False
+                            continue
                         except:
                             pass
                         else:
@@ -2243,7 +2243,7 @@ def poster(update, context):
             try:
                 etoken = ehesap['token']
             except:
-                eret = False
+                continue
             ekaynak = ehesap['kaynak']
             ekanal = ehesap['kanal']
             if "5" in ekaynak and len(ekanal) > 0 and eret:
@@ -2314,7 +2314,7 @@ def poster(update, context):
                     bot.send_message(euser, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
                     logger.error(e)
                     logger.debug(ejson)
-                    eret = False
+                    continue
                 if esablon == "1":
                     esablon = f"🔥{eaciklama}\n\n🔱 TIKLA 👉 {elink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
                 elif esablon == "2" or esablon == "3":
@@ -2329,7 +2329,7 @@ def poster(update, context):
                 if elink == " ":
                     bot.send_message(-1001190898326, str(ehesap))
                     bot.send_message(-1001190898326, str(etoken)+"\n\n"+str(esite)+"\n\n"+str(altapi)+"\n\n"+str(ealtsite)+"\n\n"+str(ejson))
-                    eret = False
+                    continue
                 for ekan in ekanal:
                     epost = update.channel_post
                     try:
@@ -2346,7 +2346,7 @@ def poster(update, context):
                             logger.debug(f"Hatalı kanal: {ekan}")
                             bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {euser}\nÜYE: {emembersayi}\nKANAL: {ekan}")
                             collection.update_one({"_id": euser}, {"$pull": {"kanal": ekan}})
-                            eret = False
+                            continue
                         except:
                             pass
                         else:
@@ -2421,7 +2421,7 @@ def poster(update, context):
             try:
                 gtoken = ghesap['token']
             except:
-                gret = False
+                continue
             if "6" in gkaynak and len(gkanal) > 0 and gret:
                 gsablon = ghesap['sablon']
                 gsablon = str(gsablon)
@@ -2491,7 +2491,7 @@ def poster(update, context):
                     bot.send_message(guser, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
                     logger.error(e)
                     logger.debug(gjson)
-                    gret = False
+                    continue
                 if gsablon == "1":
                     gsablon = f"🔥{gaciklama}\n\n🔱 TIKLA 👉 {glink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
                 elif gsablon == "2" or gsablon == "3":
@@ -2505,7 +2505,7 @@ def poster(update, context):
                 
                 if glink == " ":
                     bot.send_message(-1001190898326, str(ghesap))
-                    gret = False
+                    continue
                 for gkan in gkanal:
                     gpost = update.channel_post
                     try:
@@ -2522,7 +2522,7 @@ def poster(update, context):
                             logger.debug(f"Hatalı kanal: {gkan}")
                             bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {guser}\nÜYE: {gmembersayi}\nKANAL: {gkan}")
                             collection.update_one({"_id": guser}, {"$pull": {"kanal": gkan}})
-                            gret = False
+                            continue
                         except:
                             pass
                         else:
@@ -2597,7 +2597,7 @@ def poster(update, context):
             try:
                 ftoken = fhesap['token']
             except:
-                fret = False
+                continue
             if "7" in fkaynak and len(fkanal) > 0 and fret:
                 fuser = fhesap['_id']
                 fsablon = fhesap['sablon']
@@ -2666,7 +2666,7 @@ def poster(update, context):
                     bot.send_message(fuser, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
                     logger.error(e)
                     logger.debug(fjson)
-                    fret = False
+                    continue
                 if fsablon == "1":
                     fsablon = f"🔥{faciklama}\n\n🔱 TIKLA 👉 {flink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
                 elif fsablon == "2" or fsablon == "3":
@@ -2681,7 +2681,7 @@ def poster(update, context):
                 
                 if flink == " ":
                     bot.send_message(-1001190898326, str(fhesap))
-                    fret = False
+                    continue
                 for fkan in fkanal:
                     fpost = update.channel_post
                     try:
@@ -2698,7 +2698,7 @@ def poster(update, context):
                             logger.debug(f"Hatalı kanal: {fkan}")
                             bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {fuser}\nÜYE: {fmembersayi}\nKANAL: {fkan}")
                             collection.update_one({"_id": fuser}, {"$pull": {"kanal": fkan}})
-                            fret = False
+                            continue
                         except:
                             pass
                         else:
@@ -2772,7 +2772,7 @@ def poster(update, context):
             try:
                 htoken = hhesap['token']
             except:
-                hret = False
+                continue
             hkanal = hhesap['kanal']
             if "8" in hkaynak and len(hkanal) > 0 and hret:
                 hsablon = hhesap['sablon']
@@ -2842,7 +2842,7 @@ def poster(update, context):
                     bot.send_message(huser, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
                     logger.error(e)
                     logger.debug(hjson)
-                    hret = False
+                    continue
                 if hsablon == "1":
                     hsablon = f"🔥{haciklama}\n\n🔱 TIKLA 👉 {hlink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
                 elif hsablon == "2" or hsablon == "3":
@@ -2857,7 +2857,7 @@ def poster(update, context):
                 
                 if hlink == " ":
                     bot.send_message(-1001190898326, str(hhesap))
-                    hret = False
+                    continue
                 for hkan in hkanal:
                     hpost = update.channel_post
                     try:
@@ -2874,7 +2874,7 @@ def poster(update, context):
                             logger.debug(f"Hatalı kanal: {hkan}")
                             bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {huser}\nÜYE: {hmembersayi}\nKANAL: {hkan}")
                             collection.update_one({"_id": huser}, {"$pull": {"kanal": hkan}})
-                            hret = False
+                            continue
                         except:
                             pass
                         else:
@@ -2946,7 +2946,7 @@ def poster(update, context):
             try:    
                 otoken = ohesap['token']
             except:
-                oret = False
+                continue
             okanal = ohesap['kanal']
             osablon = ohesap['sablon']
             ouser = ohesap['_id']
@@ -3007,7 +3007,7 @@ def poster(update, context):
                 except Exception as e:
                     bot.send_message(ouser, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
                     logger.error(e)
-                    oret = False
+                    continue
                     
                 if osablon == "1":
                     osablon = f"🔥{oaciklama}\n\n🔱 TIKLA 👉 {olink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
@@ -3021,7 +3021,7 @@ def poster(update, context):
                     osablon = osablon.replace("{aciklama}", "{}").replace("{link}", "{}").format(oaciklama, olink)
                 if olink == " ":
                     bot.send_message(-1001190898326, str(ohesap))
-                    oret = False
+                    continue
                 for okan in okanal:
                     try:
                         oyetkililer = [oxy.user.id for oxy in bot.get_chat_administrators(okan)]
@@ -3037,7 +3037,7 @@ def poster(update, context):
                             logger.debug(f"Hatalı kanal: {okan}")
                             bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {ouser}\nÜYE: {omembersayi}\nKANAL: {okan}")
                             collection.update_one({"_id": ouser}, {"$pull": {"kanal": okan}})
-                            oret = False
+                            continue
                         except:
                             pass
                         else:
