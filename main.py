@@ -637,7 +637,7 @@ def callback_query(call, context):
     """ Kaynak """
     if call.callback_query.data.startswith("zaman"):
         saat = collection.find_one({"_id": 0})
-        dgr = int(call.callback_query.data.split("-")[1])
+        dgr = int(call.callback_query.data.split("-")[1]) - 1
         saatalert = collection.find_one({"_id": kaynaklar[dgr]})['zaman']
         call.callback_query.answer(show_alert=True, text=saatalert)
     if call.callback_query.data == "okay":
@@ -1701,12 +1701,12 @@ def poster(update, context):
         for bhesap in bbinb:
             bkanal = bhesap['kanal']
             bret = True
+            bkaynak = bhesap['kaynak']
             try:
                 btoken = bhesap['token']
             except:
                 bret = False
             if "2" in bkaynak and len(bkanal) > 0 and bret:
-                bkaynak = bhesap['kaynak']
                 bsablon = bhesap['sablon']
                 bsablon = str(bsablon)
                 buser = bhesap['_id']
