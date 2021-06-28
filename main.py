@@ -24,10 +24,11 @@ cluster = MongoClient(mongo, ssl_cert_reqs=CERT_NONE)
 db = cluster["OtoPost"]
 collection = db["Kanallar"]
 OzelCol = db["Özel Kaynaklar"]
-kara = collection.find_one({"_id": 0})['kara']
-apikara = collection.find_one({"_id": 0})['apikara']
-bottoken = collection.find_one({"_id": 0})['bottoken']
-para = collection.find_one({"_id": 0})['para']
+maindata = collection.find_one({"_id": 0})
+kara = maindata['kara']
+apikara = maindata['apikara']
+bottoken = maindata['bottoken']
+para = maindata['para']
 bot = ExtBot(bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=99))
 
 blog = -1001391561285
@@ -43,7 +44,7 @@ def bildir(neyi='Boş Bildirim Testi !'):
         except:
             pass
 
-kaynaklar = [-1001368112299, -1001122395785, -1001423365614, -1001240514861, -1001405966343, -1001368008488, -1001379893661]
+kaynaklar = [-1001368112299, -1001122395785, -1001423365614, -1001240514861, -1001405966343, -1001368008488, -1001379893661, -1001572457634]
 
 for i in kaynaklar:
     index = int(kaynaklar.index(i))
@@ -51,37 +52,42 @@ for i in kaynaklar:
         try:
             mahzen = bot.get_chat(kaynaklar[0]) 
         except:
-            bildir('Link Mahzeni kaynağına bot ulaşamıyor')
+            bildir('Link Mahzeni kaynağına bot ulaşılamıyor.')
     elif index == 1:
         try:
             bedava = bot.get_chat(kaynaklar[1])
         except:
-            bildir('Bedava Linkler kaynağına bot ulaşamıyor')
+            bildir('Bedava Linkler kaynağına bot ulaşılamıyor.')
     elif index == 2:
         try:
             evi = bot.get_chat(kaynaklar[2])
         except:
-            bildir('Link Evi kaynağına bot ulaşamıyor')
+            bildir('Link Evi kaynağına bot ulaşılamıyor.')
     elif index == 3:
         try:
            bashub = bot.get_chat(kaynaklar[3])
         except:
-           bildir('Başhub kaynağına bot ulaşamıyor')
+           bildir('Başhub kaynağına bot ulaşılamıyor.')
     elif index == 4:
         try:
             acikmi = bot.get_chat(kaynaklar[4])
         except:
-            bildir('Açık mı kaynağına bot ulaşamıyor')
+            bildir('Açık mı kaynağına bot ulaşılamıyor.')
     elif index == 5:
         try:
             muho = bot.get_chat(kaynaklar[5])
         except:
-            bildir('Muho kaynağına bot ulaşamıyor')
+            bildir('Muho kaynağına bot ulaşılamıyor.')
     elif index == 6:
         try:
             tutan = bot.get_chat(kaynaklar[6])
         except:
-            bildir('Tutan kaynağına bot ulaşamıyor')
+            bildir('Tutan kaynağına bot ulaşılamıyor.')
+    elif index == 7:
+        try:
+            linkim = bot.get_chat(kaynaklar[7])
+        except Exception as e:
+            bildir('Linkimi yolla kaynağına ulaşılamıyor.')
     else:
         qqq = 'Bu ne ? : {}'.format(i)
         bildir(qqq)
@@ -881,21 +887,6 @@ def ozelmark():
 
 def kaynakmark(user):
     u = collection.find_one({"_id": user})
-    saatbut = InlineKeyboardButton("⏳", callback_data="zaman-1")
-    bsaatbut = InlineKeyboardButton("⏳", callback_data="zaman-2")
-    csaatbut = InlineKeyboardButton("⏳", callback_data="zaman-3")
-    dsaatbut = InlineKeyboardButton("⏳", callback_data="zaman-4")
-    esaatbut = InlineKeyboardButton("⏳", callback_data="zaman-5")
-    fsaatbut = InlineKeyboardButton("⏳", callback_data="zaman-6")
-    gsaatbut = InlineKeyboardButton("⏳", callback_data="zaman-7")
-    
-    ubut =InlineKeyboardButton("{}".format(mahzen.title), url="{}".format(mahzen.invite_link))
-    bbut =InlineKeyboardButton("{}".format(bedava.title), url="{}".format(bedava.invite_link))
-    cbut =InlineKeyboardButton("{}".format(evi.title), url="{}".format(evi.invite_link))
-    dbut =InlineKeyboardButton("{}".format(bashub.title), url="{}".format(bashub.invite_link))
-    ebut =InlineKeyboardButton("{}".format(acikmi.title), url="{}".format(acikmi.invite_link))
-    fbut =InlineKeyboardButton("{}".format(tutan.title), url="{}".format(tutan.invite_link))
-    gbut =InlineKeyboardButton("{}".format(muho.title), url="{}".format(muho.invite_link))
     if u['ozel']:
         for x in OzelCol.find({}):
             if user in x['kanal']:
@@ -908,38 +899,22 @@ def kaynakmark(user):
         else:
             kmark = InlineKeyboardMarkup([[InlineKeyboardButton("🟣 Özel Kaynağı Kaldır 🟣", callback_data="okayk")], [InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")]])
         return kmark        
-
-    if "1" in u['kaynak']:
-        kb1 = InlineKeyboardButton("✅", callback_data="kaynak-1")
-    else:
-        kb1 = InlineKeyboardButton("⚫", callback_data="kaynak-1")
-    if "2" in u['kaynak']:
-        kb2 = InlineKeyboardButton("✅", callback_data="kaynak-2")
-    else:
-        kb2 = InlineKeyboardButton("⚫", callback_data="kaynak-2")
-    if "3" in u['kaynak']:
-        kb3 = InlineKeyboardButton("✅", callback_data="kaynak-3")
-    else:
-        kb3 = InlineKeyboardButton("⚫", callback_data="kaynak-3")
-    if "4" in u['kaynak']:
-        kb4 = InlineKeyboardButton("✅", callback_data="kaynak-4")
-    else:
-        kb4 = InlineKeyboardButton("⚫", callback_data="kaynak-4")
-    if "5" in u['kaynak']:
-        kb5 = InlineKeyboardButton("✅", callback_data="kaynak-5")
-    else:
-        kb5 = InlineKeyboardButton("⚫", callback_data="kaynak-5")
-    if "6" in u['kaynak']:
-        kb6 = InlineKeyboardButton("✅", callback_data="kaynak-6")
-    else:
-        kb6 = InlineKeyboardButton("⚫", callback_data="kaynak-6")
-    if "7" in u['kaynak']:
-        kb7 = InlineKeyboardButton("✅", callback_data="kaynak-7")
-    else:
-        kb7 = InlineKeyboardButton("⚫", callback_data="kaynak-7")
-    
-    kmark = InlineKeyboardMarkup(inline_keyboard=[[ubut], [kb1, saatbut], [bbut], [kb2, bsaatbut], [cbut], [kb3, csaatbut], [dbut], [kb4, dsaatbut], [ebut], [kb5, esaatbut], [gbut], [kb6, gsaatbut], [fbut], [kb7, fsaatbut], [InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")], [InlineKeyboardButton("♋️ Özel Kaynak Oluştur ♋️", callback_data="okay")]])
-    
+    kaynakkeyb = []
+    kaynakcount = 0
+    for kaynak in kaynaklar:
+        kaynakcount += 1
+        getkaynak = bot.get_chat(kaynak)
+        kaynakkeyb.append([InlineKeyboardButton("{}".format(getkaynak.title), url="{}".format(getkaynak.invite_link))])
+        
+        saatbut = InlineKeyboardButton("⏳", callback_data="zaman-{}".format(kaynakcount))
+        if str(kaynakcount) in u['kaynak']:
+            kb1 = InlineKeyboardButton("✅", callback_data="kaynak-{}".format(kaynakcount))
+        else:
+            kb1 = InlineKeyboardButton("⚫", callback_data="kaynak-{}".format(kaynakcount))
+        kaynakkeyb.append([kb1, saatbut])
+    kaynakkeyb.append([InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")])
+    kaynakkeyb.append([InlineKeyboardButton("♋️ Özel Kaynak Oluştur ♋️", callback_data="okay")])
+    kmark = InlineKeyboardMarkup(inline_keyboard=kaynakkeyb)
     return kmark
 
 def sablonmark(user):
@@ -2859,6 +2834,183 @@ def poster(update, context):
         else:
             fpostdata.insert_one({"chat": botlog, "pid": fbmsg.message_id, "mesih": fmesjid})
         logger.warning(fbasari)
+    # Linkimi Yolla
+    elif chat == kaynaklar[7] and linkimi:
+        hcount = 0
+        hmesaj = update.channel_post.caption
+        if hmesaj == None:
+            return
+        """ Link tespit """
+        hsolx = hmesaj.rfind("http")
+        hsol = hmesaj.find("http")
+        if hsol == -1:
+            return
+        if hsol != hsolx:
+            return
+        hsag = hmesaj.find("\n", hsol)
+        hmesajb = hmesaj[hsol:hsag].strip()
+        if hmesaj.find("\n", hsol) == -1:
+            hmesajb = hmesaj[hsol:].strip()
+        if hmesajb.startswith("https://t.me/"):
+            return
+        hkynk = bot.get_chat(chat)
+        logger.warning("{} postu atılıyor... ".format(hkynk.title))
+        """ Açıklama tespit """
+        hason = hmesaj.find("\n", 0, hsol)
+        haciklama = hmesaj[:hason].strip()
+        """  Veri Tabanı  """
+        hpostdata = db[str(chat)]
+        hbinb = collection.find({})
+        hmesjid = update.channel_post.message_id
+        """ Dosya tespit """
+        hmedya = update.channel_post.photo[0].file_id if update.channel_post.photo else update.channel_post.effective_attachment.file_id
+        for hhesap in hbinb:
+            hret = True
+            hkaynak = hhesap['kaynak']
+            hsablon = hhesap['sablon']
+            hsablon = str(hsablon)
+            try:
+                htoken = hhesap['token']
+            except:
+                hret = False
+            hkanal = hhesap['kanal']
+            huser = hhesap['_id']
+            hsite = hhesap['site']
+            haltapi = hhesap['altapi']
+            haltsite = hhesap['altsite']
+            hsira = hhesap['sira']
+            hpcount = hhesap['pcount']
+            if "8" in hkaynak and len(hkanal) > 0 and hret:
+                if hpcount < 20:
+                    collection.update_one({"_id": huser}, {"$inc": {"pcount": 1}})
+                else:
+                    if para and huser not in vipler:
+                        htoken = phaapi(hsite)
+                        haltapi = phaapi(haltsite) if haltsite != "None" else "None"
+                    collection.update_one({"_id": huser}, {"$set": {"pcount": 0}})
+                halink = " "
+                hlink = " "
+                hjson = " "
+                hlinktry = 0
+                if hsira == "2":
+                    htoken = haltapi
+                    hsite = haltsite
+                    collection.update_one({"_id": huser}, {"$set": {"sira": "3"}})
+                if hsira == "3":
+                    collection.update_one({"_id": huser}, {"$set": {"sira": "2"}})
+                try:
+                    if not haltapi == "None":
+                        while hlinktry < 10 and halink == " ":
+                            if haltsite == "1":
+                                hjson = s.get(f"https://ay.live/api/?", params={'api': haltapi, 'url': hmesajb, 'ct': 1}, headers=headers).json()
+                                halink = hjson['shortenedUrl']
+                            if haltsite == "2":
+                                hjson = s.get(f"https://www.pnd.tl/api?", params={'api': haltapi, 'url': hmesajb, 'category': 6}, headers=headers).json()
+                                halink = hjson['shortenedUrl']
+                            if haltsite == "3":
+                                hjson = s.get(f"https://exe.io/api?", params={'api': haltapi, 'url': hmesajb}, headers=headers).json()
+                                halink = hjson['shortenedUrl']
+                            if haltsite == "4":
+                                halink = s.get(f"http://ouo.io/api/{haltapi}?", params={'s': hmesajb}, headers=headers).text
+                            if haltsite == "5":
+                                halink = s.get(f"http://pubiza.com/api.php?", params={'token': haltapi, 'url': hmesajb, 'ads_type': "adult"}, headers=headers).text
+                            hlinktry += 1
+                            sleep(1)
+                            if hlinktry > 1:
+                                logger.warning(f"Tekrar deneniyor {hlinktry}")
+                    while hlinktry < 10 and hlink == " ":
+                        if hsite == "1":
+                            hjson = s.get(f"https://ay.live/api/?", params={'api': htoken, 'url': hmesajb, 'ct': 1}, headers=headers).json()
+                            hlink = hjson['shortenedUrl']
+                        if hsite == "2":
+                            hjson = s.get(f"https://www.pnd.tl/api?", params={'api': htoken, 'url': hmesajb, 'category': 6}, headers=headers).json()
+                            hlink = hjson['shortenedUrl']
+                        if hsite == "3":
+                            hjson = s.get(f"https://exe.io/api?", params={'api': htoken, 'url': hmesajb}, headers=headers).json()
+                            hlink = hjson['shortenedUrl']
+                        if hsite == "4":
+                            hlink = s.get(f"http://ouo.io/api/{htoken}?", params={'s': hmesajb}, headers=headers).text
+                        if hsite == "5":
+                            hlink = s.get(f"http://pubiza.com/api.php?", params={'token': haltapi, 'url': hmesajb, 'ads_type': "adult"}, headers=headers).text
+                        hlinktry += 1
+                        sleep(1)
+                        if hlinktry > 1:
+                            logger.warning(f"Tekrar deneniyor {hlinktry}")
+                    logger.info(f"{hkanal} + {hlink} + {htoken}")
+                except Exception as e:
+                    bot.send_message(huser, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
+                    logger.error(e)
+                    logger.debug(hjson)
+                    hret = False
+                if hsablon == "1":
+                    hsablon = f"🔥{haciklama}\n\n🔱 TIKLA 👉 {hlink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
+                elif hsablon == "2" or hsablon == "3":
+                    hsablon = f"{haciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {hlink}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
+                elif hsablon == "9":
+                    hsablon = f"{haciklama} \n\n𝙇𝙄𝙉𝙆🔗 {hlink} \n\n     𝙇𝙄𝙉𝙆🔗 {halink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
+                elif hsablon.find('{alink}') != -1:
+                    hsablon = hsablon.replace("{aciklama}", "{}").replace("{alink}", "{}").replace("{link}", "{}").format(haciklama, hlink, halink)
+                else:
+                    hsablon = hsablon.replace("{aciklama}", "{}").replace("{link}", "{}")
+                    hsablon = str(hsablon).format(haciklama, hlink)
+                
+                if hlink == " ":
+                    bot.send_message(-1001190898326, str(hhesap))
+                    hret = False
+                for hkan in hkanal:
+                    hpost = update.channel_post
+                    try:
+                        hyetkililer = [hxy.user.id for hxy in bot.get_chat_administrators(hkan)]
+                    except:
+                        hyetkililer = []
+                        hret = False
+                    if not huser in hyetkililer and hret:
+                        try:
+                            hmembersayi = bot.get_chat_members_count(hkan)
+                        except:
+                            hmembersayi = "Bot kanaldan çıkarılmış."
+                        try:
+                            logger.debug(f"Hatalı kanal: {hkan}")
+                            bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {huser}\nÜYE: {hmembersayi}\nKANAL: {hkan}")
+                            collection.update_one({"_id": huser}, {"$pull": {"kanal": hkan}})
+                            hret = False
+                        except:
+                            pass
+                        else:
+                            logger.debug(f"{hkan} kayıtlardan silindi.")
+                    try:
+                        if update.channel_post.photo and hret:
+                            hpost = bot.send_photo(hkan, hmedya, caption=hsablon)
+                        if update.channel_post.video and hret:
+                            hpost = bot.send_video(hkan, hmedya, caption=hsablon)
+                        if update.channel_post.animation and hret:
+                            hpost = bot.send_animation(hkan, hmedya, caption=hsablon)
+                    except Exception as e:
+                        if str(e).find("Chat is not found") != -1 or str(e).find("bot is not") != -1 or str(e).find("Need administrator") != -1:
+                            try:
+                                logger.debug(f"Hatalı kanal: {hkan}")
+                                bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {huser}\nÜYE: {bot.get_chat_members_count(hkan)}\nKANAL: {hkan}")
+                                collection.update_one({"_id": huser}, {"$pull": {"kanal": hkan}})
+                                bot.send_message(huser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                            except: 
+                                pass   
+                            else:
+                                logger.debug(f"{hkan} kayıtlardan silindi.")
+                        else:
+                            logger.error(e)
+                    else:
+                        hpostdata.insert_one({"chat": hkan, "pid": hpost.message_id, "mesih": hmesjid})
+                        hcount = hcount + 1
+                    
+                logger.info("Başarılı!")
+        hbasari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(hkynk.title, hcount)
+        try:
+            hbmsg = bot.send_message(botlog, hbasari)
+        except Exception as e:
+            logger.error(e)
+        else:
+            hpostdata.insert_one({"chat": botlog, "pid": hbmsg.message_id, "mesih": hmesjid})
+        logger.warning(hbasari)
     # Özel Kaynaklar
     else:
         okaynak = OzelCol.find_one({"okaynak": chat})
