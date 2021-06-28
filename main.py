@@ -46,52 +46,6 @@ def bildir(neyi='Boş Bildirim Testi !'):
 
 kaynaklar = [-1001368112299, -1001122395785, -1001423365614, -1001240514861, -1001405966343, -1001368008488, -1001379893661, -1001572457634]
 
-for i in kaynaklar:
-    index = int(kaynaklar.index(i))
-    if index == 0:
-        try:
-            mahzen = bot.get_chat(kaynaklar[0]) 
-        except:
-            bildir('Link Mahzeni kaynağına bot ulaşılamıyor.')
-    elif index == 1:
-        try:
-            bedava = bot.get_chat(kaynaklar[1])
-        except:
-            bildir('Bedava Linkler kaynağına bot ulaşılamıyor.')
-    elif index == 2:
-        try:
-            evi = bot.get_chat(kaynaklar[2])
-        except:
-            bildir('Link Evi kaynağına bot ulaşılamıyor.')
-    elif index == 3:
-        try:
-           bashub = bot.get_chat(kaynaklar[3])
-        except:
-           bildir('Başhub kaynağına bot ulaşılamıyor.')
-    elif index == 4:
-        try:
-            acikmi = bot.get_chat(kaynaklar[4])
-        except:
-            bildir('Açık mı kaynağına bot ulaşılamıyor.')
-    elif index == 5:
-        try:
-            muho = bot.get_chat(kaynaklar[5])
-        except:
-            bildir('Muho kaynağına bot ulaşılamıyor.')
-    elif index == 6:
-        try:
-            tutan = bot.get_chat(kaynaklar[6])
-        except:
-            bildir('Tutan kaynağına bot ulaşılamıyor.')
-    elif index == 7:
-        try:
-            linkim = bot.get_chat(kaynaklar[7])
-        except Exception as e:
-            bildir('Linkimi yolla kaynağına ulaşılamıyor.')
-    else:
-        qqq = 'Bu ne ? : {}'.format(i)
-        bildir(qqq)
-
 SEND_MEDIA_TYPES = {"document": bot.send_document, "photo": bot.send_photo, "video": bot.send_video, "animation": bot.send_animation}
 
 ALTMENU, APIDEGISTIR, KANALKAYDET = range(3)
@@ -684,20 +638,8 @@ def callback_query(call, context):
     if call.callback_query.data.startswith("zaman"):
         saat = collection.find_one({"_id": 0})
         dgr = int(call.callback_query.data.split("-")[1])
-        if dgr == 1:
-            call.callback_query.answer(show_alert=True, text=saat['mahzen'])
-        if dgr == 2:
-            call.callback_query.answer(show_alert=True, text=saat['bedava'])
-        if dgr == 3:
-            call.callback_query.answer(show_alert=True, text=saat['evi'])
-        if dgr == 4:
-            call.callback_query.answer(show_alert=True, text=saat['bashub'])
-        if dgr == 5:
-            call.callback_query.answer(show_alert=True, text=saat['acikmi'])
-        if dgr == 6:
-            call.callback_query.answer(show_alert=True, text=saat['tutan'])
-        if dgr == 7:
-            call.callback_query.answer(show_alert=True, text=saat['muho'])
+        saatalert = collection.find_one({"_id": kaynaklar[dgr]})['zaman']
+        call.callback_query.answer(show_alert=True, text=saatalert)
     if call.callback_query.data == "okay":
         bot.edit_message_text("""<b>Özel Kaynak Hakkında Bilmeniz Gerekenler</b>\n\n<i>- Özel kaynak ayarlarsanız başka kaynak seçemezsiniz.\n- Başkaları da isterse sizin özel kaynağınızı kullanabilir.\n- Kaynağınız @OtoPosterBotLog'da gözükmeyecek.\n- Postlar, diğer kaynaklara göre daha yavaş atılır.\n- Özel kaynağa kısaltılmamış link atmanız gerekiyor. Kısaltılmış linkli post atarsanız bot linki geçmez direkt olarak kısaltılmış linki tekrar kısaltır.</i>""", chat, mesajid)
         bot.edit_message_reply_markup(chat, mesajid, reply_markup=ozelmark())
@@ -1011,14 +953,6 @@ def menu(update, context):
         bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
     if mesaj == "🔧 Kaynak":
-        global mahzen, bedava, evi, bashub, acikmi, muho, tutan
-        mahzen = bot.get_chat(kaynaklar[0])
-        bedava = bot.get_chat(kaynaklar[1])
-        evi = bot.get_chat(kaynaklar[2])
-        bashub = bot.get_chat(kaynaklar[3])
-        acikmi = bot.get_chat(kaynaklar[4])
-        muho = bot.get_chat(kaynaklar[5])
-        tutan = bot.get_chat(kaynaklar[6])
         if mj == None:
             bot.send_message(chat, "Lütfen önce bir API kaydedin.", reply_markup=dagme())
             return
@@ -1480,9 +1414,6 @@ def pat(update, context):
     if mesaj.find("\n", psol) == -1:
         plink = mesaj[psol:].strip()
     pathesap = collection.find_one({"_id": user})
-    s = Session()
-    link = s.get("https://ay.live/api")
-    cookies = dict(link.cookies)
     pret = True
     try:
         ptoken = pathesap['token']
@@ -1554,13 +1485,12 @@ def poster(update, context):
     okaynak = None
     chat = update.channel_post.chat.id
     vipler = collection.find_one({"_id": 0})['vipuye']
-    test_link = "https://www.bbb.org/washington-dc-eastern-pa/business-reviews/online-education/k12-inc-in-herndon-va-190911943/#sealclick"
     headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0",
     "Accept-Encoding": "*",
     "Connection": "keep-alive"}
     # Link Mahzeni
-    if chat == kaynaklar[0] and mahzen:
+    if chat == kaynaklar[0]:
         count = 0
         mesaj = update.channel_post.caption
         if mesaj == None:
@@ -1583,10 +1513,6 @@ def poster(update, context):
         """  Açıklama tespit  """
         ason = mesaj.rfind("\n", 0, sol)
         aciklama = mesaj[:ason].strip()
-        """  Cookies  """
-        s = Session()
-        link = s.get("https://ay.live/")
-        cookies = dict(link.cookies)
         """  Veri Tabanı  """
         postdata = db[str(chat)]
         binb = collection.find({})
@@ -1595,20 +1521,20 @@ def poster(update, context):
         medya = update.channel_post.photo[0].file_id if update.channel_post.photo else update.channel_post.effective_attachment.file_id
         for hesap in binb:
             ret = True
-            kaynak = hesap['kaynak']
+            kanal = hesap['kanal']
             try:
                 token = hesap['token']
             except:
                 ret = False
-            kanal = hesap['kanal']
-            sablon = hesap['sablon']
-            user = hesap['_id']
-            site = hesap["site"]
-            altapi = hesap['altapi']
-            altsite = hesap['altsite']
-            sira = hesap['sira']
-            pcount = hesap['pcount']
             if "1" in kaynak and len(kanal) > 0 and ret:
+                kaynak = hesap['kaynak']
+                sablon = hesap['sablon']
+                user = hesap['_id']
+                site = hesap["site"]
+                altapi = hesap['altapi']
+                altsite = hesap['altsite']
+                sira = hesap['sira']
+                pcount = hesap['pcount']
                 if pcount < 20:
                     collection.update_one({"_id": user}, {"$inc": {"pcount": 1}})
                 else:
@@ -1741,7 +1667,7 @@ def poster(update, context):
             postdata.insert_one({"chat": botlog, "pid": bmsg.message_id, "mesih": mesjid})
 
     # Bedava Link
-    elif chat == kaynaklar[1] and bedava:
+    elif chat == kaynaklar[1]:
         bcount = 0
         bmesaj = update.channel_post.caption
         if bmesaj == None:
@@ -1764,10 +1690,6 @@ def poster(update, context):
         """ Açıklama tespit """
         bason = bmesaj.rfind("\n", 0, bsol)
         baciklama = bmesaj[:bason].strip()
-        """    Cookies    """
-        s = Session()
-        link = s.get("https://ay.live/api")
-        cookies = dict(link.cookies)
         """  Veri Tabanı  """
         bpostdata = db[str(chat)]
         bbinb = collection.find({})
@@ -1775,22 +1697,22 @@ def poster(update, context):
         """ Dosya tespit """
         bmedya = update.channel_post.photo[0].file_id if update.channel_post.photo else update.channel_post.effective_attachment.file_id
         for bhesap in bbinb:
+            bkanal = bhesap['kanal']
             bret = True
-            bkaynak = bhesap['kaynak']
-            bsablon = bhesap['sablon']
-            bsablon = str(bsablon)
             try:
                 btoken = bhesap['token']
             except:
                 bret = False
-            bkanal = bhesap['kanal']
-            buser = bhesap['_id']
-            bsite = bhesap['site']
-            baltapi = bhesap['altapi']
-            baltsite = bhesap['altsite']
-            bsira = bhesap['sira']
-            bpcount = bhesap['pcount']
             if "2" in bkaynak and len(bkanal) > 0 and bret:
+                bkaynak = bhesap['kaynak']
+                bsablon = bhesap['sablon']
+                bsablon = str(bsablon)
+                buser = bhesap['_id']
+                bsite = bhesap['site']
+                baltapi = bhesap['altapi']
+                baltsite = bhesap['altsite']
+                bsira = bhesap['sira']
+                bpcount = bhesap['pcount']
                 if bpcount < 20:
                     collection.update_one({"_id": buser}, {"$inc": {"pcount": 1}})
                 else:
@@ -1922,7 +1844,7 @@ def poster(update, context):
         else:
             bpostdata.insert_one({"chat": botlog, "pid": bbmsg.message_id, "mesih": bmesjid})
     # Link Evi
-    elif chat == kaynaklar[2] and evi:
+    elif chat == kaynaklar[2]:
         ccount = 0
         cmesaj = update.channel_post.caption
         if cmesaj == None:
@@ -1945,10 +1867,6 @@ def poster(update, context):
         """ Açıklama tespit """
         cason = cmesaj.find("\n", 0, csol)
         caciklama = cmesaj[:cason].strip()
-        """    Cookies    """
-        s = Session()
-        link = s.get("https://ay.live/api")
-        cookies = dict(link.cookies)
         """  Veri Tabanı  """
         cpostdata = db[str(chat)]
         cbinb = collection.find({})
@@ -1957,21 +1875,21 @@ def poster(update, context):
         cmedya = update.channel_post.photo[0].file_id if update.channel_post.photo else update.channel_post.effective_attachment.file_id
         for chesap in cbinb:
             cret = True
-            ckaynak = chesap['kaynak']
-            csablon = chesap['sablon']
-            csablon = str(csablon)
+            ckanal = chesap['kanal']
             try:
                 ctoken = chesap['token']
             except:
                 cret = False
-            ckanal = chesap['kanal']
-            cuser = chesap['_id']
-            csite = chesap['site']
-            caltapi = chesap['altapi']
-            caltsite = chesap['altsite']
-            csira = chesap['sira']
-            cpcount = chesap['pcount']
+            ckaynak = chesap['kaynak']
             if "3" in ckaynak and len(ckanal) > 0 and cret:
+                csablon = chesap['sablon']
+                csablon = str(csablon)
+                cuser = chesap['_id']
+                csite = chesap['site']
+                caltapi = chesap['altapi']
+                caltsite = chesap['altsite']
+                csira = chesap['sira']
+                cpcount = chesap['pcount']
                 if cpcount < 20:
                     collection.update_one({"_id": cuser}, {"$inc": {"pcount": 1}})
                 else:
@@ -2110,7 +2028,7 @@ def poster(update, context):
             cpostdata.insert_one({"chat": botlog, "pid": cbmsg.message_id, "mesih": cmesjid})
         logger.warning(cbasari)
     # BAŞHUB
-    elif chat == kaynaklar[3] and bashub:
+    elif chat == kaynaklar[3]:
         dcount = 0
         dmesaj = update.channel_post.caption
         if dmesaj == None:
@@ -2133,10 +2051,6 @@ def poster(update, context):
         """ Açıklama tespit """
         dason = dmesaj.find("\n", 0, dsol)
         daciklama = dmesaj[:dason].strip()
-        """    Cookies    """
-        s = Session()
-        link = s.get("https://ay.live/api")
-        cookies = dict(link.cookies)
         """  Veri Tabanı  """
         dpostdata = db[str(chat)]
         dbinb = collection.find({})
@@ -2146,20 +2060,20 @@ def poster(update, context):
         for dhesap in dbinb:
             dret = True
             dkaynak = dhesap['kaynak']
-            dsablon = dhesap['sablon']
-            dsablon = str(dsablon)
             try:
                 dtoken = dhesap['token']
             except:
                 dret = False
             dkanal = dhesap['kanal']
-            duser = dhesap['_id']
-            dsite = dhesap['site']
-            daltapi = dhesap['altapi']
-            daltsite = dhesap['altsite']
-            dsira = dhesap['sira']
-            dpcount = dhesap['pcount']
             if "4" in dkaynak and len(dkanal) > 0 and dret:
+                dsablon = dhesap['sablon']
+                dsablon = str(dsablon)
+                duser = dhesap['_id']
+                dsite = dhesap['site']
+                daltapi = dhesap['altapi']
+                daltsite = dhesap['altsite']
+                dsira = dhesap['sira']
+                dpcount = dhesap['pcount']
                 if dpcount < 20:
                     collection.update_one({"_id": duser}, {"$inc": {"pcount": 1}})
                 else:
@@ -2293,7 +2207,7 @@ def poster(update, context):
         else:
             dpostdata.insert_one({"chat": botlog, "pid": dbmsg.message_id, "mesih": dmesjid})
     # Açık mı link
-    elif chat == kaynaklar[4] and acikmi:
+    elif chat == kaynaklar[4]:
         ecount = 0
         emesaj = update.channel_post.caption
         """ Link tespit """
@@ -2316,10 +2230,6 @@ def poster(update, context):
         """ Açıklama tespit """
         eason = emesaj.find("\n", 0, esol)
         eaciklama = emesaj[:eason].strip()
-        """    Cookies    """
-        s = Session()
-        link = s.get("https://ay.live/api")
-        cookies = dict(link.cookies)
         """  Veri Tabanı  """
         epostdata = db[str(chat)]
         ebinb = collection.find({})
@@ -2328,21 +2238,20 @@ def poster(update, context):
         emedya = update.channel_post.photo[0].file_id if update.channel_post.photo else update.channel_post.effective_attachment.file_id
         for ehesap in ebinb:
             eret = True
-            ekaynak = ehesap['kaynak']
-            esablon = ehesap['sablon']
-            esablon = str(esablon)
             try:
                 etoken = ehesap['token']
             except:
                 eret = False
+            ekaynak = ehesap['kaynak']
             ekanal = ehesap['kanal']
-            euser = ehesap['_id']
-            esite = ehesap['site']
-            ealtapi = ehesap['altapi']
-            ealtsite = ehesap['altsite']
-            esira = ehesap['sira']
-            epcount = ehesap['pcount']
             if "5" in ekaynak and len(ekanal) > 0 and eret:
+                esablon = ehesap['sablon']
+                euser = ehesap['_id']
+                esite = ehesap['site']
+                ealtapi = ehesap['altapi']
+                ealtsite = ehesap['altsite']
+                esira = ehesap['sira']
+                epcount = ehesap['pcount']
                 if epcount < 20:
                     collection.update_one({"_id": euser}, {"$inc": {"pcount": 1}})
                 else:
@@ -2474,7 +2383,7 @@ def poster(update, context):
         else:
             epostdata.insert_one({"chat": botlog, "pid": ebmsg.message_id, "mesih": emesjid})
     # MuhoVip
-    elif chat == kaynaklar[5] and muho:
+    elif chat == kaynaklar[5]:
         gcount = 0
         gmesaj = update.channel_post.caption
         if gmesaj == None:
@@ -2497,10 +2406,6 @@ def poster(update, context):
         """ Açıklama tespit """
         gason = gmesaj.find("\n", 0, gsol)
         gaciklama = gmesaj[:gason].strip()
-        """    Cookies    """
-        s = Session()
-        link = s.get("https://ay.live/api")
-        cookies = dict(link.cookies)
         """  Veri Tabanı  """
         gpostdata = db[str(chat)]
         gbinb = collection.find({})
@@ -2510,20 +2415,20 @@ def poster(update, context):
         for ghesap in gbinb:
             gret = True
             gkaynak = ghesap['kaynak']
-            gsablon = ghesap['sablon']
-            gsablon = str(gsablon)
+            gkanal = ghesap['kanal']
             try:
                 gtoken = ghesap['token']
             except:
                 gret = False
-            gkanal = ghesap['kanal']
-            guser = ghesap['_id']
-            gsite = ghesap['site']
-            galtapi = ghesap['altapi']
-            galtsite = ghesap['altsite']
-            gsira = ghesap['sira']
-            gpcount = ghesap['pcount']
             if "6" in gkaynak and len(gkanal) > 0 and gret:
+                gsablon = ghesap['sablon']
+                gsablon = str(gsablon)
+                guser = ghesap['_id']
+                gsite = ghesap['site']
+                galtapi = ghesap['altapi']
+                galtsite = ghesap['altsite']
+                gsira = ghesap['sira']
+                gpcount = ghesap['pcount']
                 if gpcount < 20:
                     collection.update_one({"_id": guser}, {"$inc": {"pcount": 1}})
                 else:
@@ -2654,7 +2559,7 @@ def poster(update, context):
         else:
             gpostdata.insert_one({"chat": botlog, "pid": gbmsg.message_id, "mesih": gmesjid})
     # Tutan Linkler
-    elif chat == kaynaklar[6] and tutan:
+    elif chat == kaynaklar[6]:
         fcount = 0
         fmesaj = update.channel_post.caption
         if fmesaj == None:
@@ -2677,10 +2582,6 @@ def poster(update, context):
         """ Açıklama tespit """
         fason = fmesaj.find("\n", 0, fsol)
         faciklama = fmesaj[:fason].strip()
-        """    Cookies    """
-        s = Session()
-        link = s.get("https://ay.live/api")
-        cookies = dict(link.cookies)
         """  Veri Tabanı  """
         fpostdata = db[str(chat)]
         fbinb = collection.find({})
@@ -2690,20 +2591,19 @@ def poster(update, context):
         for fhesap in fbinb:
             fret = True
             fkaynak = fhesap['kaynak']
-            fsablon = fhesap['sablon']
-            fsablon = str(fsablon)
+            fkanal = fhesap['kanal']
             try:
                 ftoken = fhesap['token']
             except:
                 fret = False
-            fkanal = fhesap['kanal']
-            fuser = fhesap['_id']
-            fsite = fhesap['site']
-            faltapi = fhesap['altapi']
-            faltsite = fhesap['altsite']
-            fsira = fhesap['sira']
-            fpcount = fhesap['pcount']
             if "7" in fkaynak and len(fkanal) > 0 and fret:
+                fuser = fhesap['_id']
+                fsablon = fhesap['sablon']
+                fsite = fhesap['site']
+                faltapi = fhesap['altapi']
+                faltsite = fhesap['altsite']
+                fsira = fhesap['sira']
+                fpcount = fhesap['pcount']
                 if fpcount < 20:
                     collection.update_one({"_id": fuser}, {"$inc": {"pcount": 1}})
                 else:
@@ -2835,7 +2735,7 @@ def poster(update, context):
             fpostdata.insert_one({"chat": botlog, "pid": fbmsg.message_id, "mesih": fmesjid})
         logger.warning(fbasari)
     # Linkimi Yolla
-    elif chat == kaynaklar[7] and linkimi:
+    elif chat == kaynaklar[7]:
         hcount = 0
         hmesaj = update.channel_post.caption
         if hmesaj == None:
@@ -2867,20 +2767,19 @@ def poster(update, context):
         for hhesap in hbinb:
             hret = True
             hkaynak = hhesap['kaynak']
-            hsablon = hhesap['sablon']
-            hsablon = str(hsablon)
             try:
                 htoken = hhesap['token']
             except:
                 hret = False
             hkanal = hhesap['kanal']
-            huser = hhesap['_id']
-            hsite = hhesap['site']
-            haltapi = hhesap['altapi']
-            haltsite = hhesap['altsite']
-            hsira = hhesap['sira']
-            hpcount = hhesap['pcount']
             if "8" in hkaynak and len(hkanal) > 0 and hret:
+                hsablon = hhesap['sablon']
+                huser = hhesap['_id']
+                hsite = hhesap['site']
+                haltapi = hhesap['altapi']
+                haltsite = hhesap['altsite']
+                hsira = hhesap['sira']
+                hpcount = hhesap['pcount']
                 if hpcount < 20:
                     collection.update_one({"_id": huser}, {"$inc": {"pcount": 1}})
                 else:
@@ -3037,10 +2936,6 @@ def poster(update, context):
         """  Açıklama tespit  """
         oason = omesaj.rfind("\n", 0, osol)
         oaciklama = omesaj[:oason].strip()
-        """  Cookies  """
-        s = Session()
-        link = s.get("https://ay.live/api")
-        cookies = dict(link.cookies)
         """ Dosya tespit """
         omedya = update.channel_post.photo[0].file_id if update.channel_post.photo else update.channel_post.effective_attachment.file_id
         for ozelkanal in okaynak['kanal']:
