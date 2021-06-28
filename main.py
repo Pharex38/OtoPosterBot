@@ -1715,6 +1715,7 @@ def poster(update, context):
                         yetkililer = [xy.user.id for xy in bot.get_chat_administrators(kan)]
                     except:
                         ret = False
+                        yetkililer = []
                     if not user in yetkililer and ret:
                         try:
                             membersayi = bot.get_chat_members_count(kan)
@@ -1897,6 +1898,7 @@ def poster(update, context):
                         byetkililer = [bxy.user.id for bxy in bot.get_chat_administrators(bkan)]
                     except:
                         bret = False
+                        byetkililer = []
                     if not buser in byetkililer and bret:
                         try:
                             bmembersayi = bot.get_chat_members_count(bkan)
@@ -2084,6 +2086,7 @@ def poster(update, context):
                         cyetkililer = [cxy.user.id for cxy in bot.get_chat_administrators(ckan)]
                     except:
                         cret = False
+                        cyetkililer = []
                     if not cuser in cyetkililer and cret:
                         try:
                             cmembersayi = bot.get_chat_members_count(ckan)
@@ -2265,6 +2268,7 @@ def poster(update, context):
                         dyetkililer = [dxy.user.id for dxy in bot.get_chat_administrators(dkan)]
                     except:
                         dret = False
+                        dyetkililer = []
                     if not duser in dyetkililer and dret:
                         try:
                             dmembersayi = bot.get_chat_members_count(dkan)
@@ -2446,6 +2450,7 @@ def poster(update, context):
                         eyetkililer = [exy.user.id for exy in bot.get_chat_administrators(ekan)]
                     except:
                         eret = False
+                        eyetkililer = []
                     if not euser in eyetkililer and eret:
                         try:
                             emembersayi = bot.get_chat_members_count(ekan)
@@ -2625,6 +2630,7 @@ def poster(update, context):
                         gyetkililer = [gxy.user.id for gxy in bot.get_chat_administrators(gkan)]
                     except:
                         gret = False
+                        gyetkililer = []
                     if not guser in gyetkililer and gret:
                         try:
                             gmembersayi = bot.get_chat_members_count(gkan)
@@ -2804,6 +2810,7 @@ def poster(update, context):
                     try:
                         fyetkililer = [fxy.user.id for fxy in bot.get_chat_administrators(fkan)]
                     except:
+                        fyetkililer = []
                         fret = False
                     if not fuser in fyetkililer and fret:
                         try:
@@ -2971,6 +2978,7 @@ def poster(update, context):
                         oyetkililer = [oxy.user.id for oxy in bot.get_chat_administrators(okan)]
                     except:
                         oret = False
+                        oyetkililer = []
                     if not ouser in oyetkililer and oret:
                         try:
                             omembersayi = bot.get_chat_members_count(okan)
