@@ -204,6 +204,10 @@ def stats(update, context):
     msg = bot.send_message(chat, "<code> Veriler toplanıyor...</code>")
     kullanicilar = [x for x in collection.find({})]
     for kullanici in kullanicilar:
+        try:
+            kullanici['site']
+        except:
+            continue
         if not kullanici in kulkum:
             kulkum.append(kullanici)
             users += 1
@@ -3085,6 +3089,10 @@ def gunluk(context):
     users = 0
     kullanicilar = collection.find({})
     for kullanici in kullanicilar:
+        try:
+            kullanici['site']
+        except:
+            continue
         if kullanici['site'] == "1":
             trlink_kullanan_sayisi += 1
         if kullanici['altsite'] == "1":
@@ -3140,7 +3148,7 @@ def gunluk(context):
   
     toplam = toplam / 1000
     toplam = str(round(toplam, 1))+"K" if round(toplam, 1) < 1000 else str(round(toplam / 1000, 2))+"M"
-    msg = bot.edit_message_text("👥 Toplam Kullanıcı Sayısı: {}\n📢 Toplam Kayıtlı Kanal Sayısı: {}\n🙋 Toplam Kitle: {}\n\n<b>Sitelerin Toplam Kullanıcı Sayısı;</b>\nTRLink -> {}\nPND.TL -> {}\nExe.io -> {}\nOuo.io -> {}\nPubiza -> {}\n\n<b>Kaynakların Toplam Kullanan Sayıları:</b>\n{} -> {}\n{} -> {}\n{} -> {}\n{} -> {}\n{} -> {}\n{} -> {}\n{} -> {}\nÖzel Kaynak -> {}".format(users, kanals, toplam, trlink_kullanan_sayisi, pnd_kullanan_sayisi, exe_kullanan_sayisi, ouo_kullanan_sayisi, pubiza_kullanan_sayisi, mahzen.title, mahzen_kullanan_sayisi, bedava.title, bedava_kullanan_sayisi, evi.title, evi_kullanan_sayisi, bashub.title, bashub_kullanan_sayisi, acikmi.title, acikmi_kullanan_sayisi, muho.title, hazır_kullanan_sayisi, tutan.title, tutan_kullanan_sayisi, ozel_kaynak_kullanan_sayisi), botlog, msg.message_id, reply_markup=begenimark(0, 0, 0))
+    msg = bot.edit_message_text("👥 Toplam Kullanıcı Sayısı: {}\n📢 Toplam Kayıtlı Kanal Sayısı: {}\n🙋 Toplam Kitle: {}\n\n<b>Sitelerin Toplam Kullanıcı Sayısı;</b>\nTRLink -> {}\nPND.TL -> {}\nExe.io -> {}\nOuo.io -> {}\nPubiza -> {}\n\n<b>Kaynakların Toplam Kullanan Sayıları:</b>\n{} -> {}\n{} -> {}\n{} -> {}\n{} -> {}\n{} -> {}\n{} -> {}\n{} -> {}\nÖzel Kaynak -> {}".format(users, kanals, toplam, trlink_kullanan_sayisi, pnd_kullanan_sayisi, exe_kullanan_sayisi, ouo_kullanan_sayisi, pubiza_kullanan_sayisi, mahzen.title, mahzen_kullanan_sayisi, bedava.title, bedava_kullanan_sayisi, evi.title, evi_kullanan_sayisi, bashub.title, bashub_kullanan_sayisi, acikmi.title, acikmi_kullanan_sayisi, muho.title, hazır_kullanan_sayisi, tutan.title, tutan_kullanan_sayisi, ozel_kaynak_kullanan_sayisi), botlog, msg.message_id)
     bot.pin_chat_message(botlog, msg.message_id)
     
 bildir('Bot Başladı 🍕')
