@@ -3094,6 +3094,13 @@ def gunluk(context):
     kum = []
     kanals = 0
     users = 0
+    mahzen = bot.get_chat(kaynaklar[0])
+    bedava = bot.get_chat(kaynaklar[1])
+    evi = bot.get_chat(kaynaklar[2])
+    bashub = bot.get_chat(kaynaklar[3])
+    acikmi = bot.get_chat(kaynaklar[4])
+    muho = bot.get_chat(kaynaklar[5])
+    tutan = bot.get_chat(kaynaklar[6])
     kullanicilar = collection.find({})
     for kullanici in kullanicilar:
         try:
