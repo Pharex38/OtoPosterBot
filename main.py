@@ -195,6 +195,13 @@ def stats(update, context):
     user = update.message.from_user.id
     kum = []
     kulkum = []
+    mahzen = bot.get_chat(kaynaklar[0])
+    bedava = bot.get_chat(kaynaklar[1])
+    evi = bot.get_chat(kaynaklar[2])
+    bashub = bot.get_chat(kaynaklar[3])
+    acikmi = bot.get_chat(kaynaklar[4])
+    muho = bot.get_chat(kaynaklar[5])
+    tutan = bot.get_chat(kaynaklar[6])
     mahzen_kitle, bedava_kitle, hazır_kitle, acikmi_kitle, bashub_kitle, evi_kitle, tutan_kitle = 0, 0, 0, 0, 0, 0, 0
     ozel_kaynak_kullanan_sayisi, mahzen_kullanan_sayisi, hazır_kullanan_sayisi, tutan_kullanan_sayisi, acikmi_kullanan_sayisi, bedava_kullanan_sayisi, evi_kullanan_sayisi, bashub_kullanan_sayisi = 0, 0, 0, 0, 0, 0, 0, 0
     exe_kullanan_sayisi, pubiza_kullanan_sayisi, ouo_kullanan_sayisi, trlink_kullanan_sayisi, pnd_kullanan_sayisi = 0, 0, 0, 0, 0
