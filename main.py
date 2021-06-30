@@ -1435,6 +1435,7 @@ def pat(update, context):
         ptoken = pathesap['token']
     except:
         bot.send_message(chat, "API adresinizi yeniden kaydedin.")
+        return
     psablon = pathesap['sablon']
     psite = pathesap['site']
     paltapi = pathesap['altapi']
