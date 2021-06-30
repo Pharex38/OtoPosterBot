@@ -1466,6 +1466,8 @@ def pat(update, context):
                     palink = get(f"http://ouo.io/api/{paltapi}", params={"s": kplink}).text
                 if paltsite == "5":
                     palink = get(f"http://pubiza.com/api.php?", params={"token": paltapi, "url": kplink, "ads_type": "adult"}).text
+                time.sleep(1)
+                ptry += 1
         while ptry < 10 and plink == " ":
             if psite == "1":
                 pjson = get(f"https://ay.live/api/?", params={"api": ptoken, "url": kplink, "ct": 1}).json()
