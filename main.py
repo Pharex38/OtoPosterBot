@@ -1431,11 +1431,9 @@ def pat(update, context):
     if mesaj.find("\n", psol) == -1:
         plink = mesaj[psol:].strip()
     pathesap = collection.find_one({"_id": user})
-    pret = True
     try:
         ptoken = pathesap['token']
     except:
-        pret = False
         bot.send_message(chat, "API adresinizi yeniden kaydedin.")
     psablon = pathesap['sablon']
     psite = pathesap['site']
@@ -1491,7 +1489,7 @@ def pat(update, context):
     except Exception as e:
         bot.send_message(chat, f"Bir sorun oluştu: \n\n{e}")
         logger.error(e)
-        pret = False
+        return
     context.user_data['psablon'] = psablon
     context.user_data['ptip'] = ptip
     context.user_data['fid'] = fid
@@ -3177,7 +3175,7 @@ def main() -> None:
 
     upjob = updater.job_queue
     upjob.run_repeating(jobyedekleme, interval=300, first=10, name="yedekleme")
-    upjob.run_daily(gunluk, time=datetime.datetime.strptime("21-06-30 21:58:00", '%y-%m-%d %H:%M:%S').time(), name="gunluk")
+    upjob.run_daily(gunluk, time=datetime.datetime.strptime("21-06-30 21:55:00", '%y-%m-%d %H:%M:%S').time(), name="gunluk")
     
     conv_handler = ConversationHandler(
         entry_points=[MessageHandler(Filters.update.message & ~Filters.command, menu), CommandHandler('start', start)],
