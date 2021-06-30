@@ -1424,12 +1424,12 @@ def pat(update, context):
     """Link Tespit"""
     psol = mesaj.find("http")
     psag = mesaj.find("\n", psol)
-    plink = mesaj[psol:psag].strip()
-    if plink.startswith("https://ay") or plink.startswith("https://pgg") or plink.startswith("https://pnd") or plink.startswith("https://ouo") or plink.startswith("https://exe") or plink.startswith("https://lnk"):
+    kplink = mesaj[psol:psag].strip()
+    if kplink.startswith("https://ay") or kplink.startswith("https://pgg") or kplink.startswith("https://pnd") or kplink.startswith("https://ouo") or kplink.startswith("https://exe") or kplink.startswith("https://lnk"):
         bot.send_message(chat, "Oops sanırım zaten kısaltılmış bir linki kısaltmaya çalışıyorsun. Üzgünüm bu bot linkleri kendisi geçemez.", reply_markup=imark())
         return PATPOST
     if mesaj.find("\n", psol) == -1:
-        plink = mesaj[psol:].strip()
+        kplink = mesaj[psol:].strip()
     pathesap = collection.find_one({"_id": user})
     try:
         ptoken = pathesap['token']
@@ -1442,6 +1442,8 @@ def pat(update, context):
     paltsite = pathesap['altsite']
     psira = pathesap['sira']
     palink = " "
+    plink = " "
+    ptry = 0
     if psira == "2":
         ptoken = paltapi
         psite = paltsite
@@ -1450,32 +1452,39 @@ def pat(update, context):
         collection.update_one({"_id": user}, {"$set": {"sira": "2"}})
     try:
         if not paltapi == "None":
-            if paltsite == "1":
-                pjson = get(f"https://ay.live/api/?", params={"api": paltapi, "url": plink, "ct": 1}).json()
-                palink = pjson['shortenedUrl']
-            if paltsite == "2":
-                pjson = get(f"https://www.pnd.tl/api?", params={'api': paltapi, 'url': plink, 'category': 6}).json()
-                palink = pjson['shortenedUrl']
-            if paltsite == "3":
-                pjson = get(f"https://exe.io/api?", params={"api": paltapi, "url": plink}).json()
-                palink = pjson['shortenedUrl']
-            if paltsite == "4":
-                palink = get(f"http://ouo.io/api/{paltapi}", params={"s": plink}).text
-            if paltsite == "5":
-                palink = get(f"http://pubiza.com/api.php?", params={"token": paltapi, "url": plink, "ads_type": "adult"}).text
-        if psite == "1":
-            pjson = get(f"https://ay.live/api/?", params={"api": ptoken, "url": plink, "ct": 1}).json()
-            plink = pjson['shortenedUrl']
-        if psite == "2":
-            pjson = get(f"https://www.pnd.tl/api?", params={'api': ptoken, 'url': plink, 'category': 6}).json()
-            plink = pjson['shortenedUrl']
-        if psite == "3":
-            pjson = get(f"https://exe.io/api?", params={"api": ptoken, "url": plink}).json()
-            plink = pjson['shortenedUrl']
-        if psite == "4":
-            plink = get(f"http://ouo.io/api/{ptoken}?", params={"s": plink}).text
-        if psite == "5":
-            plink = get(f"http://pubiza.com/api.php?", params={"token": ptoken, "url": plink, "ads_type": "adult"}).text
+            while ptry < 10 and palink == " ":
+                if paltsite == "1":
+                    pjson = get(f"https://ay.live/api/?", params={"api": paltapi, "url": kplink, "ct": 1}).json()
+                    palink = pjson['shortenedUrl']
+                if paltsite == "2":
+                    pjson = get(f"https://www.pnd.tl/api?", params={'api': paltapi, 'url': kplink, 'category': 6}).json()
+                    palink = pjson['shortenedUrl']
+                if paltsite == "3":
+                    pjson = get(f"https://exe.io/api?", params={"api": paltapi, "url": kplink}).json()
+                    palink = pjson['shortenedUrl']
+                if paltsite == "4":
+                    palink = get(f"http://ouo.io/api/{paltapi}", params={"s": kplink}).text
+                if paltsite == "5":
+                    palink = get(f"http://pubiza.com/api.php?", params={"token": paltapi, "url": kplink, "ads_type": "adult"}).text
+        while ptry < 10 and plink == " ":
+            if psite == "1":
+                pjson = get(f"https://ay.live/api/?", params={"api": ptoken, "url": kplink, "ct": 1}).json()
+                plink = pjson['shortenedUrl']
+            if psite == "2":
+                pjson = get(f"https://www.pnd.tl/api?", params={'api': ptoken, 'url': kplink, 'category': 6}).json()
+                plink = pjson['shortenedUrl']
+            if psite == "3":
+                pjson = get(f"https://exe.io/api?", params={"api": ptoken, "url": kplink}).json()
+                plink = pjson['shortenedUrl']
+            if psite == "4":
+                plink = get(f"http://ouo.io/api/{ptoken}?", params={"s": kplink}).text
+            if psite == "5":
+                plink = get(f"http://pubiza.com/api.php?", params={"token": ptoken, "url": kplink, "ads_type": "adult"}).text
+            time.sleep(1)
+            ptry += 1
+        if plink == " ":
+            bot.send_message(chat, "İşlem başarısız oldu lütfen tekrar deneyin.")
+            return
         if psablon == "1":
             psablon = f"🔥{paciklama}\n\n🔱 TIKLA 👉 {plink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
         elif psablon == "2" or psablon == "3":
