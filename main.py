@@ -1558,15 +1558,17 @@ def poster(update, context):
                 alink = " "
                 json = " "
                 linktry = 0
-                try:
-                    if sira == "2":
-                        token = altapi
-                        site = altsite
-                        collection.update_one({"_id": user}, {"$set": {"sira": "3"}})
-                    if sira == "3":
-                        collection.update_one({"_id": user}, {"$set": {"sira": "2"}})
-                    if not altapi == "None":
-                        while linktry < 10 and alink == " ":
+                if sira == "2":
+                    token = altapi
+                    site = altsite
+                    collection.update_one({"_id": user}, {"$set": {"sira": "3"}})
+                if sira == "3":
+                    collection.update_one({"_id": user}, {"$set": {"sira": "2"}})
+                if not altapi == "None":
+                    while linktry < 10 and alink == " ":
+                        sleep(0.5)
+                        linktry += 1
+                        try:
                             if altsite == "1":
                                 json = get(f"https://ay.live/api/?", params={'api': altapi, 'url': mesajb, 'ct': 1}, headers=headers).json()
                                 alink = json['shortenedUrl']
@@ -1580,34 +1582,43 @@ def poster(update, context):
                                 alink = get(f"http://ouo.io/api/{altapi}?", params={'s': mesajb}, headers=headers).text
                             if altsite == "5":
                                 alink = get(f"http://pubiza.com/api.php?", params={'token': altapi, 'url': mesajb, 'ads_type': "adult"}, headers=headers).text
-                            linktry += 1
-                            sleep(0.5)
                             if linktry > 1:
-                                logger.warning(f"Link kısaltılamadı tekrar deneniyor {linktry}")
+                                logger.warning(f"Link kısaltılamadı tekrar deneniyor -> {linktry}")
+                        except Exception as e:
+                            if linktry == 9:
+                                bot.send_message(user, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
+                                logger.error(e)
+                                logger.debug(json)
+                                continue
+                        if linktry > 1:
+                            logger.warning(f"Tekrar deneniyor {linktry}")
                     while linktry < 10 and link == " ":
-                        if site == "1":
-                            json = get(f"https://ay.live/api/?", params={'api': token, 'url': mesajb, 'ct': 1}, headers=headers).json()
-                            link = json['shortenedUrl']
-                        if site == "2":
-                            json = get(f"https://www.pnd.tl/api?", params={'api': token, 'url': mesajb, 'category': 6}, headers=headers).json()
-                            link = json['shortenedUrl']
-                        if site == "3":
-                            json = get(f"https://exe.io/api?", params={'api': token, 'url': mesajb}, headers=headers).json()
-                            link = json['shortenedUrl']
-                        if site == "4":
-                            link = get(f"http://ouo.io/api/{token}?", params={'s': mesajb}, headers=headers).text
-                        if site == "5":
-                            link = get(f"http://pubiza.com/api.php?", params={'token': token, 'url': mesajb, 'ads_type': "adult"}, headers=headers).text
                         linktry += 1
-                        sleep(1)
+                        sleep(0.5)
+                        try:
+                            if site == "1":
+                                json = get(f"https://ay.live/api/?", params={'api': token, 'url': mesajb, 'ct': 1}, headers=headers).json()
+                                link = json['shortenedUrl']
+                            if site == "2":
+                                json = get(f"https://www.pnd.tl/api?", params={'api': token, 'url': mesajb, 'category': 6}, headers=headers).json()
+                                link = json['shortenedUrl']
+                            if site == "3":
+                                json = get(f"https://exe.io/api?", params={'api': token, 'url': mesajb}, headers=headers).json()
+                                link = json['shortenedUrl']
+                            if site == "4":
+                                link = get(f"http://ouo.io/api/{token}?", params={'s': mesajb}, headers=headers).text
+                            if site == "5":
+                                link = get(f"http://pubiza.com/api.php?", params={'token': token, 'url': mesajb, 'ads_type': "adult"}, headers=headers).text
+                        except Exception as e:
+                            if linktry == 9:
+                                bot.send_message(user, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
+                                logger.error(e)
+                                logger.debug(json)
+                                continue
                         if linktry > 1:
                             logger.warning(f"Tekrar deneniyor {linktry}")
                     logger.info(f"{kanal} + {link} + {token}")
-                except Exception as e:
-                    bot.send_message(user, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
-                    logger.error(e)
-                    logger.debug(json)
-                    continue
+                
                 if sablon == "1":
                     sablon = f"🔥{aciklama}\n\n🔱 TIKLA 👉 {link}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
                 elif sablon == "2" or sablon == "3":
@@ -1882,7 +1893,10 @@ def gunluk(context):
                     pass
                 except Exception as e:
                     logger.error(e)
-                    time.sleep(30)
+                    if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
+                        sleep(1)
+                    else:
+                        time.sleep(30)
                 else:
                     toplam += uye
                     kanals += 1
