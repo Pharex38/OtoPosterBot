@@ -828,21 +828,23 @@ def kaynakmark(user):
             kmark = InlineKeyboardMarkup([[InlineKeyboardButton("🟣 Özel Kaynağı Kaldır 🟣", callback_data="okayk")], [InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")]])
         return kmark        
     kaynakkeyb = []
+    linkkaynakkeyb = list()
+    butonkaynakkeyb = list()
     anakaynakkeyb = list()
     kaynakcount = 0
     for kaynak in KaynakCol.find({}):
         kaynakcount += 1
         getkaynak = bot.get_chat(kaynak["_id"])
-        kaynakkeyb.append([InlineKeyboardButton("{}".format(getkaynak.title), url="{}".format(getkaynak.invite_link))])
+        linkkaynakkeyb.append([InlineKeyboardButton("{}".format(getkaynak.title), url="{}".format(getkaynak.invite_link))])
         
         saatbut = InlineKeyboardButton("⏳", callback_data="zaman-{}".format(kaynak['sahip']))
         if user in kaynak['kaynak']:
             kb1 = InlineKeyboardButton("✅", callback_data="kaynak-{}".format(kaynak['sahip']))
         else:
             kb1 = InlineKeyboardButton("⚫", callback_data="kaynak-{}".format(kaynak['sahip']))
-        kaynakkeyb.append([kb1, saatbut])
-        if len(kaynakkeyb) > 1:
-            anakaynakkeyb.append([kaynakkeyb])
+        butonkaynakkeyb.append([kb1, saatbut])
+        if len(linkkaynakkeyb) > 1:
+            anakaynakkeyb.append([linkkaynakkeyb, butonkaynakkeyb])
             kaynakkeyb.clear()
     anakaynakkeyb.append([InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")])
     anakaynakkeyb.append([InlineKeyboardButton("♋️ Özel Kaynak Oluştur ♋️", callback_data="okay")])
