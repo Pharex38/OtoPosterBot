@@ -1535,6 +1535,7 @@ def poster(update, context):
             hesap = collection.find_one({"_id": hesap_id})
             if hesap == None:
                 KaynakCol.update_one({"_id": chat}, {"$pull": {"kaynak": hesap_id}})
+                continue
             kaynak = hesap['kaynak']
             kanal = hesap['kanal']
             try:
