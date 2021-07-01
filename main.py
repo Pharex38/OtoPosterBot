@@ -841,8 +841,10 @@ def kaynakmark(user):
         butonkaynakkeyb.append(kb1)
         butonkaynakkeyb.append(saatbut)
         if len(butonkaynakkeyb) == 2:
-            anakaynakkeyb.append(linkkaynakkeyb)
             anakaynakkeyb.append(butonkaynakkeyb)
+        if len(linkkaynakkeyb) == 2:
+            anakaynakkeyb.append(linkkaynakkeyb)
+        if len(linkkaynakkeyb) > 1:
             butonkaynakkeyb = []
             linkkaynakkeyb = []
     anakaynakkeyb.append([InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")])
