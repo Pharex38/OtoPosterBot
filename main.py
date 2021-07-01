@@ -828,6 +828,7 @@ def kaynakmark(user):
             kmark = InlineKeyboardMarkup([[InlineKeyboardButton("🟣 Özel Kaynağı Kaldır 🟣", callback_data="okayk")], [InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")]])
         return kmark        
     kaynakkeyb = []
+    anakaynakkeyb = list()
     kaynakcount = 0
     for kaynak in KaynakCol.find({}):
         kaynakcount += 1
@@ -840,9 +841,12 @@ def kaynakmark(user):
         else:
             kb1 = InlineKeyboardButton("⚫", callback_data="kaynak-{}".format(kaynak['sahip']))
         kaynakkeyb.append([kb1, saatbut])
-    kaynakkeyb.append([InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")])
-    kaynakkeyb.append([InlineKeyboardButton("♋️ Özel Kaynak Oluştur ♋️", callback_data="okay")])
-    kmark = InlineKeyboardMarkup(inline_keyboard=kaynakkeyb)
+        if len(kaynakkeyb) > 1:
+            anakaynakkeyb.append([kaynakkeyb])
+            kaynakkeyb.clear()
+    anakaynakkeyb.append([InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")])
+    anakaynakkeyb.append([InlineKeyboardButton("♋️ Özel Kaynak Oluştur ♋️", callback_data="okay")])
+    kmark = InlineKeyboardMarkup(inline_keyboard=anakaynakkeyb)
     return kmark
 
 def sablonmark(user):
