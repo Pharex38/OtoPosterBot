@@ -827,9 +827,9 @@ def kaynakmark(user):
         else:
             kmark = InlineKeyboardMarkup([[InlineKeyboardButton("🟣 Özel Kaynağı Kaldır 🟣", callback_data="okayk")], [InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")]])
         return kmark 
-    linkkaynakkeyb = list()
-    butonkaynakkeyb = list()
-    anakaynakkeyb = list()
+    linkkaynakkeyb = []
+    butonkaynakkeyb = []
+    anakaynakkeyb = []
     for kaynak in KaynakCol.find({}):
         getkaynak = bot.get_chat(kaynak["_id"])
         linkkaynakkeyb.append(InlineKeyboardButton("{}".format(getkaynak.title), url="{}".format(getkaynak.invite_link)))
