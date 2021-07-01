@@ -445,14 +445,14 @@ def dsil(m, context):
         return
     sd = 0
     tumks = db[str(chat)].find({})
-    for t in tumks:
+    for ts in tumks:
         try:
-            bot.delete_message(t['_id'], t['mid'])
+            bot.delete_message(ts['_id'], ts['mid'])
         except Exception as e:
             logger.error(e)
         else:
             sd += 1
-            db[str(chat)].delete_one({"_id": t['_id']})
+            db[str(chat)].delete_one({"_id": ts['_id']})
     bot.send_message(chat, "{} Duyuru Mesajı Silindi!".format(sd))
         
 def post(update, context):
@@ -1561,7 +1561,7 @@ def poster(update, context):
                 altsite = hesap['altsite']
                 sira = hesap['sira']
                 pcount = hesap['pcount']
-                post_time = hesap['time']
+                post_time = [t for t in hesap['time']] if hesap['time'] != 0 else 0
                 if pcount < 19:
                     collection.update_one({"_id": user}, {"$inc": {"pcount": 1}})
                 else:
@@ -1668,13 +1668,16 @@ def poster(update, context):
                                 if update.channel_post.animation:
                                     post = bot.send_animation(kan, medya, caption=sablon)
                             else:
-                                with Client(appstr, api_id, api_hash) as app:
-                                    if update.channel_post.photo:
-                                        post = app.send_photo(kan, medya, caption=sablon)
-                                    if update.channel_post.video:
-                                        post = app.send_video(kan, medya, caption=sablon)
-                                    if update.channel_post.animation:
-                                        post = app.send_animation(kan, medya, caption=sablon)
+                                try:
+                                    with Client(appstr, api_id, api_hash) as app:
+                                        if update.channel_post.photo:
+                                            post = app.send_photo(kan, medya, caption=sablon)
+                                        if update.channel_post.video:
+                                            post = app.send_video(kan, medya, caption=sablon)
+                                        if update.channel_post.animation:
+                                            post = app.send_animation(kan, medya, caption=sablon)
+                                except Exception as e:
+                                    bot.send_message(sahip, e)
                     except Exception as e:
                         if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
                             try:
