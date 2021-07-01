@@ -115,7 +115,7 @@ def deep(u_kod, user):
         sahipi = 822071585
     if u_kod == "2":
         sahipi = 755051086
-    if u_kod == "3"
+    if u_kod == "3":
         sahipi = 818136673
     if u_kod == "4":
         sahipi = 1082754978
