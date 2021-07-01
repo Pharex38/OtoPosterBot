@@ -11,6 +11,7 @@ import Colorer
 from telegram import *
 from telegram.error import *
 from telegram.ext import *
+from functools import wraps
 from telegram.utils.helpers import *
 
 mpass = os.environ['MONGOPASS']
