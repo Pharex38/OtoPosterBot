@@ -834,14 +834,15 @@ def kaynakmark(user):
     for kaynak in KaynakCol.find({}):
         kaynakcount += 1
         getkaynak = bot.get_chat(kaynak["_id"])
-        linkkaynakkeyb.append([InlineKeyboardButton("{}".format(getkaynak.title), url="{}".format(getkaynak.invite_link))])
+        linkkaynakkeyb.append(InlineKeyboardButton("{}".format(getkaynak.title), url="{}".format(getkaynak.invite_link)))
         print(linkkaynakkeyb)
         saatbut = InlineKeyboardButton("⏳", callback_data="zaman-{}".format(kaynak['sahip']))
         if user in kaynak['kaynak']:
             kb1 = InlineKeyboardButton("✅", callback_data="kaynak-{}".format(kaynak['sahip']))
         else:
             kb1 = InlineKeyboardButton("⚫", callback_data="kaynak-{}".format(kaynak['sahip']))
-        butonkaynakkeyb.append([kb1, saatbut])
+        butonkaynakkeyb.append(kb1)
+        butonkaynakkeyb.append(saatbut)
         if len(linkkaynakkeyb) > 1:
             anakaynakkeyb.append(linkkaynakkeyb)
             anakaynakkeyb.append(butonkaynakkeyb)
