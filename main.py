@@ -842,7 +842,7 @@ def kaynakmark(user):
             kb1 = InlineKeyboardButton("⚫", callback_data="kaynak-{}".format(kaynak['sahip']))
         kaynakkeyb.append([kb1, saatbut])
         if len(kaynakkeyb) > 1:
-            anakaynakkeyb.append([kaynakkeyb])
+            anakaynakkeyb.append(kaynakkeyb)
             kaynakkeyb.clear()
     anakaynakkeyb.append([InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")])
     anakaynakkeyb.append([InlineKeyboardButton("♋️ Özel Kaynak Oluştur ♋️", callback_data="okay")])
