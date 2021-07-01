@@ -830,12 +830,12 @@ def kaynakmark(user):
     linkkaynakkeyb = list()
     butonkaynakkeyb = list()
     anakaynakkeyb = list()
-    kaynakcount = 0
     for kaynak in KaynakCol.find({}):
-        kaynakcount += 1
         getkaynak = bot.get_chat(kaynak["_id"])
         linkkaynakkeyb.append(InlineKeyboardButton("{}".format(getkaynak.title), url="{}".format(getkaynak.invite_link)))
         print(linkkaynakkeyb)
+        if len(linkkaynakkeyb) == 2:
+            anakaynakkeyb.extend(linkkaynakkeyb)
         saatbut = InlineKeyboardButton("⏳", callback_data="zaman-{}".format(kaynak['sahip']))
         if user in kaynak['kaynak']:
             kb1 = InlineKeyboardButton("✅", callback_data="kaynak-{}".format(kaynak['sahip']))
@@ -843,9 +843,9 @@ def kaynakmark(user):
             kb1 = InlineKeyboardButton("⚫", callback_data="kaynak-{}".format(kaynak['sahip']))
         butonkaynakkeyb.append(kb1)
         butonkaynakkeyb.append(saatbut)
+        if len(butonkaynakkeyb) == 2:
+            anakaynakkeyb.extend(butonkaynakkeyb)
         if len(linkkaynakkeyb) > 1:
-            anakaynakkeyb.append(linkkaynakkeyb)
-            anakaynakkeyb.append(butonkaynakkeyb)
             butonkaynakkeyb.clear()
             linkkaynakkeyb.clear()
     print(anakaynakkeyb)
