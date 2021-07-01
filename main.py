@@ -558,7 +558,7 @@ def kaynakcall(call, context):
         call.callback_query.edit_message_text(text="<b>Özel kaynak kullandığınız için kaynak başka kaynak kullanamazsınız!</b>")
         return
     mesajid = call.effective_message.message_id
-    if user in kkul['kaynak']:
+    if user in KaynakCol.find_one({"sahip": kys})['kaynak']:
         KaynakCol.update_one({"sahip": kys}, {"$pull": {"kaynak": user}})
         call.callback_query.answer(text="❌ Kaynak Kaldırıldı")
     else:
