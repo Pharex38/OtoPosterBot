@@ -525,7 +525,6 @@ def altcall(call, context):
 def kaynakcall(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
-    bot.send_chat_action(chat, timeout=2, action=ChatAction.TYPING)
     kys = int(call.callback_query.data.split("-")[1])
     kkul = collection.find_one({"_id": user})
     if kkul == None:
