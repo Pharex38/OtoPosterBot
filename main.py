@@ -1487,7 +1487,10 @@ def pat(update, context):
     bot.send_message(chat, "Zamanlamak ister misiniz?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Şimdi Gönder", callback_data="simdi")], [InlineKeyboardButton("Zamanla", callback_data="pzamanla")]]))
     return ConversationHandler.END
    
+postsirasi = []
+
 def poster(update, context):
+    global postsirasi
     okaynak = None
     chat = update.channel_post.chat.id
     vipler = collection.find_one({"_id": 0})['vipuye']
@@ -1498,6 +1501,9 @@ def poster(update, context):
     # Ana Kaynaklar
     chatdat = KaynakCol.find_one({"_id": chat})
     if chatdat != None:
+        while len(postsirasi) > 0:
+            sleep(1)   
+        postsirasi.append(chat)
         count = 0
         mesaj = update.channel_post.caption
         if mesaj == None:
@@ -1685,6 +1691,9 @@ def poster(update, context):
     else:
         okaynak = OzelCol.find_one({"okaynak": chat})
     if okaynak != None:
+        while len(postsirasi) > 0:
+            sleep(1)   
+        postsirasi.append(chat)
         ocount = 0
         omesaj = update.channel_post.caption
         if omesaj == None:
