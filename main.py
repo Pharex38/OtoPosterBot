@@ -1669,7 +1669,7 @@ def poster(update, context):
         basari = "{} kaynağından, {} kanalda post paylaşıldı.".format(kynk.title, count)
         logger.warning(basari)
         try:
-            bot.edit_message_text(basari, botlog, basari)
+            bot.edit_message_text(basari, botlog, lmsg.message_id)
         except Exception as e:
             logger.error(e)
     # Özel Kaynaklar
