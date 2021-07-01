@@ -1559,6 +1559,7 @@ def poster(update, context):
                 altsite = hesap['altsite']
                 sira = hesap['sira']
                 pcount = hesap['pcount']
+                post_time = hesap['time']
                 if pcount < 19:
                     collection.update_one({"_id": user}, {"$inc": {"pcount": 1}})
                 else:
@@ -1656,12 +1657,22 @@ def poster(update, context):
                         else:
                             logger.debug(f"{kanal} kayıtlardan silindi.")
                     try:
-                        if update.channel_post.photo and ret:
-                            post = bot.send_photo(kan, medya, caption=sablon)
-                        if update.channel_post.video and ret:
-                            post = bot.send_video(kan, medya, caption=sablon)
-                        if update.channel_post.animation and ret:
-                            post = bot.send_animation(kan, medya, caption=sablon)
+                        if ret:
+                            if post_time == 0:
+                                if update.channel_post.photo:
+                                    post = bot.send_photo(kan, medya, caption=sablon)
+                                if update.channel_post.video:
+                                    post = bot.send_video(kan, medya, caption=sablon)
+                                if update.channel_post.animation:
+                                    post = bot.send_animation(kan, medya, caption=sablon)
+                            else:
+                                with Client(appstr, api_id, api_hash) as app:
+                                    if update.channel_post.photo:
+                                        post = app.send_photo(kan, medya, caption=sablon)
+                                    if update.channel_post.video:
+                                        post = app.send_video(kan, medya, caption=sablon)
+                                    if update.channel_post.animation:
+                                        post = app.send_animation(kan, medya, caption=sablon)
                     except Exception as e:
                         if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
                             try:
@@ -1677,7 +1688,8 @@ def poster(update, context):
                             logger.error(e)
                     else:
                         count = count + 1
-                        postdata.insert_one({"pid": post.message_id, "chat": kan, "mesih": mesjid})
+                        if post_time == 0:
+                            postdata.insert_one({"pid": post.message_id, "chat": kan, "mesih": mesjid})
                 logger.info("Başarılı!")
             else:
                 pass
