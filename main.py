@@ -213,13 +213,6 @@ def stats(update, context):
     user = update.message.from_user.id
     kum = []
     kulkum = []
-    mahzen = bot.get_chat(kaynaklar[0])
-    bedava = bot.get_chat(kaynaklar[1])
-    evi = bot.get_chat(kaynaklar[2])
-    bashub = bot.get_chat(kaynaklar[3])
-    acikmi = bot.get_chat(kaynaklar[4])
-    muho = bot.get_chat(kaynaklar[5])
-    tutan = bot.get_chat(kaynaklar[6])
     mahzen_kitle, bedava_kitle, hazır_kitle, acikmi_kitle, bashub_kitle, evi_kitle, tutan_kitle = 0, 0, 0, 0, 0, 0, 0
     ozel_kaynak_kullanan_sayisi, mahzen_kullanan_sayisi, hazır_kullanan_sayisi, tutan_kullanan_sayisi, acikmi_kullanan_sayisi, bedava_kullanan_sayisi, evi_kullanan_sayisi, bashub_kullanan_sayisi = 0, 0, 0, 0, 0, 0, 0, 0
     exe_kullanan_sayisi, pubiza_kullanan_sayisi, ouo_kullanan_sayisi, trlink_kullanan_sayisi, pnd_kullanan_sayisi = 0, 0, 0, 0, 0
@@ -261,24 +254,15 @@ def stats(update, context):
                         time.sleep(20)
                     else:
                         toplam += uye
-                        if "1" in kullanici['kaynak']:
-                            mahzen_kitle += uye
-                        if "2" in kullanici['kaynak']:
-                            bedava_kitle += uye
-                        if "3" in kullanici['kaynak']:
-                            evi_kitle += uye
-                        if "4" in kullanici['kaynak']:
-                            bashub_kitle += uye
-                        if "5" in kullanici['kaynak']:
-                            acikmi_kitle += uye
-                        if "6" in kullanici['kaynak']:
-                            hazır_kitle += uye
-                        if "7" in kullanici['kaynak']:
-                            tutan_kitle += uye
+    stat_text = f"Toplam Kullanıcı Sayısı: {users}\nToplam Kayıtlı Kanal Sayısı: {kanals}\nToplam Kitle: {toplam}\n\n<b>Toplam Site Kullanan Sayısı;</b>\nTRLink: {trlink_kullanan_sayisi}\nPND.TL: {pnd_kullanan_sayisi}\nExe.io: {exe_kullanan_sayisi}\nOuo.io: {ouo_kullanan_sayisi}\nPubiza: {pubiza_kullanan_sayisi}\n\n<b>Toplam Kaynak Kullanan Sayıları:</b>\n"
+    statscount = 0
+    for kstat in KaynakCol.find({}):
+        stat_text += "{} -> {}".format
+    ozel_text = f"Özel kullanan: {ozel_kaynak_kullanan_sayisi}"
           
     toplam = toplam / 1000
     toplam = str(round(toplam, 1))+"K" if round(toplam, 1) < 1000 else str(round(toplam / 1000, 2))+"M"
-    bot.edit_message_text(f"Toplam Kullanıcı Sayısı: {users}\nToplam Kayıtlı Kanal Sayısı: {kanals}\nToplam Kitle: {toplam}\n\n<b>Toplam Site Kullanan Sayısı;</b>\nTRLink: {trlink_kullanan_sayisi}\nPND.TL: {pnd_kullanan_sayisi}\nExe.io: {exe_kullanan_sayisi}\nOuo.io: {ouo_kullanan_sayisi}\nPubiza: {pubiza_kullanan_sayisi}\n\n<b>Toplam Kaynak Kullanan Sayıları:</b>\n{mahzen.title}: {mahzen_kullanan_sayisi} Kitle: {mahzen_kitle}\n{bedava.title}: {bedava_kullanan_sayisi} Kitle: {bedava_kitle}\n{evi.title}: {evi_kullanan_sayisi} Kitle: {evi_kitle}\n{bashub.title}: {bashub_kullanan_sayisi} Kitle: {bashub_kitle}\n{acikmi.title}: {acikmi_kullanan_sayisi} Kitle: {acikmi_kitle}\n{muho.title}: {hazır_kullanan_sayisi} Kitle: {hazır_kitle}\n{tutan.title}: {tutan_kullanan_sayisi} Kitle: {tutan_kitle}\nÖzel kullanan: {ozel_kaynak_kullanan_sayisi} ", chat, msg.message_id)
+    bot.edit_message_text(stat_text, chat, msg.message_id)
 
 def joblist(update, context):
      jobs = context.job_queue.jobs()
@@ -1508,7 +1492,7 @@ def poster(update, context):
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0",
     "Accept-Encoding": "*",
     "Connection": "keep-alive"}
-    # Link Mahzeni
+    # Ana Kaynaklar
     chatdat = KaynakCol.find_one({"_id": chat})
     if chatdat != None:
         count = 0
