@@ -522,6 +522,7 @@ def altcall(call, context):
     bot.send_message(chat, "📝 Alternatif API adresinizi gönderin.", reply_markup=imark())
     return ALTAPI
 
+@send_typing_action
 def kaynakcall(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
@@ -1506,14 +1507,20 @@ def poster(update, context):
             mesajb = mesaj[sol:].strip()
         if mesajb.startswith("https://t.me/"):
             return
-        logger.warning("{} postu atılıyor... ".format(kynk.title))
+        try:
+            lmsg = bot.send_message(botlog, "<code>{} kaynağının postu paylaşılıyor...</code>".format(kynk.title))
+        except Exception as e:
+            logger.error(e)
+            bot.send_message(sahip, str(e))
+        else:
+            postdata.insert_one({"chat": botlog, "pid": lmsg.message_id, "mesih": mesjid})
+        logger.warning("{} kaynağının postu paylaşılıyor...".format(kynk.title))
         """  Açıklama tespit  """
         ason = mesaj.rfind("\n", 0, sol)
         aciklama = mesaj[:ason].strip()
         """  Veri Tabanı  """
         postdata = db[str(chat)]
         binb =  chatdat['kaynak']
-
         mesjid = update.channel_post.message_id
         """ Dosya tespit """
         medya = update.channel_post.photo[0].file_id if update.channel_post.photo else update.channel_post.effective_attachment.file_id
@@ -1656,14 +1663,12 @@ def poster(update, context):
                 logger.info("Başarılı!")
             else:
                 pass
-        basari = "{} kaynağından, {} Kanalda Post Paylaşıldı.".format(kynk.title, count)
+        basari = "{} kaynağından, {} kanalda post paylaşıldı.".format(kynk.title, count)
         logger.warning(basari)
         try:
-            bmsg = bot.send_message(botlog, basari)
+            bot.edit_message_text(basari, botlog, basari)
         except Exception as e:
             logger.error(e)
-        else:
-            postdata.insert_one({"chat": botlog, "pid": bmsg.message_id, "mesih": mesjid})
     # Özel Kaynaklar
     else:
         okaynak = OzelCol.find_one({"okaynak": chat})
