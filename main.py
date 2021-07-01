@@ -31,6 +31,8 @@ kara = maindata['kara']
 apikara = maindata['apikara']
 bottoken = maindata['bottoken']
 para = maindata['para']
+api_id = maindata['aid']
+api_hash = maindata['hash']
 bot = ExtBot(bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=99))
 
 blog = -1001391561285
@@ -246,8 +248,8 @@ def stats(update, context):
                             sleep(1)
                         else:
                             time.sleep(30)
-                        else:
-                            toplam += uye
+                    else:
+                        toplam += uye
     toplam = toplam / 1000
     toplam = str(round(toplam, 1))+"K" if round(toplam, 1) < 1000 else str(round(toplam / 1000, 2))+"M"
     stat_text = f"Toplam Kullanıcı Sayısı: {users}\nToplam Kayıtlı Kanal Sayısı: {kanals}\nToplam Kitle: {toplam}\n\n<b>Toplam Site Kullanan Sayısı;</b>\nTRLink: {trlink_kullanan_sayisi}\nPND.TL: {pnd_kullanan_sayisi}\nExe.io: {exe_kullanan_sayisi}\nOuo.io: {ouo_kullanan_sayisi}\nPubiza: {pubiza_kullanan_sayisi}\n\n<b>Toplam Kaynak Kullanan Sayıları:</b>\n"
