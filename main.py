@@ -846,8 +846,8 @@ def kaynakmark(user):
         if len(butonkaynakkeyb) == 2:
             anakaynakkeyb.append(butonkaynakkeyb)
         if len(linkkaynakkeyb) > 1:
-            butonkaynakkeyb.clear()
-            linkkaynakkeyb.clear()
+            butonkaynakkeyb = []
+            linkkaynakkeyb = []
     print(anakaynakkeyb)
     anakaynakkeyb.append([InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")])
     anakaynakkeyb.append([InlineKeyboardButton("♋️ Özel Kaynak Oluştur ♋️", callback_data="okay")])
