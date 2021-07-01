@@ -36,7 +36,7 @@ blog = -1001391561285
 botlog = -1001352123979
 sahip = 1302980840
 fixer = 1687646994
-adminlist = [1687646994,1302980840]
+adminlist = [sahip, fixer]
 
 def bildir(neyi='Boş Bildirim Testi !'):
     for i in adminlist:
@@ -44,8 +44,6 @@ def bildir(neyi='Boş Bildirim Testi !'):
             bot.send_message(i,neyi)
         except:
             pass
-
-kaynaklar = [-1001368112299, -1001122395785, -1001423365614, -1001240514861, -1001405966343, -1001368008488, -1001379893661, -1001572457634]
 
 SEND_MEDIA_TYPES = {"document": bot.send_document, "photo": bot.send_photo, "video": bot.send_video, "animation": bot.send_animation}
 
@@ -322,7 +320,7 @@ def durdur(update, context):
 
 def kpostsil(update, context):
     chat = update.channel_post.chat.id
-    if not chat in kaynaklar:
+    if KaynakCol.find_one({"_id": chat}):
         return
     mesid = update.channel_post.reply_to_message.message_id if update.channel_post.reply_to_message else None
     if mesid == None:
@@ -1082,7 +1080,7 @@ def ozelk(update, context):
         msz = bot.send_message(update.message.chat.id, "Lütfen bana oluşturduğun kanaldan bir mesaj ilet.")
         return OZELKAYNAK
     kanal = update.message.forward_from_chat.id
-    if kanal in kaynaklar:
+    if KaynakCol.find_one({"_id": kanal}):
         mst = bot.send_message(chat, "Kaynak kanalını nasıl kaydedebilirim ki?")
         return OZELKAYNAK
     try:
@@ -1116,7 +1114,7 @@ def ozellog(update, context):
         msz = bot.send_message(update.message.chat.id, "Lütfen bana oluşturduğun kanaldan bir mesaj ilet.")
         return OZELBOTLOG
     kanal = update.message.forward_from_chat.id
-    if kanal in kaynaklar:
+    if KaynakCol.find_one({"_id": kanal}):
         mst = bot.send_message(chat, "Kaynak kanalını nasıl kaydedebilirim ki?")
         return OZELBOTLOG
     try:
@@ -1286,7 +1284,7 @@ def kanalkayit(update, context):
         
         return KANALKAYDET
     kanal = update.message.forward_from_chat.id
-    if kanal in kaynaklar:
+    if KaynakCol.find_one({"_id": kanal}):
         mst = bot.send_message(chat, "Kaynak kanalını nasıl kaydedebilirim ki?", reply_markup=imark())
         return KANALKAYDET
     if str(kanal) in y['kanal']:
