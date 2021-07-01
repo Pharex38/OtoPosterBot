@@ -842,7 +842,7 @@ def kaynakmark(user):
             kb1 = InlineKeyboardButton("⚫", callback_data="kaynak-{}".format(kaynak['sahip']))
         kaynakkeyb.append([kb1, saatbut])
         if len(kaynakkeyb) > 1:
-            anakaynakkeyb.append(kaynakkeyb)
+            anakaynakkeyb.append([kaynakkeyb])
             kaynakkeyb.clear()
     anakaynakkeyb.append([InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")])
     anakaynakkeyb.append([InlineKeyboardButton("♋️ Özel Kaynak Oluştur ♋️", callback_data="okay")])
@@ -1510,6 +1510,10 @@ def poster(update, context):
             mesajb = mesaj[sol:].strip()
         if mesajb.startswith("https://t.me/"):
             return
+        """  Veri Tabanı  """
+        postdata = db[str(chat)]
+        binb =  chatdat['kaynak']
+        mesjid = update.channel_post.message_id
         try:
             lmsg = bot.send_message(botlog, "<code>{} kaynağının postu paylaşılıyor...</code>".format(kynk.title))
         except Exception as e:
@@ -1521,10 +1525,6 @@ def poster(update, context):
         """  Açıklama tespit  """
         ason = mesaj.rfind("\n", 0, sol)
         aciklama = mesaj[:ason].strip()
-        """  Veri Tabanı  """
-        postdata = db[str(chat)]
-        binb =  chatdat['kaynak']
-        mesjid = update.channel_post.message_id
         """ Dosya tespit """
         medya = update.channel_post.photo[0].file_id if update.channel_post.photo else update.channel_post.effective_attachment.file_id
         for hesap_id in binb:
