@@ -118,7 +118,7 @@ def deep(u_kod, user):
             bot.send_message(user, "🏋🏻 {} referansı ile geldiniz!".format(ref_kanal_ismi), reply_markup=dugme(user))
             return True
     key = {"_id": user, "kanal": [], "sablon": "1", "kaynak": [str(u_kod)], "site": "1", "altapi": "None", "altsite": "None", "sira": "0", "ozel": False, "pcount": 0}
-    ref_kanal_ismi = bot.get_chat(KaynakCol.find_one({"no": u_kod})['_id']).title
+    ref_kanal_ismi = bot.get_chat(KaynakCol.find_one({"no": int(u_kod)})['_id']).title
     if kat == None:
         collection.insert_one(key)
         KaynakCol.update_one({"no": int(u_kod)}, {"$push": {"kaynak": int(user)}})
