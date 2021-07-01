@@ -38,6 +38,15 @@ sahip = 1302980840
 fixer = 1687646994
 adminlist = [sahip, fixer]
 
+def send_typing_action(func):
+
+    @wraps(func)
+    def command_func(update, context, *args, **kwargs):
+        context.bot.send_chat_action(chat_id=update.effective_message.chat_id, action=ChatAction.TYPING)
+        return func(update, context,  *args, **kwargs)
+
+    return command_func
+
 def bildir(neyi='Boş Bildirim Testi !'):
     for i in adminlist:
         try:
@@ -919,6 +928,7 @@ def site_isim(no):
     if no == "5":
         return "Pubiza"
 
+@send_typing_action
 def menu(update, context):
     chat = update.message.chat.id
     user = update.message.from_user.id
