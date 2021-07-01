@@ -1533,6 +1533,8 @@ def poster(update, context):
         for hesap_id in binb:
             ret = True
             hesap = collection.find_one({"_id": hesap_id})
+            if hesap == None:
+                KaynakCol.update_one({"_id": chat}, {"$pull": {"kaynak": hesap_id}})
             kaynak = hesap['kaynak']
             kanal = hesap['kanal']
             try:
