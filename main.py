@@ -113,18 +113,20 @@ def deep(u_kod, user):
     key = {"_id": user, "kanal": [], "sablon": "1", "kaynak": [str(u_kod)], "site": "1", "altapi": "None", "altsite": "None", "sira": "0", "ozel": False, "pcount": 0}
     if u_kod == "1":
         sahipi = 822071585
-    if u_kod == "2":
+    elif u_kod == "2":
         sahipi = 755051086
-    if u_kod == "3":
+    elif u_kod == "3":
         sahipi = 818136673
-    if u_kod == "4":
+    elif u_kod == "4":
         sahipi = 1082754978
-    if u_kod == "5":
+    elif u_kod == "5":
         sahipi = 1573589253
-    if u_kod == "6":
+    elif u_kod == "6":
         sahipi = 1613760981
-    if u_kod == "7":
+    elif u_kod == "7":
         sahipi = 814887530
+    else:
+        sahipi == int(u_kod)
     ref_kanal_ismi = bot.get_chat(KaynakCol.find_one({"sahip": sahipi})).title
     if kat == None:
         collection.insert_one(key)
