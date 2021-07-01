@@ -856,7 +856,7 @@ def kaynakmark(user):
         kaynakkeyb.append([InlineKeyboardButton("{}".format(getkaynak.title), url="{}".format(getkaynak.invite_link))])
         
         saatbut = InlineKeyboardButton("⏳", callback_data="zaman-{}".format(kaynak['sahip']))
-        if update.message.from_user.id in kaynak['kaynak']:
+        if user in kaynak['kaynak']:
             kb1 = InlineKeyboardButton("✅", callback_data="kaynak-{}".format(kaynak['sahip']))
         else:
             kb1 = InlineKeyboardButton("⚫", callback_data="kaynak-{}".format(kaynak['sahip']))
