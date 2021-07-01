@@ -1822,13 +1822,6 @@ def gunluk(context):
     kum = []
     kanals = 0
     users = 0
-    mahzen = bot.get_chat(kaynaklar[0])
-    bedava = bot.get_chat(kaynaklar[1])
-    evi = bot.get_chat(kaynaklar[2])
-    bashub = bot.get_chat(kaynaklar[3])
-    acikmi = bot.get_chat(kaynaklar[4])
-    muho = bot.get_chat(kaynaklar[5])
-    tutan = bot.get_chat(kaynaklar[6])
     kullanicilar = collection.find({})
     for kullanici in kullanicilar:
         try:
@@ -1855,20 +1848,6 @@ def gunluk(context):
             pubiza_kullanan_sayisi += 1
         elif kullanici['altsite'] == "5":
             pubiza_kullanan_sayisi += 1
-        if "1" in kullanici['kaynak']:
-            mahzen_kullanan_sayisi += 1
-        if "2" in kullanici['kaynak']:
-            bedava_kullanan_sayisi += 1
-        if "3" in kullanici['kaynak']:
-            evi_kullanan_sayisi += 1
-        if "4" in kullanici['kaynak']:
-            bashub_kullanan_sayisi += 1
-        if "5" in kullanici['kaynak']:
-            acikmi_kullanan_sayisi += 1
-        if "6" in kullanici['kaynak']:
-            hazır_kullanan_sayisi += 1
-        if "7" in kullanici['kaynak']:
-            tutan_kullanan_sayisi += 1
         if kullanici['ozel']:
             ozel_kaynak_kullanan_sayisi += 1
         users += 1
@@ -1890,7 +1869,13 @@ def gunluk(context):
   
     toplam = toplam / 1000
     toplam = str(round(toplam, 1))+"K" if round(toplam, 1) < 1000 else str(round(toplam / 1000, 2))+"M"
-    msg = bot.edit_message_text("👥 Toplam Kullanıcı Sayısı: {}\n📢 Toplam Kayıtlı Kanal Sayısı: {}\n🙋 Toplam Kitle: {}\n\n<b>Sitelerin Toplam Kullanıcı Sayısı;</b>\nTRLink -> {}\nPND.TL -> {}\nExe.io -> {}\nOuo.io -> {}\nPubiza -> {}\n\n<b>Kaynakların Toplam Kullanan Sayıları:</b>\n{} -> {}\n{} -> {}\n{} -> {}\n{} -> {}\n{} -> {}\n{} -> {}\n{} -> {}\nÖzel Kaynak -> {}".format(users, kanals, toplam, trlink_kullanan_sayisi, pnd_kullanan_sayisi, exe_kullanan_sayisi, ouo_kullanan_sayisi, pubiza_kullanan_sayisi, mahzen.title, mahzen_kullanan_sayisi, bedava.title, bedava_kullanan_sayisi, evi.title, evi_kullanan_sayisi, bashub.title, bashub_kullanan_sayisi, acikmi.title, acikmi_kullanan_sayisi, muho.title, hazır_kullanan_sayisi, tutan.title, tutan_kullanan_sayisi, ozel_kaynak_kullanan_sayisi), botlog, msg.message_id)
+    statscount = 0
+    stat_text = "👥 Toplam Kullanıcı Sayısı: {}\n📢 Toplam Kayıtlı Kanal Sayısı: {}\n🙋 Toplam Kitle: {}\n\n<b>Sitelerin Toplam Kullanıcı Sayısı;</b>\nTRLink -> {}\nPND.TL -> {}\nExe.io -> {}\nOuo.io -> {}\nPubiza -> {}\n\n<b>Kaynakların Toplam Kullanan Sayıları:</b>\n".format(users, kanals, toplam, trlink_kullanan_sayisi, pnd_kullanan_sayisi, exe_kullanan_sayisi, ouo_kullanan_sayisi, pubiza_kullanan_sayisi)
+    for kstat in KaynakCol.find({}):
+        getskaynak = bot.get_chat(kstat['_id'])
+        stat_text += "{} -> {} \n".format(getskaynak.title, len(kstat['kaynak']))
+    ozel_text = f"Özel Kaynaklar: {ozel_kaynak_kullanan_sayisi}\nHer gün saat 22:00'da otomatik olarak güncel veriler paylaşılacak."
+    bot.edit_message_text(stat_text+ozel_text, botlog, msg.message_id)
     bot.pin_chat_message(botlog, msg.message_id)
     
 bildir('Bot Başladı 🍕')
