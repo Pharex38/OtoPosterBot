@@ -20,8 +20,6 @@ pid = os.getpid()
 open("pid.txt", "w").write(str(pid))
 print(pid)
 
-collection.update_one({"_id": -1001368112299}, {"$push"{"kaynak": tu['_id']}})
-
 cluster = MongoClient(mongo, ssl_cert_reqs=CERT_NONE)
 db = cluster["OtoPost"]
 collection = db["Kanallar"]
