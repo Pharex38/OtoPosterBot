@@ -847,7 +847,6 @@ def kaynakmark(user):
         linkkaynakkeyb.append(InlineKeyboardButton("{}".format(getkaynak.title), url="{}".format(getkaynak.invite_link)))
         if len(linkkaynakkeyb) == 2:
             anakaynakkeyb.append(linkkaynakkeyb)
-        if len(butonkaynakkeyb) == 2:
             anakaynakkeyb.append(butonkaynakkeyb)
         if len(linkkaynakkeyb) > 1:
             linkkaynakkeyb = []
