@@ -244,20 +244,6 @@ def stats(update, context):
                 ouo_kullanan_sayisi += 1
             elif kullanici['site'] == "5":
                 pubiza_kullanan_sayisi += 1
-            if "1" in kullanici['kaynak']:
-                mahzen_kullanan_sayisi += 1
-            if "2" in kullanici['kaynak']:
-                bedava_kullanan_sayisi += 1
-            if "3" in kullanici['kaynak']:
-                evi_kullanan_sayisi += 1
-            if "4" in kullanici['kaynak']:
-                bashub_kullanan_sayisi += 1
-            if "5" in kullanici['kaynak']:
-                acikmi_kullanan_sayisi += 1
-            if "6" in kullanici['kaynak']:
-                hazır_kullanan_sayisi += 1
-            if "7" in kullanici['kaynak']:
-                tutan_kullanan_sayisi += 1
             if kullanici['ozel']:
                 ozel_kaynak_kullanan_sayisi += 1
             for kul in kullanici['kanal']:
