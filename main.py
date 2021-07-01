@@ -1885,7 +1885,10 @@ def gunluk(context):
                     pass
                 except Exception as e:
                     logger.error(e)
-                    time.sleep(30)
+                    if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
+                        sleep(1)
+                    else:
+                        time.sleep(30)
                 else:
                     toplam += uye
                     kanals += 1
