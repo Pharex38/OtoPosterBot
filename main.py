@@ -111,15 +111,30 @@ def deep(u_kod, user):
             return True
     uu_kod = int(u_kod) - 1
     key = {"_id": user, "kanal": [], "sablon": "1", "kaynak": [str(u_kod)], "site": "1", "altapi": "None", "altsite": "None", "sira": "0", "ozel": False, "pcount": 0}
-    ref_kanal_ismi = bot.get_chat(kaynaklar[int(uu_kod)]).title
+    if u_kod == "1":
+        sahipi = 822071585
+    if u_kod == "2":
+        sahipi = 755051086
+    if u_kod == "3"
+        sahipi = 818136673
+    if u_kod == "4":
+        sahipi = 1082754978
+    if u_kod == "5":
+        sahipi = 1573589253
+    if u_kod == "6":
+        sahipi = 1613760981
+    if u_kod == "7":
+        sahipi = 814887530
+    ref_kanal_ismi = bot.get_chat(KaynakCol.find_one({"sahip": sahipi})).title
     if kat == None:
         collection.insert_one(key)
+        KaynakCol.update_one({"_id": sahipi}, {"$push": {"kaynak": int(user)}})
         bot.send_message(user, "🏋🏻 {} referansı ile geldiniz!".format(ref_kanal_ismi))
         bot.send_message(user, "📝 API adresinizi gönderin.", reply_markup=imark())
         return False
     else:
         if not kat['ozel']:
-            collection.update_one({"_id": user}, {"$push": {"kaynak": str(u_kod)}})
+            KaynakCol.update_one({"_id": sahipi}, {"$push": {"kaynak": int(user)}})
             bot.send_message(user, "Kaynağınız Eklendi!", reply_markup=dugme(user))
         else:
             bot.send_message(user, "Özel kaynağınız olduğu için başka kaynak kullanamazsınız!")
@@ -1070,15 +1085,14 @@ def menu(update, context):
             mod = collection.find_one({"_id": user})
         except:
             pass
-        if "31" in mod['kaynak'] or mod['kaynak'] == None:
+        if "31" in mod['kaynak']:
             try:
-                collection.update_one({"_id": user}, {"$set": {"kaynak": mod['eski']}})
+                collection.update_one({"_id": user}, {"$set": {"kaynak": []}})
             except:
                 pass
             bot.send_message(chat, "SFS modu durduruldu", reply_markup=dugme(user))
             return
         else:
-            collection.update_one({"_id": user}, {"$set": {"eski": mod['kaynak']}})
             collection.update_one({"_id": user}, {"$set": {"kaynak": ['31']}})
             bot.send_message(chat, "Kanallarınız SFS moduna alındı. Siz modu kapatana kadar yeni post atılmayacak.", reply_markup=dugme(user))
             return
@@ -1589,9 +1603,9 @@ def poster(update, context):
                             if altsite == "5":
                                 alink = get(f"http://pubiza.com/api.php?", params={'token': altapi, 'url': mesajb, 'ads_type': "adult"}, headers=headers).text
                             linktry += 1
-                            sleep(1)
+                            sleep(0.5)
                             if linktry > 1:
-                                logger.warning(f"Tekrar deneniyor {linktry}")
+                                logger.warning(f"Link kısaltılamadı tekrar deneniyor {linktry}")
                     while linktry < 10 and link == " ":
                         if site == "1":
                             json = get(f"https://ay.live/api/?", params={'api': token, 'url': mesajb, 'ct': 1}, headers=headers).json()
