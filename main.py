@@ -835,7 +835,7 @@ def kaynakmark(user):
         linkkaynakkeyb.append(InlineKeyboardButton("{}".format(getkaynak.title), url="{}".format(getkaynak.invite_link)))
         print(linkkaynakkeyb)
         if len(linkkaynakkeyb) == 2:
-            anakaynakkeyb.extend(linkkaynakkeyb)
+            anakaynakkeyb.append(linkkaynakkeyb)
         saatbut = InlineKeyboardButton("⏳", callback_data="zaman-{}".format(kaynak['sahip']))
         if user in kaynak['kaynak']:
             kb1 = InlineKeyboardButton("✅", callback_data="kaynak-{}".format(kaynak['sahip']))
@@ -844,7 +844,7 @@ def kaynakmark(user):
         butonkaynakkeyb.append(kb1)
         butonkaynakkeyb.append(saatbut)
         if len(butonkaynakkeyb) == 2:
-            anakaynakkeyb.extend(butonkaynakkeyb)
+            anakaynakkeyb.append(butonkaynakkeyb)
         if len(linkkaynakkeyb) > 1:
             butonkaynakkeyb.clear()
             linkkaynakkeyb.clear()
