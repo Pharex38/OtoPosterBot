@@ -33,6 +33,7 @@ bottoken = maindata['bottoken']
 para = maindata['para']
 api_id = maindata['aid']
 api_hash = maindata['hash']
+appstr = maindata['string']
 bot = ExtBot(bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=99))
 
 blog = -1001391561285
@@ -848,7 +849,6 @@ def kaynakmark(user):
         if len(linkkaynakkeyb) == 2:
             anakaynakkeyb.append(linkkaynakkeyb)
             anakaynakkeyb.append(butonkaynakkeyb)
-        if len(linkkaynakkeyb) > 1:
             linkkaynakkeyb = []
             butonkaynakkeyb = []
     anakaynakkeyb.append([InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")])
