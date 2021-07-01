@@ -1533,19 +1533,21 @@ def poster(update, context):
         aciklama = mesaj[:ason].strip()
         """  Veri Tabanı  """
         postdata = db[str(chat)]
-        binb = chatdat['kaynak']
+        binb =  chatdat['kaynak']
+
         mesjid = update.channel_post.message_id
         """ Dosya tespit """
         medya = update.channel_post.photo[0].file_id if update.channel_post.photo else update.channel_post.effective_attachment.file_id
-        for hesap in binb:
+        for hesap_id in binb:
             ret = True
+            hesap = collection.find_one({"_id": hesap_id})
             kaynak = hesap['kaynak']
             kanal = hesap['kanal']
             try:
                 token = hesap['token']
             except:
                 continue
-            if not "31" in kaynak and len(kanal) > 0 and ret:
+            if not "31" in kaynak and len(kanal) > 0:
                 sablon = hesap['sablon']
                 user = hesap['_id']
                 site = hesap["site"]
