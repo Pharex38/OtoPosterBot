@@ -845,13 +845,13 @@ def kaynakmark(user):
         butonkaynakkeyb.append(kb1)
         butonkaynakkeyb.append(saatbut)
         linkkaynakkeyb.append(InlineKeyboardButton("{}".format(getkaynak.title), url="{}".format(getkaynak.invite_link)))
-        if len(butonkaynakkeyb) == 2:
-            anakaynakkeyb.append(butonkaynakkeyb)
         if len(linkkaynakkeyb) == 2:
             anakaynakkeyb.append(linkkaynakkeyb)
+        if len(butonkaynakkeyb) == 2:
+            anakaynakkeyb.append(butonkaynakkeyb)
         if len(linkkaynakkeyb) > 1:
-            butonkaynakkeyb = []
             linkkaynakkeyb = []
+            butonkaynakkeyb = []
     anakaynakkeyb.append([InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")])
     anakaynakkeyb.append([InlineKeyboardButton("♋️ Özel Kaynak Oluştur ♋️", callback_data="okay")])
     kmark = InlineKeyboardMarkup(inline_keyboard=anakaynakkeyb)
