@@ -853,8 +853,6 @@ def kaynakmark(user):
     for kaynak in KaynakCol.find({}):
         kaynakcount += 1
         getkaynak = bot.get_chat(kaynak["_id"])
-        if kaynakcount == 8:
-            continue
         kaynakkeyb.append([InlineKeyboardButton("{}".format(getkaynak.title), url="{}".format(getkaynak.invite_link))])
         
         saatbut = InlineKeyboardButton("⏳", callback_data="zaman-{}".format(kaynak['sahip']))
