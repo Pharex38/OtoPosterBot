@@ -48,6 +48,15 @@ def send_typing_action(func):
 
     return command_func
 
+def send_typing_action_call(func):
+
+    @wraps(func)
+    def command_func(call, context, *args, **kwargs):
+        context.bot.send_chat_action(chat_id=call.effective_message.chat_id, action=ChatAction.TYPING)
+        return func(call, context,  *args, **kwargs)
+
+    return command_func
+
 def bildir(neyi='Boş Bildirim Testi !'):
     for i in adminlist:
         try:
@@ -522,7 +531,7 @@ def altcall(call, context):
     bot.send_message(chat, "📝 Alternatif API adresinizi gönderin.", reply_markup=imark())
     return ALTAPI
 
-@send_typing_action
+@send_typing_action_call
 def kaynakcall(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
