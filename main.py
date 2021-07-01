@@ -1739,53 +1739,59 @@ def poster(update, context):
                     collection.update_one({"_id": ouser}, {"$set": {"sira": "3"}})
                 if osira == "3":
                     collection.update_one({"_id": ouser}, {"$set": {"sira": "2"}})
-                try:
                     if not oaltapi == "None":
                         while olinktry < 10 and oalink == " ":
-                            if oaltsite == "1":
-                                ojson = get(f"https://ay.live/api/?", params={'api': oaltapi, 'url': omesajb, 'ct': 1}, headers=headers).json()
-                                oalink = ojson['shortenedUrl']
-                            if oaltsite == "2":
-                                ojson = get(f"https://www.pnd.tl/api?", params={'api': oaltapi, 'url': omesajb, 'category': 6}, headers=headers).json()
-                                oalink = ojson['shortenedUrl']
-                            if oaltsite == "3":
-                                ojson = get(f"https://exe.io/api?", params={'api': oaltapi, 'url': omesajb}, headers=headers).json()
-                                oalink = ojson['shortenedUrl']
-                            if oaltsite == "4":
-                                oalink = get(f"http://ouo.io/api/{oaltapi}?", params={'s': omesajb}, headers=headers).text
-                            if oaltsite == "5":
-                                oalink = get(f"http://pubiza.com/api.php?", params={'token': oaltapi, 'url': omesajb, 'ads_type': "adult"}, headers=headers).text
-                            olinktry += 1
-                            sleep(1)
+                            try:
+                                olinktry += 1
+                                sleep(1)
+                                if oaltsite == "1":
+                                    ojson = get(f"https://ay.live/api/?", params={'api': oaltapi, 'url': omesajb, 'ct': 1}, headers=headers).json()
+                                    oalink = ojson['shortenedUrl']
+                                if oaltsite == "2":
+                                    ojson = get(f"https://www.pnd.tl/api?", params={'api': oaltapi, 'url': omesajb, 'category': 6}, headers=headers).json()
+                                    oalink = ojson['shortenedUrl']
+                                if oaltsite == "3":
+                                    ojson = get(f"https://exe.io/api?", params={'api': oaltapi, 'url': omesajb}, headers=headers).json()
+                                    oalink = ojson['shortenedUrl']
+                                if oaltsite == "4":
+                                    oalink = get(f"http://ouo.io/api/{oaltapi}?", params={'s': omesajb}, headers=headers).text
+                                if oaltsite == "5":
+                                    oalink = get(f"http://pubiza.com/api.php?", params={'token': oaltapi, 'url': omesajb, 'ads_type': "adult"}, headers=headers).text
+                            except Exception as e:
+                                if olinktry == 9:
+                                    bot.send_message(ouser, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
+                                    logger.error(e)
+                                    continue
                             if olinktry > 1:
                                 logger.warning(f"Tekrar deneniyor {olinktry}")
-                    while olinktry < 10 and olink == " ":
-                        if osite == "1":
-                            ojson = get(f"https://ay.live/api/?", params={'api': otoken, 'url': omesajb, 'ct': 1}, headers=headers).json()
-                            olink = ojson['shortenedUrl']
-                        if osite == "2":
-                            ojson = get(f"https://www.pnd.tl/api?", params={'api': otoken, 'url': omesajb, 'category': 6}, headers=headers).json()
-                            olink = ojson['shortenedUrl']
-                        if osite == "3":
-                            ojson = get(f"https://exe.io/api?", params={'api': otoken, 'url': omesajb}, headers=headers).json()
-                            olink = ojson['shortenedUrl']
-                        if osite == "4":
-                            olink = get(f"http://ouo.io/api/{otoken}?", params={'s': omesajb}, headers=headers).text
-                        if osite == "5":
-                            olink = get(f"http://pubiza.com/api.php?", params={'token': etoken, 'url': omesajb, 'ads_type': "adult"}, headers=headers).text
-                        olinktry += 1
-                        sleep(1)
-                        if olinktry > 1:
-                            logger.warning(f"Tekrar deneniyor {olinktry}")
-                    logger.info(f"{okanal} + {olink} + {otoken}")
-                except Exception as e:
-                    bot.send_message(ouser, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
-                    logger.error(e)
-                    continue
-                    
+                        while olinktry < 10 and olink == " ":
+                            olinktry += 1
+                            sleep(1)
+                            try:
+                                if osite == "1":
+                                    ojson = get(f"https://ay.live/api/?", params={'api': otoken, 'url': omesajb, 'ct': 1}, headers=headers).json()
+                                    olink = ojson['shortenedUrl']
+                                if osite == "2":
+                                    ojson = get(f"https://www.pnd.tl/api?", params={'api': otoken, 'url': omesajb, 'category': 6}, headers=headers).json()
+                                    olink = ojson['shortenedUrl']
+                                if osite == "3":
+                                    ojson = get(f"https://exe.io/api?", params={'api': otoken, 'url': omesajb}, headers=headers).json()
+                                    olink = ojson['shortenedUrl']
+                                if osite == "4":
+                                    olink = get(f"http://ouo.io/api/{otoken}?", params={'s': omesajb}, headers=headers).text
+                                if osite == "5":
+                                    olink = get(f"http://pubiza.com/api.php?", params={'token': etoken, 'url': omesajb, 'ads_type': "adult"}, headers=headers).text
+                            except Exception as e:
+                                if olinktry == 9:
+                                    bot.send_message(ouser, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
+                                    logger.error(e)
+                                    continue                    
+                            if olinktry > 1:
+                                logger.warning(f"Tekrar deneniyor {olinktry}")
+                        logger.info(f"{okanal} + {olink} + {otoken}")
                 if osablon == "1":
                     osablon = f"🔥{oaciklama}\n\n🔱 TIKLA 👉 {olink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
-                elif osablon == "2" or osablon == "3":
+                elif osablon == "2":
                     osablon = f"{oaciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {olink}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
                 elif osablon == "9":
                     osablon = f"{oaciklama} \n\n𝙇𝙄𝙉𝙆🔗 {olink} \n\n     𝙇𝙄𝙉𝙆🔗 {oalink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
