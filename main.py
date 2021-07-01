@@ -1687,6 +1687,7 @@ def poster(update, context):
             bot.edit_message_text(basari, botlog, lmsg.message_id)
         except Exception as e:
             logger.error(e)
+        postsirasi.remove(chat)
     # Özel Kaynaklar
     else:
         okaynak = OzelCol.find_one({"okaynak": chat})
@@ -1847,6 +1848,7 @@ def poster(update, context):
         if okaynak["log"] != "yok":
             bot.send_message(okaynak["log"], obasari)
         logger.warning(obasari)
+        postsirasi.remove(chat)
 
 def gunluk(context):
     ozel_kaynak_kullanan_sayisi, mahzen_kullanan_sayisi, hazır_kullanan_sayisi, tutan_kullanan_sayisi, acikmi_kullanan_sayisi, bedava_kullanan_sayisi, evi_kullanan_sayisi, bashub_kullanan_sayisi = 0, 0, 0, 0, 0, 0, 0, 0
