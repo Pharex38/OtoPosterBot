@@ -109,34 +109,17 @@ def deep(u_kod, user):
             OzelCol.update_one({"_id": int(u_kod)}, {"$push": {"kanal": user}})
             bot.send_message(user, "🏋🏻 {} referansı ile geldiniz!".format(ref_kanal_ismi), reply_markup=dugme(user))
             return True
-    uu_kod = int(u_kod) - 1
     key = {"_id": user, "kanal": [], "sablon": "1", "kaynak": [str(u_kod)], "site": "1", "altapi": "None", "altsite": "None", "sira": "0", "ozel": False, "pcount": 0}
-    if u_kod == "1":
-        sahipi = 822071585
-    elif u_kod == "2":
-        sahipi = 755051086
-    elif u_kod == "3":
-        sahipi = 818136673
-    elif u_kod == "4":
-        sahipi = 1082754978
-    elif u_kod == "5":
-        sahipi = 1573589253
-    elif u_kod == "6":
-        sahipi = 1613760981
-    elif u_kod == "7":
-        sahipi = 814887530
-    else:
-        sahipi == int(u_kod)
-    ref_kanal_ismi = bot.get_chat(KaynakCol.find_one({"sahip": sahipi})).title
+    ref_kanal_ismi = bot.get_chat(KaynakCol.find_one({"no": u_kod})).title
     if kat == None:
         collection.insert_one(key)
-        KaynakCol.update_one({"_id": sahipi}, {"$push": {"kaynak": int(user)}})
+        KaynakCol.update_one({"no": int(u_kod)}, {"$push": {"kaynak": int(user)}})
         bot.send_message(user, "🏋🏻 {} referansı ile geldiniz!".format(ref_kanal_ismi))
         bot.send_message(user, "📝 API adresinizi gönderin.", reply_markup=imark())
         return False
     else:
         if not kat['ozel']:
-            KaynakCol.update_one({"_id": sahipi}, {"$push": {"kaynak": int(user)}})
+            KaynakCol.update_one({"no": int(u_kod)}, {"$push": {"kaynak": int(user)}})
             bot.send_message(user, "Kaynağınız Eklendi!", reply_markup=dugme(user))
         else:
             bot.send_message(user, "Özel kaynağınız olduğu için başka kaynak kullanamazsınız!")
@@ -214,7 +197,7 @@ def stats(update, context):
     kum = []
     kulkum = []
     mahzen_kitle, bedava_kitle, hazır_kitle, acikmi_kitle, bashub_kitle, evi_kitle, tutan_kitle = 0, 0, 0, 0, 0, 0, 0
-    ozel_kaynak_kullanan_sayisi, mahzen_kullanan_sayisi, hazır_kullanan_sayisi, tutan_kullanan_sayisi, acikmi_kullanan_sayisi, bedava_kullanan_sayisi, evi_kullanan_sayisi, bashub_kullanan_sayisi = 0, 0, 0, 0, 0, 0, 0, 0
+    ozel_kaynak_kullanan_sayisi = 0
     exe_kullanan_sayisi, pubiza_kullanan_sayisi, ouo_kullanan_sayisi, trlink_kullanan_sayisi, pnd_kullanan_sayisi = 0, 0, 0, 0, 0
     if not user in [sahip,fixer]:
         bot.send_message(chat, "Sen benim sahibim değilsin!")
@@ -254,15 +237,16 @@ def stats(update, context):
                         time.sleep(20)
                     else:
                         toplam += uye
+    toplam = toplam / 1000
+    toplam = str(round(toplam, 1))+"K" if round(toplam, 1) < 1000 else str(round(toplam / 1000, 2))+"M"
     stat_text = f"Toplam Kullanıcı Sayısı: {users}\nToplam Kayıtlı Kanal Sayısı: {kanals}\nToplam Kitle: {toplam}\n\n<b>Toplam Site Kullanan Sayısı;</b>\nTRLink: {trlink_kullanan_sayisi}\nPND.TL: {pnd_kullanan_sayisi}\nExe.io: {exe_kullanan_sayisi}\nOuo.io: {ouo_kullanan_sayisi}\nPubiza: {pubiza_kullanan_sayisi}\n\n<b>Toplam Kaynak Kullanan Sayıları:</b>\n"
     statscount = 0
     for kstat in KaynakCol.find({}):
-        stat_text += "{} -> {}".format
+        getskaynak = bot.get_chat(kstat['_id'])
+        stat_text += "{} -> {}".format(getskaynak.title, len(kstat['kaynak']))
     ozel_text = f"Özel kullanan: {ozel_kaynak_kullanan_sayisi}"
           
-    toplam = toplam / 1000
-    toplam = str(round(toplam, 1))+"K" if round(toplam, 1) < 1000 else str(round(toplam / 1000, 2))+"M"
-    bot.edit_message_text(stat_text, chat, msg.message_id)
+    bot.edit_message_text(stat_text+ozel_text, chat, msg.message_id)
 
 def joblist(update, context):
      jobs = context.job_queue.jobs()
