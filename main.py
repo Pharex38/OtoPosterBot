@@ -1872,8 +1872,14 @@ def poster(update, context):
                                 if update.channel_post.animation:
                                     opost = bot.send_animation(okan, omedya, caption=osablon)
                             else:
-                                poster_dict = {"update": update, "okan": okan, "omedya": omedya, "osablon": osablon, "otarih": otarih}
-                                context.job_queue.run_once(zamanalamajob, name=str(ouser), context=poster_dict, when=2)
+                                with Client(appstr, api_id, api_hash) as app:
+                                    if update.channel_post.photo:
+                                        bot.send_photo(okan, omedya, caption=osablon)
+                                    if update.channel_post.video:
+                                        bot.send_video(okan, omedya, caption=osablon)
+                                    if update.channel_post.animation:
+                                        bot.send_animation(okan, omedya, caption=osablon)
+                                    
                     except Exception as e:
                         if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
                             try:
