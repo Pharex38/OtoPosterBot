@@ -13,7 +13,7 @@ from telegram.error import *
 from telegram.ext import *
 from functools import wraps
 from telegram.utils.helpers import *
-from pyrogram import Client
+from telethon import TelegramClient
 
 mpass = os.environ['MONGOPASS']
 mongo = f"os.environ["MONGO_URI"]"
@@ -36,7 +36,6 @@ api_id = maindata['aid']
 api_hash = maindata['hash']
 appstr = maindata['string']
 bot = ExtBot(bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=99))
-app = Client(appstr, api_id, api_hash)
 blog = -1001391561285
 botlog = -1001352123979
 sahip = 1302980840
@@ -1768,7 +1767,7 @@ def poster(update, context):
             ovakitler = [ot for ot in ohesap['vakit']] if ohesap['vakit'] != 0 else 0
             odailycount = ohesap['time']
             if ovakitler != 0:
-                otarih = datetime.datetime(2021, 7, 3, 0, 1).timestamp()
+                otarih = datetime.datetime.strptime("21-07-30 23:59:00", '%y-%m-%d %H:%M:%S')
             collection.update_one({"_id": ouser}, {"$inc": {"time": 1}})
             if not "31" in ohesap['kaynak'] and len(okanal) > 0 and oret:
                 oalink = " "
@@ -1857,17 +1856,6 @@ def poster(update, context):
                             pass
                         else:
                             logger.debug(f"{okan} kayıtlardan silindi.")
-                    if ovakitler != 0:
-                        app.start()
-                        odmedya = app.download_media(omedya)
-                        app.send_message(sahip, "sss")
-                        if update.channel_post.photo:
-                            app.send_photo(chat_id=okan, photo=odmedya, caption=osablon, schedule_date=int(otarih))
-                        if update.channel_post.video:
-                            app.send_video(chat_id=okan, video=odmedya, caption=osablon, schedule_date=int(otarih))
-                        if update.channel_post.animation:
-                            app.send_animation(chat_id=okan, animation=odmedya, caption=osablon, schedule_date=int(otarih))
-                        app.stop()
                     try:
                         if oret:
                             if ovakitler == 0:
@@ -1877,6 +1865,16 @@ def poster(update, context):
                                     opost = bot.send_video(okan, omedya, caption=osablon)
                                 if update.channel_post.animation and oret:
                                     opost = bot.send_animation(okan, omedya, caption=osablon)
+                            else:
+                                with TelegramClient(appstr, api_id, api_hash) as app:
+                                    odmedya = app.download_media(omedya)
+                                    app.send_message(sahip, "sss")
+                                    if update.channel_post.photo:
+                                        app.send_photo(chat_id=okan, photo=odmedya, caption=osablon, schedule=otarih)
+                                    if update.channel_post.video:
+                                        app.send_video(chat_id=okan, video=odmedya, caption=osablon, schedule=otarih)
+                                    if update.channel_post.animation:
+                                        app.send_animation(chat_id=okan, animation=odmedya, caption=osablon, schedule=otarih)
                     except Exception as e:
                         if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
                             try:
