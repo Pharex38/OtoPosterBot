@@ -1756,7 +1756,7 @@ def poster(update, context):
             ovakitler = [ot for ot in ohesap['vakit']] if ohesap['vakit'] != 0 else 0
             odailycount = ohesap['time']
             if ovakitler != 0:
-                otarih = datetime.datetime.strptime(ovakitler[odailycount], "%H:%M")timestamp()
+                otarih = datetime.datetime.strptime(ovakitler[odailycount], "%H:%M").timestamp()
             collection.update_one({"_id": ouser}, {"$inc": {"time": 1}})
             if len(okanal) > 0 and oret:
                 oalink = " "
