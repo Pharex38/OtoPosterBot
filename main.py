@@ -43,6 +43,8 @@ sahip = 1302980840
 fixer = 1687646994
 adminlist = [sahip, fixer]
 
+app.send_message(sahip, "Başladı")
+
 def send_typing_action(func):
 
     @wraps(func)
