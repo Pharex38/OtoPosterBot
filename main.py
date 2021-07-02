@@ -106,6 +106,9 @@ def deep(u_kod, user):
     if int(u_kod) > 10:
         ref_kanal_ismi = bot.get_chat(OzelCol.find_one({"_id": int(u_kod)})['okaynak']).title
         if kat == None:
+            for koy in KaynakCol.find({}):
+                if user in koy['kaynak']:
+                    KaynakCol.update_one({"_id": koy['_id']}, {"$pull": {"kaynak": user}})
             if not user in OzelCol.find_one({"_id": int(u_kod)})['kanal']:
                 OzelCol.update_one({"_id": int(u_kod)}, {"$push": {"kanal": user}})
             collection.insert_one(key)
@@ -116,6 +119,9 @@ def deep(u_kod, user):
             if user in OzelCol.find_one({"_id": int(u_kod)})['kanal']:
                 bot.send_message(user, "Zaten Bu Kaynağı Kullanıyorsunuz!", reply_markup=dugme(user))
                 return True
+            for koy in KaynakCol.find({}):
+                if user in koy['kaynak']:
+                    KaynakCol.update_one({"_id": koy['_id']}, {"$pull": {"kaynak": user}})
             collection.update_one({"_id": user}, {"$set": {"ozel": True, "kaynak": ["32"]}})
             OzelCol.update_one({"_id": int(u_kod)}, {"$push": {"kanal": user}})
             bot.send_message(user, "🏋🏻 {} referansı ile geldiniz!".format(ref_kanal_ismi), reply_markup=dugme(user))
