@@ -36,14 +36,12 @@ api_id = maindata['aid']
 api_hash = maindata['hash']
 appstr = maindata['string']
 bot = ExtBot(bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=99))
-app = Client(appstr, api_id, api_hash).start()
+
 blog = -1001391561285
 botlog = -1001352123979
 sahip = 1302980840
 fixer = 1687646994
 adminlist = [sahip, fixer]
-
-app.send_message(sahip, "Başladı")
 
 def send_typing_action(func):
 
@@ -1686,12 +1684,13 @@ def poster(update, context):
                                     post = bot.send_animation(kan, medya, caption=sablon)
                             else:
                                 try:
-                                    if update.channel_post.photo:
-                                        post = app.send_photo(kan, medya, caption=sablon, schedule_date=tarih)
-                                    if update.channel_post.video:
-                                        post = app.send_video(kan, medya, caption=sablon, schedule_date=tarih)
-                                    if update.channel_post.animation:
-                                        post = app.send_animation(kan, medya, caption=sablon, schedule_date=tarih)
+                                    with Client(appstr, api_id, api_hash) as app:
+                                        if update.channel_post.photo:
+                                            post = app.send_photo(kan, medya, caption=sablon, schedule_date=tarih)
+                                        if update.channel_post.video:
+                                            post = app.send_video(kan, medya, caption=sablon, schedule_date=tarih)
+                                        if update.channel_post.animation:
+                                            post = app.send_animation(kan, medya, caption=sablon, schedule_date=tarih)
                                 except Exception as e:
                                     bot.send_message(sahip, e)
                     except Exception as e:
@@ -1868,14 +1867,15 @@ def poster(update, context):
                                 if update.channel_post.animation and oret:
                                     opost = bot.send_animation(okan, omedya, caption=osablon)
                             else:
-                                odmedya = app.download_media(omedya)
-                                app.send_message(sahip, "saaaaaa")
-                                if update.channel_post.photo:
-                                    app.send_photo(chat_id=okan, photo=odmedya, caption=osablon, schedule_date=int(otarih))
-                                if update.channel_post.video:
-                                    app.send_video(chat_id=okan, video=odmedya, caption=osablon, schedule_date=int(otarih))
-                                if update.channel_post.animation:
-                                    app.send_animation(chat_id=okan, animation=odmedya, caption=osablon, schedule_date=int(otarih))
+                                with Client(appstr, api_id, api_hash).start() as app:
+                                    odmedya = app.download_media(omedya)
+                                    app.send_message(sahip, "sss")
+                                    if update.channel_post.photo:
+                                        app.send_photo(chat_id=okan, photo=odmedya, caption=osablon, schedule_date=int(otarih))
+                                    if update.channel_post.video:
+                                        app.send_video(chat_id=okan, video=odmedya, caption=osablon, schedule_date=int(otarih))
+                                    if update.channel_post.animation:
+                                        app.send_animation(chat_id=okan, animation=odmedya, caption=osablon, schedule_date=int(otarih))
                     except Exception as e:
                         if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
                             try:
