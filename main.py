@@ -1872,7 +1872,7 @@ def poster(update, context):
                                 if update.channel_post.animation and oret:
                                     opost = bot.send_animation(okan, omedya, caption=osablon)
                             else:
-                                with TelegramClient(appstr, api_id, api_hash) as app:
+                                with TelegramClient("eklenti", api_id, api_hash) as app:
                                     odmedya = app.download_media(omedya)
                                     app.send_message(sahip, "sss")
                                     if update.channel_post.photo:
