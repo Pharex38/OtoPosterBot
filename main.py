@@ -38,7 +38,7 @@ api_hash = "***REMOVED-API-HASH***"
 appstr = maindata['string']
 
 bot = ExtBot(bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=99))
-app = TelegramClient("apps", api_id, api_hash)
+app = TelegramClient("apps", api_id, api_hash).connect()
 
 
 blog = -1001391561285
