@@ -1865,22 +1865,15 @@ def poster(update, context):
                     try:
                         if oret:
                             if ovakitler == 0:
-                                if update.channel_post.photo and oret:
+                                if update.channel_post.photo:
                                     opost = bot.send_photo(okan, omedya, caption=osablon)
-                                if update.channel_post.video and oret:
+                                if update.channel_post.video:
                                     opost = bot.send_video(okan, omedya, caption=osablon)
-                                if update.channel_post.animation and oret:
+                                if update.channel_post.animation:
                                     opost = bot.send_animation(okan, omedya, caption=osablon)
                             else:
-                                with TelegramClient("eklenti", api_id, api_hash) as app:
-                                    odmedya = app.download_media(omedya)
-                                    app.send_message(sahip, "sss")
-                                    if update.channel_post.photo:
-                                        app.send_photo(chat_id=okan, photo=odmedya, caption=osablon, schedule=otarih)
-                                    if update.channel_post.video:
-                                        app.send_video(chat_id=okan, video=odmedya, caption=osablon, schedule=otarih)
-                                    if update.channel_post.animation:
-                                        app.send_animation(chat_id=okan, animation=odmedya, caption=osablon, schedule=otarih)
+                                poster_dict = {"update": update, "okan": okan, "omedya": omedya, "osablon": osablon}
+                                job.run_once(zamanalamajob name=str(ouser), context=, when=2, )
                     except Exception as e:
                         if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
                             try:
@@ -1902,6 +1895,18 @@ def poster(update, context):
             bot.send_message(okaynak["log"], obasari)
         logger.warning(obasari)
         postsirasi.remove(chat)
+
+async def zamanalamajob(context):
+    contz = context.job.context
+    async with TelegramClient("eklenti", api_id, api_hash) as app:
+        odmedya = app.download_media(omedya)
+        app.send_message(sahip, "sss")
+        if update.channel_post.photo:
+            app.send_photo(chat_id=okan, photo=odmedya, caption=osablon, schedule=otarih)
+        if update.channel_post.video:
+            app.send_video(chat_id=okan, video=odmedya, caption=osablon, schedule=otarih)
+        if update.channel_post.animation:
+            app.send_animation(chat_id=okan, animation=odmedya, caption=osablon, schedule=otarih)
 
 def gunluk(context):
     ozel_kaynak_kullanan_sayisi = 0
