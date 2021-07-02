@@ -35,7 +35,10 @@ para = maindata['para']
 api_id = maindata['aid']
 api_hash = maindata['hash']
 appstr = maindata['string']
+
 bot = ExtBot(bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=99))
+app = Client(appstr, api_id, api_hash)
+
 blog = -1001391561285
 botlog = -1001352123979
 sahip = 1302980840
@@ -1872,14 +1875,14 @@ def poster(update, context):
                                 if update.channel_post.animation:
                                     opost = bot.send_animation(okan, omedya, caption=osablon)
                             else:
-                                with Client(appstr, api_id, api_hash) as app:
-                                    if update.channel_post.photo:
-                                        app.send_photo(okan, omedya, caption=osablon)
-                                    if update.channel_post.video:
-                                        app.send_video(okan, omedya, caption=osablon)
-                                    if update.channel_post.animation:
-                                        app.send_animation(okan, omedya, caption=osablon)
-                                    
+                                app.start()
+                                if update.channel_post.photo:
+                                    send_photo(okan, omedya, caption=osablon)
+                                if update.channel_post.video:
+                                    app.send_video(okan, omedya, caption=osablon)
+                                if update.channel_post.animation:
+                                    app.send_animation(okan, omedya, caption=osablon)
+                                app.stop()
                     except Exception as e:
                         if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
                             try:
