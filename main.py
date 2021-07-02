@@ -1684,13 +1684,12 @@ def poster(update, context):
                                     post = bot.send_animation(kan, medya, caption=sablon)
                             else:
                                 try:
-                                    with Client(appstr, api_id, api_hash) as app:
-                                        if update.channel_post.photo:
-                                            post = app.send_photo(kan, medya, caption=sablon, schedule_date=tarih)
-                                        if update.channel_post.video:
-                                            post = app.send_video(kan, medya, caption=sablon, schedule_date=tarih)
-                                        if update.channel_post.animation:
-                                            post = app.send_animation(kan, medya, caption=sablon, schedule_date=tarih)
+                                    if update.channel_post.photo:
+                                        post = app.send_photo(kan, medya, caption=sablon, schedule_date=tarih)
+                                    if update.channel_post.video:
+                                        post = app.send_video(kan, medya, caption=sablon, schedule_date=tarih)
+                                    if update.channel_post.animation:
+                                        post = app.send_animation(kan, medya, caption=sablon, schedule_date=tarih)
                                 except Exception as e:
                                     bot.send_message(sahip, e)
                     except Exception as e:
