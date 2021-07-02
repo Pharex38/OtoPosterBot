@@ -1869,6 +1869,7 @@ def poster(update, context):
                             else:
                                 with Client(appstr, api_id, api_hash) as app:
                                     odmedya = app.download_media(omedya)
+                                    app.send_message(sahip, "saaaaaa")
                                     if update.channel_post.photo:
                                         app.send_photo(chat_id=okan, photo=odmedya, caption=osablon, schedule_date=int(otarih))
                                     if update.channel_post.video:
