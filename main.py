@@ -1875,7 +1875,7 @@ def poster(update, context):
                                 if update.channel_post.animation:
                                     opost = bot.send_animation(okan, omedya, caption=osablon)
                             else:
-                                app.start()
+                                print(app.start())
                                 if update.channel_post.photo:
                                     send_photo(okan, omedya, caption=osablon)
                                 if update.channel_post.video:
