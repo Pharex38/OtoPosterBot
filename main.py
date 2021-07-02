@@ -1753,6 +1753,12 @@ def poster(update, context):
             oaltsite = ohesap['altsite']
             osira = ohesap['sira']
             opcount = ohesap['pcount']
+            ovakitler = [ot for ot in ohesap['vakit']] if ohesap['vakit'] != 0 else 0
+            odailycount = ohesap['time']
+            if ovakitler != 0:
+                odate = datetime.datetime.strptime(ovakitler[odailycount], "%H:%M")
+                otarih = datetime.datetime.timestamp(odate)
+            collection.update_one({"_id": ouser}, {"$inc": {"time": 1}})
             if len(okanal) > 0 and oret:
                 oalink = " "
                 olink = " "
@@ -1841,12 +1847,25 @@ def poster(update, context):
                         else:
                             logger.debug(f"{okan} kayıtlardan silindi.")
                     try:
-                        if update.channel_post.photo and oret:
-                            opost = bot.send_photo(okan, omedya, caption=osablon)
-                        if update.channel_post.video and oret:
-                            opost = bot.send_video(okan, omedya, caption=osablon)
-                        if update.channel_post.animation and oret:
-                            opost = bot.send_animation(okan, omedya, caption=osablon)
+                        if oret:
+                            if ovakitler == 0:
+                                if update.channel_post.photo and oret:
+                                    opost = bot.send_photo(okan, omedya, caption=osablon)
+                                if update.channel_post.video and oret:
+                                    opost = bot.send_video(okan, omedya, caption=osablon)
+                                if update.channel_post.animation and oret:
+                                    opost = bot.send_animation(okan, omedya, caption=osablon)
+                            else:
+                                try:
+                                    with Client(appstr, api_id, api_hash) as app:
+                                        if update.channel_post.photo:
+                                            opost = app.send_photo(okan, omedya, caption=osablon, schedule_date=otarih)
+                                        if update.channel_post.video:
+                                            opost = app.send_video(okan, omedya, caption=osablon, schedule_date=otarih)
+                                        if update.channel_post.animation:
+                                            opost = app.send_animation(okan, omedya, caption=osablon, schedule_date=otarih)
+                                except Exception as e:
+                                    bot.send_message(sahip, e)
                     except Exception as e:
                         if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
                             try:
