@@ -38,7 +38,7 @@ api_hash = "***REMOVED-API-HASH***"
 appstr = maindata['string']
 
 bot = ExtBot(bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=99))
-app = TelegramClient("apps", api_id, api_hash).connect()
+app = TelegramClient("apps", api_id, api_hash)
 
 
 blog = -1001391561285
@@ -959,6 +959,8 @@ def site_isim(no):
         return "Ouo.io"
     if no == "5":
         return "Pubiza"
+    if no == "6":
+        return "Gir.ist"
 
 @send_typing_action
 def menu(update, context):
@@ -1471,6 +1473,8 @@ def pat(update, context):
                     palink = get(f"http://ouo.io/api/{paltapi}", params={"s": kplink}).text
                 if paltsite == "5":
                     palink = get(f"http://pubiza.com/api.php?", params={"token": paltapi, "url": kplink, "ads_type": "adult"}).text
+                if paltsite == "6":
+                    palink = get("https://gir.ist/st?", params={"api": paltapi, "url": kplink}).text
                 time.sleep(1)
                 ptry += 1
         while ptry < 10 and plink == " ":
@@ -1487,6 +1491,8 @@ def pat(update, context):
                 plink = get(f"http://ouo.io/api/{ptoken}?", params={"s": kplink}).text
             if psite == "5":
                 plink = get(f"http://pubiza.com/api.php?", params={"token": ptoken, "url": kplink, "ads_type": "adult"}).text
+            if psite == "6":
+                plink = get("https://gir.ist/st?", params={"api": ptoken, "url": kplink}).text
             time.sleep(1)
             ptry += 1
         if plink == " ":
@@ -1515,13 +1521,8 @@ def pat(update, context):
    
 postsirasi = []
 
-async def poster_Z(updatex, okan, omedya, osablon):
-    if updatex.channel_post.photo:
-        await app.send_photo(okan, omedya, caption=osablon)
-    if updatex.channel_post.video:
-        await app.send_video(okan, omedya, caption=osablon)
-    if updatex.channel_post.animation:
-        await app.send_animation(okan, omedya, caption=osablon)
+async def poster_Z(updatex, okan, odmedya, osablon):
+    await app.send_file(okan, odmedya, caption=osablon)
 
 def poster(update, context):
     global postsirasi, app
@@ -1632,6 +1633,8 @@ def poster(update, context):
                                 alink = get(f"http://ouo.io/api/{altapi}?", params={'s': mesajb}, headers=headers).text
                             if altsite == "5":
                                 alink = get(f"http://pubiza.com/api.php?", params={'token': altapi, 'url': mesajb, 'ads_type': "adult"}, headers=headers).text
+                            if altsite == "6":
+                                alink = get("https://gir.ist/st?", params={"api": altapi, "url": mesajb}).text
                             linktry += 1
                             sleep(0.5)
                             if linktry > 1:
@@ -1650,6 +1653,8 @@ def poster(update, context):
                             link = get(f"http://ouo.io/api/{token}?", params={'s': mesajb}, headers=headers).text
                         if site == "5":
                             link = get(f"http://pubiza.com/api.php?", params={'token': token, 'url': mesajb, 'ads_type': "adult"}, headers=headers).text
+                        if site == "6":
+                            link = get("https://gir.ist/st?", params={"api": token, "url": mesajb}).text
                         linktry += 1
                         sleep(1)
                         if linktry > 1:
@@ -1809,6 +1814,8 @@ def poster(update, context):
                                 oalink = get(f"http://ouo.io/api/{oaltapi}?", params={'s': omesajb}, headers=headers).text
                             if oaltsite == "5":
                                 oalink = get(f"http://pubiza.com/api.php?", params={'token': oaltapi, 'url': omesajb, 'ads_type': "adult"}, headers=headers).text
+                            if oaltsite == "6":
+                                oalink = get("https://gir.ist/st?", params={"api": oaltapi, "url": omesajb}).text
                             olinktry += 1
                             sleep(1)
                             if olinktry > 1:
@@ -1827,6 +1834,8 @@ def poster(update, context):
                             olink = get(f"http://ouo.io/api/{otoken}?", params={'s': omesajb}, headers=headers).text
                         if osite == "5":
                             olink = get(f"http://pubiza.com/api.php?", params={'token': etoken, 'url': omesajb, 'ads_type': "adult"}, headers=headers).text
+                        if osite == "6":
+                            olink = get("https://gir.ist/st?", params={"api": otoken, "url": omesajb}).text
                         olinktry += 1
                         sleep(1)
                         if olinktry > 1:
@@ -1871,7 +1880,8 @@ def poster(update, context):
                         else:
                             logger.debug(f"{okan} kayıtlardan silindi.")
                     if ovakitler != 0:
-                        asyncio.run(poster_Z(update, okan, omedya, osablon))
+                        with app:
+                            asyncio.run(poster_Z(update, okan, odmedya, osablon))
                     try:
                         if oret:
                             if ovakitler == 0:
