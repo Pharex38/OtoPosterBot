@@ -1560,7 +1560,12 @@ def poster(update, context):
                 altsite = hesap['altsite']
                 sira = hesap['sira']
                 pcount = hesap['pcount']
-                post_time = [t for t in hesap['time']] if hesap['time'] != 0 else 0
+                vakitler = [t for t in hesap['vakit']] if hesap['vakit'] != 0 else 0
+                dailycount = hesap['time']
+                if vakitler != 0:
+                    date = datetime.datetime.strptime(vakitler[dailycount], "%H:%M")
+                    tarih = datetime.datetime.timestamp(date)
+                collection.update_one({"_id": user}, {"$inc": {"time": 1}})
                 if pcount < 19:
                     collection.update_one({"_id": user}, {"$inc": {"pcount": 1}})
                 else:
@@ -1670,11 +1675,11 @@ def poster(update, context):
                                 try:
                                     with Client(appstr, api_id, api_hash) as app:
                                         if update.channel_post.photo:
-                                            post = app.send_photo(kan, medya, caption=sablon)
+                                            post = app.send_photo(kan, medya, caption=sablon, schedule_date=tarih)
                                         if update.channel_post.video:
-                                            post = app.send_video(kan, medya, caption=sablon)
+                                            post = app.send_video(kan, medya, caption=sablon, schedule_date=tarih)
                                         if update.channel_post.animation:
-                                            post = app.send_animation(kan, medya, caption=sablon)
+                                            post = app.send_animation(kan, medya, caption=sablon, schedule_date=tarih)
                                 except Exception as e:
                                     bot.send_message(sahip, e)
                     except Exception as e:
@@ -1718,9 +1723,7 @@ def poster(update, context):
         """  Link tespit  """
         osolx = omesaj.rfind("http")
         osol = omesaj.find("http")
-        if osol == -1:
-            return
-        if osol != osolx:
+        if osol == -1 or osol != osolx:
             return
         osag = omesaj.find("\n", osol)
         okynk = bot.get_chat(chat)
@@ -1933,7 +1936,11 @@ def gunluk(context):
     ozel_text = f"Özel Kaynaklar: {ozel_kaynak_kullanan_sayisi}\nHer gün saat 22:00'da otomatik olarak güncel veriler paylaşılacak."
     bot.edit_message_text(stat_text+ozel_text, botlog, msg.message_id)
     bot.pin_chat_message(botlog, msg.message_id)
-    
+
+def resetleme(context):
+    for rest in collection.find({}):
+        collection.update_one({"_id": ['_id']}, {"$set": {"vakit": 0}})
+
 bildir('Bot Başladı 🍕')
 
 def main() -> None:
@@ -1946,6 +1953,7 @@ def main() -> None:
 
     upjob = updater.job_queue
     upjob.run_repeating(jobyedekleme, interval=300, first=10, name="yedekleme")
+    upjob.run_daily(resetleme, time=datetime.datetime.strptime("21-06-30 23:59:00", '%y-%m-%d %H:%M:%S').time(), name="gunluk")
     upjob.run_daily(gunluk, time=datetime.datetime.strptime("21-06-30 21:55:00", '%y-%m-%d %H:%M:%S').time(), name="gunluk")
     
     conv_handler = ConversationHandler(
