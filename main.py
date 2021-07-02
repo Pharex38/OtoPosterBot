@@ -1896,18 +1896,18 @@ def poster(update, context):
         logger.warning(obasari)
         postsirasi.remove(chat)
 
-async def zamanalamajob(context):
+def zamanalamajob(context):
     contz = context.job.context
     update = contz['update']
-    async with TelegramClient("eklenti", api_id, api_hash) as app:
-        odmedya = await app.download_media(omedya)
-        await app.send_message(sahip, "sss")
+    with TelegramClient("eklenti", api_id, api_hash) as app:
+        odmedya = app.download_media(omedya)
+        app.send_message(sahip, "sss")
         if update.channel_post.photo:
-            await app.send_photo(chat_id=contz['okan'], photo=contz['odmedya'], caption=contz['osablon'], schedule=contz['otarih'])
+            app.send_photo(chat_id=contz['okan'], photo=contz['odmedya'], caption=contz['osablon'], schedule=contz['otarih'])
         if update.channel_post.video:
-            await app.send_video(chat_id=contz['okan'], video=contz['odmedya'], caption=contz['osablon'], schedule=contz['otarih'])
+            app.send_video(chat_id=contz['okan'], video=contz['odmedya'], caption=contz['osablon'], schedule=contz['otarih'])
         if update.channel_post.animation:
-            await app.send_animation(chat_id=contz['okan'], animation=contz['odmedya'], caption=contz['osablon'], schedule=contz['otarih'])
+            app.send_animation(chat_id=contz['okan'], animation=contz['odmedya'], caption=contz['osablon'], schedule=contz['otarih'])
         os.remove(odmedya)
 
 def gunluk(context):
