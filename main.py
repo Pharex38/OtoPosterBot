@@ -374,7 +374,10 @@ def cpostsil(update, context):
     bot.send_message(chat, f"{spcount} Post Silindi.")
 
 def viple(update, context):
+    global postsirasi
     chat = update.message.chat.id
+    if len(context.args) < 1:
+        postsirasi = []
     bot.send_message(context.args[0], "Hesabınız Artık VIP!")
     try:
         collection.update_one({"_id": 0}, {"$push": {"vipuye": int(context.args[0])}})
