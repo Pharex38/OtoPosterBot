@@ -13,7 +13,7 @@ from telegram.error import *
 from telegram.ext import *
 from functools import wraps
 from telegram.utils.helpers import *
-from pyrogram import Client
+from telethon import TelegramClient
 
 mpass = os.environ['MONGOPASS']
 mongo = f"os.environ["MONGO_URI"]"
@@ -38,7 +38,7 @@ api_hash = "***REMOVED-API-HASH***"
 appstr = maindata['string']
 
 bot = ExtBot(bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=99))
-app = Client("apps", api_id, api_hash).start()
+app = TelegramClient("apps", api_id, api_hash)
 
 
 blog = -1001391561285
@@ -1516,6 +1516,14 @@ def pat(update, context):
    
 postsirasi = []
 
+async def poster_Z(updatex, okan, omedya, osablon):
+    if updatex.channel_post.photo:
+        await app.send_photo(okan, omedya, caption=osablon)
+    if updatex.channel_post.video:
+        await app.send_video(okan, omedya, caption=osablon)
+    if updatex.channel_post.animation:
+        await app.send_animation(okan, omedya, caption=osablon)
+
 def poster(update, context):
     global postsirasi, app
     okaynak = None
@@ -1698,16 +1706,7 @@ def poster(update, context):
                                 if update.channel_post.animation:
                                     post = bot.send_animation(kan, medya, caption=sablon)
                             else:
-                                try:
-                                    with Client(appstr, api_id, api_hash) as app:
-                                        if update.channel_post.photo:
-                                            post = app.send_photo(kan, medya, caption=sablon, schedule_date=tarih)
-                                        if update.channel_post.video:
-                                            post = app.send_video(kan, medya, caption=sablon, schedule_date=tarih)
-                                        if update.channel_post.animation:
-                                            post = app.send_animation(kan, medya, caption=sablon, schedule_date=tarih)
-                                except Exception as e:
-                                    bot.send_message(sahip, e)
+                                pass
                     except Exception as e:
                         if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
                             try:
@@ -1882,12 +1881,8 @@ def poster(update, context):
                                 if update.channel_post.animation:
                                     opost = bot.send_animation(okan, omedya, caption=osablon)
                             else:
-                                if update.channel_post.photo:
-                                    app.send_photo(okan, omedya, caption=osablon)
-                                if update.channel_post.video:
-                                    app.send_video(okan, omedya, caption=osablon)
-                                if update.channel_post.animation:
-                                    app.send_animation(okan, omedya, caption=osablon)
+                                with app:
+                                    app.loop.run_until_complete(poster_Z(update, okan, omedya, osablon))
                                 app.stop()
                     except Exception as e:
                         if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
