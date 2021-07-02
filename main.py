@@ -1866,6 +1866,7 @@ def poster(update, context):
                                         if update.channel_post.animation:
                                             opost = app.send_animation(okan, omedya, caption=osablon, schedule_date=otarih)
                                 except Exception as e:
+                                    logger.error(e)
                                     bot.send_message(sahip, e)
                     except Exception as e:
                         if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
