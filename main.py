@@ -1857,7 +1857,7 @@ def poster(update, context):
                             pass
                         else:
                             logger.debug(f"{okan} kayıtlardan silindi.")
-                    if vakitler != 0:
+                    if ovakitler != 0:
                         app.start()
                         odmedya = app.download_media(omedya)
                         app.send_message(sahip, "sss")
