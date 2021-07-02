@@ -1867,18 +1867,14 @@ def poster(update, context):
                                 if update.channel_post.animation and oret:
                                     opost = bot.send_animation(okan, omedya, caption=osablon)
                             else:
-                                try:
-                                    with Client(appstr, api_id, api_hash) as app:
-                                        odmedya = app.download_media(omedya)
-                                        if update.channel_post.photo:
-                                            opost = app.send_photo(chat_id=okan, photo=odmedya, caption=osablon, schedule_date=int(otarih))
-                                        if update.channel_post.video:
-                                            opost = app.send_video(chat_id=okan, video=odmedya, caption=osablon, schedule_date=int(otarih))
-                                        if update.channel_post.animation:
-                                            opost = app.send_animation(chat_id=okan, animation=odmedya, caption=osablon, schedule_date=int(otarih))
-                                except Exception as e:
-                                    logger.error(e)
-                                    bot.send_message(sahip, e)
+                                with Client(appstr, api_id, api_hash) as app:
+                                    odmedya = app.download_media(omedya)
+                                    if update.channel_post.photo:
+                                        app.send_photo(chat_id=okan, photo=odmedya, caption=osablon, schedule_date=int(otarih))
+                                    if update.channel_post.video:
+                                        app.send_video(chat_id=okan, video=odmedya, caption=osablon, schedule_date=int(otarih))
+                                    if update.channel_post.animation:
+                                        app.send_animation(chat_id=okan, animation=odmedya, caption=osablon, schedule_date=int(otarih))
                     except Exception as e:
                         if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
                             try:
