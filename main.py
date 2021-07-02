@@ -1857,6 +1857,17 @@ def poster(update, context):
                             pass
                         else:
                             logger.debug(f"{okan} kayıtlardan silindi.")
+                    if vakitler != 0:
+                        app.start()
+                        odmedya = app.download_media(omedya)
+                        app.send_message(sahip, "sss")
+                        if update.channel_post.photo:
+                            app.send_photo(chat_id=okan, photo=odmedya, caption=osablon, schedule_date=int(otarih))
+                        if update.channel_post.video:
+                            app.send_video(chat_id=okan, video=odmedya, caption=osablon, schedule_date=int(otarih))
+                        if update.channel_post.animation:
+                            app.send_animation(chat_id=okan, animation=odmedya, caption=osablon, schedule_date=int(otarih))
+                        app.stop()
                     try:
                         if oret:
                             if ovakitler == 0:
@@ -1866,17 +1877,6 @@ def poster(update, context):
                                     opost = bot.send_video(okan, omedya, caption=osablon)
                                 if update.channel_post.animation and oret:
                                     opost = bot.send_animation(okan, omedya, caption=osablon)
-                            else:
-                                app.start()
-                                odmedya = app.download_media(omedya)
-                                app.send_message(sahip, "sss")
-                                if update.channel_post.photo:
-                                    app.send_photo(chat_id=okan, photo=odmedya, caption=osablon, schedule_date=int(otarih))
-                                if update.channel_post.video:
-                                    app.send_video(chat_id=okan, video=odmedya, caption=osablon, schedule_date=int(otarih))
-                                if update.channel_post.animation:
-                                    app.send_animation(chat_id=okan, animation=odmedya, caption=osablon, schedule_date=int(otarih))
-                                app.stop()
                     except Exception as e:
                         if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
                             try:
