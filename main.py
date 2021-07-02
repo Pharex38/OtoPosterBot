@@ -1119,11 +1119,17 @@ def ozelk(update, context):
     for _ok in OzelCol.find({}):
         _kume.append(_ok['okaynak'])
     if kanal in _kume:
+        for koy in KaynakCol.find({}):
+            if user in koy['kaynak']:
+                KaynakCol.update_one({"_id": koy['_id']}, {"$pull": {"kaynak": user}})
         collection.update_one({"_id": user}, {"$set": {"ozel": True, "kaynak": ["32"]}})
         OzelCol.update_one({"okaynak": kanal}, {"$push": {"kanal": user}})
         bot.send_message(update.message.chat.id, "<b>Özel Kaynak Kaydedildi!</b>", reply_markup=dugme(user))
         return ConversationHandler.END
     else:
+        for koy in KaynakCol.find({}):
+            if user in koy['kaynak']:
+                KaynakCol.update_one({"_id": koy['_id']}, {"$pull": {"kaynak": user}})
         if OzelCol.find_one({"_id": user}) == None:
             OzelCol.insert_one({"_id": user, "okaynak": 546421354, "log": "yok"}) 
         OzelCol.update_one({"_id": user}, {"$set": {"okaynak": kanal, "kanal": [user]}})
