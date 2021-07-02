@@ -27,17 +27,18 @@ db = cluster["OtoPost"]
 collection = db["Kanallar"]
 KaynakCol = db["Kaynaklar"]
 OzelCol = db["Özel Kaynaklar"]
+
 maindata = collection.find_one({"_id": 0})
 kara = maindata['kara']
 apikara = maindata['apikara']
 bottoken = maindata['bottoken']
 para = maindata['para']
-api_id = maindata['aid']
-api_hash = maindata['hash']
+api_id = 1344081
+api_hash = "***REMOVED-API-HASH***"
 appstr = maindata['string']
 
 bot = ExtBot(bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=99))
-app = Client(appstr, api_id, api_hash)
+app = Client("apps", api_id, api_hash)
 
 blog = -1001391561285
 botlog = -1001352123979
@@ -1904,20 +1905,6 @@ def poster(update, context):
             bot.send_message(okaynak["log"], obasari)
         logger.warning(obasari)
         postsirasi.remove(chat)
-
-def zamanalamajob(context):
-    contz = context.job.context
-    update = contz['update']
-    with Client("eklenti", api_id, api_hash) as app:
-        odmedya = app.download_media(omedya)
-        app.send_message(sahip, "sss")
-        if contz['update'].channel_post.photo:
-            app.send_photo(chat_id=contz['okan'], photo=contz['odmedya'], caption=contz['osablon'], schedule=contz['otarih'])
-        if contz['update'].channel_post.video:
-            app.send_video(chat_id=contz['okan'], video=contz['odmedya'], caption=contz['osablon'], schedule=contz['otarih'])
-        if contz['update'].channel_post.animation:
-            app.send_animation(chat_id=contz['okan'], animation=contz['odmedya'], caption=contz['osablon'], schedule=contz['otarih'])
-        os.remove(odmedya)
 
 def gunluk(context):
     ozel_kaynak_kullanan_sayisi = 0
