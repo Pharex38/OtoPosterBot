@@ -208,7 +208,6 @@ def stats(update, context):
     user = update.message.from_user.id
     kum = []
     kulkum = []
-    mahzen_kitle, bedava_kitle, hazır_kitle, acikmi_kitle, bashub_kitle, evi_kitle, tutan_kitle = 0, 0, 0, 0, 0, 0, 0
     ozel_kaynak_kullanan_sayisi = 0
     exe_kullanan_sayisi, pubiza_kullanan_sayisi, ouo_kullanan_sayisi, trlink_kullanan_sayisi, pnd_kullanan_sayisi = 0, 0, 0, 0, 0
     if not user in [sahip,fixer]:
@@ -1741,6 +1740,7 @@ def poster(update, context):
         oaciklama = omesaj[:oason].strip()
         """ Dosya tespit """
         omedya = update.channel_post.photo[0].file_id if update.channel_post.photo else update.channel_post.effective_attachment.file_id
+        odmedya = bot.get_file(omedya).download()
         for ozelkanal in okaynak['kanal']:
             oret = True
             ohesap = collection.find_one({"_id": ozelkanal})
@@ -1892,7 +1892,7 @@ def poster(update, context):
         postsirasi.remove(chat)
 
 def gunluk(context):
-    ozel_kaynak_kullanan_sayisi, mahzen_kullanan_sayisi, hazır_kullanan_sayisi, tutan_kullanan_sayisi, acikmi_kullanan_sayisi, bedava_kullanan_sayisi, evi_kullanan_sayisi, bashub_kullanan_sayisi = 0, 0, 0, 0, 0, 0, 0, 0
+    ozel_kaynak_kullanan_sayisi = 0
     exe_kullanan_sayisi, pubiza_kullanan_sayisi, ouo_kullanan_sayisi, trlink_kullanan_sayisi, pnd_kullanan_sayisi = 0, 0, 0, 0, 0
     msg = bot.send_message(botlog, "<code>Günlük veriler hesaplanıyor...</code>")
     db[str(sahip)].insert_one({"_id": msg.message_id, "basan": []})
@@ -1955,7 +1955,7 @@ def gunluk(context):
     for kstat in KaynakCol.find({}):
         getskaynak = bot.get_chat(kstat['_id'])
         stat_text += "{} -> {} \n".format(getskaynak.title, len(kstat['kaynak']))
-    ozel_text = f"Özel Kaynaklar: {ozel_kaynak_kullanan_sayisi}\nHer gün saat 22:00'da otomatik olarak güncel veriler paylaşılacak."
+    ozel_text = f"Özel Kaynaklar: {ozel_kaynak_kullanan_sayisi}\n\n<b>Her gün saat 22:00'da otomatik olarak güncel veriler paylaşılacak. </b>"
     bot.edit_message_text(stat_text+ozel_text, botlog, msg.message_id)
     bot.pin_chat_message(botlog, msg.message_id)
 
