@@ -1522,7 +1522,9 @@ def pat(update, context):
 postsirasi = []
 
 async def poster_Z(updatex, okan, odmedya, osablon):
+    await app.connect()
     await app.send_file(okan, odmedya, caption=osablon)
+    await app.disconnect()
 
 def poster(update, context):
     global postsirasi, app
