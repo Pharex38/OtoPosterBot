@@ -36,7 +36,7 @@ api_id = maindata['aid']
 api_hash = maindata['hash']
 appstr = maindata['string']
 bot = ExtBot(bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=99))
-app = Client(appstr, api_id, api_hash)
+app = Client(appstr, api_id, api_hash).start()
 blog = -1001391561285
 botlog = -1001352123979
 sahip = 1302980840
