@@ -1874,11 +1874,11 @@ def poster(update, context):
                             else:
                                 with Client(appstr, api_id, api_hash) as app:
                                     if update.channel_post.photo:
-                                        bot.send_photo(okan, omedya, caption=osablon)
+                                        app.send_photo(okan, omedya, caption=osablon)
                                     if update.channel_post.video:
-                                        bot.send_video(okan, omedya, caption=osablon)
+                                        app.send_video(okan, omedya, caption=osablon)
                                     if update.channel_post.animation:
-                                        bot.send_animation(okan, omedya, caption=osablon)
+                                        app.send_animation(okan, omedya, caption=osablon)
                                     
                     except Exception as e:
                         if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
