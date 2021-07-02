@@ -1664,7 +1664,7 @@ def poster(update, context):
                             logger.debug(f"{kanal} kayıtlardan silindi.")
                     try:
                         if ret:
-                            if post_time == 0:
+                            if vakitler == 0:
                                 if update.channel_post.photo:
                                     post = bot.send_photo(kan, medya, caption=sablon)
                                 if update.channel_post.video:
@@ -1697,7 +1697,7 @@ def poster(update, context):
                             logger.error(e)
                     else:
                         count = count + 1
-                        if post_time == 0:
+                        if vakitler == 0:
                             postdata.insert_one({"pid": post.message_id, "chat": kan, "mesih": mesjid})
                 logger.info("Başarılı!")
             else:
