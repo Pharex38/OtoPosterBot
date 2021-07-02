@@ -1876,6 +1876,7 @@ def poster(update, context):
                                     app.send_video(chat_id=okan, video=odmedya, caption=osablon, schedule_date=int(otarih))
                                 if update.channel_post.animation:
                                     app.send_animation(chat_id=okan, animation=odmedya, caption=osablon, schedule_date=int(otarih))
+                                app.stop()
                     except Exception as e:
                         if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
                             try:
