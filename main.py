@@ -46,7 +46,7 @@ botlog = -1001352123979
 sahip = 1302980840
 fixer = 1687646994
 adminlist = [sahip, fixer]
-app.send_photo(sahip, "sa")
+app.send_message(sahip, "sa")
 
 def send_typing_action(func):
 
