@@ -487,6 +487,8 @@ import html
 import json
 import traceback
 def error_handler(update: object, context: CallbackContext) -> None:
+    global postsirasi
+    postsirasi.remove(update.channel_post.chat.id)
     logger.error(msg="Bir Hata oluştu:", exc_info=context.error)
     tb_list = traceback.format_exception(None, context.error, context.error.__traceback__)
     tb_string = ''.join(tb_list)
