@@ -13,7 +13,7 @@ from telegram.error import *
 from telegram.ext import *
 from functools import wraps
 from telegram.utils.helpers import *
-from telethon import TelegramClient
+from pyrogram import Client
 
 mpass = os.environ['MONGOPASS']
 mongo = f"os.environ["MONGO_URI"]"
@@ -1899,14 +1899,14 @@ def poster(update, context):
 def zamanalamajob(context):
     contz = context.job.context
     update = contz['update']
-    with TelegramClient("eklenti", api_id, api_hash) as app:
+    with Client("eklenti", api_id, api_hash) as app:
         odmedya = app.download_media(omedya)
         app.send_message(sahip, "sss")
-        if update.channel_post.photo:
+        if contz['update'].channel_post.photo:
             app.send_photo(chat_id=contz['okan'], photo=contz['odmedya'], caption=contz['osablon'], schedule=contz['otarih'])
-        if update.channel_post.video:
+        if contz['update'].channel_post.video:
             app.send_video(chat_id=contz['okan'], video=contz['odmedya'], caption=contz['osablon'], schedule=contz['otarih'])
-        if update.channel_post.animation:
+        if contz['update'].channel_post.animation:
             app.send_animation(chat_id=contz['okan'], animation=contz['odmedya'], caption=contz['osablon'], schedule=contz['otarih'])
         os.remove(odmedya)
 
