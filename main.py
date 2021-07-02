@@ -38,7 +38,7 @@ api_hash = "***REMOVED-API-HASH***"
 appstr = maindata['string']
 
 bot = ExtBot(bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=99))
-app = Client("apps", api_id, api_hash)
+app = Client("apps", api_id, api_hash).start()
 
 blog = -1001391561285
 botlog = -1001352123979
@@ -1876,9 +1876,8 @@ def poster(update, context):
                                 if update.channel_post.animation:
                                     opost = bot.send_animation(okan, omedya, caption=osablon)
                             else:
-                                print(app.start())
                                 if update.channel_post.photo:
-                                    send_photo(okan, omedya, caption=osablon)
+                                    app.send_photo(okan, omedya, caption=osablon)
                                 if update.channel_post.video:
                                     app.send_video(okan, omedya, caption=osablon)
                                 if update.channel_post.animation:
