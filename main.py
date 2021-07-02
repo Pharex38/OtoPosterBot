@@ -118,6 +118,8 @@ def deep(u_kod, user):
             if not user in OzelCol.find_one({"_id": int(u_kod)})['kanal']:
                 OzelCol.update_one({"_id": int(u_kod)}, {"$push": {"kanal": user}})
             collection.insert_one(key)
+            if len(OzelCol.find_one({"okaynak": kanal})['kanal']) == 7:
+                bot.send_message(OzelCol.find_one({"okaynak": kanal})['_id'], "<i>Özel Kaynağınız 7 kişiyi geçtiği için artık 20 linkte 1 Pharexin olayı sizin için de geçerilidir.</i>")
             bot.send_message(user, "🏋🏻 {} referansı ile geldiniz!".format(ref_kanal_ismi))
             bot.send_message(user, "📝 API adresinizi gönderin.", reply_markup=imark())
             return False
@@ -130,6 +132,8 @@ def deep(u_kod, user):
                     KaynakCol.update_one({"_id": koy['_id']}, {"$pull": {"kaynak": user}})
             collection.update_one({"_id": user}, {"$set": {"ozel": True, "kaynak": ["32"]}})
             OzelCol.update_one({"_id": int(u_kod)}, {"$push": {"kanal": user}})
+            if len(OzelCol.find_one({"okaynak": kanal})['kanal']) == 7:
+                bot.send_message(OzelCol.find_one({"okaynak": kanal})['_id'], "<i>Özel Kaynağınız 7 kişiyi geçtiği için artık 20 linkte 1 Pharexin olayı sizin için de geçerilidir.</i>")
             bot.send_message(user, "🏋🏻 {} referansı ile geldiniz!".format(ref_kanal_ismi), reply_markup=dugme(user))
             return True
     key = {"_id": user, "kanal": [], "sablon": "1", "kaynak": [str(u_kod)], "site": "1", "altapi": "None", "altsite": "None", "sira": "0", "ozel": False, "pcount": 0, "time": 0, "vakit": 0}
@@ -389,6 +393,7 @@ def viple(update, context):
     chat = update.message.chat.id
     if len(context.args) < 1:
         postsirasi = []
+        return
     bot.send_message(context.args[0], "Hesabınız Artık VIP!")
     try:
         collection.update_one({"_id": 0}, {"$push": {"vipuye": int(context.args[0])}})
@@ -1126,15 +1131,14 @@ def ozelk(update, context):
     except:
         msg = bot.send_message(chat, "Botu kanalınızda yönetici eklememişsiniz.")
         return OZELKAYNAK
-    _kume = []
-    for _ok in OzelCol.find({}):
-        _kume.append(_ok['okaynak'])
-    if kanal in _kume:
+    if OzelCol.find_one({"okaynak": kanal}) != None:
         for koy in KaynakCol.find({}):
             if user in koy['kaynak']:
-                KaynakCol.update_one({"_id": koy['_id']}, {"$pull": {"kaynak": user}})
+                KaynakCol.update_one({"okaynak": koy['_id']}, {"$pull": {"kaynak": user}})
         collection.update_one({"_id": user}, {"$set": {"ozel": True, "kaynak": ["32"]}})
         OzelCol.update_one({"okaynak": kanal}, {"$push": {"kanal": user}})
+        if len(OzelCol.find_one({"okaynak": kanal})['kanal']) == 7:
+            bot.send_message(OzelCol.find_one({"okaynak": kanal})['_id'], "<i>Özel Kaynağınız 7 kişiyi geçtiği için artık 20 linkte 1 Pharexin olayı sizin için de geçerilidir.</i>")
         bot.send_message(update.message.chat.id, "<b>Özel Kaynak Kaydedildi!</b>", reply_markup=dugme(user))
         return ConversationHandler.END
     else:
