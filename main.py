@@ -1502,7 +1502,7 @@ def pat(update, context):
 postsirasi = []
 
 def poster(update, context):
-    global postsirasi
+    global postsirasi, app
     okaynak = None
     chat = update.channel_post.chat.id
     vipler = collection.find_one({"_id": 0})['vipuye']
