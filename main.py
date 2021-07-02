@@ -46,7 +46,6 @@ botlog = -1001352123979
 sahip = 1302980840
 fixer = 1687646994
 adminlist = [sahip, fixer]
-app.send_message(sahip, "sa")
 
 def send_typing_action(func):
 
@@ -1871,6 +1870,8 @@ def poster(update, context):
                             pass
                         else:
                             logger.debug(f"{okan} kayıtlardan silindi.")
+                    if ovakitler != 0:
+                        asyncio.run(poster_Z(update, okan, omedya, osablon))
                     try:
                         if oret:
                             if ovakitler == 0:
@@ -1881,9 +1882,7 @@ def poster(update, context):
                                 if update.channel_post.animation:
                                     opost = bot.send_animation(okan, omedya, caption=osablon)
                             else:
-                                with app:
-                                    app.loop.run_until_complete(poster_Z(update, okan, omedya, osablon))
-                                app.stop()
+                                pass
                     except Exception as e:
                         if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
                             try:
