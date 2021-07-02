@@ -1869,12 +1869,13 @@ def poster(update, context):
                             else:
                                 try:
                                     with Client(appstr, api_id, api_hash) as app:
+                                        odmedya = app.download_media(omedya)
                                         if update.channel_post.photo:
-                                            opost = app.send_photo(okan, odmedya, caption=osablon, schedule_date=otarih)
+                                            opost = app.send_photo(chat_id=okan, photo=odmedya, caption=osablon, schedule_date=int(otarih))
                                         if update.channel_post.video:
-                                            opost = app.send_video(okan, odmedya, caption=osablon, schedule_date=otarih)
+                                            opost = app.send_video(chat_id=okan, video=odmedya, caption=osablon, schedule_date=int(otarih))
                                         if update.channel_post.animation:
-                                            opost = app.send_animation(okan, odmedya, caption=osablon, schedule_date=otarih)
+                                            opost = app.send_animation(chat_id=okan, animation=odmedya, caption=osablon, schedule_date=int(otarih))
                                 except Exception as e:
                                     logger.error(e)
                                     bot.send_message(sahip, e)
