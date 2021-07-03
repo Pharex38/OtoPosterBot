@@ -1495,7 +1495,7 @@ def pat(update, context):
             if psite == "5":
                 plink = get(f"http://pubiza.com/api.php?", params={"token": ptoken, "url": kplink, "ads_type": "adult"}).text
             if psite == "6":
-                plink = get("gir.ist/api?" params={"api": ptoken, "url": kplink, "format": "text"}).text
+                plink = get("gir.ist/api?", params={"api": ptoken, "url": kplink, "format": "text"}).text
                 print(plink)
             time.sleep(1)
             ptry += 1
