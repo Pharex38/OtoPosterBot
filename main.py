@@ -1475,7 +1475,7 @@ def pat(update, context):
                 if paltsite == "5":
                     palink = get(f"http://pubiza.com/api.php?", params={"token": paltapi, "url": kplink, "ads_type": "adult"}).text
                 if paltsite == "6":
-                    palink = get("https://gir.ist/st?", params={"api": paltapi, "url": kplink}).text
+                    palink = get("https://gir.ist/st?", params={"api": paltapi, "url": kplink}).url
                 time.sleep(1)
                 ptry += 1
         while ptry < 10 and plink == " ":
@@ -1493,7 +1493,7 @@ def pat(update, context):
             if psite == "5":
                 plink = get(f"http://pubiza.com/api.php?", params={"token": ptoken, "url": kplink, "ads_type": "adult"}).text
             if psite == "6":
-                plink = get("https://gir.ist/st?", params={"api": ptoken, "url": kplink}).text
+                plink = get("https://gir.ist/st?", params={"api": ptoken, "url": kplink}).url
             time.sleep(1)
             ptry += 1
         if plink == " ":
