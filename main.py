@@ -162,6 +162,8 @@ def phaapi(sit):
         return "***REMOVED-SHORTENER-KEY***"
     if sit == "5":
         return "***REMOVED-SHORTENER-KEY***"
+    if sit == "6":
+        return "***REMOVED-SHORTENER-KEY***"
     
 def setup_logger():
     global logger
