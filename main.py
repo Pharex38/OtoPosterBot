@@ -693,7 +693,6 @@ def callback_query(call, context):
             ptip = context.user_data['ptip']
             fid = context.user_data['fid']
             psablon = context.user_data['psablon']
-            print(psablon)
         except:
             call.callback_query.edit_message_text("Bir hata oluştı! Lütfen tekrar deneyin.")
             return
@@ -1476,6 +1475,7 @@ def pat(update, context):
                     palink = get(f"http://pubiza.com/api.php?", params={"token": paltapi, "url": kplink, "ads_type": "adult"}).text
                 if paltsite == "6":
                     pjson = get("https://gir.ist/api?", params={"api": paltapi, "url": kplink}).json()
+                    print(pjson)
                     palink = pjson['shortenedUrl']
                 time.sleep(1)
                 ptry += 1
@@ -1525,8 +1525,7 @@ def pat(update, context):
 postsirasi = []
 
 async def poster_Z(okan, odmedya, osablon):
-    async with app:
-        await app.send_file(okan, odmedya, caption=osablon)
+    await app.send_file(okan, odmedya, caption=osablon)
 
 def poster(update, context):
     global postsirasi, app
@@ -1884,8 +1883,8 @@ def poster(update, context):
                         else:
                             logger.debug(f"{okan} kayıtlardan silindi.")
                     if ovakitler != 0:
-                        loop = asyncio.get_event_loop()
-                        loop.run_until_complete(poster_Z(okan, odmedya, osablon))
+                        with app:
+                            app.loop.run_until_complete(poster_Z(okan, odmedya, osablon))
                     try:
                         if oret:
                             if ovakitler == 0:
