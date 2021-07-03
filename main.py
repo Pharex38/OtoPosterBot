@@ -699,7 +699,8 @@ def callback_query(call, context):
         if len(collection.find_one({"_id": user})['kanal']) < 2:
             try:
                 SEND_MEDIA_TYPES[ptip](collection.find_one({"_id": user})['kanal'][0], fid, caption=psablon)
-            except:
+            except Exception as e:
+                logger.error(e)
                 bot.send_message(user, "Postunuz gönderilemedi, botu kanaldan çıkarmış olabilirsiniz.", reply_markup=dugme(user))
                 return ConversationHandler.END
             bot.send_message(user, "Postunuz gönderildi.", reply_markup=dugme(user))
@@ -1494,7 +1495,7 @@ def pat(update, context):
             if psite == "5":
                 plink = get(f"http://pubiza.com/api.php?", params={"token": ptoken, "url": kplink, "ads_type": "adult"}).text
             if psite == "6":
-                plink = get("https://gir.ist/api?", params={"api": ptoken, "url": kplink, "format": "text"}).text
+                plink = get("gir.ist/api?" params={"api": ptoken, "url": kplink, "format": "text"}).text
             time.sleep(1)
             ptry += 1
         if plink == " ":
