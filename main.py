@@ -1773,7 +1773,6 @@ def poster(update, context):
         oaciklama = omesaj[:oason].strip()
         """ Dosya tespit """
         omedya = update.channel_post.photo[0].file_id if update.channel_post.photo else update.channel_post.effective_attachment.file_id
-        odmedya = bot.get_file(omedya).download()
         for ozelkanal in okaynak['kanal']:
             oret = True
             ohesap = collection.find_one({"_id": ozelkanal})
