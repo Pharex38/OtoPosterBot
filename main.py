@@ -1527,6 +1527,9 @@ def pat(update, context):
    
 postsirasi = []
 
+def gonder(app):
+    app.send_message(sahip, "++++")
+
 def poster(update, context):
     global postsirasi, app
     okaynak = None
@@ -1882,7 +1885,7 @@ def poster(update, context):
                         else:
                             logger.debug(f"{okan} kayıtlardan silindi.")
                     if ovakitler != 0:
-                        app.send_message(sahip, "o")
+                        gonder(app)
                     try:
                         if oret:
                             if ovakitler == 0:
