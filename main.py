@@ -39,7 +39,8 @@ appstr = maindata['string']
 
 bot = ExtBot(bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=99))
 app = Client("apps", api_id, api_hash)
-
+app.start()
+logger.warning("Pyrogram başladı.")
 
 blog = -1001391561285
 botlog = -1001352123979
@@ -2102,4 +2103,5 @@ if __name__ == '__main__':
     setup_logger()
     logger.info("Bot Çalışıyor...")
     main()
+    app.stop()
     bildir("Bot kapandı!")
