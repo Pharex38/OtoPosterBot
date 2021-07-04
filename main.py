@@ -38,7 +38,7 @@ api_hash = "***REMOVED-API-HASH***"
 appstr = maindata['string']
 
 bot = ExtBot(bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=99))
-app = Client("apps", api_id, api_hash)
+app = Client("appis", api_id, api_hash)
 app.start()
 logger.warning("Pyrogram başladı.")
 
