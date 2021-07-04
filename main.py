@@ -508,7 +508,6 @@ import json
 import traceback
 def error_handler(update: object, context: CallbackContext) -> None:
     global postsirasi
-    postsirasi.remove(update.channel_post.chat.id)
     logger.error(msg="Bir Hata oluştu:", exc_info=context.error)
     tb_list = traceback.format_exception(None, context.error, context.error.__traceback__)
     tb_string = ''.join(tb_list)
@@ -1540,9 +1539,6 @@ def poster(update, context):
     # Ana Kaynaklar
     chatdat = KaynakCol.find_one({"_id": chat})
     if chatdat != None:
-        while len(postsirasi) > 0:
-            sleep(1)   
-        postsirasi.append(chat)
         count = 0
         mesaj = update.channel_post.caption
         if mesaj == None:
@@ -1741,14 +1737,10 @@ def poster(update, context):
             bot.edit_message_text(basari, botlog, lmsg.message_id)
         except Exception as e:
             logger.error(e)
-        postsirasi.remove(chat)
     # Özel Kaynaklar
     else:
         okaynak = OzelCol.find_one({"okaynak": chat})
     if okaynak != None:
-        while len(postsirasi) > 0:
-            sleep(1)   
-        postsirasi.append(chat)
         ocount = 0
         omesaj = update.channel_post.caption
         if omesaj == None:
@@ -1922,7 +1914,6 @@ def poster(update, context):
         if okaynak["log"] != "yok":
             bot.send_message(okaynak["log"], obasari)
         logger.warning(obasari)
-        postsirasi.remove(chat)
         
 
 def gunluk(context):
