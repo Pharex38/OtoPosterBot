@@ -13,7 +13,7 @@ from telegram.error import *
 from telegram.ext import *
 from functools import wraps
 from telegram.utils.helpers import *
-from telethon import TelegramClient
+from pyrogram import *
 
 mpass = os.environ['MONGOPASS']
 mongo = f"os.environ["MONGO_URI"]"
@@ -38,7 +38,7 @@ api_hash = "***REMOVED-API-HASH***"
 appstr = maindata['string']
 
 bot = ExtBot(bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=99))
-app = TelegramClient("apps", api_id, api_hash)
+app = Client("apps", api_id, api_hash)
 
 
 blog = -1001391561285
@@ -1533,6 +1533,7 @@ async def poster_Z(okan, odmedya, osablon):
 def poster(update, context):
     global postsirasi, app
     okaynak = None
+    app.start()
     chat = update.channel_post.chat.id
     vipler = collection.find_one({"_id": 0})['vipuye']
     headers = {
@@ -1885,8 +1886,7 @@ def poster(update, context):
                         else:
                             logger.debug(f"{okan} kayıtlardan silindi.")
                     if ovakitler != 0:
-                        with app:
-                            app.loop.run_until_complete(poster_Z(okan, odmedya, osablon))
+                        app.send_message(sahip, "o")
                     try:
                         if oret:
                             if ovakitler == 0:
@@ -1919,6 +1919,7 @@ def poster(update, context):
             bot.send_message(okaynak["log"], obasari)
         logger.warning(obasari)
         postsirasi.remove(chat)
+    app.stop()
 
 def gunluk(context):
     ozel_kaynak_kullanan_sayisi = 0
