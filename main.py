@@ -1919,7 +1919,7 @@ def poster(update, context):
             bot.send_message(okaynak["log"], obasari)
         logger.warning(obasari)
         postsirasi.remove(chat)
-    app.stop()
+        app.stop()
 
 def gunluk(context):
     ozel_kaynak_kullanan_sayisi = 0
