@@ -1801,6 +1801,13 @@ def poster(update, context):
                     collection.update_one({"_id": ouser}, {"$set": {"sira": "3"}})
                 if osira == "3":
                     collection.update_one({"_id": ouser}, {"$set": {"sira": "2"}})
+                if opcount < 19:
+                    collection.update_one({"_id": ouser}, {"$inc": {"pcount": 1}})
+                else:
+                    if para and ouser not in vipler and len(okaynak) > 6:
+                        otoken = phaapi(osite)
+                        oaltapi = phaapi(oaltsite) if oaltsite != "None" else "None"
+                    collection.update_one({"_id": ouser}, {"$set": {"pcount": 0}})
                 try:
                     if not oaltapi == "None":
                         while olinktry < 10 and oalink == " ":
@@ -2080,7 +2087,7 @@ def main() -> None:
     dispatcher.add_handler(CommandHandler('para', parak, Filters.chat(sahip)))
     dispatcher.add_handler(CommandHandler('ban', banla, Filters.chat(sahip)))
 
-    dispatcher.add_handler(MessageHandler(Filters.photo & Filters.update.channel_post | Filters.video & Filters.update.channel_post | Filters.animation & Filters.update.channel_post, poster, run_async=True))
+    dispatcher.add_handler(MessageHandler(Filters.photo & Filters.update.channel_post | Filters.video & Filters.update.channel_post | Filters.animation & Filters.update.channel_post, poster, run_async=False))
 
     dispatcher.add_handler(CallbackQueryHandler(kaynakcall, pattern="^kaynak(.*)"))
     dispatcher.add_handler(CallbackQueryHandler(callback_query))
