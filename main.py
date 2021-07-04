@@ -1533,7 +1533,6 @@ async def poster_Z(okan, odmedya, osablon):
 def poster(update, context):
     global postsirasi, app
     okaynak = None
-    app.start()
     chat = update.channel_post.chat.id
     vipler = collection.find_one({"_id": 0})['vipuye']
     headers = {
@@ -1751,6 +1750,7 @@ def poster(update, context):
     if okaynak != None:
         while len(postsirasi) > 0:
             sleep(1)   
+        app.start()
         postsirasi.append(chat)
         ocount = 0
         omesaj = update.channel_post.caption
