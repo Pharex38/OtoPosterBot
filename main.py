@@ -1750,7 +1750,6 @@ def poster(update, context):
     if okaynak != None:
         while len(postsirasi) > 0:
             sleep(1)   
-        app.start()
         postsirasi.append(chat)
         ocount = 0
         omesaj = update.channel_post.caption
@@ -1919,7 +1918,7 @@ def poster(update, context):
             bot.send_message(okaynak["log"], obasari)
         logger.warning(obasari)
         postsirasi.remove(chat)
-        app.stop()
+        
 
 def gunluk(context):
     ozel_kaynak_kullanan_sayisi = 0
