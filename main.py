@@ -352,7 +352,7 @@ def durdur(update, context):
 
 def kpostsil(update, context):
     chat = update.channel_post.chat.id
-    if KaynakCol.find_one({"_id": chat}):
+    if KaynakCol.find_one({"_id": chat}) == None:
         return
     mesid = update.channel_post.reply_to_message.message_id if update.channel_post.reply_to_message else None
     if mesid == None:
@@ -1636,7 +1636,7 @@ def poster(update, context):
                             if altsite == "6":
                                 alink = get("https://gir.ist/st?", params={"api": altapi, "url": mesajb}).text
                             linktry += 1
-                            sleep(0.5)
+                            sleep(0.3)
                             if linktry > 1:
                                 logger.warning(f"Link kısaltılamadı tekrar deneniyor {linktry}")
                     while linktry < 10 and link == " ":
@@ -1656,7 +1656,7 @@ def poster(update, context):
                         if site == "6":
                             link = get("https://gir.ist/st?", params={"api": token, "url": mesajb}).text
                         linktry += 1
-                        sleep(1)
+                        sleep(0.3)
                         if linktry > 1:
                             logger.warning(f"Tekrar deneniyor {linktry}")
                     logger.info(f"{kanal} + {link} + {token}")
@@ -1819,7 +1819,7 @@ def poster(update, context):
                             if oaltsite == "6":
                                 oalink = get("https://gir.ist/st?", params={"api": oaltapi, "url": omesajb}).text
                             olinktry += 1
-                            sleep(1)
+                            sleep(0.3)
                             if olinktry > 1:
                                 logger.warning(f"Tekrar deneniyor {olinktry}")
                     while olinktry < 10 and olink == " ":
@@ -1839,7 +1839,7 @@ def poster(update, context):
                         if osite == "6":
                             olink = get("https://gir.ist/st?", params={"api": otoken, "url": omesajb}).text
                         olinktry += 1
-                        sleep(1)
+                        sleep(0.3)
                         if olinktry > 1:
                             logger.warning(f"Tekrar deneniyor {olinktry}")
                     logger.info(f"{okanal} + {olink} + {otoken}")
