@@ -1527,9 +1527,6 @@ def pat(update, context):
    
 postsirasi = []
 
-async def poster_Z(okan, odmedya, osablon):
-    await app.send_file(okan, odmedya, caption=osablon)
-
 def poster(update, context):
     global postsirasi, app
     okaynak = None
