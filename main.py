@@ -1878,7 +1878,7 @@ def poster(update, context):
                             logger.debug(f"{okan} kayıtlardan silindi.")
                     if ovakitler != 0:
                         bot.send_message(eklenti, okan)
-                        bot.send_message(eklenti, otarih)
+                        bot.send_message(eklenti, vakitler[dailycount])
                         okan = eklenti
                     try:
                         if oret:
