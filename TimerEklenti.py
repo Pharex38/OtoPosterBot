@@ -27,12 +27,11 @@ async def islem(event):
 		return
 	kan = event.raw_text
 	async with event.client.conversation(event.chat_id) as conv:
-		await event.client.send_message(event.chat_id, ".")
 		vakit = await conv.wait_event(events.NewMessage(incoming=True, from_users=opb))
 
-		await event.client.send_message(event.chat_id, ".")
 		post = await conv.wait_event(events.NewMessage(incoming=True, from_users=opb))
 
+		if post.message
 		print(post.message)
 
 
