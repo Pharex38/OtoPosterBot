@@ -26,16 +26,22 @@ app = TelegramClient("Timer", api_id, api_hash).start()
 async def islem(event):
 	if not event.raw_text.startswith("-"):
 		return
-	kan = await event.client.get_entity(int(event.raw_text))
+
 	async with event.client.conversation(event.chat_id) as conv:
 		
-		raw_vakit = await conv.wait_event(events.NewMessage(incoming=True, from_users=opb))
-		raw_vakit_hour = str(int(raw_vakit.raw_text.split(":")[0]) - 3).zfill(2)
+		raws = event.raw_text.split("+")
+		kan = await event.client.get_entity(int(raws[0]))
+		user = raws[2]
+		dlc = raws[1]
+		user_dat = collection.find_one({"_id": user})
+		raw_vakit = user_dat['vakit'][int(dlc)]
+		raw_vakit_hour = str(int(raw_vakit.split(":")[0]) - 3).zfill(2)
 		bugün = datetime.datetime.now()
 		raw_vakit = str(bugün.day).zfill(2) + "/" + str(bugün.month).zfill(2) + "/" + str(bugün.year) + " " + str(raw_vakit_hour) + str(raw_vakit.raw_text[2:]) + ":00"
 		print(raw_vakit)
 		vakit = datetime.datetime.strptime(raw_vakit, '%d/%m/%Y %H:%M:%S')
 		print(vakit)
+		print(vakit - bugün)
 		post = await conv.wait_event(events.NewMessage(incoming=True, from_users=opb))
 		if post.message:
 			pass
