@@ -38,3 +38,7 @@ async def islem(event):
 
 logger.info("Bot Başlatıldı!")
 app.run_until_disconnected()
+logger.info("Bot Başlatıldı!")
+logger.info("Bot Başlatıldı!")
+logger.info("Bot Başlatıldı!")
+logger.info("Bot Başlatıldı!")
