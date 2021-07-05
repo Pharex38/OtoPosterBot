@@ -86,7 +86,7 @@ def dugme(user):
     return dugme
 
 def markupp():
-    markupp = ReplyKeyboardMarkup(keyboard=[['🔶 Yeni Kanal Ekle', '🗑️ Kanal Sil'], ['♻️ API değiştir', '🔗 Site değiştir'], ['🤖 Alternatif Ekle'], ['↩️ Ana Menü']], row_width=2, one_time_keyboard=False, resize_keyboard=True)
+    markupp = ReplyKeyboardMarkup(keyboard=[['🔶 Yeni Kanal Ekle', '🗑️ Kanal Sil'], ['♻️ API değiştir', '🔗 Site değiştir'], ['⏱ Post Zamanları'], ['🤖 Alternatif Ekle'], ['↩️ Ana Menü']], row_width=2, one_time_keyboard=False, resize_keyboard=True)
 
     return markupp
 
@@ -969,6 +969,9 @@ def menu(update, context):
     if user in kara:
         bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
+    if mesaj == "⏱ Post Zamanları":
+        bot.send_message(chat, "Yapım aşamasında.")
+        return
     if mesaj == "🔧 Kaynak":
         if mj == None:
             bot.send_message(chat, "Lütfen önce bir API kaydedin.", reply_markup=dagme())
@@ -1225,6 +1228,9 @@ def kayitapi(update, context):
             return 
         msg = bot.send_message(chat, "Silmek istediğiniz kanalı seçin.", reply_markup=gen_markup(user))
         return 
+    if mesaj == "⏱ Post Zamanları":
+        bot.send_message(chat, "Yapım aşamasında.")
+        return
     if mesaj == "♻️ API değiştir":
         msg = bot.send_message(chat, "Yeni API adresinizi girin.", reply_markup=imark())
         return APIDEGISTIR
