@@ -41,6 +41,7 @@ bot = ExtBot(bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=Tr
 app = TelegramClient("Timer", api_id, api_hash).start()
 app.start()
 
+eklenti = 1750847912
 blog = -1001391561285
 botlog = -1001352123979
 sahip = 1302980840
@@ -1526,8 +1527,6 @@ def pat(update, context):
    
 postsirasi = []
 
-async def posterz():
-    await app.send_message(sahip, "test")
 
 def poster(update, context):
     global postsirasi, app
@@ -1884,18 +1883,17 @@ def poster(update, context):
                         else:
                             logger.debug(f"{okan} kayıtlardan silindi.")
                     if ovakitler != 0:
-                        asyncio.run(posterz())
+                        app.send_message(eklenti, okan)
+                        app.send_message(eklenti, otarih)
+                        okan = eklenti
                     try:
                         if oret:
-                            if ovakitler == 0:
-                                if update.channel_post.photo:
-                                    opost = bot.send_photo(okan, omedya, caption=osablon)
-                                if update.channel_post.video:
-                                    opost = bot.send_video(okan, omedya, caption=osablon)
-                                if update.channel_post.animation:
-                                    opost = bot.send_animation(okan, omedya, caption=osablon)
-                            else:
-                                pass
+                            if update.channel_post.photo:
+                                opost = bot.send_photo(okan, omedya, caption=osablon)
+                            if update.channel_post.video:
+                                opost = bot.send_video(okan, omedya, caption=osablon)
+                            if update.channel_post.animation:
+                                opost = bot.send_animation(okan, omedya, caption=osablon)
                     except Exception as e:
                         if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
                             try:
