@@ -969,9 +969,6 @@ def menu(update, context):
     if user in kara:
         bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
-    if mesaj == "⏱ Post Zamanları":
-        bot.send_message(chat, "Yapım aşamasında.")
-        return
     if mesaj == "🔧 Kaynak":
         if mj == None:
             bot.send_message(chat, "Lütfen önce bir API kaydedin.", reply_markup=dagme())
