@@ -13,7 +13,6 @@ from telegram.error import *
 from telegram.ext import *
 from functools import wraps
 from telegram.utils.helpers import *
-from telethon import TelegramClient
 
 mpass = os.environ['MONGOPASS']
 mongo = f"os.environ["MONGO_URI"]"
@@ -33,13 +32,8 @@ kara = maindata['kara']
 apikara = maindata['apikara']
 bottoken = maindata['bottoken']
 para = maindata['para']
-api_id = 1344081
-api_hash = "***REMOVED-API-HASH***"
-appstr = maindata['string']
 
 bot = ExtBot(bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=99))
-app = TelegramClient("Timer", api_id, api_hash).start()
-app.start()
 
 eklenti = 1750847912
 blog = -1001391561285
@@ -1883,8 +1877,8 @@ def poster(update, context):
                         else:
                             logger.debug(f"{okan} kayıtlardan silindi.")
                     if ovakitler != 0:
-                        app.send_message(eklenti, okan)
-                        app.send_message(eklenti, otarih)
+                        bot.send_message(eklenti, okan)
+                        bot.send_message(eklenti, otarih)
                         okan = eklenti
                     try:
                         if oret:
@@ -2098,5 +2092,4 @@ if __name__ == '__main__':
     setup_logger()
     logger.info("Bot Çalışıyor...")
     main()
-    app.stop()
     bildir("Bot kapandı!")
