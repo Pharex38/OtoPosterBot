@@ -1884,7 +1884,7 @@ def poster(update, context):
                         else:
                             logger.debug(f"{okan} kayıtlardan silindi.")
                     if ovakitler != 0:
-                        asyncio.run_until_complete(posterz())
+                        asyncio.run(posterz())
                     try:
                         if oret:
                             if ovakitler == 0:
