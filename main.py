@@ -1526,6 +1526,8 @@ def pat(update, context):
    
 postsirasi = []
 
+async def posterz():
+    await app.send_message(sahip, "test")
 
 def poster(update, context):
     global postsirasi, app
@@ -1882,7 +1884,7 @@ def poster(update, context):
                         else:
                             logger.debug(f"{okan} kayıtlardan silindi.")
                     if ovakitler != 0:
-                        app.send_message(sahip, "test")
+                        asyncio.run_until_complete(posterz())
                     try:
                         if oret:
                             if ovakitler == 0:
