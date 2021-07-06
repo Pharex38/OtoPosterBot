@@ -74,6 +74,8 @@ PATZAMAN = range(1)
 
 PATPOST = range(1)
 
+POSTZAMAN = range(1)
+
 markup = ForceReply(selective=False)
 
 def dugme(user):
@@ -597,17 +599,31 @@ def patzamancall(call, context):
     chat = call.effective_chat.id
     mesajid = call.callback_query.message.message_id
 
+def postzamancall(call, context):
+    user = call.effective_user.id
+    chat = call.effective_chat.id
+    mesajid = call.callback_query.message.message_id
+    bot.delete_message(chat, mesajid)
+    bot.send_message(chat, "Postlarınız 00:00'dan başlayarak sırasıyla hangi saatlerde gönderilmesini istediğiniz saatleri altalta yazın ve gönderin.\n\nÖrnek;\n00:00\n01:00\n02:00\n03:00\n...", reply_markup=imark())
+    return POSTZAMAN
+
 def callback_query(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
     mesajid = call.callback_query.message.message_id
     """ Eklenti """
+    if call.callback_query.data == "pzkaldır":
+        collection.update_one({"_id": user}, {"$set": {"vakit": 0}})
+        call.callback_query.edit_message_text("Özellik devre dışı bırakıldı!")
+        return
     if call.callback_query.data == "ekkur":
         call.callback_query.answer("Yetkilendiriliyor...")
         for ku in collection.find_one({"_id": user})['kanal']:
+            bot.send_message(eklenti, bot.get_chat(ku).invite_link)
             try:
                 bot.promote_chat_member(ku, eklenti, can_post_messages=True)
-            except:
+            except Exception as e:
+                logger.error(e)
                 try:
                     kurisim = bot.get_chat(ku).title
                 except:
@@ -892,6 +908,13 @@ def kaynakmark(user):
 def ekmark():
     ekkeyb = [[InlineKeyboardButton("Kur", callback_data="ekkur")], [InlineKeyboardButton("❌ İptal ❌", callback_data="iptal")]]
     return InlineKeyboardMarkup(inline_keyboard=ekkeyb)
+
+def zamanmenumark(user):
+    if collection.find_one({"_id": user})['vakit'] == 0:
+        return InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton("Post Zamanları Ayarla", callback_data="pzayarla")], [InlineKeyboardButton("❌ İptal ❌", callback_data="iptal")]])
+    else:
+        return InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton("Post Zamanları Ayarla", callback_data="pzayarla")], [InlineKeyboardButton("Post Zamanlarını Devre Dışı Bırak", callback_data="pzkaldır")], [InlineKeyboardButton("❌ İptal ❌", callback_data="iptal")]])
+
 
 def sablonmark(user):
     if collection.find_one({"_id": user})['sablon'] in ["1", "2", "3", "9"]:
@@ -1249,17 +1272,20 @@ def kayitapi(update, context):
         if not user == sahip:
             bot.send_message(chat, "Yapım aşamasında.")
             return
-        for kpz in ka['kanal']:
-            if not bot.get_chat_member(kpz, bot.get_me().id).can_promote_members:
-                try:
-                    kpz_isim = bot.get_chat(kpz).title
-                except:
-                    collection.update_one({"_id": user}, {"$pull": {"kanal": kpz}})
-                    bot.send_message(chat, "Kanallarınızda bota istenilen yetkileri vermemişsiniz. Lütfen yetkileri verip tekrar deneyin.")
-                    return
-                bot.send_message(chat, f"{kpz_isim} Kanalında bota Yönetici Ekleme yetkisi vermelisiniz.")
+        for kca in ka['kanal']:
+            if not eklenti in [r.user.id for r in bot.get_chat_administrators(kca)]:
+                bot.send_message(chat, "Botun post zamanlayabilmesi için eklentiye ihtiyacı var, eklenti kurulsun mu?\n\n<i>Butona basmadan önce bota kanallarınızda yönetici ekleme yetkisi vermeniz gerekiyor</i>", reply_markup=ekmark())
                 return
-        bot.send_message(chat, "Botun post zamanlayabilmesi için eklentiye ihtiyacı var, eklenti kurulsun mu?", reply_markup=ekmark())
+        zaman_menu = "<b>Eklenti:</b> ✅\n\n"
+        if ka['vakit'] == 0:
+            zaman_menu += "Henüz Post saatleri ayaralamamışsınız"
+        else:
+            vakcount = 0
+            for vak in ka['vakit']:
+                zaman_menu += str(vakcount)+ ". " + str(vak) + "\n"
+                vakcount += 1
+            zaman_menu += f"\n<i>Günlük {vakcount - 1} Post Paylaşıyorsunuz. </i>"
+        bot.send_message(chat, zaman_menu, reply_markup=zamanmenumark(user))
         return
 
     if mesaj == "♻️ API değiştir":
@@ -1312,6 +1338,18 @@ def altakayit(update, context):
     sss = context.user_data['sss']
     collection.update_one({"_id": user}, {"$set": {"altsite": str(smesaj), "altapi": str(amesaj), "sira": str(sss)}})
     bot.send_message(chat, "✅ Alternatif API kaydedildi", reply_markup=dugme(user))
+    return ConversationHandler.END
+
+def postzaman(update, context):
+    chat = update.message.chat.id
+    user = update.message.from_user.id
+    post_zaman_text = update.message.text
+    for px in post_zaman_text.split("\n"):
+        if not len(px) == 5 or px.find(":") == -1:
+            bot.send_message(chat, "Gönderdiğiniz saatlerden biri veya birden fazlası yanlış.\n\nÖrnek;\n00:00\n01:00\n02:00\n03:00\n...") 
+            return
+    collection.update_one({"_id": user}, {"$set": {"vakit": post_zaman_text.split("\n")}})
+    bot.send_message(chat, "Post Saatleriniz Değiştirildi!", reply_markup=markupp())
     return ConversationHandler.END
 
 def apikayit(update, context):
@@ -1607,7 +1645,6 @@ def poster(update, context):
         """ Dosya tespit """
         medya = update.channel_post.photo[0].file_id if update.channel_post.photo else update.channel_post.effective_attachment.file_id
         for hesap_id in binb:
-            ret = True
             hesap = collection.find_one({"_id": hesap_id})
             if hesap == None:
                 KaynakCol.update_one({"_id": chat}, {"$pull": {"kaynak": hesap_id}})
@@ -1626,11 +1663,8 @@ def poster(update, context):
                 altsite = hesap['altsite']
                 sira = hesap['sira']
                 pcount = hesap['pcount']
-                vakitler = [t for t in hesap['vakit']] if hesap['vakit'] != 0 else 0
+                vakitler = hesap['vakit']
                 dailycount = hesap['time']
-                if vakitler != 0:
-                    date = datetime.datetime.strptime(vakitler[dailycount], "%H:%M")
-                    tarih = datetime.datetime.timestamp(date)
                 collection.update_one({"_id": user}, {"$inc": {"time": 1}})
                 if pcount < 19:
                     collection.update_one({"_id": user}, {"$inc": {"pcount": 1}})
@@ -1716,9 +1750,8 @@ def poster(update, context):
                     try:
                         yetkililer = [xy.user.id for xy in bot.get_chat_administrators(kan)]
                     except:
-                        ret = False
                         yetkililer = []
-                    if not user in yetkililer and ret:
+                    if not user in yetkililer:
                         try:
                             membersayi = bot.get_chat_members_count(kan)
                         except:
@@ -1732,28 +1765,27 @@ def poster(update, context):
                             pass
                         else:
                             logger.debug(f"{kanal} kayıtlardan silindi.")
+                    if vakitler != 0:
+                        bot.send_message(eklenti, str(kan) + "+" + str(dailycount) + "+" + str(user))
+                        kan = eklenti
                     try:
-                        if ret:
-                            if vakitler == 0:
-                                if update.channel_post.photo:
-                                    post = bot.send_photo(kan, medya, caption=sablon)
-                                if update.channel_post.video:
-                                    post = bot.send_video(kan, medya, caption=sablon)
-                                if update.channel_post.animation:
-                                    post = bot.send_animation(kan, medya, caption=sablon)
-                            else:
-                                pass
+                        if update.channel_post.photo:
+                            post = bot.send_photo(kan, medya, caption=sablon)
+                        if update.channel_post.video:
+                            post = bot.send_video(kan, medya, caption=sablon)
+                        if update.channel_post.animation:
+                            post = bot.send_animation(kan, medya, caption=sablon)
                     except Exception as e:
                         if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
                             try:
-                                logger.debug(f"Hatalı kanal: {kanal}")
+                                logger.debug(f"Hatalı kanal: {kan}")
                                 bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {user}\nÜYE: {bot.get_chat_members_count(kan)}\nKANAL: {kan}")
                                 collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
                                 bot.send_message(user, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
                             except:
                                 pass   
                             else:
-                                logger.debug(f"{kanal} kayıtlardan silindi.")
+                                logger.debug(f"{kan} kayıtlardan silindi.")
                         else:
                             logger.error(e)
                     else:
@@ -1796,7 +1828,6 @@ def poster(update, context):
         """ Dosya tespit """
         omedya = update.channel_post.photo[0].file_id if update.channel_post.photo else update.channel_post.effective_attachment.file_id
         for ozelkanal in okaynak['kanal']:
-            oret = True
             ohesap = collection.find_one({"_id": ozelkanal})
             try:    
                 otoken = ohesap['token']
@@ -1810,12 +1841,10 @@ def poster(update, context):
             oaltsite = ohesap['altsite']
             osira = ohesap['sira']
             opcount = ohesap['pcount']
-            ovakitler = [ot for ot in ohesap['vakit']] if ohesap['vakit'] != 0 else 0
+            ovakitler = ohesap['vakit']
             odailycount = ohesap['time']
-            if ovakitler != 0:
-                otarih = datetime.datetime.strptime("21-07-30 23:59:00", '%y-%m-%d %H:%M:%S')
             collection.update_one({"_id": ouser}, {"$inc": {"time": 1}})
-            if not "31" in ohesap['kaynak'] and len(okanal) > 0 and oret:
+            if not "31" in ohesap['kaynak'] and len(okanal) > 0:
                 oalink = " "
                 olink = " "
                 olinktry = 0
@@ -1897,9 +1926,8 @@ def poster(update, context):
                     try:
                         oyetkililer = [oxy.user.id for oxy in bot.get_chat_administrators(okan)]
                     except:
-                        oret = False
                         oyetkililer = []
-                    if not ouser in oyetkililer and oret:
+                    if not ouser in oyetkililer:
                         try:
                             omembersayi = bot.get_chat_members_count(okan)
                         except:
@@ -1917,13 +1945,12 @@ def poster(update, context):
                         bot.send_message(eklenti, str(okan) + "+" + str(odailycount) + "+" + str(ouser))
                         okan = eklenti
                     try:
-                        if oret:
-                            if update.channel_post.photo:
-                                opost = bot.send_photo(okan, omedya, caption=osablon)
-                            if update.channel_post.video:
-                                opost = bot.send_video(okan, omedya, caption=osablon)
-                            if update.channel_post.animation:
-                                opost = bot.send_animation(okan, omedya, caption=osablon)
+                        if update.channel_post.photo:
+                            opost = bot.send_photo(okan, omedya, caption=osablon)
+                        if update.channel_post.video:
+                            opost = bot.send_video(okan, omedya, caption=osablon)
+                        if update.channel_post.animation:
+                            opost = bot.send_animation(okan, omedya, caption=osablon)
                     except Exception as e:
                         if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
                             try:
@@ -2018,6 +2045,13 @@ def resetleme(context):
     for rest in collection.find({}):
         collection.update_one({"_id": ['_id']}, {"$set": {"vakit": 0}})
 
+def eklentiiletisim(update, context):
+    ileti = update.message.text
+    if ileti.split("+")[0].isdigit():
+        ileti = ileti.split("+")
+        bot.send_message(ileti[0], ileti[1])
+        return
+
 bildir('Bot Başladı 🍕')
 
 def main() -> None:
@@ -2081,11 +2115,21 @@ def main() -> None:
             },
         fallbacks=[CommandHandler('start', start, filters=~Filters.update.edited_message)],
         per_message=False)
-    
+    postzamanconver = ConversationHandler(
+        entry_points=[CallbackQueryHandler(postzamancall, pattern="^(pzayarla)$")],
+        states={
+            POSTZAMAN: [MessageHandler(~Filters.command & Filters.update.message, postzaman)]
+            },
+        fallbacks=[CommandHandler('start', start, filters=~Filters.update.edited_message)],
+        per_message=False)
+
+    dispatcher.add_handler(MessageHandler(Filters.chat(eklenti), eklentiiletisim))
+
     dispatcher.add_handler(conver)
     dispatcher.add_handler(altconver)
     dispatcher.add_handler(ozelkconver)
     dispatcher.add_handler(zamanconver)
+    dispatcher.add_handler(postzamanconver)
     dispatcher.add_handler(logconver)
 
     dispatcher.add_handler(conv_handler)
