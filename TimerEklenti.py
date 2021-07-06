@@ -57,7 +57,7 @@ async def islem(event):
 				collection.update_one({"_id": user}, {"$set": {"vakit": 0}})
 				await app.send_message(opb, str(user)+"+"+str("Eklentiyi kanaldan çıkardığınız Post Zamanalama özelliği devre dışı bırakıldı."))
 			histor = await app(GetScheduledHistoryRequest(kan, hash=0))
-			print(histor)
+			#print(histor)
 	else:
 		try:
 			await app(ImportChatInviteRequest(event.raw_text.split("/")[-1]))
