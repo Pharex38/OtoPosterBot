@@ -1284,7 +1284,7 @@ def kayitapi(update, context):
             for vak in ka['vakit']:
                 zaman_menu += str(vakcount)+ ". " + str(vak) + "\n"
                 vakcount += 1
-            zaman_menu += f"\n<i>Günlük {vakcount - 1} Post Paylaşıyorsunuz. </i>"
+            zaman_menu += f"\n<i>Günlük {vakcount} Post Paylaşıyorsunuz. </i>"
         bot.send_message(chat, zaman_menu, reply_markup=zamanmenumark(user))
         return
 
@@ -1767,6 +1767,7 @@ def poster(update, context):
                             logger.debug(f"{kanal} kayıtlardan silindi.")
                     if vakitler != 0:
                         bot.send_message(eklenti, str(kan) + "+" + str(dailycount) + "+" + str(user))
+                        sleep(0.1)
                         kan = eklenti
                     try:
                         if update.channel_post.photo:
