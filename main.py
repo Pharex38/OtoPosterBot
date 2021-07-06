@@ -2066,7 +2066,7 @@ def main() -> None:
 
     upjob = updater.job_queue
     upjob.run_repeating(jobyedekleme, interval=300, first=10, name="yedekleme")
-    upjob.run_daily(resetleme, time=datetime.datetime.strptime("21-06-30 23:59:00", '%y-%m-%d %H:%M:%S').time(), name="gunluk")
+    upjob.run_daily(resetleme, time=datetime.datetime.strptime("21-06-30 23:58:00", '%y-%m-%d %H:%M:%S').time(), name="gunluk")
     upjob.run_daily(gunluk, time=datetime.datetime.strptime("21-06-30 21:55:00", '%y-%m-%d %H:%M:%S').time(), name="gunluk")
     
     conv_handler = ConversationHandler(
