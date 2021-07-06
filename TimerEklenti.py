@@ -1,5 +1,5 @@
 from telethon import *
-import logging, os, datetime, time, asyncio
+import logging, os, datetime, time, asyncio, pytz
 from ssl import CERT_NONE
 from pymongo import *
 
@@ -8,6 +8,7 @@ logger = logging.getLogger(__name__)
 
 opb = 1742595887
 sahip = 1302980840
+opb = sahip
 
 mpass = os.environ['MONGOPASS']
 mongo = f"os.environ["MONGO_URI"]"
@@ -33,18 +34,23 @@ async def islem(event):
 		kan = await event.client.get_entity(int(raws[0]))
 		user = raws[2]
 		dlc = raws[1]
-		user_dat = collection.find_one({"_id": user})
+		user_dat = collection.find_one({"_id": int(user)})
 		raw_vakit = user_dat['vakit'][int(dlc)]
-		raw_vakit_hour = str(int(raw_vakit.split(":")[0]) - 3).zfill(2)
+		#raw_vakit_hour = str(int(raw_vakit.split(":")[0]) - 3).zfill(2) if int(raw_vakit.split(":")[0]) - 3 > 0 else str(int(raw_vakit.split(":")[0]) + 21).zfill(2)
 		bugün = datetime.datetime.now()
-		raw_vakit = str(bugün.day).zfill(2) + "/" + str(bugün.month).zfill(2) + "/" + str(bugün.year) + " " + str(raw_vakit_hour) + str(raw_vakit.raw_text[2:]) + ":00"
-		print(raw_vakit)
+		raw_vakit = str(bugün.day).zfill(2) + "/" + str(bugün.month).zfill(2) + "/" + str(bugün.year) + " " + str(raw_vakit_hour) + str(raw_vakit) + ":00"
+		
+		print(datetime.datetime.utcnow())
+		tvakit = datetime.datetime.strptime("00/00/0000 00:03:00", '%d/%m/%Y %H:%M:%S')
+		
 		vakit = datetime.datetime.strptime(raw_vakit, '%d/%m/%Y %H:%M:%S')
+		vakit = vakit - tvakit
 		print(vakit)
-		print(vakit - bugün)
+		
+		print(vakit - datetime.datetime.utcnow())
+		
 		post = await conv.wait_event(events.NewMessage(incoming=True, from_users=opb))
-		if post.message:
-			pass
+
 		await app.send_file(entity=kan, file=post.message.media, caption=post.message.raw_text, schedule=vakit)
 
 
