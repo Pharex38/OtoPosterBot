@@ -29,25 +29,27 @@ async def islem(event):
 		return
 
 	async with event.client.conversation(event.chat_id) as conv:
-		
 		raws = event.raw_text.split("+")
 		kan = await event.client.get_entity(int(raws[0]))
 		user = raws[2]
-		dlc = raws[1]
+		dlc = int(raws[1])
 		user_dat = collection.find_one({"_id": int(user)})
-		raw_vakit = user_dat['vakit'][int(dlc)]
-		#raw_vakit_hour = str(int(raw_vakit.split(":")[0]) - 3).zfill(2) if int(raw_vakit.split(":")[0]) - 3 > 0 else str(int(raw_vakit.split(":")[0]) + 21).zfill(2)
-		bugün = datetime.datetime.now()
-		raw_vakit = str(bugün.day).zfill(2) + "/" + str(bugün.month).zfill(2) + "/" + str(bugün.year) + " " + str(raw_vakit_hour) + str(raw_vakit) + ":00"
-		
-		print(datetime.datetime.utcnow())
-		tvakit = datetime.datetime.strptime("00/00/0000 00:03:00", '%d/%m/%Y %H:%M:%S')
-		
-		vakit = datetime.datetime.strptime(raw_vakit, '%d/%m/%Y %H:%M:%S')
-		vakit = vakit - tvakit
-		print(vakit)
-		
-		print(vakit - datetime.datetime.utcnow())
+		while True:
+			raw_vakit = user_dat['vakit'][dlc]
+
+			bugün = datetime.datetime.now()
+			raw_vakit = str(bugün.day).zfill(2) + "/" + str(bugün.month).zfill(2) + "/" + str(bugün.year) + " " + str(raw_vakit) + ":00"
+			
+			print(datetime.datetime.utcnow())
+			tvakit = datetime.timedelta(hours = 3)
+			
+			vakit = datetime.datetime.strptime(raw_vakit, '%d/%m/%Y %H:%M:%S') - tvakit
+			print(vakit)
+			
+			kontrol = vakit - datetime.datetime.utcnow()
+			if not kontrol.days < 0:
+				break
+			dlc += 1
 		
 		post = await conv.wait_event(events.NewMessage(incoming=True, from_users=opb))
 
