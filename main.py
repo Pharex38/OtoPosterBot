@@ -1250,7 +1250,7 @@ def kayitapi(update, context):
             bot.send_message(chat, "Yapım aşamasında.")
             return
         for kpz in ka['kanal']:
-            if not bot.get_chat_member(kpz, get_me().id).can_promote_members:
+            if not bot.get_chat_member(kpz, bot.get_me().id).can_promote_members:
                 try:
                     kpz_isim = bot.get_chat(kpz).title
                 except:
