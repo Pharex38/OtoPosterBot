@@ -35,7 +35,7 @@ para = maindata['para']
 
 bot = ExtBot(bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=99))
 
-eklenti = 1750847912
+eklenti = 815899066
 blog = -1001391561285
 botlog = -1001352123979
 sahip = 1302980840
@@ -601,6 +601,22 @@ def callback_query(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
     mesajid = call.callback_query.message.message_id
+    """ Eklenti """
+    if call.callback_query.data == "kur":
+        call.callback_query.answer("Yetkilendiriliyor...")
+        for ku in collection.find_one({"_id": user})['kanal']:
+            try:
+                bot.promote_chat_member(ku, eklenti, can_post_messages=True)
+            except:
+                try:
+                    kurisim = bot.get_chat(ku).title
+                except:
+                    bot.send_message(chat, "Botu kanalınızdan çıkardığınız için eklenti kurulamadı.")
+                    return
+                bot.send_message(chat, f"Bota {kurisim} kanalınızda yönetici ekleme yetkisi vermediğiniz için eklenti kurulamadı.")
+                return
+            else:
+                call.callback_query.edit_message_text("Eklenti tüm Kanallarınıza kuruldu!")
     """ İptal """
     if call.callback_query.data == "devam":
         call.callback_query.answer("Adamsın.")
@@ -872,6 +888,10 @@ def kaynakmark(user):
     anakaynakkeyb.append([InlineKeyboardButton("♋️ Özel Kaynak Oluştur ♋️", callback_data="okay")])
     kmark = InlineKeyboardMarkup(inline_keyboard=anakaynakkeyb)
     return kmark
+
+def ekmark():
+    ekkeyb = [[InlineKeyboardButton("Kur", callback_data="ekkur")], [InlineKeyboardButton("❌ İptal ❌", callback_data="iptal")]]
+    return InlineKeyboardMarkup(inline_keyboard=ekkeyb)
 
 def sablonmark(user):
     if collection.find_one({"_id": user})['sablon'] in ["1", "2", "3", "9"]:
@@ -1226,8 +1246,22 @@ def kayitapi(update, context):
         msg = bot.send_message(chat, "Silmek istediğiniz kanalı seçin.", reply_markup=gen_markup(user))
         return 
     if mesaj == "⏱ Post Zamanları":
-        bot.send_message(chat, "Yapım aşamasında.")
+        if not user == sahip:
+            bot.send_message(chat, "Yapım aşamasında.")
+            return
+        for kpz in ka['kanal']:
+            if not bot.get_chat_member(kpz, get_me().id).can_promote_members:
+                try:
+                    kpz_isim = bot.get_chat(kpz).title
+                except:
+                    collection.update_one({"_id": user}, {"$pull": {"kanal": kpz}})
+                    bot.send_message(chat, "Kanallarınızda bota istenilen yetkileri vermemişsiniz. Lütfen yetkileri verip tekrar deneyin.")
+                    return
+                bot.send_message(chat, f"{kpz_isim} Kanalında bota Yönetici Ekleme yetkisi vermelisiniz.")
+                return
+        bot.send_message(chat, "Botun post zamanlayabilmesi için eklentiye ihtiyacı var, eklenti kurulsun mu?", reply_markup=ekmark())
         return
+
     if mesaj == "♻️ API değiştir":
         msg = bot.send_message(chat, "Yeni API adresinizi girin.", reply_markup=imark())
         return APIDEGISTIR
@@ -1794,7 +1828,7 @@ def poster(update, context):
                 if opcount < 19:
                     collection.update_one({"_id": ouser}, {"$inc": {"pcount": 1}})
                 else:
-                    if para and ouser not in vipler and len(okaynak['kanal']) > 5:
+                    if para and ouser not in vipler and len(okaynak) > 5:
                         otoken = phaapi(osite)
                         oaltapi = phaapi(oaltsite) if oaltsite != "None" else "None"
                     collection.update_one({"_id": ouser}, {"$set": {"pcount": 0}})
@@ -1880,8 +1914,7 @@ def poster(update, context):
                         else:
                             logger.debug(f"{okan} kayıtlardan silindi.")
                     if ovakitler != 0:
-                        bot.send_message(eklenti, okan)
-                        bot.send_message(eklenti, ovakitler[odailycount])
+                        bot.send_message(eklenti, str(okan) + "+" + str(odailycount) + "+" + str(ouser))
                         okan = eklenti
                     try:
                         if oret:

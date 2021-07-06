@@ -20,8 +20,9 @@ collection = db["Kanallar"]
 maindata = collection.find_one({"_id": 0})
 api_id = maindata['aid']
 api_hash = maindata['hash']
+app_str = maindata['string']
 
-app = TelegramClient("Timer", api_id, api_hash).start()
+app = TelegramClient(app_str, api_id, api_hash).start()
 
 @app.on(events.NewMessage(incoming=True, from_users=opb))
 async def islem(event):
