@@ -1794,7 +1794,7 @@ def poster(update, context):
                 if opcount < 19:
                     collection.update_one({"_id": ouser}, {"$inc": {"pcount": 1}})
                 else:
-                    if para and ouser not in vipler and len(okaynak) > 5:
+                    if para and ouser not in vipler and len(okaynak['kanal']) > 5:
                         otoken = phaapi(osite)
                         oaltapi = phaapi(oaltsite) if oaltsite != "None" else "None"
                     collection.update_one({"_id": ouser}, {"$set": {"pcount": 0}})
