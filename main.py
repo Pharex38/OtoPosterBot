@@ -1285,6 +1285,7 @@ def kayitapi(update, context):
                 zaman_menu += str(vakcount)+ ". " + str(vak) + "\n"
                 vakcount += 1
             zaman_menu += f"\n<i>Günlük {vakcount} Post Paylaşıyorsunuz. </i>"
+            zaman_menu += f"\n\nBir sonraki postunuz günün {ka['time']}. postu olacak."
         bot.send_message(chat, zaman_menu, reply_markup=zamanmenumark(user))
         return
 
