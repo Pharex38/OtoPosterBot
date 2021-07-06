@@ -602,7 +602,7 @@ def callback_query(call, context):
     chat = call.effective_chat.id
     mesajid = call.callback_query.message.message_id
     """ Eklenti """
-    if call.callback_query.data == "kur":
+    if call.callback_query.data == "ekkur":
         call.callback_query.answer("Yetkilendiriliyor...")
         for ku in collection.find_one({"_id": user})['kanal']:
             try:
