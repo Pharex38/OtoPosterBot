@@ -38,9 +38,11 @@ async def islem(event):
 			trysch = 0
 			user_dat = collection.find_one({"_id": int(user)})
 			while trysch <= len(user_dat['vakit']):
+				if dlc <= len(user_dat['vakit']):
+					dlc = 0
 				raw_vakit = user_dat['vakit'][dlc]
 				bugün = datetime.datetime.now()
-				raw_vakit = str(bugün.day).zfill(2) + "/" + str(bugün.month).zfill(2) + "/" + str(bugün.year) + " " + str(raw_vakit) + ":00"
+				raw_vakit = str(bugün.day).zfill(2) + "/" + str(bugün.month).zfill(2) + "/" + str(bugün.year) + " " + str(raw_vakit) + ":59"
 				tvakit = datetime.timedelta(hours = 3)
 				vakit = datetime.datetime.strptime(raw_vakit, '%d/%m/%Y %H:%M:%S') - tvakit
 				kontrol = vakit - datetime.datetime.utcnow()
@@ -48,7 +50,7 @@ async def islem(event):
 					break
 				dlc += 1
 				trysch += 1
-			
+			collection.update_one({"_id": user}, {"$set": {"time": dlc+1}})
 			post = await conv.wait_event(events.NewMessage(incoming=True, from_users=opb))
 
 			try:

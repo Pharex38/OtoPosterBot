@@ -1285,7 +1285,27 @@ def kayitapi(update, context):
                 zaman_menu += str(vakcount)+ ". " + str(vak) + "\n"
                 vakcount += 1
             zaman_menu += f"\n<i>Günlük {vakcount} Post Paylaşıyorsunuz. </i>"
-            zaman_menu += f"\n\nBir sonraki postunuz günün <code>{ka['time']}</code>. postu olacak."
+            trysch = 0
+            dlc = ka['time']
+            while trysch <= len(ka['vakit']):
+                if dlc <= len(ka['vakit']):
+                    dlc = 0
+                try:
+                    raw_vakit = ka['vakit'][dlc]
+                except IndexError:
+                    dlc = 0
+                    continue
+                bugün = datetime.datetime.now()
+                raw_vakit = str(bugün.day).zfill(2) + "/" + str(bugün.month).zfill(2) + "/" + str(bugün.year) + " " + str(raw_vakit) + ":00"
+                tvakit = datetime.timedelta(hours = 3)
+                vakit = datetime.datetime.strptime(raw_vakit, '%d/%m/%Y %H:%M:%S') - tvakit
+                kontrol = vakit - datetime.datetime.utcnow()
+                if not kontrol.days < 0:
+                    break
+                dlc += 1
+                trysch += 1
+            collection.update_one({"_id": user}, {"$set": {"time": dlc}})
+            zaman_menu += f"\n\nBir sonraki postunuz günün <code>{dlc}</code>. postu olacak."
         bot.send_message(chat, zaman_menu, reply_markup=zamanmenumark(user))
         return
 
@@ -1345,9 +1365,15 @@ def postzaman(update, context):
     chat = update.message.chat.id
     user = update.message.from_user.id
     post_zaman_text = update.message.text
+    if post_zaman_text == None:
+        bot.send_message(chat, "Gönderdiğiniz saatlerden biri veya birden fazlası yanlış.\n\nÖrnek;\n00:00\n01:00\n02:00\n03:00\n...", reply_markup=imark()) 
+        return    
+    if update.message.text == "❌ İptal":
+        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
+        return ConversationHandler.END
     for px in post_zaman_text.split("\n"):
         if not len(px) == 5 or px.find(":") == -1:
-            bot.send_message(chat, "Gönderdiğiniz saatlerden biri veya birden fazlası yanlış.\n\nÖrnek;\n00:00\n01:00\n02:00\n03:00\n...") 
+            bot.send_message(chat, "Gönderdiğiniz saatlerden biri veya birden fazlası yanlış.\n\nÖrnek;\n00:00\n01:00\n02:00\n03:00\n...", reply_markup=imark()) 
             return
     collection.update_one({"_id": user}, {"$set": {"vakit": post_zaman_text.split("\n")}})
     bot.send_message(chat, "Post Saatleriniz Değiştirildi!", reply_markup=markupp())
@@ -2045,7 +2071,7 @@ def gunluk(context):
 
 def resetleme(context):
     for rest in collection.find({}):
-        collection.update_one({"_id": ['_id']}, {"$set": {"vakit": 0}})
+        collection.update_one({"_id": rest['_id']}, {"$set": {"vakit": 0}})
 
 def eklentiiletisim(update, context):
     ileti = update.message.text
