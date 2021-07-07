@@ -38,7 +38,7 @@ async def islem(event):
 			trysch = 0
 			user_dat = collection.find_one({"_id": int(user)})
 			while trysch <= len(user_dat['vakit']):
-				if dlc <= len(user_dat['vakit']):
+				if dlc >= len(user_dat['vakit']):
 					dlc = 0
 				raw_vakit = user_dat['vakit'][dlc]
 				bugün = datetime.datetime.now()
