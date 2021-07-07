@@ -1666,7 +1666,7 @@ def poster(update, context):
             postdata.insert_one({"chat": botlog, "pid": lmsg.message_id, "mesih": mesjid})
         logger.warning("{} kaynağının postu paylaşılıyor...".format(kynk.title))
         """  Açıklama tespit  """
-        ason = mesaj.rfind("\n")
+        ason = mesaj.find("\n")
         aciklama = mesaj[:ason].strip()
         """ Dosya tespit """
         medya = update.channel_post.photo[0].file_id if update.channel_post.photo else update.channel_post.effective_attachment.file_id
@@ -1850,7 +1850,7 @@ def poster(update, context):
             return
         logger.warning("[ÖZEL] {} postu atılıyor... ".format(okynk.title))
         """  Açıklama tespit  """
-        oason = omesaj.rfind("\n", 0, osol)
+        oason = omesaj.find("\n")
         oaciklama = omesaj[:oason].strip()
         """ Dosya tespit """
         omedya = update.channel_post.photo[0].file_id if update.channel_post.photo else update.channel_post.effective_attachment.file_id
