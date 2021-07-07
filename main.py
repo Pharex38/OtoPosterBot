@@ -1270,7 +1270,7 @@ def kayitapi(update, context):
         return 
     if mesaj == "⏱ Post Zamanları":
         if not user == sahip:
-            bot.send_message(chat, "Yapım aşamasında.")
+            bot.send_message(chat, "Test ediliyor.")
             return
         for kca in ka['kanal']:
             if not eklenti in [r.user.id for r in bot.get_chat_administrators(kca)]:
@@ -1304,7 +1304,6 @@ def kayitapi(update, context):
                     break
                 dlc += 1
                 trysch += 1
-            collection.update_one({"_id": user}, {"$set": {"time": dlc}})
             zaman_menu += f"\n\nBir sonraki postunuz günün <code>{dlc}</code>. postu olacak."
         bot.send_message(chat, zaman_menu, reply_markup=zamanmenumark(user))
         return
@@ -1667,7 +1666,7 @@ def poster(update, context):
             postdata.insert_one({"chat": botlog, "pid": lmsg.message_id, "mesih": mesjid})
         logger.warning("{} kaynağının postu paylaşılıyor...".format(kynk.title))
         """  Açıklama tespit  """
-        ason = mesaj.rfind("\n", 0, sol)
+        ason = mesaj.rfind("\n")
         aciklama = mesaj[:ason].strip()
         """ Dosya tespit """
         medya = update.channel_post.photo[0].file_id if update.channel_post.photo else update.channel_post.effective_attachment.file_id
