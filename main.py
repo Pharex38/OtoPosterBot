@@ -6,7 +6,6 @@ from pymongo import MongoClient
 import time, datetime
 import threading, pytz, os, asyncio, logging
 from ssl import CERT_NONE
-from typing import Dict, TypedDict, List, Literal, cast
 import Colorer
 from random import choice
 from telegram import *
