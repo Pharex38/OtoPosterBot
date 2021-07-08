@@ -1128,7 +1128,7 @@ def menu(update, context):
         kayitli = 0
         site = bina['site']
         site = site_isim(site)
-        bot.send_message(chat, "Biliyor muydunuz: "+choice(tips))
+        bot.send_message(chat, "<b>Biliyor muydunuz? -></b> "+"<i>"+choice(tips)+"</i>")
         if bina['altsite'] == "None":
             menu_mesaj = "<i>♦️Kayıtlı API: {}\nSite: {}</i>".format(tokenn, site)
         else:
