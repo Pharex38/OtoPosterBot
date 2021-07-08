@@ -763,7 +763,7 @@ def callback_query(call, context):
                         bot.send_message(chat, f"{bot.get_chat(kan).title} Bu kanalda yetkili olmadığınız için post gönderilemedi ve kanal silindi.", reply_markup=dugme(user))
                         bot.delete_message(user, mesajid)
                         collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
-                        continue ConversationHandler.END
+                        continue 
                     SEND_MEDIA_TYPES[ptip](kan, fid, caption=psablon)
                 bot.edit_message_text("✅<b>Postunuz Tüm Kanallarınıza Gönderildi!</b>", user, mesajid)
                 context.user_data.clear()
@@ -2159,7 +2159,7 @@ def main() -> None:
     upjob.run_repeating(jobyedekleme, interval=300, first=10, name="yedekleme")
     upjob.run_daily(resetleme, time=datetime.datetime.strptime("21-06-30 23:58:00", '%y-%m-%d %H:%M:%S').time(), name="gunluk")
     upjob.run_daily(gunluk, time=datetime.datetime.strptime("21-06-30 21:55:00", '%y-%m-%d %H:%M:%S').time(), name="resetleme")
-    upjob.run_repeating(ozel_poster_job, interval=15, first=15, name="ozelposter")
+    upjob.run_repeating(ozel_poster_job, interval=30, first=15, name="ozelposter")
     upjob.run_repeating(poster_job, interval=30, first=30, name="anaposter")
 
     conv_handler = ConversationHandler(
