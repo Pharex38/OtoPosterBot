@@ -1288,7 +1288,7 @@ def kayitapi(update, context):
             trysch = 0
             dlc = ka['time']
             while trysch <= len(ka['vakit']):
-                if dlc >= len(ka['vakit']):
+                if dlc > len(ka['vakit']):
                     dlc = 0
                 try:
                     raw_vakit = ka['vakit'][dlc]
