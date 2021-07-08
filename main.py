@@ -1658,7 +1658,7 @@ def poster_job(context):
     if len(postsirasi) < 1:
         return
     postlayankanal = len(postsirasi)
-    logger.warning(f"{postlayankanal} Post tespit edildi")
+    logger.debug(f"{postlayankanal} Post tespit edildi")
     vipler = collection.find_one({"_id": 0})['vipuye']
     headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0",
@@ -1859,7 +1859,7 @@ def poster_job(context):
             bot.edit_message_text(basari, botlog, lmsg.message_id)
         except Exception as e:
             logger.error(e)
-    logger.warning(f"{postlayankanal} Kaynak Postu Dağıtıldı")
+    logger.debug(f"{postlayankanal} Kaynak Postu Dağıtıldı")
     postsirasi = []
 
 def ozel_poster_job(context):
@@ -1867,7 +1867,7 @@ def ozel_poster_job(context):
     if len(opostsirasi) < 1:
         return
     opostlayankanal = len(opostsirasi)
-    logger.warning(f"{opostlayankanal} Özel kaynak postu tespit edildi.")
+    logger.debug(f"{opostlayankanal} Özel kaynak postu tespit edildi.")
     vipler = collection.find_one({"_id": 0})['vipuye']
     headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0",
@@ -2046,7 +2046,7 @@ def ozel_poster_job(context):
         if okaynak["log"] != "yok":
             bot.send_message(okaynak["log"], obasari)
         logger.warning(obasari)
-    logger.warning(f"{opostlayankanal} Kaynak Postu Dağıtıldı")
+    logger.debug(f"{opostlayankanal} Kaynak Postu Dağıtıldı")
     opostsirasi = []
 
 def poster(update, context):
