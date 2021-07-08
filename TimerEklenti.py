@@ -32,12 +32,17 @@ async def islem(event):
 	if event.raw_text.startswith("-"):
 		async with event.client.conversation(event.chat_id) as conv:
 			raws = event.raw_text.split("+")
-			kan = await event.client.get_entity(int(raws[0]))
+			try:
+				kan = await event.client.get_entity(int(raws[0]))
+			except:
+				collection.update_one({"_id": user}, {"$set": {"vakit": 0}})
+				await app.send_message(opb, str(user)+"+"+str("Eklentiyi kanaldan çıkardığınız Post Zamanalama özelliği devre dışı bırakıldı."))
+				return
 			user = raws[2]
 			dlc = int(raws[1])
 			trysch = 0
 			user_dat = collection.find_one({"_id": int(user)})
-			while trysch <= len(user_dat['vakit']):
+			while trysch < len(user_dat['vakit']):
 				if dlc >= len(user_dat['vakit']):
 					dlc = 0
 				raw_vakit = user_dat['vakit'][dlc]
@@ -50,7 +55,6 @@ async def islem(event):
 					break
 				dlc += 1
 				trysch += 1
-			collection.update_one({"_id": user}, {"$set": {"time": dlc+1}})
 			post = await conv.wait_event(events.NewMessage(incoming=True, from_users=opb))
 
 			try:
@@ -58,6 +62,8 @@ async def islem(event):
 			except:
 				collection.update_one({"_id": user}, {"$set": {"vakit": 0}})
 				await app.send_message(opb, str(user)+"+"+str("Eklentiyi kanaldan çıkardığınız Post Zamanalama özelliği devre dışı bırakıldı."))
+			else:
+				collection.update_one({"_id": user}, {"$set": {"time": dlc+1}})
 			histor = await app(GetScheduledHistoryRequest(kan, hash=0))
 			#print(histor)
 	else:
