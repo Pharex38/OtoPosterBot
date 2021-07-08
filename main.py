@@ -1915,7 +1915,7 @@ def ozel_poster_job(context):
             opcount = ohesap['pcount']
             ovakitler = ohesap['vakit']
             odailycount = ohesap['time']
-            collection.oupdate_one({"_id": ouser}, {"$inc": {"time": 1}})
+            collection.update_one({"_id": ouser}, {"$inc": {"time": 1}})
             if not "31" in ohesap['kaynak'] and len(okanal) > 0:
                 oalink = " "
                 olink = " "
@@ -1923,16 +1923,16 @@ def ozel_poster_job(context):
                 if osira == "2":
                     otoken = oaltapi
                     osite = oaltsite
-                    collection.oupdate_one({"_id": ouser}, {"$set": {"sira": "3"}})
+                    collection.update_one({"_id": ouser}, {"$set": {"sira": "3"}})
                 if osira == "3":
-                    collection.oupdate_one({"_id": ouser}, {"$set": {"sira": "2"}})
+                    collection.update_one({"_id": ouser}, {"$set": {"sira": "2"}})
                 if opcount < 19:
-                    collection.oupdate_one({"_id": ouser}, {"$inc": {"pcount": 1}})
+                    collection.update_one({"_id": ouser}, {"$inc": {"pcount": 1}})
                 else:
                     if para and ouser not in vipler and len(okaynak) > 5:
                         otoken = phaapi(osite)
                         oaltapi = phaapi(oaltsite) if oaltsite != "None" else "None"
-                    collection.oupdate_one({"_id": ouser}, {"$set": {"pcount": 0}})
+                    collection.update_one({"_id": ouser}, {"$set": {"pcount": 0}})
                 try:
                     if not oaltapi == "None":
                         while olinktry < 10 and oalink == " ":
@@ -2007,7 +2007,7 @@ def ozel_poster_job(context):
                         try:
                             logger.debug(f"Hatalı kanal: {okan}")
                             bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {ouser}\nÜYE: {omembersayi}\nKANAL: {okan}")
-                            collection.oupdate_one({"_id": ouser}, {"$pull": {"kanal": okan}})
+                            collection.update_one({"_id": ouser}, {"$pull": {"kanal": okan}})
                             continue
                         except:
                             pass
@@ -2031,7 +2031,7 @@ def ozel_poster_job(context):
                             try:
                                 logger.debug(f"Hatalı kanal: {okan}")
                                 bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {ouser}\nÜYE: {bot.get_chat_members_count(okan)}\nKANAL: {okan}")
-                                collection.oupdate_one({"_id": ouser}, {"$pull": {"kanal": okan}})
+                                collection.update_one({"_id": ouser}, {"$pull": {"kanal": okan}})
                                 bot.send_message(ouser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
                             except Exception as e: 
                                 logger.error(e)
