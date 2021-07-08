@@ -8,6 +8,7 @@ import threading, pytz, os, asyncio, logging
 from ssl import CERT_NONE
 from typing import Dict, TypedDict, List, Literal, cast
 import Colorer
+from random import choice
 from telegram import *
 from telegram.error import *
 from telegram.ext import *
@@ -43,6 +44,15 @@ fixer = 1687646994
 adminlist = [sahip, fixer]
 postsirasi = []
 opostsirasi = []
+tips = [
+    "En fazla 5 kanal ekleyebilirsiniz.",
+    "Kendinize özel kaynak oluşturabilirsiniz.",
+    "20 linkte 1 olayı Elle Post Paylaş butonu için geçerli değildir.",
+    "Oluşturduğunuz özel kaynağı siz de isterseniz başkaları da kullanabilir.",
+    "Şablon kısmında Markdown(kalın, italik vs.) kullanabilirsiniz.",
+    "Kanallarınıza farklı farklı kaynaklardan post atılmasını istiyorsanız başka bir Telegram hesabınızdan diğer kanalınızı kaydedip farklı kanal seçebilirsiniz.",
+    "Elle Post Paylaşırken post zamanlayabilirsiniz.",
+    ]
 
 def send_typing_action(func):
 
@@ -748,10 +758,22 @@ def callback_query(call, context):
         if context.user_data['zaman'] == "yok":
             if o == -1:
                 for kan in kanal:
+                    pyetkililer = [pxy.user.id for pxy in bot.get_chat_administrators(kan)]
+                    if not user in pyetkililer:
+                        bot.send_message(chat, f"{bot.get_chat(kan).title} Bu kanalda yetkili olmadığınız için post gönderilemedi ve kanal silindi.", reply_markup=dugme(user))
+                        bot.delete_message(user, mesajid)
+                        collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
+                        continue ConversationHandler.END
                     SEND_MEDIA_TYPES[ptip](kan, fid, caption=psablon)
                 bot.edit_message_text("✅<b>Postunuz Tüm Kanallarınıza Gönderildi!</b>", user, mesajid)
                 context.user_data.clear()
                 return ConversationHandler.END
+            pyetkililer = [pxy.user.id for pxy in bot.get_chat_administrators(kanal[o])]
+            if not user in pyetkililer:
+                bot.send_message(chat, f"{bot.get_chat(kanal[o]).title} Bu kanalda yetkili olmadığınız için post gönderilemedi ve kanal silindi.", reply_markup=dugme(user))
+                bot.delete_message(user, mesajid)
+                collection.update_one({"_id": user}, {"$pull": {"kanal": kanal[o]}})
+                continue ConversationHandler.END
             SEND_MEDIA_TYPES[ptip](kanal[o], fid, caption=psablon)
             bot.edit_message_text("✅<b>Postunuz Kanalınıza Gönderildi!</b>", user, mesajid)
             context.user_data.clear()
@@ -761,12 +783,25 @@ def callback_query(call, context):
             msg_dict = []
             if o == -1:
                 for kan in kanal:
+                    pyetkililer = [pxy.user.id for pxy in bot.get_chat_administrators(kan)]
+                    if not user in pyetkililer:
+                        bot.send_message(chat, f"{bot.get_chat(kan).title} Bu kanalda yetkili olmadığınız için post gönderilemedi ve kanal silindi.", reply_markup=dugme(user))
+                        bot.delete_message(user, mesajid)
+                        collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
+                        continue ConversationHandler.END
                     msg_dict.append({"pkan": kan, "psablon": psablon, "ptip": ptip, "fid": fid, "user": user})
                 bot.delete_message(user, mesajid)
                 bot.send_message(user, "⏱ Postunuz zamanlandı.", reply_markup=dugme(user))
                 context.job_queue.run_once(callback=zamanjob, when=zamani, context=msg_dict, name=str(user))
                 return ConversationHandler.END
 
+            pyetkililer = [pxy.user.id for pxy in bot.get_chat_administrators(kanal[o])]
+            if not user in pyetkililer:
+                bot.send_message(chat, f"{bot.get_chat(kanal[o]).title} Bu kanalda yetkili olmadığınız için post gönderilemedi ve kanal silindi.", reply_markup=dugme(user))
+                collection.update_one({"_id": user}, {"$pull": {"kanal": kanal[o]}})
+                bot.delete_message(user, mesajid)
+                context.user_data.clear()
+                return ConversationHandler.END
             msg_dict.append({"pkan": kanal[o], "psablon": psablon, "ptip": ptip, "fid": fid, "user": user})
             bot.delete_message(user, mesajid)
             bot.send_message(user, "⏱ Postunuz zamanlandı.", reply_markup=dugme(user))
@@ -1093,6 +1128,7 @@ def menu(update, context):
         kayitli = 0
         site = bina['site']
         site = site_isim(site)
+        bot.send_message(chat, choice(tips))
         if bina['altsite'] == "None":
             menu_mesaj = "<i>♦️Kayıtlı API: {}\nSite: {}</i>".format(tokenn, site)
         else:
@@ -1104,7 +1140,7 @@ def menu(update, context):
                 kbilgi = bot.get_chat(chan)
             except Exception as e:
                 logger.error(e)
-                collection.update_one({"_id": chat}, {"$pull": {"kanal": chan}})
+                collection.update_one({"_id": user}, {"$pull": {"kanal": chan}})
                 logger.debug("Kanal silindi")
             else:    
                 kanal_mesaj = """\n\n     <a href="{}">{}</a>""".format(kbilgi.invite_link, kbilgi.title)
@@ -1477,6 +1513,9 @@ def patzamansaat(update, context):
     context.user_data['zaman'] = zamanii
     satkat = collection.find_one({"_id": user})
     if len(satkat['kanal']) < 2:
+        pyetkililer = [pxy.user.id for pxy in bot.get_chat_administrators(satkat['kanal'][0])]
+        if not user in pyetkililer:
+            bot.send_message(chat, "Bu kanalda yetkili değilsiniz!")
         msg_dict = {"pkan": satkat['kanal'][0], "psablon": context.user_data['psablon'], "ptip": context.user_data['ptip'], "fid": context.user_data['fid'], "user": user}
         context.job_queue.run_once(callback=zamanjob, when=zamanii, context=[msg_dict], name=str(user))
         bot.send_message(chat, "⏱ Postunuz zamanlandı", reply_markup=dugme(user))
