@@ -1973,7 +1973,10 @@ def ozel_poster_job(context):
                         else:
                             logger.debug(f"{okan} kayıtlardan silindi.")
                     if ovakitler != 0:
-                        bot.send_message(eklenti, str(okan) + "+" + str(odailycount) + "+" + str(ouser))
+                        if odailycount == len(ovakitler):
+                            collection.update_one({"_id": ouser}, {"$set": {"time": -1}})
+                        if odailycount != -1:
+                            bot.send_message(eklenti, str(okan) + "+" + str(odailycount) + "+" + str(ouser))
                         okan = eklenti
                     try:
                         if oupdate.channel_post.photo:
