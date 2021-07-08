@@ -1304,6 +1304,8 @@ def kayitapi(update, context):
                     break
                 dlc += 1
                 trysch += 1
+                if la['time'] < 3:
+                    collection.update_one({"_id": user}, {"$set": {"time": dlc}})
             zaman_menu += f"\n\nBir sonraki postunuz günün <code>{dlc}</code>. postu olacak."
         bot.send_message(chat, zaman_menu, reply_markup=zamanmenumark(user))
         return
@@ -1449,23 +1451,15 @@ def kanalkayit(update, context):
         msg = bot.send_message(chat, "Botu kanalınızda yönetici eklememişsiniz.")
         
         return KANALKAYDET
-    for y in yetkiler:
-        if y.user.id == user:
-            collection.update_one({"_id": user}, {"$push":{"kanal": str(kanal)}})
-            update.message.reply_text("<b>🟢Kanalınız Kaydedildi.</b>", reply_markup=dugme(user))
-            bot.send_message(blog, f"#YENİ_KANAL\nID: {kanal}\nÜYE: {bot.get_chat_members_count(kanal)}\nSAHİP: {user}")
-            return ConversationHandler.END
-            break
-    msz = bot.send_message(chat, "Bu kanal sizin değil 😠")
-    return KANALKAYDET
+    ytliler = [y.user.id for y in yetkiler]
+    if not user in ytliler:
+        bot.send_message(chat, "Bu kanal sizin değil 😠")
+        return
+    collection.update_one({"_id": user}, {"$push":{"kanal": str(kanal)}})
+    update.message.reply_text("<b>🟢Kanalınız Kaydedildi.</b>", reply_markup=dugme(user))
+    bot.send_message(blog, f"#YENİ_KANAL\nID: {kanal}\nÜYE: {bot.get_chat_members_count(kanal)}\nSAHİP: {user}")
+    return ConversationHandler.END
 
-MEDIA_GROUP_TYPES = {"audio": InputMediaAudio, "document": InputMediaDocument, "photo": InputMediaPhoto, "video": InputMediaVideo}
-
-class MsgDict(TypedDict):
-    media_type: Literal["video", "photo"]
-    media_id: str
-    caption: str
-    chat_id: int
 
 def patzamansaat(update, context):
     verilen_saat = update.message.text
@@ -2069,8 +2063,14 @@ def gunluk(context):
     bot.pin_chat_message(botlog, msg.message_id)
 
 def resetleme(context):
-    for rest in collection.find({}):
-        collection.update_one({"_id": rest['_id']}, {"$set": {"vakit": 0}})
+    try:
+        for rest in collection.find({}):
+            collection.update_one({"_id": rest['_id']}, {"$set": {"vakit": 0}})
+    except Exception as e:
+        bot.send_message(sahip, str(e))
+    else:
+        bot.send_message(sahip, "Time Sıfırlandı")
+
 
 def eklentiiletisim(update, context):
     ileti = update.message.text
