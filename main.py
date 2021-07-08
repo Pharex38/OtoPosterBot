@@ -178,7 +178,7 @@ def setup_logger():
     global logger
     zaman = datetime.datetime.now()
     logd = "{}.{}.{} - {}.{}".format(zaman.year, zaman.month, zaman.day, zaman.hour, zaman.minute)
-    logging.basicConfig(format="%(asctime)s - %(levelname)s - %(message)s", handlers=[logging.FileHandler(f'Loglar/{logd}.txt', 'w', 'utf-8'), logging.StreamHandler()], level=logging.WARNING)
+    logging.basicConfig(format="%(asctime)s - %(levelname)s - %(message)s", handlers=[logging.FileHandler(f'Loglar/{logd}.txt', 'w', 'utf-8'), logging.StreamHandler()], level=logging.INFO)
     logger = logging.getLogger("OtoPosterBot")
 
 
@@ -1141,7 +1141,7 @@ def menu(update, context):
             except Exception as e:
                 logger.error(e)
                 collection.update_one({"_id": user}, {"$pull": {"kanal": chan}})
-                logger.debug("Kanal silindi")
+                logger.warning("Kanal silindi")
             else:    
                 kanal_mesaj = """\n\n     <a href="{}">{}</a>""".format(kbilgi.invite_link, kbilgi.title)
                 menu_mesaj += kanal_mesaj
@@ -1658,7 +1658,7 @@ def poster_job(context):
     if len(postsirasi) < 1:
         return
     postlayankanal = len(postsirasi)
-    logger.debug(f"{postlayankanal} Post tespit edildi")
+    logger.warning(f"{postlayankanal} Post tespit edildi")
     vipler = collection.find_one({"_id": 0})['vipuye']
     headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0",
@@ -1786,7 +1786,7 @@ def poster_job(context):
                 except Exception as e:
                     bot.send_message(user, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
                     logger.error(e)
-                    logger.debug(json)
+                    logger.warning(json)
                     continue
                 if sablon == "1":
                     sablon = f"🔥{aciklama}\n\n🔱 TIKLA 👉 {link}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
@@ -1814,14 +1814,14 @@ def poster_job(context):
                         except:
                             membersayi = "Bot kanaldan çıkarılmış."
                         try:
-                            logger.debug(f"Hatalı kanal: {kanal}")
+                            logger.warning(f"Hatalı kanal: {kanal}")
                             bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {user}\nÜYE: {membersayi}\nKANAL: {kan}")
                             collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
                             continue
                         except:
                             pass
                         else:
-                            logger.debug(f"{kanal} kayıtlardan silindi.")
+                            logger.warning(f"{kanal} kayıtlardan silindi.")
                     if vakitler != 0:
                         bot.send_message(eklenti, str(kan) + "+" + str(dailycount) + "+" + str(user))
                         sleep(0.1)
@@ -1836,14 +1836,14 @@ def poster_job(context):
                     except Exception as e:
                         if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
                             try:
-                                logger.debug(f"Hatalı kanal: {kan}")
+                                logger.warning(f"Hatalı kanal: {kan}")
                                 bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {user}\nÜYE: {bot.get_chat_members_count(kan)}\nKANAL: {kan}")
                                 collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
                                 bot.send_message(user, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
                             except:
                                 pass   
                             else:
-                                logger.debug(f"{kan} kayıtlardan silindi.")
+                                logger.warning(f"{kan} kayıtlardan silindi.")
                         else:
                             logger.error(e)
                     else:
@@ -1859,7 +1859,7 @@ def poster_job(context):
             bot.edit_message_text(basari, botlog, lmsg.message_id)
         except Exception as e:
             logger.error(e)
-    logger.debug(f"{postlayankanal} Kaynak Postu Dağıtıldı")
+    logger.warning(f"{postlayankanal} Kaynak Postu Dağıtıldı")
     postsirasi = []
 
 def ozel_poster_job(context):
@@ -1867,7 +1867,7 @@ def ozel_poster_job(context):
     if len(opostsirasi) < 1:
         return
     opostlayankanal = len(opostsirasi)
-    logger.debug(f"{opostlayankanal} Özel kaynak postu tespit edildi.")
+    logger.warning(f"{opostlayankanal} Özel kaynak postu tespit edildi.")
     vipler = collection.find_one({"_id": 0})['vipuye']
     headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0",
@@ -2005,14 +2005,14 @@ def ozel_poster_job(context):
                         except:
                             omembersayi = "Bot kanaldan çıkarılmış."
                         try:
-                            logger.debug(f"Hatalı kanal: {okan}")
+                            logger.warning(f"Hatalı kanal: {okan}")
                             bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {ouser}\nÜYE: {omembersayi}\nKANAL: {okan}")
                             collection.update_one({"_id": ouser}, {"$pull": {"kanal": okan}})
                             continue
                         except:
                             pass
                         else:
-                            logger.debug(f"{okan} kayıtlardan silindi.")
+                            logger.warning(f"{okan} kayıtlardan silindi.")
                     if ovakitler != 0:
                         if odailycount == len(ovakitler):
                             collection.update_one({"_id": ouser}, {"$set": {"time": -1}})
@@ -2029,14 +2029,14 @@ def ozel_poster_job(context):
                     except Exception as e:
                         if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
                             try:
-                                logger.debug(f"Hatalı kanal: {okan}")
+                                logger.warning(f"Hatalı kanal: {okan}")
                                 bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {ouser}\nÜYE: {bot.get_chat_members_count(okan)}\nKANAL: {okan}")
                                 collection.update_one({"_id": ouser}, {"$pull": {"kanal": okan}})
                                 bot.send_message(ouser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
                             except Exception as e: 
                                 logger.error(e)
                             else:
-                                logger.debug(f"{okan} kayıtlardan silindi.")
+                                logger.warning(f"{okan} kayıtlardan silindi.")
                         else:
                             logger.error(e)
                     else:
@@ -2046,7 +2046,7 @@ def ozel_poster_job(context):
         if okaynak["log"] != "yok":
             bot.send_message(okaynak["log"], obasari)
         logger.warning(obasari)
-    logger.debug(f"{opostlayankanal} Kaynak Postu Dağıtıldı")
+    logger.warning(f"{opostlayankanal} Kaynak Postu Dağıtıldı")
     opostsirasi = []
 
 def poster(update, context):
