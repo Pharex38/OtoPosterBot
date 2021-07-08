@@ -1515,7 +1515,9 @@ def patzamansaat(update, context):
     if len(satkat['kanal']) < 2:
         pyetkililer = [pxy.user.id for pxy in bot.get_chat_administrators(satkat['kanal'][0])]
         if not user in pyetkililer:
-            bot.send_message(chat, "Bu kanalda yetkili değilsiniz!")
+            bot.send_message(chat, f"{bot.get_chat(satkat['kanal'][0]).title} Bu kanalda yetkili olmadığınız için kanal silindi", reply_markup=dugme(user))
+            collection.update_one({"_id": user}, {"$pull": {"kanal": satkat['kanal'][0]}})
+            return ConversationHandler.END
         msg_dict = {"pkan": satkat['kanal'][0], "psablon": context.user_data['psablon'], "ptip": context.user_data['ptip'], "fid": context.user_data['fid'], "user": user}
         context.job_queue.run_once(callback=zamanjob, when=zamanii, context=[msg_dict], name=str(user))
         bot.send_message(chat, "⏱ Postunuz zamanlandı", reply_markup=dugme(user))
