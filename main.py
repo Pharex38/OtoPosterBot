@@ -46,7 +46,7 @@ postsirasi = []
 opostsirasi = []
 tips = [
     "En fazla 5 kanal ekleyebilirsiniz.",
-    "Kendinize özel kaynak oluşturabilirsiniz.",
+    "Kaynak menüsünden kendinize özel kaynak oluşturabilirsiniz.",
     "20 linkte 1 olayı Elle Post Paylaş butonu için geçerli değildir.",
     "Oluşturduğunuz özel kaynağı siz de isterseniz başkaları da kullanabilir.",
     "Şablon kısmında Markdown(kalın, italik vs.) kullanabilirsiniz.",
