@@ -2017,7 +2017,7 @@ def poster(update, context):
         postsirasi.append(postdict)
     # Özel Kaynaklar
     elif OzelCol.find_one({"okaynak": chat}) != None:
-        opostdict {"chatid": chat, "update": update}
+        opostdict = {"chatid": chat, "update": update}
         opostsirasi.append(opostdict)
 
 def gunluk(context):
