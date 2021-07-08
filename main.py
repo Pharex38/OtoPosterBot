@@ -773,7 +773,7 @@ def callback_query(call, context):
                 bot.send_message(chat, f"{bot.get_chat(kanal[o]).title} Bu kanalda yetkili olmadığınız için post gönderilemedi ve kanal silindi.", reply_markup=dugme(user))
                 bot.delete_message(user, mesajid)
                 collection.update_one({"_id": user}, {"$pull": {"kanal": kanal[o]}})
-                continue 
+                return ConversationHandler.END
             SEND_MEDIA_TYPES[ptip](kanal[o], fid, caption=psablon)
             bot.edit_message_text("✅<b>Postunuz Kanalınıza Gönderildi!</b>", user, mesajid)
             context.user_data.clear()
