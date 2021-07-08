@@ -41,6 +41,8 @@ botlog = -1001352123979
 sahip = 1302980840
 fixer = 1687646994
 adminlist = [sahip, fixer]
+postsirasi = []
+opostsirasi = []
 
 def send_typing_action(func):
 
@@ -166,12 +168,8 @@ def setup_logger():
     global logger
     zaman = datetime.datetime.now()
     logd = "{}.{}.{} - {}.{}".format(zaman.year, zaman.month, zaman.day, zaman.hour, zaman.minute)
-    file_handler = logging.FileHandler(f'Loglar/{logd}.txt', 'w', 'utf-8')
-    stream_handler = logging.StreamHandler()
-    logger = logging.getLogger("main_log")
-    logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=logging.INFO)
-    logger.addHandler(file_handler)
-    #logger.addHandler(stream_handler)
+    logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", handlers=[logging.FileHandler(f'Loglar/{logd}.txt', 'w', 'utf-8'), logging.StreamHandler()], level=logging.INFO)
+    logger = logging.getLogger("OtoPosterBot")
 
 
 ############## Komutlar #####################
@@ -279,7 +277,7 @@ def joblist(update, context):
      jobs = context.job_queue.jobs()
      context.job_queue.run_once(jobyedekleme, when=1, name="yedekleme")
      for jok in jobs:
-        if str(jok.name) != "yedekleme" or str(jok.name) != "gunluk" or str(jok.name) != "resetleme":
+        if str(jok.name) != "yedekleme" or str(jok.name) != "gunluk" or str(jok.name) != "resetleme" or str(jok.name) != "ozelposter" or str(jok.name) != "anaposter":
             bot.send_message(update.message.chat.id, str(jok.context)+"\n\n\n"+str(jok.name)+"\n\n\n"+str(jok.job))
 
 def parak(update, context):
@@ -812,7 +810,7 @@ def jobyedekleme(context):
     collection.update_one({"_id": 0}, {"$set": {"jobs": []}})
     yjcount = 0
     for kap in context.job_queue.jobs():
-        if str(kap.name) != "yedekleme" or str(kap.name) != "gunluk" or str(kap.name) != "resetleme":
+        if str(kap.name) != "yedekleme" or str(kap.name) != "gunluk" or str(kap.name) != "resetleme" or str(kap.name) != "ozelposter" or str(kap.name) != "anaposter":
             jobstr = str(kap.job)
             jnam = jobstr.find("date[")
             jname = jobstr[jnam+7:jnam+24]
@@ -1614,21 +1612,21 @@ def pat(update, context):
     bot.send_message(chat, "Zamanlamak ister misiniz?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Şimdi Gönder", callback_data="simdi")], [InlineKeyboardButton("Zamanla", callback_data="pzamanla")]]))
     return ConversationHandler.END
    
-postsirasi = []
-
-
-def poster(update, context):
-    global postsirasi, app
-    okaynak = None
-    chat = update.channel_post.chat.id
+def poster_job(context):
+    global postsirasi
+    if len(postsirasi) < 1:
+        return
+    postlayankanal = len(postsirasi)
+    logger.warning(f"{postlayankanal} Post tespit edildi")
     vipler = collection.find_one({"_id": 0})['vipuye']
     headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0",
     "Accept-Encoding": "*",
     "Connection": "keep-alive"}
-    # Ana Kaynaklar
-    chatdat = KaynakCol.find_one({"_id": chat})
-    if chatdat != None:
+    for poste in postsirasi:
+        chat = poste['chatid']
+        update = poste['update']
+        chatdat = KaynakCol.find_one({"_id": chat})
         count = 0
         mesaj = update.channel_post.caption
         if mesaj == None:
@@ -1636,9 +1634,7 @@ def poster(update, context):
         """  Link tespit  """
         solx = mesaj.rfind("http")
         sol = mesaj.find("http")
-        if sol == -1:
-            return
-        if sol != solx:
+        if sol == -1 or sol != solx:
             return
         sag = mesaj.find("\n", sol)
         kynk = bot.get_chat(chat)
@@ -1822,12 +1818,26 @@ def poster(update, context):
             bot.edit_message_text(basari, botlog, lmsg.message_id)
         except Exception as e:
             logger.error(e)
-    # Özel Kaynaklar
-    else:
-        okaynak = OzelCol.find_one({"okaynak": chat})
-    if okaynak != None:
+    logger.warning(f"{postlayankanal} Kaynak Postu Dağıtıldı")
+    postsirasi = []
+
+def ozel_poster_job(context):
+    global opostsirasi
+    if len(opostsirasi) < 1:
+        return
+    opostlayankanal = len(opostsirasi)
+    logger.warning(f"{opostlayankanal} Özel kaynak postu tespit edildi.")
+    vipler = collection.find_one({"_id": 0})['vipuye']
+    headers = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0",
+    "Accept-Encoding": "*",
+    "Connection": "keep-alive"}
+    for oposte in opostsirasi:
+        chat = oposte['chatid']
+        oupdate = oposte['update']
+        okaynak OzelCol.find_one({"okaynak": chat})
         ocount = 0
-        omesaj = update.channel_post.caption
+        omesaj = oupdate.channel_post.caption
         if omesaj == None:
             return
         """  Link tespit  """
@@ -1847,7 +1857,7 @@ def poster(update, context):
         oason = omesaj.find("\n")
         oaciklama = omesaj[:oason].strip()
         """ Dosya tespit """
-        omedya = update.channel_post.photo[0].file_id if update.channel_post.photo else update.channel_post.effective_attachment.file_id
+        omedya = oupdate.channel_post.photo[0].file_id if oupdate.channel_post.photo else oupdate.channel_post.effective_attachment.file_id
         for ozelkanal in okaynak['kanal']:
             ohesap = collection.find_one({"_id": ozelkanal})
             try:    
@@ -1864,7 +1874,7 @@ def poster(update, context):
             opcount = ohesap['pcount']
             ovakitler = ohesap['vakit']
             odailycount = ohesap['time']
-            collection.update_one({"_id": ouser}, {"$inc": {"time": 1}})
+            collection.oupdate_one({"_id": ouser}, {"$inc": {"time": 1}})
             if not "31" in ohesap['kaynak'] and len(okanal) > 0:
                 oalink = " "
                 olink = " "
@@ -1872,16 +1882,16 @@ def poster(update, context):
                 if osira == "2":
                     otoken = oaltapi
                     osite = oaltsite
-                    collection.update_one({"_id": ouser}, {"$set": {"sira": "3"}})
+                    collection.oupdate_one({"_id": ouser}, {"$set": {"sira": "3"}})
                 if osira == "3":
-                    collection.update_one({"_id": ouser}, {"$set": {"sira": "2"}})
+                    collection.oupdate_one({"_id": ouser}, {"$set": {"sira": "2"}})
                 if opcount < 19:
-                    collection.update_one({"_id": ouser}, {"$inc": {"pcount": 1}})
+                    collection.oupdate_one({"_id": ouser}, {"$inc": {"pcount": 1}})
                 else:
                     if para and ouser not in vipler and len(okaynak) > 5:
                         otoken = phaapi(osite)
                         oaltapi = phaapi(oaltsite) if oaltsite != "None" else "None"
-                    collection.update_one({"_id": ouser}, {"$set": {"pcount": 0}})
+                    collection.oupdate_one({"_id": ouser}, {"$set": {"pcount": 0}})
                 try:
                     if not oaltapi == "None":
                         while olinktry < 10 and oalink == " ":
@@ -1956,7 +1966,7 @@ def poster(update, context):
                         try:
                             logger.debug(f"Hatalı kanal: {okan}")
                             bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {ouser}\nÜYE: {omembersayi}\nKANAL: {okan}")
-                            collection.update_one({"_id": ouser}, {"$pull": {"kanal": okan}})
+                            collection.oupdate_one({"_id": ouser}, {"$pull": {"kanal": okan}})
                             continue
                         except:
                             pass
@@ -1966,18 +1976,18 @@ def poster(update, context):
                         bot.send_message(eklenti, str(okan) + "+" + str(odailycount) + "+" + str(ouser))
                         okan = eklenti
                     try:
-                        if update.channel_post.photo:
+                        if oupdate.channel_post.photo:
                             opost = bot.send_photo(okan, omedya, caption=osablon)
-                        if update.channel_post.video:
+                        if oupdate.channel_post.video:
                             opost = bot.send_video(okan, omedya, caption=osablon)
-                        if update.channel_post.animation:
+                        if oupdate.channel_post.animation:
                             opost = bot.send_animation(okan, omedya, caption=osablon)
                     except Exception as e:
                         if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
                             try:
                                 logger.debug(f"Hatalı kanal: {okan}")
                                 bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {ouser}\nÜYE: {bot.get_chat_members_count(okan)}\nKANAL: {okan}")
-                                collection.update_one({"_id": ouser}, {"$pull": {"kanal": okan}})
+                                collection.oupdate_one({"_id": ouser}, {"$pull": {"kanal": okan}})
                                 bot.send_message(ouser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
                             except Exception as e: 
                                 logger.error(e)
@@ -1992,7 +2002,20 @@ def poster(update, context):
         if okaynak["log"] != "yok":
             bot.send_message(okaynak["log"], obasari)
         logger.warning(obasari)
-        
+    logger.warning(f"{opostlayankanal} Kaynak Postu Dağıtıldı")
+    opostsirasi = []
+
+def poster(update, context):
+    global postsirasi
+    chat = update.channel_post.chat.id
+    # Ana Kaynaklar
+    if KaynakCol.find_one({"_id": chat}) != None:
+        postdict = {"chatid": chat, "update": update}
+        postsirasi.append(postdict)
+    # Özel Kaynaklar
+    elif OzelCol.find_one({"okaynak": chat}) != None:
+        opostdict {"chatid": chat, "update": update}
+        opostsirasi.append(opostdict)
 
 def gunluk(context):
     ozel_kaynak_kullanan_sayisi = 0
@@ -2071,7 +2094,6 @@ def resetleme(context):
     else:
         bot.send_message(sahip, "Time Sıfırlandı")
 
-
 def eklentiiletisim(update, context):
     ileti = update.message.text
     if ileti.split("+")[0].isdigit():
@@ -2093,7 +2115,9 @@ def main() -> None:
     upjob.run_repeating(jobyedekleme, interval=300, first=10, name="yedekleme")
     upjob.run_daily(resetleme, time=datetime.datetime.strptime("21-06-30 23:58:00", '%y-%m-%d %H:%M:%S').time(), name="gunluk")
     upjob.run_daily(gunluk, time=datetime.datetime.strptime("21-06-30 21:55:00", '%y-%m-%d %H:%M:%S').time(), name="resetleme")
-    
+    upjob.run_repeating(ozel_poster_job, interval=15, first=15, name="ozelposter")
+    upjob.run_repeating(poster_job, interval=30, first=30, name="anaposter")
+
     conv_handler = ConversationHandler(
         entry_points=[MessageHandler(Filters.update.message & ~Filters.command, menu), CommandHandler('start', start)],
         states={ 
