@@ -1835,7 +1835,7 @@ def ozel_poster_job(context):
     for oposte in opostsirasi:
         chat = oposte['chatid']
         oupdate = oposte['update']
-        okaynak OzelCol.find_one({"okaynak": chat})
+        okaynak = OzelCol.find_one({"okaynak": chat})
         ocount = 0
         omesaj = oupdate.channel_post.caption
         if omesaj == None:
