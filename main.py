@@ -1657,8 +1657,7 @@ def poster_job(context):
     global postsirasi
     if len(postsirasi) < 1:
         return
-    postlayankanal = len(postsirasi)
-    logger.warning(f"{postlayankanal} Post tespit edildi")
+    logger.warning(f"{len(postsirasi)} Post tespit edildi")
     vipler = collection.find_one({"_id": 0})['vipuye']
     headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0",
@@ -1671,19 +1670,19 @@ def poster_job(context):
         count = 0
         mesaj = update.channel_post.caption
         if mesaj == None:
-            return
+            continue
         """  Link tespit  """
         solx = mesaj.rfind("http")
         sol = mesaj.find("http")
         if sol == -1 or sol != solx:
-            return
+            continue
         sag = mesaj.find("\n", sol)
         kynk = bot.get_chat(chat)
         mesajb = mesaj[sol:sag].strip()
         if mesaj.find("\n", sol) == -1:
             mesajb = mesaj[sol:].strip()
         if mesajb.startswith("https://t.me/"):
-            return
+            continue
         """  Veri Tabanı  """
         postdata = db[str(chat)]
         binb =  chatdat['kaynak']
@@ -1859,15 +1858,15 @@ def poster_job(context):
             bot.edit_message_text(basari, botlog, lmsg.message_id)
         except Exception as e:
             logger.error(e)
-    logger.warning(f"{postlayankanal} Kaynak Postu Dağıtıldı")
+    logger.warning(f"{len(postsirasi)} Kaynak Postu Dağıtıldı")
+    postsirasi.clear()
     postsirasi = []
 
 def ozel_poster_job(context):
     global opostsirasi
     if len(opostsirasi) < 1:
         return
-    opostlayankanal = len(opostsirasi)
-    logger.warning(f"{opostlayankanal} Özel kaynak postu tespit edildi.")
+    logger.warning(f"{len(opostsirasi)} Özel kaynak postu tespit edildi.")
     vipler = collection.find_one({"_id": 0})['vipuye']
     headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0",
@@ -1880,19 +1879,19 @@ def ozel_poster_job(context):
         ocount = 0
         omesaj = oupdate.channel_post.caption
         if omesaj == None:
-            return
+            continue
         """  Link tespit  """
         osolx = omesaj.rfind("http")
         osol = omesaj.find("http")
         if osol == -1 or osol != osolx:
-            return
+            continue
         osag = omesaj.find("\n", osol)
         okynk = bot.get_chat(chat)
         omesajb = omesaj[osol:osag].strip()
         if omesaj.find("\n", osol) == -1:
             omesajb = omesaj[osol:].strip()
         if omesajb.startswith("https://t.me/"):
-            return
+            continue
         logger.warning("[ÖZEL] {} postu atılıyor... ".format(okynk.title))
         """  Açıklama tespit  """
         oason = omesaj.find("\n")
@@ -2046,7 +2045,8 @@ def ozel_poster_job(context):
         if okaynak["log"] != "yok":
             bot.send_message(okaynak["log"], obasari)
         logger.warning(obasari)
-    logger.warning(f"{opostlayankanal} Kaynak Postu Dağıtıldı")
+    logger.warning(f"{len(opostsirasi)} Kaynak Postu Dağıtıldı")
+    opostsirasi.clear()
     opostsirasi = []
 
 def poster(update, context):
