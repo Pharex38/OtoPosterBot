@@ -278,9 +278,8 @@ def stats(update, context):
 def joblist(update, context):
      jobs = context.job_queue.jobs()
      context.job_queue.run_once(jobyedekleme, when=1, name="yedekleme")
-     context.job_queue.run_once(resetleme, when=2, name="yedekleme")
      for jok in jobs:
-        if str(jok.name) != "yedekleme" or str(jok.name) != "gunluk":
+        if str(jok.name) != "yedekleme" or str(jok.name) != "gunluk" or str(jok.name) != "resetleme":
             bot.send_message(update.message.chat.id, str(jok.context)+"\n\n\n"+str(jok.name)+"\n\n\n"+str(jok.job))
 
 def parak(update, context):
@@ -300,32 +299,32 @@ def bul(update, context):
     try:
         cntt = collection.find({"_id": int(cnt)})
         for c in cntt:
-            bot.send_message(update.message.chat.id, 'ID: {}\nToken: {} \nKaynak: {} \nSite: {} \nKanal: {} \nAlt Token: {} \n Alt Site: {} \n Özel Kaynak: {}'.format(c['_id'], c['token'], c['kaynak'], c['site'], c['kanal'], c['altapi'], c['altsite'], c['ozel']))
-    except:
-        pass
+            bot.send_message(update.message.chat.id, str(c))
+    except Exception as e:
+        print(e)
     try:
         cntt = collection.find({"token": cnt})
         for c in cntt:
-            bot.send_message(update.message.chat.id, 'ID: {}\nToken: {} \nKaynak: {} \nSite: {} \nKanal: {} \nAlt Token: {} \n Alt Site: {} \n Özel Kaynak: {}'.format(c['_id'], c['token'], c['kaynak'], c['site'], c['kanal'], c['altapi'], c['altsite'], c['ozel']))
+            bot.send_message(update.message.chat.id, str(c))
     except:
         pass
     try:
         cntt = collection.find({"altapi": cnt})
         for c in cntt:
-            bot.send_message(update.message.chat.id, 'ID: {}\nToken: {} \nKaynak: {} \nSite: {} \nKanal: {} \nAlt Token: {} \n Alt Site: {} \n Özel Kaynak: {}'.format(c['_id'], c['token'], c['kaynak'], c['site'], c['kanal'], c['altapi'], c['altsite'], c['ozel']))
+            bot.send_message(update.message.chat.id, str(c))
     except:
         pass
     try:
         cntt = collection.find({})
         for c in cntt:
             if cnt in c['kanal']:
-                bot.send_message(update.message.chat.id, 'ID: {}\nToken: {} \nKaynak: {} \nSite: {} \nKanal: {} \nAlt Token: {} \n Alt Site: {} \n Özel Kaynak: {}'.format(c['_id'], c['token'], c['kaynak'], c['site'], c['kanal'], c['altapi'], c['altsite'], c['ozel']))
+                bot.send_message(update.message.chat.id, str(c))
     except:
         pass
     try:
         cntt = collection.find({"site": cnt})
         for c in cntt:
-            bot.send_message(update.message.chat.id, 'ID: {}\nToken: {} \nKaynak: {} \nSite: {} \nKanal: {} \nAlt Token: {} \n Alt Site: {} \n Özel Kaynak: {}'.format(c['_id'], c['token'], c['kaynak'], c['site'], c['kanal'], c['altapi'], c['altsite'], c['ozel']))
+            bot.send_message(update.message.chat.id, str(c))
     except:
         pass
 
@@ -813,7 +812,7 @@ def jobyedekleme(context):
     collection.update_one({"_id": 0}, {"$set": {"jobs": []}})
     yjcount = 0
     for kap in context.job_queue.jobs():
-        if str(kap.name) != "yedekleme" or str(kap.name) != "gunluk":
+        if str(kap.name) != "yedekleme" or str(kap.name) != "gunluk" or str(kap.name) != "resetleme":
             jobstr = str(kap.job)
             jnam = jobstr.find("date[")
             jname = jobstr[jnam+7:jnam+24]
@@ -1305,7 +1304,7 @@ def kayitapi(update, context):
                     break
                 dlc += 1
                 trysch += 1
-                if la['time'] < 3:
+                if ka['time'] < 3:
                     collection.update_one({"_id": user}, {"$set": {"time": dlc}})
             zaman_menu += f"\n\nBir sonraki postunuz günün <code>{dlc}</code>. postu olacak."
         bot.send_message(chat, zaman_menu, reply_markup=zamanmenumark(user))
@@ -2066,7 +2065,7 @@ def gunluk(context):
 def resetleme(context):
     try:
         for rest in collection.find({}):
-            collection.update_one({"_id": rest['_id']}, {"$set": {"vakit": 0}})
+            collection.update_one({"_id": rest['_id']}, {"$set": {"time": 0}})
     except Exception as e:
         bot.send_message(sahip, str(e))
     else:
@@ -2093,7 +2092,7 @@ def main() -> None:
     upjob = updater.job_queue
     upjob.run_repeating(jobyedekleme, interval=300, first=10, name="yedekleme")
     upjob.run_daily(resetleme, time=datetime.datetime.strptime("21-06-30 23:58:00", '%y-%m-%d %H:%M:%S').time(), name="gunluk")
-    upjob.run_daily(gunluk, time=datetime.datetime.strptime("21-06-30 21:55:00", '%y-%m-%d %H:%M:%S').time(), name="gunluk")
+    upjob.run_daily(gunluk, time=datetime.datetime.strptime("21-06-30 21:55:00", '%y-%m-%d %H:%M:%S').time(), name="resetleme")
     
     conv_handler = ConversationHandler(
         entry_points=[MessageHandler(Filters.update.message & ~Filters.command, menu), CommandHandler('start', start)],
