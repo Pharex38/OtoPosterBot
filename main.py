@@ -1890,14 +1890,14 @@ def poster_job(context):
                         except:
                             membersayi = "Bot kanaldan çıkarılmış."
                         try:
-                            logger.warning(f"Hatalı kanal: {kanal}")
+                            logger.warning(f"Hatalı kanal: {kan}")
                             bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {user}\nÜYE: {membersayi}\nKANAL: {kan}")
                             collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
                             continue
                         except:
                             pass
                         else:
-                            logger.warning(f"{kanal} kayıtlardan silindi.")
+                            logger.warning(f"{kan} kayıtlardan silindi.")
                     if vakitler != 0:
                         bot.send_message(eklenti, str(kan) + "+" + str(dailycount) + "+" + str(user))
                         sleep(0.1)
