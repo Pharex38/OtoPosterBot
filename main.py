@@ -282,10 +282,11 @@ def stats(update, context):
         for sl in kstat["kaynak"]:
             for slb in collection.find_one({"_id": sl})['kanal']:
                 try:
-                    kkitle += bot.get_chat_members_count(slb)
+                    amc = bot.get_chat_members_count(slb)
                 except RetryAfter as after:
                     sleep(after.retry_after)
                 else:
+                    kkitle += amc
                     sleep(1)
         stat_text += "{} -> {}\nKitle: {}".format(getskaynak.title, len(kstat['kaynak'], round(kkitle / 1000, 1)))
     ozel_text = f"Özel kullanan: {ozel_kaynak_kullanan_sayisi}"
@@ -1482,7 +1483,7 @@ def postzaman(update, context):
         bot.send_message(chat, "Gönderdiğiniz saatlerden biri veya birden fazlası yanlış.\n\nÖrnek;\n00:00\n01:00\n02:00\n03:00\n...", reply_markup=imark()) 
         return    
     if update.message.text == "❌ İptal":
-        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
+        bot.send_message(chat, "İptal Edildi.", reply_markup=markupp())
         return ConversationHandler.END
     for px in post_zaman_text.split("\n"):
         if not len(px) == 5 or px.find(":") == -1:
@@ -1542,7 +1543,6 @@ def kanalkayit(update, context):
         return ConversationHandler.END
     if not update.message.forward_from_chat:
         msg = bot.send_message(chat, "↪️ Bunun ne olduğu hakkında bir fikrim yok! Lütfen kanaldan herhangi bir gönderi iletin.", reply_markup=imark())
-        
         return KANALKAYDET
     kanal = update.message.forward_from_chat.id
     if KaynakCol.find_one({"_id": kanal}):
@@ -1555,17 +1555,18 @@ def kanalkayit(update, context):
         kanalbilgi = bot.get_chat(kanal)
     except:
         msg = bot.send_message(chat, "Botu kanalınızda yönetici eklememişsiniz.")
-        
         return KANALKAYDET
     try:
         yetkiler = bot.get_chat_administrators(kanal)
     except:
-        msg = bot.send_message(chat, "Botu kanalınızda yönetici eklememişsiniz.")
-        
+        msg = bot.send_message(chat, "Botu kanalınızda yönetici eklememişsiniz.")        
         return KANALKAYDET
     ytliler = [y.user.id for y in yetkiler]
     if not user in ytliler:
         bot.send_message(chat, "Bu kanal sizin değil 😠")
+        return
+    if y['vakit'] != 0:
+        bot.send_message(chat, "Post zamanlama özelliğiniz açık olduğu için resimdeki yetkileri vermeniz gerekiyor. <a href='https://telegra.ph/file/d8802d6ca2fe807639a06.png'>ㅤ</a>")
         return
     collection.update_one({"_id": user}, {"$push":{"kanal": str(kanal)}})
     update.message.reply_text("<b>🟢Kanalınız Kaydedildi.</b>", reply_markup=dugme(user))
@@ -2314,7 +2315,7 @@ def main() -> None:
         per_message=False,
         per_chat=True)
 
-    dispatcher.add_handler(MessageHandler(Filters.chat(-1001584743136), comment))
+    dispatcher.add_handler(MessageHandler(Filters.chat(-1001584743136), Filters.update.message, comment))
     dispatcher.add_handler(MessageHandler(Filters.chat(eklenti), eklentiiletisim))
 
     dispatcher.add_handler(conver)
