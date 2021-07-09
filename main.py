@@ -981,7 +981,7 @@ def kaynakmark(user, kanil):
         if user in kaynak['kaynak'] and u['kanal'][int(kanil)] in kaynak['kanal']:
             kb1 = InlineKeyboardButton("✅", callback_data="kaynak-{}-{}".format(kaynak['sahip'], kanil))
         else:
-            kb1 = InlineKeyboardButton("⚫", callback_data="kaynak-{}".format(kaynak['sahip']))
+            kb1 = InlineKeyboardButton("⚫", callback_data="kaynak-{}-{}".format(kaynak['sahip'], kanil))
         butonkaynakkeyb.append(kb1)
         butonkaynakkeyb.append(saatbut)
         linkkaynakkeyb.append(InlineKeyboardButton("{}".format(getkaynak.title), url="{}".format(getkaynak.invite_link)))
