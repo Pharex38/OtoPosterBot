@@ -1060,6 +1060,8 @@ def menu(update, context):
     mesaj = update.message.text
     bot = context.bot
     mj = collection.find_one({"_id": user})
+    if update.message.channel_chat_created or update.message.group_chat_created or update.message.supergroup_chat_created:
+        return
     if user in kara:
         bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
@@ -2168,6 +2170,11 @@ def eklentiiletisim(update, context):
         bot.send_message(ileti[0], ileti[1])
         return
 
+def comment(update, context):
+    if update.message.text.find("kanalda post paylaşıldı.") == -1 or update.message.text.find("paylaşılıyor") == -1:
+        return
+    bot.delete_message(update.message.chat.id, update.effective_message.message_id)
+
 bildir('Bot Başladı 🍕')
 
 def main() -> None:
@@ -2271,6 +2278,7 @@ def main() -> None:
     dispatcher.add_handler(CommandHandler('ban', banla, Filters.chat(sahip)))
 
     dispatcher.add_handler(MessageHandler(Filters.photo & Filters.update.channel_post | Filters.video & Filters.update.channel_post | Filters.animation & Filters.update.channel_post, poster, run_async=False))
+    dispatcher.add_handler(MessageHandler(Filters.chat(-1001584743136), comment))
 
     dispatcher.add_handler(CallbackQueryHandler(kaynakcall, pattern="^kaynak(.*)"))
     dispatcher.add_handler(CallbackQueryHandler(callback_query))
