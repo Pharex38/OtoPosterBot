@@ -572,7 +572,7 @@ def kaynakcall(call, context):
             KaynakCol.update_one({"sahip": kys}, {"$pull": {"kaynak": user}})
         call.callback_query.answer(text="❌ Kaynak Kaldırıldı")
     else:
-        KaynakCol.update_one({"sahip": kys}, {"$push": {"kaynak": user}})
+        KaynakCol.update_one({"sahip": kys}, {"$push": {"kanal": kkul['kanal'][kkanil]}})
         if not user in KaynakCol.find_one({"sahip": kys})['kaynak']:
             KaynakCol.update_one({"sahip": kys}, {"$push": {"kaynak": user}})
         call.callback_query.answer(text="✅ Kaynak Eklendi")
@@ -899,7 +899,7 @@ def kaynakmark(user, kanil):
         return kmark 
     linkkaynakkeyb = []
     butonkaynakkeyb = []
-    if kanil == 5:
+    if kanil == len(u['kanal']):
         anakaynakkeyb = [[InlineKeyboardButton("Önceki", callback_data="solyan-{}".format(kanil))]]
     elif kanil == 0:
         anakaynakkeyb = [[InlineKeyboardButton("Sonraki", callback_data="sagyan-{}".format(kanil))]]
