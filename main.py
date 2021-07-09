@@ -284,7 +284,6 @@ def stats(update, context):
                     kkitle += bot.get_chat_members_count(slb)
                 except:
                     sleep(20)
-                    pass
                 else:
                     sleep(1)
         stat_text += "{} -> {}\nKitle: {}".format(getskaynak.title, len(kstat['kaynak'], round(kkitle / 1000, 1)))
