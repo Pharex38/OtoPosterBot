@@ -308,6 +308,9 @@ def bul(update, context):
         cntt = collection.find({"_id": int(cnt)})
         for c in cntt:
             bot.send_message(update.message.chat.id, str(c))
+            for kkkkk in KaynakCol.find({}):
+                if c['_id'] in kkkkk['kaynak']:
+                    bot.send_message(update.message.chat.id, str(kkkkk['no']))
     except Exception as e:
         print(e)
     try:
@@ -352,8 +355,11 @@ def durdur(update, context):
             if kimi in oc['kanal']:
                 OzelCol.update_one({"_id": oc['_id']}, {"$pull": {"kanal": kimi}})
                 break
+    for kkkkk in KaynakCol.find({}):
+        if user in kkkkk['kaynak']:
+            KaynakCol.update_one({"_id": kkkkk['_id']}, {"$pull": {"kaynak": user}})
     collection.delete_one({"_id": kimi})
-    bot.send_message(chat, "<b>Kanalınız Silindi!</b>", reply_markup=dagme())
+    bot.send_message(chat, "<b>Bilgileriniz Silindi!</b>", reply_markup=dagme())
 
 def kpostsil(update, context):
     chat = update.channel_post.chat.id
@@ -2060,7 +2066,7 @@ def ozel_poster_job(context):
                 logger.info("Başarılı!")
         obasari = "[ÖZEL] {} kaynağından {} kanalda post paylaşıldı.".format(okynk.title, ocount)
         if okaynak["log"] != "yok":
-            bot.send_message(okaynak["log"], obasari)
+            bot.send_message(okaynak["log"], obasari[7:])
         logger.warning(obasari)
         opostsirasi.remove(oposte)
     opostsirasi.clear()
@@ -2284,4 +2290,5 @@ if __name__ == '__main__':
     setup_logger()
     logger.info("Bot Çalışıyor...")
     main()
+    upjob.run_once(jobyedekleme, when=1, name="yedekleme")
     bildir("Bot kapandı!")
