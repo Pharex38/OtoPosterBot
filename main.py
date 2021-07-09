@@ -966,13 +966,12 @@ def kaynakmark(user, kanil):
         return kmark 
     linkkaynakkeyb = []
     butonkaynakkeyb = []
+    anakaynakkeyb = [[InlineKeyboardButton("Önceki", callback_data="solyan-{}".format(kanil)), InlineKeyboardButton("Sonraki", callback_data="sagyan-{}".format(kanil))]]
     if kanil == len(u['kanal']):
         anakaynakkeyb = [[InlineKeyboardButton("Önceki", callback_data="solyan-{}".format(kanil))]]
     elif kanil == 0:
         anakaynakkeyb = [[InlineKeyboardButton("Sonraki", callback_data="sagyan-{}".format(kanil))]]
-    else:
-        anakaynakkeyb = [[InlineKeyboardButton("Önceki", callback_data="solyan-{}".format(kanil)), InlineKeyboardButton("Sonraki", callback_data="sagyan-{}".format(kanil))]]
-    if len(u['kanal']) == 1:
+    elif len(u['kanal']) == 1:
         anakaynakkeyb = []
    
     for kaynak in KaynakCol.find({}):
