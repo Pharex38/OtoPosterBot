@@ -6,7 +6,8 @@ from pymongo import MongoClient
 import time, datetime
 import threading, pytz, os, asyncio, logging
 from ssl import CERT_NONE
-from random import choice
+from typing import Dict, TypedDict, List, Literal, cast
+import Colorer
 from telegram import *
 from telegram.error import *
 from telegram.ext import *
@@ -40,17 +41,6 @@ botlog = -1001352123979
 sahip = 1302980840
 fixer = 1687646994
 adminlist = [sahip, fixer]
-postsirasi = []
-opostsirasi = []
-tips = [
-    "En fazla 5 kanal ekleyebilirsiniz.",
-    "Kaynak menüsünden kendinize özel kaynak oluşturabilirsiniz.",
-    "20 linkte 1 olayı Elle Post Paylaş butonu için geçerli değildir.",
-    "Oluşturduğunuz özel kaynağı siz de isterseniz başkaları da kullanabilir.",
-    "Şablon kısmında Markdown(kalın, italik vs.) kullanabilirsiniz.",
-    "Kanallarınıza farklı farklı kaynaklardan post atılmasını istiyorsanız başka bir Telegram hesabınızdan diğer kanalınızı kaydedip farklı kanal seçebilirsiniz.",
-    "Elle Post Paylaşırken post zamanlayabilirsiniz.",
-    ]
 
 def send_typing_action(func):
 
@@ -174,12 +164,14 @@ def phaapi(sit):
     
 def setup_logger():
     global logger
-    aps_logger = logging.getLogger('apscheduler')
-    aps_logger.setLevel(logging.WARNING)
     zaman = datetime.datetime.now()
     logd = "{}.{}.{} - {}.{}".format(zaman.year, zaman.month, zaman.day, zaman.hour, zaman.minute)
-    logging.basicConfig(format="%(asctime)s - %(levelname)s - %(message)s", handlers=[logging.FileHandler(f'Loglar/{logd}.txt', 'w', 'utf-8'), logging.StreamHandler()], level=logging.INFO)
-    logger = logging.getLogger("OtoPosterBot")
+    file_handler = logging.FileHandler(f'Loglar/{logd}.txt', 'w', 'utf-8')
+    stream_handler = logging.StreamHandler()
+    logger = logging.getLogger("main_log")
+    logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=logging.INFO)
+    logger.addHandler(file_handler)
+    #logger.addHandler(stream_handler)
 
 
 ############## Komutlar #####################
@@ -229,7 +221,8 @@ def stats(update, context):
     user = update.message.from_user.id
     kum = []
     kulkum = []
-    exe_kullanan_sayisi, ozel_kaynak_kullanan_sayisi, pubiza_kullanan_sayisi, ouo_kullanan_sayisi, trlink_kullanan_sayisi, pnd_kullanan_sayisi = 0, 0, 0, 0, 0, 0
+    ozel_kaynak_kullanan_sayisi = 0
+    exe_kullanan_sayisi, pubiza_kullanan_sayisi, ouo_kullanan_sayisi, trlink_kullanan_sayisi, pnd_kullanan_sayisi = 0, 0, 0, 0, 0
     if not user in [sahip,fixer]:
         bot.send_message(chat, "Sen benim sahibim değilsin!")
         return
@@ -263,30 +256,21 @@ def stats(update, context):
                     try:
                         uye = bot.get_chat_members_count(kul)
                         print(uye)
-                    except RetryAfter as after:
-                        sleep(after.retry_after)
                     except Exception as e:
                         logger.error(e)
                         if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
                             sleep(1)
+                        else:
+                            time.sleep(30)
                     else:
                         toplam += uye
     toplam = toplam / 1000
     toplam = str(round(toplam, 1))+"K" if round(toplam, 1) < 1000 else str(round(toplam / 1000, 2))+"M"
-    stat_text = f"Toplam Kullanıcı Sayısı: {users}\nToplam Kayıtlı Kanal Sayısı: {kanals}\nToplam Kitle: {toplam}\n\n<b>Sitelerin Toplam Kullanıcı Sayısı;</b>\nTRLink: {trlink_kullanan_sayisi}\nPND.TL: {pnd_kullanan_sayisi}\nExe.io: {exe_kullanan_sayisi}\nOuo.io: {ouo_kullanan_sayisi}\nPubiza: {pubiza_kullanan_sayisi}\n\n<b>Kaynakların toplam Kullanıcı Sayıları:</b>\n"
+    stat_text = f"Toplam Kullanıcı Sayısı: {users}\nToplam Kayıtlı Kanal Sayısı: {kanals}\nToplam Kitle: {toplam}\n\n<b>Toplam Site Kullanan Sayısı;</b>\nTRLink: {trlink_kullanan_sayisi}\nPND.TL: {pnd_kullanan_sayisi}\nExe.io: {exe_kullanan_sayisi}\nOuo.io: {ouo_kullanan_sayisi}\nPubiza: {pubiza_kullanan_sayisi}\n\n<b>Toplam Kaynak Kullanan Sayıları:</b>\n"
     statscount = 0
     for kstat in KaynakCol.find({}):
         getskaynak = bot.get_chat(kstat['_id'])
-        kkitle = 0
-        for sl in kstat["kaynak"]:
-            for slb in collection.find_one({"_id": sl})['kanal']:
-                try:
-                    kkitle += bot.get_chat_members_count(slb)
-                except RetryAfter as after:
-                    sleep(after.retry_after)
-                else:
-                    sleep(1)
-        stat_text += "{} -> {}\nKitle: {}".format(getskaynak.title, len(kstat['kaynak'], round(kkitle / 1000, 1)))
+        stat_text += "{} -> {}".format(getskaynak.title, len(kstat['kaynak']))
     ozel_text = f"Özel kullanan: {ozel_kaynak_kullanan_sayisi}"
           
     bot.edit_message_text(stat_text+ozel_text, chat, msg.message_id)
@@ -295,7 +279,7 @@ def joblist(update, context):
      jobs = context.job_queue.jobs()
      context.job_queue.run_once(jobyedekleme, when=1, name="yedekleme")
      for jok in jobs:
-        if str(jok.name) != "yedekleme" or str(jok.name) != "gunluk" or str(jok.name) != "resetleme" or str(jok.name) != "ozelposter" or str(jok.name) != "anaposter":
+        if str(jok.name) != "yedekleme" or str(jok.name) != "gunluk":
             bot.send_message(update.message.chat.id, str(jok.context)+"\n\n\n"+str(jok.name)+"\n\n\n"+str(jok.job))
 
 def parak(update, context):
@@ -315,35 +299,32 @@ def bul(update, context):
     try:
         cntt = collection.find({"_id": int(cnt)})
         for c in cntt:
-            bot.send_message(update.message.chat.id, str(c))
-            for kkkkk in KaynakCol.find({}):
-                if c['_id'] in kkkkk['kaynak']:
-                    bot.send_message(update.message.chat.id, str(kkkkk['no']))
-    except Exception as e:
-        print(e)
+            bot.send_message(update.message.chat.id, 'ID: {}\nToken: {} \nKaynak: {} \nSite: {} \nKanal: {} \nAlt Token: {} \n Alt Site: {} \n Özel Kaynak: {}'.format(c['_id'], c['token'], c['kaynak'], c['site'], c['kanal'], c['altapi'], c['altsite'], c['ozel']))
+    except:
+        pass
     try:
         cntt = collection.find({"token": cnt})
         for c in cntt:
-            bot.send_message(update.message.chat.id, str(c))
+            bot.send_message(update.message.chat.id, 'ID: {}\nToken: {} \nKaynak: {} \nSite: {} \nKanal: {} \nAlt Token: {} \n Alt Site: {} \n Özel Kaynak: {}'.format(c['_id'], c['token'], c['kaynak'], c['site'], c['kanal'], c['altapi'], c['altsite'], c['ozel']))
     except:
         pass
     try:
         cntt = collection.find({"altapi": cnt})
         for c in cntt:
-            bot.send_message(update.message.chat.id, str(c))
+            bot.send_message(update.message.chat.id, 'ID: {}\nToken: {} \nKaynak: {} \nSite: {} \nKanal: {} \nAlt Token: {} \n Alt Site: {} \n Özel Kaynak: {}'.format(c['_id'], c['token'], c['kaynak'], c['site'], c['kanal'], c['altapi'], c['altsite'], c['ozel']))
     except:
         pass
     try:
         cntt = collection.find({})
         for c in cntt:
             if cnt in c['kanal']:
-                bot.send_message(update.message.chat.id, str(c))
+                bot.send_message(update.message.chat.id, 'ID: {}\nToken: {} \nKaynak: {} \nSite: {} \nKanal: {} \nAlt Token: {} \n Alt Site: {} \n Özel Kaynak: {}'.format(c['_id'], c['token'], c['kaynak'], c['site'], c['kanal'], c['altapi'], c['altsite'], c['ozel']))
     except:
         pass
     try:
         cntt = collection.find({"site": cnt})
         for c in cntt:
-            bot.send_message(update.message.chat.id, str(c))
+            bot.send_message(update.message.chat.id, 'ID: {}\nToken: {} \nKaynak: {} \nSite: {} \nKanal: {} \nAlt Token: {} \n Alt Site: {} \n Özel Kaynak: {}'.format(c['_id'], c['token'], c['kaynak'], c['site'], c['kanal'], c['altapi'], c['altsite'], c['ozel']))
     except:
         pass
 
@@ -363,11 +344,8 @@ def durdur(update, context):
             if kimi in oc['kanal']:
                 OzelCol.update_one({"_id": oc['_id']}, {"$pull": {"kanal": kimi}})
                 break
-    for kkkkk in KaynakCol.find({}):
-        if user in kkkkk['kaynak']:
-            KaynakCol.update_one({"_id": kkkkk['_id']}, {"$pull": {"kaynak": user}})
     collection.delete_one({"_id": kimi})
-    bot.send_message(chat, "<b>Bilgileriniz Silindi!</b>", reply_markup=dagme())
+    bot.send_message(chat, "<b>Kanalınız Silindi!</b>", reply_markup=dagme())
 
 def kpostsil(update, context):
     chat = update.channel_post.chat.id
@@ -526,30 +504,11 @@ import html
 import json
 import traceback
 def error_handler(update: object, context: CallbackContext) -> None:
-    global postsirasi, opostsirasi
+    global postsirasi
     logger.error(msg="Bir Hata oluştu:", exc_info=context.error)
     tb_list = traceback.format_exception(None, context.error, context.error.__traceback__)
     tb_string = ''.join(tb_list)
     update_str = update.to_dict() if isinstance(update, Update) else str(update)
-    try:
-        update.message.chat.id
-    except:
-        pass
-    else:
-        if update.message.chat.id in postsirasi:
-            for er in postsirasi:
-                if update.message.chat.id == er['chatid']:
-                    try:
-                        postsirasi.remove(er)
-                    except Exception as e:
-                        logger.error(e)
-        elif update.message.chat.id in opostsirasi:
-            for oer in opostsirasi:
-                if update.message.chat.id == oer['chatid']:
-                    try:
-                        postsirasi.remove(oer)
-                    except Exception as e:
-                        logger.error(e)
     message = (
         f'BİR HATA OLUŞTU!\n'
         f'<pre>update = {html.escape(json.dumps(update_str, indent=2, ensure_ascii=False))}'
@@ -591,6 +550,7 @@ def kaynakcall(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
     kys = int(call.callback_query.data.split("-")[1])
+    kkanil = int(call.callback_query.data.split("-")[2])
     kkul = collection.find_one({"_id": user})
     if kkul == None:
         call.callback_query.edit_message_text(text="<b>Önce bir API kaydedin!</b>")
@@ -603,10 +563,18 @@ def kaynakcall(call, context):
         return
     mesajid = call.effective_message.message_id
     if user in KaynakCol.find_one({"sahip": kys})['kaynak']:
-        KaynakCol.update_one({"sahip": kys}, {"$pull": {"kaynak": user}})
+        KaynakCol.update_one({"sahip": kys}, {"$pull": {"kanal": kkul['kanal'][kkanil]}})
+        kopc = 0
+        for kop in kkul['kanal']:
+            if kop in KaynakCol.find_one({"sahip": kys})['kanal']:
+                kopc += 1
+        if kopc < 1:
+            KaynakCol.update_one({"sahip": kys}, {"$pull": {"kaynak": user}})
         call.callback_query.answer(text="❌ Kaynak Kaldırıldı")
     else:
         KaynakCol.update_one({"sahip": kys}, {"$push": {"kaynak": user}})
+        if not user in KaynakCol.find_one({"sahip": kys})['kaynak']:
+            KaynakCol.update_one({"sahip": kys}, {"$push": {"kaynak": user}})
         call.callback_query.answer(text="✅ Kaynak Eklendi")
     call.callback_query.edit_message_text(text="<b>Kullanmak istediğiniz kaynak kanalını seçin.</b>", reply_markup=kaynakmark(user))
 
@@ -791,21 +759,9 @@ def callback_query(call, context):
         if context.user_data['zaman'] == "yok":
             if o == -1:
                 for kan in kanal:
-                    pyetkililer = [pxy.user.id for pxy in bot.get_chat_administrators(kan)]
-                    if not user in pyetkililer:
-                        bot.send_message(chat, f"{bot.get_chat(kan).title} Bu kanalda yetkili olmadığınız için post gönderilemedi ve kanal silindi.", reply_markup=dugme(user))
-                        bot.delete_message(user, mesajid)
-                        collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
-                        continue 
                     SEND_MEDIA_TYPES[ptip](kan, fid, caption=psablon)
                 bot.edit_message_text("✅<b>Postunuz Tüm Kanallarınıza Gönderildi!</b>", user, mesajid)
                 context.user_data.clear()
-                return ConversationHandler.END
-            pyetkililer = [pxy.user.id for pxy in bot.get_chat_administrators(kanal[o])]
-            if not user in pyetkililer:
-                bot.send_message(chat, f"{bot.get_chat(kanal[o]).title} Bu kanalda yetkili olmadığınız için post gönderilemedi ve kanal silindi.", reply_markup=dugme(user))
-                bot.delete_message(user, mesajid)
-                collection.update_one({"_id": user}, {"$pull": {"kanal": kanal[o]}})
                 return ConversationHandler.END
             SEND_MEDIA_TYPES[ptip](kanal[o], fid, caption=psablon)
             bot.edit_message_text("✅<b>Postunuz Kanalınıza Gönderildi!</b>", user, mesajid)
@@ -816,25 +772,12 @@ def callback_query(call, context):
             msg_dict = []
             if o == -1:
                 for kan in kanal:
-                    pyetkililer = [pxy.user.id for pxy in bot.get_chat_administrators(kan)]
-                    if not user in pyetkililer:
-                        bot.send_message(chat, f"{bot.get_chat(kan).title} Bu kanalda yetkili olmadığınız için post gönderilemedi ve kanal silindi.", reply_markup=dugme(user))
-                        bot.delete_message(user, mesajid)
-                        collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
-                        continue
                     msg_dict.append({"pkan": kan, "psablon": psablon, "ptip": ptip, "fid": fid, "user": user})
                 bot.delete_message(user, mesajid)
                 bot.send_message(user, "⏱ Postunuz zamanlandı.", reply_markup=dugme(user))
                 context.job_queue.run_once(callback=zamanjob, when=zamani, context=msg_dict, name=str(user))
                 return ConversationHandler.END
 
-            pyetkililer = [pxy.user.id for pxy in bot.get_chat_administrators(kanal[o])]
-            if not user in pyetkililer:
-                bot.send_message(chat, f"{bot.get_chat(kanal[o]).title} Bu kanalda yetkili olmadığınız için post gönderilemedi ve kanal silindi.", reply_markup=dugme(user))
-                collection.update_one({"_id": user}, {"$pull": {"kanal": kanal[o]}})
-                bot.delete_message(user, mesajid)
-                context.user_data.clear()
-                return ConversationHandler.END
             msg_dict.append({"pkan": kanal[o], "psablon": psablon, "ptip": ptip, "fid": fid, "user": user})
             bot.delete_message(user, mesajid)
             bot.send_message(user, "⏱ Postunuz zamanlandı.", reply_markup=dugme(user))
@@ -878,7 +821,7 @@ def jobyedekleme(context):
     collection.update_one({"_id": 0}, {"$set": {"jobs": []}})
     yjcount = 0
     for kap in context.job_queue.jobs():
-        if str(kap.name) != "yedekleme" or str(kap.name) != "gunluk" or str(kap.name) != "resetleme" or str(kap.name) != "ozelposter" or str(kap.name) != "anaposter":
+        if str(kap.name) != "yedekleme" or str(kap.name) != "gunluk":
             jobstr = str(kap.job)
             jnam = jobstr.find("date[")
             jname = jobstr[jnam+7:jnam+24]
@@ -934,7 +877,7 @@ def ozelmark():
 
     return omark
 
-def kaynakmark(user):
+def kaynakmark(user, kanil):
     u = collection.find_one({"_id": user})
     if u['ozel']:
         for x in OzelCol.find({}):
@@ -954,8 +897,8 @@ def kaynakmark(user):
     for kaynak in KaynakCol.find({}):
         getkaynak = bot.get_chat(kaynak["_id"])
         saatbut = InlineKeyboardButton("⏳", callback_data="zaman-{}".format(kaynak['sahip']))
-        if user in kaynak['kaynak']:
-            kb1 = InlineKeyboardButton("✅", callback_data="kaynak-{}".format(kaynak['sahip']))
+        if user in kaynak['kaynak'] and u['kanal'][int(kanil)] in kaynak['kanal']:
+            kb1 = InlineKeyboardButton("✅", callback_data="kaynak-{}-{}".format(kaynak['sahip'], kanil))
         else:
             kb1 = InlineKeyboardButton("⚫", callback_data="kaynak-{}".format(kaynak['sahip']))
         butonkaynakkeyb.append(kb1)
@@ -1075,8 +1018,6 @@ def menu(update, context):
     mesaj = update.message.text
     bot = context.bot
     mj = collection.find_one({"_id": user})
-    if update.message.channel_chat_created or update.message.group_chat_created or update.message.supergroup_chat_created:
-        return
     if user in kara:
         bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
@@ -1094,16 +1035,9 @@ def menu(update, context):
                         return
                     kullanan_sayisi = len(m['kanal'])
                     break
-            refsahip = "yok"
             for ox in OzelCol.find({}):
                 if user in ox['kanal']:
                     refsahip = ox["_id"]
-                    break
-            if refsahip == "yok":
-                collection.update_one({"_id": user}, {"$set": {"ozel": False}})
-                collection.update_one({"_id": user}, {"$pull": {"kaynak": "32"}})
-                bot.send_message(chat, """<b>Kullanmak istediğiniz kaynak kanalını seçin.</b>""", reply_markup=kaynakmark(user))
-                return
             ref_link = create_deep_linked_url(context.bot.username, str(refsahip))
             bot.send_message(chat, """<b>Özel Kaynak Kullandığınız için başka kaynak seçemezsiniz.</b>\n\n      <i>Özel Kaynağınız:</i><b> <a href="{}">{}</a>\n</b>      <i>Bu Kaynağı Toplam </i><code>{}</code> <i>Kişi Kullanıyor.</i>\n\n<b>Kaynak Referans Linki;</b>\n<code>{}</code>\n<i>Bu link ile botu başlatan herkes otomatik olarak sizin kaynağınıza bağlanacak.</i>""".format(ozel_kaynak_bilgi.invite_link, ozel_kaynak_bilgi.title, kullanan_sayisi, ref_link), reply_markup=kaynakmark(user))
             return
@@ -1170,7 +1104,6 @@ def menu(update, context):
         kayitli = 0
         site = bina['site']
         site = site_isim(site)
-        bot.send_message(chat, "<b>Biliyor muydunuz? -></b> "+"<i>"+choice(tips)+"</i>")
         if bina['altsite'] == "None":
             menu_mesaj = "<i>♦️Kayıtlı API: {}\nSite: {}</i>".format(tokenn, site)
         else:
@@ -1182,8 +1115,8 @@ def menu(update, context):
                 kbilgi = bot.get_chat(chan)
             except Exception as e:
                 logger.error(e)
-                collection.update_one({"_id": user}, {"$pull": {"kanal": chan}})
-                logger.warning("Kanal silindi")
+                collection.update_one({"_id": chat}, {"$pull": {"kanal": chan}})
+                logger.debug("Kanal silindi")
             else:    
                 kanal_mesaj = """\n\n     <a href="{}">{}</a>""".format(kbilgi.invite_link, kbilgi.title)
                 menu_mesaj += kanal_mesaj
@@ -1364,7 +1297,7 @@ def kayitapi(update, context):
             trysch = 0
             dlc = ka['time']
             while trysch <= len(ka['vakit']):
-                if dlc > len(ka['vakit']):
+                if dlc >= len(ka['vakit']):
                     dlc = 0
                 try:
                     raw_vakit = ka['vakit'][dlc]
@@ -1380,10 +1313,7 @@ def kayitapi(update, context):
                     break
                 dlc += 1
                 trysch += 1
-            if dlc == -1:
-                zaman_menu += f"\n\nBugün post sınırınıza ulaştınız"
-            else:
-                zaman_menu += f"\n\nBir sonraki postunuz günün <code>{dlc}</code>. postu olacak."
+            zaman_menu += f"\n\nBir sonraki postunuz günün <code>{dlc}</code>. postu olacak."
         bot.send_message(chat, zaman_menu, reply_markup=zamanmenumark(user))
         return
 
@@ -1528,15 +1458,23 @@ def kanalkayit(update, context):
         msg = bot.send_message(chat, "Botu kanalınızda yönetici eklememişsiniz.")
         
         return KANALKAYDET
-    ytliler = [y.user.id for y in yetkiler]
-    if not user in ytliler:
-        bot.send_message(chat, "Bu kanal sizin değil 😠")
-        return
-    collection.update_one({"_id": user}, {"$push":{"kanal": str(kanal)}})
-    update.message.reply_text("<b>🟢Kanalınız Kaydedildi.</b>", reply_markup=dugme(user))
-    bot.send_message(blog, f"#YENİ_KANAL\nID: {kanal}\nÜYE: {bot.get_chat_members_count(kanal)}\nSAHİP: {user}")
-    return ConversationHandler.END
+    for y in yetkiler:
+        if y.user.id == user:
+            collection.update_one({"_id": user}, {"$push":{"kanal": str(kanal)}})
+            update.message.reply_text("<b>🟢Kanalınız Kaydedildi.</b>", reply_markup=dugme(user))
+            bot.send_message(blog, f"#YENİ_KANAL\nID: {kanal}\nÜYE: {bot.get_chat_members_count(kanal)}\nSAHİP: {user}")
+            return ConversationHandler.END
+            break
+    msz = bot.send_message(chat, "Bu kanal sizin değil 😠")
+    return KANALKAYDET
 
+MEDIA_GROUP_TYPES = {"audio": InputMediaAudio, "document": InputMediaDocument, "photo": InputMediaPhoto, "video": InputMediaVideo}
+
+class MsgDict(TypedDict):
+    media_type: Literal["video", "photo"]
+    media_id: str
+    caption: str
+    chat_id: int
 
 def patzamansaat(update, context):
     verilen_saat = update.message.text
@@ -1556,11 +1494,6 @@ def patzamansaat(update, context):
     context.user_data['zaman'] = zamanii
     satkat = collection.find_one({"_id": user})
     if len(satkat['kanal']) < 2:
-        pyetkililer = [pxy.user.id for pxy in bot.get_chat_administrators(satkat['kanal'][0])]
-        if not user in pyetkililer:
-            bot.send_message(chat, f"{bot.get_chat(satkat['kanal'][0]).title} Bu kanalda yetkili olmadığınız için kanal silindi", reply_markup=dugme(user))
-            collection.update_one({"_id": user}, {"$pull": {"kanal": satkat['kanal'][0]}})
-            return ConversationHandler.END
         msg_dict = {"pkan": satkat['kanal'][0], "psablon": context.user_data['psablon'], "ptip": context.user_data['ptip'], "fid": context.user_data['fid'], "user": user}
         context.job_queue.run_once(callback=zamanjob, when=zamanii, context=[msg_dict], name=str(user))
         bot.send_message(chat, "⏱ Postunuz zamanlandı", reply_markup=dugme(user))
@@ -1696,36 +1629,39 @@ def pat(update, context):
     bot.send_message(chat, "Zamanlamak ister misiniz?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Şimdi Gönder", callback_data="simdi")], [InlineKeyboardButton("Zamanla", callback_data="pzamanla")]]))
     return ConversationHandler.END
    
-def poster_job(context):
-    global postsirasi
-    if len(postsirasi) < 1:
-        return
-    logger.warning(f"{len(postsirasi)} Post tespit edildi")
+postsirasi = []
+
+
+def poster(update, context):
+    global postsirasi, app
+    okaynak = None
+    chat = update.channel_post.chat.id
     vipler = collection.find_one({"_id": 0})['vipuye']
     headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0",
     "Accept-Encoding": "*",
     "Connection": "keep-alive"}
-    for poste in postsirasi:
-        chat = poste['chatid']
-        update = poste['update']
-        chatdat = KaynakCol.find_one({"_id": chat})
+    # Ana Kaynaklar
+    chatdat = KaynakCol.find_one({"_id": chat})
+    if chatdat != None:
         count = 0
         mesaj = update.channel_post.caption
         if mesaj == None:
-            continue
+            return
         """  Link tespit  """
         solx = mesaj.rfind("http")
         sol = mesaj.find("http")
-        if sol == -1 or sol != solx:
-            continue
+        if sol == -1:
+            return
+        if sol != solx:
+            return
         sag = mesaj.find("\n", sol)
         kynk = bot.get_chat(chat)
         mesajb = mesaj[sol:sag].strip()
         if mesaj.find("\n", sol) == -1:
             mesajb = mesaj[sol:].strip()
         if mesajb.startswith("https://t.me/"):
-            continue
+            return
         """  Veri Tabanı  """
         postdata = db[str(chat)]
         binb =  chatdat['kaynak']
@@ -1828,7 +1764,7 @@ def poster_job(context):
                 except Exception as e:
                     bot.send_message(user, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
                     logger.error(e)
-                    logger.warning(json)
+                    logger.debug(json)
                     continue
                 if sablon == "1":
                     sablon = f"🔥{aciklama}\n\n🔱 TIKLA 👉 {link}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
@@ -1856,14 +1792,14 @@ def poster_job(context):
                         except:
                             membersayi = "Bot kanaldan çıkarılmış."
                         try:
-                            logger.warning(f"Hatalı kanal: {kanal}")
+                            logger.debug(f"Hatalı kanal: {kanal}")
                             bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {user}\nÜYE: {membersayi}\nKANAL: {kan}")
                             collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
                             continue
                         except:
                             pass
                         else:
-                            logger.warning(f"{kanal} kayıtlardan silindi.")
+                            logger.debug(f"{kanal} kayıtlardan silindi.")
                     if vakitler != 0:
                         bot.send_message(eklenti, str(kan) + "+" + str(dailycount) + "+" + str(user))
                         sleep(0.1)
@@ -1878,14 +1814,14 @@ def poster_job(context):
                     except Exception as e:
                         if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
                             try:
-                                logger.warning(f"Hatalı kanal: {kan}")
+                                logger.debug(f"Hatalı kanal: {kan}")
                                 bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {user}\nÜYE: {bot.get_chat_members_count(kan)}\nKANAL: {kan}")
                                 collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
                                 bot.send_message(user, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
                             except:
                                 pass   
                             else:
-                                logger.warning(f"{kan} kayıtlardan silindi.")
+                                logger.debug(f"{kan} kayıtlardan silindi.")
                         else:
                             logger.error(e)
                     else:
@@ -1901,46 +1837,32 @@ def poster_job(context):
             bot.edit_message_text(basari, botlog, lmsg.message_id)
         except Exception as e:
             logger.error(e)
-        postsirasi.remove(poste)
-    postsirasi.clear()
-    postsirasi = []
-
-def ozel_poster_job(context):
-    global opostsirasi
-    if len(opostsirasi) < 1:
-        return
-    logger.warning(f"{len(opostsirasi)} Özel kaynak postu tespit edildi.")
-    vipler = collection.find_one({"_id": 0})['vipuye']
-    headers = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0",
-    "Accept-Encoding": "*",
-    "Connection": "keep-alive"}
-    for oposte in opostsirasi:
-        chat = oposte['chatid']
-        oupdate = oposte['update']
+    # Özel Kaynaklar
+    else:
         okaynak = OzelCol.find_one({"okaynak": chat})
+    if okaynak != None:
         ocount = 0
-        omesaj = oupdate.channel_post.caption
+        omesaj = update.channel_post.caption
         if omesaj == None:
-            continue
+            return
         """  Link tespit  """
         osolx = omesaj.rfind("http")
         osol = omesaj.find("http")
         if osol == -1 or osol != osolx:
-            continue
+            return
         osag = omesaj.find("\n", osol)
         okynk = bot.get_chat(chat)
         omesajb = omesaj[osol:osag].strip()
         if omesaj.find("\n", osol) == -1:
             omesajb = omesaj[osol:].strip()
         if omesajb.startswith("https://t.me/"):
-            continue
+            return
         logger.warning("[ÖZEL] {} postu atılıyor... ".format(okynk.title))
         """  Açıklama tespit  """
         oason = omesaj.find("\n")
         oaciklama = omesaj[:oason].strip()
         """ Dosya tespit """
-        omedya = oupdate.channel_post.photo[0].file_id if oupdate.channel_post.photo else oupdate.channel_post.effective_attachment.file_id
+        omedya = update.channel_post.photo[0].file_id if update.channel_post.photo else update.channel_post.effective_attachment.file_id
         for ozelkanal in okaynak['kanal']:
             ohesap = collection.find_one({"_id": ozelkanal})
             try:    
@@ -2047,38 +1969,35 @@ def ozel_poster_job(context):
                         except:
                             omembersayi = "Bot kanaldan çıkarılmış."
                         try:
-                            logger.warning(f"Hatalı kanal: {okan}")
+                            logger.debug(f"Hatalı kanal: {okan}")
                             bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {ouser}\nÜYE: {omembersayi}\nKANAL: {okan}")
                             collection.update_one({"_id": ouser}, {"$pull": {"kanal": okan}})
                             continue
                         except:
                             pass
                         else:
-                            logger.warning(f"{okan} kayıtlardan silindi.")
+                            logger.debug(f"{okan} kayıtlardan silindi.")
                     if ovakitler != 0:
-                        if odailycount == len(ovakitler):
-                            collection.update_one({"_id": ouser}, {"$set": {"time": -1}})
-                        if odailycount != -1:
-                            bot.send_message(eklenti, str(okan) + "+" + str(odailycount) + "+" + str(ouser))
+                        bot.send_message(eklenti, str(okan) + "+" + str(odailycount) + "+" + str(ouser))
                         okan = eklenti
                     try:
-                        if oupdate.channel_post.photo:
+                        if update.channel_post.photo:
                             opost = bot.send_photo(okan, omedya, caption=osablon)
-                        if oupdate.channel_post.video:
+                        if update.channel_post.video:
                             opost = bot.send_video(okan, omedya, caption=osablon)
-                        if oupdate.channel_post.animation:
+                        if update.channel_post.animation:
                             opost = bot.send_animation(okan, omedya, caption=osablon)
                     except Exception as e:
                         if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
                             try:
-                                logger.warning(f"Hatalı kanal: {okan}")
+                                logger.debug(f"Hatalı kanal: {okan}")
                                 bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {ouser}\nÜYE: {bot.get_chat_members_count(okan)}\nKANAL: {okan}")
                                 collection.update_one({"_id": ouser}, {"$pull": {"kanal": okan}})
                                 bot.send_message(ouser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
                             except Exception as e: 
                                 logger.error(e)
                             else:
-                                logger.warning(f"{okan} kayıtlardan silindi.")
+                                logger.debug(f"{okan} kayıtlardan silindi.")
                         else:
                             logger.error(e)
                     else:
@@ -2086,23 +2005,9 @@ def ozel_poster_job(context):
                 logger.info("Başarılı!")
         obasari = "[ÖZEL] {} kaynağından {} kanalda post paylaşıldı.".format(okynk.title, ocount)
         if okaynak["log"] != "yok":
-            bot.send_message(okaynak["log"], obasari[7:])
+            bot.send_message(okaynak["log"], obasari)
         logger.warning(obasari)
-        opostsirasi.remove(oposte)
-    opostsirasi.clear()
-    opostsirasi = []
-
-def poster(update, context):
-    global postsirasi
-    chat = update.channel_post.chat.id
-    # Ana Kaynaklar
-    if KaynakCol.find_one({"_id": chat}) != None:
-        postdict = {"chatid": chat, "update": update}
-        postsirasi.append(postdict)
-    # Özel Kaynaklar
-    elif OzelCol.find_one({"okaynak": chat}) != None:
-        opostdict = {"chatid": chat, "update": update}
-        opostsirasi.append(opostdict)
+        
 
 def gunluk(context):
     ozel_kaynak_kullanan_sayisi = 0
@@ -2149,8 +2054,8 @@ def gunluk(context):
                 try:
                     uye = bot.get_chat_members_count(kul)
                     print(uye)
-                except RetryAfter as after:
-                    sleep(after.retry_after)
+                except Unauthorized:
+                    pass
                 except Exception as e:
                     logger.error(e)
                     if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
@@ -2164,7 +2069,7 @@ def gunluk(context):
     toplam = toplam / 1000
     toplam = str(round(toplam, 1))+"K" if round(toplam, 1) < 1000 else str(round(toplam / 1000, 2))+"M"
     statscount = 0
-    stat_text = "👥 Toplam Kullanıcı Sayısı: {}\n📢 Toplam Kayıtlı Kanal Sayısı: {}\n🙋 Toplam Kitle: {}\n\n<b>Sitelerin Toplam Kullanıcı Sayıları(Alternatifler dahil);</b>\nTRLink -> {}\nPND.TL -> {}\nExe.io -> {}\nOuo.io -> {}\nPubiza -> {}\n\n<b>Kaynakların Toplam Kullanıcı Sayıları:</b>\n".format(users, kanals, toplam, trlink_kullanan_sayisi, pnd_kullanan_sayisi, exe_kullanan_sayisi, ouo_kullanan_sayisi, pubiza_kullanan_sayisi)
+    stat_text = "👥 Toplam Kullanıcı Sayısı: {}\n📢 Toplam Kayıtlı Kanal Sayısı: {}\n🙋 Toplam Kitle: {}\n\n<b>Sitelerin Toplam Kullanıcı Sayıları(Alternatifler dahil);</b>\nTRLink -> {}\nPND.TL -> {}\nExe.io -> {}\nOuo.io -> {}\nPubiza -> {}\n\n<b>Kaynakların Toplam Kullanan Sayıları:</b>\n".format(users, kanals, toplam, trlink_kullanan_sayisi, pnd_kullanan_sayisi, exe_kullanan_sayisi, ouo_kullanan_sayisi, pubiza_kullanan_sayisi)
     for kstat in KaynakCol.find({}):
         getskaynak = bot.get_chat(kstat['_id'])
         stat_text += "{} -> {} \n".format(getskaynak.title, len(kstat['kaynak']))
@@ -2173,13 +2078,8 @@ def gunluk(context):
     bot.pin_chat_message(botlog, msg.message_id)
 
 def resetleme(context):
-    try:
-        for rest in collection.find({}):
-            collection.update_one({"_id": rest['_id']}, {"$set": {"time": 0}})
-    except Exception as e:
-        bot.send_message(sahip, str(e))
-    else:
-        bot.send_message(sahip, "Time Sıfırlandı")
+    for rest in collection.find({}):
+        collection.update_one({"_id": rest['_id']}, {"$set": {"vakit": 0}})
 
 def eklentiiletisim(update, context):
     ileti = update.message.text
@@ -2187,12 +2087,6 @@ def eklentiiletisim(update, context):
         ileti = ileti.split("+")
         bot.send_message(ileti[0], ileti[1])
         return
-
-def comment(update, context):
-    print(update)
-    if update.message.text.find("kanalda post paylaşıldı.") == -1 and update.message.text.find("paylaşılıyor") == -1:
-        return
-    bot.delete_message(update.message.chat.id, update.effective_message.message_id)
 
 bildir('Bot Başladı 🍕')
 
@@ -2207,10 +2101,8 @@ def main() -> None:
     upjob = updater.job_queue
     upjob.run_repeating(jobyedekleme, interval=300, first=10, name="yedekleme")
     upjob.run_daily(resetleme, time=datetime.datetime.strptime("21-06-30 23:58:00", '%y-%m-%d %H:%M:%S').time(), name="gunluk")
-    upjob.run_daily(gunluk, time=datetime.datetime.strptime("21-06-30 21:55:00", '%y-%m-%d %H:%M:%S').time(), name="resetleme")
-    upjob.run_repeating(ozel_poster_job, interval=30, first=15, name="ozelposter")
-    upjob.run_repeating(poster_job, interval=30, first=30, name="anaposter")
-
+    upjob.run_daily(gunluk, time=datetime.datetime.strptime("21-06-30 21:55:00", '%y-%m-%d %H:%M:%S').time(), name="gunluk")
+    
     conv_handler = ConversationHandler(
         entry_points=[MessageHandler(Filters.update.message & ~Filters.command, menu), CommandHandler('start', start)],
         states={ 
@@ -2221,8 +2113,7 @@ def main() -> None:
             PATPOST: [MessageHandler(~Filters.command & Filters.update.message, pat)]
             },
         fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$') & Filters.update.message, cancel), CommandHandler('start', start, filters=~Filters.update.edited_message)],
-        per_message=False,
-        per_chat=True
+        per_message=False
         )
 
     conver = ConversationHandler(
@@ -2231,50 +2122,43 @@ def main() -> None:
             SABLON: [MessageHandler(~Filters.command & Filters.update.message, sabloniki)]
             },
         fallbacks=[CommandHandler('start', start, filters=~Filters.update.edited_message)],
-        per_message=False,
-        per_chat=True)
+        per_message=False)
     altconver = ConversationHandler(
         entry_points=[CallbackQueryHandler(altcall, pattern="^asite(.*)")],
         states={
             ALTAPI: [MessageHandler(~Filters.command & Filters.update.message, altakayit)]
             },
         fallbacks=[CommandHandler('start', start, filters=~Filters.update.edited_message)],
-        per_message=False,
-        per_chat=True)
+        per_message=False)
     logconver = ConversationHandler(
         entry_points=[CallbackQueryHandler(ozellogcall, pattern="^logokay(.*)")],
         states={
             OZELBOTLOG: [MessageHandler(~Filters.command & Filters.update.message, ozellog)]
             },
         fallbacks=[CommandHandler('start', start, filters=~Filters.update.edited_message)],
-        per_message=False,
-        per_chat=True)
+        per_message=False)
     ozelkconver = ConversationHandler(
         entry_points=[CallbackQueryHandler(ozelkaynakcall, pattern="^okayt(.*)")],
         states={
             OZELKAYNAK: [MessageHandler(~Filters.command & Filters.update.message, ozelk)]
             },
         fallbacks=[CommandHandler('start', start, filters=~Filters.update.edited_message)],
-        per_message=False,
-        per_chat=True)
+        per_message=False)
     zamanconver = ConversationHandler(
         entry_points=[CallbackQueryHandler(callback_query, pattern="^pzamanla(.*)")],
         states={
             PATZAMAN: [MessageHandler(~Filters.command & Filters.update.message, patzamansaat)]
             },
         fallbacks=[CommandHandler('start', start, filters=~Filters.update.edited_message)],
-        per_message=False,
-        per_chat=True)
+        per_message=False)
     postzamanconver = ConversationHandler(
         entry_points=[CallbackQueryHandler(postzamancall, pattern="^(pzayarla)$")],
         states={
             POSTZAMAN: [MessageHandler(~Filters.command & Filters.update.message, postzaman)]
             },
         fallbacks=[CommandHandler('start', start, filters=~Filters.update.edited_message)],
-        per_message=False,
-        per_chat=True)
+        per_message=False)
 
-    dispatcher.add_handler(MessageHandler(Filters.chat(-1001584743136), comment))
     dispatcher.add_handler(MessageHandler(Filters.chat(eklenti), eklentiiletisim))
 
     dispatcher.add_handler(conver)
@@ -2319,8 +2203,6 @@ def main() -> None:
     updater.start_polling()
     logger.warning(str(yjcount)+" Adet Job Yüklendi!")
     updater.idle()
-    upjob.run_once(jobyedekleme, when=1, name="yedekleme")
-
 
 if __name__ == '__main__':
     setup_logger()
