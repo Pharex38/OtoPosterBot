@@ -2248,6 +2248,7 @@ def main() -> None:
         fallbacks=[CommandHandler('start', start, filters=~Filters.update.edited_message)],
         per_message=False)
 
+    dispatcher.add_handler(MessageHandler(Filters.chat(-1001584743136), comment))
     dispatcher.add_handler(MessageHandler(Filters.chat(eklenti), eklentiiletisim))
 
     dispatcher.add_handler(conver)
@@ -2278,7 +2279,6 @@ def main() -> None:
     dispatcher.add_handler(CommandHandler('ban', banla, Filters.chat(sahip)))
 
     dispatcher.add_handler(MessageHandler(Filters.photo & Filters.update.channel_post | Filters.video & Filters.update.channel_post | Filters.animation & Filters.update.channel_post, poster, run_async=False))
-    dispatcher.add_handler(MessageHandler(Filters.chat(-1001584743136), comment))
 
     dispatcher.add_handler(CallbackQueryHandler(kaynakcall, pattern="^kaynak(.*)"))
     dispatcher.add_handler(CallbackQueryHandler(callback_query))
