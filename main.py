@@ -618,7 +618,7 @@ def kaynakcall(call, context):
         if not user in KaynakCol.find_one({"sahip": kys})['kaynak']:
             KaynakCol.update_one({"sahip": kys}, {"$push": {"kaynak": user}})
         call.callback_query.answer(text="✅ Kaynak Eklendi")
-    call.callback_query.edit_message_text(text=f"<b>{bot.get_chat(kkul['kanal'][kkanil]).title}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>", reply_markup=kaynakmark(user, kkanil))
+    call.callback_query.edit_message_text(text=f"<b> >>>{bot.get_chat(kkul['kanal'][kkanil]).title}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>", reply_markup=kaynakmark(user, kkanil))
 
 def ozellogcall(call, context):
     user = call.effective_user.id
@@ -758,14 +758,14 @@ def callback_query(call, context):
         except Exception as e:
             logger.error(e)
             return
-        call.callback_query.edit_message_text(f"<b>    {bot.get_chat(sgynknl).title}\n\n Kanalınızın kaynağını seçin.</b>", reply_markup=kaynakmark(user, int(call.callback_query.data.split("-")[-1])+1))
+        call.callback_query.edit_message_text(f"<b> >>>    {bot.get_chat(sgynknl).title}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>", reply_markup=kaynakmark(user, int(call.callback_query.data.split("-")[-1])+1))
     if call.callback_query.data.startswith("solyan"):
         try:
             sgynknl = collection.find_one({"_id": user})['kanal'][int(call.callback_query.data.split("-")[-1])-1]
         except Exception as e:
             logger.error(e)
             return
-        call.callback_query.edit_message_text(f"<b>    {bot.get_chat(sgynknl).title}\n\n Kanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>", reply_markup=kaynakmark(user, int(call.callback_query.data.split("-")[-1])-1))
+        call.callback_query.edit_message_text(f"<b> >>>    {bot.get_chat(sgynknl).title}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>", reply_markup=kaynakmark(user, int(call.callback_query.data.split("-")[-1])-1))
     """ PAT """
     if call.callback_query.data.startswith("jop"):
         jc = int(call.callback_query.data.split("-")[-1])
@@ -1137,12 +1137,12 @@ def menu(update, context):
             if refsahip == "yok":
                 collection.update_one({"_id": user}, {"$set": {"ozel": False}})
                 collection.update_one({"_id": user}, {"$pull": {"kaynak": "32"}})
-                bot.send_message(chat, f"""<b>    {bot.get_chat(kynskm).title}\n\n Kanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>""", reply_markup=kaynakmark(user, 0))
+                bot.send_message(chat, f"""<b> >>>    {bot.get_chat(kynskm).title}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>""", reply_markup=kaynakmark(user, 0))
                 return
             ref_link = create_deep_linked_url(context.bot.username, str(refsahip))
             bot.send_message(chat, """<b>Özel Kaynak Kullandığınız için başka kaynak seçemezsiniz.</b>\n\n      <i>Özel Kaynağınız:</i><b> <a href="{}">{}</a>\n</b>      <i>Bu Kaynağı Toplam </i><code>{}</code> <i>Kişi Kullanıyor.</i>\n\n<b>Kaynak Referans Linki;</b>\n<code>{}</code>\n<i>Bu link ile botu başlatan herkes otomatik olarak sizin kaynağınıza bağlanacak.</i>""".format(ozel_kaynak_bilgi.invite_link, ozel_kaynak_bilgi.title, kullanan_sayisi, ref_link), reply_markup=kaynakmark(user, 0))
             return
-        bot.send_message(chat, f"""<b>    {bot.get_chat(kynskm).title}\n\n Kanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>""", reply_markup=kaynakmark(user, 0))
+        bot.send_message(chat, f"""<b> >>>    {bot.get_chat(kynskm).title}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>""", reply_markup=kaynakmark(user, 0))
         return
     if mesaj == "📏 Şablon":
         aciklama = "Pharex, lord adminin karısını sikerken lord adminn basıyor."
