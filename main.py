@@ -753,10 +753,16 @@ def callback_query(call, context):
     if call.callback_query.data == "eminmisin":
         call.callback_query.edit_message_text("Alttaki düğmeye basarsan, bu kaynağı kullanan herkesi güzel postlarından mahrum ediceksin.", reply_markup=eminmisin())
     if call.callback_query.data.startswith("sagyan"):
-        sgynknl = collection.find_one({"_id": user})['kanal'][int(call.callback_query.data.split("-")[-1])+1]
-        call.callback_query.edit_message_text(f"{bot.get_chat(sgynknl).title} Kanalınızın kaynağını seçin.", reply_markup=kaynakmark(user, int(call.callback_query.data.split("-")[-1])+1))
+        try:
+            sgynknl = collection.find_one({"_id": user})['kanal'][int(call.callback_query.data.split("-")[-1])+1]
+        except Exception as e:
+            logger.error(e)
+        call.callback_query.edit_message_text(f"<b>    {bot.get_chat(sgynknl).title}\n\n Kanalınızın kaynağını seçin.</b>", reply_markup=kaynakmark(user, int(call.callback_query.data.split("-")[-1])+1))
     if call.callback_query.data.startswith("solyan"):
-        sgynknl = collection.find_one({"_id": user})['kanal'][int(call.callback_query.data.split("-")[-1])-1]
+        try:
+            sgynknl = collection.find_one({"_id": user})['kanal'][int(call.callback_query.data.split("-")[-1])-1]
+        except Exception as e:
+            logger.error(e)
         call.callback_query.edit_message_text(f"<b>    {bot.get_chat(kynskm).title}\n\n Kanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>", reply_markup=kaynakmark(user, int(call.callback_query.data.split("-")[-1])-1))
     """ PAT """
     if call.callback_query.data.startswith("jop"):
