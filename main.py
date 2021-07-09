@@ -263,12 +263,12 @@ def stats(update, context):
                     try:
                         uye = bot.get_chat_members_count(kul)
                         print(uye)
+                    except RetryAfter as after:
+                        sleep(after.retry_after)
                     except Exception as e:
                         logger.error(e)
                         if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
                             sleep(1)
-                        else:
-                            time.sleep(30)
                     else:
                         toplam += uye
     toplam = toplam / 1000
@@ -282,8 +282,8 @@ def stats(update, context):
             for slb in collection.find_one({"_id": sl})['kanal']:
                 try:
                     kkitle += bot.get_chat_members_count(slb)
-                except:
-                    sleep(20)
+                except RetryAfter as after:
+                    sleep(after.retry_after)
                 else:
                     sleep(1)
         stat_text += "{} -> {}\nKitle: {}".format(getskaynak.title, len(kstat['kaynak'], round(kkitle / 1000, 1)))
@@ -2149,8 +2149,8 @@ def gunluk(context):
                 try:
                     uye = bot.get_chat_members_count(kul)
                     print(uye)
-                except Unauthorized:
-                    pass
+                except RetryAfter as after:
+                    sleep(after.retry_after)
                 except Exception as e:
                     logger.error(e)
                     if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
