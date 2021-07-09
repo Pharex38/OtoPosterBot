@@ -1407,23 +1407,6 @@ def kayitapi(update, context):
             zaman_menu += f"\n<i>Günlük {vakcount} Post Paylaşıyorsunuz. </i>"
             trysch = 0
             dlc = ka['time']
-            while trysch <= len(ka['vakit']):
-                if dlc > len(ka['vakit']):
-                    dlc = 0
-                try:
-                    raw_vakit = ka['vakit'][dlc]
-                except IndexError:
-                    dlc = 0
-                    continue
-                bugün = datetime.datetime.now()
-                raw_vakit = str(bugün.day).zfill(2) + "/" + str(bugün.month).zfill(2) + "/" + str(bugün.year) + " " + str(raw_vakit) + ":00"
-                tvakit = datetime.timedelta(hours = 3)
-                vakit = datetime.datetime.strptime(raw_vakit, '%d/%m/%Y %H:%M:%S') - tvakit
-                kontrol = vakit - datetime.datetime.utcnow()
-                if not kontrol.days < 0:
-                    break
-                dlc += 1
-                trysch += 1
             if dlc == -1:
                 zaman_menu += f"\n\nBugün post sınırınıza ulaştınız"
             else:
