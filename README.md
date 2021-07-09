@@ -1,18 +1,18 @@
 # OtoPosterBot
 
-##❔Ne İşe Yarıyor? 
+## ❔Ne İşe Yarıyor? 
 Bu bot sizin seçtiğiniz kaynak kanalında paylaşılan postların linklerini otomatik olarak kısaltıp sizin kanalınızda paylaşır.
 
-##❔Nasıl Kullanılır?
+## ❔Nasıl Kullanılır?
 1. Adım: Botu kanlınıza yönetici olarak ekleyin.
 2. Adım: Kaydet butonunu kullanarak bilgilerinizi kaydedin.
 3. Adım: KANALINIZDA /onayla yazın.
 4. Adım: Keyfini çıkarın.
 
-##❔Senin Kazancın Nedir?
+## ❔Senin Kazancın Nedir?
 Kanalınıza atılan yirmi linkten birisi benim API adresim ile kısaltılır.
 
-###❤️ Geliştirici & Sahip : [@Pharex](https://t.me/Pharex)
-###👨🏻‍🔧 Fix & Eklentiler : [@berce](https://t.me/berce)
+### ❤️ Geliştirici & Sahip : [@Pharex](https://t.me/Pharex)
+### 👨🏻‍🔧 Fix & Eklentiler : [@berce](https://t.me/berce)
  
-  📔        [@OtoPosterBotLog](https://t.me/OtoPosterBotLog)
+### 📔        [@OtoPosterBotLog](https://t.me/OtoPosterBotLog)
