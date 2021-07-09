@@ -618,7 +618,7 @@ def kaynakcall(call, context):
         if not user in KaynakCol.find_one({"sahip": kys})['kaynak']:
             KaynakCol.update_one({"sahip": kys}, {"$push": {"kaynak": user}})
         call.callback_query.answer(text="✅ Kaynak Eklendi")
-    call.callback_query.edit_message_text(text="<b>Kullanmak istediğiniz kaynak kanalını seçin.</b>", reply_markup=kaynakmark(user, kkanil))
+    call.callback_query.edit_message_text(text=f"<b>{bot.get_chat(kkul['kanal'][kkanil]).title}Kanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>", reply_markup=kaynakmark(user, kkanil))
 
 def ozellogcall(call, context):
     user = call.effective_user.id
