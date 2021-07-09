@@ -2294,10 +2294,11 @@ def main() -> None:
     updater.start_polling()
     logger.warning(str(yjcount)+" Adet Job Yüklendi!")
     updater.idle()
+    upjob.run_once(jobyedekleme, when=1, name="yedekleme")
+
 
 if __name__ == '__main__':
     setup_logger()
     logger.info("Bot Çalışıyor...")
     main()
-    upjob.run_once(jobyedekleme, when=1, name="yedekleme")
     bildir("Bot kapandı!")
