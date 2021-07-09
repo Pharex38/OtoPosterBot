@@ -971,7 +971,7 @@ def kaynakmark(user, kanil):
         anakaynakkeyb = [[InlineKeyboardButton("Önceki", callback_data="solyan-{}".format(kanil))]]
     elif kanil == 0:
         anakaynakkeyb = [[InlineKeyboardButton("Sonraki", callback_data="sagyan-{}".format(kanil))]]
-    elif len(u['kanal']) == 1:
+    if len(u['kanal']) == 1:
         anakaynakkeyb = []
    
     for kaynak in KaynakCol.find({}):
