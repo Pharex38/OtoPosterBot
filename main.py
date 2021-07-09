@@ -576,7 +576,7 @@ def kaynakcall(call, context):
         if not user in KaynakCol.find_one({"sahip": kys})['kaynak']:
             KaynakCol.update_one({"sahip": kys}, {"$push": {"kaynak": user}})
         call.callback_query.answer(text="✅ Kaynak Eklendi")
-    call.callback_query.edit_message_text(text="<b>Kullanmak istediğiniz kaynak kanalını seçin.</b>", reply_markup=kaynakmark(user))
+    call.callback_query.edit_message_text(text="<b>Kullanmak istediğiniz kaynak kanalını seçin.</b>", reply_markup=kaynakmark(user, kkanil))
 
 def ozellogcall(call, context):
     user = call.effective_user.id
@@ -710,6 +710,12 @@ def callback_query(call, context):
         call.callback_query.edit_message_text("Kaynak, sen de dahil bütün kullanıcılardan silindi. 💣")
     if call.callback_query.data == "eminmisin":
         call.callback_query.edit_message_text("Alttaki düğmeye basarsan, bu kaynağı kullanan herkesi güzel postlarından mahrum ediceksin.", reply_markup=eminmisin())
+    if call.callback_query.data.startswith("sagyan"):
+        sgynknl = collection.find_one({"_id": user})['kanal'][int(call.callback_query.data.split("-")[-1])+1]
+        call.callback_query.edit_message_text(f"{bot.get_chat(sgynknl).title} Kanalınızın kaynağını seçin.", reply_markup=kaynakmark(user, int(call.callback_query.data.split("-")[-1])+1))
+    if call.callback_query.data.startswith("solyan"):
+        sgynknl = collection.find_one({"_id": user})['kanal'][int(call.callback_query.data.split("-")[-1])-1]
+        call.callback_query.edit_message_text(f"{bot.get_chat(sgynknl).title} Kanalınızın kaynağını seçin.", reply_markup=kaynakmark(user, int(call.callback_query.data.split("-")[-1])-1))
     """ PAT """
     if call.callback_query.data.startswith("jop"):
         jc = int(call.callback_query.data.split("-")[-1])
@@ -893,7 +899,12 @@ def kaynakmark(user, kanil):
         return kmark 
     linkkaynakkeyb = []
     butonkaynakkeyb = []
-    anakaynakkeyb = []
+    if kanil == 5:
+        anakaynakkeyb = [[InlineKeyboardButton("Önceki", callback_data="solyan")]]
+    elif kanil == 0:
+        anakaynakkeyb = [[InlineKeyboardButton("Sonraki", callback_data="sagyan")]]
+    else:
+        anakaynakkeyb = [[InlineKeyboardButton("Önceki", callback_data="solyan"), InlineKeyboardButton("Sonraki", callback_data="sagyan")]]
     for kaynak in KaynakCol.find({}):
         getkaynak = bot.get_chat(kaynak["_id"])
         saatbut = InlineKeyboardButton("⏳", callback_data="zaman-{}".format(kaynak['sahip']))
