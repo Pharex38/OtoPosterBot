@@ -222,8 +222,6 @@ def start(update, context):
 """.format(mention), disable_web_page_preview=True, reply_markup=dugme(user))
     return ConversationHandler.END
 
-['-1001441479724', '-1001424857908', '-1001223927618', '-1001247508313', '-1001403142180', '-1001112187873', '-1001421769223', '-1001230666487', '-1001453087371', '-1001442285729', '-1001163432857', '-1001227603239', '-1001518431604', '-1001383205378', '-1001153913390', '-1001327036756', '-1001142303850', '-1001187950107', '-1001354602718', '-1001196259617', '-1001200636177', '-1001238695669', '-1001258544057', '-1001153516246', '-1001429446129', '-1001336001795', '-1001320790297', '-1001184906277', '-1001204624118', '-1001451177227', '-1001401585035', '-1001237541799', '-1001460880957', '-1001358428763', '-1001386470532', '-1001528593672', '-1001336061178', '-1001200148669', '-1001444972374', '-1001196097495', '-1001263274942', '-1001341097893', '-1001190737776', '-1001424014465', '-1001175074701', '-1001458280463', '-1001595244587', '-1001493434830', '-1001385995079', '-1001413005616', '-1001491320774', '-1001419319242', '-1001287709697', '-1001444935707', '-1001450479011', '-1001352525854']
-
 def stats(update, context):
     kanals = 0
     users = 0
@@ -1944,7 +1942,6 @@ def poster_job(context):
             bot.edit_message_text(basari, botlog, lmsg.message_id)
         except Exception as e:
             logger.error(e)
-        postsirasi.remove(poste)
     postsirasi.clear()
     postsirasi = []
 
@@ -2131,7 +2128,6 @@ def ozel_poster_job(context):
         if okaynak["log"] != "yok":
             bot.send_message(okaynak["log"], obasari[7:])
         logger.warning(obasari)
-        opostsirasi.remove(oposte)
     opostsirasi.clear()
     opostsirasi = []
 
@@ -2140,10 +2136,12 @@ def poster(update, context):
     chat = update.channel_post.chat.id
     # Ana Kaynaklar
     if KaynakCol.find_one({"_id": chat}) != None:
+        logger.warning(f"{update.channel_post.chat.title} Postu sıraya eklendi.")
         postdict = {"chatid": chat, "update": update}
         postsirasi.append(postdict)
     # Özel Kaynaklar
     elif OzelCol.find_one({"okaynak": chat}) != None:
+        logger.warning(f"[ÖZEL] {update.channel_post.chat.title} Postu sıraya eklendi.")
         opostdict = {"chatid": chat, "update": update}
         opostsirasi.append(opostdict)
 
@@ -2232,7 +2230,6 @@ def eklentiiletisim(update, context):
         return
 
 def comment(update, context):
-    print(update)
     if update.message.text.find("kanalda post paylaşıldı.") == -1 and update.message.text.find("paylaşılıyor") == -1:
         return
     bot.delete_message(update.message.chat.id, update.effective_message.message_id)
