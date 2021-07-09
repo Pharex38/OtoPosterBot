@@ -1878,6 +1878,10 @@ def poster_job(context):
                     continue
                 for kan in kanal:
                     if not kan in chatdat['kanal']:
+                        try:
+                            bot.send_message(sahip, f"{kan}\n\n{chatdat['kanal']}")
+                        except:
+                            pass
                         continue
                     post = update.channel_post
                     try:
