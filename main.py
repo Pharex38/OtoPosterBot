@@ -2171,10 +2171,10 @@ def eklentiiletisim(update, context):
         return
 
 def comment(update, context):
-    bot.delete_message(update.message.chat.id, update.effective_message.message_id)
     print(update)
-    if update.message.text.find("kanalda post paylaşıldı.") == -1 or update.message.text.find("paylaşılıyor") == -1:
+    if update.message.text.find("kanalda post paylaşıldı.") == -1 and update.message.text.find("paylaşılıyor") == -1:
         return
+    bot.delete_message(update.message.chat.id, update.effective_message.message_id)
 
 bildir('Bot Başladı 🍕')
 
