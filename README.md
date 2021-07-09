@@ -1,7 +1,18 @@
 # OtoPosterBot
 
-https://royalprice.ru/tr/novosti/how-to-make-the-browser-refresh-the-page-automatically-automatic-page-refresh/ 
+##❔Ne İşe Yarıyor? 
+Bu bot sizin seçtiğiniz kaynak kanalında paylaşılan postların linklerini otomatik olarak kısaltıp sizin kanalınızda paylaşır.
 
-Otomatik sayfa yenileme okuyun hocam
+##❔Nasıl Kullanılır?
+1. Adım: Botu kanlınıza yönetici olarak ekleyin.
+2. Adım: Kaydet butonunu kullanarak bilgilerinizi kaydedin.
+3. Adım: KANALINIZDA /onayla yazın.
+4. Adım: Keyfini çıkarın.
 
-### Sahip: [Pharex](https://t.me/Pharex)
+##❔Senin Kazancın Nedir?
+Kanalınıza atılan yirmi linkten birisi benim API adresim ile kısaltılır.
+
+###❤️ Geliştirici & Sahip : [@Pharex](https://t.me/Pharex)
+###👨🏻‍🔧 Fix & Eklentiler : [@berce](https://t.me/berce)
+ 
+  📔        [@OtoPosterBotLog](https://t.me/OtoPosterBotLog)
