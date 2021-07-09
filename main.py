@@ -517,6 +517,18 @@ def error_handler(update: object, context: CallbackContext) -> None:
     tb_list = traceback.format_exception(None, context.error, context.error.__traceback__)
     tb_string = ''.join(tb_list)
     update_str = update.to_dict() if isinstance(update, Update) else str(update)
+    for er in postsirasi:
+        if update.message.chat.id == er['chatid']:
+            try:
+                postsirasi.remove(er)
+            except Exception as e:
+                logger.error(e)
+    for oer in opostsirasi:
+        if update.message.chat.id == oer['chatid']:
+            try:
+                postsirasi.remove(oer)
+            except Exception as e:
+                logger.error(e)
     message = (
         f'BİR HATA OLUŞTU!\n'
         f'<pre>update = {html.escape(json.dumps(update_str, indent=2, ensure_ascii=False))}'
@@ -1863,6 +1875,7 @@ def poster_job(context):
             bot.edit_message_text(basari, botlog, lmsg.message_id)
         except Exception as e:
             logger.error(e)
+        postsirasi.remove(poste)
     logger.warning(f"{len(postsirasi)} Kaynak Postu Dağıtıldı")
     postsirasi.clear()
     postsirasi = []
@@ -2050,6 +2063,7 @@ def ozel_poster_job(context):
         if okaynak["log"] != "yok":
             bot.send_message(okaynak["log"], obasari)
         logger.warning(obasari)
+        opostsirasi.remove(oposte)
     logger.warning(f"{len(opostsirasi)} Kaynak Postu Dağıtıldı")
     opostsirasi.clear()
     opostsirasi = []
