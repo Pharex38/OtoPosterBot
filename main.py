@@ -1869,6 +1869,8 @@ def poster_job(context):
                     bot.send_message(-1001190898326, str(hesap))
                     continue
                 for kan in kanal:
+                    if not kan in chatdat['kanal']:
+                        continue
                     post = update.channel_post
                     try:
                         yetkililer = [xy.user.id for xy in bot.get_chat_administrators(kan)]
