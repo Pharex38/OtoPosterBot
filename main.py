@@ -1115,9 +1115,6 @@ def menu(update, context):
         bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
     if mesaj == "🔧 Kaynak":
-        if user != sahip:
-            bot.send_message(user, "Bu komut bakımda, daha sonra tekrar deneyin çok acilse @Pharex'e yaz.")
-            return
         if mj == None:
             bot.send_message(chat, "Lütfen önce bir API kaydedin.", reply_markup=dagme())
             return
