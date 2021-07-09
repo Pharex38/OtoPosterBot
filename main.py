@@ -1345,8 +1345,6 @@ def kayitapi(update, context):
                     break
                 dlc += 1
                 trysch += 1
-                if ka['time'] < 3:
-                    collection.update_one({"_id": user}, {"$set": {"time": dlc}})
             zaman_menu += f"\n\nBir sonraki postunuz günün <code>{dlc}</code>. postu olacak."
         bot.send_message(chat, zaman_menu, reply_markup=zamanmenumark(user))
         return
