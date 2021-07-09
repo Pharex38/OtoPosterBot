@@ -277,7 +277,11 @@ def stats(update, context):
     statscount = 0
     for kstat in KaynakCol.find({}):
         getskaynak = bot.get_chat(kstat['_id'])
-        stat_text += "{} -> {}".format(getskaynak.title, len(kstat['kaynak']))
+        kkitle = 0
+        for sl in kstat["kaynak"]:
+            for slb in collection.find_one({"_id": sl})['kanal']:
+                kkitle += bot.get_chat_members_count(slb)
+        stat_text += "{} -> {}\nKitle: {}".format(getskaynak.title, len(kstat['kaynak'], round(kkitle / 1000, 1)))
     ozel_text = f"Özel kullanan: {ozel_kaynak_kullanan_sayisi}"
           
     bot.edit_message_text(stat_text+ozel_text, chat, msg.message_id)
