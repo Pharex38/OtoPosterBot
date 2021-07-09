@@ -1386,7 +1386,7 @@ def kayitapi(update, context):
             return
         for kca in ka['kanal']:
             if not eklenti in [r.user.id for r in bot.get_chat_administrators(kca)]:
-                bot.send_message(chat, "Botun post zamanlayabilmesi için eklentiye ihtiyacı var, eklenti kurulsun mu?\n\n<i>Butona basmadan önce bota kanallarınızda yönetici ekleme yetkisi vermeniz gerekiyor</i>", reply_markup=ekmark())
+                bot.send_message(chat, "Botun post zamanlayabilmesi için eklentiye ihtiyacı var, eklenti kurulsun mu?\n\n<i>Butona basmadan önce bota kanallarınızda resimdeki yetkileri vermeniz gerekiyor</i> <a href='https://telegra.ph/file/d8802d6ca2fe807639a06.png'>ㅤ</a>", reply_markup=ekmark())
                 return
         zaman_menu = "<b>Eklenti:</b> ✅\n\n"
         if ka['vakit'] == 0:
@@ -2240,7 +2240,7 @@ bildir('Bot Başladı 🍕')
 def main() -> None:
     #mypers = PicklePersistence(filename='pers')
     
-    updater = Updater(token=bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=90, disable_web_page_preview=True, tzinfo=pytz.timezone('Turkey')), request_kwargs={'con_pool_size': 999, 'read_timeout': 150, 'connect_timeout': 150}, workers=40)
+    updater = Updater(token=bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=90, disable_web_page_preview=False, tzinfo=pytz.timezone('Turkey')), request_kwargs={'con_pool_size': 999, 'read_timeout': 150, 'connect_timeout': 150}, workers=40)
 
     dispatcher = updater.dispatcher
     
