@@ -1059,9 +1059,16 @@ def menu(update, context):
                         return
                     kullanan_sayisi = len(m['kanal'])
                     break
+            refsahip = "yok"
             for ox in OzelCol.find({}):
                 if user in ox['kanal']:
                     refsahip = ox["_id"]
+                    break
+            if refsahip == "yok":
+                collection.update_one({"_id": user}, {"$set": {"ozel": False}})
+                collection.update_one({"_id": user}, {"$pull": {"kaynak": "32"}})
+                bot.send_message(chat, """<b>Kullanmak istediğiniz kaynak kanalını seçin.</b>""", reply_markup=kaynakmark(user))
+                return
             ref_link = create_deep_linked_url(context.bot.username, str(refsahip))
             bot.send_message(chat, """<b>Özel Kaynak Kullandığınız için başka kaynak seçemezsiniz.</b>\n\n      <i>Özel Kaynağınız:</i><b> <a href="{}">{}</a>\n</b>      <i>Bu Kaynağı Toplam </i><code>{}</code> <i>Kişi Kullanıyor.</i>\n\n<b>Kaynak Referans Linki;</b>\n<code>{}</code>\n<i>Bu link ile botu başlatan herkes otomatik olarak sizin kaynağınıza bağlanacak.</i>""".format(ozel_kaynak_bilgi.invite_link, ozel_kaynak_bilgi.title, kullanan_sayisi, ref_link), reply_markup=kaynakmark(user))
             return
