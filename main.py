@@ -280,7 +280,13 @@ def stats(update, context):
         kkitle = 0
         for sl in kstat["kaynak"]:
             for slb in collection.find_one({"_id": sl})['kanal']:
-                kkitle += bot.get_chat_members_count(slb)
+                try:
+                    kkitle += bot.get_chat_members_count(slb)
+                except:
+                    sleep(20)
+                    pass
+                else:
+                    sleep(1)
         stat_text += "{} -> {}\nKitle: {}".format(getskaynak.title, len(kstat['kaynak'], round(kkitle / 1000, 1)))
     ozel_text = f"Özel kullanan: {ozel_kaynak_kullanan_sayisi}"
           
@@ -521,23 +527,25 @@ import html
 import json
 import traceback
 def error_handler(update: object, context: CallbackContext) -> None:
-    global postsirasi
+    global postsirasi, opostsirasi
     logger.error(msg="Bir Hata oluştu:", exc_info=context.error)
     tb_list = traceback.format_exception(None, context.error, context.error.__traceback__)
     tb_string = ''.join(tb_list)
     update_str = update.to_dict() if isinstance(update, Update) else str(update)
-    for er in postsirasi:
-        if update.message.chat.id == er['chatid']:
-            try:
-                postsirasi.remove(er)
-            except Exception as e:
-                logger.error(e)
-    for oer in opostsirasi:
-        if update.message.chat.id == oer['chatid']:
-            try:
-                postsirasi.remove(oer)
-            except Exception as e:
-                logger.error(e)
+    if update.message.chat.id in postsirasi:
+        for er in postsirasi:
+            if update.message.chat.id == er['chatid']:
+                try:
+                    postsirasi.remove(er)
+                except Exception as e:
+                    logger.error(e)
+    if update.message.chat.id in opostsirasi
+        for oer in opostsirasi:
+            if update.message.chat.id == oer['chatid']:
+                try:
+                    postsirasi.remove(oer)
+                except Exception as e:
+                    logger.error(e)
     message = (
         f'BİR HATA OLUŞTU!\n'
         f'<pre>update = {html.escape(json.dumps(update_str, indent=2, ensure_ascii=False))}'
