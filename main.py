@@ -1920,7 +1920,11 @@ def poster_job(context):
                         if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
                             try:
                                 logger.warning(f"Hatalı kanal: {kan}")
-                                bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {user}\nÜYE: {bot.get_chat_members_count(kan)}\nKANAL: {kan}")
+                                try:
+                                    kanname = bot.get_chat_members_count(kan)
+                                except:
+                                    kanname = "Kanaldan Çıkarılmış."
+                                bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {user}\nÜYE: {kanname}\nKANAL: {kan}")
                                 collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
                                 bot.send_message(user, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
                             except:
