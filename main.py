@@ -1876,7 +1876,6 @@ def poster_job(context):
         except Exception as e:
             logger.error(e)
         postsirasi.remove(poste)
-    logger.warning(f"{len(postsirasi)} Kaynak Postu Dağıtıldı")
     postsirasi.clear()
     postsirasi = []
 
@@ -2064,7 +2063,6 @@ def ozel_poster_job(context):
             bot.send_message(okaynak["log"], obasari)
         logger.warning(obasari)
         opostsirasi.remove(oposte)
-    logger.warning(f"{len(opostsirasi)} Kaynak Postu Dağıtıldı")
     opostsirasi.clear()
     opostsirasi = []
 
