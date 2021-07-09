@@ -675,17 +675,25 @@ def callback_query(call, context):
         call.callback_query.answer("Yetkilendiriliyor...")
         for ku in collection.find_one({"_id": user})['kanal']:
             bot.send_message(eklenti, bot.get_chat(ku).invite_link)
+            sleep(0.5)
             try:
-                bot.promote_chat_member(ku, eklenti, can_post_messages=True)
-            except Exception as e:
-                logger.error(e)
-                try:
-                    kurisim = bot.get_chat(ku).title
-                except:
-                    bot.send_message(chat, "Botu kanalınızdan çıkardığınız için eklenti kurulamadı.")
-                    return
-                bot.send_message(chat, f"Bota {kurisim} kanalınızda yönetici ekleme yetkisi vermediğiniz için eklenti kurulamadı.")
+                botdurum = bot.get_chat_member(ku, bot.get_me().id)
+            except:
+                collection.update_one({"_id": user}, {"$pull": {"kanal": ku}})
+                bot.send_message(chat, "Botu kanalınızdan çıkardığınız için eklenti kurulamadı.")
                 return
+            if botdurum.can_post_messages and botdurum.can_invite_users and botdurum.can_promote_members:
+                try:
+                    bot.promote_chat_member(ku, eklenti, can_post_messages=True)
+                except Exception as e:
+                    logger.error(e)
+                    try:
+                        kurisim = bot.get_chat(ku).title
+                    except:
+                        bot.send_message(chat, "Botu kanalınızdan çıkardığınız için eklenti kurulamadı.")
+                        return
+                    bot.send_message(chat, f"Bota {kurisim} kanalınızda yönetici ekleme yetkisi vermediğiniz için eklenti kurulamadı.")
+                    return
             
         call.callback_query.edit_message_text("Eklenti tüm Kanallarınıza kuruldu!")
     """ İptal """
@@ -1543,31 +1551,41 @@ def kanalkayit(update, context):
         return ConversationHandler.END
     if not update.message.forward_from_chat:
         msg = bot.send_message(chat, "↪️ Bunun ne olduğu hakkında bir fikrim yok! Lütfen kanaldan herhangi bir gönderi iletin.", reply_markup=imark())
-        return KANALKAYDET
+        return 
     kanal = update.message.forward_from_chat.id
     if KaynakCol.find_one({"_id": kanal}):
         mst = bot.send_message(chat, "Kaynak kanalını nasıl kaydedebilirim ki?", reply_markup=imark())
-        return KANALKAYDET
+        return 
     if str(kanal) in y['kanal']:
         msl = bot.send_message(chat, "Bu kanalı zaten kaydetmişsiniz")
-        return KANALKAYDET
+        return 
     try:
         kanalbilgi = bot.get_chat(kanal)
     except:
         msg = bot.send_message(chat, "Botu kanalınızda yönetici eklememişsiniz.")
-        return KANALKAYDET
+        return 
     try:
         yetkiler = bot.get_chat_administrators(kanal)
     except:
         msg = bot.send_message(chat, "Botu kanalınızda yönetici eklememişsiniz.")        
-        return KANALKAYDET
+        return 
     ytliler = [y.user.id for y in yetkiler]
     if not user in ytliler:
         bot.send_message(chat, "Bu kanal sizin değil 😠")
         return
     if y['vakit'] != 0:
-        bot.send_message(chat, "Post zamanlama özelliğiniz açık olduğu için resimdeki yetkileri vermeniz gerekiyor. <a href='https://telegra.ph/file/d8802d6ca2fe807639a06.png'>ㅤ</a>")
-        return
+        kbotdurum = bot.get_chat_member(ku, bot.get_me().id)
+        if botdurum.can_invite_users and botdurum.can_promote_members and botdurum.can_post_messages:
+            bot.send_message(eklenti, kanalbilgi.invite_link)
+            sleep(0.5)
+            try:
+                bot.promote_chat_member(ku, eklenti, can_post_messages=True)
+            except:
+                bot.send_message(chat, "Post zamanlama özelliğiniz açık olduğu için resimdeki yetkileri vermeniz gerekiyor. <a href='https://telegra.ph/file/d8802d6ca2fe807639a06.png'>ㅤ</a>")
+                return
+        else:
+            bot.send_message(chat, "Post zamanlama özelliğiniz açık olduğu için resimdeki yetkileri vermeniz gerekiyor. <a href='https://telegra.ph/file/d8802d6ca2fe807639a06.png'>ㅤ</a>")
+            return
     collection.update_one({"_id": user}, {"$push":{"kanal": str(kanal)}})
     update.message.reply_text("<b>🟢Kanalınız Kaydedildi.</b>", reply_markup=dugme(user))
     bot.send_message(blog, f"#YENİ_KANAL\nID: {kanal}\nÜYE: {bot.get_chat_members_count(kanal)}\nSAHİP: {user}")
