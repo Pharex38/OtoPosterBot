@@ -900,11 +900,11 @@ def kaynakmark(user, kanil):
     linkkaynakkeyb = []
     butonkaynakkeyb = []
     if kanil == 5:
-        anakaynakkeyb = [[InlineKeyboardButton("Önceki", callback_data="solyan")]]
+        anakaynakkeyb = [[InlineKeyboardButton("Önceki", callback_data="solyan-{}".format(kanil))]]
     elif kanil == 0:
-        anakaynakkeyb = [[InlineKeyboardButton("Sonraki", callback_data="sagyan")]]
+        anakaynakkeyb = [[InlineKeyboardButton("Sonraki", callback_data="sagyan-{}".format(kanil))]]
     else:
-        anakaynakkeyb = [[InlineKeyboardButton("Önceki", callback_data="solyan"), InlineKeyboardButton("Sonraki", callback_data="sagyan")]]
+        anakaynakkeyb = [[InlineKeyboardButton("Önceki", callback_data="solyan-{}".format(kanil)), InlineKeyboardButton("Sonraki", callback_data="sagyan-{}".format(kanil))]]
     for kaynak in KaynakCol.find({}):
         getkaynak = bot.get_chat(kaynak["_id"])
         saatbut = InlineKeyboardButton("⏳", callback_data="zaman-{}".format(kaynak['sahip']))
