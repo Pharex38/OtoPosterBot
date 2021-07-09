@@ -757,7 +757,7 @@ def callback_query(call, context):
         call.callback_query.edit_message_text(f"{bot.get_chat(sgynknl).title} Kanalınızın kaynağını seçin.", reply_markup=kaynakmark(user, int(call.callback_query.data.split("-")[-1])+1))
     if call.callback_query.data.startswith("solyan"):
         sgynknl = collection.find_one({"_id": user})['kanal'][int(call.callback_query.data.split("-")[-1])-1]
-        call.callback_query.edit_message_text(f"{bot.get_chat(sgynknl).title} Kanalınızın kaynağını seçin.", reply_markup=kaynakmark(user, int(call.callback_query.data.split("-")[-1])-1))
+        call.callback_query.edit_message_text(f"<b>    {bot.get_chat(kynskm).title}\n\n Kanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>", reply_markup=kaynakmark(user, int(call.callback_query.data.split("-")[-1])-1))
     """ PAT """
     if call.callback_query.data.startswith("jop"):
         jc = int(call.callback_query.data.split("-")[-1])
@@ -966,11 +966,11 @@ def kaynakmark(user, kanil):
         return kmark 
     linkkaynakkeyb = []
     butonkaynakkeyb = []
-    anakaynakkeyb = [[InlineKeyboardButton("Önceki", callback_data="solyan-{}".format(kanil)), InlineKeyboardButton("Sonraki", callback_data="sagyan-{}".format(kanil))]]
+    anakaynakkeyb = [[InlineKeyboardButton("⏪⏪", callback_data="solyan-{}".format(kanil)), InlineKeyboardButton("⏩⏩", callback_data="sagyan-{}".format(kanil))]]
     if kanil == len(u['kanal']):
-        anakaynakkeyb = [[InlineKeyboardButton("Önceki", callback_data="solyan-{}".format(kanil))]]
+        anakaynakkeyb = [[InlineKeyboardButton("⏪⏪", callback_data="solyan-{}".format(kanil))]]
     elif kanil == 0:
-        anakaynakkeyb = [[InlineKeyboardButton("Sonraki", callback_data="sagyan-{}".format(kanil))]]
+        anakaynakkeyb = [[InlineKeyboardButton("⏩⏩", callback_data="sagyan-{}".format(kanil))]]
     if len(u['kanal']) == 1:
         anakaynakkeyb = []
    
@@ -1107,13 +1107,14 @@ def menu(update, context):
         if mj == None:
             bot.send_message(chat, "Lütfen önce bir API kaydedin.", reply_markup=dagme())
             return
+        kynskm = mj['kanal'][0]
         if mj['ozel']:
             for m in OzelCol.find({}):
                 if user in m['kanal']:
                     try:
                         ozel_kaynak_bilgi = bot.get_chat(m['okaynak'])
                     except Unauthorized:
-                        bot.send_message(chat, "Botu kaynak kanalınızdan çıkarttığınız için post atılmayacak.", reply_markup=kaynakmark(user))
+                        bot.send_message(chat, "Botu kaynak kanalınızdan çıkarttığınız için post atılmayacak.", reply_markup=kaynakmark(user, 0))
                         return
                     kullanan_sayisi = len(m['kanal'])
                     break
@@ -1125,13 +1126,12 @@ def menu(update, context):
             if refsahip == "yok":
                 collection.update_one({"_id": user}, {"$set": {"ozel": False}})
                 collection.update_one({"_id": user}, {"$pull": {"kaynak": "32"}})
-                bot.send_message(chat, """<b>Kullanmak istediğiniz kaynak kanalını seçin.</b>""", reply_markup=kaynakmark(user))
+                bot.send_message(chat, f"""<b>    {bot.get_chat(kynskm).title}\n\n Kanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>""", reply_markup=kaynakmark(user, 0))
                 return
             ref_link = create_deep_linked_url(context.bot.username, str(refsahip))
-            bot.send_message(chat, """<b>Özel Kaynak Kullandığınız için başka kaynak seçemezsiniz.</b>\n\n      <i>Özel Kaynağınız:</i><b> <a href="{}">{}</a>\n</b>      <i>Bu Kaynağı Toplam </i><code>{}</code> <i>Kişi Kullanıyor.</i>\n\n<b>Kaynak Referans Linki;</b>\n<code>{}</code>\n<i>Bu link ile botu başlatan herkes otomatik olarak sizin kaynağınıza bağlanacak.</i>""".format(ozel_kaynak_bilgi.invite_link, ozel_kaynak_bilgi.title, kullanan_sayisi, ref_link), reply_markup=kaynakmark(user))
+            bot.send_message(chat, """<b>Özel Kaynak Kullandığınız için başka kaynak seçemezsiniz.</b>\n\n      <i>Özel Kaynağınız:</i><b> <a href="{}">{}</a>\n</b>      <i>Bu Kaynağı Toplam </i><code>{}</code> <i>Kişi Kullanıyor.</i>\n\n<b>Kaynak Referans Linki;</b>\n<code>{}</code>\n<i>Bu link ile botu başlatan herkes otomatik olarak sizin kaynağınıza bağlanacak.</i>""".format(ozel_kaynak_bilgi.invite_link, ozel_kaynak_bilgi.title, kullanan_sayisi, ref_link), reply_markup=kaynakmark(user, 0))
             return
-        kynskm = mj['kanal'][0]
-        bot.send_message(chat, f"""<b>{bot.get_chat(kynskm).title} Kanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>""", reply_markup=kaynakmark(user, 0))
+        bot.send_message(chat, f"""<b>    {bot.get_chat(kynskm).title}\n\n Kanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>""", reply_markup=kaynakmark(user, 0))
         return
     if mesaj == "📏 Şablon":
         aciklama = "Pharex, lord adminin karısını sikerken lord adminn basıyor."
