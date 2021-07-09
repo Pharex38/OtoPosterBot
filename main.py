@@ -757,13 +757,15 @@ def callback_query(call, context):
             sgynknl = collection.find_one({"_id": user})['kanal'][int(call.callback_query.data.split("-")[-1])+1]
         except Exception as e:
             logger.error(e)
+            return
         call.callback_query.edit_message_text(f"<b>    {bot.get_chat(sgynknl).title}\n\n Kanalınızın kaynağını seçin.</b>", reply_markup=kaynakmark(user, int(call.callback_query.data.split("-")[-1])+1))
     if call.callback_query.data.startswith("solyan"):
         try:
             sgynknl = collection.find_one({"_id": user})['kanal'][int(call.callback_query.data.split("-")[-1])-1]
         except Exception as e:
             logger.error(e)
-        call.callback_query.edit_message_text(f"<b>    {bot.get_chat(kynskm).title}\n\n Kanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>", reply_markup=kaynakmark(user, int(call.callback_query.data.split("-")[-1])-1))
+            return
+        call.callback_query.edit_message_text(f"<b>    {bot.get_chat(sgynknl).title}\n\n Kanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>", reply_markup=kaynakmark(user, int(call.callback_query.data.split("-")[-1])-1))
     """ PAT """
     if call.callback_query.data.startswith("jop"):
         jc = int(call.callback_query.data.split("-")[-1])
