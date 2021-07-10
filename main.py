@@ -2235,6 +2235,8 @@ def eklentiiletisim(update, context):
         return
 
 def comment(update, context):
+    if update.edited_message:
+        return
     if update.message.text.find("kanalda post paylaşıldı.") == -1 and update.message.text.find("paylaşılıyor") == -1:
         return
     bot.delete_message(update.message.chat.id, update.effective_message.message_id)
@@ -2319,7 +2321,7 @@ def main() -> None:
         per_message=False,
         per_chat=True)
 
-    dispatcher.add_handler(MessageHandler(Filters.chat(-1001584743136), ~Filters.update.edited_message, comment))
+    dispatcher.add_handler(MessageHandler(Filters.chat(-1001584743136), comment))
     dispatcher.add_handler(MessageHandler(Filters.chat(eklenti), eklentiiletisim))
 
     dispatcher.add_handler(conver)
