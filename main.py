@@ -1130,6 +1130,8 @@ def menu(update, context):
         if mj == None:
             bot.send_message(chat, "Lütfen önce bir API kaydedin.", reply_markup=dagme())
             return
+        if len(mj['kanal']) < 1:
+            bot.send_message(chat, "Henüz bir kanal kaydetmemişsiniz.", reply_markup=dugme(user))
         kynskm = mj['kanal'][0]
         if mj['ozel']:
             for m in OzelCol.find({}):
