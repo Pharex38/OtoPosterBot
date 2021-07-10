@@ -419,7 +419,7 @@ def viple(update, context):
     global postsirasi
     chat = update.message.chat.id
     if len(context.args) < 1:
-        postsirasi = []
+        context.job_queue.run_once(gunluk, name="gunluk", when=3)
         return
     bot.send_message(context.args[0], "Hesabınız Artık VIP!")
     try:
