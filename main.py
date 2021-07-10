@@ -771,6 +771,7 @@ def callback_query(call, context):
         except Exception as e:
             logger.error(e)
             return
+        call.callback_query.answer(bot.get_chat(sgynknl).title)
         call.callback_query.edit_message_text(f"<b> >>>    {bot.get_chat(sgynknl).title}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>", reply_markup=kaynakmark(user, int(call.callback_query.data.split("-")[-1])+1))
     if call.callback_query.data.startswith("solyan"):
         try:
@@ -778,6 +779,7 @@ def callback_query(call, context):
         except Exception as e:
             logger.error(e)
             return
+        call.callback_query.answer(bot.get_chat(sgynknl).title)
         call.callback_query.edit_message_text(f"<b> >>>    {bot.get_chat(sgynknl).title}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>", reply_markup=kaynakmark(user, int(call.callback_query.data.split("-")[-1])-1))
     """ PAT """
     if call.callback_query.data.startswith("jop"):
