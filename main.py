@@ -290,7 +290,7 @@ def stats(update, context):
                 else:
                     kkitle += amc
                     sleep(1)
-        stat_text += "{} -> {}\nKitle: {}".format(getskaynak.title, len(kstat['kaynak'], round(kkitle / 1000, 1)))
+        stat_text += "{} -> {}\nKitle: {}".format(getskaynak.title, len(kstat['kaynak']), round(kkitle / 1000, 1))
     ozel_text = f"Özel kullanan: {ozel_kaynak_kullanan_sayisi}"
           
     bot.edit_message_text(stat_text+ozel_text, chat, msg.message_id)
