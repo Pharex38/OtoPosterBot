@@ -285,6 +285,8 @@ def stats(update, context):
                     amc = bot.get_chat_members_count(slb)
                 except RetryAfter as after:
                     sleep(after.retry_after)
+                except Exception as e:
+                    logger.error(e)
                 else:
                     kkitle += amc
                     sleep(1)
