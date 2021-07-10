@@ -49,7 +49,6 @@ tips = [
     "20 linkte 1 olayı Elle Post Paylaş butonu için geçerli değildir.",
     "Oluşturduğunuz özel kaynağı siz de isterseniz başkaları da kullanabilir.",
     "Şablon kısmında Markdown(kalın, italik vs.) kullanabilirsiniz.",
-    "Kanallarınıza farklı farklı kaynaklardan post atılmasını istiyorsanız başka bir Telegram hesabınızdan diğer kanalınızı kaydedip farklı kanal seçebilirsiniz.",
     "Elle Post Paylaşırken post zamanlayabilirsiniz.",
     ]
 
