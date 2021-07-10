@@ -1132,6 +1132,7 @@ def menu(update, context):
             return
         if len(mj['kanal']) < 1:
             bot.send_message(chat, "Henüz bir kanal kaydetmemişsiniz.", reply_markup=dugme(user))
+            return
         kynskm = mj['kanal'][0]
         if mj['ozel']:
             for m in OzelCol.find({}):
@@ -1810,7 +1811,7 @@ def poster_job(context):
                 if pcount < 19:
                     collection.update_one({"_id": user}, {"$inc": {"pcount": 1}})
                 else:
-                    if para and user not in vipler:
+                    if para and not user in vipler:
                         token = phaapi(site)
                         altapi = phaapi(altsite) if altsite != "None" else "None"
                     collection.update_one({"_id": user}, {"$set": {"pcount": 0}})
