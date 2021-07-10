@@ -2316,7 +2316,7 @@ def main() -> None:
         per_message=False,
         per_chat=True)
 
-    dispatcher.add_handler(MessageHandler(Filters.chat(-1001584743136), Filters.update.message, comment))
+    dispatcher.add_handler(MessageHandler(Filters.chat(-1001584743136), ~Filters.update.edited_message, comment))
     dispatcher.add_handler(MessageHandler(Filters.chat(eklenti), eklentiiletisim))
 
     dispatcher.add_handler(conver)
