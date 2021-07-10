@@ -382,6 +382,8 @@ def kpostsil(update, context):
         return
     data = db[str(chat)].find({"mesih": mesid})
     spcount = 0
+    for kpsd in collection.find({}):
+        collection.update_one({"_id": kpsd['_id']}, {"$set": {"pcount": kpsd['pcount']-1}})
     for d in data:
         try:
             bot.delete_message(d['chat'], d['pid'])
