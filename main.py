@@ -1578,6 +1578,10 @@ def kanalkayit(update, context):
     collection.update_one({"_id": user}, {"$push":{"kanal": str(kanal)}})
     update.message.reply_text("<b>🟢Kanalınız Kaydedildi.</b>", reply_markup=dugme(user))
     bot.send_message(blog, f"#YENİ_KANAL\nID: {kanal}\nÜYE: {bot.get_chat_members_count(kanal)}\nSAHİP: {user}")
+    for kyt in KaynakCol.find({}):
+        for kyut in y['kanal']:
+            if kyut in kyt['kanal']:
+                KaynakCol.update_one({"_id": kyt['_id']}, {"$push": {"kanal": str(kanal)}})
     return ConversationHandler.END
 
 
