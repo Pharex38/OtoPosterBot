@@ -1654,6 +1654,8 @@ def pat(update, context):
     pson = mesaj.find("\n")
     paciklama = mesaj[:pson]
     """Link Tespit"""
+    headerss = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
+
     psol = mesaj.find("http")
     psag = mesaj.find("\n", psol)
     kplink = mesaj[psol:psag].strip()
@@ -1699,7 +1701,7 @@ def pat(update, context):
                 if paltsite == "5":
                     palink = get(f"http://pubiza.com/api.php?", params={"token": paltapi, "url": kplink, "ads_type": "adult"}).text
                 if paltsite == "6":
-                    pjson = get("https://gir.ist/api?", params={"api": paltapi, "url": kplink}).json()
+                    pjson = get("https://gir.ist/api?", params={"api": paltapi, "url": kplink}, headers=headerss).json()
                     print(pjson)
                     palink = pjson['shortenedUrl']
                 time.sleep(1)
@@ -1719,7 +1721,7 @@ def pat(update, context):
             if psite == "5":
                 plink = get(f"http://pubiza.com/api.php?", params={"token": ptoken, "url": kplink, "ads_type": "adult"}).text
             if psite == "6":
-                plink = get("http://gir.ist/api?", params={"api": ptoken, "url": kplink, "format": "text"}).text
+                plink = get("http://gir.ist/api?", params={"api": ptoken, "url": kplink, "format": "text"}, headers=headerss).text
                 print(plink)
             time.sleep(1)
             ptry += 1
