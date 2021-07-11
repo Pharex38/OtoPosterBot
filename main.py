@@ -779,6 +779,7 @@ def callback_query(call, context):
         try:
             sgynknl = collection.find_one({"_id": user})['kanal'][int(call.callback_query.data.split("-")[-1])+1]
         except Exception as e:
+            bot.edit_message_text("<i>İptal Edildi</i>", user, mesajid)
             logger.error(e)
             return
         call.callback_query.answer(bot.get_chat(sgynknl).title)
@@ -787,6 +788,7 @@ def callback_query(call, context):
         try:
             sgynknl = collection.find_one({"_id": user})['kanal'][int(call.callback_query.data.split("-")[-1])-1]
         except Exception as e:
+            bot.edit_message_text("<i>İptal Edildi</i>", user, mesajid)
             logger.error(e)
             return
         call.callback_query.answer(bot.get_chat(sgynknl).title)
