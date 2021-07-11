@@ -631,7 +631,7 @@ def kaynakcall(call, context):
             KaynakCol.update_one({"sahip": kys}, {"$push": {"kaynak": user}})
         call.callback_query.answer(text="✅ Kaynak Eklendi")
     try:
-        call.callback_query.edit_message_text(text=f"<b> >>>{bot.get_chat(kkul['kanal'][kkanil]).title}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>", reply_markup=kaynakmark(user, kkanil))
+        call.callback_query.edit_message_text(text=f"<b> >>>     {bot.get_chat(kkul['kanal'][kkanil]).title}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>", reply_markup=kaynakmark(user, kkanil))
     except:
         pass
 
