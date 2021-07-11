@@ -153,6 +153,8 @@ def deep(u_kod, user):
     else:
         if not kat['ozel']:
             KaynakCol.update_one({"no": int(u_kod)}, {"$push": {"kaynak": int(user)}})
+            for ktyo in kat['kanal']:
+                KaynakCol.update_one({"no":int(u_kod)}, {"$push": {"kanal": ktyo}})
             bot.send_message(user, "Kaynağınız Eklendi!", reply_markup=dugme(user))
         else:
             bot.send_message(user, "Özel kaynağınız olduğu için başka kaynak kullanamazsınız!")
