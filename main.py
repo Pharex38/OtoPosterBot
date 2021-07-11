@@ -961,7 +961,7 @@ def zamanjob(context):
 ################## Markup #####################
 def sitemarkup():
     skey = []
-    smark = InlineKeyboardMarkup([[InlineKeyboardButton("TRLink", callback_data="site-1")], [InlineKeyboardButton("PND.TL", callback_data="site-2")], [InlineKeyboardButton("Exe.io", callback_data="site-3")], [InlineKeyboardButton("Ouo.io", callback_data="site-4")], [InlineKeyboardButton("Pubiza", callback_data="site-5")], [InlineKeyboardButton("❌ İptal ❌", callback_data="iptal")]])
+    smark = InlineKeyboardMarkup([[InlineKeyboardButton("TRLink", callback_data="site-1")], [InlineKeyboardButton("PND.TL", callback_data="site-2")], [InlineKeyboardButton("Exe.io", callback_data="site-3")], [InlineKeyboardButton("Ouo.io", callback_data="site-4")], [InlineKeyboardButton("Pubiza", callback_data="site-5")], [InlineKeyboardButton("Gir.ist", callback_data="site-6")], [InlineKeyboardButton("❌ İptal ❌", callback_data="iptal")]])
     return smark
 
 def altsitemarkup():
@@ -1664,7 +1664,6 @@ def pat(update, context):
     pson = mesaj.find("\n")
     paciklama = mesaj[:pson]
     """Link Tespit"""
-    headerss = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
 
     psol = mesaj.find("http")
     psag = mesaj.find("\n", psol)
@@ -1862,7 +1861,8 @@ def poster_job(context):
                             if altsite == "5":
                                 alink = get(f"http://pubiza.com/api.php?", params={'token': altapi, 'url': mesajb, 'ads_type': "adult"}, headers=headers).text
                             if altsite == "6":
-                                alink = get("https://gir.ist/st?", params={"api": altapi, "url": mesajb}).text
+                                ajson = get("http://gir.ist/api?", params={"api": altapi, "url": mesajb}, headers=headerss).json()
+                                alink = ajson['shortenedUrl']
                             linktry += 1
                             sleep(0.3)
                             if linktry > 1:
@@ -1882,7 +1882,8 @@ def poster_job(context):
                         if site == "5":
                             link = get(f"http://pubiza.com/api.php?", params={'token': token, 'url': mesajb, 'ads_type': "adult"}, headers=headers).text
                         if site == "6":
-                            link = get("https://gir.ist/st?", params={"api": token, "url": mesajb}).text
+                            ajson = get("http://gir.ist/api?", params={"api": token, "url": mesajb}, headers=headerss).json()
+                            alink = ajson['shortenedUrl']
                         linktry += 1
                         sleep(0.3)
                         if linktry > 1:
@@ -2060,7 +2061,8 @@ def ozel_poster_job(context):
                             if oaltsite == "5":
                                 oalink = get(f"http://pubiza.com/api.php?", params={'token': oaltapi, 'url': omesajb, 'ads_type': "adult"}, headers=headers).text
                             if oaltsite == "6":
-                                oalink = get("https://gir.ist/st?", params={"api": oaltapi, "url": omesajb}).text
+                                oajson = get("http://gir.ist/api?", params={"api": oaltapi, "url": omesajb}, headers=headerss).json()
+                                oalink = oajson['shortenedUrl']
                             olinktry += 1
                             sleep(0.3)
                             if olinktry > 1:
@@ -2080,7 +2082,8 @@ def ozel_poster_job(context):
                         if osite == "5":
                             olink = get(f"http://pubiza.com/api.php?", params={'token': etoken, 'url': omesajb, 'ads_type': "adult"}, headers=headers).text
                         if osite == "6":
-                            olink = get("https://gir.ist/st?", params={"api": otoken, "url": omesajb}).text
+                            ojson = get("https://gir.ist/st?", params={"api": otoken, "url": omesajb}).json()
+                            olink = ojson['shortenedUrl']
                         olinktry += 1
                         sleep(0.3)
                         if olinktry > 1:
