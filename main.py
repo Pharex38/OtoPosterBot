@@ -69,22 +69,15 @@ def bildir(neyi='Boş Bildirim Testi !'):
             pass
 
 SEND_MEDIA_TYPES = {"document": bot.send_document, "photo": bot.send_photo, "video": bot.send_video, "animation": bot.send_animation}
-
 ALTMENU, APIDEGISTIR, KANALKAYDET = range(3)
-
 OZELKAYNAK = range(1)
-
 OZELBOTLOG = range(1)
-
 ALTAPI = range(1)
-
 SABLON = range(1)
-
 PATZAMAN = range(1)
-
 PATPOST = range(1)
-
 POSTZAMAN = range(1)
+headerss = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
 
 markup = ForceReply(selective=False)
 
@@ -2082,7 +2075,7 @@ def ozel_poster_job(context):
                         if osite == "5":
                             olink = get(f"http://pubiza.com/api.php?", params={'token': etoken, 'url': omesajb, 'ads_type': "adult"}, headers=headers).text
                         if osite == "6":
-                            ojson = get("https://gir.ist/st?", params={"api": otoken, "url": omesajb}).json()
+                            ojson = get("https://gir.ist/api?", params={"api": otoken, "url": omesajb}, headers=headerss).json()
                             olink = ojson['shortenedUrl']
                         olinktry += 1
                         sleep(0.3)
