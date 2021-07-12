@@ -136,7 +136,7 @@ def deep(u_kod, user):
                     KaynakCol.update_one({"_id": koy['_id']}, {"$pull": {"kaynak": user}})
             collection.update_one({"_id": user}, {"$set": {"ozel": True, "kaynak": ["32"]}})
             OzelCol.update_one({"_id": int(u_kod)}, {"$push": {"kanal": user}})
-            if len(OzelCol.find_one({"okaynak": kanal})['kanal']) == 6:
+            if len(OzelCol.find_one({"_id": int(u_kod)})['kanal']) == 6:
                 bot.send_message(OzelCol.find_one({"okaynak": kanal})['_id'], "<i>Özel Kaynağınız 5 kişiyi geçtiği için artık 20 linkte 1 olayı sizin için de geçerilidir.</i>")
             bot.send_message(user, "🏋🏻 {} referansı ile geldiniz!".format(ref_kanal_ismi), reply_markup=dugme(user))
             return True
