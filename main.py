@@ -224,7 +224,7 @@ def stats(update, context):
     user = update.message.from_user.id
     kum = []
     kulkum = []
-    exe_kullanan_sayisi, ozel_kaynak_kullanan_sayisi, pubiza_kullanan_sayisi, ouo_kullanan_sayisi, trlink_kullanan_sayisi, pnd_kullanan_sayisi = 0, 0, 0, 0, 0, 0
+    exe_kullanan_sayisi, ozel_kaynak_kullanan_sayisi, pubiza_kullanan_sayisi, ouo_kullanan_sayisi, trlink_kullanan_sayisi, pnd_kullanan_sayisi, girist = 0, 0, 0, 0, 0, 0, 0
     if not user in [sahip,fixer]:
         bot.send_message(chat, "Sen benim sahibim değilsin!")
         return
@@ -2203,6 +2203,10 @@ def gunluk(context):
             pubiza_kullanan_sayisi += 1
         elif kullanici['altsite'] == "5":
             pubiza_kullanan_sayisi += 1
+        elif kullanici['site'] == "6":
+            girist += 1
+        elif kullanici['altsite'] == "6":
+            girist += 1
         if kullanici['ozel']:
             ozel_kaynak_kullanan_sayisi += 1
         users += 1
@@ -2228,7 +2232,7 @@ def gunluk(context):
     toplam = toplam / 1000
     toplam = str(round(toplam, 1))+"K" if round(toplam, 1) < 1000 else str(round(toplam / 1000, 2))+"M"
     statscount = 0
-    stat_text = "👥 Toplam Kullanıcı Sayısı: {}\n📢 Toplam Kayıtlı Kanal Sayısı: {}\n🙋 Toplam Kitle: {}\n\n<b>Sitelerin Toplam Kullanıcı Sayıları(Alternatifler dahil);</b>\nTRLink -> {}\nPND.TL -> {}\nExe.io -> {}\nOuo.io -> {}\nPubiza -> {}\n\n<b>Kaynakların Toplam Kullanıcı Sayıları:</b>\n".format(users, kanals, toplam, trlink_kullanan_sayisi, pnd_kullanan_sayisi, exe_kullanan_sayisi, ouo_kullanan_sayisi, pubiza_kullanan_sayisi)
+    stat_text = "👥 Toplam Kullanıcı Sayısı: {}\n📢 Toplam Kayıtlı Kanal Sayısı: {}\n🙋 Toplam Kitle: {}\n\n<b>Sitelerin Toplam Kullanıcı Sayıları(Alternatifler dahil);</b>\nTRLink -> {}\nPND.TL -> {}\nExe.io -> {}\nOuo.io -> {}\nPubiza -> {}\nGir.ist -> {}\n\n<b>Kaynakların Toplam Kullanıcı Sayıları:</b>\n".format(users, kanals, toplam, trlink_kullanan_sayisi, pnd_kullanan_sayisi, exe_kullanan_sayisi, ouo_kullanan_sayisi, pubiza_kullanan_sayisi, girist)
     for kstat in KaynakCol.find({}):
         getskaynak = bot.get_chat(kstat['_id'])
         stat_text += "{} -> {} \n".format(getskaynak.title, len(kstat['kaynak']))
