@@ -1923,21 +1923,6 @@ def poster_job(context):
                         else:
                             logger.warning(f"{kan} kayıtlardan silindi.")
                     if vakitler != 0:
-            			while True:
-            				if dailycount >= len(user_dat['vakit']):
-            					d = 0
-            				raw_vakit = user_dat['vakit'][dlc]
-            				bugün = datetime.datetime.now()
-            				raw_vakit = str(bugün.day).zfill(2) + "/" + str(bugün.month).zfill(2) + "/" + str(bugün.year) + " " + str(raw_vakit) + ":59"
-            				tvakit = datetime.timedelta(hours = 3)
-            				vakit = datetime.datetime.strptime(raw_vakit, '%d/%m/%Y %H:%M:%S') - tvakit
-            				kontrol = vakit - datetime.datetime.utcnow()
-            				if not kontrol.days < 0:
-            					break
-            				if trysch > len(user_dat['vakit']):
-            					return
-            				dlc += 1
-            				trysch += 1
                         bot.send_message(eklenti, str(kan) + "+" + str(dailycount) + "+" + str(user))
                         sleep(0.1)
                         kan = eklenti
