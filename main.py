@@ -44,7 +44,7 @@ adminlist = [sahip, fixer]
 postsirasi = []
 opostsirasi = []
 tips = [
-    "En fazla 5 kanal ekleyebilirsiniz.",
+    "En fazla 10 kanal ekleyebilirsiniz.",
     "Kaynak menüsünden kendinize özel kaynak oluşturabilirsiniz.",
     "20 linkte 1 olayı Elle Post Paylaş butonu için geçerli değildir.",
     "Oluşturduğunuz özel kaynağı siz de isterseniz başkaları da kullanabilir.",
