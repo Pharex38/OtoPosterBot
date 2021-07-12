@@ -50,6 +50,7 @@ tips = [
     "Oluşturduğunuz özel kaynağı siz de isterseniz başkaları da kullanabilir.",
     "Şablon kısmında Markdown(kalın, italik vs.) kullanabilirsiniz.",
     "Elle Post Paylaşırken post zamanlayabilirsiniz.",
+    "Her kanlınıza farklı kaynak seçebilirsiniz."
     ]
 
 def send_typing_action(func):
