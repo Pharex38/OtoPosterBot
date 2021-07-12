@@ -78,6 +78,10 @@ PATZAMAN = range(1)
 PATPOST = range(1)
 POSTZAMAN = range(1)
 headerss = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
+headers = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0",
+    "Accept-Encoding": "*",
+    "Connection": "keep-alive"}
 
 markup = ForceReply(selective=False)
 
@@ -138,7 +142,6 @@ def deep(u_kod, user):
     key = {"_id": user, "kanal": [], "sablon": "1", "kaynak": [str(u_kod)], "site": "1", "altapi": "None", "altsite": "None", "sira": "0", "ozel": False, "pcount": 0, "time": 0, "vakit": 0}
     ref_kanal_ismi = bot.get_chat(KaynakCol.find_one({"no": int(u_kod)})['_id']).title
     if kat == None:
-        collection.insert_one(key)
         KaynakCol.update_one({"no": int(u_kod)}, {"$push": {"kaynak": int(user)}})
         bot.send_message(user, "🏋🏻 {} referansı ile geldiniz!".format(ref_kanal_ismi))
         bot.send_message(user, "📝 API adresinizi gönderin.", reply_markup=imark())
@@ -1756,10 +1759,6 @@ def poster_job(context):
         return
     logger.warning(f"{len(postsirasi)} Post tespit edildi")
     vipler = collection.find_one({"_id": 0})['vipuye']
-    headers = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0",
-    "Accept-Encoding": "*",
-    "Connection": "keep-alive"}
     for poste in postsirasi:
         chat = poste['chatid']
         update = poste['update']
@@ -1802,12 +1801,12 @@ def poster_job(context):
             if hesap == None:
                 KaynakCol.update_one({"_id": chat}, {"$pull": {"kaynak": hesap_id}})
                 continue
-            kaynak = hesap['kaynak']
-            kanal = hesap['kanal']
             try:
                 token = hesap['token']
             except:
                 continue
+            kaynak = hesap['kaynak']
+            kanal = hesap['kanal']
             if not "31" in kaynak and len(kanal) > 0:
                 sablon = hesap['sablon']
                 user = hesap['_id']
