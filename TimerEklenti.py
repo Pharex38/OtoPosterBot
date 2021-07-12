@@ -26,8 +26,6 @@ app_str = maindata['string']
 
 app = TelegramClient("app_str", api_id, api_hash).start()
 
-
-
 @app.on(events.NewMessage(incoming=True, from_users=opb))
 async def islem(event):
 	if event.raw_text.startswith("-"):
@@ -67,8 +65,6 @@ async def islem(event):
 			except:
 				collection.update_one({"_id": user}, {"$set": {"vakit": 0}})
 				await app.send_message(opb, str(user)+"+"+str("Eklentiyi kanaldan çıkardığınız Post Zamanalama özelliği devre dışı bırakıldı."))
-			else:
-				collection.update_one({"_id": user}, {"$set": {"time": dlc+1}})
 			histor = await app(GetScheduledHistoryRequest(kan, hash=0))
 			#print(histor)
 	else:
