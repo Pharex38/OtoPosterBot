@@ -1150,7 +1150,7 @@ def menu(update, context):
                 if user in m['kanal']:
                     try:
                         ozel_kaynak_bilgi = bot.get_chat(m['okaynak'])
-                    except Unauthorized:
+                    except:
                         bot.send_message(chat, "Botu kaynak kanalınızdan çıkarttığınız için post atılmayacak.", reply_markup=kaynakmark(user, 0))
                         return
                     kullanan_sayisi = len(m['kanal'])
