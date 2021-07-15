@@ -144,13 +144,15 @@ def deep(u_kod, user):
     key = {"_id": user, "kanal": [], "sablon": "1", "kaynak": [str(u_kod)], "site": "1", "altapi": "None", "altsite": "None", "sira": "0", "ozel": False, "pcount": 0, "time": 0, "vakit": 0}
     ref_kanal_ismi = bot.get_chat(KaynakCol.find_one({"no": int(u_kod)})['_id']).title
     if kat == None:
-        KaynakCol.update_one({"no": int(u_kod)}, {"$push": {"kaynak": int(user)}})
+        if not user in KaynakCol.find_one({"no": int(u_kod)})['kaynak']:
+            KaynakCol.update_one({"no": int(u_kod)}, {"$push": {"kaynak": int(user)}})
         bot.send_message(user, "🏋🏻 {} referansı ile geldiniz!".format(ref_kanal_ismi))
         bot.send_message(user, "📝 API adresinizi gönderin.", reply_markup=imark())
         return False
     else:
         if not kat['ozel']:
-            KaynakCol.update_one({"no": int(u_kod)}, {"$push": {"kaynak": int(user)}})
+            if not user in KaynakCol.find_one({"no": int(u_kod)})['kaynak']:
+                KaynakCol.update_one({"no": int(u_kod)}, {"$push": {"kaynak": int(user)}})
             for ktyo in kat['kanal']:
                 KaynakCol.update_one({"no":int(u_kod)}, {"$push": {"kanal": ktyo}})
             bot.send_message(user, "Kaynağınız Eklendi!", reply_markup=dugme(user))
@@ -626,7 +628,8 @@ def kaynakcall(call, context):
             KaynakCol.update_one({"sahip": kys}, {"$pull": {"kaynak": user}})
         call.callback_query.answer(text="❌ Kaynak Kaldırıldı")
     else:
-        KaynakCol.update_one({"sahip": kys}, {"$push": {"kanal": kkul['kanal'][kkanil]}})
+        if not kkul['kanal'][kkanil] in KaynakCol.find_one({"sahip": kys})['kanal']:
+            KaynakCol.update_one({"sahip": kys}, {"$push": {"kanal": kkul['kanal'][kkanil]}})
         if not user in KaynakCol.find_one({"sahip": kys})['kaynak']:
             KaynakCol.update_one({"sahip": kys}, {"$push": {"kaynak": user}})
         call.callback_query.answer(text="✅ Kaynak Eklendi")
@@ -1315,7 +1318,8 @@ def ozelk(update, context):
             if user in koy['kaynak']:
                 KaynakCol.update_one({"okaynak": koy['_id']}, {"$pull": {"kaynak": user}})
         collection.update_one({"_id": user}, {"$set": {"ozel": True, "kaynak": ["32"]}})
-        OzelCol.update_one({"okaynak": kanal}, {"$push": {"kanal": user}})
+        if not user in OzelCol.find_one({"okaynak": kanal})['kanal']:
+            OzelCol.update_one({"okaynak": kanal}, {"$push": {"kanal": user}})
         if len(OzelCol.find_one({"okaynak": kanal})['kanal']) == 6:
             bot.send_message(OzelCol.find_one({"okaynak": kanal})['_id'], "<i>Özel Kaynağınız 5 kişiyi geçtiği için artık 20 linkte 1 Pharexin olayı sizin için de geçerilidir.</i>")
         bot.send_message(update.message.chat.id, "<b>Özel Kaynak Kaydedildi!</b>", reply_markup=dugme(user))
@@ -1592,7 +1596,8 @@ def kanalkayit(update, context):
     bot.send_message(blog, f"#YENİ_KANAL\nID: {kanal}\nÜYE: {bot.get_chat_members_count(kanal)}\nSAHİP: {user}")
     for kyt in KaynakCol.find({}):
         if user in kyt['kanal']:
-            KaynakCol.update_one({"_id": kyt['_id']}, {"$push": {"kanal": str(kanal)}})
+            if not str(kanal) in KaynakCol.find_one({"_id": kyt['_id']})['kanal']:
+                KaynakCol.update_one({"_id": kyt['_id']}, {"$push": {"kanal": str(kanal)}})
     return ConversationHandler.END
 
 
