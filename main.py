@@ -1849,10 +1849,6 @@ def poster_job(context):
                             if altsite == "1":
                                 json = get(f"https://ay.live/api/?", params={'api': altapi, 'url': mesajb, 'ct': 1}, headers=headers).json()
                                 alink = json['shortenedUrl']
-                                if json['message'] == "Invalid URL":
-                                    bot.send_message(sahip, f"{update.message.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{update.message.link}")
-                                    bot.send_message(chatdat['sahip'], f"{update.message.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{update.message.link}")
-                                    return
                             if altsite == "2":
                                 json = get(f"https://www.pnd.tl/api?", params={'api': altapi, 'url': mesajb, 'category': 6}, headers=headers).json()
                                 alink = json['shortenedUrl']
@@ -1864,9 +1860,8 @@ def poster_job(context):
                             if altsite == "5":
                                 alink = get(f"http://pubiza.com/api.php?", params={'token': altapi, 'url': mesajb, 'ads_type': "adult"}, headers=headers).text
                             if altsite == "6":
-                                ajson = get("http://gir.ist/api?", params={"api": altapi, "url": mesajb}, headers=headerss).json()
-                                alink = ajson['shortenedUrl']
-
+                                json = get("http://gir.ist/api?", params={"api": altapi, "url": mesajb}, headers=headerss).json()
+                                alink = json['shortenedUrl']
                             linktry += 1
                             sleep(0.3)
                             if linktry > 1:
@@ -1875,10 +1870,6 @@ def poster_job(context):
                         if site == "1":
                             json = get(f"https://ay.live/api/?", params={'api': token, 'url': mesajb, 'ct': 1}, headers=headers).json()
                             link = json['shortenedUrl']
-                            if json['message'] == "Invalid URL":
-                                bot.send_message(sahip, f"{update.channel_post.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{update.message.link}")
-                                bot.send_message(chatdat['sahip'], f"{update.channel_post.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{update.message.link}")
-                                return
                         if site == "2":
                             json = get(f"https://www.pnd.tl/api?", params={'api': token, 'url': mesajb, 'category': 6}, headers=headers).json()
                             link = json['shortenedUrl']
@@ -1893,6 +1884,15 @@ def poster_job(context):
                             ajson = get("http://gir.ist/api?", params={"api": token, "url": mesajb}, headers=headerss).json()
                             alink = ajson['shortenedUrl']
                         linktry += 1
+                        try:
+                            json['message']
+                        except:
+                            pass
+                        else:
+                            if json['message'] == "Invalid URL":
+                                bot.send_message(sahip, f"{update.channel_post.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{update.message.link}")
+                                bot.send_message(chatdat['sahip'], f"{update.channel_post.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{update.message.link}")
+                                return
                         sleep(0.3)
                         if linktry > 1:
                             logger.warning(f"Tekrar deneniyor {linktry}")
