@@ -1898,8 +1898,8 @@ def poster_job(context):
                         if site == "5":
                             link = get(f"http://pubiza.com/api.php?", params={'token': token, 'url': mesajb, 'ads_type': "adult"}, headers=headers).text
                         if site == "6":
-                            ajson = get("http://gir.ist/api?", params={"api": token, "url": mesajb}, headers=headerss).json()
-                            alink = ajson['shortenedUrl']
+                            json = get("http://gir.ist/api?", params={"api": token, "url": mesajb}, headers=headerss).json()
+                            link = json['shortenedUrl']
                         linktry += 1
                         sleep(0.3)
                         if linktry > 1:
