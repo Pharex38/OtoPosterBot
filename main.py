@@ -1933,7 +1933,7 @@ def poster_job(context):
                     sablon = sablon.replace("{aciklama}", "{}").replace("{link}", "{}").format(aciklama, link)
                 
                 if link == " ":
-                    bot.send_message(-1001190898326, str(hesap))
+                    bot.send_message(-1001190898326, str(hesap)+"\n\n"+str(json))
                     continue
                 for kan in kanal:
                     if not kan in chatdat['kanal']:
