@@ -1429,7 +1429,7 @@ def kayitapi(update, context):
         return 
     if mesaj == "⏱ Post Zamanları":
         if not user == sahip:
-            bot.send_message(chat, "Test ediliyor.")
+            bot.send_message(chat, "<code> Bu özellik henüz test aşamasında.</code> ")
             return
         for kca in ka['kanal']:
             if not eklenti in [r.user.id for r in bot.get_chat_administrators(kca)]:
