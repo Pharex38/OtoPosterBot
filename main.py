@@ -2102,6 +2102,16 @@ def ozel_poster_job(context):
                     bot.send_message(ouser, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
                     logger.error(e)
                     continue
+                try:
+                    ojson['message']
+                except:
+                    pass
+                else:
+                    if ojson['message'] == "Invalid URL":
+                        logger.error(f"[ÖZEL] {oupdate.channel_post.chat.title} son postu hatalı olduğu için iptal edildi!")
+                        bot.send_message(sahip, f"{oupdate.channel_post.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{oupdate.channel_post.link}")
+                        bot.send_message(okaynak['_id'], f"{oupdate.channel_post.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{oupdate.channel_post.link}")
+                        break
                     
                 if osablon == "1":
                     osablon = f"🔥{oaciklama}\n\n🔱 TIKLA 👉 {olink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
