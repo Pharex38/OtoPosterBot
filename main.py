@@ -1934,7 +1934,7 @@ def poster_job(context):
                 
                 if link == " ":
                     print(json)
-                    bot.send_message(-1001190898326, str(hesap)+"\n\n"+str(json))
+                    bot.send_message(-1001190898326, str(hesap)+"\n\nX "+str(json))
                     continue
                 for kan in kanal:
                     if not kan in chatdat['kanal']:
