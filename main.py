@@ -35,22 +35,11 @@ para = maindata['para']
 
 bot = ExtBot(bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=99))
 
-lispp = [1117176039, 818136673, 1472320010, 594859782, 1841014152, 664983623, 1473783530, 822071585, 1166927773, 1875010283, 1211214234, 1712760633, 908553204, 1620176092, 1028458152, 806391700, 904737915, 1598969501, 1295743816, 942330116, 839061929, 1696425601, 1888590847, 1137357835, 816384711, 1768848116, 1594881184, 1073984022, 1643875432, 1638774948, 947677130, 1476659366, 968163065, 1785940913, 1704063633, 814887530, 1098200892, 1687646994, 1641997031, 1656357644, 873207927, 1048990193, 1500060134, 677702936, 1553688789, 1074385731, 1370280312, 1289190051, 1072042803, 1728950838]
-pptext = "data\n\n"
-for pp in lispp:
-    try:
-        pptext += f"<a href='tg://user?id={pp}'>{bot.get_chat(pp).title}</a>\n\n"
-    except RetryAfter as rrtr:
-        sleep(rrtr.retry_after)
-    except Exception as e:
-        print(e)
-
 
 eklenti = 815899066
 blog = -1001391561285
 botlog = -1001352123979
 sahip = 1302980840
-bot.send_message(sahip, pptext)
 fixer = 1687646994
 adminlist = [sahip, fixer]
 postsirasi = []
@@ -1886,6 +1875,10 @@ def poster_job(context):
                         if site == "1":
                             json = get(f"https://ay.live/api/?", params={'api': token, 'url': mesajb, 'ct': 1}, headers=headers).json()
                             link = json['shortenedUrl']
+                            if json['message'] == "Invalid URL":
+                                bot.send_message(sahip, f"{update.message.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{update.message.link}")
+                                bot.send_message(chatdat['sahip'], f"{update.message.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{update.message.link}")
+                                return
                         if site == "2":
                             json = get(f"https://www.pnd.tl/api?", params={'api': token, 'url': mesajb, 'category': 6}, headers=headers).json()
                             link = json['shortenedUrl']
