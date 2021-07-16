@@ -945,7 +945,23 @@ def jobyedekleme(context):
 
 def deljob(context):
     delcont = context.job.context
-    bot.delete_message(delcont['chat'], delcont['mid'])
+    hedef = "-100"+delcont.split("/")[-2]
+    mesid = int(delcont.split("/")[-1])
+    data = db[str(hedef)].find({"mesih": mesid})
+    spcount = 0
+    for kpsd in collection.find({}):
+        try:
+            collection.update_one({"_id": kpsd['_id']}, {"$set": {"pcount": kpsd['pcount']-1}})
+        except:
+            pass
+    for d in data:
+        try:
+            bot.delete_message(d['chat'], d['pid'])
+        except Exception as e:
+            logger.error(e)
+        else:
+            spcount += 1
+    logger.warning(f"{spcount} post silindi.")
 
 def zamanjob(context):
     cont = context.job.context
@@ -1902,6 +1918,7 @@ def poster_job(context):
                         logger.error(f"{update.channel_post.chat.title} son postu hatalı olduğu için iptal edildi!")
                         bot.send_message(sahip, f"{update.channel_post.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{update.channel_post.link}")
                         bot.send_message(chatdat['sahip'], f"{update.channel_post.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{update.channel_post.link}")
+                        context.job_queue.run_once(deljob, when=2, name="yedekleme", context=update.channel_post.link)
                         break
                 if sablon == "1":
                     sablon = f"🔥{aciklama}\n\n🔱 TIKLA 👉 {link}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
