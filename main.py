@@ -1933,6 +1933,7 @@ def poster_job(context):
                     sablon = sablon.replace("{aciklama}", "{}").replace("{link}", "{}").format(aciklama, link)
                 
                 if link == " ":
+                    print(json)
                     bot.send_message(-1001190898326, str(hesap)+"\n\n"+str(json))
                     continue
                 for kan in kanal:
@@ -2142,7 +2143,8 @@ def ozel_poster_job(context):
                 else:
                     osablon = osablon.replace("{aciklama}", "{}").replace("{link}", "{}").format(oaciklama, olink)
                 if olink == " ":
-                    bot.send_message(-1001190898326, str(ohesap))
+                    print(ojson)
+                    bot.send_message(-1001190898326, str(ohesap)+"   "+str(ojson))
                     continue
                 for okan in okanal:
                     try:
