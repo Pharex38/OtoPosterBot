@@ -1884,15 +1884,6 @@ def poster_job(context):
                             ajson = get("http://gir.ist/api?", params={"api": token, "url": mesajb}, headers=headerss).json()
                             alink = ajson['shortenedUrl']
                         linktry += 1
-                        try:
-                            json['message']
-                        except:
-                            pass
-                        else:
-                            if json['message'] == "Invalid URL":
-                                bot.send_message(sahip, f"{update.channel_post.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{update.message.link}")
-                                bot.send_message(chatdat['sahip'], f"{update.channel_post.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{update.message.link}")
-                                return
                         sleep(0.3)
                         if linktry > 1:
                             logger.warning(f"Tekrar deneniyor {linktry}")
@@ -1902,6 +1893,15 @@ def poster_job(context):
                     logger.error(e)
                     logger.warning(json)
                     continue
+                try:
+                    json['message']
+                except:
+                    pass
+                else:
+                    if json['message'] == "Invalid URL":
+                        bot.send_message(sahip, f"{update.channel_post.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{update.channel_post.link}")
+                        bot.send_message(chatdat['sahip'], f"{update.channel_post.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{update.channel_post.link}")
+                        return
                 if sablon == "1":
                     sablon = f"🔥{aciklama}\n\n🔱 TIKLA 👉 {link}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
                 elif sablon == "2" or sablon == "3":
