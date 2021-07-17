@@ -14,14 +14,14 @@ from telegram.ext import *
 from functools import wraps
 from telegram.utils.helpers import *
 
-from . import *
-from .anafonks import *
-from .callbacks import *
-from .poster import *
-from .komutlar import *
-from .jobs import *
-from .markups import *
-from .misc import *
+from __init__ import *
+from anafonks import *
+from callbacks import *
+from poster import *
+from komutlar import *
+from jobs import *
+from markups import *
+from misc import *
 
 def setup_logger():
     global logger
