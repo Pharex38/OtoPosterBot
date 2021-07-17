@@ -2008,14 +2008,10 @@ def ozel_poster_job(context):
         return
     logger.warning(f"{len(opostsirasi)} Özel kaynak postu tespit edildi.")
     vipler = collection.find_one({"_id": 0})['vipuye']
-    headers = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0",
-    "Accept-Encoding": "*",
-    "Connection": "keep-alive"}
     for oposte in opostsirasi:
-        chat = oposte['chatid']
+        ochat = oposte['chatid']
         oupdate = oposte['update']
-        okaynak = OzelCol.find_one({"okaynak": chat})
+        okaynak = OzelCol.find_one({"okaynak": ochat})
         ocount = 0
         omesaj = oupdate.channel_post.caption
         if omesaj == None:
@@ -2026,7 +2022,7 @@ def ozel_poster_job(context):
         if osol == -1 or osol != osolx:
             continue
         osag = omesaj.find("\n", osol)
-        okynk = bot.get_chat(chat)
+        okynk = bot.get_chat(ochat)
         omesajb = omesaj[osol:osag].strip()
         if omesaj.find("\n", osol) == -1:
             omesajb = omesaj[osol:].strip()
@@ -2203,16 +2199,16 @@ def ozel_poster_job(context):
 
 def poster(update, context):
     global postsirasi
-    chat = update.channel_post.chat.id
+    pochat = update.channel_post.chat.id
     # Ana Kaynaklar
-    if KaynakCol.find_one({"_id": chat}) != None:
+    if KaynakCol.find_one({"_id": pochat}) != None:
         logger.warning(f"{update.channel_post.chat.title} Postu sıraya eklendi.")
-        postdict = {"chatid": chat, "update": update}
+        postdict = {"chatid": pochat, "update": update}
         postsirasi.append(postdict)
     # Özel Kaynaklar
-    elif OzelCol.find_one({"okaynak": chat}) != None:
+    elif OzelCol.find_one({"okaynak": pochat}) != None:
         logger.warning(f"[ÖZEL] {update.channel_post.chat.title} Postu sıraya eklendi.")
-        opostdict = {"chatid": chat, "update": update}
+        opostdict = {"chatid": pochat, "update": update}
         opostsirasi.append(opostdict)
 
 def gunluk(context):
