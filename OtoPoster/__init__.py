@@ -54,21 +54,6 @@ tips = [
     "Her kanlınıza farklı kaynak seçebilirsiniz."
     ]
 
-def send_typing_action(func):
-
-    @wraps(func)
-    def command_func(update, context, *args, **kwargs):
-        context.bot.send_chat_action(chat_id=update.effective_message.chat_id, action=ChatAction.TYPING)
-        return func(update, context,  *args, **kwargs)
-
-    return command_func
-
-def bildir(neyi='Boş Bildirim Testi !'):
-    for i in adminlist:
-        try:
-            bot.send_message(i,neyi)
-        except:
-            pass
 
 
 SEND_MEDIA_TYPES = {"document": bot.send_document, "photo": bot.send_photo, "video": bot.send_video, "animation": bot.send_animation}

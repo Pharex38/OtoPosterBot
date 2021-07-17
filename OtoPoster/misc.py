@@ -53,6 +53,23 @@ def deep(u_kod, user):
             bot.send_message(user, "Özel kaynağınız olduğu için başka kaynak kullanamazsınız!")
         return True
 
+def send_typing_action(func):
+
+    @wraps(func)
+    def command_func(update, context, *args, **kwargs):
+        context.bot.send_chat_action(chat_id=update.effective_message.chat_id, action=ChatAction.TYPING)
+        return func(update, context,  *args, **kwargs)
+
+    return command_func
+
+def bildir(neyi='Boş Bildirim Testi !'):
+    for i in adminlist:
+        try:
+            bot.send_message(i,neyi)
+        except:
+            pass
+
+
 def phaapi(sit):
     if sit == "1":
         return "***REMOVED-SHORTENER-KEY***"
