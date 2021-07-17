@@ -168,9 +168,9 @@ def poster_job(context):
                 elif sablon == "9":
                     sablon = f"{aciklama} \n\n𝙇𝙄𝙉𝙆🔗 {link} \n\n     𝙇𝙄𝙉𝙆🔗 {alink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
                 elif sablon.find('{alink}') != -1:
-                    sablon = sablon.replace("{aciklama}", "{}").replace("{alink}", "{}").replace("{link}", "{}").format(aciklama, link, alink)
+                    sablon = sablon.replace("{aciklama}", "{a}").replace("{alink}", "{al}").replace("{link}", "{l}").format(a=aciklama, l=link, al=alink)
                 else:
-                    sablon = sablon.replace("{aciklama}", "{}").replace("{link}", "{}").format(aciklama, link)
+                    sablon = sablon.replace("{aciklama}", "{a}").replace("{link}", "{l}").format(a=aciklama, l=link)
                 
                 if link == " ":
                     print(json)
@@ -274,7 +274,7 @@ def poster_job(context):
                             count = count + 1
                             if vakitler == 0:
                                 postdata.insert_one({"pid": post.message_id, "chat": kan, "mesih": mesjid})
-                            logger.info("Başarılı!")
+                            logger.info("Başarılı! "+str(kan))
                     except Exception as e:
                         if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
                             try:
@@ -301,7 +301,8 @@ def poster_job(context):
                         count = count + 1
                         if vakitler == 0:
                             postdata.insert_one({"pid": post.message_id, "chat": kan, "mesih": mesjid})
-                        logger.info("Başarılı!")
+                        logger.info("Başarılı! "+str(kan))
+                        
         basari = "{} kaynağından, {} kanalda post paylaşıldı.".format(kynk.title, count)
         logger.warning(basari)
         try:
@@ -453,9 +454,9 @@ def ozel_poster_job(context):
                 elif osablon == "9":
                     osablon = f"{oaciklama} \n\n𝙇𝙄𝙉𝙆🔗 {olink} \n\n     𝙇𝙄𝙉𝙆🔗 {oalink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
                 elif osablon.find('{alink}') != -1:
-                    osablon = osablon.replace("{aciklama}", "{}").replace("{alink}", "{}").replace("{link}", "{}").format(oaciklama, olink, oalink)
+                    osablon = osablon.replace("{aciklama}", "{a}").replace("{alink}", "{al}").replace("{link}", "{l}").format(a=oaciklama, l=olink, al=oalink)
                 else:
-                    osablon = osablon.replace("{aciklama}", "{}").replace("{link}", "{}").format(oaciklama, olink)
+                    osablon = osablon.replace("{aciklama}", "{a}").replace("{link}", "{l}").format(a=oaciklama, l=olink)
                 if olink == " ":
                     print(ojson)
                     try:
@@ -505,12 +506,34 @@ def ozel_poster_job(context):
                             opost = bot.send_animation(okan, omedya, caption=osablon)
                     except RetryAfter as ortfr:
                         sleep(orftr.retry_after+1)
-                        if oupdate.channel_post.photo:
-                            opost = bot.send_photo(okan, omedya, caption=osablon)
-                        if oupdate.channel_post.video:
-                            opost = bot.send_video(okan, omedya, caption=osablon)
-                        if oupdate.channel_post.animation:
-                            opost = bot.send_animation(okan, omedya, caption=osablon)
+                        try:
+                            if oupdate.channel_post.photo:
+                                opost = bot.send_photo(okan, omedya, caption=osablon)
+                            if oupdate.channel_post.video:
+                                opost = bot.send_video(okan, omedya, caption=osablon)
+                            if oupdate.channel_post.animation:
+                                opost = bot.send_animation(okan, omedya, caption=osablon)
+                        except Exception as e:
+                            if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
+                                try:
+                                    logger.warning(f"Hatalı kanal: {okan}")
+                                    collection.update_one({"_id": ouser}, {"$pull": {"kanal": okan}})
+                                    try:
+                                        bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {ouser}\nÜYE: {bot.get_chat_members_count(okan)}\nKANAL: {okan}")
+                                        bot.send_message(ouser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                                    except RetryAfter as ortfr:
+                                        sleep(orftr.retry_after+1)
+                                        bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {ouser}\nÜYE: {bot.get_chat_members_count(okan)}\nKANAL: {okan}")
+                                        bot.send_message(ouser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                                except Exception as e: 
+                                    logger.error(e)
+                                else:
+                                    logger.warning(f"{okan} kayıtlardan silindi.")
+                            else:
+                                logger.error(e)
+                        else:
+                            ocount += 1                     
+                            logger.info("Başarılı! "+str(kan))
                     except Exception as e:
                         if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
                             try:
@@ -531,7 +554,7 @@ def ozel_poster_job(context):
                             logger.error(e)
                     else:
                         ocount += 1                     
-                logger.info("Başarılı!")
+                        logger.info("Başarılı! "+str(kan))
         obasari = "[ÖZEL] {} kaynağından {} kanalda post paylaşıldı.".format(okynk.title, ocount)
         if okaynak["log"] != "yok":
             try:

@@ -239,6 +239,8 @@ def sabloniki(update, context):
     chat = update.message.chat.id
     user = update.message.from_user.id
     bnb = collection.find_one({"_id": user})
+    if bnb == None:
+        bot.send_message(chat, "Lütfen şablon kaydetmeden önce Kaydet butonu ile bilgilerinizi girin!", reply_markup=dugme(user))
     if update.message.text == None:
         msg = bot.send_message(chat, """ ❌<i> Lütfen mesajınızda "{link}" ve "{aciklama}" bulunduğudan emin olun.</i> """)
 
@@ -246,14 +248,11 @@ def sabloniki(update, context):
     if update.message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
-    if not mesaj.isdigit() and bnb['sira'] == "1":
+    if bnb['sira'] == "1":
         if mesaj.find("{link}") == -1 or mesaj.find("{aciklama}") == -1 or mesaj.find("{alink}") == -1:
             msg = bot.send_message(chat, """ ❌<i> Lütfen mesajınızda "{link}", "{alink}" ve "{aciklama}" bulunduğudan emin olun.</i> """)
             return SABLON
-        if mesaj.find("{link}") > mesaj.find("{alink}"):
-            msg = bot.send_message(chat, """ ❌<i> Şablonunuzda {link} kelimesi {alink}'ten önde olmak zorundadır</i> """)
-            return SABLON
-    if not mesaj.isdigit():
+    else:
         if mesaj.find("{link}") == -1 or mesaj.find("{aciklama}") == -1:
             msg = bot.send_message(chat, """ ❌<i> Lütfen mesajınızda "{link}" ve "{aciklama}" bulunduğudan emin olun.</i> """)
             return SABLON
@@ -263,8 +262,6 @@ def sabloniki(update, context):
         if mesaj.find("{aciklama}") != mesaj.rfind("{aciklama}"):
             msg = bot.send_message(chat, """ ❌<i> Lütfen mesajınızda bir tane "{aciklama}" bulunduğudan emin olun.</i> """)
             return SABLON
-    if bnb == None:
-        bot.send_message(chat, "Lütfen şablon kaydetmeden önce Kaydet butonu ile bilgilerinizi girin!", reply_markup=dugme(user))
     else:
         collection.update_one({"_id": user}, {"$set":{"sablon": mesaj}})
         bot.send_message(chat, "Şablon kaydedildi!", reply_markup=dugme(user))
