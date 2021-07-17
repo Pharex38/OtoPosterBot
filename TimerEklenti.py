@@ -43,21 +43,7 @@ async def islem(event):
 			dlc = int(raws[1])
 			trysch = 0
 			user_dat = collection.find_one({"_id": int(user)})
-			while True:
-				if dlc >= len(user_dat['vakit']):
-					dlc = 0
-				raw_vakit = user_dat['vakit'][dlc]
-				bugün = datetime.datetime.now()
-				raw_vakit = str(bugün.day).zfill(2) + "/" + str(bugün.month).zfill(2) + "/" + str(bugün.year) + " " + str(raw_vakit) + ":59"
-				tvakit = datetime.timedelta(hours = 3)
-				vakit = datetime.datetime.strptime(raw_vakit, '%d/%m/%Y %H:%M:%S') - tvakit
-				kontrol = vakit - datetime.datetime.utcnow()
-				if not kontrol.days < 0:
-					break
-				if trysch > len(user_dat['vakit']):
-					return
-				dlc += 1
-				trysch += 1
+			
 			post = await conv.wait_event(events.NewMessage(incoming=True, from_users=opb))
 			print(dlc)
 			try:

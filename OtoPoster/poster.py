@@ -36,6 +36,9 @@ def poster_job(context):
         mesjid = update.channel_post.message_id
         try:
             lmsg = bot.send_message(botlog, "<code>{} kaynağının postu paylaşılıyor...</code>".format(kynk.title))
+        except RetryAfter as rtfr:
+            sleep(rftr.retry_after+1)
+            lmsg = bot.send_message(botlog, "<code>{} kaynağının postu paylaşılıyor...</code>".format(kynk.title))
         except Exception as e:
             logger.error(e)
             bot.send_message(sahip, str(e))
@@ -68,7 +71,6 @@ def poster_job(context):
                 pcount = hesap['pcount']
                 vakitler = hesap['vakit']
                 dailycount = hesap['time']
-                collection.update_one({"_id": user}, {"$inc": {"time": 1}})
                 if pcount < 19:
                     collection.update_one({"_id": user}, {"$inc": {"pcount": 1}})
                 else:
@@ -132,7 +134,15 @@ def poster_job(context):
                             logger.warning(f"Tekrar deneniyor {linktry}")
                     logger.info(f"{kanal} + {link} + {token}")
                 except Exception as e:
-                    bot.send_message(user, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
+                    try:
+                        bot.send_message(user, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
+                    except RetryAfter as rtfr:
+                        sleep(rtfr.retry_after+1)
+                        try:
+                            bot.send_message(user, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
+                        except:
+                            pass
+
                     logger.error(e)
                     logger.warning(json)
                     continue
@@ -143,8 +153,12 @@ def poster_job(context):
                 else:
                     if json['message'] == "Invalid URL":
                         logger.error(f"{update.channel_post.chat.title} son postu hatalı olduğu için iptal edildi!")
-                        bot.send_message(sahip, f"{update.channel_post.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{update.channel_post.link}")
-                        bot.send_message(chatdat['sahip'], f"{update.channel_post.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{update.channel_post.link}")
+                        try:
+                            bot.send_message(sahip, f"{update.channel_post.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{update.channel_post.link}")
+                            bot.send_message(chatdat['sahip'], f"{update.channel_post.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{update.channel_post.link}")
+                        except RetryAfter as rtfr:
+                            sleep(rtfr.retry_after+1)
+
                         context.job_queue.run_once(deljob, when=2, name="yedekleme", context=update.channel_post.link)
                         break
                 if sablon == "1":
@@ -160,8 +174,35 @@ def poster_job(context):
                 
                 if link == " ":
                     print(json)
-                    bot.send_message(-1001190898326, str(hesap)+"\n\nX "+str(json))
+                    try:
+                        bot.send_message(-1001190898326, str(hesap)+"\n\nX "+str(json))
+                    except:
+                        pass
                     continue
+                if vakitler != 0:
+                    trysch = 0
+                    while True:
+                        if dailycount >= len(user_dat['vakit']):
+                            dailycount = 0
+                        raw_vakit = user_dat['vakit'][dailycount]
+                        bugün = datetime.datetime.now()
+                        raw_vakit = str(bugün.day).zfill(2) + "/" + str(bugün.month).zfill(2) + "/" + str(bugün.year) + " " + str(raw_vakit) + ":59"
+                        tvakit = datetime.timedelta(hours = 3)
+                        vakit = datetime.datetime.strptime(raw_vakit, '%d/%m/%Y %H:%M:%S') - tvakit
+                        kontrol = vakit - datetime.datetime.utcnow()
+                        if not kontrol.days < 0:
+                            break
+                        if trysch > len(user_dat['vakit']):
+                            return
+                        dailycount += 1
+                        trysch += 1
+                    try:
+                        bot.send_message(eklenti, str(kan) + "+" + str(dailycount) + "+" + str(user))
+                    except RetryAfter as rtfr:
+                        sleep(rftr.retry_after+1)                            
+                        bot.send_message(eklenti, str(kan) + "+" + str(dailycount) + "+" + str(user))
+                    collection.update_one({"_id": user}, {"$set": {"time": dailycount}})
+                    sleep(0.1)
                 for kan in kanal:
                     if not kan in chatdat['kanal']:
                         continue
@@ -177,7 +218,12 @@ def poster_job(context):
                             membersayi = "Bot kanaldan çıkarılmış."
                         try:
                             logger.warning(f"Hatalı kanal: {kan}")
-                            bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {user}\nÜYE: {membersayi}\nKANAL: {kan}")
+                            collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
+                            try:
+                                bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {user}\nÜYE: {membersayi}\nKANAL: {kan}")
+                            except RetryAfter as rtfr:
+                                sleep(rftr.retry_after+1)
+                                bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {user}\nÜYE: {membersayi}\nKANAL: {kan}")
                             collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
                             continue
                         except:
@@ -185,8 +231,6 @@ def poster_job(context):
                         else:
                             logger.warning(f"{kan} kayıtlardan silindi.")
                     if vakitler != 0:
-                        bot.send_message(eklenti, str(kan) + "+" + str(dailycount) + "+" + str(user))
-                        sleep(0.1)
                         kan = eklenti
                     try:
                         if update.channel_post.photo:
@@ -195,6 +239,42 @@ def poster_job(context):
                             post = bot.send_video(kan, medya, caption=sablon)
                         if update.channel_post.animation:
                             post = bot.send_animation(kan, medya, caption=sablon)
+                    except RetryAfter as rtfr:
+                        sleep(rtfr.retry_after+1)
+                        try:
+                            if update.channel_post.photo:
+                                post = bot.send_photo(kan, medya, caption=sablon)
+                            if update.channel_post.video:
+                                post = bot.send_video(kan, medya, caption=sablon)
+                            if update.channel_post.animation:
+                                post = bot.send_animation(kan, medya, caption=sablon)
+                        except Exception as e:
+                            if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
+                                try:
+                                    logger.warning(f"Hatalı kanal: {kan}")
+                                    try:
+                                        kanname = bot.get_chat_members_count(kan)
+                                    except:
+                                        kanname = "Kanaldan Çıkarılmış."
+                                    collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
+                                    try:
+                                        bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {user}\nÜYE: {kanname}\nKANAL: {kan}")
+                                        bot.send_message(user, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                                    except RetryAfter as rtfr:
+                                        sleep(rftr.retry_after+1)
+                                        bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {user}\nÜYE: {kanname}\nKANAL: {kan}")
+                                        bot.send_message(user, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                                except:
+                                    pass   
+                                else:
+                                    logger.warning(f"{kan} kayıtlardan silindi.")
+                            else:
+                                logger.error(e)
+                        else:
+                            count = count + 1
+                            if vakitler == 0:
+                                postdata.insert_one({"pid": post.message_id, "chat": kan, "mesih": mesjid})
+                            logger.info("Başarılı!")
                     except Exception as e:
                         if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
                             try:
@@ -203,9 +283,14 @@ def poster_job(context):
                                     kanname = bot.get_chat_members_count(kan)
                                 except:
                                     kanname = "Kanaldan Çıkarılmış."
-                                bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {user}\nÜYE: {kanname}\nKANAL: {kan}")
                                 collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
-                                bot.send_message(user, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                                try:
+                                    bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {user}\nÜYE: {kanname}\nKANAL: {kan}")
+                                    bot.send_message(user, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                                except RetryAfter as rtfr:
+                                    sleep(rftr.retry_after+1)
+                                    bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {user}\nÜYE: {kanname}\nKANAL: {kan}")
+                                    bot.send_message(user, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
                             except:
                                 pass   
                             else:
@@ -216,9 +301,7 @@ def poster_job(context):
                         count = count + 1
                         if vakitler == 0:
                             postdata.insert_one({"pid": post.message_id, "chat": kan, "mesih": mesjid})
-                logger.info("Başarılı!")
-            else:
-                pass
+                        logger.info("Başarılı!")
         basari = "{} kaynağından, {} kanalda post paylaşıldı.".format(kynk.title, count)
         logger.warning(basari)
         try:
@@ -340,7 +423,11 @@ def ozel_poster_job(context):
                             logger.warning(f"Tekrar deneniyor {olinktry}")
                     logger.info(f"{okanal} + {olink} + {otoken}")
                 except Exception as e:
-                    bot.send_message(ouser, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
+                    try:
+                        bot.send_message(ouser, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
+                    except RetryAfter as ortfr:
+                        sleep(orftr.retry_after+1)
+                        bot.send_message(ouser, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
                     logger.error(e)
                     continue
                 try:
@@ -350,8 +437,13 @@ def ozel_poster_job(context):
                 else:
                     if ojson['message'] == "Invalid URL":
                         logger.error(f"[ÖZEL] {oupdate.channel_post.chat.title} son postu hatalı olduğu için iptal edildi!")
-                        bot.send_message(sahip, f"{oupdate.channel_post.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{oupdate.channel_post.link}")
-                        bot.send_message(okaynak['_id'], f"{oupdate.channel_post.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{oupdate.channel_post.link}")
+                        try:
+                            bot.send_message(sahip, f"{oupdate.channel_post.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{oupdate.channel_post.link}")
+                            bot.send_message(okaynak['_id'], f"{oupdate.channel_post.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{oupdate.channel_post.link}")
+                        except RetryAfter as ortfr:
+                            sleep(orftr.retry_after+1)
+                            bot.send_message(sahip, f"{oupdate.channel_post.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{oupdate.channel_post.link}")
+                            bot.send_message(okaynak['_id'], f"{oupdate.channel_post.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{oupdate.channel_post.link}")
                         break
                     
                 if osablon == "1":
@@ -366,7 +458,10 @@ def ozel_poster_job(context):
                     osablon = osablon.replace("{aciklama}", "{}").replace("{link}", "{}").format(oaciklama, olink)
                 if olink == " ":
                     print(ojson)
-                    bot.send_message(-1001190898326, str(ohesap)+"   "+str(ojson))
+                    try:
+                        bot.send_message(-1001190898326, str(ohesap)+"   "+str(ojson))
+                    except:
+                        pass
                     continue
                 for okan in okanal:
                     try:
@@ -380,7 +475,11 @@ def ozel_poster_job(context):
                             omembersayi = "Bot kanaldan çıkarılmış."
                         try:
                             logger.warning(f"Hatalı kanal: {okan}")
-                            bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {ouser}\nÜYE: {omembersayi}\nKANAL: {okan}")
+                            try:
+                                bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {ouser}\nÜYE: {omembersayi}\nKANAL: {okan}")
+                            except RetryAfter as ortfr:
+                                sleep(orftr.retry_after+1)
+                                bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {ouser}\nÜYE: {omembersayi}\nKANAL: {okan}")
                             collection.update_one({"_id": ouser}, {"$pull": {"kanal": okan}})
                             continue
                         except:
@@ -391,9 +490,21 @@ def ozel_poster_job(context):
                         if odailycount == len(ovakitler):
                             collection.update_one({"_id": ouser}, {"$set": {"time": -1}})
                         if odailycount != -1:
-                            bot.send_message(eklenti, str(okan) + "+" + str(odailycount) + "+" + str(ouser))
+                            try:
+                                bot.send_message(eklenti, str(okan) + "+" + str(odailycount) + "+" + str(ouser))
+                            except RetryAfter as ortfr:
+                                sleep(orftr.retry_after+1)
+                                bot.send_message(eklenti, str(okan) + "+" + str(odailycount) + "+" + str(ouser))
                         okan = eklenti
                     try:
+                        if oupdate.channel_post.photo:
+                            opost = bot.send_photo(okan, omedya, caption=osablon)
+                        if oupdate.channel_post.video:
+                            opost = bot.send_video(okan, omedya, caption=osablon)
+                        if oupdate.channel_post.animation:
+                            opost = bot.send_animation(okan, omedya, caption=osablon)
+                    except RetryAfter as ortfr:
+                        sleep(orftr.retry_after+1)
                         if oupdate.channel_post.photo:
                             opost = bot.send_photo(okan, omedya, caption=osablon)
                         if oupdate.channel_post.video:
@@ -404,9 +515,14 @@ def ozel_poster_job(context):
                         if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
                             try:
                                 logger.warning(f"Hatalı kanal: {okan}")
-                                bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {ouser}\nÜYE: {bot.get_chat_members_count(okan)}\nKANAL: {okan}")
                                 collection.update_one({"_id": ouser}, {"$pull": {"kanal": okan}})
-                                bot.send_message(ouser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                                try:
+                                    bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {ouser}\nÜYE: {bot.get_chat_members_count(okan)}\nKANAL: {okan}")
+                                    bot.send_message(ouser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                                except RetryAfter as ortfr:
+                                    sleep(orftr.retry_after+1)
+                                    bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {ouser}\nÜYE: {bot.get_chat_members_count(okan)}\nKANAL: {okan}")
+                                    bot.send_message(ouser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
                             except Exception as e: 
                                 logger.error(e)
                             else:
@@ -418,7 +534,14 @@ def ozel_poster_job(context):
                 logger.info("Başarılı!")
         obasari = "[ÖZEL] {} kaynağından {} kanalda post paylaşıldı.".format(okynk.title, ocount)
         if okaynak["log"] != "yok":
-            bot.send_message(okaynak["log"], obasari[7:])
+            try:
+                bot.send_message(okaynak["log"], obasari[7:])
+            except RetryAfter as ortfr:
+                sleep(orftr.retry_after+1)
+                try:
+                    bot.send_message(okaynak["log"], obasari[7:])
+                except:
+                    pass
         logger.warning(obasari)
     opostsirasi.clear()
     opostsirasi = []
