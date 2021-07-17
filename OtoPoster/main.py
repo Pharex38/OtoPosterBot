@@ -190,7 +190,6 @@ def main() -> None:
     updater.idle()
     upjob.run_once(jobyedekleme, when=1, name="yedekleme")
 
-setup_logger()
 logger.info("Bot Çalışıyor...")
 main()
 bildir("Bot kapandı!")

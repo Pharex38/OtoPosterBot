@@ -127,3 +127,5 @@ def comment(update, context):
     if update.message.text.find("kanalda post paylaşıldı.") == -1 and update.message.text.find("paylaşılıyor") == -1:
         return
     bot.delete_message(update.message.chat.id, update.effective_message.message_id)
+
+setup_logger()
