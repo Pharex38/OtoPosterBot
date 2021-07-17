@@ -35,7 +35,7 @@ def poster_job(context):
         try:
             lmsg = bot.send_message(botlog, "<code>{} kaynağının postu paylaşılıyor...</code>".format(kynk.title))
         except Exception as e:
-            logger.error(e)
+            print(e)
             bot.send_message(sahip, str(e))
         else:
             postdata.insert_one({"chat": botlog, "pid": lmsg.message_id, "mesih": mesjid})
