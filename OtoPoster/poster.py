@@ -2,6 +2,7 @@ from . import *
 from .jobs import *
 from .markups import *
 from .misc import *
+from .main import *
 
 def poster_job(context):
     global postsirasi
