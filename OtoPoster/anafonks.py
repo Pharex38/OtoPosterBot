@@ -262,10 +262,9 @@ def sabloniki(update, context):
         if mesaj.find("{aciklama}") != mesaj.rfind("{aciklama}"):
             msg = bot.send_message(chat, """ ❌<i> Lütfen mesajınızda bir tane "{aciklama}" bulunduğudan emin olun.</i> """)
             return SABLON
-    else:
-        collection.update_one({"_id": user}, {"$set":{"sablon": mesaj}})
-        bot.send_message(chat, "Şablon kaydedildi!", reply_markup=dugme(user))
-        return ConversationHandler.END
+    collection.update_one({"_id": user}, {"$set":{"sablon": mesaj}})
+    bot.send_message(chat, "Şablon kaydedildi!", reply_markup=dugme(user))
+    return ConversationHandler.END
 
 def kayitapi(update, context):
     chat = update.message.chat.id
