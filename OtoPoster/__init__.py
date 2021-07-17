@@ -14,6 +14,14 @@ from telegram.ext import *
 from functools import wraps
 from telegram.utils.helpers import *
 
+from .anafonks import *
+from .callbacks import *
+from .poster import *
+from .komutlar import *
+from .jobs import *
+from .markups import *
+from .misc import *
+
 mpass = os.environ['MONGOPASS']
 mongo = f"os.environ["MONGO_URI"]"
 

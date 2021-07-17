@@ -1,7 +1,10 @@
 from . import *
-from .misc import *
+from .anafonks import *
+from .poster import *
+from .komutlar import *
+from .jobs import *
 from .markups import *
-
+from .misc import *
 
 def sabloncall(call, context):
     user = call.effective_user.id

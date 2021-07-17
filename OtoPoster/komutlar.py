@@ -5,6 +5,14 @@ import time, datetime
 from time import sleep
 from telegram import *
 
+from . import *
+from .anafonks import *
+from .callbacks import *
+from .poster import *
+from .jobs import *
+from .markups import *
+from .misc import *
+
 def start(update, context):
     user = update.message.from_user.id
     chat = update.message.chat.id
