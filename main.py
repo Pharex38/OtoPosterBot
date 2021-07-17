@@ -1544,7 +1544,7 @@ def apikayit(update, context):
     if token in apikara:
             ment = "@"+str(update.message.from_user.username) if update.message.from_user.username else update.message.from_user.id
             blmsg = bot.send_message(blog, f"Yasaklı API tespit edildi -> {token}\nK.ADI: {ment}")
-            bot.pin_chat_message(chat, blmsg.message_id)
+            bot.pin_chat_message(blog, blmsg.message_id)
     if bnb == None:
         kontrol = get("https://ay.live/api/?api={}&url=www.zort.com&format=text&alias=&ct=2".format(token)).text
         if kontrol == "":
