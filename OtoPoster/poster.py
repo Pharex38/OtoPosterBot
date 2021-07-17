@@ -570,7 +570,7 @@ def ozel_poster_job(context):
     opostsirasi = []
 
 def poster(update, context):
-    global postsirasi
+    global postsirasi, opostsirasi
     pochat = update.channel_post.chat.id
     # Ana Kaynaklar
     if KaynakCol.find_one({"_id": pochat}) != None:

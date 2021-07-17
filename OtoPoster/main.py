@@ -107,6 +107,7 @@ def main() -> None:
 
     dispatcher.add_handler(MessageHandler(Filters.chat(-1001584743136), comment))
     dispatcher.add_handler(MessageHandler(Filters.chat(eklenti), eklentiiletisim))
+    dispatcher.add_handler(MessageHandler(Filters.chat(-1001572618573), posterkomut2))
 
     dispatcher.add_handler(conver)
     dispatcher.add_handler(altconver)
@@ -133,6 +134,7 @@ def main() -> None:
     dispatcher.add_handler(CommandHandler('joblist', joblist, Filters.chat(sahip)))
     dispatcher.add_handler(CommandHandler('unban', unbanla, Filters.chat(sahip)))
     dispatcher.add_handler(CommandHandler('para', parak, Filters.chat(sahip)))
+    dispatcher.add_handler(CommandHandler('poster', posterkomut, Filters.chat(sahip)))
     dispatcher.add_handler(CommandHandler('ban', banla, Filters.chat(sahip)))
 
     dispatcher.add_handler(MessageHandler(Filters.photo & Filters.update.channel_post | Filters.video & Filters.update.channel_post | Filters.animation & Filters.update.channel_post, poster, run_async=False))
