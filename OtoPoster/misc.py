@@ -108,7 +108,7 @@ import json
 import traceback
 def error_handler(update: object, context: CallbackContext) -> None:
     global postsirasi, opostsirasi
-    logger.error(msg="Bir Hata oluştu:", exc_info=context.error)
+    print(msg="Bir Hata oluştu:", exc_info=context.error)
     tb_list = traceback.format_exception(None, context.error, context.error.__traceback__)
     tb_string = ''.join(tb_list)
     update_str = update.to_dict() if isinstance(update, Update) else str(update)
@@ -123,14 +123,14 @@ def error_handler(update: object, context: CallbackContext) -> None:
                     try:
                         postsirasi.remove(er)
                     except Exception as e:
-                        logger.error(e)
+                        print(e)
         elif update.message.chat.id in opostsirasi:
             for oer in opostsirasi:
                 if update.message.chat.id == oer['chatid']:
                     try:
                         postsirasi.remove(oer)
                     except Exception as e:
-                        logger.error(e)
+                        print(e)
     message = (
         f'BİR HATA OLUŞTU!\n'
         f'<pre>update = {html.escape(json.dumps(update_str, indent=2, ensure_ascii=False))}'
