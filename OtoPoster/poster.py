@@ -131,7 +131,7 @@ def poster_job(context):
                     logger.info(f"{kanal} + {link} + {token}")
                 except Exception as e:
                     bot.send_message(user, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
-                    logger.error(e)
+                    print(e)
                     logger.warning(json)
                     continue
                 try:
@@ -140,7 +140,7 @@ def poster_job(context):
                     pass
                 else:
                     if json['message'] == "Invalid URL":
-                        logger.error(f"{update.channel_post.chat.title} son postu hatalı olduğu için iptal edildi!")
+                        print(f"{update.channel_post.chat.title} son postu hatalı olduğu için iptal edildi!")
                         bot.send_message(sahip, f"{update.channel_post.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{update.channel_post.link}")
                         bot.send_message(chatdat['sahip'], f"{update.channel_post.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{update.channel_post.link}")
                         context.job_queue.run_once(deljob, when=2, name="yedekleme", context=update.channel_post.link)
@@ -209,7 +209,7 @@ def poster_job(context):
                             else:
                                 logger.warning(f"{kan} kayıtlardan silindi.")
                         else:
-                            logger.error(e)
+                            print(e)
                     else:
                         count = count + 1
                         if vakitler == 0:
@@ -222,7 +222,7 @@ def poster_job(context):
         try:
             bot.edit_message_text(basari, botlog, lmsg.message_id)
         except Exception as e:
-            logger.error(e)
+            print(e)
     postsirasi.clear()
     postsirasi = []
 
@@ -339,7 +339,7 @@ def ozel_poster_job(context):
                     logger.info(f"{okanal} + {olink} + {otoken}")
                 except Exception as e:
                     bot.send_message(ouser, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
-                    logger.error(e)
+                    print(e)
                     continue
                 try:
                     ojson['message']
@@ -347,7 +347,7 @@ def ozel_poster_job(context):
                     pass
                 else:
                     if ojson['message'] == "Invalid URL":
-                        logger.error(f"[ÖZEL] {oupdate.channel_post.chat.title} son postu hatalı olduğu için iptal edildi!")
+                        print(f"[ÖZEL] {oupdate.channel_post.chat.title} son postu hatalı olduğu için iptal edildi!")
                         bot.send_message(sahip, f"{oupdate.channel_post.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{oupdate.channel_post.link}")
                         bot.send_message(okaynak['_id'], f"{oupdate.channel_post.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{oupdate.channel_post.link}")
                         break
@@ -406,11 +406,11 @@ def ozel_poster_job(context):
                                 collection.update_one({"_id": ouser}, {"$pull": {"kanal": okan}})
                                 bot.send_message(ouser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
                             except Exception as e: 
-                                logger.error(e)
+                                print(e)
                             else:
                                 logger.warning(f"{okan} kayıtlardan silindi.")
                         else:
-                            logger.error(e)
+                            print(e)
                     else:
                         ocount += 1                     
                 logger.info("Başarılı!")
