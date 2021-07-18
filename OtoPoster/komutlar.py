@@ -1,6 +1,7 @@
 from . import *
 from .misc import *
 from .jobs import *
+from .poster import poster_job, ozel_poster_job
 
 def start(update, context):
     user = update.message.from_user.id
