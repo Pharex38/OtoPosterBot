@@ -124,7 +124,7 @@ def poster_job(context):
                             json = get("http://gir.ist/api?", params={"api": token, "url": mesajb}, headers=headerss).json()
                             link = json['shortenedUrl']
                         linktry += 1
-                        sleep(0.3)
+                        sleep(0.4)
                         if linktry > 1:
                             logger.warning(f"Tekrar deneniyor {linktry}")
                     logger.info(f"{kanal} + {link} + {token}")
@@ -199,6 +199,7 @@ def poster_job(context):
                     collection.update_one({"_id": user}, {"$set": {"time": dailycount}})
                     sleep(0.1)
                 for kan in kanal:
+                    sleep(0.1)
                     if not kan in chatdat['kanal']:
                         continue
                     post = update.channel_post
@@ -409,7 +410,7 @@ def ozel_poster_job(context):
                             ojson = get("https://gir.ist/api?", params={"api": otoken, "url": omesajb}, headers=headerss).json()
                             olink = ojson['shortenedUrl']
                         olinktry += 1
-                        sleep(0.3)
+                        sleep(0.4)
                         if olinktry > 1:
                             logger.warning(f"Tekrar deneniyor {olinktry}")
                     logger.info(f"{okanal} + {olink} + {otoken}")
@@ -455,6 +456,7 @@ def ozel_poster_job(context):
                         pass
                     continue
                 for okan in okanal:
+                    sleep(0.1)
                     try:
                         oyetkililer = [oxy.user.id for oxy in bot.get_chat_administrators(okan)]
                     except:
