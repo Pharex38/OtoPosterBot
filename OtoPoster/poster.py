@@ -1,7 +1,7 @@
 from . import *
 from .jobs import *
 from .markups import *
-from .misc import *
+from .misc import logger
 from .main import *
 
 def poster_job(context):
@@ -533,7 +533,7 @@ def ozel_poster_job(context):
                                 logger.error(e)
                         else:
                             ocount += 1                     
-                            logger.info("Başarılı! "+str(kan))
+                            logger.info("Başarılı! "+str(okan))
                     except Exception as e:
                         if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
                             try:
