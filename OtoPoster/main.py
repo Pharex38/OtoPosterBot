@@ -24,6 +24,44 @@ from .markups import *
 from .misc import *
 
 
+import html
+import json
+import traceback
+def error_handler(update: object, context: CallbackContext) -> None:
+    global postsirasi, opostsirasi
+    print(msg="Bir Hata oluştu:", exc_info=context.error)
+    tb_list = traceback.format_exception(None, context.error, context.error.__traceback__)
+    tb_string = ''.join(tb_list)
+    update_str = update.to_dict() if isinstance(update, Update) else str(update)
+    try:
+        update.message.chat.id
+    except:
+        pass
+    else:
+        if update.message.chat.id in postsirasi:
+            for er in postsirasi:
+                if update.message.chat.id == er['chatid']:
+                    try:
+                        postsirasi.remove(er)
+                    except Exception as e:
+                        print(e)
+        elif update.message.chat.id in opostsirasi:
+            for oer in opostsirasi:
+                if update.message.chat.id == oer['chatid']:
+                    try:
+                        postsirasi.remove(oer)
+                    except Exception as e:
+                        print(e)
+    message = (
+        f'BİR HATA OLUŞTU!\n'
+        f'<pre>update = {html.escape(json.dumps(update_str, indent=2, ensure_ascii=False))}'
+        '</pre>\n\n'
+        f'<pre>context.chat_data = {html.escape(str(context.chat_data))}</pre>\n\n'
+        f'<pre>context.user_data = {html.escape(str(context.user_data))}</pre>\n\n'
+        f'<pre>{html.escape(tb_string)}</pre>'
+    )
+
+    context.bot.send_message(chat_id=1302980840, text=message, parse_mode=ParseMode.HTML)
 
 bildir('Bot Başladı 🍕')
 
