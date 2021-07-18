@@ -33,7 +33,7 @@ bildir('Bot Başladı 🍕')
 def main() -> None:
     #mypers = PicklePersistence(filename='pers')
     
-    updater = Updater(bot=bot, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=90, disable_web_page_preview=False, tzinfo=pytz.timezone('Turkey')), request_kwargs={'con_pool_size': 999, 'read_timeout': 150, 'connect_timeout': 150}, workers=40)
+    updater = Updater(bot=bot, workers=40)
 
     dispatcher = updater.dispatcher
     
