@@ -552,7 +552,7 @@ def ozel_poster_job(context):
                             logger.error(e)
                     else:
                         ocount += 1                     
-                        logger.info("Başarılı! "+str(kan))
+                        logger.info("Başarılı! "+str(okan))
         obasari = "[ÖZEL] {} kaynağından {} kanalda post paylaşıldı.".format(okynk.title, ocount)
         if okaynak["log"] != "yok":
             try:
