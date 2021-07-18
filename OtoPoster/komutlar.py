@@ -12,6 +12,7 @@ from .poster import *
 from .jobs import *
 from .markups import *
 from .misc import *
+from .main import *
 
 def start(update, context):
     user = update.message.from_user.id

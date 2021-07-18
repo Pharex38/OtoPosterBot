@@ -14,6 +14,7 @@ from telegram.ext import *
 from functools import wraps
 from telegram.utils.helpers import *
 
+from .main import *
 
 mpass = os.environ['MONGOPASS']
 mongo = f"os.environ["MONGO_URI"]"
