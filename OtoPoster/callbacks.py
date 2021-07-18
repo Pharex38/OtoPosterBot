@@ -1,4 +1,4 @@
-
+from . import *
 
 def sabloncall(call, context):
     user = call.effective_user.id

@@ -1,4 +1,4 @@
-
+from . import *
 
 def poster_job(context):
     global postsirasi

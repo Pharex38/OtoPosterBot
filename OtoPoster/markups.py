@@ -1,4 +1,4 @@
-
+from . import *
 
 markup = ForceReply(selective=False)
 

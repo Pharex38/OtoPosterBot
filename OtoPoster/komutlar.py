@@ -1,10 +1,4 @@
-from telegram.ext import *
-from telegram.utils.helpers import *
-from telegram.error import *
-import time, datetime
-from time import sleep
-from telegram import *
-
+from . import *
 
 
 def start(update, context):
