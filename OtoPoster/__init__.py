@@ -38,7 +38,7 @@ bottoken = maindata['bottoken']
 para = maindata['para']
 
 reqs = Request(con_pool_size=100, connect_timeout=100, read_timeout=100)
-bot = ExtBot(bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, request=reqs, run_async=True, timeout=99))
+bot = ExtBot(bottoken, request=reqs, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=99))
 
 
 eklenti = 815899066
