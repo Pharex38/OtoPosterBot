@@ -125,7 +125,7 @@ def comment(update, context):
 def error_handler(update: object, context: CallbackContext) -> None:
     try:
         global postsirasi, opostsirasi
-        print(msg="Bir Hata oluştu:", exc_info=context.error)
+        logger.error("Bir Hata oluştu: \n"+context.error)
         tb_list = traceback.format_exception(None, context.error, context.error.__traceback__)
         tb_string = ''.join(tb_list)
         update_str = update.to_dict() if isinstance(update, Update) else str(update)
