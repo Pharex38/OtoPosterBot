@@ -137,7 +137,7 @@ def bul(update, context):
     try:
         cntt = collection.find({"_id": int(cnt)})
         for c in cntt:
-            bot.send_message(update.message.chat.id, str(c))
+            bot.send_message(update.message.chat.id, jason.dumps(c, indent=2, ensure_ascii=False))
             for kkkkk in KaynakCol.find({}):
                 if c['_id'] in kkkkk['kaynak']:
                     bot.send_message(update.message.chat.id, str(kkkkk['no']))
@@ -146,26 +146,26 @@ def bul(update, context):
     try:
         cntt = collection.find({"token": cnt})
         for c in cntt:
-            bot.send_message(update.message.chat.id, str(c))
+            bot.send_message(update.message.chat.id, jason.dumps(c, indent=2, ensure_ascii=False))
     except:
         pass
     try:
         cntt = collection.find({"altapi": cnt})
         for c in cntt:
-            bot.send_message(update.message.chat.id, str(c))
+            bot.send_message(update.message.chat.id, jason.dumps(c, indent=2, ensure_ascii=False))
     except:
         pass
     try:
         cntt = collection.find({})
         for c in cntt:
             if cnt in c['kanal']:
-                bot.send_message(update.message.chat.id, str(c))
+                bot.send_message(update.message.chat.id, jason.dumps(c, indent=2, ensure_ascii=False))
     except:
         pass
     try:
         cntt = collection.find({"site": cnt})
         for c in cntt:
-            bot.send_message(update.message.chat.id, str(c))
+            bot.send_message(update.message.chat.id, jason.dumps(c, indent=2, ensure_ascii=False))
     except:
         pass
 

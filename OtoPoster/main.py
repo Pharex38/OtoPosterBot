@@ -14,7 +14,7 @@ from telegram.ext import *
 from functools import wraps
 from telegram.utils.helpers import *
 import html
-import json
+import json as jason
 import traceback
 
 from . import *
