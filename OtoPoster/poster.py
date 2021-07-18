@@ -4,7 +4,7 @@ from .jobs import *
 
 def poster_job(context):
     vipler = collection.find_one({"_id": 0})['vipuye']
-    poste = context.job_queue.context
+    poste = context.job.context
     if True:
         chat = poste['chatid']
         update = poste['update']
@@ -306,7 +306,7 @@ def poster_job(context):
             logger.error(e)
 
 def ozel_poster_job(context):
-    oposte = context.job_queue.context
+    oposte = context.job.context
     vipler = collection.find_one({"_id": 0})['vipuye']
     if True:
         ochat = oposte['chatid']
