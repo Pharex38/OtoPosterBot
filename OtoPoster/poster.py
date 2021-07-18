@@ -568,8 +568,6 @@ def poster(update, context):
         postdict = {"chatid": pochat, "update": update}
         while len(context.job_queue.get_jobs_by_name("anaposter")) > 1:
             sleep(1)
-            if len(context.job_queue.get_jobs_by_name("anaposter")) < 2:
-                break
         context.job_queue.run_once(poster_job, when=2, name="anaposter", context=postdict)
     # Özel Kaynaklar
     elif OzelCol.find_one({"okaynak": pochat}) != None:
@@ -577,7 +575,5 @@ def poster(update, context):
         opostdict = {"chatid": pochat, "update": update}
         while len(context.job_queue.get_jobs_by_name("ozelposter")) > 1:
             sleep(1)
-            if len(context.job_queue.get_jobs_by_name("ozelposter")) < 2:
-                break
         context.job_queue.run_once(ozel_poster_job, when=2, name="ozelposter", context=opostdict)
 
