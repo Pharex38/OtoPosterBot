@@ -1,5 +1,7 @@
 from .misc import *
 from . import *
+from .markups import *
+from .callbacks import *
 
 
 @send_typing_action
