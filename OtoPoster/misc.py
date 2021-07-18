@@ -1,11 +1,4 @@
-from . import *
-from .anafonks import *
-from .callbacks import *
-from .poster import *
-from .komutlar import *
-from .jobs import *
-from .markups import *
-from .main import *
+
 import Colorer, logging
 
 

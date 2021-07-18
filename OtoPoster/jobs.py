@@ -1,10 +1,4 @@
-from . import *
-from .anafonks import *
-from .callbacks import *
-from .poster import *
-from .komutlar import *
-from .markups import *
-from .misc import *
+
 
 def jobyedekleme(context):
     collection.update_one({"_id": 0}, {"$set": {"jobs": []}})
