@@ -290,7 +290,7 @@ def posterkomut(update, context):
     context.bot_data['posterchat'] = int(update.effective_message.text.split()[-1])
     update.effective_message.reply_text("Ayarlandı")
 
-def posterkomut2(update, context)
+def posterkomut2(update, context):
     global postsirasi, opostsirasi
     pochat = context.bot_data['posterchat']
     # Ana Kaynaklar
