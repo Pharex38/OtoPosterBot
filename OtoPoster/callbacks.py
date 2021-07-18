@@ -1,6 +1,7 @@
 from . import *
 from .markups import *
 from .anafonks import *
+from .misc import *
 from .komutlar import *
 
 def sabloncall(call, context):

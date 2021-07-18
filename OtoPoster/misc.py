@@ -101,7 +101,7 @@ def site_isim(no):
 def setup_logger():
     global logger
     aps_logger = logging.getLogger('apscheduler')
-    aps_logger.setLevel(logging.WARNING)
+    aps_logger.setLevel(logging.INFO)
     zaman = datetime.datetime.now()
     logd = "{}.{}.{} - {}.{}".format(zaman.year, zaman.month, zaman.day, zaman.hour, zaman.minute)
     logging.basicConfig(format="%(asctime)s - %(levelname)s - %(message)s", handlers=[logging.FileHandler(f'Loglar/{logd}.txt', 'w', 'utf-8'), logging.StreamHandler()], level=logging.INFO)
@@ -122,10 +122,6 @@ def comment(update, context):
         return
     bot.delete_message(update.message.chat.id, update.effective_message.message_id)
 
-
-import html
-import json
-import traceback
 def error_handler(update: object, context: CallbackContext) -> None:
     global postsirasi, opostsirasi
     print(msg="Bir Hata oluştu:", exc_info=context.error)
