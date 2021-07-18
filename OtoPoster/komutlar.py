@@ -1,5 +1,6 @@
 from . import *
-
+from .misc import *
+from .jobs import *
 
 def start(update, context):
     user = update.message.from_user.id
