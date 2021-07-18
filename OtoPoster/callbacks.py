@@ -1,4 +1,7 @@
 from . import *
+from .markups import *
+from .anafonks import *
+from .komutlar import *
 
 def sabloncall(call, context):
     user = call.effective_user.id
