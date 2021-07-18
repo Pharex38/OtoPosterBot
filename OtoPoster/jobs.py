@@ -1,4 +1,5 @@
 from . import *
+from .misc import *
 
 def jobyedekleme(context):
     collection.update_one({"_id": 0}, {"$set": {"jobs": []}})
