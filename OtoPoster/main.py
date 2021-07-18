@@ -16,7 +16,7 @@ from telegram.utils.helpers import *
 import html
 import json as jason
 import traceback
-
+from telegram.utils.request import Request
 from . import *
 from .anafonks import *
 from .callbacks import *
@@ -33,11 +33,10 @@ bildir('Bot Başladı 🍕')
 def main() -> None:
     #mypers = PicklePersistence(filename='pers')
     
-    updater = Updater(token=bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=90, disable_web_page_preview=False, tzinfo=pytz.timezone('Turkey')), request_kwargs={'con_pool_size': 999, 'read_timeout': 150, 'connect_timeout': 150}, workers=40)
+    updater = Updater(bot, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=90, disable_web_page_preview=False, tzinfo=pytz.timezone('Turkey')), request_kwargs={'con_pool_size': 999, 'read_timeout': 150, 'connect_timeout': 150}, workers=40)
 
     dispatcher = updater.dispatcher
     
-
     upjob = updater.job_queue
     upjob.run_repeating(jobyedekleme, interval=300, first=10, name="yedekleme")
     upjob.run_daily(resetleme, time=datetime.datetime.strptime("21-06-30 23:58:00", '%y-%m-%d %H:%M:%S').time(), name="gunluk")

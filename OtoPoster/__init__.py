@@ -13,6 +13,7 @@ from telegram.error import *
 from telegram.ext import *
 from functools import wraps
 from telegram.utils.helpers import *
+from telegram.utils.request import Request
 import html
 import json as jason
 import traceback
@@ -36,7 +37,8 @@ apikara = maindata['apikara']
 bottoken = maindata['bottoken']
 para = maindata['para']
 
-bot = ExtBot(bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=99))
+reqs = Request(con_pool_size=100, connect_timeout=100, read_timeout=100)
+bot = ExtBot(bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, request=reqs, run_async=True, timeout=99))
 
 
 eklenti = 815899066
