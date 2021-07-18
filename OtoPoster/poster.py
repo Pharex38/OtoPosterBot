@@ -3,12 +3,9 @@ from .misc import *
 from .jobs import *
 
 def poster_job(context):
-    global postsirasi
-    if len(postsirasi) < 1:
-        return
-    logger.warning(f"{len(postsirasi)} Post tespit edildi")
     vipler = collection.find_one({"_id": 0})['vipuye']
-    for poste in postsirasi:
+    poste = context.job_queue.context
+    if True:
         chat = poste['chatid']
         update = poste['update']
         chatdat = KaynakCol.find_one({"_id": chat})
@@ -307,35 +304,30 @@ def poster_job(context):
             bot.edit_message_text(basari, botlog, lmsg.message_id)
         except Exception as e:
             logger.error(e)
-    postsirasi.clear()
-    postsirasi = []
 
 def ozel_poster_job(context):
-    global opostsirasi
-    if len(opostsirasi) < 1:
-        return
-    logger.warning(f"{len(opostsirasi)} Özel kaynak postu tespit edildi.")
+    oposte = context.job_queue.context
     vipler = collection.find_one({"_id": 0})['vipuye']
-    for oposte in opostsirasi:
+    if True:
         ochat = oposte['chatid']
         oupdate = oposte['update']
         okaynak = OzelCol.find_one({"okaynak": ochat})
         ocount = 0
         omesaj = oupdate.channel_post.caption
         if omesaj == None:
-            continue
+            return
         """  Link tespit  """
         osolx = omesaj.rfind("http")
         osol = omesaj.find("http")
         if osol == -1 or osol != osolx:
-            continue
+            return
         osag = omesaj.find("\n", osol)
         okynk = bot.get_chat(ochat)
         omesajb = omesaj[osol:osag].strip()
         if omesaj.find("\n", osol) == -1:
             omesajb = omesaj[osol:].strip()
         if omesajb.startswith("https://t.me/"):
-            continue
+            return
         logger.warning("[ÖZEL] {} postu atılıyor... ".format(okynk.title))
         """  Açıklama tespit  """
         oason = omesaj.find("\n")
@@ -564,8 +556,6 @@ def ozel_poster_job(context):
                 except:
                     pass
         logger.warning(obasari)
-    opostsirasi.clear()
-    opostsirasi = []
 
 def poster(update, context):
     global postsirasi, opostsirasi
@@ -574,10 +564,10 @@ def poster(update, context):
     if KaynakCol.find_one({"_id": pochat}) != None:
         logger.warning(f"{update.channel_post.chat.title} Postu sıraya eklendi.")
         postdict = {"chatid": pochat, "update": update}
-        postsirasi.append(postdict)
+        context.job_queue.run_once(poster_job, when=2, name="anaposter", context=postdict)
     # Özel Kaynaklar
     elif OzelCol.find_one({"okaynak": pochat}) != None:
         logger.warning(f"[ÖZEL] {update.channel_post.chat.title} Postu sıraya eklendi.")
         opostdict = {"chatid": pochat, "update": update}
-        opostsirasi.append(opostdict)
+        context.job_queue.run_once(ozel_poster_job, when=2, name="ozelposter", context=opostdict)
 
