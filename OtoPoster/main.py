@@ -142,7 +142,7 @@ def main() -> None:
     dispatcher.add_handler(CallbackQueryHandler(kaynakcall, pattern="^kaynak(.*)"))
     dispatcher.add_handler(CallbackQueryHandler(callback_query))
 
-    dispatcher.add_error_handler(error_handler)
+    #dispatcher.add_error_handler(error_handler)
     yjcount = 0
     for uh in collection.find_one({"_id": 0})['jobs']:
         uhzamani = datetime.datetime.strptime(uh['when'], '%y-%m-%d %H:%M:%S')
