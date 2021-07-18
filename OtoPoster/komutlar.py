@@ -367,7 +367,7 @@ def zaman(update, context):
     chat = update.message.chat.id
     user = update.message.from_user.id
     msj = update.message.reply_to_message.text if update.message.reply_to_message else None
-    if len(msj) >= MAX_INLINE_QUERY_RESULTS:
+    if len(msj) >= 200:
         bot.send_message(chat, "Mesajınız çok uzun.")
         return
     if msj == None:
