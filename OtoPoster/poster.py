@@ -12,19 +12,19 @@ def poster_job(context):
         count = 0
         mesaj = update.channel_post.caption
         if mesaj == None:
-            continue
+            return
         """  Link tespit  """
         solx = mesaj.rfind("http")
         sol = mesaj.find("http")
         if sol == -1 or sol != solx:
-            continue
+            return
         sag = mesaj.find("\n", sol)
         kynk = bot.get_chat(chat)
         mesajb = mesaj[sol:sag].strip()
         if mesaj.find("\n", sol) == -1:
             mesajb = mesaj[sol:].strip()
         if mesajb.startswith("https://t.me/"):
-            continue
+            return
         """  Veri Tabanı  """
         postdata = db[str(chat)]
         binb =  chatdat['kaynak']
