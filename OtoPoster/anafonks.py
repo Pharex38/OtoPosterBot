@@ -319,7 +319,7 @@ def kayitapi(update, context):
         msg = bot.send_message(chat, "Yeni API adresinizi girin.", reply_markup=imark())
         return APIDEGISTIR
     if mesaj == "↩️ Ana Menü" or mesaj == "❌ İptal":
-        msg = bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
+        msg = bot.send_message(chat, "Ana Menü.", reply_markup=dugme(user))
         return ConversationHandler.END
     if mesaj == "🔗 Site değiştir":
         msg = bot.send_message(chat, "<i>Kullanmak istediğiniz siteyi seçin</i>", reply_markup=sitemarkup())
@@ -344,7 +344,7 @@ def kayitapi(update, context):
 
 def cancel(update, context):
     chat = update.message.chat.id
-    bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(chat))
+    bot.send_message(chat, "Ana Menü", reply_markup=dugme(chat))
     return ConversationHandler.END
 
 def altakayit(update, context):
@@ -364,7 +364,7 @@ def altakayit(update, context):
     smesaj = context.user_data['asite']
     sss = context.user_data['sss']
     collection.update_one({"_id": user}, {"$set": {"altsite": str(smesaj), "altapi": str(amesaj), "sira": str(sss)}})
-    bot.send_message(chat, "✅ Alternatif API kaydedildi", reply_markup=dugme(user))
+    bot.send_message(chat, "✅ Alternatif API kaydedildi", reply_markup=markupp())
     return ConversationHandler.END
 
 def postzaman(update, context):
