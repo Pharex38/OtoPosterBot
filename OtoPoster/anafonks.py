@@ -51,6 +51,10 @@ def menu(update, context):
             ref_link = create_deep_linked_url(context.bot.username, str(refsahip))
             bot.send_message(chat, """<b>Özel Kaynak Kullandığınız için başka kaynak seçemezsiniz.</b>\n\n      <i>Özel Kaynağınız:</i><b> <a href="{}">{}</a>\n</b>      <i>Bu Kaynağı Toplam </i><code>{}</code> <i>Kişi Kullanıyor.</i>\n\n<b>Kaynak Referans Linki;</b>\n<code>{}</code>\n<i>Bu link ile botu başlatan herkes otomatik olarak sizin kaynağınıza bağlanacak.</i>""".format(ozel_kaynak_bilgi.invite_link, ozel_kaynak_bilgi.title, kullanan_sayisi, ref_link), reply_markup=kaynakmark(user, 0))
             return
+        try:
+            kcisim = bot.get_chat(kynskm).title
+        except:
+            kcisim = "Kanalınıza ulaşılamadı!"
         bot.send_message(chat, f"""<b> >>>    {bot.get_chat(kynskm).title}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>""", reply_markup=kaynakmark(user, 0))
         return
     if mesaj == "📏 Şablon":
