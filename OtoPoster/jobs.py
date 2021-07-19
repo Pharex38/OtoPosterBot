@@ -1,13 +1,12 @@
 from . import *
 from .misc import *
 
-ignorejob = ["yedekleme", "gunluk", "resetleme", "ozelposter", "anaposter", "anapostersiralayici", "ozelpostersiralayici"]
 
 def jobyedekleme(context):
     collection.update_one({"_id": 0}, {"$set": {"jobs": []}})
     yjcount = 0
     for kap in context.job_queue.jobs():
-        if str(kap.name) != "yedekleme" or str(kap.name) != "gunluk" or str(kap.name) != "resetleme" or str(kap.name) != "ozelposter" or str(kap.name) != "anaposter":
+        if not str(kap.name) in ignorejob:
             jobstr = str(kap.job)
             jnam = jobstr.find("date[")
             jname = jobstr[jnam+7:jnam+24]
