@@ -69,7 +69,6 @@ def bildir(neyi='Boş Bildirim Testi !'):
         except:
             pass
 
-
 def phaapi(sit):
     if sit == "1":
         return "***REMOVED-SHORTENER-KEY***"
@@ -84,7 +83,6 @@ def phaapi(sit):
     if sit == "6":
         return "***REMOVED-SHORTENER-KEY***"
     
-
 def site_isim(no):
     if no == "1":
         return "TRLink"
@@ -102,7 +100,7 @@ def site_isim(no):
 def setup_logger():
     global logger
     aps_logger = logging.getLogger('apscheduler')
-    aps_logger.setLevel(logging.INFO)
+    aps_logger.setLevel(logging.WARNING)
     zaman = datetime.datetime.now()
     logd = "{}.{}.{} - {}.{}".format(zaman.year, zaman.month, zaman.day, zaman.hour, zaman.minute)
     logging.basicConfig(format="%(asctime)s - %(levelname)s - %(message)s", handlers=[logging.FileHandler(f'Loglar/{logd}.txt', 'w', 'utf-8'), logging.StreamHandler()], level=logging.INFO)
