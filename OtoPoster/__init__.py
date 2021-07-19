@@ -59,7 +59,7 @@ tips = [
     "Elle Post Paylaşırken post zamanlayabilirsiniz.",
     "Her kanlınıza farklı kaynak seçebilirsiniz."
     ]
-
+ignorejob = ["yedekleme", "gunluk", "resetleme", "ozelposter", "anaposter", "anapostersiralayici", "ozelpostersiralayici"]
 
 
 SEND_MEDIA_TYPES = {"document": bot.send_document, "photo": bot.send_photo, "video": bot.send_video, "animation": bot.send_animation}
