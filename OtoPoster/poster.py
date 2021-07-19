@@ -567,7 +567,7 @@ def postsiralandirici(context):
     for postes in postsirasi:
         while len(joblananpostlar) > 1:
             joblananpostlar = context.job_queue.get_jobs_by_name("anaposter")
-            sleep(10)
+            sleep(100)
         bildir(len(joblananpostlar))
         context.job_queue.run_once(poster_job, when=12, name="anaposter", context=postes)
     postsirasi = []
