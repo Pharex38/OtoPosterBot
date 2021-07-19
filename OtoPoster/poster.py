@@ -565,7 +565,7 @@ def postsiralandirici(context):
         return
     joblananpostlar = context.job_queue.get_jobs_by_name("anaposter")
     for postes in postsirasi:
-        while len(joblananpostlar) > 1:
+        while len(joblananpostlar) > 0:
             joblananpostlar = context.job_queue.get_jobs_by_name("anaposter")
             sleep(100)
         bildir(len(joblananpostlar))
