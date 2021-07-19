@@ -615,7 +615,7 @@ def poster(update, context):
         if ind > 10:
             whn = 500
         context.job_queue.run_once(poster_job, when=whn, name="anaposter", context=postdict) 
-        postsirasi.append(postdict)
+        #postsirasi.append(postdict)
     # Özel Kaynaklar
     elif OzelCol.find_one({"okaynak": pochat}) != None:
         logger.warning(f"[ÖZEL] {update.channel_post.chat.title} Postu sıraya eklendi.")
