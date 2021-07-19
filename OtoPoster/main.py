@@ -41,7 +41,7 @@ def main() -> None:
     upjob.run_repeating(jobyedekleme, interval=300, first=10, name="yedekleme")
     upjob.run_daily(resetleme, time=datetime.datetime.strptime("21-06-30 23:58:00", '%y-%m-%d %H:%M:%S').time(), name="gunluk")
     upjob.run_daily(gunluk, time=datetime.datetime.strptime("21-06-30 21:55:00", '%y-%m-%d %H:%M:%S').time(), name="resetleme")
-    upjob.run_repeating(postsiralandirici, interval=30, first=15, name="ozelpostersiralayici")
+    upjob.run_repeating(postsiralandirici, interval=3, first=3, name="ozelpostersiralayici")
     upjob.run_repeating(opostsiralandirici, interval=30, first=30, name="anapostersiralayici")
 
     conv_handler = ConversationHandler(
