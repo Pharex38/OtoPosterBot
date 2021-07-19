@@ -1,6 +1,8 @@
 from . import *
 from .misc import *
 
+ignorejob = ["yedekleme", "gunluk", "resetleme", "ozelposter", "anaposter", "anapostersiralayici", "ozelpostersiralayici"]
+
 def jobyedekleme(context):
     collection.update_one({"_id": 0}, {"$set": {"jobs": []}})
     yjcount = 0
