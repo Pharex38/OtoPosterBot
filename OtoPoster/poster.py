@@ -559,6 +559,25 @@ def ozel_poster_job(context):
                     pass
         logger.warning(obasari)
 
+def postsiralandirici(context):
+    global postsirasi
+    if len(postsirasi) == 0:
+        return
+    while len(postsirasi) > 1:
+        sleep(1)
+    for postes in postsirasi:
+        context.job_queue.run_once(poster_job, when=2, name="anaposter", context=postes)
+
+def opostsiralandirici(context):
+    global opostsirasi
+    if len(opostsirasi) == 0:
+        return
+    while len(opostsirasi) > 1:
+        sleep(1)
+    for opostes in opostsirasi:
+        context.job_queue.run_once(poster_job, when=2, name="ozelposter", context=opostes)
+
+
 def poster(update, context):
     global postsirasi, opostsirasi
     pochat = update.channel_post.chat.id
@@ -566,18 +585,9 @@ def poster(update, context):
     if KaynakCol.find_one({"_id": pochat}) != None:
         logger.warning(f"{update.channel_post.chat.title} Postu sıraya eklendi.")
         postdict = {"chatid": pochat, "update": update}
-        joblananpostlar = context.job_queue.get_jobs_by_name("anaposter")
-        while len(joblananpostlar) > 1:
-            joblananpostlar = context.job_queue.get_jobs_by_name("anaposter")
-            sleep(1)
-        context.job_queue.run_once(poster_job, when=2, name="anaposter", context=postdict)
+        postsirasi.append(postdict)
     # Özel Kaynaklar
     elif OzelCol.find_one({"okaynak": pochat}) != None:
         logger.warning(f"[ÖZEL] {update.channel_post.chat.title} Postu sıraya eklendi.")
         opostdict = {"chatid": pochat, "update": update}
-        ojoblananpostlar = context.job_queue.get_jobs_by_name("ozelposter")
-        while len(ojoblananpostlar) > 1:
-            ojoblananpostlar = context.job_queue.get_jobs_by_name("ozelposter")
-            sleep(1)
-        context.job_queue.run_once(ozel_poster_job, when=2, name="ozelposter", context=opostdict)
-
+        opostsirasi.append(opostdict)
