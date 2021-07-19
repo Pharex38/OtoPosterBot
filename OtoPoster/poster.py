@@ -580,7 +580,7 @@ def opostsiralandirici(context):
         ojoblananpostlar = context.job_queue.get_jobs_by_name("ozelposter")
         sleep(1)
     for opostes in opostsirasi:
-        context.job_queue.run_once(poster_job, when=2, name="ozelposter", context=opostes)
+        context.job_queue.run_once(ozel_poster_job, when=2, name="ozelposter", context=opostes)
     opostsirasi = []
 
 
