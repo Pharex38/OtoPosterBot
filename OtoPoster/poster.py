@@ -565,11 +565,13 @@ def postsiralandirici(context):
         return
     joblananpostlar = context.job_queue.get_jobs_by_name("anaposter")
     for postes in postsirasi:
+        ind = postsirasi.index(postes)
+        whn = 100 if 3 <= ind < 5 else 10
         while len(joblananpostlar) > 0:
             joblananpostlar = context.job_queue.get_jobs_by_name("anaposter")
-            sleep(100)
-        bildir(len(joblananpostlar))
-        context.job_queue.run_once(poster_job, when=12, name="anaposter", context=postes)
+            bildir(len(joblananpostlar))
+            sleep(60)
+        context.job_queue.run_once(poster_job, when=whn, name="anaposter", context=postes)
     postsirasi = []
 
 def opostsiralandirici(context):
