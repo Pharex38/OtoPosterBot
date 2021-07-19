@@ -573,10 +573,14 @@ def postsiralandirici(context):
             whn = 300
         if 10 >= ind > 8:
             whn = 400
+        if ind > 10:
+            whn = 500
+        """
         while len(joblananpostlar) > 0:
             joblananpostlar = context.job_queue.get_jobs_by_name("anaposter")
             bildir(len(joblananpostlar))
             sleep(60)
+        """
         context.job_queue.run_once(poster_job, when=whn, name="anaposter", context=postes)
     postsirasi = []
 
