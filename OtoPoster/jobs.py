@@ -118,8 +118,10 @@ def gunluk(context):
         try:
             getskaynak = bot.get_chat(kstat['_id'])
         except:
-            continue
-        stat_text += "{} -> {} \n".format(getskaynak.title, len(kstat['kaynak']))
+            gktitle = "Kaynağa ulaşılamıyor..."
+        else:
+            gktitle = getskaynak.title
+        stat_text += "{} -> {} \n".format(gktitle, len(kstat['kaynak']))
     ozel_text = f"Özel Kaynaklar: {ozel_kaynak_kullanan_sayisi}\n\n<b>Her gün saat 22:00'da otomatik olarak güncel veriler paylaşılacak. </b>"
     bot.edit_message_text(stat_text+ozel_text, botlog, msg.message_id)
     bot.pin_chat_message(botlog, msg.message_id)
