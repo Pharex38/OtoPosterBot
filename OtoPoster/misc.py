@@ -7,7 +7,10 @@ def deep(u_kod, user):
     kat = collection.find_one({"_id": user})
     key = {"_id": user, "kanal": [], "sablon": "1", "kaynak": ["32"], "site": "1", "altapi": "None", "altsite": "None", "sira": "0", "ozel": True, "time": 0, "vakit": 0, "pcount": 0}
     if int(u_kod) > 10:
-        ref_kanal_ismi = bot.get_chat(OzelCol.find_one({"_id": int(u_kod)})['okaynak']).title
+        try:
+            ref_kanal_ismi = bot.get_chat(OzelCol.find_one({"_id": int(u_kod)})['okaynak']).title
+        except:
+            ref_kanal_ismi = "Kanala ulaşılamıyor."
         if kat == None:
             for koy in KaynakCol.find({}):
                 if user in koy['kaynak']:
