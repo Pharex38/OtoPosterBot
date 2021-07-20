@@ -80,7 +80,14 @@ def kaynakmark(user, kanil):
         anakaynakkeyb = []
    
     for kaynak in KaynakCol.find({}):
-        getkaynak = bot.get_chat(kaynak["_id"])
+        try:
+            getkaynak = bot.get_chat(kaynak["_id"])
+        except:
+            k_title = "Kaynağa ulaşılamıyor."
+            k_link = "https://t.me/otoposterbotlog"
+        else:
+            k_title = getkaynak.title
+            k_link = getkaynak.invite_link
         saatbut = InlineKeyboardButton("⏳", callback_data="zaman-{}".format(kaynak['sahip']))
         if user in kaynak['kaynak'] and u['kanal'][int(kanil)] in kaynak['kanal']:
             kb1 = InlineKeyboardButton("✅", callback_data="kaynak-{}-{}".format(kaynak['sahip'], kanil))
@@ -88,7 +95,7 @@ def kaynakmark(user, kanil):
             kb1 = InlineKeyboardButton("⚫", callback_data="kaynak-{}-{}".format(kaynak['sahip'], kanil))
         butonkaynakkeyb.append(kb1)
         butonkaynakkeyb.append(saatbut)
-        linkkaynakkeyb.append(InlineKeyboardButton("{}".format(getkaynak.title), url="{}".format(getkaynak.invite_link)))
+        linkkaynakkeyb.append(InlineKeyboardButton("{}".format(k_title), url="{}".format(k_link)))
         if len(linkkaynakkeyb) == 2:
             anakaynakkeyb.append(linkkaynakkeyb)
             anakaynakkeyb.append(butonkaynakkeyb)
