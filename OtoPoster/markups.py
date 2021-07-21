@@ -21,11 +21,6 @@ def postmenumark():
 def apimenumark():
     return ReplyKeyboardMarkup(keyboard=[['♻️ API değiştir', '🔗 Site değiştir'], ['🤖 Alternatif Link'], ['↩️ Ana Menü']], resize_keyboard=True, selective=True)
 
-def markupp():
-    markupp = ReplyKeyboardMarkup(keyboard=[['🔶 Yeni Kanal Ekle', '🗑️ Kanal Sil'], ['♻️ API değiştir', '🔗 Site değiştir'], ['⏱ Post Zamanları', '🤖 Alternatif Ekle'], ['↩️ Ana Menü']], row_width=2, one_time_keyboard=False, resize_keyboard=True)
-
-    return markupp
-
 def imark():
     imark = ReplyKeyboardMarkup(keyboard=[['❌ İptal']], one_time_keyboard=True, resize_keyboard=True, selective=True)
 
@@ -80,13 +75,7 @@ def kaynakmark(user, kanil):
         return kmark 
     linkkaynakkeyb = []
     butonkaynakkeyb = []
-    anakaynakkeyb = [[InlineKeyboardButton("⏪⏪", callback_data="solyan-{}".format(kanil)), InlineKeyboardButton("⏩⏩", callback_data="sagyan-{}".format(kanil))]]
-    if kanil == len(u['kanal'])-1:
-        anakaynakkeyb = [[InlineKeyboardButton("⏪⏪", callback_data="solyan-{}".format(kanil))]]
-    elif kanil == 0:
-        anakaynakkeyb = [[InlineKeyboardButton("⏩⏩", callback_data="sagyan-{}".format(kanil))]]
-    if len(u['kanal']) == 1:
-        anakaynakkeyb = []
+    anakaynakkeyb = []
    
     for kaynak in KaynakCol.find({}):
         try:
@@ -110,6 +99,12 @@ def kaynakmark(user, kanil):
             anakaynakkeyb.append(butonkaynakkeyb)
             linkkaynakkeyb = []
             butonkaynakkeyb = []
+    if kanil == len(u['kanal'])-1:
+        anakaynakkeyb.append([InlineKeyboardButton("⏪⏪", callback_data="solyan-{}".format(kanil))])
+    elif kanil == 0:
+        anakaynakkeyb.append([InlineKeyboardButton("⏩⏩", callback_data="sagyan-{}".format(kanil))])
+    else:
+        anakaynakkeyb.append([InlineKeyboardButton("⏪⏪", callback_data="solyan-{}".format(kanil)), InlineKeyboardButton("⏩⏩", callback_data="sagyan-{}".format(kanil))])
     anakaynakkeyb.append([InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")])
     anakaynakkeyb.append([InlineKeyboardButton("♋️ Özel Kaynak Oluştur ♋️", callback_data="okay")])
     kmark = InlineKeyboardMarkup(inline_keyboard=anakaynakkeyb)
