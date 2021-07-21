@@ -605,14 +605,14 @@ def poster(update, context):
         logger.warning(f"{update.channel_post.chat.title} Postu sıraya eklendi.")
         postdict = {"chatid": pochat, "update": update}
         ind = len(context.job_queue.get_jobs_by_name("anaposter"))
-        whn = 100 if 3 <= ind < 5 else 10
-        if 6 >= ind > 4:
+        whn = 100 if 2 <= ind < 4 else 10
+        if 5 >= ind > 3:
             whn = 200
-        if 8 >= ind > 6:
+        if 7 >= ind > 5:
             whn = 300
-        if 10 >= ind > 8:
+        if 9 >= ind > 7:
             whn = 400
-        if ind > 10:
+        if ind > 9:
             whn = 500
         context.job_queue.run_once(poster_job, when=whn, name="anaposter", context=postdict) 
         #postsirasi.append(postdict)
