@@ -46,7 +46,7 @@ def main() -> None:
 
     conv_handler = ConversationHandler(
         entry_points=[
-        MessageHandler(Filters.update.message & ~Filters.command, menu), 
+        MessageHandler(Filters.update.message & ~Filters.command & ~Filters.chat_type.private, menu), 
         CommandHandler('start', start),
         CallbackQueryHandler(callback_query),
         ],
