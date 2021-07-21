@@ -250,7 +250,7 @@ def postmenu(update, context):
         bot.send_message(chat, "Silmek istediğiniz postu seçin.", reply_markup=jobmark(user, context))
         return 
     if mesaj == "⛓️ Elle Post Paylaş":
-        if len(pudat['kanal']) < 1:
+        if len(poudat['kanal']) < 1:
             bot.send_message(chat, "Lütfen önce bir kanal kaydedin.", reply_markup=postmenumark())
             return
         bot.send_message(chat, "Paylaşmamı istediğin hazır postu ilet.", reply_markup=ReplyKeyboardMarkup(keyboard=[['❌ İptal']], one_time_keyboard=True, resize_keyboard=True, selective=True))
