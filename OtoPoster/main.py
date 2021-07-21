@@ -75,6 +75,7 @@ def main() -> None:
             },
         fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$') & Filters.update.message, cancel), CommandHandler('start', start, filters=~Filters.update.edited_message)],
         per_message=False,
+        name="anaconv",
         per_chat=True
         )
     dispatcher.add_handler(MessageHandler(Filters.chat(-1001584743136), comment))
