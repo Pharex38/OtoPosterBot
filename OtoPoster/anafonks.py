@@ -412,12 +412,9 @@ def apikayit(update, context):
         msg = bot.send_message(chat, "Lütfen geçerli bir API verin.")
         return
     if update.message.text == "❌ İptal":
-        if bnb == None:
-            bot.send_message(chat, "İptal Edildi.", reply_markup=dagme())
-        else:
-            bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
+        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
-    if token.startswith('http'):
+    if token.startswith('http') or "url=trlink" in token:
         mso = bot.send_message(chat, "❌ Geçersiz bir API verdiniz! Lütfen doğru bir API adresi verin.")
         return APIDEGISTIR
     key = {"_id": user, "token": token, "kanal": [], "sablon": "1", "kaynak": ["1"], "site": "1", "altapi": "None", "altsite": "None", "sira": "0", "ozel": False, "pcount": 0, "time": 0, "vakit": 0}
@@ -428,20 +425,14 @@ def apikayit(update, context):
     if bnb == None:
         kontrol = get("https://ay.live/api/?api={}&url=www.zort.com&format=text&alias=&ct=2".format(token)).text
         if kontrol == "":
-            mso = bot.send_message(chat, "❌ Geçersiz bir API verdiniz! Lütfen doğru bir API adresi verin.")
+            bot.send_message(chat, "❌ Geçersiz bir API verdiniz! Lütfen doğru bir API adresi verin.")
             return APIDEGISTIR
-        if bnb == None:
-            collection.insert_one(key)
-        else:
-            collection.update_one({"_id": user}, {"$set": {"token": token}})
+        collection.insert_one(key)
         bot.send_message(chat, "<b>🟢 API kaydedildi!</b>")
         bot.send_message(chat, "<i>📝 Lütfen kanalınızdan bir gönderi iletin.</i>", reply_markup=imark())
         bot.send_message(blog, f"#YENİ_KULLANİCİ\nID: {user}\nAPI: {token}\nK.ADI: @{update.message.from_user.username}")
         return KANALKAYDET
-    if bnb == None:
-        collection.insert_one(key)
-    else:
-        collection.update_one({"_id": user}, {"$set": {"token": token}})
+    collection.update_one({"_id": user}, {"$set": {"token": token}})
     bot.send_message(chat, "<b>🟢 API kaydedildi!</b>", reply_markup=dugme(user))
     return ConversationHandler.END
 
