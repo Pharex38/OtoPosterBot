@@ -253,12 +253,13 @@ def postmenu(update, context):
         if len(poudat['kanal']) < 1:
             bot.send_message(chat, "Lütfen önce bir kanal kaydedin.", reply_markup=postmenumark())
             return
-        bot.send_message(chat, "Paylaşmamı istediğin hazır postu ilet.", reply_markup=ReplyKeyboardMarkup(keyboard=[['❌ İptal']], one_time_keyboard=True, resize_keyboard=True, selective=True))
+        bot.send_message(chat, "Paylaşmamı istediğin hazır postu ilet.", reply_markup=imark())
         return PATPOST
-
     if mesaj == "↩️ Ana Menü" or mesaj == "❌ İptal":
         bot.send_message(chat, "Ana Menü.", reply_markup=dugme(user))
         return ConversationHandler.END
+
+    bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=postmenumark())
    
 def ozelk(update, context):
     user = update.message.from_user.id
@@ -491,7 +492,6 @@ def kanalkayit(update, context):
             if not str(kanal) in KaynakCol.find_one({"_id": kyt['_id']})['kanal']:
                 KaynakCol.update_one({"_id": kyt['_id']}, {"$push": {"kanal": str(kanal)}})
     return ConversationHandler.END
-
 
 def patzamansaat(update, context):
     verilen_saat = update.message.text
