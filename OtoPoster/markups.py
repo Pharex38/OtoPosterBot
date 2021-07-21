@@ -76,7 +76,6 @@ def kaynakmark(user, kanil):
     linkkaynakkeyb = []
     butonkaynakkeyb = []
     anakaynakkeyb = []
-   
     for kaynak in KaynakCol.find({}):
         try:
             getkaynak = bot.get_chat(kaynak["_id"])

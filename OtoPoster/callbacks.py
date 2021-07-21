@@ -32,6 +32,7 @@ def altcall(call, context):
 def kaynakcall(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
+    call.callback_query.edit_message_text("<code>Yükleniyor...</code>")
     kys = int(call.callback_query.data.split("-")[1])
     kkanil = int(call.callback_query.data.split("-")[2])
     kkul = collection.find_one({"_id": user})
