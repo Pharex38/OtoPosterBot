@@ -55,12 +55,16 @@ def main() -> None:
         CallbackQueryHandler(postzamancall, pattern="^(pzayarla)$")
         ],
         states={ 
-            ALTMENU: [MessageHandler(~Filters.command & Filters.update.message, kayitapi), CallbackQueryHandler(altcall, pattern="^asite(.*)")], 
+            ALTMENU: [MessageHandler(~Filters.command & Filters.update.message, kayitapi),
+            CallbackQueryHandler(sabloncall, pattern="^(sablon)$"),
+            CallbackQueryHandler(ozelkaynakcall, pattern="^okayt(.*)"),
+            CallbackQueryHandler(ozellogcall, pattern="^logokay(.*)"), 
+            CallbackQueryHandler(postzamancall, pattern="^(pzayarla)$"), 
+            CallbackQueryHandler(altcall, pattern="^asite(.*)")], 
             APIDEGISTIR: [MessageHandler(~Filters.command & Filters.update.message, apikayit)],
             KANALKAYDET: [MessageHandler(~Filters.command & Filters.update.message, kanalkayit)],
             SABLONA: [MessageHandler(~Filters.command & Filters.update.message, sabloniki)],
             PATPOST: [MessageHandler(~Filters.command & Filters.update.message, pat)],
-            CALLALT: [CallbackQueryHandler(altcall, pattern="^asite(.*)")],
             PATZAMAN: [MessageHandler(~Filters.command & Filters.update.message, patzamansaat)],
             ALTAPI: [MessageHandler(~Filters.command & Filters.update.message, altakayit)],
             OZELBOTLOG: [MessageHandler(~Filters.command & Filters.update.message, ozellog)],
