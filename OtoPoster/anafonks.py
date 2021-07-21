@@ -46,7 +46,7 @@ def menu(update, context):
         if mj['altsite'] == "None":
             apimenu_mesaj = "<i>♦️Kayıtlı API: {}\nSite: {}</i>".format(mj['token'], site_isim(mj['site']))
         else:
-            apimenu_mesaj = "<i>♦️Birincil API: {}\n  Birincil Site: {}\n  Alternatif API: {}\n  Alternatif Site: {}</i>".format(tokenn, site_isim(mj['site']), mj['altapi'], site_isim(mj['altsite']))
+            apimenu_mesaj = "<i>♦️Birincil API: {}\n  Birincil Site: {}\n  Alternatif API: {}\n  Alternatif Site: {}</i>".format(mj['token'], site_isim(mj['site']), mj['altapi'], site_isim(mj['altsite']))
         bot.send_message(chat, apimenu_mesaj, reply_markup=apimenumark())
         return APIMENU
     if mesaj == "▶️ SFS Modu":
