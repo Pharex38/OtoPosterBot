@@ -370,7 +370,7 @@ def post(update, context):
 def zaman(update, context):
     chat = update.message.chat.id
     user = update.message.from_user.id
-    msj = update.message.reply_to_message.text if update.message.reply_to_message else None
+    msj = update.message.reply_to_message.text if update.message.reply_to_message else update.message.text.replace("/zaman ", "")
     if len(msj) >= 200:
         bot.send_message(chat, "Mesajınız çok uzun.")
         return
@@ -378,8 +378,9 @@ def zaman(update, context):
         bot.send_message(chat, "Bu komut bir mesajı yanıtlayarak kullanılmalıdır.")
         return
     try:
-        collection.update_one({"sahip": user}, {"$set": {"zaman": msj}})
+        KaynakCol.update_one({"sahip": user}, {"$set": {"zaman": msj}})
     except:
         bot.send_message(user, "Kaynağınız bulunmuyor.")
         return
-    bot.send_message(chat, "Kaydedildi.")
+    else:
+        bot.send_message(chat, "Kaydedildi.")
