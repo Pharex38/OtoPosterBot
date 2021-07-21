@@ -200,10 +200,12 @@ def kpostsil(update, context):
     if mesid == None:
         bot.send_message(chat, "Silmek istediğiniz postu yanıtlayın.")
         return
+    psmg = bot.send_message(chat, "<code>Siliniyor...</code>")
     data = db[str(chat)].find({"mesih": mesid})
     spcount = 0
-    for kpsd in collection.find({}):
+    for kpsd in KaynakCol.find_one({"_id": chat})['kaynak']:
         try:
+            kpsd = collection.find_one({"_id": kpsd})
             collection.update_one({"_id": kpsd['_id']}, {"$set": {"pcount": kpsd['pcount']-1}})
         except:
             pass
@@ -214,7 +216,7 @@ def kpostsil(update, context):
             logger.error(e)
         else:
             spcount += 1
-    bot.send_message(chat, f"{spcount} Post Silindi.")
+    psmg.edit_text(f"{spcount} Post Silindi.")
 
 def cpostsil(update, context):
     chat = update.message.chat.id
@@ -226,9 +228,11 @@ def cpostsil(update, context):
     if hedef == None or mesid == None:
         return
     data = db[str(hedef)].find({"mesih": mesid})
+    psmg = bot.send_message(chat, "<code>Siliniyor...</code>")
     spcount = 0
-    for kpsd in collection.find({}):
+    for kpsd in KaynakCol.find_one({"_id": hedef})['kaynak']:
         try:
+            kpsd = collection.find_one({"_id": kpsd})
             collection.update_one({"_id": kpsd['_id']}, {"$set": {"pcount": kpsd['pcount']-1}})
         except:
             pass
@@ -239,7 +243,7 @@ def cpostsil(update, context):
             logger.error(e)
         else:
             spcount += 1
-    bot.send_message(chat, f"{spcount} Post Silindi.")
+    psmg.edit_text(f"{spcount} Post Silindi.")
 
 def viple(update, context):
     global postsirasi
