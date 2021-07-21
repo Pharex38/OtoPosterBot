@@ -259,77 +259,7 @@ def postmenu(update, context):
     if mesaj == "↩️ Ana Menü" or mesaj == "❌ İptal":
         bot.send_message(chat, "Ana Menü.", reply_markup=dugme(user))
         return ConversationHandler.END
-    
-def kayitapi(update, context):
-    chat = update.message.chat.id
-    mesaj = update.message.text
-    user = update.message.from_user.id
-    if user in kara:
-        bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
-        return
-    ka = collection.find_one({"_id": user})
-    vip_uyeler = collection.find_one({"_id": 0})['vipuye']
-    if mesaj == "🗑️ Kanal Sil":
-        if ka == None:
-            msg = bot.send_message(chat, "Henüz bir kanal kaydetmemişsiniz!", reply_markup=markupp())
-        if len(ka['kanal']) < 1:
-            msg = bot.send_message(chat, "Henüz bir kanal kaydetmemişsiniz!", reply_markup=markupp())
-            return 
-        msg = bot.send_message(chat, "Silmek istediğiniz kanalı seçin.", reply_markup=gen_markup(user))
-        return 
-    if mesaj == "⏱ Post Zamanları":
-        if not user == sahip:
-            bot.send_message(chat, "<code> Bu özellik henüz test aşamasında.</code> ")
-            return
-        for kca in ka['kanal']:
-            if not eklenti in [r.user.id for r in bot.get_chat_administrators(kca)]:
-                bot.send_message(chat, "Botun post zamanlayabilmesi için eklentiye ihtiyacı var, eklenti kurulsun mu?\n\n<i>Butona basmadan önce bota kanallarınızda resimdeki yetkileri vermeniz gerekiyor</i> <a href='https://telegra.ph/file/d8802d6ca2fe807639a06.png'>ㅤ</a>", reply_markup=ekmark())
-                return
-        zaman_menu = "<b>Eklenti:</b> ✅\n\n"
-        if ka['vakit'] == 0:
-            zaman_menu += "Henüz Post saatleri ayaralamamışsınız"
-        else:
-            vakcount = 0
-            for vak in ka['vakit']:
-                zaman_menu += str(vakcount)+ ". " + str(vak) + "\n"
-                vakcount += 1
-            zaman_menu += f"\n<i>Günlük {vakcount} Post Paylaşıyorsunuz. </i>"
-            trysch = 0
-            dlc = ka['time']
-            if dlc == -1:
-                zaman_menu += f"\n\nBugün post sınırınıza ulaştınız"
-            else:
-                zaman_menu += f"\n\nBir sonraki postunuz günün <code>{dlc}</code>. postu olacak."
-        bot.send_message(chat, zaman_menu, reply_markup=zamanmenumark(user))
-        return
-
-    if mesaj == "♻️ API değiştir":
-        msg = bot.send_message(chat, "Yeni API adresinizi girin.", reply_markup=imark())
-        return APIDEGISTIR
-    if mesaj == "↩️ Ana Menü" or mesaj == "❌ İptal":
-        msg = bot.send_message(chat, "Ana Menü.", reply_markup=dugme(user))
-        return ConversationHandler.END
-    if mesaj == "🔗 Site değiştir":
-        msg = bot.send_message(chat, "<i>Kullanmak istediğiniz siteyi seçin</i>", reply_markup=sitemarkup())
-        
-        return
-    if mesaj == "🤖 Alternatif Ekle":
-        msg = bot.send_message(chat, "<b>Alternatif Nasıl Kullanılsın.\n\n Tek Post İki Link</b>\n <i>Aynı post iki link</i> \n\n<b>Sıralı</b>\n <i>Bir post birinci servis, bir post alternatif servis.</i>\n\n<b>Kullanmak istediğiniz sistemi seçin.</b>", reply_markup=altmarkup(user))
-        
-        return
-    if mesaj == "🔶 Yeni Kanal Ekle":
-        bol = collection.find_one({"_id": chat})
-        if bol == None:
-            bot.send_message(chat, "<i>Önce bir API kaydedin.</i>", reply_markup=dagme())
-            return ConversationHandler.END
-        if len(bol['kanal']) > 9 and not user in vip_uyeler:
-            bot.send_message(chat, "<i>Üzgünüm en fazla 5 kanal kaydedebilirsiniz.</i>")
-            return 
-        bot.send_message(chat, """📝 <i>Lütfen kanalınızdan bir gönderi iletin.</i>""", reply_markup=imark())
-
-        return KANALKAYDET
-    bot.send_message(chat, "Lütfen alttaki butonları kullanıns.", reply_markup=markupp())
-
+   
 def ozelk(update, context):
     user = update.message.from_user.id
     chat = update.message.chat.id
@@ -437,7 +367,7 @@ def altakayit(update, context):
         bot.send_message(chat, "<b>Önce bir API kaydedin!</b>")
         return
     if update.message.text == "❌ İptal" or update.message.text == None:
-        bot.send_message(chat, "İptal Edildi.", reply_markup=markupp())
+        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
     if update.message.text == "⛔ Alternatif Kaldır":
         collection.update_one({"_id": user}, {"$set": {"altsite": "None", "altapi": "None", "sablon": "1", "sira": "0"}})
@@ -464,7 +394,7 @@ def postzaman(update, context):
             bot.send_message(chat, "Gönderdiğiniz saatlerden biri veya birden fazlası yanlış.\n\nÖrnek;\n00:00\n01:00\n02:00\n03:00\n...", reply_markup=imark()) 
             return
     collection.update_one({"_id": user}, {"$set": {"vakit": post_zaman_text.split("\n")}})
-    bot.send_message(chat, "Post Saatleriniz Değiştirildi!", reply_markup=markupp())
+    bot.send_message(chat, "Post Saatleriniz Değiştirildi!", reply_markup=dugme(user))
     return ConversationHandler.END
 
 def apikayit(update, context):
