@@ -54,8 +54,9 @@ def main() -> None:
             ALTMENU: [MessageHandler(~Filters.command & Filters.update.message, kayitapi)], 
             APIDEGISTIR: [MessageHandler(~Filters.command & Filters.update.message, apikayit)],
             KANALKAYDET: [MessageHandler(~Filters.command & Filters.update.message, kanalkayit)],
-            SABLONA: [CallbackQueryHandler(sabloncall, pattern="^(sablon)$"), MessageHandler(~Filters.command & Filters.update.message, sabloniki)],
+            SABLONA: [MessageHandler(~Filters.command & Filters.update.message, sabloniki)],
             PATPOST: [MessageHandler(~Filters.command & Filters.update.message, pat)]
+            PATZAMAN: [MessageHandler(~Filters.command & Filters.update.message, patzamansaat)],
             },
         fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$') & Filters.update.message, cancel), CommandHandler('start', start, filters=~Filters.update.edited_message)],
         per_message=False,
@@ -95,9 +96,9 @@ def main() -> None:
         per_message=False,
         per_chat=True)
     zamanconver = ConversationHandler(
-        entry_points=[CallbackQueryHandler(callback_query, pattern="^pzamanla(.*)")],
+        entry_points=[],
         states={
-            PATZAMAN: [MessageHandler(~Filters.command & Filters.update.message, patzamansaat)]
+            
             },
         fallbacks=[CommandHandler('start', start, filters=~Filters.update.edited_message)],
         per_message=False,
