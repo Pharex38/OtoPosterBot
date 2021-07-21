@@ -242,7 +242,7 @@ def postmenu(update, context):
             kcisim = "Kanalınıza ulaşılamadı!"
         bot.send_message(chat, f"""<b> >>>    {kcisim}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>""", reply_markup=kaynakmark(user, 0))
         return
-    if mesaj == "⏱ Zamanladığım Postlar":
+    if mesaj == "⏱ Zamanladıklarım":
         zjobs = context.job_queue.get_jobs_by_name(str(user))
         if len(zjobs) < 1:
             bot.send_message(chat, "Henüz bir post zamanlamamışsınız.", reply_markup=postmenumark())
