@@ -17,7 +17,7 @@ def menu(update, context):
     
     if mesaj == "📝 Kaydet":
         try:
-            tokenn = bina['token']
+            tokenn = mj['token']
         except:
             msg = bot.send_message(chat, """📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark())
             
@@ -25,7 +25,7 @@ def menu(update, context):
     if mesaj == "🖥 Kanal Menü":
         kayitli = 0
         menu_mesaj = "<b>Kayıtlı Kanalınız;</b>"
-        for chan in bina['kanal']:
+        for chan in mj['kanal']:
             try:
                 kbilgi = bot.get_chat(chan)
             except Exception as e:
@@ -90,7 +90,7 @@ def kanalmenu(update, context):
         bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
     try:
-        tokenn = bina['token']
+        tokenn = kudat['token']
     except:
         msg = bot.send_message(chat, """⛔ Henüz bir API kaydetmemişsiniz!\n\n📝 <i></i> <a href="https://tr.link/member/tools/quick">buraya tıklayarak</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark())            
         return APIDEGISTIR
