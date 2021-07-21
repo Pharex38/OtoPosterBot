@@ -14,88 +14,7 @@ def menu(update, context):
     if user in kara:
         bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
-    if mesaj == "🔧 Kaynak":
-        if mj == None:
-            bot.send_message(chat, "Lütfen önce bir API kaydedin.", reply_markup=dagme())
-            return
-        if len(pudat['kanal']) < 1:
-            bot.send_message(chat, "Henüz bir kanal kaydetmemişsiniz.", reply_markup=dugme(user))
-            return
-        kynskm = pudat['kanal'][0]
-        if pudat['ozel']:
-            for m in OzelCol.find({}):
-                if user in m['kanal']:
-                    try:
-                        ozel_kaynak_bilgi = bot.get_chat(m['okaynak'])
-                    except:
-                        bot.send_message(chat, "Botu kaynak kanalınızdan çıkarttığınız için post atılmayacak.", reply_markup=kaynakmark(user, 0))
-                        return
-                    kullanan_sayisi = len(m['kanal'])
-                    break
-            refsahip = "yok"
-            for ox in OzelCol.find({}):
-                if user in ox['kanal']:
-                    refsahip = ox["_id"]
-                    break
-            if refsahip == "yok":
-                collection.update_one({"_id": user}, {"$set": {"ozel": False}})
-                collection.update_one({"_id": user}, {"$pull": {"kaynak": "32"}})
-                try:
-                    kcisim = bot.get_chat(kynskm).title
-                except:
-                    kcisim = "Kanalınıza ulaşılamadı!"
-                bot.send_message(chat, f"""<b> >>>    {kcisim}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>""", reply_markup=kaynakmark(user, 0))
-                return
-            ref_link = create_deep_linked_url(context.bot.username, str(refsahip))
-            bot.send_message(chat, """<b>Özel Kaynak Kullandığınız için başka kaynak seçemezsiniz.</b>\n\n      <i>Özel Kaynağınız:</i><b> <a href="{}">{}</a>\n</b>      <i>Bu Kaynağı Toplam </i><code>{}</code> <i>Kişi Kullanıyor.</i>\n\n<b>Kaynak Referans Linki;</b>\n<code>{}</code>\n<i>Bu link ile botu başlatan herkes otomatik olarak sizin kaynağınıza bağlanacak.</i>""".format(ozel_kaynak_bilgi.invite_link, ozel_kaynak_bilgi.title, kullanan_sayisi, ref_link), reply_markup=kaynakmark(user, 0))
-            return
-        try:
-            kcisim = bot.get_chat(kynskm).title
-        except:
-            kcisim = "Kanalınıza ulaşılamadı!"
-        bot.send_message(chat, f"""<b> >>>    {bot.get_chat(kynskm).title}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>""", reply_markup=kaynakmark(user, 0))
-        return
-    if mesaj == "📏 Şablon":
-        aciklama = "Pharex, lord adminin karısını sikerken lord adminn basıyor."
-        if mj == None:
-            bot.send_message(chat, "Lütfen önce bir API kaydedin.", reply_markup=dagme())
-            return
-        if pudat['site'] == "1":
-            link = "https://ay.live/vRpKVx"
-        if pudat['site'] == "2":
-            link = "https://pgg.fyi/X0DK3"
-        if pudat['site'] == "3":
-            link = "https://exe.io/o96d4d"
-        if pudat['site'] == "4":
-            link = "https://ouo.io/RA1K5D"
-        if pudat['site'] == "5":
-            link = "https://lnkload.com/2v5vy"
-        if pudat['altsite'] != "None":
-            if pudat['altsite'] == "1":
-                alink = "https://ay.live/vRpKVx"
-            if pudat['altsite'] == "2":
-                alink = "https://pgg.fyi/X0DK3"
-            if pudat['altsite'] == "3":
-                alink = "https://exe.io/o96d4d"
-            if pudat['altsite'] == "4":
-                alink = "https://ouo.io/RA1K5D"
-            if pudat['altsite'] == "5":
-                alink = "https://lnkload.com/2v5vy"
-        else:
-            alink = "https://lnkload.com/2v5vy"
-        if pudat['sablon'] == "1":
-            bot.send_message(chat, "<b>Varsayılan Şablon:</b>\n\n🔥{aciklama} \n\n🔱 TIKLA 👉 {link} \n\n📛 SESİ AÇ 'a tıklamayı unutma", reply_markup=sablonmark(user))
-        elif pudat['sablon'] == "2":
-            bot.send_message(chat, "<b>Varsayılan Şablon:</b>\n\n{aciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {link}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06", reply_markup=sablonmark(user))
-        elif pudat['sablon'] == "9":
-            bot.send_message(chat, "<b>Varsayılan Şablon:</b>\n\n{aciklama} \n\n𝙇𝙄𝙉𝙆🔗 {link} \n\n     𝙇𝙄𝙉𝙆🔗 {alink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee", reply_markup=sablonmark(user))
-        else:
-            if pudat['sira'] == "1":
-                pst = pudat['sablon'].replace("{aciklama}", "{}").replace("{link}", "{}").replace("{alink}", "{}").format(aciklama, link, alink)
-            else:
-                pst = pudat['sablon'].replace("{aciklama}", "{}").replace("{link}", "{}").replace("{alink}", "").format(aciklama, link)
-            bot.send_message(chat, f"<b>Şablonunuz böyle gözükecek:</b>\n\n{pst}", reply_markup=sablonmark(user))
-        return
+    
     if mesaj == "📝 Kaydet":
         try:
             tokenn = bina['token']
@@ -103,24 +22,9 @@ def menu(update, context):
             msg = bot.send_message(chat, """📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark())
             
             return APIDEGISTIR
-    if mesaj == "⚙️ Menü":
-        bina = collection.find_one({"_id": chat})
-        try:
-            tokenn = bina['token']
-        except:
-            msg = bot.send_message(chat, """⛔ Henüz bir API kaydetmemişsiniz!\n\n📝 <i></i> <a href="https://tr.link/member/tools/quick">buraya tıklayarak</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark())
-            
-            return APIDEGISTIR
+    if mesaj == "🖥 Kanal Menü":
         kayitli = 0
-        site = bina['site']
-        site = site_isim(site)
-        bot.send_message(chat, "<b>Biliyor muydunuz? -></b> "+"<i>"+choice(tips)+"</i>")
-        if bina['altsite'] == "None":
-            menu_mesaj = "<i>♦️Kayıtlı API: {}\nSite: {}</i>".format(tokenn, site)
-        else:
-            altsite = bina['altsite']
-            altsite = site_isim(altsite)
-            menu_mesaj = "<i>♦️Birincil API: {}\n  Birincil Site: {}\n  Alternatif API: {}\n  Alternatif Site: {}</i>".format(tokenn, site, bina['altapi'], altsite)
+        menu_mesaj = "<b>Kayıtlı Kanalınız;</b>"
         for chan in bina['kanal']:
             try:
                 kbilgi = bot.get_chat(chan)
@@ -129,12 +33,22 @@ def menu(update, context):
                 collection.update_one({"_id": user}, {"$pull": {"kanal": chan}})
                 logger.warning("Kanal silindi")
             else:    
-                kanal_mesaj = """\n\n     <a href="{}">{}</a>""".format(kbilgi.invite_link, kbilgi.title)
-                menu_mesaj += kanal_mesaj
+                menu_mesaj += """\n\n     <a href="{}">{}</a>""".format(kbilgi.invite_link, kbilgi.title)
                 kayitli = kayitli + 1
         menu_mesaj += f"\n\nToplam {kayitli} Kanalınız Bulunuyor."
-        bot.send_message(chat, menu_mesaj, reply_markup=markupp())
-        return ALTMENU
+        bot.send_message(chat, menu_mesaj, reply_markup=kanalmenumark())
+        return KANALMENU
+    if mesaj == "🎛 Post Menü":
+        bot.send_message("Post menüsü.", reply_markup=postmenumark())
+        return POSTMENU
+    if mesaj == "🔗 API Menü":
+        bot.send_message(chat, "<b>Biliyor muydunuz? -></b> "+"<i>"+choice(tips)+"</i>")
+        if mj['altsite'] == "None":
+            apimenu_mesaj = "<i>♦️Kayıtlı API: {}\nSite: {}</i>".format(mj['token'], site_isim(mj['site']))
+        else:
+            apimenu_mesaj = "<i>♦️Birincil API: {}\n  Birincil Site: {}\n  Alternatif API: {}\n  Alternatif Site: {}</i>".format(tokenn, site_isim(mj['site']), mj['altapi'], site_isim(mj['altsite']))
+        bot.send_message(chat, apimenu_mesaj, reply_markup=apimenumark())
+        return APIMENU
     if mesaj == "▶️ SFS Modu":
         if mj == None:
             bot.send_message(chat, "Lütfen önce bir API kaydedin.", reply_markup=dagme())
@@ -158,9 +72,6 @@ def menu(update, context):
         bot.send_message(chat, "🥰Madem bu kadar çok istiyorsun. \n\n🏧Papara: <code>1666982412</code> \n🏦İninal: <code>4003140030544</code>")
         return
     if mesaj == "⛓️ Elle Post Paylaş":
-        if mj == None:
-            bot.send_message(chat, "Lütfen önce bir API kaydedin.", reply_markup=dagme())
-            return
         if len(pudat['kanal']) < 1:
             bot.send_message(chat, "Lütfen önce bir kanal kaydedin.", reply_markup=dugme(user))
             return
@@ -203,7 +114,6 @@ def kanalmenu(update, context):
 
     bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=kanalmenumark())
 
-
 def apimenu(update, context):
     user = update.effective_user.id
     chat = update.effective_chat.id
@@ -231,7 +141,6 @@ def apimenu(update, context):
         return ConversationHandler.END
 
     bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=apimenumark())
-    
     
 def postmenu(update, context):
     user = update.effective_user.id
@@ -349,10 +258,7 @@ def postmenu(update, context):
     if mesaj == "↩️ Ana Menü" or mesaj == "❌ İptal":
         bot.send_message(chat, "Ana Menü.", reply_markup=dugme(user))
         return ConversationHandler.END
-
     
-
-
 def kayitapi(update, context):
     chat = update.message.chat.id
     mesaj = update.message.text
