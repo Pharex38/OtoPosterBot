@@ -12,6 +12,15 @@ def dugme(user):
     
     return dugme
 
+def kanalmenu():
+    return ReplyKeyboardMarkup(keyboard=[['🔶 Yeni Kanal Ekle', '🗑️ Kanal Sil'], ['↩️ Ana Menü']])
+
+def postayarlari():
+    return ReplyKeyboardMarkup(keyboard=[['⏱ Post Zamanları', '📏 Şablon'], ['🔧 Kaynak'], ['↩️ Ana Menü']])
+
+def apimenu():
+    return ReplyKeyboardMarkup(keyboard=[['♻️ API değiştir', '🔗 Site değiştir'], ['🤖 Alternatif Link'], ['↩️ Ana Menü']])
+
 def markupp():
     markupp = ReplyKeyboardMarkup(keyboard=[['🔶 Yeni Kanal Ekle', '🗑️ Kanal Sil'], ['♻️ API değiştir', '🔗 Site değiştir'], ['⏱ Post Zamanları', '🤖 Alternatif Ekle'], ['↩️ Ana Menü']], row_width=2, one_time_keyboard=False, resize_keyboard=True)
 
