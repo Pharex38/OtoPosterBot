@@ -42,7 +42,6 @@ def menu(update, context):
         bot.send_message(chat, "Post menüsü.", reply_markup=postmenumark())
         return POSTMENU
     if mesaj == "🔗 API Menü":
-        bot.send_message(chat, "<b>Biliyor muydunuz? -></b> "+"<i>"+choice(tips)+"</i>")
         if mj['altsite'] == "None":
             apimenu_mesaj = "<i>♦️Kayıtlı API: {}\nSite: {}</i>".format(mj['token'], site_isim(mj['site']))
         else:
@@ -57,6 +56,7 @@ def menu(update, context):
         
     bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=dugme(user))
 
+@send_typing_action
 def kanalmenu(update, context):
     user = update.effective_user.id
     chat = update.effective_chat.id
@@ -97,11 +97,13 @@ def kanalmenu(update, context):
             bot.send_message(chat, "Kanallarınız SFS moduna alındı. Siz modu kapatana kadar yeni post atılmayacak.", reply_markup=kanalmenumark())
             return
     if mesaj == "↩️ Ana Menü" or mesaj == "❌ İptal":
+        bot.send_message(chat, "<b>Biliyor muydunuz? -></b> "+"<i>"+choice(tips)+"</i>")
         bot.send_message(chat, "Ana Menü.", reply_markup=dugme(user))
         return ConversationHandler.END
 
     bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=kanalmenumark())
 
+@send_typing_action
 def apimenu(update, context):
     user = update.effective_user.id
     chat = update.effective_chat.id
@@ -125,11 +127,13 @@ def apimenu(update, context):
         bot.send_message(chat, "<b>Alternatif Nasıl Kullanılsın.\n\n Tek Post İki Link</b>\n <i>Aynı post iki link</i> \n\n<b>Sıralı</b>\n <i>Bir post birinci servis, bir post alternatif servis.</i>\n\n<b>Kullanmak istediğiniz sistemi seçin.</b>", reply_markup=altmarkup(user))
         return
     if mesaj == "↩️ Ana Menü" or mesaj == "❌ İptal":
+        bot.send_message(chat, "<b>Biliyor muydunuz? -></b> "+"<i>"+choice(tips)+"</i>")
         bot.send_message(chat, "Ana Menü.", reply_markup=dugme(user))
         return ConversationHandler.END
 
     bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=apimenumark())
     
+@send_typing_action
 def postmenu(update, context):
     user = update.effective_user.id
     chat = update.effective_chat.id
@@ -256,6 +260,7 @@ def postmenu(update, context):
         bot.send_message(chat, "Paylaşmamı istediğin hazır postu ilet.", reply_markup=imark())
         return PATPOST
     if mesaj == "↩️ Ana Menü" or mesaj == "❌ İptal":
+        bot.send_message(chat, "<b>Biliyor muydunuz? -></b> "+"<i>"+choice(tips)+"</i>")
         bot.send_message(chat, "Ana Menü.", reply_markup=dugme(user))
         return ConversationHandler.END
 
