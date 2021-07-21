@@ -32,8 +32,8 @@ bildir('Bot Başladı 🍕')
 
 def main() -> None:
     #mypers = PicklePersistence(filename='pers')
-    
-    updater = Updater(bot=bot, workers=40)
+    persistence = PicklePersistence(filename='OtoPosterPersistence', store_user_data=True, store_chat_data=True, single_file=True)
+    updater = Updater(bot=bot, workers=40, persistence=persistence)
 
     dispatcher = updater.dispatcher
     
@@ -80,7 +80,7 @@ def main() -> None:
     dispatcher.add_handler(MessageHandler(Filters.chat(-1001584743136), comment))
     dispatcher.add_handler(MessageHandler(Filters.chat(eklenti), eklentiiletisim))
     dispatcher.add_handler(MessageHandler(Filters.chat(-1001572618573), posterkomut2)) 
-    
+
     dispatcher.add_handler(conv_handler)
 
     dispatcher.add_handler(CommandHandler('start', start, Filters.update.message & Filters.chat_type.private))
