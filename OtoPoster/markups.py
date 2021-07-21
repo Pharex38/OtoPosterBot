@@ -13,13 +13,13 @@ def dugme(user):
     return dugme
 
 def kanalmenumark():
-    return ReplyKeyboardMarkup(keyboard=[['🔶 Yeni Kanal Ekle', '🗑️ Kanal Sil'], ['↩️ Ana Menü']])
+    return ReplyKeyboardMarkup(keyboard=[['🔶 Yeni Kanal Ekle', '🗑️ Kanal Sil'], ['↩️ Ana Menü']], resize_keyboard=True, selective=True)
 
 def postmenumark():
-    return ReplyKeyboardMarkup(keyboard=[['⏱ Post Zamanları', '📏 Şablon'], ['🔧 Kaynak'], ['↩️ Ana Menü']])
+    return ReplyKeyboardMarkup(keyboard=[['⏱ Post Zamanları', '📏 Şablon'], ['🔧 Kaynak'], ['↩️ Ana Menü']], resize_keyboard=True, selective=True)
 
 def apimenumark():
-    return ReplyKeyboardMarkup(keyboard=[['♻️ API değiştir', '🔗 Site değiştir'], ['🤖 Alternatif Link'], ['↩️ Ana Menü']])
+    return ReplyKeyboardMarkup(keyboard=[['♻️ API değiştir', '🔗 Site değiştir'], ['🤖 Alternatif Link'], ['↩️ Ana Menü']], resize_keyboard=True, selective=True)
 
 def markupp():
     markupp = ReplyKeyboardMarkup(keyboard=[['🔶 Yeni Kanal Ekle', '🗑️ Kanal Sil'], ['♻️ API değiştir', '🔗 Site değiştir'], ['⏱ Post Zamanları', '🤖 Alternatif Ekle'], ['↩️ Ana Menü']], row_width=2, one_time_keyboard=False, resize_keyboard=True)

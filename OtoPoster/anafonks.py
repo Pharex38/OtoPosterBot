@@ -39,7 +39,7 @@ def menu(update, context):
         bot.send_message(chat, menu_mesaj, reply_markup=kanalmenumark())
         return KANALMENU
     if mesaj == "🎛 Post Menü":
-        bot.send_message("Post menüsü.", reply_markup=postmenumark())
+        bot.send_message(chat, "Post menüsü.", reply_markup=postmenumark())
         return POSTMENU
     if mesaj == "🔗 API Menü":
         bot.send_message(chat, "<b>Biliyor muydunuz? -></b> "+"<i>"+choice(tips)+"</i>")
