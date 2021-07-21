@@ -179,6 +179,7 @@ def callback_query(call, context):
         call.callback_query.answer(call.callback_query.id, "✅ Site Kaydedildi!")
         bot.edit_message_text("Alternatif olarak kullanmak istediğiniz siteyi seçin.", user, mesajid)
         bot.edit_message_reply_markup(chat_id=chat, message_id=mesajid, reply_markup=altsitemarkup())
+        return CALLALT
     """ Kaynak """
     if call.callback_query.data.startswith("zaman"):
         dgr = int(call.callback_query.data.split("-")[1])
