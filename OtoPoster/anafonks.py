@@ -11,8 +11,6 @@ def menu(update, context):
     mesaj = update.message.text
     bot = context.bot
     mj = collection.find_one({"_id": user})
-    if update.message.channel_chat_created or update.message.group_chat_created or update.message.supergroup_chat_created:
-        return
     if user in kara:
         bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
@@ -20,11 +18,11 @@ def menu(update, context):
         if mj == None:
             bot.send_message(chat, "Lütfen önce bir API kaydedin.", reply_markup=dagme())
             return
-        if len(mj['kanal']) < 1:
+        if len(pudat['kanal']) < 1:
             bot.send_message(chat, "Henüz bir kanal kaydetmemişsiniz.", reply_markup=dugme(user))
             return
-        kynskm = mj['kanal'][0]
-        if mj['ozel']:
+        kynskm = pudat['kanal'][0]
+        if pudat['ozel']:
             for m in OzelCol.find({}):
                 if user in m['kanal']:
                     try:
@@ -62,40 +60,40 @@ def menu(update, context):
         if mj == None:
             bot.send_message(chat, "Lütfen önce bir API kaydedin.", reply_markup=dagme())
             return
-        if mj['site'] == "1":
+        if pudat['site'] == "1":
             link = "https://ay.live/vRpKVx"
-        if mj['site'] == "2":
+        if pudat['site'] == "2":
             link = "https://pgg.fyi/X0DK3"
-        if mj['site'] == "3":
+        if pudat['site'] == "3":
             link = "https://exe.io/o96d4d"
-        if mj['site'] == "4":
+        if pudat['site'] == "4":
             link = "https://ouo.io/RA1K5D"
-        if mj['site'] == "5":
+        if pudat['site'] == "5":
             link = "https://lnkload.com/2v5vy"
-        if mj['altsite'] != "None":
-            if mj['altsite'] == "1":
+        if pudat['altsite'] != "None":
+            if pudat['altsite'] == "1":
                 alink = "https://ay.live/vRpKVx"
-            if mj['altsite'] == "2":
+            if pudat['altsite'] == "2":
                 alink = "https://pgg.fyi/X0DK3"
-            if mj['altsite'] == "3":
+            if pudat['altsite'] == "3":
                 alink = "https://exe.io/o96d4d"
-            if mj['altsite'] == "4":
+            if pudat['altsite'] == "4":
                 alink = "https://ouo.io/RA1K5D"
-            if mj['altsite'] == "5":
+            if pudat['altsite'] == "5":
                 alink = "https://lnkload.com/2v5vy"
         else:
             alink = "https://lnkload.com/2v5vy"
-        if mj['sablon'] == "1":
+        if pudat['sablon'] == "1":
             bot.send_message(chat, "<b>Varsayılan Şablon:</b>\n\n🔥{aciklama} \n\n🔱 TIKLA 👉 {link} \n\n📛 SESİ AÇ 'a tıklamayı unutma", reply_markup=sablonmark(user))
-        elif mj['sablon'] == "2":
+        elif pudat['sablon'] == "2":
             bot.send_message(chat, "<b>Varsayılan Şablon:</b>\n\n{aciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {link}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06", reply_markup=sablonmark(user))
-        elif mj['sablon'] == "9":
+        elif pudat['sablon'] == "9":
             bot.send_message(chat, "<b>Varsayılan Şablon:</b>\n\n{aciklama} \n\n𝙇𝙄𝙉𝙆🔗 {link} \n\n     𝙇𝙄𝙉𝙆🔗 {alink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee", reply_markup=sablonmark(user))
         else:
-            if mj['sira'] == "1":
-                pst = mj['sablon'].replace("{aciklama}", "{}").replace("{link}", "{}").replace("{alink}", "{}").format(aciklama, link, alink)
+            if pudat['sira'] == "1":
+                pst = pudat['sablon'].replace("{aciklama}", "{}").replace("{link}", "{}").replace("{alink}", "{}").format(aciklama, link, alink)
             else:
-                pst = mj['sablon'].replace("{aciklama}", "{}").replace("{link}", "{}").replace("{alink}", "").format(aciklama, link)
+                pst = pudat['sablon'].replace("{aciklama}", "{}").replace("{link}", "{}").replace("{alink}", "").format(aciklama, link)
             bot.send_message(chat, f"<b>Şablonunuz böyle gözükecek:</b>\n\n{pst}", reply_markup=sablonmark(user))
         return
     if mesaj == "📝 Kaydet":
@@ -110,9 +108,7 @@ def menu(update, context):
         try:
             tokenn = bina['token']
         except:
-            msg = bot.send_message(chat, """⛔ Henüz bir API kaydetmemişsiniz!
-            
-📝 <i></i> <a href="https://tr.link/member/tools/quick">buraya tıklayarak</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark())
+            msg = bot.send_message(chat, """⛔ Henüz bir API kaydetmemişsiniz!\n\n📝 <i></i> <a href="https://tr.link/member/tools/quick">buraya tıklayarak</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark())
             
             return APIDEGISTIR
         kayitli = 0
@@ -165,19 +161,268 @@ def menu(update, context):
         if mj == None:
             bot.send_message(chat, "Lütfen önce bir API kaydedin.", reply_markup=dagme())
             return
-        if len(mj['kanal']) < 1:
+        if len(pudat['kanal']) < 1:
             bot.send_message(chat, "Lütfen önce bir kanal kaydedin.", reply_markup=dugme(user))
             return
         msg = bot.send_message(chat, "Paylaşmamı istediğin hazır postu ilet.", reply_markup=ReplyKeyboardMarkup(keyboard=[['❌ İptal'], ['⏱ Zamanladığım Postlar']], one_time_keyboard=True, resize_keyboard=True, selective=True))
         
         return PATPOST
         
-    kisi = collection.find_one({"_id": user})
-    if kisi == None:
-        bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=dagme())
-        return
     bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=dugme(user))
+
+def kanalmenu(update, context):
+    user = update.effective_user.id
+    chat = update.effective_chat.id
+    kudat = collection.find_one({"_id": user})
+    mesaj = update.effective_message.text
+    if user in kara:
+        bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
+        return
+    try:
+        tokenn = bina['token']
+    except:
+        msg = bot.send_message(chat, """⛔ Henüz bir API kaydetmemişsiniz!\n\n📝 <i></i> <a href="https://tr.link/member/tools/quick">buraya tıklayarak</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark())            
+        return APIDEGISTIR
+
+    if mesaj == "🗑️ Kanal Sil":
+        if len(kudat['kanal']) < 1:
+            bot.send_message(chat, "Henüz bir kanal kaydetmemişsiniz!", reply_markup=kanalmenumark())
+            return 
+        bot.send_message(chat, "Silmek istediğiniz kanalı seçin.", reply_markup=gen_markup(user))
+        return 
+    if mesaj == "🔶 Yeni Kanal Ekle":
+        vip_uyeler = collection.find_one({"_id": 0})['vipuye']
+        if len(kudat['kanal']) > 9 and not user in vip_uyeler:
+            bot.send_message(chat, "<i>Üzgünüm en fazla 10 kanal kaydedebilirsiniz.</i>")
+            return 
+        bot.send_message(chat, """📝 <i>Lütfen kanalınızdan bir gönderi iletin.</i>""", reply_markup=imark())
+        return KANALKAYDET
+    if mesaj == "↩️ Ana Menü" or mesaj == "❌ İptal":
+        bot.send_message(chat, "Ana Menü.", reply_markup=dugme(user))
+        return ConversationHandler.END
+
+    bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=kanalmenumark())
+
+
+def apimenu(update, context):
+    user = update.effective_user.id
+    chat = update.effective_chat.id
+    audat = collection.find_one({"_id": user})
+    mesaj = update.effective_message.text
+    if user in kara:
+        bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
+        return
+    try:
+        tokenn = audat['token']
+    except:
+        bot.send_message(chat, "⛔ Henüz bir API kaydetmemişsiniz!\n\n📝 <i></i> <a href='https://tr.link/member/tools/quick'>buraya tıklayarak</a> <i>aldığınız API adresinizi gönderin</i>", reply_markup=imark())
+        return APIDEGISTIR
+    if mesaj == "♻️ API değiştir":
+        bot.send_message(chat, "Yeni API adresinizi girin.", reply_markup=imark())
+        return APIDEGISTIR
+    if mesaj == "🔗 Site değiştir":
+        bot.send_message(chat, "<i>Kullanmak istediğiniz siteyi seçin</i>", reply_markup=sitemarkup())
+        return
+    if mesaj == "🤖 Alternatif Ekle":
+        bot.send_message(chat, "<b>Alternatif Nasıl Kullanılsın.\n\n Tek Post İki Link</b>\n <i>Aynı post iki link</i> \n\n<b>Sıralı</b>\n <i>Bir post birinci servis, bir post alternatif servis.</i>\n\n<b>Kullanmak istediğiniz sistemi seçin.</b>", reply_markup=altmarkup(user))
+        return
+    if mesaj == "↩️ Ana Menü" or mesaj == "❌ İptal":
+        bot.send_message(chat, "Ana Menü.", reply_markup=dugme(user))
+        return ConversationHandler.END
+
+    bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=apimenumark())
     
+    
+def postmenu(update, context):
+    user = update.effective_user.id
+    chat = update.effective_chat.id
+    poudat = collection.find_one({"_id": user})
+    mesaj = update.effective_message.text
+    if user in kara:
+        bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
+        return
+    try:
+        tokenn = poudat['token']
+    except:
+        bot.send_message(chat, """⛔ Henüz bir API kaydetmemişsiniz!\n\n📝 <i></i> <a href="https://tr.link/member/tools/quick">buraya tıklayarak</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark())            
+        return APIDEGISTIR
+    if mesaj == "⏱ Post Zamanları":
+        if not user == sahip:
+            bot.send_message(chat, "<code> Bu özellik henüz test aşamasında.</code> ")
+            return
+        for kca in poudat['kanal']:
+            if not eklenti in [r.user.id for r in bot.get_chat_administrators(kca)]:
+                bot.send_message(chat, "Botun post zamanlayabilmesi için eklentiye ihtiyacı var, eklenti kurulsun mu?\n\n<i>Butona basmadan önce bota kanallarınızda resimdeki yetkileri vermeniz gerekiyor</i> <a href='https://telegra.ph/file/d8802d6ca2fe807639a06.png'>ㅤ</a>", reply_markup=ekmark())
+                return
+        zaman_menu = "<b>Eklenti:</b> ✅\n\n"
+        if poudat['vakit'] == 0:
+            zaman_menu += "Henüz Post saatleri ayaralamamışsınız"
+        else:
+            vakcount = 0
+            for vak in ka['vakit']:
+                zaman_menu += str(vakcount)+ ". " + str(vak) + "\n"
+                vakcount += 1
+            zaman_menu += f"\n<i>Günlük {vakcount} Post Paylaşıyorsunuz. </i>"
+            if poudat['time'] == -1:
+                zaman_menu += f"\n\nBugün post sınırınıza ulaştınız"
+            else:
+                zaman_menu += f"\n\nBir sonraki postunuz günün <code>{poudat['time']}</code>. postu olacak."
+        bot.send_message(chat, zaman_menu, reply_markup=zamanmenumark(user))
+        return
+    if mesaj == "📏 Şablon":
+        aciklama = "Pharex, lord adminin karısını sikerken lord adminn basıyor."
+        if poudat['site'] == "1":
+            link = "https://ay.live/vRpKVx"
+        if poudat['site'] == "2":
+            link = "https://pgg.fyi/X0DK3"
+        if poudat['site'] == "3":
+            link = "https://exe.io/o96d4d"
+        if poudat['site'] == "4":
+            link = "https://ouo.io/RA1K5D"
+        if poudat['site'] == "5":
+            link = "https://lnkload.com/2v5vy"
+        if poudat['altsite'] != "None":
+            if poudat['altsite'] == "1":
+                alink = "https://ay.live/vRpKVx"
+            if poudat['altsite'] == "2":
+                alink = "https://pgg.fyi/X0DK3"
+            if poudat['altsite'] == "3":
+                alink = "https://exe.io/o96d4d"
+            if poudat['altsite'] == "4":
+                alink = "https://ouo.io/RA1K5D"
+            if poudat['altsite'] == "5":
+                alink = "https://lnkload.com/2v5vy"
+        else:
+            alink = "https://lnkload.com/2v5vy"
+        if poudat['sablon'] == "1":
+            bot.send_message(chat, "<b>Varsayılan Şablon:</b>\n\n🔥{aciklama} \n\n🔱 TIKLA 👉 {link} \n\n📛 SESİ AÇ 'a tıklamayı unutma", reply_markup=sablonmark(user))
+        elif poudat['sablon'] == "2":
+            bot.send_message(chat, "<b>Varsayılan Şablon:</b>\n\n{aciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {link}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06", reply_markup=sablonmark(user))
+        elif poudat['sablon'] == "9":
+            bot.send_message(chat, "<b>Varsayılan Şablon:</b>\n\n{aciklama} \n\n𝙇𝙄𝙉𝙆🔗 {link} \n\n     𝙇𝙄𝙉𝙆🔗 {alink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee", reply_markup=sablonmark(user))
+        else:
+            if poudat['sira'] == "1":
+                pst = poudat['sablon'].replace("{aciklama}", "{a}").replace("{link}", "{l}").replace("{alink}", "{al}").format(a=aciklama, l=link, al=alink)
+            else:
+                pst = poudat['sablon'].replace("{aciklama}", "{a}").replace("{link}", "{l}").replace("{alink}", "{al]").format(a=aciklama, l=link)
+            bot.send_message(chat, f"<b>Şablonunuz böyle gözükecek:</b>\n\n{pst}", reply_markup=sablonmark(user))
+        return
+    if mesaj == "🔧 Kaynak":
+        if len(poudat['kanal']) < 1:
+            bot.send_message(chat, "Henüz bir kanal kaydetmemişsiniz.", reply_markup=dugme(user))
+            return
+        kynskm = poudat['kanal'][0]
+        if poudat['ozel']:
+            for m in OzelCol.find({}):
+                if user in m['kanal']:
+                    try:
+                        ozel_kaynak_bilgi = bot.get_chat(m['okaynak'])
+                    except:
+                        bot.send_message(chat, "Botu kaynak kanalınızdan çıkarttığınız için post atılmayacak.", reply_markup=kaynakmark(user, 0))
+                        return
+                    kullanan_sayisi = len(m['kanal'])
+                    break
+            refsahip = "yok"
+            for ox in OzelCol.find({}):
+                if user in ox['kanal']:
+                    refsahip = ox["_id"]
+                    break
+            if refsahip == "yok":
+                collection.update_one({"_id": user}, {"$set": {"ozel": False}})
+                collection.update_one({"_id": user}, {"$pull": {"kaynak": "32"}})
+                try:
+                    kcisim = bot.get_chat(kynskm).title
+                except:
+                    kcisim = "Kanalınıza ulaşılamadı!"
+                bot.send_message(chat, f"""<b> >>>    {kcisim}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>""", reply_markup=kaynakmark(user, 0))
+                return
+            ref_link = create_deep_linked_url(context.bot.username, str(refsahip))
+            bot.send_message(chat, """<b>Özel Kaynak Kullandığınız için başka kaynak seçemezsiniz.</b>\n\n      <i>Özel Kaynağınız:</i><b> <a href="{}">{}</a>\n</b>      <i>Bu Kaynağı Toplam </i><code>{}</code> <i>Kişi Kullanıyor.</i>\n\n<b>Kaynak Referans Linki;</b>\n<code>{}</code>\n<i>Bu link ile botu başlatan herkes otomatik olarak sizin kaynağınıza bağlanacak.</i>""".format(ozel_kaynak_bilgi.invite_link, ozel_kaynak_bilgi.title, kullanan_sayisi, ref_link), reply_markup=kaynakmark(user, 0))
+            return
+        try:
+            kcisim = bot.get_chat(kynskm).title
+        except:
+            kcisim = "Kanalınıza ulaşılamadı!"
+        bot.send_message(chat, f"""<b> >>>    {kcisim}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>""", reply_markup=kaynakmark(user, 0))
+        return
+
+    if mesaj == "↩️ Ana Menü" or mesaj == "❌ İptal":
+        bot.send_message(chat, "Ana Menü.", reply_markup=dugme(user))
+        return ConversationHandler.END
+
+    
+
+
+def kayitapi(update, context):
+    chat = update.message.chat.id
+    mesaj = update.message.text
+    user = update.message.from_user.id
+    if user in kara:
+        bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
+        return
+    ka = collection.find_one({"_id": user})
+    vip_uyeler = collection.find_one({"_id": 0})['vipuye']
+    if mesaj == "🗑️ Kanal Sil":
+        if ka == None:
+            msg = bot.send_message(chat, "Henüz bir kanal kaydetmemişsiniz!", reply_markup=markupp())
+        if len(ka['kanal']) < 1:
+            msg = bot.send_message(chat, "Henüz bir kanal kaydetmemişsiniz!", reply_markup=markupp())
+            return 
+        msg = bot.send_message(chat, "Silmek istediğiniz kanalı seçin.", reply_markup=gen_markup(user))
+        return 
+    if mesaj == "⏱ Post Zamanları":
+        if not user == sahip:
+            bot.send_message(chat, "<code> Bu özellik henüz test aşamasında.</code> ")
+            return
+        for kca in ka['kanal']:
+            if not eklenti in [r.user.id for r in bot.get_chat_administrators(kca)]:
+                bot.send_message(chat, "Botun post zamanlayabilmesi için eklentiye ihtiyacı var, eklenti kurulsun mu?\n\n<i>Butona basmadan önce bota kanallarınızda resimdeki yetkileri vermeniz gerekiyor</i> <a href='https://telegra.ph/file/d8802d6ca2fe807639a06.png'>ㅤ</a>", reply_markup=ekmark())
+                return
+        zaman_menu = "<b>Eklenti:</b> ✅\n\n"
+        if ka['vakit'] == 0:
+            zaman_menu += "Henüz Post saatleri ayaralamamışsınız"
+        else:
+            vakcount = 0
+            for vak in ka['vakit']:
+                zaman_menu += str(vakcount)+ ". " + str(vak) + "\n"
+                vakcount += 1
+            zaman_menu += f"\n<i>Günlük {vakcount} Post Paylaşıyorsunuz. </i>"
+            trysch = 0
+            dlc = ka['time']
+            if dlc == -1:
+                zaman_menu += f"\n\nBugün post sınırınıza ulaştınız"
+            else:
+                zaman_menu += f"\n\nBir sonraki postunuz günün <code>{dlc}</code>. postu olacak."
+        bot.send_message(chat, zaman_menu, reply_markup=zamanmenumark(user))
+        return
+
+    if mesaj == "♻️ API değiştir":
+        msg = bot.send_message(chat, "Yeni API adresinizi girin.", reply_markup=imark())
+        return APIDEGISTIR
+    if mesaj == "↩️ Ana Menü" or mesaj == "❌ İptal":
+        msg = bot.send_message(chat, "Ana Menü.", reply_markup=dugme(user))
+        return ConversationHandler.END
+    if mesaj == "🔗 Site değiştir":
+        msg = bot.send_message(chat, "<i>Kullanmak istediğiniz siteyi seçin</i>", reply_markup=sitemarkup())
+        
+        return
+    if mesaj == "🤖 Alternatif Ekle":
+        msg = bot.send_message(chat, "<b>Alternatif Nasıl Kullanılsın.\n\n Tek Post İki Link</b>\n <i>Aynı post iki link</i> \n\n<b>Sıralı</b>\n <i>Bir post birinci servis, bir post alternatif servis.</i>\n\n<b>Kullanmak istediğiniz sistemi seçin.</b>", reply_markup=altmarkup(user))
+        
+        return
+    if mesaj == "🔶 Yeni Kanal Ekle":
+        bol = collection.find_one({"_id": chat})
+        if bol == None:
+            bot.send_message(chat, "<i>Önce bir API kaydedin.</i>", reply_markup=dagme())
+            return ConversationHandler.END
+        if len(bol['kanal']) > 9 and not user in vip_uyeler:
+            bot.send_message(chat, "<i>Üzgünüm en fazla 5 kanal kaydedebilirsiniz.</i>")
+            return 
+        bot.send_message(chat, """📝 <i>Lütfen kanalınızdan bir gönderi iletin.</i>""", reply_markup=imark())
+
+        return KANALKAYDET
+    bot.send_message(chat, "Lütfen alttaki butonları kullanıns.", reply_markup=markupp())
+
 def ozelk(update, context):
     user = update.message.from_user.id
     chat = update.message.chat.id
@@ -271,76 +516,6 @@ def sabloniki(update, context):
     collection.update_one({"_id": user}, {"$set":{"sablon": mesaj}})
     bot.send_message(chat, "Şablon kaydedildi!", reply_markup=dugme(user))
     return ConversationHandler.END
-
-def kayitapi(update, context):
-    chat = update.message.chat.id
-    mesaj = update.message.text
-    user = update.message.from_user.id
-    if user in kara:
-        bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
-        return
-    ka = collection.find_one({"_id": user})
-    vip_uyeler = collection.find_one({"_id": 0})['vipuye']
-    if mesaj == "🗑️ Kanal Sil":
-        if ka == None:
-            msg = bot.send_message(chat, "Henüz bir kanal kaydetmemişsiniz!", reply_markup=markupp())
-        if len(ka['kanal']) < 1:
-            msg = bot.send_message(chat, "Henüz bir kanal kaydetmemişsiniz!", reply_markup=markupp())
-            return 
-        msg = bot.send_message(chat, "Silmek istediğiniz kanalı seçin.", reply_markup=gen_markup(user))
-        return 
-    if mesaj == "⏱ Post Zamanları":
-        if not user == sahip:
-            bot.send_message(chat, "<code> Bu özellik henüz test aşamasında.</code> ")
-            return
-        for kca in ka['kanal']:
-            if not eklenti in [r.user.id for r in bot.get_chat_administrators(kca)]:
-                bot.send_message(chat, "Botun post zamanlayabilmesi için eklentiye ihtiyacı var, eklenti kurulsun mu?\n\n<i>Butona basmadan önce bota kanallarınızda resimdeki yetkileri vermeniz gerekiyor</i> <a href='https://telegra.ph/file/d8802d6ca2fe807639a06.png'>ㅤ</a>", reply_markup=ekmark())
-                return
-        zaman_menu = "<b>Eklenti:</b> ✅\n\n"
-        if ka['vakit'] == 0:
-            zaman_menu += "Henüz Post saatleri ayaralamamışsınız"
-        else:
-            vakcount = 0
-            for vak in ka['vakit']:
-                zaman_menu += str(vakcount)+ ". " + str(vak) + "\n"
-                vakcount += 1
-            zaman_menu += f"\n<i>Günlük {vakcount} Post Paylaşıyorsunuz. </i>"
-            trysch = 0
-            dlc = ka['time']
-            if dlc == -1:
-                zaman_menu += f"\n\nBugün post sınırınıza ulaştınız"
-            else:
-                zaman_menu += f"\n\nBir sonraki postunuz günün <code>{dlc}</code>. postu olacak."
-        bot.send_message(chat, zaman_menu, reply_markup=zamanmenumark(user))
-        return
-
-    if mesaj == "♻️ API değiştir":
-        msg = bot.send_message(chat, "Yeni API adresinizi girin.", reply_markup=imark())
-        return APIDEGISTIR
-    if mesaj == "↩️ Ana Menü" or mesaj == "❌ İptal":
-        msg = bot.send_message(chat, "Ana Menü.", reply_markup=dugme(user))
-        return ConversationHandler.END
-    if mesaj == "🔗 Site değiştir":
-        msg = bot.send_message(chat, "<i>Kullanmak istediğiniz siteyi seçin</i>", reply_markup=sitemarkup())
-        
-        return
-    if mesaj == "🤖 Alternatif Ekle":
-        msg = bot.send_message(chat, "<b>Alternatif Nasıl Kullanılsın.\n\n Tek Post İki Link</b>\n <i>Aynı post iki link</i> \n\n<b>Sıralı</b>\n <i>Bir post birinci servis, bir post alternatif servis.</i>\n\n<b>Kullanmak istediğiniz sistemi seçin.</b>", reply_markup=altmarkup(user))
-        
-        return
-    if mesaj == "🔶 Yeni Kanal Ekle":
-        bol = collection.find_one({"_id": chat})
-        if bol == None:
-            bot.send_message(chat, "<i>Önce bir API kaydedin.</i>", reply_markup=dagme())
-            return ConversationHandler.END
-        if len(bol['kanal']) > 9 and not user in vip_uyeler:
-            bot.send_message(chat, "<i>Üzgünüm en fazla 5 kanal kaydedebilirsiniz.</i>")
-            return 
-        bot.send_message(chat, """📝 <i>Lütfen kanalınızdan bir gönderi iletin.</i>""", reply_markup=imark())
-
-        return KANALKAYDET
-    bot.send_message(chat, "Lütfen alttaki butonları kullanıns.", reply_markup=markupp())
 
 def cancel(update, context):
     chat = update.message.chat.id
