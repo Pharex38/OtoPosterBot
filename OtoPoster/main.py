@@ -45,7 +45,7 @@ def main() -> None:
     upjob.run_repeating(opostsiralandirici, interval=30, first=30, name="anapostersiralayici")
 
     conv_handler = ConversationHandler(
-        entry_points=[MessageHandler(Filters.update.message & ~Filters.command & ~Filters.chat_type.private, menu), CommandHandler('start', start)],
+        entry_points=[MessageHandler(Filters.update.message & ~Filters.command & Filters.chat_type.private, menu), CommandHandler('start', start)],
         states={ 
             ALTMENU: [MessageHandler(~Filters.command & Filters.update.message, kayitapi)], 
             APIDEGISTIR: [MessageHandler(~Filters.command & Filters.update.message, apikayit)],
