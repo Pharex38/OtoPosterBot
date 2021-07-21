@@ -250,24 +250,24 @@ def sabloniki(update, context):
     if update.message.text == None:
         msg = bot.send_message(chat, """ ❌<i> Lütfen mesajınızda "{link}" ve "{aciklama}" bulunduğudan emin olun.</i> """)
 
-        return SABLON
+        return SABLONA
     if update.message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
     if bnb['sira'] == "1":
         if mesaj.find("{link}") == -1 or mesaj.find("{aciklama}") == -1 or mesaj.find("{alink}") == -1:
             msg = bot.send_message(chat, """ ❌<i> Lütfen mesajınızda "{link}", "{alink}" ve "{aciklama}" bulunduğudan emin olun.</i> """)
-            return SABLON
+            return SABLONA
     else:
         if mesaj.find("{link}") == -1 or mesaj.find("{aciklama}") == -1:
             msg = bot.send_message(chat, """ ❌<i> Lütfen mesajınızda "{link}" ve "{aciklama}" bulunduğudan emin olun.</i> """)
-            return SABLON
+            return SABLONA
         if mesaj.find("{link}") != mesaj.rfind("{link}"):
             msg = bot.send_message(chat, """ ❌<i> Lütfen mesajınızda bir tane "{link}" bulunduğudan emin olun.</i> """)
-            return SABLON
+            return SABLONA
         if mesaj.find("{aciklama}") != mesaj.rfind("{aciklama}"):
             msg = bot.send_message(chat, """ ❌<i> Lütfen mesajınızda bir tane "{aciklama}" bulunduğudan emin olun.</i> """)
-            return SABLON
+            return SABLONA
     collection.update_one({"_id": user}, {"$set":{"sablon": mesaj}})
     bot.send_message(chat, "Şablon kaydedildi!", reply_markup=dugme(user))
     return ConversationHandler.END
