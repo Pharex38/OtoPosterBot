@@ -48,7 +48,11 @@ def main() -> None:
         entry_points=[
         MessageHandler(Filters.update.message & ~Filters.command & Filters.chat_type.private, menu), 
         CommandHandler('start', start, Filters.chat_type.private),
-        CallbackQueryHandler(sabloncall, pattern="^(sablon)$")
+        CallbackQueryHandler(sabloncall, pattern="^(sablon)$"),
+        CallbackQueryHandler(ozelkaynakcall, pattern="^okayt(.*)"),
+        CallbackQueryHandler(ozellogcall, pattern="^logokay(.*)"),
+        CallbackQueryHandler(altcall, pattern="^asite(.*)"),
+        CallbackQueryHandler(postzamancall, pattern="^(pzayarla)$")
         ],
         states={ 
             ALTMENU: [MessageHandler(~Filters.command & Filters.update.message, kayitapi)], 
@@ -77,7 +81,7 @@ def main() -> None:
         per_chat=True)
     """
     altconver = ConversationHandler(
-        entry_points=[CallbackQueryHandler(altcall, pattern="^asite(.*)")],
+        entry_points=[],
         states={
             
             },
@@ -85,7 +89,7 @@ def main() -> None:
         per_message=False,
         per_chat=True)
     logconver = ConversationHandler(
-        entry_points=[CallbackQueryHandler(ozellogcall, pattern="^logokay(.*)")],
+        entry_points=[],
         states={
             
             },
@@ -93,7 +97,7 @@ def main() -> None:
         per_message=False,
         per_chat=True)
     ozelkconver = ConversationHandler(
-        entry_points=[CallbackQueryHandler(ozelkaynakcall, pattern="^okayt(.*)")],
+        entry_points=[],
         states={
             
             },
@@ -109,7 +113,7 @@ def main() -> None:
         per_message=False,
         per_chat=True)
     postzamanconver = ConversationHandler(
-        entry_points=[CallbackQueryHandler(postzamancall, pattern="^(pzayarla)$")],
+        entry_points=[],
         states={
             
             },
