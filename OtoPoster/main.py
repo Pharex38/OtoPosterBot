@@ -55,7 +55,7 @@ def main() -> None:
         CallbackQueryHandler(postzamancall, pattern="^(pzayarla)$")
         ],
         states={ 
-            ALTMENU: [MessageHandler(~Filters.command & Filters.update.message, kayitapi)], 
+            ALTMENU: [MessageHandler(~Filters.command & Filters.update.message, kayitapi), CallbackQueryHandler(altcall, pattern="^asite(.*)")], 
             APIDEGISTIR: [MessageHandler(~Filters.command & Filters.update.message, apikayit)],
             KANALKAYDET: [MessageHandler(~Filters.command & Filters.update.message, kanalkayit)],
             SABLONA: [MessageHandler(~Filters.command & Filters.update.message, sabloniki)],
