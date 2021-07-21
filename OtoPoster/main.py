@@ -45,7 +45,16 @@ def main() -> None:
     upjob.run_repeating(opostsiralandirici, interval=30, first=30, name="anapostersiralayici")
 
     conv_handler = ConversationHandler(
-        entry_points=[MessageHandler(Filters.update.message & ~Filters.command, menu), CommandHandler('start', start)],
+        entry_points=[
+        MessageHandler(Filters.update.message & ~Filters.command, menu), 
+        CommandHandler('start', start),
+        CallbackQueryHandler(altcall, pattern="^asite(.*)"),
+        CallbackQueryHandler(sabloncall, pattern="^(sablon)$"),
+        CallbackQueryHandler(ozellogcall, pattern="^logokay(.*)"),
+        CallbackQueryHandler(ozelkaynakcall, pattern="^okayt(.*)"),
+        CallbackQueryHandler(callback_query, pattern="^pzamanla(.*)"),
+        CallbackQueryHandler(postzamancall, pattern="^(pzayarla)$")
+        ],
         states={ 
             ALTMENU: [MessageHandler(~Filters.command & Filters.update.message, kayitapi)], 
             APIDEGISTIR: [MessageHandler(~Filters.command & Filters.update.message, apikayit)],
@@ -110,14 +119,14 @@ def main() -> None:
     dispatcher.add_handler(MessageHandler(Filters.chat(-1001584743136), comment))
     dispatcher.add_handler(MessageHandler(Filters.chat(eklenti), eklentiiletisim))
     dispatcher.add_handler(MessageHandler(Filters.chat(-1001572618573), posterkomut2))
-
+    """
     dispatcher.add_handler(conver)
     dispatcher.add_handler(altconver)
     dispatcher.add_handler(ozelkconver)
     dispatcher.add_handler(zamanconver)
     dispatcher.add_handler(postzamanconver)
     dispatcher.add_handler(logconver)
-
+    """
     dispatcher.add_handler(conv_handler)
 
     dispatcher.add_handler(CommandHandler('start', start, Filters.update.message & Filters.chat_type.private))
