@@ -16,7 +16,7 @@ def kanalmenumark():
     return ReplyKeyboardMarkup(keyboard=[['🔶 Yeni Kanal Ekle', '🗑️ Kanal Sil'], ['▶️ SFS Modu'], ['↩️ Ana Menü']], resize_keyboard=True, selective=True)
 
 def postmenumark():
-    return ReplyKeyboardMarkup(keyboard=[['⛓️ Elle Post Paylaş', '⏱ Zamanladığım Postlar'], ['🔧 Kaynak', '📏 Şablon'], ['↩️ Ana Menü']], resize_keyboard=True, selective=True)
+    return ReplyKeyboardMarkup(keyboard=[['⛓️ Elle Post Paylaş', '⏱ Zamanladıklarım'], ['🔧 Kaynak', '📏 Şablon'], ['↩️ Ana Menü']], resize_keyboard=True, selective=True)
 
 def apimenumark():
     return ReplyKeyboardMarkup(keyboard=[['♻️ API değiştir', '🔗 Site değiştir'], ['🤖 Alternatif Link'], ['↩️ Ana Menü']], resize_keyboard=True, selective=True)
