@@ -55,7 +55,7 @@ def main() -> None:
             APIDEGISTIR: [MessageHandler(~Filters.command & Filters.update.message, apikayit)],
             KANALKAYDET: [MessageHandler(~Filters.command & Filters.update.message, kanalkayit)],
             SABLONA: [MessageHandler(~Filters.command & Filters.update.message, sabloniki)],
-            PATPOST: [MessageHandler(~Filters.command & Filters.update.message, pat)]
+            PATPOST: [MessageHandler(~Filters.command & Filters.update.message, pat)],
             PATZAMAN: [MessageHandler(~Filters.command & Filters.update.message, patzamansaat)],
             },
         fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$') & Filters.update.message, cancel), CommandHandler('start', start, filters=~Filters.update.edited_message)],
