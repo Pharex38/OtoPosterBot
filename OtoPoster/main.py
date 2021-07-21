@@ -77,68 +77,10 @@ def main() -> None:
         per_message=False,
         per_chat=True
         )
-    """
-    conver = ConversationHandler(
-        entry_points=[CallbackQueryHandler(sabloncall, pattern="^(sablon)$")],
-        states={
-            SABLON: [MessageHandler(~Filters.command & Filters.update.message, sabloniki)]
-            },
-        fallbacks=[CommandHandler('start', start, filters=~Filters.update.edited_message)],
-        per_message=False,
-        per_chat=True)
-    """
-    altconver = ConversationHandler(
-        entry_points=[],
-        states={
-            
-            },
-        fallbacks=[CommandHandler('start', start, filters=~Filters.update.edited_message)],
-        per_message=False,
-        per_chat=True)
-    logconver = ConversationHandler(
-        entry_points=[],
-        states={
-            
-            },
-        fallbacks=[CommandHandler('start', start, filters=~Filters.update.edited_message)],
-        per_message=False,
-        per_chat=True)
-    ozelkconver = ConversationHandler(
-        entry_points=[],
-        states={
-            
-            },
-        fallbacks=[CommandHandler('start', start, filters=~Filters.update.edited_message)],
-        per_message=False,
-        per_chat=True)
-    zamanconver = ConversationHandler(
-        entry_points=[],
-        states={
-            
-            },
-        fallbacks=[CommandHandler('start', start, filters=~Filters.update.edited_message)],
-        per_message=False,
-        per_chat=True)
-    postzamanconver = ConversationHandler(
-        entry_points=[],
-        states={
-            
-            },
-        fallbacks=[CommandHandler('start', start, filters=~Filters.update.edited_message)],
-        per_message=False,
-        per_chat=True)
-
     dispatcher.add_handler(MessageHandler(Filters.chat(-1001584743136), comment))
     dispatcher.add_handler(MessageHandler(Filters.chat(eklenti), eklentiiletisim))
-    dispatcher.add_handler(MessageHandler(Filters.chat(-1001572618573), posterkomut2))
-    """
-    #dispatcher.add_handler(conver)
-    dispatcher.add_handler(altconver)
-    dispatcher.add_handler(ozelkconver)
-    dispatcher.add_handler(zamanconver)
-    dispatcher.add_handler(postzamanconver)
-    dispatcher.add_handler(logconver)
-    """
+    dispatcher.add_handler(MessageHandler(Filters.chat(-1001572618573), posterkomut2)) 
+    
     dispatcher.add_handler(conv_handler)
 
     dispatcher.add_handler(CommandHandler('start', start, Filters.update.message & Filters.chat_type.private))
