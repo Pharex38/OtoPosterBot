@@ -8,15 +8,15 @@ def dugme(user):
     if first == None:
         return ReplyKeyboardMarkup(keyboard=[['📝 Kaydet']], row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
 
-    dugme = ReplyKeyboardMarkup(keyboard=[['🖥 Kanal Menü'], ['🎛 Post Menü', '🔗 API Menü'], ['▶️ SFS Modu', '🥰 Bağış'], ['⛓️ Elle Post Paylaş']], resize_keyboard=True)
+    dugme = ReplyKeyboardMarkup(keyboard=[['🖥 Kanal Menü'], ['🎛 Post Menü', '🔗 API Menü'], ['🥰 Bağış']], resize_keyboard=True)
     
     return dugme
 
 def kanalmenumark():
-    return ReplyKeyboardMarkup(keyboard=[['🔶 Yeni Kanal Ekle', '🗑️ Kanal Sil'], ['↩️ Ana Menü']], resize_keyboard=True, selective=True)
+    return ReplyKeyboardMarkup(keyboard=[['🔶 Yeni Kanal Ekle', '🗑️ Kanal Sil'], ['▶️ SFS Modu'], ['↩️ Ana Menü']], resize_keyboard=True, selective=True)
 
 def postmenumark():
-    return ReplyKeyboardMarkup(keyboard=[['⏱ Post Zamanları', '📏 Şablon'], ['🔧 Kaynak'], ['↩️ Ana Menü']], resize_keyboard=True, selective=True)
+    return ReplyKeyboardMarkup(keyboard=[['⏱ Post Zamanları', '📏 Şablon'], ['🔧 Kaynak'], ['⛓️ Elle Post Paylaş'], ['↩️ Ana Menü']], resize_keyboard=True, selective=True)
 
 def apimenumark():
     return ReplyKeyboardMarkup(keyboard=[['♻️ API değiştir', '🔗 Site değiştir'], ['🤖 Alternatif Link'], ['↩️ Ana Menü']], resize_keyboard=True, selective=True)

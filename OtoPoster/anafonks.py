@@ -49,35 +49,11 @@ def menu(update, context):
             apimenu_mesaj = "<i>♦️Birincil API: {}\n  Birincil Site: {}\n  Alternatif API: {}\n  Alternatif Site: {}</i>".format(mj['token'], site_isim(mj['site']), mj['altapi'], site_isim(mj['altsite']))
         bot.send_message(chat, apimenu_mesaj, reply_markup=apimenumark())
         return APIMENU
-    if mesaj == "▶️ SFS Modu":
-        if mj == None:
-            bot.send_message(chat, "Lütfen önce bir API kaydedin.", reply_markup=dagme())
-            return
-        try:
-            mod = collection.find_one({"_id": user})
-        except:
-            pass
-        if "31" in mod['kaynak']:
-            try:
-                collection.update_one({"_id": user}, {"$set": {"kaynak": []}})
-            except:
-                pass
-            bot.send_message(chat, "SFS modu durduruldu", reply_markup=dugme(user))
-            return
-        else:
-            collection.update_one({"_id": user}, {"$set": {"kaynak": ['31']}})
-            bot.send_message(chat, "Kanallarınız SFS moduna alındı. Siz modu kapatana kadar yeni post atılmayacak.", reply_markup=dugme(user))
-            return
+    
     if mesaj == "🥰 Bağış":
         bot.send_message(chat, "🥰Madem bu kadar çok istiyorsun. \n\n🏧Papara: <code>1666982412</code> \n🏦İninal: <code>4003140030544</code>")
         return
-    if mesaj == "⛓️ Elle Post Paylaş":
-        if len(pudat['kanal']) < 1:
-            bot.send_message(chat, "Lütfen önce bir kanal kaydedin.", reply_markup=dugme(user))
-            return
-        msg = bot.send_message(chat, "Paylaşmamı istediğin hazır postu ilet.", reply_markup=ReplyKeyboardMarkup(keyboard=[['❌ İptal'], ['⏱ Zamanladığım Postlar']], one_time_keyboard=True, resize_keyboard=True, selective=True))
-        
-        return PATPOST
+    
         
     bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=dugme(user))
 
@@ -108,6 +84,18 @@ def kanalmenu(update, context):
             return 
         bot.send_message(chat, """📝 <i>Lütfen kanalınızdan bir gönderi iletin.</i>""", reply_markup=imark())
         return KANALKAYDET
+    if mesaj == "▶️ SFS Modu":
+        if "31" in kudat['kaynak']:
+            try:
+                collection.update_one({"_id": user}, {"$set": {"kaynak": []}})
+            except:
+                pass
+            bot.send_message(chat, "SFS modu durduruldu", reply_markup=kanalmenumark())
+            return
+        else:
+            collection.update_one({"_id": user}, {"$set": {"kaynak": ['31']}})
+            bot.send_message(chat, "Kanallarınız SFS moduna alındı. Siz modu kapatana kadar yeni post atılmayacak.", reply_markup=kanalmenumark())
+            return
     if mesaj == "↩️ Ana Menü" or mesaj == "❌ İptal":
         bot.send_message(chat, "Ana Menü.", reply_markup=dugme(user))
         return ConversationHandler.END
@@ -254,6 +242,19 @@ def postmenu(update, context):
             kcisim = "Kanalınıza ulaşılamadı!"
         bot.send_message(chat, f"""<b> >>>    {kcisim}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>""", reply_markup=kaynakmark(user, 0))
         return
+    if mesaj == "⏱ Zamanladığım Postlar":
+        zjobs = context.job_queue.get_jobs_by_name(str(user))
+        if len(zjobs) < 1:
+            bot.send_message(chat, "Henüz bir post zamanlamamışsınız.", reply_markup=postmenumark())
+            return 
+        bot.send_message(chat, "Silmek istediğiniz postu seçin.", reply_markup=jobmark(user, context))
+        return 
+    if mesaj == "⛓️ Elle Post Paylaş":
+        if len(pudat['kanal']) < 1:
+            bot.send_message(chat, "Lütfen önce bir kanal kaydedin.", reply_markup=postmenumark())
+            return
+        bot.send_message(chat, "Paylaşmamı istediğin hazır postu ilet.", reply_markup=ReplyKeyboardMarkup(keyboard=[['❌ İptal']], one_time_keyboard=True, resize_keyboard=True, selective=True))
+        return PATPOST
 
     if mesaj == "↩️ Ana Menü" or mesaj == "❌ İptal":
         bot.send_message(chat, "Ana Menü.", reply_markup=dugme(user))
