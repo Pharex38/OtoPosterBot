@@ -63,7 +63,7 @@ ignorejob = ["yedekleme", "gunluk", "resetleme", "ozelposter", "anaposter", "ana
 
 
 SEND_MEDIA_TYPES = {"document": bot.send_document, "photo": bot.send_photo, "video": bot.send_video, "animation": bot.send_animation}
-ALTMENU, APIDEGISTIR, KANALKAYDET, SABLONA, PATPOST, POSTZAMAN, PATZAMAN, ALTAPI, OZELBOTLOG, OZELKAYNAK= range(10)
+ALTMENU, APIDEGISTIR, KANALKAYDET, SABLONA, PATPOST, POSTZAMAN, PATZAMAN, CALLALT, ALTAPI, OZELBOTLOG, OZELKAYNAK= range(11)
 headerss = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
 headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0",

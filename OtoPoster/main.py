@@ -60,6 +60,7 @@ def main() -> None:
             KANALKAYDET: [MessageHandler(~Filters.command & Filters.update.message, kanalkayit)],
             SABLONA: [MessageHandler(~Filters.command & Filters.update.message, sabloniki)],
             PATPOST: [MessageHandler(~Filters.command & Filters.update.message, pat)],
+            CALLALT: [CallbackQueryHandler(altcall, pattern="^asite(.*)")],
             PATZAMAN: [MessageHandler(~Filters.command & Filters.update.message, patzamansaat)],
             ALTAPI: [MessageHandler(~Filters.command & Filters.update.message, altakayit)],
             OZELBOTLOG: [MessageHandler(~Filters.command & Filters.update.message, ozellog)],
