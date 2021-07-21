@@ -62,7 +62,7 @@ def main() -> None:
         per_message=False,
         per_chat=True
         )
-
+    """
     conver = ConversationHandler(
         entry_points=[CallbackQueryHandler(sabloncall, pattern="^(sablon)$")],
         states={
@@ -71,6 +71,7 @@ def main() -> None:
         fallbacks=[CommandHandler('start', start, filters=~Filters.update.edited_message)],
         per_message=False,
         per_chat=True)
+    """
     altconver = ConversationHandler(
         entry_points=[CallbackQueryHandler(altcall, pattern="^asite(.*)")],
         states={
