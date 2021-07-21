@@ -364,7 +364,7 @@ def altakayit(update, context):
     smesaj = context.user_data['asite']
     sss = context.user_data['sss']
     collection.update_one({"_id": user}, {"$set": {"altsite": str(smesaj), "altapi": str(amesaj), "sira": str(sss)}})
-    bot.send_message(chat, "✅ Alternatif API kaydedildi", reply_markup=markupp())
+    bot.send_message(chat, "✅ Alternatif API kaydedildi", reply_markup=dugme(user))
     return ConversationHandler.END
 
 def postzaman(update, context):
@@ -375,7 +375,7 @@ def postzaman(update, context):
         bot.send_message(chat, "Gönderdiğiniz saatlerden biri veya birden fazlası yanlış.\n\nÖrnek;\n00:00\n01:00\n02:00\n03:00\n...", reply_markup=imark()) 
         return    
     if update.message.text == "❌ İptal":
-        bot.send_message(chat, "İptal Edildi.", reply_markup=markupp())
+        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
     for px in post_zaman_text.split("\n"):
         if not len(px) == 5 or px.find(":") == -1:
