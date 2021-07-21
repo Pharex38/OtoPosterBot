@@ -57,6 +57,10 @@ def main() -> None:
             SABLONA: [MessageHandler(~Filters.command & Filters.update.message, sabloniki)],
             PATPOST: [MessageHandler(~Filters.command & Filters.update.message, pat)],
             PATZAMAN: [MessageHandler(~Filters.command & Filters.update.message, patzamansaat)],
+            ALTAPI: [MessageHandler(~Filters.command & Filters.update.message, altakayit)],
+            OZELBOTLOG: [MessageHandler(~Filters.command & Filters.update.message, ozellog)],
+            OZELKAYNAK: [MessageHandler(~Filters.command & Filters.update.message, ozelk)],
+            POSTZAMAN: [MessageHandler(~Filters.command & Filters.update.message, postzaman)]
             },
         fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$') & Filters.update.message, cancel), CommandHandler('start', start, filters=~Filters.update.edited_message)],
         per_message=False,
@@ -75,7 +79,7 @@ def main() -> None:
     altconver = ConversationHandler(
         entry_points=[CallbackQueryHandler(altcall, pattern="^asite(.*)")],
         states={
-            ALTAPI: [MessageHandler(~Filters.command & Filters.update.message, altakayit)]
+            
             },
         fallbacks=[CommandHandler('start', start, filters=~Filters.update.edited_message)],
         per_message=False,
@@ -83,7 +87,7 @@ def main() -> None:
     logconver = ConversationHandler(
         entry_points=[CallbackQueryHandler(ozellogcall, pattern="^logokay(.*)")],
         states={
-            OZELBOTLOG: [MessageHandler(~Filters.command & Filters.update.message, ozellog)]
+            
             },
         fallbacks=[CommandHandler('start', start, filters=~Filters.update.edited_message)],
         per_message=False,
@@ -91,7 +95,7 @@ def main() -> None:
     ozelkconver = ConversationHandler(
         entry_points=[CallbackQueryHandler(ozelkaynakcall, pattern="^okayt(.*)")],
         states={
-            OZELKAYNAK: [MessageHandler(~Filters.command & Filters.update.message, ozelk)]
+            
             },
         fallbacks=[CommandHandler('start', start, filters=~Filters.update.edited_message)],
         per_message=False,
@@ -107,7 +111,7 @@ def main() -> None:
     postzamanconver = ConversationHandler(
         entry_points=[CallbackQueryHandler(postzamancall, pattern="^(pzayarla)$")],
         states={
-            POSTZAMAN: [MessageHandler(~Filters.command & Filters.update.message, postzaman)]
+            
             },
         fallbacks=[CommandHandler('start', start, filters=~Filters.update.edited_message)],
         per_message=False,
@@ -116,14 +120,14 @@ def main() -> None:
     dispatcher.add_handler(MessageHandler(Filters.chat(-1001584743136), comment))
     dispatcher.add_handler(MessageHandler(Filters.chat(eklenti), eklentiiletisim))
     dispatcher.add_handler(MessageHandler(Filters.chat(-1001572618573), posterkomut2))
-
+    """
     #dispatcher.add_handler(conver)
     dispatcher.add_handler(altconver)
     dispatcher.add_handler(ozelkconver)
     dispatcher.add_handler(zamanconver)
     dispatcher.add_handler(postzamanconver)
     dispatcher.add_handler(logconver)
-
+    """
     dispatcher.add_handler(conv_handler)
 
     dispatcher.add_handler(CommandHandler('start', start, Filters.update.message & Filters.chat_type.private))
