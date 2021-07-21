@@ -133,7 +133,7 @@ def apimenu(update, context):
     if mesaj == "🔗 Site değiştir":
         bot.send_message(chat, "<i>Kullanmak istediğiniz siteyi seçin</i>", reply_markup=sitemarkup())
         return
-    if mesaj == "🤖 Alternatif Ekle":
+    if mesaj == "🤖 Alternatif Link":
         bot.send_message(chat, "<b>Alternatif Nasıl Kullanılsın.\n\n Tek Post İki Link</b>\n <i>Aynı post iki link</i> \n\n<b>Sıralı</b>\n <i>Bir post birinci servis, bir post alternatif servis.</i>\n\n<b>Kullanmak istediğiniz sistemi seçin.</b>", reply_markup=altmarkup(user))
         return
     if mesaj == "↩️ Ana Menü" or mesaj == "❌ İptal":
