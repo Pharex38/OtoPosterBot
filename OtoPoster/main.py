@@ -124,12 +124,6 @@ def main() -> None:
     dispatcher.add_handler(MessageHandler(Filters.chat(-1001584743136), comment))
     dispatcher.add_handler(MessageHandler(Filters.chat(eklenti), eklentiiletisim))
     dispatcher.add_handler(MessageHandler(Filters.chat(-1001572618573), posterkomut2))
-
-    dispatcher.add_handler(CallbackQueryHandler(ozelkaynakcall, pattern="^okayt(.*)"))
-    dispatcher.add_handler(CallbackQueryHandler(ozellogcall, pattern="^logokay(.*)"))
-    dispatcher.add_handler(CallbackQueryHandler(altcall, pattern="^asite(.*)"))
-    dispatcher.add_handler(CallbackQueryHandler(postzamancall, pattern="^(pzayarla)$"))
-    dispatcher.add_handler(CallbackQueryHandler(sabloncall, pattern="^(sablon)$"))
     """
     #dispatcher.add_handler(conver)
     dispatcher.add_handler(altconver)
