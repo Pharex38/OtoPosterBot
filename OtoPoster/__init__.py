@@ -63,7 +63,7 @@ ignorejob = ["yedekleme", "gunluk", "resetleme", "ozelposter", "anaposter", "ana
 
 
 SEND_MEDIA_TYPES = {"document": bot.send_document, "photo": bot.send_photo, "video": bot.send_video, "animation": bot.send_animation}
-ALTMENU, APIDEGISTIR, KANALKAYDET = range(3)
+ALTMENU, APIDEGISTIR, KANALKAYDET, SABLONA= range(4)
 OZELKAYNAK = range(1)
 OZELBOTLOG = range(1)
 ALTAPI = range(1)

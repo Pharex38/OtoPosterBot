@@ -45,12 +45,16 @@ def main() -> None:
     upjob.run_repeating(opostsiralandirici, interval=30, first=30, name="anapostersiralayici")
 
     conv_handler = ConversationHandler(
-        entry_points=[MessageHandler(Filters.update.message & ~Filters.command & Filters.chat_type.private, menu), CommandHandler('start', start)],
+        entry_points=[
+        MessageHandler(Filters.update.message & ~Filters.command & Filters.chat_type.private, menu), 
+        CommandHandler('start', start, Filters.chat_type.private),
+        CallbackQueryHandler(sabloncall, pattern="^(sablon)$")
+        ],
         states={ 
             ALTMENU: [MessageHandler(~Filters.command & Filters.update.message, kayitapi)], 
             APIDEGISTIR: [MessageHandler(~Filters.command & Filters.update.message, apikayit)],
             KANALKAYDET: [MessageHandler(~Filters.command & Filters.update.message, kanalkayit)],
-            SABLON: [CallbackQueryHandler(sabloncall, pattern="^(sablon)$"), MessageHandler(~Filters.command & Filters.update.message, sabloniki)],
+            SABLONA: [CallbackQueryHandler(sabloncall, pattern="^(sablon)$"), MessageHandler(~Filters.command & Filters.update.message, sabloniki)],
             PATPOST: [MessageHandler(~Filters.command & Filters.update.message, pat)]
             },
         fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$') & Filters.update.message, cancel), CommandHandler('start', start, filters=~Filters.update.edited_message)],
