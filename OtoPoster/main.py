@@ -56,12 +56,14 @@ def main() -> None:
         CallbackQueryHandler(callback_query, pattern="^pzamanla(.*)")
         ],
         states={ 
-            ALTMENU: [MessageHandler(~Filters.command & Filters.update.message, kayitapi),
+            KANALMENU: [MessageHandler(~Filters.command & Filters.update.message, kanalmenu)],
+            APIMENU: [MessageHandler(~Filters.command & Filters.update.message, apimenu),  
+            CallbackQueryHandler(altcall, pattern="^asite(.*)")],
+            POSTMENU: [MessageHandler(~Filters.command & Filters.update.message, postmenu),
             CallbackQueryHandler(sabloncall, pattern="^(sablon)$"),
             CallbackQueryHandler(ozelkaynakcall, pattern="^okayt(.*)"),
             CallbackQueryHandler(ozellogcall, pattern="^logokay(.*)"), 
-            CallbackQueryHandler(postzamancall, pattern="^(pzayarla)$"), 
-            CallbackQueryHandler(altcall, pattern="^asite(.*)"),
+            CallbackQueryHandler(postzamancall, pattern="^(pzayarla)$"),
             CallbackQueryHandler(callback_query, pattern="^pzamanla(.*)")], 
             APIDEGISTIR: [MessageHandler(~Filters.command & Filters.update.message, apikayit)],
             KANALKAYDET: [MessageHandler(~Filters.command & Filters.update.message, kanalkayit)],
