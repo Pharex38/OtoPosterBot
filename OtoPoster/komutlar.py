@@ -230,7 +230,7 @@ def cpostsil(update, context):
     data = db[str(hedef)].find({"mesih": mesid})
     psmg = bot.send_message(chat, "<code>Siliniyor...</code>")
     spcount = 0
-    for kpsd in KaynakCol.find_one({"_id": hedef})['kaynak']:
+    for kpsd in KaynakCol.find_one({"_id": int(hedef)})['kaynak']:
         try:
             kpsd = collection.find_one({"_id": kpsd})
             collection.update_one({"_id": kpsd['_id']}, {"$set": {"pcount": kpsd['pcount']-1}})
