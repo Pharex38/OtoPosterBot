@@ -112,6 +112,16 @@ def callback_query(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
     mesajid = call.callback_query.message.message_id
+    """ SFS Modu """
+    if call.callback_query.data.startswith("sfs"):
+        sfsno = call.callback_query.data.split("-")[-1]
+        if sfsno in collection.find_one({"_id": user})['eski']
+            collection.update_one({"_id": user}, {"$pull": {"eski": sfsno}})
+            call.callback_query.answer("Kanalınız için SFS modu kapatıldı.")
+        else:
+            collection.update_one({"_id": user}, {"$push": {"eski": sfsno}})
+            call.callback_query.answer("Kanalınız SFS moduna alındı.")
+        call.callback_query.edit_message_reply_markup(sfsmark(user))
     """ Eklenti """
     if call.callback_query.data == "pzkaldır":
         collection.update_one({"_id": user}, {"$set": {"vakit": 0}})

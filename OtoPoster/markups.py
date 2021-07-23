@@ -29,14 +29,24 @@ def sfsmark(user):
     sfs_dat = collection.find_one({"_id": user})
     sfsbutno = 0
     sfskeyb = []
+    sfssatir = []
     for sfskan in sfs_dat['kanal']:
         try:
+            sfslink = bot.get_chat(sfskan).invite_link
             sfsname = bot.get_chat(sfskan).title
         except:
             pass
         else:
-            sfskeyb.append([InlineKeyboardButton(sfsname, callback_data="sfs-{}".format(sfsbutno))])
+            sfssatir.append(InlineKeyboardButton(sfsname, url=sfslink))
+        if butonno in sfs_dat['eski']:
+            sfssatir.append(InlineKeyboardButton("🟢", callback_data="sfs-{}".format(butonno)))
+        else:
+            sfssatir.append(InlineKeyboardButton("▶️", callback_data="sfs-{}".format(butonno)))
         sfsbutno += 1
+        if len(sfssatir) == 2:
+            sfskeyb.append(sfssatir)
+            sfssatir = []
+
     return InlineKeyboardMarkup(sfskeyb)
 
 def dagme():

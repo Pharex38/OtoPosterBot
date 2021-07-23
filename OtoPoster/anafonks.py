@@ -85,17 +85,8 @@ def kanalmenu(update, context):
         bot.send_message(chat, """📝 <i>Lütfen kanalınızdan bir gönderi iletin.</i>""", reply_markup=imark())
         return KANALKAYDET
     if mesaj == "▶️ SFS Modu":
-        if "31" in kudat['kaynak']:
-            try:
-                collection.update_one({"_id": user}, {"$set": {"kaynak": []}})
-            except:
-                pass
-            bot.send_message(chat, "SFS modu durduruldu", reply_markup=kanalmenumark())
-            return
-        else:
-            collection.update_one({"_id": user}, {"$set": {"kaynak": ['31']}})
-            bot.send_message(chat, "Kanallarınız SFS moduna alındı. Siz modu kapatana kadar yeni post atılmayacak.", reply_markup=kanalmenumark())
-            return
+        bot.send_message(chat, "SFS modu için kanal seçin.", reply_markup=sfsmark(user))    
+        return
     if mesaj == "↩️ Ana Menü" or mesaj == "❌ İptal":
         bot.send_message(chat, "<b>Biliyor muydunuz? -></b> "+"<i>"+choice(tips)+"</i>")
         bot.send_message(chat, "Ana Menü.", reply_markup=dugme(user))
