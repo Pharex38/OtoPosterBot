@@ -38,7 +38,7 @@ def sfsmark(user):
             pass
         else:
             sfssatir.append(InlineKeyboardButton(sfsname, url=sfslink))
-        if butonno in sfs_dat['eski']:
+        if sfskan in sfs_dat['eski']:
             sfssatir.append(InlineKeyboardButton("🟢", callback_data="sfs-{}".format(butonno)))
         else:
             sfssatir.append(InlineKeyboardButton("▶️", callback_data="sfs-{}".format(butonno)))

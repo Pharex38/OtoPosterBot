@@ -55,13 +55,14 @@ def poster_job(context):
                 token = hesap['token']
             except:
                 continue
-            kaynak = hesap['kaynak']
             kanal = hesap['kanal']
-            if not "31" in kaynak and len(kanal) > 0:
+            eski = hesap['eski']
+            if len(kanal) != len(eski) and len(kanal) > 0:
                 sablon = hesap['sablon']
                 user = hesap['_id']
                 site = hesap["site"]
                 altapi = hesap['altapi']
+                kaynak = hesap['kaynak']
                 altsite = hesap['altsite']
                 sira = hesap['sira']
                 pcount = hesap['pcount']
@@ -200,6 +201,8 @@ def poster_job(context):
                     collection.update_one({"_id": user}, {"$set": {"time": dailycount}})
                     sleep(0.1)
                 for kan in kanal:
+                    if kan in eski:
+                        continue
                     sleep(0.1)
                     if not kan in chatdat['kanal']:
                         continue
