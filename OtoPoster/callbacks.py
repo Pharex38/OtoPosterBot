@@ -116,7 +116,7 @@ def callback_query(call, context):
     if call.callback_query.data.startswith("sfs"):
         sfsno = int(call.callback_query.data.split("-")[-1])
         pushedsfskan = collection.find_one({"_id": user})['kanal'][sfsno]
-        if pushedsfskan in collection.find_one({"_id": user})['eski']
+        if pushedsfskan in collection.find_one({"_id": user})['eski']:
             collection.update_one({"_id": user}, {"$pull": {"eski": pushedsfskan}})
             call.callback_query.answer("Kanalınız için SFS modu kapatıldı.")
         else:
