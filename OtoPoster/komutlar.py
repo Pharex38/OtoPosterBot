@@ -237,10 +237,10 @@ def cpostsil(update, context):
     if hedef == None or mesid == None:
         return
     try:
-        data = dict(db[str(chat)].find_one({"_id": mesid}))
+        data = dict(db[str(hedef)].find_one({"_id": mesid}))
         data['pids']
     except:
-        data = db[str(chat)].find({"mesih": mesid})
+        data = db[str(hedef)].find({"mesih": mesid})
     psmg = bot.send_message(chat, "<code>Siliniyor...</code>")
     spcount = 0
     for kpsd in KaynakCol.find_one({"_id": int(hedef)})['kaynak']:
