@@ -34,7 +34,8 @@ def sfsmark(user):
         try:
             sfslink = bot.get_chat(sfskan).invite_link
             sfsname = bot.get_chat(sfskan).title
-        except:
+        except Exception as e:
+            logger.error(e)
             pass
         else:
             sfssatir.append(InlineKeyboardButton(sfsname, url=sfslink))
