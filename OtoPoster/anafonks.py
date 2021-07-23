@@ -418,7 +418,7 @@ def apikayit(update, context):
     if token.startswith('http') or "url=trlink" in token:
         mso = bot.send_message(chat, "❌ Geçersiz bir API verdiniz! Lütfen doğru bir API adresi verin.")
         return APIDEGISTIR
-    key = {"_id": user, "token": token, "kanal": [], "sablon": "1", "kaynak": ["1"], "site": "1", "altapi": "None", "altsite": "None", "sira": "0", "ozel": False, "pcount": 0, "time": 0, "vakit": 0}
+    key = {"_id": user, "token": token, "kanal": [], "sablon": "1", "kaynak": ["1"], "site": "1", "altapi": "None", "altsite": "None", "sira": "0", "ozel": False, "pcount": 0, "time": 0, "vakit": 0, "eski": []}
     if token in apikara:
             ment = "@"+str(update.message.from_user.username) if update.message.from_user.username else update.message.from_user.id
             blmsg = bot.send_message(blog, f"Yasaklı API tespit edildi -> {token}\nK.ADI: {ment}")

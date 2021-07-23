@@ -23,12 +23,24 @@ def apimenumark():
 
 def imark():
     imark = ReplyKeyboardMarkup(keyboard=[['❌ İptal']], one_time_keyboard=True, resize_keyboard=True, selective=True)
-
     return imark
+
+def sfsmark(user):
+    sfs_dat = collection.find_one({"_id": user})
+    sfsbutno = 0
+    sfskeyb = []
+    for sfskan in sfs_dat['kanal']:
+        try:
+            sfsname = bot.get_chat(sfskan).title
+        except:
+            pass
+        else:
+            sfskeyb.append([InlineKeyboardButton(sfsname, callback_data="sfs-{}".format(sfsbutno))])
+        sfsbutno += 1
+    return InlineKeyboardMarkup(sfskeyb)
 
 def dagme():
     dagme = ReplyKeyboardMarkup(keyboard=[['📝 Kaydet']], row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
-
     return dagme
 
 def sitemarkup():
@@ -38,7 +50,6 @@ def sitemarkup():
 
 def altsitemarkup():
     asmark = InlineKeyboardMarkup([[InlineKeyboardButton("TRLink", callback_data="asite-1")], [InlineKeyboardButton("PND.TL", callback_data="asite-2")], [InlineKeyboardButton("Exe.io", callback_data="asite-3")], [InlineKeyboardButton("Ouo.io", callback_data="asite-4")], [InlineKeyboardButton("Pubiza", callback_data="asite-5")], [InlineKeyboardButton("Gir.ist", callback_data="asite-6")], [InlineKeyboardButton("❌ İptal ❌", callback_data="iptal")]])
-
     return asmark
 
 def altmarkup(user):
