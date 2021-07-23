@@ -29,6 +29,7 @@ def poster_job(context):
         postdata = db[str(chat)]
         binb =  chatdat['kaynak']
         mesjid = update.channel_post.message_id
+        postdata.insert_one({"_id": mesjid, "pids": []})
         try:
             lmsg = bot.send_message(botlog, "<code>{} kaynağının postu paylaşılıyor...</code>".format(kynk.title))
         except RetryAfter as rtfr:
@@ -38,7 +39,7 @@ def poster_job(context):
             logger.error(e)
             bot.send_message(sahip, str(e))
         else:
-            postdata.insert_one({"chat": botlog, "pid": lmsg.message_id, "mesih": mesjid})
+            postdata.update_one({"_id": mesjid}, {"$push": {"pids": {"pid": lmsg.message_id, "chat": botlog}}})
         logger.warning("{} kaynağının postu paylaşılıyor...".format(kynk.title))
         """  Açıklama tespit  """
         ason = mesaj.find("\n")
@@ -269,7 +270,7 @@ def poster_job(context):
                         else:
                             count = count + 1
                             if vakitler == 0:
-                                postdata.insert_one({"pid": post.message_id, "chat": kan, "mesih": mesjid})
+                                postdata.update_one({"_id": mesjid}, {"$push": {"pids": {"pid": post.message_id, "chat": kan}}})
                             logger.info("Başarılı! "+str(kan))
                     except Exception as e:
                         if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
@@ -296,7 +297,7 @@ def poster_job(context):
                     else:
                         count = count + 1
                         if vakitler == 0:
-                            postdata.insert_one({"pid": post.message_id, "chat": kan, "mesih": mesjid})
+                            postdata.update_one({"_id": mesjid}, {"$push": {"pids": {"pid": post.message_id, "chat": kan}}})
                         logger.info("Başarılı! "+str(kan))
                         
         basari = "{} kaynağından, {} kanalda post paylaşıldı.".format(kynk.title, count)

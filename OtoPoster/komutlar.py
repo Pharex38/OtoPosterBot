@@ -201,7 +201,11 @@ def kpostsil(update, context):
         bot.send_message(chat, "Silmek istediğiniz postu yanıtlayın.")
         return
     psmg = bot.send_message(chat, "<code>Siliniyor...</code>")
-    data = db[str(chat)].find({"mesih": mesid})
+    try:
+        data = dict(db[str(chat)].find_one({"_id": mesid}))
+        data['pids']
+    except:
+        data = db[str(chat)].find({"mesih": mesid})
     spcount = 0
     for kpsd in KaynakCol.find_one({"_id": chat})['kaynak']:
         try:
@@ -209,6 +213,8 @@ def kpostsil(update, context):
             collection.update_one({"_id": kpsd['_id']}, {"$set": {"pcount": kpsd['pcount']-1}})
         except:
             pass
+    if type(data) == dict:
+        data = data['pids']
     for d in data:
         try:
             bot.delete_message(d['chat'], d['pid'])
@@ -216,7 +222,10 @@ def kpostsil(update, context):
             logger.error(e)
         else:
             spcount += 1
-    psmg.edit_text(f"{spcount} Post Silindi.")
+    if spcount == 0:
+        psmg.edit_text(f"Post silinimedi!")
+    else:
+        psmg.edit_text(f"{spcount} Post Silindi.")
 
 def cpostsil(update, context):
     chat = update.message.chat.id
@@ -227,7 +236,11 @@ def cpostsil(update, context):
     mesid = int(update.message.text.split("/")[-1]) if len(update.message.text.split()) > 1 else None
     if hedef == None or mesid == None:
         return
-    data = db[str(hedef)].find({"mesih": mesid})
+    try:
+        data = dict(db[str(chat)].find_one({"_id": mesid}))
+        data['pids']
+    except:
+        data = db[str(chat)].find({"mesih": mesid})
     psmg = bot.send_message(chat, "<code>Siliniyor...</code>")
     spcount = 0
     for kpsd in KaynakCol.find_one({"_id": int(hedef)})['kaynak']:
@@ -236,6 +249,8 @@ def cpostsil(update, context):
             collection.update_one({"_id": kpsd['_id']}, {"$set": {"pcount": kpsd['pcount']-1}})
         except:
             pass
+    if type(data) == dict:
+        data = data['pids']
     for d in data:
         try:
             bot.delete_message(d['chat'], d['pid'])
