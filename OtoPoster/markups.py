@@ -39,10 +39,10 @@ def sfsmark(user):
             pass
         else:
             sfssatir.append(InlineKeyboardButton(sfsname, url=sfslink))
-        if sfskan in sfs_dat['eski']:
-            sfssatir.append(InlineKeyboardButton("🟢", callback_data="sfs-{}".format(sfsbutno)))
-        else:
-            sfssatir.append(InlineKeyboardButton("▶️", callback_data="sfs-{}".format(sfsbutno)))
+            if sfskan in sfs_dat['eski']:
+                sfssatir.append(InlineKeyboardButton("🟢", callback_data="sfs-{}".format(sfsbutno)))
+            else:
+                sfssatir.append(InlineKeyboardButton("▶️", callback_data="sfs-{}".format(sfsbutno)))
             sfskeyb.append(sfssatir)
             sfssatir = []
         sfsbutno += 1
