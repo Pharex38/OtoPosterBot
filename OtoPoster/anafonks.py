@@ -561,7 +561,7 @@ def pat(update, context):
     kplink = mesaj[psol:psag].strip()
     if kplink.startswith("https://ay") or kplink.startswith("https://pgg") or kplink.startswith("https://pnd") or kplink.startswith("https://ouo") or kplink.startswith("https://exe") or kplink.startswith("https://lnk"):
         bot.send_message(chat, "Oops sanırım zaten kısaltılmış bir linki kısaltmaya çalışıyorsun. Üzgünüm bu bot linkleri kendisi geçemez.", reply_markup=imark())
-        return PATPOST
+        return 
     if mesaj.find("\n", psol) == -1:
         kplink = mesaj[psol:].strip()
     pathesap = collection.find_one({"_id": user})

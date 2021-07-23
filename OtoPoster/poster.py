@@ -23,7 +23,7 @@ def poster_job(context):
         mesajb = mesaj[sol:sag].strip()
         if mesaj.find("\n", sol) == -1:
             mesajb = mesaj[sol:].strip()
-        if mesajb.startswith("https://t.me/"):
+        if mesajb.startswith("https://ay") or mesajb.startswith("https://pgg") or mesajb.startswith("https://pnd") or mesajb.startswith("https://ouo") or mesajb.startswith("https://exe") or mesajb.startswith("https://lnk") or mesajb.startswith("https://t.me/"):
             return
         """  Veri Tabanı  """
         postdata = db[str(chat)]
