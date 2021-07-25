@@ -45,7 +45,7 @@ def poster_job(context):
         ason = mesaj.find("\n")
         aciklama = mesaj[:ason].strip()
         """ Dosya tespit """
-        medya = update.channel_post.photo[0].file_id if update.channel_post.photo else update.channel_post.effective_attachment.file_id
+        medya = update.channel_post.photo[-1].file_id if update.channel_post.photo else update.channel_post.effective_attachment.file_id
         for hesap_id in binb:
             hesap = collection.find_one({"_id": hesap_id})
             if hesap == None:
