@@ -33,19 +33,23 @@ def sfsmark(user):
     for sfskan in sfs_dat['kanal']:
         try:
             sfslink = bot.get_chat(sfskan).invite_link
-            sfsname = bot.get_chat(sfskan).title
-        except Exception as e:
-            logger.error(e)
+        except:
             pass
         else:
-            sfssatir.append(InlineKeyboardButton(sfsname, url=sfslink))
-            if sfskan in sfs_dat['eski']:
-                sfssatir.append(InlineKeyboardButton("🟢", callback_data="sfs-{}".format(sfsbutno)))
+            try:
+                sfsname = bot.get_chat(sfskan).title
+            except Exception as e:
+                logger.error(e)
+                pass
             else:
-                sfssatir.append(InlineKeyboardButton("▶️", callback_data="sfs-{}".format(sfsbutno)))
-            sfskeyb.append(sfssatir)
-            sfssatir = []
-        sfsbutno += 1
+                sfssatir.append(InlineKeyboardButton(sfsname, url=sfslink))
+                if sfskan in sfs_dat['eski']:
+                    sfssatir.append(InlineKeyboardButton("🟢", callback_data="sfs-{}".format(sfsbutno)))
+                else:
+                    sfssatir.append(InlineKeyboardButton("▶️", callback_data="sfs-{}".format(sfsbutno)))
+                sfskeyb.append(sfssatir)
+                sfssatir = []
+            sfsbutno += 1
 
     return InlineKeyboardMarkup(sfskeyb)
 
