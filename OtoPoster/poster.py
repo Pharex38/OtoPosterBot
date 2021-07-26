@@ -148,16 +148,15 @@ def poster_job(context):
                 except:
                     pass
                 else:
-                    if json['message'] == "Invalid URL":
-                        logger.error(f"{update.channel_post.chat.title} son postu hatalı olduğu için iptal edildi!")
-                        try:
-                            bot.send_message(sahip, f"{update.channel_post.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{update.channel_post.link}")
-                            bot.send_message(chatdat['sahip'], f"{update.channel_post.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{update.channel_post.link}")
-                        except RetryAfter as rtfr:
-                            sleep(rtfr.retry_after+1)
+                    logger.error(f"{update.channel_post.chat.title} son postu hatalı olduğu için iptal edildi!")
+                    try:
+                        bot.send_message(sahip, f"{update.channel_post.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{json['message']}\n\n{update.channel_post.link}")
+                        bot.send_message(chatdat['sahip'], f"{update.channel_post.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{json['message']}\n\n{update.channel_post.link}")
+                    except RetryAfter as rtfr:
+                        sleep(rtfr.retry_after+1)
 
-                        context.job_queue.run_once(deljob, when=2, name="yedekleme", context=update.channel_post.link)
-                        break
+                    context.job_queue.run_once(deljob, when=2, name="yedekleme", context=update.channel_post.link)
+                    break
                 if sablon == "1":
                     sablon = f"🔥{aciklama}\n\n🔱 TIKLA 👉 {link}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
                 elif sablon == "2" or sablon == "3":
@@ -232,26 +231,10 @@ def poster_job(context):
                         kan = eklenti
                     try:
                         update.effective_message.copy(kan, caption=sablon)
-                        """
-                        if update.channel_post.photo:
-                            post = bot.send_photo(kan, medya, caption=sablon)
-                        if update.channel_post.video:
-                            post = bot.send_video(kan, medya, caption=sablon)
-                        if update.channel_post.animation:
-                            post = bot.send_animation(kan, medya, caption=sablon)
-                        """
                     except RetryAfter as rtfr:
                         sleep(rtfr.retry_after+1)
                         try:
                             update.effective_message.copy(kan, caption=sablon)
-                            """
-                            if update.channel_post.photo:
-                                post = bot.send_photo(kan, medya, caption=sablon)
-                            if update.channel_post.video:
-                                post = bot.send_video(kan, medya, caption=sablon)
-                            if update.channel_post.animation:
-                                post = bot.send_animation(kan, medya, caption=sablon)
-                            """
                         except Exception as e:
                             if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
                                 try:
@@ -499,26 +482,10 @@ def ozel_poster_job(context):
                         okan = eklenti
                     try:
                         oupdate.effective_message.copy(okan, caption=osablon)
-                        """
-                        if oupdate.channel_post.photo:
-                            opost = bot.send_photo(okan, omedya, caption=osablon)
-                        if oupdate.channel_post.video:
-                            opost = bot.send_video(okan, omedya, caption=osablon)
-                        if oupdate.channel_post.animation:
-                            opost = bot.send_animation(okan, omedya, caption=osablon)
-                        """
                     except RetryAfter as ortfr:
                         sleep(orftr.retry_after+1)
                         try:
                             oupdate.effective_message.copy(okan, caption=osablon)
-                            """
-                            if oupdate.channel_post.photo:
-                                opost = bot.send_photo(okan, omedya, caption=osablon)
-                            if oupdate.channel_post.video:
-                                opost = bot.send_video(okan, omedya, caption=osablon)
-                            if oupdate.channel_post.animation:
-                                opost = bot.send_animation(okan, omedya, caption=osablon)
-                            """
                         except Exception as e:
                             if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
                                 try:
