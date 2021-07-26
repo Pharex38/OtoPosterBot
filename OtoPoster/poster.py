@@ -146,15 +146,16 @@ def poster_job(context):
                 except:
                     pass
                 else:
-                    logger.error(f"{update.channel_post.chat.title} son postu hatalı olduğu için iptal edildi!")
-                    try:
-                        bot.send_message(sahip, f"{update.channel_post.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{json['message']}\n\n{update.channel_post.link}")
-                        bot.send_message(chatdat['sahip'], f"{update.channel_post.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{json['message']}\n\n{update.channel_post.link}")
-                    except RetryAfter as rtfr:
-                        sleep(rtfr.retry_after+1)
+                    if json['message'] == "Invalid URL":
+                        logger.error(f"{update.channel_post.chat.title} son postu hatalı olduğu için iptal edildi!")
+                        try:
+                            bot.send_message(sahip, f"{update.channel_post.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{json['message']}\n\n{update.channel_post.link}")
+                            bot.send_message(chatdat['sahip'], f"{update.channel_post.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{json['message']}\n\n{update.channel_post.link}")
+                        except RetryAfter as rtfr:
+                            sleep(rtfr.retry_after+1)
 
-                    context.job_queue.run_once(deljob, when=2, name="yedekleme", context=update.channel_post.link)
-                    break
+                        context.job_queue.run_once(deljob, when=2, name="yedekleme", context=update.channel_post.link)
+                        break
                 if sablon == "1":
                     sablon = f"🔥{aciklama}\n\n🔱 TIKLA 👉 {link}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
                 elif sablon == "2" or sablon == "3":
