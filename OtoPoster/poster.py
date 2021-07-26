@@ -231,7 +231,7 @@ def poster_job(context):
                     if vakitler != 0:
                         kan = eklenti
                     try:
-                        update.effective_message.copy(caption=sablon)
+                        update.effective_message.copy(kan, caption=sablon)
                         """
                         if update.channel_post.photo:
                             post = bot.send_photo(kan, medya, caption=sablon)
@@ -243,7 +243,7 @@ def poster_job(context):
                     except RetryAfter as rtfr:
                         sleep(rtfr.retry_after+1)
                         try:
-                            update.effective_message.copy(caption=sablon)
+                            update.effective_message.copy(kan, caption=sablon)
                             """
                             if update.channel_post.photo:
                                 post = bot.send_photo(kan, medya, caption=sablon)
@@ -498,21 +498,27 @@ def ozel_poster_job(context):
                                 bot.send_message(eklenti, str(okan) + "+" + str(odailycount) + "+" + str(ouser))
                         okan = eklenti
                     try:
+                        update.effective_message.copy(okan, caption=osablon)
+                        """
                         if oupdate.channel_post.photo:
                             opost = bot.send_photo(okan, omedya, caption=osablon)
                         if oupdate.channel_post.video:
                             opost = bot.send_video(okan, omedya, caption=osablon)
                         if oupdate.channel_post.animation:
                             opost = bot.send_animation(okan, omedya, caption=osablon)
+                        """
                     except RetryAfter as ortfr:
                         sleep(orftr.retry_after+1)
                         try:
+                            update.effective_message.copy(okan, caption=osablon)
+                            """
                             if oupdate.channel_post.photo:
                                 opost = bot.send_photo(okan, omedya, caption=osablon)
                             if oupdate.channel_post.video:
                                 opost = bot.send_video(okan, omedya, caption=osablon)
                             if oupdate.channel_post.animation:
                                 opost = bot.send_animation(okan, omedya, caption=osablon)
+                            """
                         except Exception as e:
                             if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
                                 try:
