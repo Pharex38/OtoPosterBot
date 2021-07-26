@@ -201,7 +201,7 @@ def poster_job(context):
                     sleep(0.1)
                     if not kan in chatdat['kanal'] or kan in eski:
                         continue
-                    post = 0
+                    post = update.channel_post
                     try:
                         yetkililer = [xy.user.id for xy in bot.get_chat_administrators(kan)]
                     except:
@@ -258,7 +258,7 @@ def poster_job(context):
                         else:
                             count = count + 1
                             if vakitler == 0:
-                                postdata.update_one({"_id": mesjid}, {"$push": {"pids": {"pid": post, "chat": kan}}})
+                                postdata.update_one({"_id": mesjid}, {"$push": {"pids": {"pid": post.message_id, "chat": kan}}})
                             logger.info("Başarılı! "+str(kan))
                     except Exception as e:
                         if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
@@ -285,7 +285,7 @@ def poster_job(context):
                     else:
                         count = count + 1
                         if vakitler == 0:
-                            postdata.update_one({"_id": mesjid}, {"$push": {"pids": {"pid": post, "chat": kan}}})
+                            postdata.update_one({"_id": mesjid}, {"$push": {"pids": {"pid": post.message_id, "chat": kan}}})
                         logger.info("Başarılı! "+str(kan))
                         
         basari = "{} kaynağından, {} kanalda post paylaşıldı.".format(kynk.title, count)
