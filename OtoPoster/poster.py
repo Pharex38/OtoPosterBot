@@ -201,10 +201,8 @@ def poster_job(context):
                     collection.update_one({"_id": user}, {"$set": {"time": dailycount}})
                     sleep(0.1)
                 for kan in kanal:
-                    if kan in eski:
-                        continue
                     sleep(0.1)
-                    if not kan in chatdat['kanal']:
+                    if not kan in chatdat['kanal'] or kan in eski:
                         continue
                     post = update.channel_post
                     try:
@@ -233,21 +231,27 @@ def poster_job(context):
                     if vakitler != 0:
                         kan = eklenti
                     try:
+                        update.effective_message.copy(caption=sablon)
+                        """
                         if update.channel_post.photo:
                             post = bot.send_photo(kan, medya, caption=sablon)
                         if update.channel_post.video:
                             post = bot.send_video(kan, medya, caption=sablon)
                         if update.channel_post.animation:
                             post = bot.send_animation(kan, medya, caption=sablon)
+                        """
                     except RetryAfter as rtfr:
                         sleep(rtfr.retry_after+1)
                         try:
+                            update.effective_message.copy(caption=sablon)
+                            """
                             if update.channel_post.photo:
                                 post = bot.send_photo(kan, medya, caption=sablon)
                             if update.channel_post.video:
                                 post = bot.send_video(kan, medya, caption=sablon)
                             if update.channel_post.animation:
                                 post = bot.send_animation(kan, medya, caption=sablon)
+                            """
                         except Exception as e:
                             if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
                                 try:
@@ -273,7 +277,7 @@ def poster_job(context):
                         else:
                             count = count + 1
                             if vakitler == 0:
-                                postdata.update_one({"_id": mesjid}, {"$push": {"pids": {"pid": post.message_id, "chat": kan}}})
+                                postdata.update_one({"_id": mesjid}, {"$push": {"pids": {"pid": post, "chat": kan}}})
                             logger.info("Başarılı! "+str(kan))
                     except Exception as e:
                         if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
@@ -300,7 +304,7 @@ def poster_job(context):
                     else:
                         count = count + 1
                         if vakitler == 0:
-                            postdata.update_one({"_id": mesjid}, {"$push": {"pids": {"pid": post.message_id, "chat": kan}}})
+                            postdata.update_one({"_id": mesjid}, {"$push": {"pids": {"pid": post, "chat": kan}}})
                         logger.info("Başarılı! "+str(kan))
                         
         basari = "{} kaynağından, {} kanalda post paylaşıldı.".format(kynk.title, count)
