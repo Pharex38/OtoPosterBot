@@ -231,7 +231,7 @@ def poster_job(context):
                     if vakitler != 0:
                         kan = eklenti
                     try:
-                        update.effective_message.copy(kan, caption=sablon)
+                        oupdate.effective_message.copy(kan, caption=sablon)
                         """
                         if update.channel_post.photo:
                             post = bot.send_photo(kan, medya, caption=sablon)
@@ -243,7 +243,7 @@ def poster_job(context):
                     except RetryAfter as rtfr:
                         sleep(rtfr.retry_after+1)
                         try:
-                            update.effective_message.copy(kan, caption=sablon)
+                            oupdate.effective_message.copy(kan, caption=sablon)
                             """
                             if update.channel_post.photo:
                                 post = bot.send_photo(kan, medya, caption=sablon)
