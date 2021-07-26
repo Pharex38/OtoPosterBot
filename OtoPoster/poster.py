@@ -44,8 +44,6 @@ def poster_job(context):
         """  Açıklama tespit  """
         ason = mesaj.find("\n")
         aciklama = mesaj[:ason].strip()
-        """ Dosya tespit """
-        medya = update.channel_post.photo[-1].file_id if update.channel_post.photo else update.channel_post.effective_attachment.file_id
         for hesap_id in binb:
             hesap = collection.find_one({"_id": hesap_id})
             if hesap == None:
@@ -203,7 +201,7 @@ def poster_job(context):
                     sleep(0.1)
                     if not kan in chatdat['kanal'] or kan in eski:
                         continue
-                    post = update.channel_post
+                    post = 0
                     try:
                         yetkililer = [xy.user.id for xy in bot.get_chat_administrators(kan)]
                     except:
@@ -230,11 +228,11 @@ def poster_job(context):
                     if vakitler != 0:
                         kan = eklenti
                     try:
-                        update.effective_message.copy(kan, caption=sablon)
+                        post = update.effective_message.copy(kan, caption=sablon)
                     except RetryAfter as rtfr:
                         sleep(rtfr.retry_after+1)
                         try:
-                            update.effective_message.copy(kan, caption=sablon)
+                            post = update.effective_message.copy(kan, caption=sablon)
                         except Exception as e:
                             if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
                                 try:
@@ -324,8 +322,6 @@ def ozel_poster_job(context):
         """  Açıklama tespit  """
         oason = omesaj.find("\n")
         oaciklama = omesaj[:oason].strip()
-        """ Dosya tespit """
-        omedya = oupdate.channel_post.photo[0].file_id if oupdate.channel_post.photo else oupdate.channel_post.effective_attachment.file_id
         for ozelkanal in okaynak['kanal']:
             ohesap = collection.find_one({"_id": ozelkanal})
             try:    
