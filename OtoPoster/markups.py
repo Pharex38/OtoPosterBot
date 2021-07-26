@@ -32,12 +32,12 @@ def sfsmark(user):
     sfssatir = []
     for sfskan in sfs_dat['kanal']:
         try:
-            sfslink = bot.get_chat(sfskan).invite_link
+            sfsname = bot.get_chat(sfskan).title
         except:
             pass
         else:
             try:
-                sfsname = bot.get_chat(sfskan).title
+                sfslink = bot.get_chat(sfskan).invite_link
             except Exception as e:
                 logger.error(e)
                 pass
