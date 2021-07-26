@@ -20,13 +20,20 @@ def deljob(context):
     delcont = context.job.context
     hedef = "-100"+delcont.split("/")[-2]
     mesid = int(delcont.split("/")[-1])
-    data = db[str(hedef)].find({"mesih": mesid})
+    try:
+        data = db[str(hedef)].find_one({"_id": mesid})
+        data['pids']
+    except:
+        data = list(db[str(hedef)].find({"mesih": mesid}))
     spcount = 0
-    for kpsd in collection.find({}):
+    for kpsd in KaynakCol.find_one({"_id": int(hedef)})['kaynak']:
         try:
+            kpsd = collection.find_one({"_id": kpsd})
             collection.update_one({"_id": kpsd['_id']}, {"$set": {"pcount": kpsd['pcount']-1}})
         except:
             pass
+    if type(data) != list:
+        data = data['pids']
     for d in data:
         try:
             bot.delete_message(d['chat'], d['pid'])
