@@ -231,7 +231,7 @@ def poster_job(context):
                     if vakitler != 0:
                         kan = eklenti
                     try:
-                        oupdate.effective_message.copy(kan, caption=sablon)
+                        update.effective_message.copy(kan, caption=sablon)
                         """
                         if update.channel_post.photo:
                             post = bot.send_photo(kan, medya, caption=sablon)
@@ -243,7 +243,7 @@ def poster_job(context):
                     except RetryAfter as rtfr:
                         sleep(rtfr.retry_after+1)
                         try:
-                            oupdate.effective_message.copy(kan, caption=sablon)
+                            update.effective_message.copy(kan, caption=sablon)
                             """
                             if update.channel_post.photo:
                                 post = bot.send_photo(kan, medya, caption=sablon)
@@ -498,7 +498,7 @@ def ozel_poster_job(context):
                                 bot.send_message(eklenti, str(okan) + "+" + str(odailycount) + "+" + str(ouser))
                         okan = eklenti
                     try:
-                        update.effective_message.copy(okan, caption=osablon)
+                        oupdate.effective_message.copy(okan, caption=osablon)
                         """
                         if oupdate.channel_post.photo:
                             opost = bot.send_photo(okan, omedya, caption=osablon)
@@ -510,7 +510,7 @@ def ozel_poster_job(context):
                     except RetryAfter as ortfr:
                         sleep(orftr.retry_after+1)
                         try:
-                            update.effective_message.copy(okan, caption=osablon)
+                            oupdate.effective_message.copy(okan, caption=osablon)
                             """
                             if oupdate.channel_post.photo:
                                 opost = bot.send_photo(okan, omedya, caption=osablon)
