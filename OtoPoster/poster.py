@@ -137,6 +137,8 @@ def poster_job(context):
                             bot.send_message(user, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
                         except:
                             pass
+                    except:
+                        pass
 
                     logger.error(e)
                     logger.warning(json)
