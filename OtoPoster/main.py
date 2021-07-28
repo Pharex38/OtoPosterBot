@@ -47,6 +47,18 @@ def main() -> None:
     dispatcher.add_handler(MessageHandler(Filters.chat(eklenti), eklentiiletisim))
     dispatcher.add_handler(MessageHandler(Filters.chat(-1001572618573), posterkomut2)) 
     dispatcher.add_handler(MessageHandler(Filters.update.edited_channel_post, poster_edit))
+    """ Admin Komutları """
+    dispatcher.add_handler(CommandHandler('bul', bul, Filters.update.message & Filters.chat(sahip)))
+    dispatcher.add_handler(CommandHandler('duyuru', duy, Filters.update.message & Filters.chat(sahip)))
+    dispatcher.add_handler(CommandHandler('dsil', dsil, Filters.update.message & Filters.chat(sahip)))
+    dispatcher.add_handler(CommandHandler('stats', stats, Filters.update.message & Filters.chat(sahip)))
+    dispatcher.add_handler(CommandHandler('vip', viple, Filters.chat(sahip)))
+    dispatcher.add_handler(CommandHandler('apiban', apibanla, Filters.chat(sahip)))
+    dispatcher.add_handler(CommandHandler('joblist', joblist, Filters.chat(sahip)))
+    dispatcher.add_handler(CommandHandler('unban', unbanla, Filters.chat(sahip)))
+    dispatcher.add_handler(CommandHandler('para', parak, Filters.chat(sahip)))
+    dispatcher.add_handler(CommandHandler('poster', posterkomut, Filters.chat(sahip)))
+    dispatcher.add_handler(CommandHandler('ban', banla, Filters.chat(sahip)))
     """ Menü """
     conv_handler = ConversationHandler(
         entry_points=[
@@ -94,18 +106,6 @@ def main() -> None:
     dispatcher.add_handler(MessageHandler(Filters.regex("^/postsil(.*)") & Filters.update.channel_post, kpostsil))
     dispatcher.add_handler(CommandHandler('iptal', IptalPoster))
     dispatcher.add_handler(CommandHandler('zaman', zaman, Filters.update.message & Filters.chat_type.private))
-    """ Admin Komutları """
-    dispatcher.add_handler(CommandHandler('bul', bul, Filters.update.message & Filters.chat(sahip)))
-    dispatcher.add_handler(CommandHandler('duyuru', duy, Filters.update.message & Filters.chat(sahip)))
-    dispatcher.add_handler(CommandHandler('dsil', dsil, Filters.update.message & Filters.chat(sahip)))
-    dispatcher.add_handler(CommandHandler('stats', stats, Filters.update.message & Filters.chat(sahip)))
-    dispatcher.add_handler(CommandHandler('vip', viple, Filters.chat(sahip)))
-    dispatcher.add_handler(CommandHandler('apiban', apibanla, Filters.chat(sahip)))
-    dispatcher.add_handler(CommandHandler('joblist', joblist, Filters.chat(sahip)))
-    dispatcher.add_handler(CommandHandler('unban', unbanla, Filters.chat(sahip)))
-    dispatcher.add_handler(CommandHandler('para', parak, Filters.chat(sahip)))
-    dispatcher.add_handler(CommandHandler('poster', posterkomut, Filters.chat(sahip)))
-    dispatcher.add_handler(CommandHandler('ban', banla, Filters.chat(sahip)))
     """ Poster """
     dispatcher.add_handler(MessageHandler(Filters.photo & Filters.update.channel_post | Filters.video & Filters.update.channel_post | Filters.animation & Filters.update.channel_post, poster, run_async=True))
     """ Callbacks """
