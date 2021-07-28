@@ -567,6 +567,7 @@ def poster_edit(update, context):
         eski_l = mesdata['link']
     except:
         return
+    edcount = 0
     if eski_l != edited_l:
         logger.warning(f"{update.effective_chat.title} kaynağının postu düzenleniyor...")
         for edil in mesdata['pids']:
