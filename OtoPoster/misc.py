@@ -124,7 +124,7 @@ def eklentiiletisim(update, context):
         return
 
 def comment(update, context):
-    if update.edited_message:
+    if update.edited_message or update.effective_message.text == None:
         return
     if update.message.text.find("kanalda post paylaşıldı.") == -1 and update.message.text.find("paylaşılıyor") == -1:
         return

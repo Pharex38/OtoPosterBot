@@ -202,16 +202,17 @@ def durdur(update, context):
         if user in kkkkk['kaynak']:
             KaynakCol.update_one({"_id": kkkkk['_id']}, {"$pull": {"kaynak": user}})
     collection.delete_one({"_id": kimi})
-    bot.send_message(chat, "<b>Bilgileriniz Silindi!</b>", reply_markup=dagme())
+    bot.send_message(chat, "<b>Bilgileriniz Silindi!</b>", reply_markup=dugme(user))
 
 def kpostsil(update, context):
-    chat = update.channel_post.chat.id
+    chat = update.effective_chat.id
     if KaynakCol.find_one({"_id": chat}) == None:
         return
-    mesid = update.channel_post.reply_to_message.message_id if update.channel_post.reply_to_message else None
+    mesid = update.effective_message.reply_to_message.message_id if update.effective_message.reply_to_message else None
     if mesid == None:
         bot.send_message(chat, "Silmek istediğiniz postu yanıtlayın.")
         return
+    collection.update_one({"_id": 0}, {"$push": {"iptal": str(chat)}})
     psmg = bot.send_message(chat, "<code>Siliniyor...</code>")
     try:
         data = dict(db[str(chat)].find_one({"_id": mesid}))
@@ -328,14 +329,14 @@ def posterkomut2(update, context):
     pochat = context.bot_data['posterchat']
     # Ana Kaynaklar
     if KaynakCol.find_one({"_id": pochat}) != None:
-        logger.warning(f"{update.channel_post.chat.title} Postu sıraya eklendi.")
+        logger.warning(f"{update.effective_message.chat.title} Postu sıraya eklendi.")
         postdict = {"chatid": pochat, "update": update}
         while len(context.job_queue.get_jobs_by_name("anaposter")) > 1:
             bildir(len(context.job_queue.get_jobs_by_name("anaposter")))
         context.job_queue.run_once(poster_job, when=2, name="anaposter", context=postdict)
     # Özel Kaynaklar
     elif OzelCol.find_one({"okaynak": pochat}) != None:
-        logger.warning(f"[ÖZEL] {update.channel_post.chat.title} Postu sıraya eklendi.")
+        logger.warning(f"[ÖZEL] {update.effective_message.chat.title} Postu sıraya eklendi.")
         opostdict = {"chatid": pochat, "update": update}
         while len(context.job_queue.get_jobs_by_name("ozelposter")) > 1:
             sleep(1)
@@ -383,9 +384,9 @@ def dsil(m, context):
     bot.send_message(chat, "{} Duyuru Mesajı Silindi!".format(sd))
         
 def post(update, context):
-    chat = update.channel_post.chat.id
-    mid = update.channel_post.message_id
-    msj = update.channel_post.reply_text("Tamamdır!")
+    chat = update.effective_message.chat.id
+    mid = update.effective_message.message_id
+    msj = update.effective_message.reply_text("Tamamdır!")
     sleep(1.5)
     mids = msj.message_id
     try:
