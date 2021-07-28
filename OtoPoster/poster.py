@@ -554,7 +554,7 @@ def poster_edit(update, context):
         sleep(1)
         indt = context.job_queue.get_jobs_by_name("anaposter")
     emid = update.effective_message.message_id
-    edited_m = update.effective_message.text
+    edited_m = update.effective_message.caption
     bas = edited_m.find("http")
     son = edited_m.find("\n", bas)
     edited_l = edited_m[bas:son].strip()
