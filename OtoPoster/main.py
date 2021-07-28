@@ -4,10 +4,9 @@ from os import environ
 from time import sleep
 from pymongo import MongoClient
 import time, datetime
-import threading, pytz, os, asyncio, logging
+import threading, pytz, os, asyncio
 from ssl import CERT_NONE
 from random import choice
-import Colorer
 from telegram import *
 from telegram.error import *
 from telegram.ext import *
