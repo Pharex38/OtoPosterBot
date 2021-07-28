@@ -564,6 +564,7 @@ def poster_edit(update, context):
     except:
         return
     if eski_l != edited_l:
+        logger.warning(f"{update.effective_chat.title} kaynağının postu düzenleniyor...")
         for edil in mesdata['pids']:
             db[str(chat)].update_one({"_id": emid}, {"$set": {"pids": []}})
             edi_dat = collection.find_one({"_id": edil['user']})
@@ -665,8 +666,10 @@ def poster_edit(update, context):
                 db[str(chat)].update_one({"_id": emid}, {"$set": {"link": edited_l}})
                 db[str(chat)].update_one({"_id": emid}, {"$push": {"pids": {"chat": edil['chat'], "pid": edil["pid"], "link": link, "alink": alink, "user": edil["user"]}}})
                 edcount += 1
+        logger.warning(f"{update.effective_chat.title} kaynağının {edcount} postu düzenlendi")
         return
     if eski_a != edited_a:
+        logger.warning(f"{update.effective_chat.title} kaynağının postu düzenleniyor...")
         for edi in mesdata['pids']:
             newedim = collection.find_one({"_id": edi['user']})['sablon'].format(aciklama=edited_a, link=edi['link'], alink=edi['alink'])
             try:
@@ -677,6 +680,7 @@ def poster_edit(update, context):
             else:
                 db[str(chat)].update_one({"_id": emid}, {"$set": {"aciklama": edited_a}})
                 edcount += 1
+        logger.warning(f"{update.effective_chat.title} kaynağının {edcount} postu düzenlendi")
 
 
 
