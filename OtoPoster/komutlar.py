@@ -114,6 +114,18 @@ def stats(update, context):
           
     bot.edit_message_text(stat_text+ozel_text, chat, msg.message_id)
 
+def IptalPoster(update, context):
+    user = update.effective_user.id
+    try:
+        ipt = KaynakCol.find_one({"sahip": user})['_id']
+    except:
+        if user == sahip:
+            ipt = context.args[0]
+        else:
+            return
+    collection.update_one({"_id": 0}, {"$push": {"iptal": str(ipt)}})
+    update.effective_message.reply_text("Postunuz İptal Edildi!")
+
 def joblist(update, context):
      jobs = context.job_queue.jobs()
      context.job_queue.run_once(jobyedekleme, when=1, name="yedekleme")
