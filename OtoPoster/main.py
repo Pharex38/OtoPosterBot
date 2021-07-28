@@ -106,7 +106,7 @@ def main() -> None:
     dispatcher.add_handler(CommandHandler('poster', posterkomut, Filters.chat(sahip)))
     dispatcher.add_handler(CommandHandler('ban', banla, Filters.chat(sahip)))
     """ Poster """
-    dispatcher.add_handler(MessageHandler(Filters.photo & Filters.update.channel_post | Filters.video & Filters.update.channel_post | Filters.animation & Filters.update.channel_post, poster, run_async=False))
+    dispatcher.add_handler(MessageHandler(Filters.photo & Filters.update.channel_post | Filters.video & Filters.update.channel_post | Filters.animation & Filters.update.channel_post, poster, run_async=True))
     """ Callbacks """
     dispatcher.add_handler(CallbackQueryHandler(kaynakcall, pattern="^kaynak(.*)"))
     dispatcher.add_handler(CallbackQueryHandler(callback_query))
@@ -123,7 +123,7 @@ def main() -> None:
     """ Polling """
     updater.start_polling()
     updater.idle()
-    
+
     upjob.run_once(jobyedekleme, when=1, name="yedekleme")
 
 logger.info("Bot Çalışıyor...")

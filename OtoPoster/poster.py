@@ -582,7 +582,6 @@ def opostsiralandirici(context):
         context.job_queue.run_once(ozel_poster_job, when=2, name="ozelposter", context=opostes)
     opostsirasi = []
 
-
 def poster(update, context):
     global postsirasi, opostsirasi
     pochat = update.effective_message.chat.id
@@ -591,17 +590,10 @@ def poster(update, context):
         logger.warning(f"{update.effective_message.chat.title} Postu sıraya eklendi.")
         postdict = {"chatid": pochat, "update": update}
         ind = len(context.job_queue.get_jobs_by_name("anaposter"))
-        whn = 100 if 2 <= ind < 4 else 10
-        if 5 >= ind > 3:
-            whn = 200
-        if 7 >= ind > 5:
-            whn = 300
-        if 9 >= ind > 7:
-            whn = 400
-        if ind > 9:
-            whn = 500
-        context.job_queue.run_once(poster_job, when=whn, name="anaposter", context=postdict) 
-        #postsirasi.append(postdict)
+        while ind > 1:
+            ind = len(context.job_queue.get_jobs_by_name("anaposter"))
+            sleep(1)
+        context.job_queue.run_once(poster_job, when=1, name="anaposter", context=postdict) 
     # Özel Kaynaklar
     elif OzelCol.find_one({"okaynak": pochat}) != None:
         logger.warning(f"[ÖZEL] {update.effective_message.chat.title} Postu sıraya eklendi.")
