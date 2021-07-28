@@ -25,11 +25,14 @@ def poster_job(context):
             mesajb = mesaj[sol:].strip()
         if mesajb.startswith("https://ay") or mesajb.startswith("https://pgg") or mesajb.startswith("https://pnd") or mesajb.startswith("https://ouo") or mesajb.startswith("https://exe") or mesajb.startswith("https://lnk") or mesajb.startswith("https://t.me/"):
             return
+        """  Açıklama tespit  """
+        ason = mesaj.find("\n")
+        aciklama = mesaj[:ason].strip()
         """  Veri Tabanı  """
         postdata = db[str(chat)]
         binb =  chatdat['kaynak']
         mesjid = update.effective_message.message_id
-        postdata.insert_one({"_id": mesjid, "pids": []})
+        postdata.insert_one({"_id": mesjid, "pids": [], "aciklama": aciklama, "link": mesajb})
         try:
             lmsg = bot.send_message(botlog, "<code>{} kaynağının postu paylaşılıyor...</code>".format(kynk.title))
         except RetryAfter as rtfr:
@@ -41,9 +44,6 @@ def poster_job(context):
         else:
             postdata.update_one({"_id": mesjid}, {"$push": {"pids": {"pid": lmsg.message_id, "chat": botlog}}})
         logger.warning("{} kaynağının postu paylaşılıyor...".format(kynk.title))
-        """  Açıklama tespit  """
-        ason = mesaj.find("\n")
-        aciklama = mesaj[:ason].strip()
         for hesap_id in binb:
             if str(chat) in collection.find_one({"_id": 0})['iptal']:
                 collection.update_one({"_id": 0}, {"$pull": {"iptal": str(chat)}})
@@ -545,6 +545,30 @@ def ozel_poster_job(context):
                     pass
         logger.warning(obasari)
 
+def poster_edit(update, context):
+    chat = update.effective_chat.id
+    if KaynakCol.find_one({"_id": chat}) == None:
+        return
+    emid = update.effective_message.id
+    edited_m = update.effective_message.text
+    bas = edited_m.find("http")
+    son = edited_m.find("\n", bas)
+    edited_l = edited_m[bas:son].strip()
+    edite_a = edited_m[:edited_m.find("\n")]
+    if son == -1:
+        edited_l = edited_m[bas:].strip()
+    try:
+        mesdata = db[str(chat)].find_one({"_id": emid})
+        eski_a = mesdata['aciklama']
+        eski_l = mesdata['link']
+    except:
+        return
+    if eski_a != edited_m:
+
+        for edi in mesdata['pids']:
+            bot.edit_message_text(edited_m, edi['chat'], edi['pid'])
+
+
 def postsiralandirici(context):
     global postsirasi
     if len(postsirasi) == 0:
@@ -561,12 +585,6 @@ def postsiralandirici(context):
             whn = 400
         if ind > 10:
             whn = 500
-        """
-        while len(joblananpostlar) > 0:
-            joblananpostlar = context.job_queue.get_jobs_by_name("anaposter")
-            bildir(len(joblananpostlar))
-            sleep(60)
-        """
         context.job_queue.run_once(poster_job, when=whn, name="anaposter", context=postes) 
     postsirasi = []
 
