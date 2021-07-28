@@ -724,10 +724,10 @@ def poster(update, context):
         postdict = {"chatid": pochat, "update": update}
         ind = len(context.job_queue.get_jobs_by_name("anaposter"))
         bildir(str(ind))
-        while ind > 1:
+        while ind > 0:
             ind = len(context.job_queue.get_jobs_by_name("anaposter"))
             sleep(1)
-        context.job_queue.run_once(poster_job, when=1, name="anaposter", context=postdict) 
+        context.job_queue.run_once(poster_job, when=10, name="anaposter", context=postdict) 
     # Özel Kaynaklar
     elif OzelCol.find_one({"okaynak": pochat}) != None:
         logger.warning(f"[ÖZEL] {update.effective_message.chat.title} Postu sıraya eklendi.")
