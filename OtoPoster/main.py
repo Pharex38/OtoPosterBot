@@ -46,7 +46,7 @@ def main() -> None:
     dispatcher.add_handler(MessageHandler(Filters.chat(-1001584743136), comment))
     dispatcher.add_handler(MessageHandler(Filters.chat(eklenti), eklentiiletisim))
     dispatcher.add_handler(MessageHandler(Filters.chat(-1001572618573), posterkomut2)) 
-    dispatcher.add_handler(MessageHandler(filters.edited_channel_post, poster_edit))
+    dispatcher.add_handler(MessageHandler(Filters.edited_channel_post, poster_edit))
     """ Menü """
     conv_handler = ConversationHandler(
         entry_points=[
