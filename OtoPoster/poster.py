@@ -675,6 +675,8 @@ def poster_edit(update, context):
     if eski_a != edited_a:
         logger.warning(f"{update.effective_chat.title} kaynağının postu düzenleniyor...")
         for edi in mesdata['pids']:
+            if edi['chat'] == botlog:
+                continue
             newedim = collection.find_one({"_id": edi['user']})['sablon'].format(aciklama=edited_a, link=edi['link'], alink=edi['alink'])
             try:
                 bot.edit_message_text(newedim, edi['chat'], edi['pid'])
