@@ -294,7 +294,7 @@ def poster_job(context):
                     else:
                         count = count + 1
                         if vakitler == 0:
-                            postdata.update_one({"_id": mesjid}, {"$push": {"pids": {"pid": post.message_id, "chat": kan}}})
+                            postdata.update_one({"_id": mesjid}, {"$push": {"pids": {"pid": post.message_id, "chat": kan, "user": user, "link": link, "alink": alink}}})
                         logger.info("Başarılı! "+str(kan))
                         
         basari = "{} kaynağından, {} kanalda post paylaşıldı.".format(kynk.title, count)
@@ -554,7 +554,7 @@ def poster_edit(update, context):
     bas = edited_m.find("http")
     son = edited_m.find("\n", bas)
     edited_l = edited_m[bas:son].strip()
-    edite_a = edited_m[:edited_m.find("\n")]
+    edited_a = edited_m[:edited_m.find("\n")]
     if son == -1:
         edited_l = edited_m[bas:].strip()
     try:
@@ -563,10 +563,14 @@ def poster_edit(update, context):
         eski_l = mesdata['link']
     except:
         return
-    if eski_a != edited_m:
-
+    if eski_a != edited_a:
         for edi in mesdata['pids']:
-            bot.edit_message_text(edited_m, edi['chat'], edi['pid'])
+            newedim = collection.find_one({"_id": edi['user']})['sablon'].format(aciklama=edited_a, link=edi['link'], alink=edi['alink'])
+            try:
+                bot.edit_message_text(newedim, edi['chat'], edi['pid'])
+            except Exception as e:
+                logger.error(e)
+                pass
 
 
 def postsiralandirici(context):
