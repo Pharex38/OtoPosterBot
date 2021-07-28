@@ -47,9 +47,9 @@ def poster_job(context):
         for hesap_id in binb:
             if str(chat) in collection.find_one({"_id": 0})['iptal']:
                 collection.update_one({"_id": 0}, {"$pull": {"iptal": str(chat)}})
-                logger.warning("{} kaynağının postu iptal edildi.".format(chat.title))
+                logger.warning("{} kaynağının postu iptal edildi.".format(kynk.title))
                 context.job_queue.run_once(deljob, when=2, name="yedekleme", context=update.effective_message.link)
-                lmsg.edit_text("{} kaynağının postu iptal edildi. Post kanallardan siliniyor...".format(chat.title))
+                lmsg.edit_text("{} kaynağının postu iptal edildi. Post kanallardan siliniyor...".format(kynk.title))
                 return
             hesap = collection.find_one({"_id": hesap_id})
             if hesap == None:
