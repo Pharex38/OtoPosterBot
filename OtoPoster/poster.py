@@ -267,7 +267,7 @@ def poster_job(context):
                         else:
                             count = count + 1
                             if vakitler == 0:
-                                postdata.update_one({"_id": mesjid}, {"$push": {"pids": {"pid": post.message_id, "chat": kan}}})
+                                postdata.update_one({"_id": mesjid}, {"$push": {"pids": {"pid": post.message_id, "chat": kan, "user": user, "link": link, "alink": alink}}})
                             logger.info("Başarılı! "+str(kan))
                     except Exception as e:
                         if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
@@ -563,6 +563,109 @@ def poster_edit(update, context):
         eski_l = mesdata['link']
     except:
         return
+    if eski_l != edited_l:
+        for edil in mesdata['pids']:
+            db[str(chat)].update_one({"_id": emid}, {"$set": {"pids": []}})
+            edi_dat = collection.find_one({"_id": edil['user']})
+            sira = edi_dat['sira'] 
+            site = edi_dat['site'] 
+            altsite = edi_dat['altsite'] 
+            altapi = edi_dat['altapi'] 
+            token = edi_dat['token'] 
+            chatdat = KaynakCol.find_one({"_id": chat})
+            try:
+                if sira == "2":
+                    token = altapi
+                    site = altsite
+                    collection.update_one({"_id": edil['user']}, {"$set": {"sira": "3"}})
+                if sira == "3":
+                    collection.update_one({"_id": edil['user']}, {"$set": {"sira": "2"}})
+                if not altapi == "None":
+                    while linktry < 15 and alink == " ":
+                        if altsite == "1":
+                            json = get(f"https://ay.live/api/?", params={'api': altapi, 'url': edited_l, 'ct': 1}, headers=headers).json()
+                            alink = json['shortenedUrl']
+                        if altsite == "2":
+                            json = get(f"https://www.pnd.tl/api?", params={'api': altapi, 'url': edited_l, 'category': 6}, headers=headers).json()
+                            alink = json['shortenedUrl']
+                        if altsite == "3":
+                            json = get(f"https://exe.io/api?", params={'api': altapi, 'url': edited_l}, headers=headers).json()
+                            alink = json['shortenedUrl']
+                        if altsite == "4":
+                            alink = get(f"http://ouo.io/api/{altapi}?", params={'s': edited_l}, headers=headers).text
+                        if altsite == "5":
+                            alink = get(f"http://pubiza.com/api.php?", params={'token': altapi, 'url': mesajb, 'ads_type': "adult"}, headers=headers).text
+                        if altsite == "6":
+                            json = get("http://gir.ist/api?", params={"api": altapi, "url": edited_l}, headers=headerss).json()
+                            alink = json['shortenedUrl']
+                        linktry += 1
+                        sleep(0.3)
+                        if linktry > 1:
+                            logger.warning(f"Link kısaltılamadı tekrar deneniyor {linktry}")
+                while linktry < 15 and link == " ":
+                    if site == "1":
+                        json = get(f"https://ay.live/api/?", params={'api': token, 'url': edited_l, 'ct': 1}, headers=headers).json()
+                        link = json['shortenedUrl']
+                    if site == "2":
+                        json = get(f"https://www.pnd.tl/api?", params={'api': token, 'url': edited_l, 'category': 6}, headers=headers).json()
+                        link = json['shortenedUrl']
+                    if site == "3":
+                        json = get(f"https://exe.io/api?", params={'api': token, 'url': edited_l}, headers=headers).json()
+                        link = json['shortenedUrl']
+                    if site == "4":
+                        link = get(f"http://ouo.io/api/{token}?", params={'s': edited_l}, headers=headers).text
+                    if site == "5":
+                        link = get(f"http://pubiza.com/api.php?", params={'token': token, 'url': mesajb, 'ads_type': "adult"}, headers=headers).text
+                    if site == "6":
+                        json = get("http://gir.ist/api?", params={"api": token, "url": edited_l}, headers=headerss).json()
+                        link = json['shortenedUrl']
+                    linktry += 1
+                    sleep(0.4)
+                    if linktry > 1:
+                        logger.warning(f"Tekrar deneniyor {linktry}")
+                logger.info(f"{kanal} + {link} + {token}")
+            except Exception as e:
+                try:
+                    bot.send_message(edil['user'], "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
+                    bildir(e)
+                except RetryAfter as rtfr:
+                    sleep(rtfr.retry_after+1)
+                    try:
+                        bot.send_message(edil['user'], "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
+                    except:
+                        pass
+                except:
+                    pass
+                logger.error(e)
+                logger.warning(json)
+                continue
+            try:
+                json['message']
+            except:
+                pass
+            else:
+                if json['message'] == "Invalid URL":
+                    logger.error(f"{update.effective_message.chat.title} son postu hatalı olduğu için iptal edildi!")
+                    try:
+                        bot.send_message(sahip, f"{update.effective_message.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{json['message']}\n\n{update.effective_message.link}")
+                        bot.send_message(chatdat['sahip'], f"{update.effective_message.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{json['message']}\n\n{update.effective_message.link}")
+                    except RetryAfter as rtfr:
+                        sleep(rtfr.retry_after+1)
+                        bot.send_message(sahip, f"{update.effective_message.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{json['message']}\n\n{update.effective_message.link}")
+                        bot.send_message(chatdat['sahip'], f"{update.effective_message.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{json['message']}\n\n{update.effective_message.link}")
+                    context.job_queue.run_once(deljob, when=2, name="yedekleme", context=update.effective_message.link)
+                    break
+            newedim_l = sablon.format(aciklama=edited_a, link=link, alink=alink)
+            try:
+                bot.edit_message_text(newedim_l, edil['chat'], edil['pid'])
+            except Exception as e:
+                logger.error(e)
+                pass
+            else:
+                db[str(chat)].update_one({"_id": emid}, {"$set": {"link": edited_l}})
+                db[str(chat)].update_one({"_id": emid}, {"$push": {"pids": {"chat": edil['chat'], "pid": edil["pid"], "link": link, "alink": alink, "user": edil["user"]}}})
+                edcount += 1
+        return
     if eski_a != edited_a:
         for edi in mesdata['pids']:
             newedim = collection.find_one({"_id": edi['user']})['sablon'].format(aciklama=edited_a, link=edi['link'], alink=edi['alink'])
@@ -571,6 +674,10 @@ def poster_edit(update, context):
             except Exception as e:
                 logger.error(e)
                 pass
+            else:
+                db[str(chat)].update_one({"_id": emid}, {"$set": {"aciklama": edited_a}})
+                edcount += 1
+
 
 
 def postsiralandirici(context):
