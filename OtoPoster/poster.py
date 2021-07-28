@@ -663,7 +663,7 @@ def poster_edit(update, context):
                     break
             newedim_l = sablon.format(aciklama=edited_a, link=link, alink=alink)
             try:
-                bot.edit_message_text(newedim_l, edil['chat'], edil['pid'])
+                bot.edit_message_caption(newedim_l, edil['chat'], edil['pid'])
             except Exception as e:
                 logger.error(e)
                 pass
@@ -680,7 +680,7 @@ def poster_edit(update, context):
                 continue
             newedim = collection.find_one({"_id": edi['user']})['sablon'].format(aciklama=edited_a, link=edi['link'], alink=edi['alink'])
             try:
-                bot.edit_message_text(newedim, edi['chat'], edi['pid'])
+                bot.edit_message_caption(newedim, edi['chat'], edi['pid'])
             except Exception as e:
                 logger.error(e)
                 pass
