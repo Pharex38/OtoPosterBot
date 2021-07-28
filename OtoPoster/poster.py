@@ -723,6 +723,7 @@ def poster(update, context):
         logger.warning(f"{update.effective_message.chat.title} Postu sıraya eklendi.")
         postdict = {"chatid": pochat, "update": update}
         ind = len(context.job_queue.get_jobs_by_name("anaposter"))
+        bildir(str(ind))
         while ind > 1:
             ind = len(context.job_queue.get_jobs_by_name("anaposter"))
             sleep(1)
