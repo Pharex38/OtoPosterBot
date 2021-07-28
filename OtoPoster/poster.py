@@ -663,7 +663,7 @@ def poster_edit(update, context):
                     break
             newedim_l = sablon.format(aciklama=edited_a, link=link, alink=alink)
             try:
-                bot.edit_message_caption(newedim_l, edil['chat'], edil['pid'])
+                bot.edit_message_caption(caption=newedim_l, chat_id=edil['chat'], message_id=edil['pid'])
             except Exception as e:
                 logger.error(e)
                 pass
@@ -671,7 +671,7 @@ def poster_edit(update, context):
                 db[str(chat)].update_one({"_id": emid}, {"$set": {"link": edited_l}})
                 db[str(chat)].update_one({"_id": emid}, {"$push": {"pids": {"chat": edil['chat'], "pid": edil["pid"], "link": link, "alink": alink, "user": edil["user"]}}})
                 edcount += 1
-        logger.warning(f"{update.effective_chat.title} kaynağının {edcount} postu düzenlendi")
+        logger.warning(f"{update.effective_chat.title} kaynağının {edcount} postu düzenlendi.")
         return
     if eski_a != edited_a:
         logger.warning(f"{update.effective_chat.title} kaynağının postu düzenleniyor...")
@@ -680,7 +680,7 @@ def poster_edit(update, context):
                 continue
             newedim = collection.find_one({"_id": edi['user']})['sablon'].format(aciklama=edited_a, link=edi['link'], alink=edi['alink'])
             try:
-                bot.edit_message_caption(newedim, edi['chat'], edi['pid'])
+                bot.edit_message_caption(caption=newedim, chat_id=edi['chat'], message_id=edi['pid'])
             except Exception as e:
                 logger.error(e)
                 pass
