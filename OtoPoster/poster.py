@@ -567,7 +567,7 @@ def poster_edit(update, context):
         for edil in mesdata['pids']:
             db[str(chat)].update_one({"_id": emid}, {"$set": {"pids": []}})
             edi_dat = collection.find_one({"_id": edil['user']})
-            sira = edi_dat['sira'] 
+            sira = edi_dat['sira']
             site = edi_dat['site'] 
             altsite = edi_dat['altsite'] 
             altapi = edi_dat['altapi'] 
