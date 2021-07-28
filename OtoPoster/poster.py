@@ -10,7 +10,7 @@ def poster_job(context):
         update = poste['update']
         chatdat = KaynakCol.find_one({"_id": chat})
         count = 0
-        mesaj = update.channel_post.caption
+        mesaj = update.effective_message.caption
         if mesaj == None:
             return
         """  Link tespit  """
@@ -28,7 +28,7 @@ def poster_job(context):
         """  Veri Tabanı  """
         postdata = db[str(chat)]
         binb =  chatdat['kaynak']
-        mesjid = update.channel_post.message_id
+        mesjid = update.effective_message.message_id
         postdata.insert_one({"_id": mesjid, "pids": []})
         try:
             lmsg = bot.send_message(botlog, "<code>{} kaynağının postu paylaşılıyor...</code>".format(kynk.title))
@@ -45,6 +45,12 @@ def poster_job(context):
         ason = mesaj.find("\n")
         aciklama = mesaj[:ason].strip()
         for hesap_id in binb:
+            if str(chat) in collection.find_one({"_id": 0})['iptal']:
+                collection.update_one({"_id": 0}, {"$pull": {"iptal": str(chat)}})
+                logger.warning("{} kaynağının postu iptal edildi.".format(chat.title))
+                context.job_queue.run_once(deljob, when=2, name="yedekleme", context=update.effective_message.link)
+                lmsg.edit_text("{} kaynağının postu iptal edildi. Post kanallardan siliniyor...".format(chat.title))
+                return
             hesap = collection.find_one({"_id": hesap_id})
             if hesap == None:
                 KaynakCol.update_one({"_id": chat}, {"$pull": {"kaynak": hesap_id}})
@@ -85,7 +91,7 @@ def poster_job(context):
                     if sira == "3":
                         collection.update_one({"_id": user}, {"$set": {"sira": "2"}})
                     if not altapi == "None":
-                        while linktry < 10 and alink == " ":
+                        while linktry < 15 and alink == " ":
                             if altsite == "1":
                                 json = get(f"https://ay.live/api/?", params={'api': altapi, 'url': mesajb, 'ct': 1}, headers=headers).json()
                                 alink = json['shortenedUrl']
@@ -106,7 +112,7 @@ def poster_job(context):
                             sleep(0.3)
                             if linktry > 1:
                                 logger.warning(f"Link kısaltılamadı tekrar deneniyor {linktry}")
-                    while linktry < 10 and link == " ":
+                    while linktry < 15 and link == " ":
                         if site == "1":
                             json = get(f"https://ay.live/api/?", params={'api': token, 'url': mesajb, 'ct': 1}, headers=headers).json()
                             link = json['shortenedUrl']
@@ -131,6 +137,7 @@ def poster_job(context):
                 except Exception as e:
                     try:
                         bot.send_message(user, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
+                        bildir(e)
                     except RetryAfter as rtfr:
                         sleep(rtfr.retry_after+1)
                         try:
@@ -149,14 +156,13 @@ def poster_job(context):
                     pass
                 else:
                     if json['message'] == "Invalid URL":
-                        logger.error(f"{update.channel_post.chat.title} son postu hatalı olduğu için iptal edildi!")
+                        logger.error(f"{update.effective_message.chat.title} son postu hatalı olduğu için iptal edildi!")
                         try:
-                            bot.send_message(sahip, f"{update.channel_post.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{json['message']}\n\n{update.channel_post.link}")
-                            bot.send_message(chatdat['sahip'], f"{update.channel_post.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{json['message']}\n\n{update.channel_post.link}")
+                            bot.send_message(sahip, f"{update.effective_message.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{json['message']}\n\n{update.effective_message.link}")
+                            bot.send_message(chatdat['sahip'], f"{update.effective_message.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{json['message']}\n\n{update.effective_message.link}")
                         except RetryAfter as rtfr:
                             sleep(rtfr.retry_after+1)
-
-                        context.job_queue.run_once(deljob, when=2, name="yedekleme", context=update.channel_post.link)
+                        context.job_queue.run_once(deljob, when=2, name="yedekleme", context=update.effective_message.link)
                         break
                 if sablon == "1":
                     sablon = f"🔥{aciklama}\n\n🔱 TIKLA 👉 {link}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
@@ -204,7 +210,7 @@ def poster_job(context):
                     sleep(0.1)
                     if not kan in chatdat['kanal'] or kan in eski:
                         continue
-                    post = update.channel_post
+                    post = update.effective_message
                     try:
                         yetkililer = [xy.user.id for xy in bot.get_chat_administrators(kan)]
                     except:
@@ -306,7 +312,7 @@ def ozel_poster_job(context):
         oupdate = oposte['update']
         okaynak = OzelCol.find_one({"okaynak": ochat})
         ocount = 0
-        omesaj = oupdate.channel_post.caption
+        omesaj = oupdate.effective_message.caption
         if omesaj == None:
             return
         """  Link tespit  """
@@ -418,14 +424,14 @@ def ozel_poster_job(context):
                     pass
                 else:
                     if ojson['message'] == "Invalid URL":
-                        logger.error(f"[ÖZEL] {oupdate.channel_post.chat.title} son postu hatalı olduğu için iptal edildi!")
+                        logger.error(f"[ÖZEL] {oupdate.effective_message.chat.title} son postu hatalı olduğu için iptal edildi!")
                         try:
-                            bot.send_message(sahip, f"{oupdate.channel_post.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{oupdate.channel_post.link}")
-                            bot.send_message(okaynak['_id'], f"{oupdate.channel_post.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{oupdate.channel_post.link}")
+                            bot.send_message(sahip, f"{oupdate.effective_message.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{oupdate.effective_message.link}")
+                            bot.send_message(okaynak['_id'], f"{oupdate.effective_message.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{oupdate.effective_message.link}")
                         except RetryAfter as ortfr:
                             sleep(orftr.retry_after+1)
-                            bot.send_message(sahip, f"{oupdate.channel_post.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{oupdate.channel_post.link}")
-                            bot.send_message(okaynak['_id'], f"{oupdate.channel_post.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{oupdate.channel_post.link}")
+                            bot.send_message(sahip, f"{oupdate.effective_message.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{oupdate.effective_message.link}")
+                            bot.send_message(okaynak['_id'], f"{oupdate.effective_message.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{oupdate.effective_message.link}")
                         break
                     
                 if osablon == "1":
@@ -579,10 +585,10 @@ def opostsiralandirici(context):
 
 def poster(update, context):
     global postsirasi, opostsirasi
-    pochat = update.channel_post.chat.id
+    pochat = update.effective_message.chat.id
     # Ana Kaynaklar
     if KaynakCol.find_one({"_id": pochat}) != None:
-        logger.warning(f"{update.channel_post.chat.title} Postu sıraya eklendi.")
+        logger.warning(f"{update.effective_message.chat.title} Postu sıraya eklendi.")
         postdict = {"chatid": pochat, "update": update}
         ind = len(context.job_queue.get_jobs_by_name("anaposter"))
         whn = 100 if 2 <= ind < 4 else 10
@@ -598,6 +604,6 @@ def poster(update, context):
         #postsirasi.append(postdict)
     # Özel Kaynaklar
     elif OzelCol.find_one({"okaynak": pochat}) != None:
-        logger.warning(f"[ÖZEL] {update.channel_post.chat.title} Postu sıraya eklendi.")
+        logger.warning(f"[ÖZEL] {update.effective_message.chat.title} Postu sıraya eklendi.")
         opostdict = {"chatid": pochat, "update": update}
         opostsirasi.append(opostdict)
