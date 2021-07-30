@@ -108,7 +108,7 @@ def kaynakmark(user, kanil):
         try:
             getkaynak = bot.get_chat(kaynak["_id"])
         except:
-            k_title = "Kaynağa ulaşılamıyor."
+            k_title = "𝙺𝚊𝚢𝚗𝚊ğ𝚊 𝚞𝚕𝚊şı𝚕𝚊𝚖ı𝚢𝚘𝚛."
             k_link = "https://t.me/otoposterbotlog"
         else:
             k_title = getkaynak.title
