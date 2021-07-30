@@ -144,6 +144,8 @@ def sonuclandir(update, context):
     kazcount = 0
     kazananlar = ""
     yedekler = ""
+    cek_chat = context.bot_data['cekilis_chat']
+    cek_mid = context.bot_data['cekilis_mid']
     while kazcount != int(context.args[0]):
         kazananid = choice(katilimcilar)
         cek_dat = collection.find_one({"_id": kazananid})
@@ -151,11 +153,12 @@ def sonuclandir(update, context):
             continue
         for cekkan in cek_dat['kanal']:
             if cekkan in KaynakCol.find_one({"no": 9})['kanal']:
-                kazadi = bot.get_chat(kazananid)
-                kazananlar += '<a href="tg://user?id={}">{}</a>\n'.format(kazananid, "@"+str(kazadi.username) if kazadi.username else kazadi.first_name)
-                katilimcilar.remove(kazananid)
-                kazcount += 1
-                break
+                if bot.get_chat_members_count(cekkan) > 501:
+                    kazadi = bot.get_chat(kazananid)
+                    kazananlar += '<a href="tg://user?id={}">{}</a>\n'.format(kazananid, "@"+str(kazadi.username) if kazadi.username else kazadi.first_name)
+                    katilimcilar.remove(kazananid)
+                    kazcount += 1
+                    break
     kazcount = 0
     while kazcount != int(context.args[1]):
         kazananid = choice(katilimcilar)
@@ -164,13 +167,14 @@ def sonuclandir(update, context):
             continue
         for cekkan in cek_dat['kanal']:
             if cekkan in KaynakCol.find_one({"no": 9})['kanal']:
-                kazadi = bot.get_chat(kazananid)
-                yedekler += '<a href="tg://user?id={}">{}</a>\n'.format(kazananid, "@"+str(kazadi.username) if kazadi.username else kazadi.first_name)
-                katilimcilar.remove(kazananid)
-                kazcount += 1
-                break
+                if bot.get_chat_members_count(cekkan) > 501:
+                    kazadi = bot.get_chat(kazananid)
+                    yedekler += '<a href="tg://user?id={}">{}</a>\n'.format(kazananid, "@"+str(kazadi.username) if kazadi.username else kazadi.first_name)
+                    katilimcilar.remove(kazananid)
+                    kazcount += 1
+                    break
     try:
-        bot.edit_message_text(sonuc_text.format(k=kazananlar, y=yedekler), int(context.args[2]), int(context.args[3]))
+        bot.edit_message_text(sonuc_text.format(k=kazananlar, y=yedekler), int(cek_chat), int(cek_mid))
     except Exception as e:
         update.effective_message.reply_text(str(e))
     else:
