@@ -12,6 +12,9 @@ def deep(u_kod, user):
         except:
             ref_kanal_ismi = "Kanala ulaşılamıyor."
         if kat == None:
+            if OzelCol.find_one({"_id": int(u_kod)}) == None:
+                bot.send_message(user, "Kaynak silinmiş veya bulunamadı!")
+                return False
             for koy in KaynakCol.find({}):
                 if user in koy['kaynak']:
                     KaynakCol.update_one({"_id": koy['_id']}, {"$pull": {"kaynak": user}})
@@ -43,6 +46,9 @@ def deep(u_kod, user):
     key = {"_id": user, "kanal": [], "sablon": "1", "kaynak": [str(u_kod)], "site": "1", "altapi": "None", "altsite": "None", "sira": "0", "ozel": False, "pcount": 0, "time": 0, "vakit": 0}
     ref_kanal_ismi = bot.get_chat(KaynakCol.find_one({"no": int(u_kod)})['_id']).title
     if kat == None:
+        if KaynakCol.find_one({"no": int(u_kod)}) == None:
+            bot.send_message(user, "Kaynak silinmiş veya bulunamadı!")
+            return False
         if OzelCol.find_one({"_id": int(u_kod)}) == None:
                 bot.send_message(user, "Kaynak silinmiş veya bulunamadı!")
                 return True
@@ -52,6 +58,9 @@ def deep(u_kod, user):
         bot.send_message(user, "📝 API adresinizi gönderin.", reply_markup=imark())
         return False
     else:
+        if OzelCol.find_one({"_id": int(u_kod)}) == None:
+                bot.send_message(user, "Kaynak silinmiş veya bulunamadı!")
+                return True
         if not kat['ozel']:
             if not user in KaynakCol.find_one({"no": int(u_kod)})['kaynak']:
                 KaynakCol.update_one({"no": int(u_kod)}, {"$push": {"kaynak": int(user)}})
