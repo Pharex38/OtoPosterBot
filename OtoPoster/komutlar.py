@@ -132,6 +132,7 @@ def cekilis(update, context):
     if cekilis_text == None:
         update.effective_message.reply_text("Bir çekiliş mesajı vermelisiniz.")
         return
+    context.bot_data['cekilis'] = cekilis_text
     bot.send_message(user, "Çekiliş başladı")
     bot.send_message(-1001352525854, cekilis_text, reply_markup=cekilismark())
 
