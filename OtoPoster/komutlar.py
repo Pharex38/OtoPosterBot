@@ -151,7 +151,6 @@ def sonuclandir(update, context):
         for cekkan in cek_dat['kanal']:
             if cekkan in KaynakCol.find_one({"no": 9})['kanal']:
                 kazadi = bot.get_chat(kazananid)
-                print(kazadi)
                 kazananlar += '<a href="tg://user?id={}">{}</a>\n'.format(kazananid, "@"+str(kazadi.username) if kazadi.username else kazadi.first_name)
                 katilimcilar.remove(kazananid)
                 kazcount += 1
