@@ -137,6 +137,26 @@ def cekilis(update, context):
     bot.send_message(user, "Çekiliş başladı")
     bot.send_message(-1001352525854, cekilis_text.format("0"), reply_markup=cekilismark())
 
+def sonuclandir(update, context):
+    katilimcilar = list(collection.find_one({"_id": 0})['cekilis'])
+    sonuc_text = update.effective_message.reply_to_message.text
+    for kaz in range(int(context.args[0])):
+        kazananid = choice(katilimcilar)
+        kazanan = mention_html(bot.get_chat(kazananid).title, kazananid)
+        sonuc_text = sonuc_text.format(kazanan)
+        katilimcilar.remove(kazananid)
+    for ykaz in range(int(context.args[1])):
+        kazananid = choice(katilimcilar)
+        kazanan = mention_html(bot.get_chat(kazananid).title, kazananid)
+        sonuc_text = sonuc_text.format(kazanan)
+        katilimcilar.remove(kazananid)
+    try:
+        bot.edit_message_text(sonuc_text, int(context.args[2]), int(context.args[3]))
+    except Exception as e:
+        update.effective_message.reply_text(str(e))
+    else:
+        update.effective_message.reply_text("Çekiliş sonuçlandırıldı.")
+
 def joblist(update, context):
      jobs = context.job_queue.jobs()
      context.job_queue.run_once(jobyedekleme, when=1, name="yedekleme")

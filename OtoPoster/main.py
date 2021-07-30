@@ -54,6 +54,7 @@ def main() -> None:
     dispatcher.add_handler(CommandHandler('vip', viple, Filters.chat(sahip)))
     dispatcher.add_handler(CommandHandler('apiban', apibanla, Filters.chat(sahip)))
     dispatcher.add_handler(CommandHandler('cekilis', cekilis, Filters.chat(sahip)))
+    dispatcher.add_handler(CommandHandler('sonuc', sonuclandir, Filters.chat(sahip)))
     dispatcher.add_handler(CommandHandler('joblist', joblist, Filters.chat(sahip)))
     dispatcher.add_handler(CommandHandler('postsil', cpostsil, Filters.chat(sahip)))
     dispatcher.add_handler(CommandHandler('unban', unbanla, Filters.chat(sahip)))
