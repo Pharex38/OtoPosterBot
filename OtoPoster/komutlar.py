@@ -140,6 +140,7 @@ def cekilis(update, context):
 def sonuclandir(update, context):
     katilimcilar = list(collection.find_one({"_id": 0})['cekilis'])
     sonuc_text = update.effective_message.reply_to_message.text
+    kazcount = 0
     while kazcount != int(context.args[0]):
         kazananid = choice(katilimcilar)
         cek_dat = collection.find_one({"_id": kazananid})
@@ -152,6 +153,7 @@ def sonuclandir(update, context):
                 katilimcilar.remove(kazananid)
                 kazcount += 1
                 break
+    kazcount = 0
     while kazcount != int(context.args[1]):
         kazananid = choice(katilimcilar)
         cek_dat = collection.find_one({"_id": kazananid})
