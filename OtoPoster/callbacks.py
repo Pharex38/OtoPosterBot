@@ -111,7 +111,6 @@ def postzamancall(call, context):
 def cekiliscall(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
-    call.callback_query.answer("Yükleniyor...")
     mesajid = call.callback_query.message.message_id
     cek_dat = collection.find_one({"_id": user})
     if user in collection.find_one({"_id": 0})['cekilis']:
