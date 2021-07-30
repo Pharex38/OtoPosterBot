@@ -39,9 +39,6 @@ def kaynakcall(call, context):
     if kkul == None:
         call.callback_query.edit_message_text(text="<b>Önce bir API kaydedin!</b>")
         return
-    if "31" in kkul['kaynak']:
-        call.callback_query.edit_message_text(text="<b>Önce SFS modunu kapatın!</b>")
-        return
     if kkul['ozel']:
         call.callback_query.edit_message_text(text="<b>Özel kaynak kullandığınız için kaynak başka kaynak kullanamazsınız!</b>")
         return
