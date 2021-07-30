@@ -136,7 +136,9 @@ def cekilis(update, context):
     collection.update_one({"_id": 0}, {"$set": {"cekilis": []}})
     context.bot_data['cekilis'] = cekilis_text
     bot.send_message(user, "Çekiliş başladı")
-    bot.send_message(-1001352525854, cekilis_text.format("0"), reply_markup=cekilismark())
+    cek_msg = bot.send_message(botlog, cekilis_text.format("0"), reply_markup=cekilismark())
+    context.bot_data['cekilis_chat'] = botlog
+    context.bot_data['cekilis_mid'] = cek_msg.message_id
 
 def sonuclandir(update, context):
     katilimcilar = list(collection.find_one({"_id": 0})['cekilis'])
