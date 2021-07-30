@@ -128,8 +128,9 @@ def IptalPoster(update, context):
 
 def cekilis(update, context):
     user = update.effective_user.id
-    cekilis_text = update.effective_message.reply_to_message.text
-    if cekilis_text == None:
+    try:
+        cekilis_text = update.effective_message.reply_to_message.text
+    except:
         update.effective_message.reply_text("Bir çekiliş mesajı vermelisiniz.")
         return
     collection.update_one({"_id": 0}, {"$set": {"cekilis": []}})
