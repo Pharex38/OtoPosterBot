@@ -108,11 +108,10 @@ def postzamancall(call, context):
     bot.send_message(chat, "Postlarınız 00:00'dan başlayarak sırasıyla hangi saatlerde gönderilmesini istediğiniz saatleri altalta yazın ve gönderin.\n\nÖrnek;\n00:00\n01:00\n02:00\n03:00\n...", reply_markup=imark())
     return POSTZAMAN
 
-def callback_query(call, context):
+def cekiliscall(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
     mesajid = call.callback_query.message.message_id
-    """ Cekiliş """
     if call.callback_query.data == "katil":
         cek_dat = collection.find_one({"_id": user})
         if user in collection.find_one({"_id": 0})['cekilis']:
@@ -136,6 +135,11 @@ def callback_query(call, context):
                     cekilis_text = context.bot_data['cekilis'].format(len(collection.find_one({"_id": 0})['cekilis']))
                     call.callback_query.edit_message_text(cekilis_text)
                     return
+
+def callback_query(call, context):
+    user = call.effective_user.id
+    chat = call.effective_chat.id
+    mesajid = call.callback_query.message.message_id    
     """ SFS Modu """
     if call.callback_query.data.startswith("sfs"):
         sfsno = int(call.callback_query.data.split("-")[-1])
