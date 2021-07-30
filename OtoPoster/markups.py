@@ -128,7 +128,7 @@ def kaynakmark(user, kanil):
             butonkaynakkeyb = []
     if kanil == len(u['kanal'])-1 and len(u['kanal']) != 1:
         anakaynakkeyb.append([InlineKeyboardButton("⏪⏪", callback_data="solyan-{}".format(kanil))])
-    elif kanil == 0:
+    elif kanil == 0 and len(u['kanal']) != 1:
         anakaynakkeyb.append([InlineKeyboardButton("⏩⏩", callback_data="sagyan-{}".format(kanil))])
     else:
         anakaynakkeyb.append([InlineKeyboardButton("⏪⏪", callback_data="solyan-{}".format(kanil)), InlineKeyboardButton("⏩⏩", callback_data="sagyan-{}".format(kanil))])
