@@ -44,9 +44,9 @@ def sfsmark(user):
             else:
                 sfssatir.append(InlineKeyboardButton(sfsname, url=sfslink))
                 if sfskan in sfs_dat['eski']:
-                    sfssatir.append(InlineKeyboardButton("Kapalı", callback_data="sfs-{}".format(sfsbutno)))
-                else:
                     sfssatir.append(InlineKeyboardButton("Açık", callback_data="sfs-{}".format(sfsbutno)))
+                else:
+                    sfssatir.append(InlineKeyboardButton("Kapalı", callback_data="sfs-{}".format(sfsbutno)))
                 sfskeyb.append(sfssatir)
                 sfssatir = []
             sfsbutno += 1
