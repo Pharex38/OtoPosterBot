@@ -140,16 +140,30 @@ def cekilis(update, context):
 def sonuclandir(update, context):
     katilimcilar = list(collection.find_one({"_id": 0})['cekilis'])
     sonuc_text = update.effective_message.reply_to_message.text
-    for kaz in range(int(context.args[0])):
+    while kazcount != int(context.args[0]):
         kazananid = choice(katilimcilar)
-        kazanan = mention_html(bot.get_chat(kazananid).title, kazananid)
-        sonuc_text = sonuc_text.format(kazanan)
-        katilimcilar.remove(kazananid)
-    for ykaz in range(int(context.args[1])):
+        cek_dat = collection.find_one({"_id": kazananid})
+        if len(cek_dat['kanal']) == 0 or not kazananid in KaynakCol.find_one({"no": 9})['kaynak']:
+            continue
+        for cekkan in cek_dat['kanal']:
+            if cekkan in KaynakCol.find_one({"no": 9})['kanal']:
+                kazanan = mention_html(bot.get_chat(kazananid).title, kazananid)
+                sonuc_text = sonuc_text.format(kazanan)
+                katilimcilar.remove(kazananid)
+                kazcount += 1
+                break
+    while kazcount != int(context.args[1]):
         kazananid = choice(katilimcilar)
-        kazanan = mention_html(bot.get_chat(kazananid).title, kazananid)
-        sonuc_text = sonuc_text.format(kazanan)
-        katilimcilar.remove(kazananid)
+        cek_dat = collection.find_one({"_id": kazananid})
+        if len(cek_dat['kanal']) == 0 or not kazananid in KaynakCol.find_one({"no": 9})['kaynak']:
+            continue
+        for cekkan in cek_dat['kanal']:
+            if cekkan in KaynakCol.find_one({"no": 9})['kanal']:
+                kazanan = mention_html(bot.get_chat(kazananid).title, kazananid)
+                sonuc_text = sonuc_text.format(kazanan)
+                katilimcilar.remove(kazananid)
+                kazcount += 1
+                break
     try:
         bot.edit_message_text(sonuc_text, int(context.args[2]), int(context.args[3]))
     except Exception as e:
