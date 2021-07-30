@@ -132,7 +132,7 @@ def cekiliscall(call, context):
             else:
                 call.callback_query.answer("Çekilişe katıldınız.")
                 cekilis_text = context.bot_data['cekilis'].format(len(collection.find_one({"_id": 0})['cekilis']))
-                call.callback_query.edit_message_text(cekilis_text)
+                call.callback_query.edit_message_text(cekilis_text, reply_markup=cekilismark())
                 return
 
 def callback_query(call, context):
