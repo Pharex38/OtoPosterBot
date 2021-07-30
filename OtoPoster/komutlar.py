@@ -149,7 +149,7 @@ def sonuclandir(update, context):
         for cekkan in cek_dat['kanal']:
             if cekkan in KaynakCol.find_one({"no": 9})['kanal']:
                 kazanan = '<a href="tg://user?id={}">{}</a>'.format(kazananid, bot.get_chat(kazananid).title)
-                sonuc_text = sonuc_text.format(1k=kazanan)
+                sonuc_text = sonuc_text.format(ik=kazanan)
                 katilimcilar.remove(kazananid)
                 kazcount += 1
                 break
