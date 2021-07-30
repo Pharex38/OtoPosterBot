@@ -150,7 +150,9 @@ def sonuclandir(update, context):
             continue
         for cekkan in cek_dat['kanal']:
             if cekkan in KaynakCol.find_one({"no": 9})['kanal']:
-                kazananlar += '<a href="tg://user?id={}">{}</a>\n'.format(kazananid, "@"+str(bot.get_chat(kazananid).username))
+                kazadi = bot.get_chat(kazananid)
+                print(kazadi)
+                kazananlar += '<a href="tg://user?id={}">{}</a>\n'.format(kazananid, "@"+str(kazadi.username) if kazadi.username else kazadi.firstname)
                 katilimcilar.remove(kazananid)
                 kazcount += 1
                 break
@@ -162,7 +164,8 @@ def sonuclandir(update, context):
             continue
         for cekkan in cek_dat['kanal']:
             if cekkan in KaynakCol.find_one({"no": 9})['kanal']:
-                yedekler += '<a href="tg://user?id={}">{}</a>\n'.format(kazananid, bot.get_chat(kazananid).title)
+                kazadi = bot.get_chat(kazananid)
+                yedekler += '<a href="tg://user?id={}">{}</a>\n'.format(kazananid, "@"+str(kazadi.username) if kazadi.username else kazadi.firstname)
                 katilimcilar.remove(kazananid)
                 kazcount += 1
                 break
