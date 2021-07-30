@@ -141,6 +141,8 @@ def sonuclandir(update, context):
     katilimcilar = list(collection.find_one({"_id": 0})['cekilis'])
     sonuc_text = update.effective_message.reply_to_message.text
     kazcount = 0
+    kazananlar = ""
+    yedekler = ""
     while kazcount != int(context.args[0]):
         kazananid = choice(katilimcilar)
         cek_dat = collection.find_one({"_id": kazananid})
@@ -148,8 +150,7 @@ def sonuclandir(update, context):
             continue
         for cekkan in cek_dat['kanal']:
             if cekkan in KaynakCol.find_one({"no": 9})['kanal']:
-                kazanan = '<a href="tg://user?id={}">{}</a>'.format(kazananid, bot.get_chat(kazananid).title)
-                sonuc_text = sonuc_text.format(ik=kazanan)
+                kazananlar += '<a href="tg://user?id={}">{}</a>\n'.format(kazananid, "@"+str(bot.get_chat(kazananid).username))
                 katilimcilar.remove(kazananid)
                 kazcount += 1
                 break
@@ -161,13 +162,12 @@ def sonuclandir(update, context):
             continue
         for cekkan in cek_dat['kanal']:
             if cekkan in KaynakCol.find_one({"no": 9})['kanal']:
-                kazanan = mention_html(kazananid, bot.get_chat(kazananid).title)
-                sonuc_text = sonuc_text.format(kazanan)
+                yedekler += '<a href="tg://user?id={}">{}</a>\n'.format(kazananid, bot.get_chat(kazananid).title)
                 katilimcilar.remove(kazananid)
                 kazcount += 1
                 break
     try:
-        bot.edit_message_text(sonuc_text, int(context.args[2]), int(context.args[3]))
+        bot.edit_message_text(sonuc_text.format(k=kazananlar, y=yedekler), int(context.args[2]), int(context.args[3]))
     except Exception as e:
         update.effective_message.reply_text(str(e))
     else:
