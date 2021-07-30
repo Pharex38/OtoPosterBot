@@ -148,7 +148,7 @@ def sonuclandir(update, context):
             continue
         for cekkan in cek_dat['kanal']:
             if cekkan in KaynakCol.find_one({"no": 9})['kanal']:
-                kazanan = mention_html(kazananid, bot.get_chat(kazananid).title)
+                kazanan = '<a href="tg://user?id={}">{}</a>'.format(kazananid, bot.get_chat(kazananid).title)
                 sonuc_text = sonuc_text.format(kazanan)
                 katilimcilar.remove(kazananid)
                 kazcount += 1
