@@ -25,6 +25,9 @@ def imark():
     imark = ReplyKeyboardMarkup(keyboard=[['❌ İptal']], one_time_keyboard=True, resize_keyboard=True, selective=True)
     return imark
 
+def cekilismark():
+    return InlineKeyboardMarkup([[InlineKeyboardButton("Çekilişe Katıl!", callback_data="katil")]])
+
 def sfsmark(user):
     sfs_dat = collection.find_one({"_id": user})
     sfsbutno = 0

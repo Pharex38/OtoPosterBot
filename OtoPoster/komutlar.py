@@ -126,6 +126,15 @@ def IptalPoster(update, context):
     collection.update_one({"_id": 0}, {"$push": {"iptal": str(ipt)}})
     update.effective_message.reply_text("Postunuz İptal Edildi!")
 
+def cekilis(update, context):
+    user = update.effective_user.id
+    cekilis_text = update.effective_message.reply_to_message.text
+    if cekilis_text == None:
+        update.effective_message.reply_text("Bir çekiliş mesajı vermelisiniz.")
+        return
+    bot.send_message(user, "Çekiliş başladı")
+    bot.send_message(blog, cekilis_text, reply_markup=cekilismark())
+
 def joblist(update, context):
      jobs = context.job_queue.jobs()
      context.job_queue.run_once(jobyedekleme, when=1, name="yedekleme")
@@ -355,7 +364,7 @@ def duy(update, context):
         for kullanici in kullanicilar:
             if len(kullanici['kanal']) > 0:
                 try:
-                    dmsg = bot.send_message(kullanici['_id'], duyurumsg, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("😕 Bilgilerimi sil", callback_data="dsil")], [InlineKeyboardButton("✅ Kullanmaya devam etmek istiyorum.", callback_data="devam")]]))
+                    dmsg = bot.send_message(kullanici['_id'], duyurumsg)
                 except Exception as e:
                     logger.error(e)
                 else:

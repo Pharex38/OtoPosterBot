@@ -112,6 +112,30 @@ def callback_query(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
     mesajid = call.callback_query.message.message_id
+    """ Cekiliş """
+    if call.callback_query.data == "katil":
+        cek_dat = collection.find_one({"_id": user})
+        if user in collection.find_one({"_id": 0})['cekilis']:
+            call.callback_query.answer("Çekilişe zaten katılmışsınız, geriye kazanmak kaldı!")
+            return
+        if len(cek_dat['kanal']) == 0:
+            call.callback_query.answer("Çekilişe katılabilmek için en az bir kanalınız olmalı!")
+            return
+        if not user in KaynakCol.find_one({"no": 9})['kaynak']:
+            call.callback_query.answer("Çekilişe katılabilmek için en az bir kanalınız Yandex Hub kaynağını kullanıyor olmalı.")
+            return
+        for cekkan in cek_dat:
+            if cekkan in KaynakCol.find_one({"no": 9})['kanal']:
+                try:
+                    collection.update_one({"_id": 0}, {"$push": {"cekilis": user}})
+                except:
+                    call.callback_query.answer("Bir sorun oluştu.")
+                    return
+                else:
+                    call.callback_query.answer("Çekilişe katıldınız.")
+                    cekilis_text = context.bot_data['cekilis'].format(len(collection.find_one({"_id": 0})['cekilis']))
+                    call.callback_query.edit_message_text(cekilis_text)
+                    return
     """ SFS Modu """
     if call.callback_query.data.startswith("sfs"):
         sfsno = int(call.callback_query.data.split("-")[-1])
