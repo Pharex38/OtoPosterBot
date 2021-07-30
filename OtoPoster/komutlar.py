@@ -148,7 +148,7 @@ def sonuclandir(update, context):
             continue
         for cekkan in cek_dat['kanal']:
             if cekkan in KaynakCol.find_one({"no": 9})['kanal']:
-                kazanan = mention_html(bot.get_chat(kazananid).title, kazananid)
+                kazanan = mention_html(kazananid, bot.get_chat(kazananid).title, kazananid)
                 sonuc_text = sonuc_text.format(kazanan)
                 katilimcilar.remove(kazananid)
                 kazcount += 1
@@ -161,7 +161,7 @@ def sonuclandir(update, context):
             continue
         for cekkan in cek_dat['kanal']:
             if cekkan in KaynakCol.find_one({"no": 9})['kanal']:
-                kazanan = mention_html(bot.get_chat(kazananid).title, kazananid)
+                kazanan = mention_html(kazananid, bot.get_chat(kazananid).title)
                 sonuc_text = sonuc_text.format(kazanan)
                 katilimcilar.remove(kazananid)
                 kazcount += 1
