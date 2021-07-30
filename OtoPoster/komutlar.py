@@ -133,7 +133,7 @@ def cekilis(update, context):
         update.effective_message.reply_text("Bir çekiliş mesajı vermelisiniz.")
         return
     bot.send_message(user, "Çekiliş başladı")
-    bot.send_message(blog, cekilis_text, reply_markup=cekilismark())
+    bot.send_message(-1001352525854, cekilis_text, reply_markup=cekilismark())
 
 def joblist(update, context):
      jobs = context.job_queue.jobs()
