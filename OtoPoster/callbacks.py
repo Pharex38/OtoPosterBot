@@ -124,16 +124,18 @@ def cekiliscall(call, context):
         return
     for cekkan in cek_dat['kanal']:
         if cekkan in KaynakCol.find_one({"no": 9})['kanal']:
-            try:
-                collection.update_one({"_id": 0}, {"$push": {"cekilis": user}})
-            except:
-                call.callback_query.answer("Bir sorun oluştu.")
-                return
-            else:
-                call.callback_query.answer("Çekilişe katıldınız.")
-                cekilis_text = context.bot_data['cekilis'].format(len(collection.find_one({"_id": 0})['cekilis']))
-                call.callback_query.edit_message_text(cekilis_text, reply_markup=cekilismark())
-                return
+            if bot.get_chat_members_count(cekkan) > 501:
+                try:
+                    collection.update_one({"_id": 0}, {"$push": {"cekilis": user}})
+                except:
+                    call.callback_query.answer("Bir sorun oluştu.")
+                    return
+                else:
+                    call.callback_query.answer("Çekilişe katıldınız.")
+                    cekilis_text = context.bot_data['cekilis'].format(len(collection.find_one({"_id": 0})['cekilis']))
+                    call.callback_query.edit_message_text(cekilis_text, reply_markup=cekilismark())
+                    return
+    call.callback_query.answer("En az 500 abone olan bir kanalınız Yandex Hub kaynağını kullanmak zorunda.")
 
 def callback_query(call, context):
     user = call.effective_user.id
