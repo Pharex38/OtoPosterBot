@@ -113,6 +113,9 @@ def cekiliscall(call, context):
     if user in collection.find_one({"_id": 0})['cekilis']:
         call.callback_query.answer("Çekilişe zaten katılmışsınız, geriye kazanmak kaldı!")
         return
+    if cek_dat == None:
+        call.callback_query.answer("Çekilişe katılabilmek için en az bir kanalınız olmalı!")
+        return
     if len(cek_dat['kanal']) == 0:
         call.callback_query.answer("Çekilişe katılabilmek için en az bir kanalınız olmalı!")
         return
