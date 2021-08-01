@@ -129,7 +129,7 @@ def IptalPoster(update, context):
 def cekilis(update, context):
     user = update.effective_user.id
     try:
-        cekilis_text = update.effective_message.reply_to_message.text
+        cekilis_text = update.effective_message.reply_to_message.text_html_urled
     except:
         update.effective_message.reply_text("Bir çekiliş mesajı vermelisiniz.")
         return
@@ -142,7 +142,7 @@ def cekilis(update, context):
 
 def sonuclandir(update, context):
     katilimcilar = list(collection.find_one({"_id": 0})['cekilis'])
-    sonuc_text = update.effective_message.reply_to_message.text
+    sonuc_text = update.effective_message.reply_to_message.text_html_urled
     kazcount = 0
     kazananlar = ""
     yedekler = ""
