@@ -58,7 +58,7 @@ def deep(u_kod, user):
         bot.send_message(user, "📝 API adresinizi gönderin.", reply_markup=imark())
         return False
     else:
-        if KaynakCol.find_one({"_id": int(u_kod)}) == None:
+        if KaynakCol.find_one({"no": int(u_kod)}) == None:
             bot.send_message(user, "Kaynak silinmiş veya bulunamadı!")
             return True
         ref_kanal_ismi = bot.get_chat(KaynakCol.find_one({"no": int(u_kod)})['_id']).title
