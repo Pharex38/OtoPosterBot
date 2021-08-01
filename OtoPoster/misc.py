@@ -1,6 +1,6 @@
 from . import *
 from .markups import *
-import Colorer, logging
+import logging
 
 
 def deep(u_kod, user):
