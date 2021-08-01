@@ -399,7 +399,6 @@ def posterkomut2(update, context):
             sleep(1)
         context.job_queue.run_once(ozel_poster_job, when=2, name="ozelposter", context=opostdict)
 
-
 def duy(update, context):
     chat = update.message.chat.id
     if chat != sahip:
@@ -411,7 +410,7 @@ def duy(update, context):
         for kullanici in kullanicilar:
             if len(kullanici['kanal']) > 0:
                 try:
-                    dmsg = bot.send_message(kullanici['_id'], duyurumsg)
+                    dmsg = update.effective_message.reply_to_message.copy(kullanici['_id'])
                 except Exception as e:
                     logger.error(e)
                 else:
