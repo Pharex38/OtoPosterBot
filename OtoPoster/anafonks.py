@@ -29,7 +29,7 @@ def menu(update, context):
             return APIDEGISTIR
     if mesaj == "🖥 Kanal Menü":
         kayitli = 0
-        menu_mesaj = "<b>Kayıtlı Kanalınız;</b>"
+        menu_mesaj = "<b>🖥Kayıtlı Kanalınız;</b>\n"
         for chan in mj['kanal']:
             try:
                 kbilgi = bot.get_chat(chan)
@@ -38,8 +38,11 @@ def menu(update, context):
                 collection.update_one({"_id": user}, {"$pull": {"kanal": chan}})
                 logger.warning("Kanal silindi")
             else:    
-                menu_mesaj += """\n\n     <a href="{}">{}</a>""".format(kbilgi.invite_link, kbilgi.title)
                 kayitli = kayitli + 1
+                if kayitli == len(mj['kanal']):
+                    menu_mesaj += """└<a href="{}">{}</a>""".format(kbilgi.invite_link, kbilgi.title)
+                else:
+                    menu_mesaj += """├<a href="{}">{}</a>""".format(kbilgi.invite_link, kbilgi.title)
         menu_mesaj += f"\n\nToplam {kayitli} Kanalınız Bulunuyor."
         bot.send_message(chat, menu_mesaj, reply_markup=kanalmenumark())
         return KANALMENU
