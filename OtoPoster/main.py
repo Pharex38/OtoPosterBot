@@ -1,21 +1,4 @@
 
-from requests import get, Session
-from os import environ
-from time import sleep
-from pymongo import MongoClient
-import time, datetime
-import threading, pytz, os, asyncio
-from ssl import CERT_NONE
-from random import choice
-from telegram import *
-from telegram.error import *
-from telegram.ext import *
-from functools import wraps
-from telegram.utils.helpers import *
-import html
-import json as jason
-import traceback
-from telegram.utils.request import Request
 from . import *
 from .anafonks import *
 from .callbacks import *
