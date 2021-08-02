@@ -40,9 +40,9 @@ def menu(update, context):
             else:    
                 kayitli = kayitli + 1
                 if kayitli == len(mj['kanal']):
-                    menu_mesaj += """└<a href="{}">{}</a>""".format("tg://privatepost?channel={}&post=9999999".format(chan[3]), kbilgi.title)
+                    menu_mesaj += """└<a href="{}">{}</a>""".format("tg://privatepost?channel={}&post=9999999".format(chan[3:]), kbilgi.title)
                 else:
-                    menu_mesaj += """├<a href="{}">{}</a>\n""".format("tg://privatepost?channel={}&post=9999999".format(chan[3]), kbilgi.title)
+                    menu_mesaj += """├<a href="{}">{}</a>\n""".format("tg://privatepost?channel={}&post=9999999".format(chan[3:]), kbilgi.title)
         menu_mesaj += f"\n\nToplam {kayitli} Kanalınız Bulunuyor."
         bot.send_message(chat, menu_mesaj, reply_markup=kanalmenumark())
         return KANALMENU
