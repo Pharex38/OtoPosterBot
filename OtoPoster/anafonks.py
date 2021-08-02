@@ -42,7 +42,7 @@ def menu(update, context):
                 if kayitli == len(mj['kanal']):
                     menu_mesaj += """└<a href="{}">{}</a>""".format(kbilgi.invite_link, kbilgi.title)
                 else:
-                    menu_mesaj += """├<a href="{}">{}</a>""".format(kbilgi.invite_link, kbilgi.title)
+                    menu_mesaj += """├<a href="{}">{}</a>\n""".format(kbilgi.invite_link, kbilgi.title)
         menu_mesaj += f"\n\nToplam {kayitli} Kanalınız Bulunuyor."
         bot.send_message(chat, menu_mesaj, reply_markup=kanalmenumark())
         return KANALMENU
