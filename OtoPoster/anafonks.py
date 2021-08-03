@@ -14,7 +14,6 @@ def menu(update, context):
     if user in kara:
         bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
-    
     try:
         tokenn = mj['token']
     except:
