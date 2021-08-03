@@ -54,7 +54,8 @@ def main() -> None:
         CallbackQueryHandler(ozellogcall, pattern="^logokay(.*)"),
         CallbackQueryHandler(altcall, pattern="^asite(.*)"),
         CallbackQueryHandler(postzamancall, pattern="^(pzayarla)$"),
-        CallbackQueryHandler(callback_query, pattern="^pzamanla(.*)")
+        CallbackQueryHandler(callback_query, pattern="^pzamanla(.*)"),
+        CallbackQueryHandler(devampatcall, pattern="^devam(.*)")
         ],
         states={ 
             KANALMENU: [MessageHandler(~Filters.command & Filters.update.message, kanalmenu)],

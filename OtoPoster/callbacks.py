@@ -137,6 +137,12 @@ def cekiliscall(call, context):
                     return
     call.callback_query.answer("En az 500 abone olan bir kanalınız Yandex Hub kaynağını kullanmak zorunda.")
 
+def devampatcall(call, context):
+    chat = call.effective_chat.id
+    call.effective_message.delete()
+    bot.send_message(chat, "Paylaşmamı istediğin hazır postu ilet.", reply_markup=imark())
+    return PATPOST
+
 def callback_query(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
@@ -185,9 +191,6 @@ def callback_query(call, context):
     """ İptal """
     if call.calback_query.data == "del":
         call.effective_message.delete()
-    if call.callback_query.data == "devam":
-        call.callback_query.answer("Adamsın.")
-        call.callback_query.edit_message_text("❤️")
     if call.callback_query.data == "dsil":
         collection.delete_one({"_id": user})
         call.callback_query.answer("💔")
