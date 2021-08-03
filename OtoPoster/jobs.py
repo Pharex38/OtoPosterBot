@@ -47,7 +47,7 @@ def zamanjob(context):
     cont = context.job.context
     for msgd in cont:
         try:
-            msgd['ptip'].copy(msgd['pkan'], caption=msgd['psablon'])
+            SEND_MEDIA_TYPES[msgd['ptip']](msgd['pkan'], msgd['fid'], caption=msgd['psablon'])
         except Exception as e:
             logger.error(e)
             try:

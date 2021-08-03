@@ -553,6 +553,7 @@ def pat(update, context):
     pson = mesaj.find("\n")
     paciklama = mesaj[:pson]
     """Link Tespit"""
+
     psol = mesaj.find("http")
     psag = mesaj.find("\n", psol)
     kplink = mesaj[psol:psag].strip()
@@ -641,6 +642,7 @@ def pat(update, context):
         logger.error(e)
         return
     context.user_data['psablon'] = psablon
-    context.user_data['msg'] = update
-    update.reply_text("Zamanlamak ister misiniz?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Şimdi Gönder", callback_data="simdi")], [InlineKeyboardButton("Zamanla", callback_data="pzamanla")]]))
+    context.user_data['ptip'] = ptip
+    context.user_data['fid'] = fid
+    bot.send_message(chat, "Zamanlamak ister misiniz?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Şimdi Gönder", callback_data="simdi")], [InlineKeyboardButton("Zamanla", callback_data="pzamanla")]]))
     return ConversationHandler.END
