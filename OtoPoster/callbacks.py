@@ -92,11 +92,6 @@ def ozelkaynakcall(call, context):
 2 - Oluşturduğunuz kanaldan bota bir mesaj iletin.</i>""", reply_markup=imark())
     return OZELKAYNAK
 
-def patzamancall(call, context):
-    user = call.effective_user.id
-    chat = call.effective_chat.id
-    mesajid = call.callback_query.message.message_id
-
 def postzamancall(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
@@ -285,15 +280,14 @@ def callback_query(call, context):
     if call.callback_query.data == "simdi": 
         bot.delete_message(user, mesajid)
         try:
-            ptip = context.user_data['ptip']
-            fid = context.user_data['fid']
+            upd = context.user_data['msg']
             psablon = context.user_data['psablon']
         except:
             call.callback_query.edit_message_text("Bir hata oluştı! Lütfen tekrar deneyin.")
             return
         if len(collection.find_one({"_id": user})['kanal']) < 2:
             try:
-                SEND_MEDIA_TYPES[ptip](collection.find_one({"_id": user})['kanal'][0], fid, caption=psablon)
+                upd.copy(collection.find_one({"_id": user})['kanal'][0], caption=psablon)
             except Exception as e:
                 logger.error(e)
                 bot.send_message(user, "Postunuz gönderilemedi, botu kanaldan çıkarmış olabilirsiniz.", reply_markup=dugme(user))
@@ -308,9 +302,8 @@ def callback_query(call, context):
         back = call.callback_query.data.split("-")
         o = int(back[1]) - 1
         try:
-            ptip = context.user_data['ptip']
+            upd = context.user_data['msg']
             psablon = context.user_data['psablon']
-            fid = context.user_data['fid']
         except:
             return
         kanal = collection.find_one({"_id": user})['kanal']
@@ -323,7 +316,7 @@ def callback_query(call, context):
                         bot.delete_message(user, mesajid)
                         collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
                         continue 
-                    SEND_MEDIA_TYPES[ptip](kan, fid, caption=psablon)
+                    upd.copy(kan, caption=psablon)
                 bot.edit_message_text("✅<b>Postunuz Tüm Kanallarınıza Gönderildi!</b>", user, mesajid)
                 context.user_data.clear()
                 return ConversationHandler.END
@@ -333,7 +326,7 @@ def callback_query(call, context):
                 bot.delete_message(user, mesajid)
                 collection.update_one({"_id": user}, {"$pull": {"kanal": kanal[o]}})
                 return ConversationHandler.END
-            SEND_MEDIA_TYPES[ptip](kanal[o], fid, caption=psablon)
+            upd.copy(kanal[o], caption=psablon)
             bot.edit_message_text("✅<b>Postunuz Kanalınıza Gönderildi!</b>", user, mesajid)
             context.user_data.clear()
             return ConversationHandler.END
@@ -348,7 +341,7 @@ def callback_query(call, context):
                         bot.delete_message(user, mesajid)
                         collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
                         continue
-                    msg_dict.append({"pkan": kan, "psablon": psablon, "ptip": ptip, "fid": fid, "user": user})
+                    msg_dict.append({"pkan": kan, "psablon": psablon, "msg": upd, "user": user})
                 bot.delete_message(user, mesajid)
                 bot.send_message(user, "⏱ Postunuz zamanlandı.", reply_markup=dugme(user))
                 context.job_queue.run_once(callback=zamanjob, when=zamani, context=msg_dict, name=str(user))
