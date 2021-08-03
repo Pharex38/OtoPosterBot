@@ -83,15 +83,15 @@ def poster_job(context):
                 alink = " "
                 json = " "
                 linktry = 0
-                try:
-                    if sira == "2":
-                        token = altapi
-                        site = altsite
-                        collection.update_one({"_id": user}, {"$set": {"sira": "3"}})
-                    if sira == "3":
-                        collection.update_one({"_id": user}, {"$set": {"sira": "2"}})
-                    if not altapi == "None":
-                        while linktry < 15 and alink == " ":
+                if sira == "2":
+                    token = altapi
+                    site = altsite
+                    collection.update_one({"_id": user}, {"$set": {"sira": "3"}})
+                if sira == "3":
+                    collection.update_one({"_id": user}, {"$set": {"sira": "2"}})
+                if not altapi == "None":
+                    while linktry < 15 and alink == " ":
+                        try:
                             if altsite == "1":
                                 json = get(f"https://ay.live/api/?", params={'api': altapi, 'url': mesajb, 'ct': 1}, headers=headers).json()
                                 alink = json['shortenedUrl']
@@ -112,7 +112,25 @@ def poster_job(context):
                             sleep(0.3)
                             if linktry > 1:
                                 logger.warning(f"Link kısaltılamadı tekrar deneniyor {linktry}")
-                    while linktry < 15 and link == " ":
+                        except Exception as e:
+                            if linktry == 15:
+                                try:
+                                    bot.send_message(user, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
+                                    bildir(e)
+                                except RetryAfter as rtfr:
+                                    sleep(rtfr.retry_after+1)
+                                    try:
+                                        bot.send_message(user, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
+                                    except:
+                                        pass
+                                except:
+                                    pass
+                                alink = "-"
+                                logger.error(e)
+                                logger.warning(json)
+                                continue
+                while linktry < 15 and link == " ":
+                    try:
                         if site == "1":
                             json = get(f"https://ay.live/api/?", params={'api': token, 'url': mesajb, 'ct': 1}, headers=headers).json()
                             link = json['shortenedUrl']
@@ -133,23 +151,24 @@ def poster_job(context):
                         sleep(0.4)
                         if linktry > 1:
                             logger.warning(f"Tekrar deneniyor {linktry}")
-                    logger.info(f"{kanal} + {link} + {token}")
-                except Exception as e:
-                    try:
-                        bot.send_message(user, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
-                        bildir(e)
-                    except RetryAfter as rtfr:
-                        sleep(rtfr.retry_after+1)
-                        try:
-                            bot.send_message(user, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
-                        except:
-                            pass
-                    except:
-                        pass
-
-                    logger.error(e)
-                    logger.warning(json)
-                    continue
+                    except Exception as e:
+                        if linktry == 15:
+                            try:
+                                bot.send_message(user, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
+                                bildir(e)
+                            except RetryAfter as rtfr:
+                                sleep(rtfr.retry_after+1)
+                                try:
+                                    bot.send_message(user, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
+                                except:
+                                    pass
+                            except:
+                                pass
+                            link = "-"
+                            logger.error(e)
+                            logger.warning(json)
+                            continue
+                logger.info(f"{kanal} + {link} + {token}")
                 try:
                     json['message']
                 except:
@@ -174,7 +193,8 @@ def poster_job(context):
                     sablon = sablon.replace("{aciklama}", "{a}").replace("{alink}", "{al}").replace("{link}", "{l}").format(a=aciklama, l=link, al=alink)
                 else:
                     sablon = sablon.replace("{aciklama}", "{a}").replace("{link}", "{l}").format(a=aciklama, l=link)
-                
+                if link == "-" or alink == "-":
+                    continue
                 if link == " ":
                     print(json)
                     try:

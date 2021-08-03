@@ -159,7 +159,7 @@ def postmenu(update, context):
             zaman_menu += "Henüz Post saatleri ayaralamamışsınız"
         else:
             vakcount = 0
-            for vak in ka['vakit']:
+            for vak in poudat['vakit']:
                 zaman_menu += str(vakcount)+ ". " + str(vak) + "\n"
                 vakcount += 1
             zaman_menu += f"\n<i>Günlük {vakcount} Post Paylaşıyorsunuz. </i>"
@@ -467,19 +467,6 @@ def kanalkayit(update, context):
     if not user in ytliler:
         bot.send_message(chat, "Bu kanal sizin değil 😠")
         return
-    if y['vakit'] != 0:
-        kbotdurum = bot.get_chat_member(ku, bot.get_me().id)
-        if botdurum.can_invite_users and botdurum.can_promote_members and botdurum.can_post_messages:
-            bot.send_message(eklenti, kanalbilgi.invite_link)
-            sleep(0.5)
-            try:
-                bot.promote_chat_member(ku, eklenti, can_post_messages=True)
-            except:
-                bot.send_message(chat, "Post zamanlama özelliğiniz açık olduğu için resimdeki yetkileri vermeniz gerekiyor. <a href='https://telegra.ph/file/d8802d6ca2fe807639a06.png'>ㅤ</a>")
-                return
-        else:
-            bot.send_message(chat, "Post zamanlama özelliğiniz açık olduğu için resimdeki yetkileri vermeniz gerekiyor. <a href='https://telegra.ph/file/d8802d6ca2fe807639a06.png'>ㅤ</a>")
-            return
     collection.update_one({"_id": user}, {"$push":{"kanal": str(kanal)}})
     update.message.reply_text("<b>🟢Kanalınız Kaydedildi.</b>", reply_markup=dugme(user))
     bot.send_message(blog, f"#YENİ_KANAL\nID: {kanal}\nÜYE: {bot.get_chat_members_count(kanal)}\nSAHİP: {user}")
