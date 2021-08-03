@@ -105,6 +105,8 @@ def kaynakmark(user, kanil):
     butonkaynakkeyb = []
     anakaynakkeyb = []
     for kaynak in KaynakCol.find({}):
+        if kaynak['no'] in [2, 12, 9]:
+            continue
         try:
             getkaynak = bot.get_chat(kaynak["_id"])
         except:
