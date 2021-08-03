@@ -312,7 +312,6 @@ def callback_query(call, context):
                 return ConversationHandler.END
             bot.send_message(user, "Postunuz gönderildi.", reply_markup=dugme(user))
             mstd = bot.send_message(chat, "Başka post paylaşacak mısınız?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Evet", callback_data="devam"), InlineKeyboardButton("Hayır", callback_data="del")]]))
-            context.job_queue.run_once(delonejob, name="del", when=200, context={'chat': chat, 'mid': mstd.message_id})
             return ConversationHandler.END
         context.user_data['zaman'] = "yok"
         bot.send_message(user, "Post Hazırlandı!", reply_markup=dugme(user))
