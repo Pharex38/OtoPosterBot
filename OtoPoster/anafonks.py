@@ -503,8 +503,6 @@ def patzamansaat(update, context):
         context.job_queue.run_once(callback=zamanjob, when=zamanii, context=[msg_dict], name=str(user))
         bot.send_message(chat, "⏱ Postunuz zamanlandı", reply_markup=dugme(user))
         mstd = bot.send_message(chat, "Başka post paylaşacak mısınız?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Evet", callback_data="devam"), InlineKeyboardButton("Hayır", callback_data="del")]]))
-        time.sleep(200)
-        mstd.delete()
         return ConversationHandler.END
 
     bot.send_message(update.message.chat.id, "Hangi kanalınıza gönderilecek.", reply_markup=patmark(update.message.from_user.id))
