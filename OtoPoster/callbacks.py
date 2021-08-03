@@ -125,8 +125,9 @@ def cekiliscall(call, context):
     if len(cek_dat['kanal']) == 0:
         call.callback_query.answer("Çekilişe katılabilmek için en az bir kanalınız olmalı!")
         return
+    cek_k_isim = bot.get_chat(collection.find_one({'sahip': int(context.bot_data['sahip'])})['_id']).title
     if not user in KaynakCol.find_one({"no": 9})['kaynak']:
-        call.callback_query.answer(f"Çekilişe katılabilmek için en az bir kanalınız {bot.get_chat(collection.find_one({'sahip': context.bot_data['sahip']})['_id']).title} kaynağını kullanıyor olmalı.")
+        call.callback_query.answer(f"Çekilişe katılabilmek için en az bir kanalınız {cek_k_isim} kaynağını kullanıyor olmalı.")
         return
     for cekkan in cek_dat['kanal']:
         if cekkan in KaynakCol.find_one({"no": 9})['kanal']:
@@ -141,7 +142,7 @@ def cekiliscall(call, context):
                     cekilis_text = context.bot_data['cekilis'].format(len(collection.find_one({"_id": 0})['cekilis']))
                     call.callback_query.edit_message_text(cekilis_text, reply_markup=cekilismark())
                     return
-    call.callback_query.answer(f"En az 500 abone olan bir kanalınız {bot.get_chat(collection.find_one({'sahip': context.bot_data['sahip']})['_id']).title} kaynağını kullanmak zorunda.")
+    call.callback_query.answer(f"En az 1000 abone olan bir kanalınız {cek_k_isim} kaynağını kullanmak zorunda.")
 
 def devampatcall(call, context):
     chat = call.effective_chat.id
