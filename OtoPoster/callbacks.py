@@ -46,7 +46,7 @@ def kaynakcall(call, context):
     if user in KaynakCol.find_one({"sahip": kys})['kaynak'] and kkul['kanal'][kkanil] in KaynakCol.find_one({"sahip": kys})['kanal']:
         KaynakCol.update_one({"sahip": kys}, {"$pull": {"kanal": kkul['kanal'][kkanil]}})
         durak = context.bot_data['durak']
-        if durak and user in collection.find_one({"_id": 0})['cekilis'] and kys == int(context.bot_data['c_sahip']):
+        if durak and user in collection.find_one({"_id": 0})['cekilis'] and kys == int(context.bot_data['sahip']):
             bot.send_message(chat, "Çekiliş kaynağını kullanmayı bıraktığınız için çekilişten atıldınız!")
             collection.update_one({"_id": 0}, {"$pull": {"cekilis": user}})
         for kop in kkul['kanal']:
