@@ -45,12 +45,15 @@ def kaynakcall(call, context):
     mesajid = call.effective_message.message_id
     if user in KaynakCol.find_one({"sahip": kys})['kaynak'] and kkul['kanal'][kkanil] in KaynakCol.find_one({"sahip": kys})['kanal']:
         KaynakCol.update_one({"sahip": kys}, {"$pull": {"kanal": kkul['kanal'][kkanil]}})
-        kopc = 0
+        durak = context.bot_data['durak']
+        if durak and user in collection.find_one({"_id": 0})['cekilis'] and kys == int(context.bot_data['c_sahip']):
+            bot.send_message(chat, "Çekiliş kaynağını kullanmayı bıraktığınız için çekilişten atıldınız!")
+            collection.update_one({"_id": 0}, {"$pull": {"cekilis": user}})
         for kop in kkul['kanal']:
             if kop in KaynakCol.find_one({"sahip": kys})['kanal']:
-                kopc += 1
-        if kopc < 1:
-            KaynakCol.update_one({"sahip": kys}, {"$pull": {"kaynak": user}})
+                call.callback_query.answer(text="❌ Kaynak Kaldırıldı")
+                return
+        KaynakCol.update_one({"sahip": kys}, {"$pull": {"kaynak": user}})
         call.callback_query.answer(text="❌ Kaynak Kaldırıldı")
     else:
         if not kkul['kanal'][kkanil] in KaynakCol.find_one({"sahip": kys})['kanal']:
@@ -113,6 +116,9 @@ def cekiliscall(call, context):
     if user in collection.find_one({"_id": 0})['cekilis']:
         call.callback_query.answer("Çekilişe zaten katılmışsınız, geriye kazanmak kaldı!")
         return
+    if context.bot_data['durak']:
+        call.callback_query.answer("Çekilişe katılılım süresi dolmuş, geç kaldınız :(")
+        return
     if cek_dat == None:
         call.callback_query.answer("Çekilişe katılabilmek için en az bir kanalınız olmalı!")
         return
@@ -124,7 +130,7 @@ def cekiliscall(call, context):
         return
     for cekkan in cek_dat['kanal']:
         if cekkan in KaynakCol.find_one({"no": 9})['kanal']:
-            if bot.get_chat_members_count(cekkan) > 501:
+            if bot.get_chat_members_count(cekkan) > 1001:
                 try:
                     collection.update_one({"_id": 0}, {"$push": {"cekilis": user}})
                 except:

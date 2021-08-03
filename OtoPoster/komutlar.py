@@ -139,6 +139,15 @@ def cekilis(update, context):
     cek_msg = bot.send_message(botlog, cekilis_text.format("0"), reply_markup=cekilismark())
     context.bot_data['cekilis_chat'] = botlog
     context.bot_data['cekilis_mid'] = cek_msg.message_id
+    context.bot_data['durak'] = False
+
+def duraklat(update, context):
+    durak = context.bot_data['durak']
+    if durak:
+        context.bot_data['durak'] = False
+    else:
+        context.bot_data['durak'] = True
+    update.effective_message.reply_text(f"{context.bot_data['durak']}")
 
 def sonuclandir(update, context):
     katilimcilar = list(collection.find_one({"_id": 0})['cekilis'])
