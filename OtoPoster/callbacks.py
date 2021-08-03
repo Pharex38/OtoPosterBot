@@ -189,7 +189,7 @@ def callback_query(call, context):
             
         call.callback_query.edit_message_text("Eklenti tüm Kanallarınıza kuruldu!")
     """ İptal """
-    if call.calback_query.data == "del":
+    if call.callback_query.data == "del":
         call.effective_message.delete()
     if call.callback_query.data == "dsil":
         collection.delete_one({"_id": user})
