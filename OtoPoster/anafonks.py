@@ -640,6 +640,6 @@ def pat(update, context):
         bot.send_message(chat, f"Bir sorun oluştu: \n\n{e}")
         logger.error(e)
         return
-    context.user_data[str(update.effective_message.message_id)] = {'psablon': psablon, 'msg': update}
-    update.reply_text("Zamanlamak ister misiniz?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Şimdi Gönder", callback_data="simdi-{}".format(update.effective_message.message_id))], [InlineKeyboardButton("Zamanla", callback_data="pzamanla-{}".format(update.effective_message.message_id))]]))
+    context.user_data['psablon'] = psablon
+    context.user_data['msg'] = update
     return ConversationHandler.END
