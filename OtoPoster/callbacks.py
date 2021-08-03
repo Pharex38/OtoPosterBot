@@ -183,6 +183,8 @@ def callback_query(call, context):
             
         call.callback_query.edit_message_text("Eklenti tüm Kanallarınıza kuruldu!")
     """ İptal """
+    if call.calback_query.data == "del":
+        call.effective_message.delete()
     if call.callback_query.data == "devam":
         call.callback_query.answer("Adamsın.")
         call.callback_query.edit_message_text("❤️")

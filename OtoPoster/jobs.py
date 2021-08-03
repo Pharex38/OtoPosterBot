@@ -55,6 +55,9 @@ def zamanjob(context):
             except:
                 pass
 
+def delonejob(context):
+    delh = context.job.context
+    bot.delete_message(delh['chat'], delh['mid'])
 
 def gunluk(context):
     ozel_kaynak_kullanan_sayisi = 0
