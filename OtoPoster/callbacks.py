@@ -126,7 +126,7 @@ def cekiliscall(call, context):
         call.callback_query.answer("Çekilişe katılabilmek için en az bir kanalınız olmalı!")
         return
     if not user in KaynakCol.find_one({"no": 9})['kaynak']:
-        call.callback_query.answer("Çekilişe katılabilmek için en az bir kanalınız Yandex Hub kaynağını kullanıyor olmalı.")
+        call.callback_query.answer(f"Çekilişe katılabilmek için en az bir kanalınız {bot.get_chat(collection.find_one({'sahip': context.bot_data['sahip']})['_id']).title} kaynağını kullanıyor olmalı.")
         return
     for cekkan in cek_dat['kanal']:
         if cekkan in KaynakCol.find_one({"no": 9})['kanal']:
@@ -141,7 +141,7 @@ def cekiliscall(call, context):
                     cekilis_text = context.bot_data['cekilis'].format(len(collection.find_one({"_id": 0})['cekilis']))
                     call.callback_query.edit_message_text(cekilis_text, reply_markup=cekilismark())
                     return
-    call.callback_query.answer("En az 500 abone olan bir kanalınız Yandex Hub kaynağını kullanmak zorunda.")
+    call.callback_query.answer(f"En az 500 abone olan bir kanalınız {bot.get_chat(collection.find_one({'sahip': context.bot_data['sahip']})['_id']).title} kaynağını kullanmak zorunda.")
 
 def devampatcall(call, context):
     chat = call.effective_chat.id
