@@ -304,6 +304,8 @@ def callback_query(call, context):
                 bot.send_message(user, "Postunuz gönderilemedi, botu kanaldan çıkarmış olabilirsiniz.", reply_markup=dugme(user))
                 return ConversationHandler.END
             bot.send_message(user, "Postunuz gönderildi.", reply_markup=dugme(user))
+            mstd = bot.send_message(chat, "Başka post paylaşacak mısınız?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Evet", callback_data="devam"), InlineKeyboardButton("Hayır", callback_data="del")]]))
+            context.job_queue.run_once(delonejob, name="del", when=200, context={'chat': chat, 'mid': mstd.message_id})
             return ConversationHandler.END
         context.user_data['zaman'] = "yok"
         bot.send_message(user, "Post Hazırlandı!", reply_markup=dugme(user))
@@ -328,9 +330,16 @@ def callback_query(call, context):
                         bot.delete_message(user, mesajid)
                         collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
                         continue 
-                    SEND_MEDIA_TYPES[ptip](kan, fid, caption=psablon)
+                    try:
+                        SEND_MEDIA_TYPES[ptip](kan, fid, caption=psablon)
+                    except Exception as e:
+                        logger.error(e)
+                        pass
                 bot.edit_message_text("✅<b>Postunuz Tüm Kanallarınıza Gönderildi!</b>", user, mesajid)
                 context.user_data.clear()
+                mstd = bot.send_message(chat, "Başka post paylaşacak mısınız?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Evet", callback_data="devam"), InlineKeyboardButton("Hayır", callback_data="del")]]))
+                time.sleep(200)
+                mstd.delete()
                 return ConversationHandler.END
             pyetkililer = [pxy.user.id for pxy in bot.get_chat_administrators(kanal[o])]
             if not user in pyetkililer:
@@ -338,9 +347,17 @@ def callback_query(call, context):
                 bot.delete_message(user, mesajid)
                 collection.update_one({"_id": user}, {"$pull": {"kanal": kanal[o]}})
                 return ConversationHandler.END
-            SEND_MEDIA_TYPES[ptip](kanal[o], fid, caption=psablon)
+            try:
+                SEND_MEDIA_TYPES[ptip](kanal[o], fid, caption=psablon)
+            except Exception as e:
+                bot.edit_message_text(f"Postunuz gönderilemedi \n\n{e}", user, mesajid)
+                context.user_data.clear()
+                return ConversationHandler.END
             bot.edit_message_text("✅<b>Postunuz Kanalınıza Gönderildi!</b>", user, mesajid)
             context.user_data.clear()
+            mstd = bot.send_message(chat, "Başka post paylaşacak mısınız?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Evet", callback_data="devam"), InlineKeyboardButton("Hayır", callback_data="del")]]))
+            time.sleep(200)
+            mstd.delete()
             return ConversationHandler.END
         else:
             zamani = context.user_data['zaman']
@@ -356,7 +373,11 @@ def callback_query(call, context):
                     msg_dict.append({"pkan": kan, "psablon": psablon, "ptip": ptip, "fid": fid, "user": user})
                 bot.delete_message(user, mesajid)
                 bot.send_message(user, "⏱ Postunuz zamanlandı.", reply_markup=dugme(user))
+                mstd = bot.send_message(chat, "Başka post paylaşacak mısınız?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Evet", callback_data="devam"), InlineKeyboardButton("Hayır", callback_data="del")]]))
                 context.job_queue.run_once(callback=zamanjob, when=zamani, context=msg_dict, name=str(user))
+                context.user_data.clear()
+                time.sleep(200)
+                mstd.delete()
                 return ConversationHandler.END
 
             pyetkililer = [pxy.user.id for pxy in bot.get_chat_administrators(kanal[o])]
@@ -371,6 +392,9 @@ def callback_query(call, context):
             bot.send_message(user, "⏱ Postunuz zamanlandı.", reply_markup=dugme(user))
             context.job_queue.run_once(callback=zamanjob, when=zamani, context=msg_dict, name=str(user))
             context.user_data.clear()
+            mstd = bot.send_message(chat, "Başka post paylaşacak mısınız?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Evet", callback_data="devam"), InlineKeyboardButton("Hayır", callback_data="del")]]))
+            time.sleep(200)
+            mstd.delete()
             return ConversationHandler.END
     """ Şablon """
     if call.callback_query.data == "vsablon":
