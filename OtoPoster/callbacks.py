@@ -125,7 +125,7 @@ def cekiliscall(call, context):
     if len(cek_dat['kanal']) == 0:
         call.callback_query.answer("Çekilişe katılabilmek için en az bir kanalınız olmalı!")
         return
-    cek_k_isim = bot.get_chat(collection.find_one({'sahip': int(context.bot_data['sahip'])})['_id']).title
+    cek_k_isim = bot.get_chat(KaynakCol.find_one({'sahip': int(context.bot_data['sahip'])})['_id']).title
     if not user in KaynakCol.find_one({"no": 9})['kaynak']:
         call.callback_query.answer(f"Çekilişe katılabilmek için en az bir kanalınız {cek_k_isim} kaynağını kullanıyor olmalı.")
         return
