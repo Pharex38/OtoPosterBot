@@ -162,11 +162,13 @@ def sonuclandir(update, context):
     while kazcount != int(context.args[0]):
         kazananid = choice(katilimcilar)
         cek_dat = collection.find_one({"_id": kazananid})
+        if cek_dat == None:
+            continue
         if len(cek_dat['kanal']) == 0 or not kazananid in KaynakCol.find_one({"sahip": cek_k_no})['kaynak']:
             continue
         for cekkan in cek_dat['kanal']:
             if cekkan in KaynakCol.find_one({"sahip": cek_k_no})['kanal']:
-                if bot.get_chat_members_count(cekkan) > 501:
+                if bot.get_chat_members_count(cekkan) > 1001:
                     kazadi = bot.get_chat(kazananid)
                     kazananlar += '<a href="tg://user?id={}">{}</a>\n'.format(kazananid, "@"+str(kazadi.username) if kazadi.username else kazadi.first_name)
                     katilimcilar.remove(kazananid)
@@ -176,16 +178,24 @@ def sonuclandir(update, context):
     while kazcount != int(context.args[1]):
         kazananid = choice(katilimcilar)
         cek_dat = collection.find_one({"_id": kazananid})
+        if cek_dat == None:
+            continue
         if len(cek_dat['kanal']) == 0 or not kazananid in KaynakCol.find_one({"sahip": cek_k_no})['kaynak']:
             continue
         for cekkan in cek_dat['kanal']:
             if cekkan in KaynakCol.find_one({"sahip": cek_k_no})['kanal']:
-                if bot.get_chat_members_count(cekkan) > 501:
+                if bot.get_chat_members_count(cekkan) > 1001:
                     kazadi = bot.get_chat(kazananid)
                     yedekler += '<a href="tg://user?id={}">{}</a>\n'.format(kazananid, "@"+str(kazadi.username) if kazadi.username else kazadi.first_name)
                     katilimcilar.remove(kazananid)
                     kazcount += 1
                     break
+    if kazananlar == "":
+        update.effective_message.reply_text("Uygun şartlarda kazanan bulunamadı!")
+        return
+    if yedekler == "":
+        update.effective_message.reply_text("Uygun şartlarda yedek bulunamadı!")
+        return
     try:
         bot.edit_message_text(sonuc_text.format(k=kazananlar, y=yedekler), int(cek_chat), int(cek_mid))
     except Exception as e:
