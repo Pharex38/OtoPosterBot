@@ -3,7 +3,7 @@ from .misc import *
 from .jobs import *
 
 
-MEDIA_GROUP_TYPES = {"audio": InputMediaAudio, "document": InputMediaDocument, "photo": InputMediaPhoto, "video": InputMediaVideo}
+MEDIA_GROUP_TYPES = {"audio": InputMediaAudio, "document": InputMediaDocument, "photo": InputMediaPhoto, "animation": InputMediaAnimation, "video": InputMediaVideo}
 
 def poster_job(context):
     vipler = collection.find_one({"_id": 0})['vipuye']
@@ -33,7 +33,7 @@ def poster_job(context):
         if mesajb.startswith("https://ay") or mesajb.startswith("https://pgg") or mesajb.startswith("https://pnd") or mesajb.startswith("https://ouo") or mesajb.startswith("https://exe") or mesajb.startswith("https://lnk") or mesajb.startswith("https://t.me/"):
             return
         """  Açıklama tespit  """
-        ason = mesaj.find("\n")
+        ason = mesaj.find("\n\n")
         aciklama = mesaj[:ason].strip()
         """  Veri Tabanı  """
         postdata = db[str(chat)]
