@@ -261,10 +261,12 @@ def poster_job(context):
                             pass
                         else:
                             logger.warning(f"{kan} kayıtlardan silindi.")
-                    if vakitler != 0:
-                        kan = eklenti
                     try:
-                        post = update.effective_message.copy(kan, caption=sablon)
+                        if len(postee) == 1:
+                            post = update.effective_message.copy(kan, caption=sablon)
+                        else:
+                            grup.append(MEDIA_GROUP_TYPES[effective_message_type(update)](media=message.photo[-1].file_id if message.photo else message.effective_attachment.file_id, caption=sablon))
+                            post = bot.send_media_group(kan, media=grup)
                     except RetryAfter as rtfr:
                         sleep(rtfr.retry_after+1)
                         try:
@@ -297,8 +299,11 @@ def poster_job(context):
                                 logger.error(e)
                         else:
                             count = count + 1
-                            if vakitler == 0:
+                            if len(postee) == 1:
                                 postdata.update_one({"_id": mesjid}, {"$push": {"pids": {"pid": post.message_id, "chat": kan, "user": user, "link": link, "alink": alink}}})
+                            else:
+                                for pos in post:
+                                    postdata.update_one({"_id": mesjid}, {"$push": {"pids": {"pid": pos.message_id, "chat": kan, "user": user, "link": link, "alink": alink}}})
                             logger.info("Başarılı! "+str(kan))
                     except Exception as e:
                         if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
@@ -324,8 +329,11 @@ def poster_job(context):
                             logger.error(e)
                     else:
                         count = count + 1
-                        if vakitler == 0:
+                        if len(postee) == 1:
                             postdata.update_one({"_id": mesjid}, {"$push": {"pids": {"pid": post.message_id, "chat": kan, "user": user, "link": link, "alink": alink}}})
+                        else:
+                            for pos in post:
+                                postdata.update_one({"_id": mesjid}, {"$push": {"pids": {"pid": pos.message_id, "chat": kan, "user": user, "link": link, "alink": alink}}})
                         logger.info("Başarılı! "+str(kan))
                         
         basari = "{} kaynağından, {} kanalda post paylaşıldı.".format(kynk.title, count)
