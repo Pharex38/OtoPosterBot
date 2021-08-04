@@ -408,10 +408,8 @@ def posterkomut2(update, context):
     # Ana Kaynaklar
     if KaynakCol.find_one({"_id": pochat}) != None:
         logger.warning(f"{update.effective_message.chat.title} Postu sıraya eklendi.")
-        postdict = {"chatid": pochat, "update": update}
-        while len(context.job_queue.get_jobs_by_name("anaposter")) > 1:
-            bildir(len(context.job_queue.get_jobs_by_name("anaposter")))
-        context.job_queue.run_once(poster_job, when=2, name="anaposter", context=postdict)
+        postdict = {"chatid": pochat, "update": update, "groupid": update.effective_message.media_group_id}
+        context.job_queue.run_once(poster_job, when=4, name="anaposter", context=[postdict])
     # Özel Kaynaklar
     elif OzelCol.find_one({"okaynak": pochat}) != None:
         logger.warning(f"[ÖZEL] {update.effective_message.chat.title} Postu sıraya eklendi.")
