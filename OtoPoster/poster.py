@@ -2,15 +2,22 @@ from . import *
 from .misc import *
 from .jobs import *
 
+
+MEDIA_GROUP_TYPES = {"audio": InputMediaAudio, "document": InputMediaDocument, "photo": InputMediaPhoto, "animation": InputMediaAnimation, "video": InputMediaVideo}
+
 def poster_job(context):
     vipler = collection.find_one({"_id": 0})['vipuye']
-    poste = context.job.context
-    if True:
+    postee = context.job.context
+    grup = []
+    for poste in postee:
         chat = poste['chatid']
         update = poste['update']
         chatdat = KaynakCol.find_one({"_id": chat})
         count = 0
         mesaj = update.effective_message.caption
+        if len(postee) > 1 and mesaj == None:
+            grup.append(MEDIA_GROUP_TYPES[effective_message_type(poste)](media=update.message.photo[-1].file_id if update.message.photo else update.message.effective_attachment.file_id, caption=poste.effective_message.caption))
+            continue
         if mesaj == None:
             return
         """  Link tespit  """
@@ -26,7 +33,7 @@ def poster_job(context):
         if mesajb.startswith("https://ay") or mesajb.startswith("https://pgg") or mesajb.startswith("https://pnd") or mesajb.startswith("https://ouo") or mesajb.startswith("https://exe") or mesajb.startswith("https://lnk") or mesajb.startswith("https://t.me/"):
             return
         """  Açıklama tespit  """
-        ason = mesaj.find("\n")
+        ason = mesaj.find("\n\n")
         aciklama = mesaj[:ason].strip()
         """  Veri Tabanı  """
         postdata = db[str(chat)]
@@ -254,14 +261,20 @@ def poster_job(context):
                             pass
                         else:
                             logger.warning(f"{kan} kayıtlardan silindi.")
-                    if vakitler != 0:
-                        kan = eklenti
                     try:
-                        post = update.effective_message.copy(kan, caption=sablon)
+                        if len(postee) == 1:
+                            post = update.effective_message.copy(kan, caption=sablon)
+                        else:
+                            grup.append(MEDIA_GROUP_TYPES[effective_message_type(update)](media=message.photo[-1].file_id if update.message.photo else update.message.effective_attachment.file_id, caption=sablon))
+                            post = bot.send_media_group(kan, media=grup)
                     except RetryAfter as rtfr:
                         sleep(rtfr.retry_after+1)
                         try:
-                            post = update.effective_message.copy(kan, caption=sablon)
+                            if len(postee) == 1:
+                                post = update.effective_message.copy(kan, caption=sablon)
+                            else:
+                                grup.append(MEDIA_GROUP_TYPES[effective_message_type(update)](media=message.photo[-1].file_id if update.message.photo else update.message.effective_attachment.file_id, caption=sablon))
+                                post = bot.send_media_group(kan, media=grup)
                         except Exception as e:
                             if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
                                 try:
@@ -286,8 +299,11 @@ def poster_job(context):
                                 logger.error(e)
                         else:
                             count = count + 1
-                            if vakitler == 0:
+                            if len(postee) == 1:
                                 postdata.update_one({"_id": mesjid}, {"$push": {"pids": {"pid": post.message_id, "chat": kan, "user": user, "link": link, "alink": alink}}})
+                            else:
+                                for pos in post:
+                                    postdata.update_one({"_id": mesjid}, {"$push": {"pids": {"pid": pos.message_id, "chat": kan, "user": user, "link": link, "alink": alink}}})
                             logger.info("Başarılı! "+str(kan))
                     except Exception as e:
                         if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
@@ -313,8 +329,11 @@ def poster_job(context):
                             logger.error(e)
                     else:
                         count = count + 1
-                        if vakitler == 0:
+                        if len(postee) == 1:
                             postdata.update_one({"_id": mesjid}, {"$push": {"pids": {"pid": post.message_id, "chat": kan, "user": user, "link": link, "alink": alink}}})
+                        else:
+                            for pos in post:
+                                postdata.update_one({"_id": mesjid}, {"$push": {"pids": {"pid": pos.message_id, "chat": kan, "user": user, "link": link, "alink": alink}}})
                         logger.info("Başarılı! "+str(kan))
                         
         basari = "{} kaynağından, {} kanalda post paylaşıldı.".format(kynk.title, count)
@@ -716,8 +735,6 @@ def poster_edit(update, context):
                 edcount += 1
         logger.warning(f"{update.effective_chat.title} kaynağının {edcount} postu düzenlendi")
 
-
-
 def postsiralandirici(context):
     global postsirasi
     if len(postsirasi) == 0:
@@ -755,7 +772,7 @@ def poster(update, context):
     # Ana Kaynaklar
     if KaynakCol.find_one({"_id": pochat}) != None:
         logger.warning(f"{update.effective_message.chat.title} Postu sıraya eklendi.")
-        postdict = {"chatid": pochat, "update": update}
+        postdict = {"chatid": pochat, "update": update, "groupid": update.effective_message.media_group_id}
         ind = len(context.job_queue.get_jobs_by_name("anaposter"))
         whn = 130 if 2 <= ind < 4 else 10
         if 5 >= ind > 3:
@@ -766,7 +783,11 @@ def poster(update, context):
             whn = 430
         if ind > 9:
             whn = 530
-        context.job_queue.run_once(poster_job, when=whn, name="anaposter", context=postdict) 
+        for poj in context.job_queue.get_jobs_by_name("anaposter"):
+            if poj.context[0]['groupid'] == update.effective_message.media_group_id and poj.context[0]['groupid'] != None:
+                poj.context.append(postdict)
+                return
+        context.job_queue.run_once(poster_job, when=whn, name="anaposter", context=[postdict]) 
 
     # Özel Kaynaklar
     elif OzelCol.find_one({"okaynak": pochat}) != None:
