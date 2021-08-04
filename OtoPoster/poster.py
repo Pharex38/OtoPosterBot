@@ -784,7 +784,7 @@ def poster(update, context):
         if ind > 9:
             whn = 530
         for poj in context.job_queue.get_jobs_by_name("anaposter"):
-            if poj.context[0]['groupid'] == update.effective_message.media_group_id and poj.context[0]['groupid'] != None:
+            if poj.context[0]['groupid'] == update.effective_message.media_group_id and poj.context[0]['chatid'] == pochat:
                 poj.context.append(postdict)
                 return
         context.job_queue.run_once(poster_job, when=whn, name="anaposter", context=[postdict]) 
