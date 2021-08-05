@@ -18,6 +18,9 @@ def poster_job(context):
         if len(postee) > 1 and mesaj == None:
             grup.append(MEDIA_GROUP_TYPES[effective_message_type(poste)](media=update.message.photo[-1].file_id if update.message.photo else update.message.effective_attachment.file_id, caption=poste.effective_message.caption))
             continue
+        if postee.index(poste) != len(postee)-1:
+            postee.append(poste)
+            continue
         if mesaj == None:
             return
         """  Link tespit  """
