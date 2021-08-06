@@ -170,9 +170,13 @@ def patmark(user):
     pkul = collection.find_one({"_id": user})
 
     for k in pkul['kanal']:
-        kn = bot.get_chat(k)
+        try:
+            kn = bot.get_chat(k)
+            kis = kn.title
+        except:
+            kis = "Kanala ulaşılamadı."
         zero += 1
-        pkeyb.append([InlineKeyboardButton("{}".format(kn.title), callback_data="pat-{}".format(zero))])
+        pkeyb.append([InlineKeyboardButton("{}".format(kis), callback_data="pat-{}".format(zero))])
     pkeyb.append([InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")])
 
     pmark = InlineKeyboardMarkup(pkeyb)
