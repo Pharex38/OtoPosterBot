@@ -19,12 +19,12 @@ import html
 import json as jason
 import traceback
 
-mpass = os.environ['MONGOPASS']
-mongo = f"os.environ["MONGO_URI"]"
-
 pid = os.getpid()
 open("pid.txt", "w").write(str(pid))
 print(pid)
+
+mpass = os.environ['MONGOPASS']
+mongo = f"os.environ["MONGO_URI"]"
 
 cluster = MongoClient(mongo, ssl_cert_reqs=CERT_NONE)
 db = cluster["OtoPost"]
