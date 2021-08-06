@@ -16,7 +16,7 @@ def poster_job(context):
         count = 0
         mesaj = update.effective_message.caption
         if len(postee) > 1 and mesaj == None:
-            grup.append(MEDIA_GROUP_TYPES[effective_message_type(update)](media=update.effective_message.photo[-1].file_id if update.effective_message.photo else update.effective_message.effective_attachment.file_id, caption=poste.effective_message.caption))
+            grup.append(MEDIA_GROUP_TYPES[effective_message_type(update)](media=update.effective_message.photo[-1].file_id if update.effective_message.photo else update.effective_message.effective_attachment.file_id, caption=update.effective_message.caption))
             continue
         if postee.index(poste) != len(postee)-1:
             postee.append(poste)
