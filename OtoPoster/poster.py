@@ -28,9 +28,6 @@ def poster_job(context):
         chatdat = KaynakCol.find_one({"_id": chat})
         count = 0
         mesaj = update.effective_message.caption
-        if postee.index(poste) != len(postee)-1:
-            postee.append(poste)
-            continue
         if mesaj == None:
             return
         """  Link tespit  """
