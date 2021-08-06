@@ -778,5 +778,5 @@ def poster(update, context):
             if opoj.context[0]['groupid'] == update.effective_message.media_group_id and opoj.context[0]['chatid'] == pochat:
                 opoj.context.append(opostdict)
                 return
-        context.job_queue.run_once(ozel_poster_job, when=owhn, name="ozelposter", context=opostdict)
-        
+        context.job_queue.run_once(ozel_poster_job, when=owhn, name="ozelposter", context=[opostdict])
+    
