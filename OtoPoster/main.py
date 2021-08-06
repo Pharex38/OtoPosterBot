@@ -108,7 +108,10 @@ def main() -> None:
         yjcount += 1
     logger.warning(str(yjcount)+" Adet Job Yüklendi!")
     """ Polling """
-    updater.start_polling()
+    try:
+        updater.start_polling()
+    except:
+        return
     updater.idle()
 
 
