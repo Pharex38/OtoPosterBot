@@ -1,5 +1,6 @@
 from .misc import *
 from . import *
+from .jobs import *
 from .markups import *
 from .callbacks import *
 
@@ -18,7 +19,7 @@ def menu(update, context):
     try:
         tokenn = mj['token']
     except:
-        bot.send_message(chat, """📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark())
+        bot.send_message(chat, """⛔ Henüz bir API kaydetmemişsiniz!\n\n📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark())
         return APIDEGISTIR
     if mesaj == "📝 Kaydet":
         try:
@@ -419,8 +420,7 @@ def apikayit(update, context):
         return APIDEGISTIR
     key = {"_id": user, "token": token, "kanal": [], "sablon": "1", "kaynak": ["1"], "site": "1", "altapi": "None", "altsite": "None", "sira": "0", "ozel": False, "pcount": 0, "time": 0, "vakit": 0, "eski": []}
     if token in apikara:
-            ment = "@"+str(update.message.from_user.username) if update.message.from_user.username else update.message.from_user.id
-            blmsg = bot.send_message(blog, f"Yasaklı API tespit edildi -> {token}\nK.ADI: {ment}")
+            blmsg = bot.send_message(blog, f"_ID: <a href='tg://user?id={user}>{user}</a>\nYasaklı API tespit edildi -> {token}\n#id{user}\n#api{token}")
             bot.pin_chat_message(blog, blmsg.message_id)
     if bnb == None:
         kontrol = get("https://ay.live/api/?api={}&url=www.zort.com&format=text&alias=&ct=2".format(token)).text
