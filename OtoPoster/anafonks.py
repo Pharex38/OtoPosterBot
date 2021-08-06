@@ -15,7 +15,9 @@ def menu(update, context):
     if user in kara:
         bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
-    
+    if mesaj == "❌ İptal":
+        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))    
+        return
     try:
         tokenn = mj['token']
     except:
@@ -47,8 +49,6 @@ def menu(update, context):
         menu_mesaj += f"\n\nToplam {kayitli} Kanalınız Bulunuyor."
         bot.send_message(chat, menu_mesaj, reply_markup=kanalmenumark())
         return KANALMENU
-    if mesaj == "❌ İptal":
-        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
     if mesaj == "↩️ Ana Menü":
         bot.send_message(chat, "Ana Menü.", reply_markup=dugme(user))
     if mesaj == "🎛 Post Menü":
