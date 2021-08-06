@@ -427,10 +427,22 @@ def posterkomut2(update, context):
     # Özel Kaynaklar
     elif OzelCol.find_one({"okaynak": pochat}) != None:
         logger.warning(f"[ÖZEL] {update.effective_message.chat.title} Postu sıraya eklendi.")
-        opostdict = {"chatid": pochat, "update": update}
-        while len(context.job_queue.get_jobs_by_name("ozelposter")) > 1:
-            sleep(1)
-        context.job_queue.run_once(ozel_poster_job, when=2, name="ozelposter", context=opostdict)
+        opostdict = {"chatid": pochat, "update": update, "groupid": update.effective_message.media_group_id}
+        oind = len(context.job_queue.get_jobs_by_name("ozelposter"))
+        owhn = 20 if 2 <= oind < 4 else 10
+        if 5 >= oind > 3:
+            owhn = 30
+        if 7 >= oind > 5:
+            owhn = 40
+        if 9 >= oind > 7:
+            owhn = 50
+        if oind > 9:
+            owhn = 60
+        for opoj in context.job_queue.get_jobs_by_name("ozelposter"):
+            if opoj.context[0]['groupid'] == update.effective_message.media_group_id and opoj.context[0]['chatid'] == pochat:
+                opoj.context.append(opostdict)
+                return
+        context.job_queue.run_once(ozel_poster_job, when=owhn, name="ozelposter", context=[opostdict])
 
 def duy(update, context):
     chat = update.message.chat.id
