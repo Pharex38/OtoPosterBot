@@ -39,7 +39,15 @@ bottoken = maindata['bottoken']
 para = maindata['para']
 
 reqs = Request(con_pool_size=100, connect_timeout=100, read_timeout=100)
-bot = ExtBot(bottoken, request=reqs, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=90, disable_web_page_preview=True, tzinfo=pytz.timezone('Turkey')))
+try:
+    bot = ExtBot(bottoken, request=reqs, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=90, disable_web_page_preview=True, tzinfo=pytz.timezone('Turkey')))
+    except Exception as eee:
+        print("\n\n\n\n\neee")
+        print("\n\n\n\n\neee")
+        print("\n\n\n\n\neee")
+        print("\n\n\n\n\neee")
+        print("\n\n\n\n\neee")
+        print("\n\n\n\n\neee")
 
 
 eklenti = 815899066
