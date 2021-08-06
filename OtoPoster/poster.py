@@ -350,7 +350,20 @@ def poster_job(context):
         logger.error(e)
 
 def ozel_poster_job(context):
-    oposte = context.job.context
+    opostee = context.job.context    
+    ogrup = []
+    if len(opostee) > 1:
+        for postre in opostee:
+            ochat = postre['chatid']
+            oupdate = postre['update']
+            omesaj = oupdate.effective_message.caption
+            if omesaj != None:
+                oposte = opostre
+                continue
+            else:
+                ogrup.append(MEDIA_GROUP_TYPES[effective_message_type(oupdate)](media=oupdate.effective_message.photo[-1].file_id if oupdate.effective_message.photo else oupdate.effective_message.effective_attachment.file_id, caption=None))
+    else:
+        oposte = opostee[0]
     vipler = collection.find_one({"_id": 0})['vipuye']
     ochat = oposte['chatid']
     oupdate = oposte['update']
@@ -511,30 +524,28 @@ def ozel_poster_job(context):
                         try:
                             bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {ouser}\nÜYE: {omembersayi}\nKANAL: {okan}")
                         except RetryAfter as ortfr:
-                            sleep(orftr.retry_after+1)
-                            bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {ouser}\nÜYE: {omembersayi}\nKANAL: {okan}")
+                            sleep(ortfr.retry_after+1)
+                            try:
+                                bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {ouser}\nÜYE: {omembersayi}\nKANAL: {okan}")
+                            except:
+                                pass
                         collection.update_one({"_id": ouser}, {"$pull": {"kanal": okan}})
+                        logger.warning(f"{okan} kayıtlardan silindi.")
                         continue
                     except:
-                        pass
-                    else:
-                        logger.warning(f"{okan} kayıtlardan silindi.")
-                if ovakitler != 0:
-                    if odailycount == len(ovakitler):
-                        collection.update_one({"_id": ouser}, {"$set": {"time": -1}})
-                    if odailycount != -1:
-                        try:
-                            bot.send_message(eklenti, str(okan) + "+" + str(odailycount) + "+" + str(ouser))
-                        except RetryAfter as ortfr:
-                            sleep(orftr.retry_after+1)
-                            bot.send_message(eklenti, str(okan) + "+" + str(odailycount) + "+" + str(ouser))
-                    okan = eklenti
+                        continue
                 try:
-                    oupdate.effective_message.copy(okan, caption=osablon)
-                except RetryAfter as ortfr:
-                    sleep(orftr.retry_after+1)
-                    try:
+                    if len(opostee) == 1:
                         oupdate.effective_message.copy(okan, caption=osablon)
+                    else:
+                        bot.send_media_group(okan, media=ogrup+[MEDIA_GROUP_TYPES[effective_message_type(oupdate)](media=oupdate.effective_message.photo[-1].file_id if oupdate.effective_message.photo else oupdate.effective_message.effective_attachment.file_id, caption=osablon)])
+                except RetryAfter as ortfr:
+                    sleep(ortfr.retry_after+1)
+                    try:
+                        if len(opostee) == 1:
+                            oupdate.effective_message.copy(okan, caption=osablon)
+                        else:
+                            bot.send_media_group(okan, media=ogrup+[MEDIA_GROUP_TYPES[effective_message_type(oupdate)](media=oupdate.effective_message.photo[-1].file_id if oupdate.effective_message.photo else oupdate.effective_message.effective_attachment.file_id, caption=osablon)])
                     except Exception as e:
                         if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
                             try:
