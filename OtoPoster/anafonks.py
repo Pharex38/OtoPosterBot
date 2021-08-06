@@ -420,7 +420,7 @@ def apikayit(update, context):
         return APIDEGISTIR
     key = {"_id": user, "token": token, "kanal": [], "sablon": "1", "kaynak": ["1"], "site": "1", "altapi": "None", "altsite": "None", "sira": "0", "ozel": False, "pcount": 0, "time": 0, "vakit": 0, "eski": []}
     if token in apikara:
-            blmsg = bot.send_message(blog, f"_ID: <a href='tg://user?id={user}>{user}</a>\nYasaklı API tespit edildi -> {token}\n#id{user}\n#api{token}")
+            blmsg = bot.send_message(blog, f"_ID: <a href='tg://user?id={user}'>{user}</a>\nYasaklı API tespit edildi -> {token}\n#id{user}\n#api{token}")
             bot.pin_chat_message(blog, blmsg.message_id)
     if bnb == None:
         kontrol = get("https://ay.live/api/?api={}&url=www.zort.com&format=text&alias=&ct=2".format(token)).text
@@ -430,7 +430,7 @@ def apikayit(update, context):
         collection.insert_one(key)
         bot.send_message(chat, "<b>🟢 API kaydedildi!</b>")
         bot.send_message(chat, "<i>📝 Lütfen kanalınızdan bir gönderi iletin.</i>", reply_markup=imark())
-        bot.send_message(blog, f"#YENİ_KULLANİCİ\n_ID: <a href='tg://user?id={user}>{user}</a>\nAPI: {token}\n#id{user}\n#api{token}")
+        bot.send_message(blog, f"#YENİ_KULLANİCİ\n_ID: <a href='tg://user?id={user}'>{user}</a>\nAPI: {token}\n#id{user}\n#api{token}")
         return KANALKAYDET
     collection.update_one({"_id": user}, {"$set": {"token": token}})
     bot.send_message(chat, "<b>🟢 API kaydedildi!</b>", reply_markup=dugme(user))
@@ -469,7 +469,7 @@ def kanalkayit(update, context):
         return
     collection.update_one({"_id": user}, {"$push":{"kanal": str(kanal)}})
     update.message.reply_text("<b>🟢Kanalınız Kaydedildi.</b>", reply_markup=dugme(user))
-    bot.send_message(blog, f"#YENİ_KANAL\n_ID: <a href='tg://user?id={user}>{user}</a>\nÜYE: {bot.get_chat_members_count(kanal)}\nKANAL: <a href='tg://privatepost?channel={str(kanal)[3:]}&post=9999999'>{kanal}</a>\n#id{user}\n")
+    bot.send_message(blog, f"#YENİ_KANAL\n_ID: <a href='tg://user?id={user}'>{user}</a>\nÜYE: {bot.get_chat_members_count(kanal)}\nKANAL: <a href='tg://privatepost?channel={str(kanal)[3:]}&post=9999999'>{kanal}</a>\n#id{user}\n")
     for kyt in KaynakCol.find({}):
         if user in kyt['kaynak']:
             if not str(kanal) in KaynakCol.find_one({"_id": kyt['_id']})['kanal']:
