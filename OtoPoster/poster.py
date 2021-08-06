@@ -276,15 +276,14 @@ def poster_job(context):
                             post = update.effective_message.copy(kan, caption=sablon)
                         else:
                             grup.append(MEDIA_GROUP_TYPES[effective_message_type(update)](media=update.effective_message.photo[-1].file_id if update.effective_message.photo else update.effective_message.effective_attachment.file_id, caption=sablon))
-                            post = bot.send_media_group(kan, media=grup)
+                            post = bot.send_media_group(kan, media=grup+[MEDIA_GROUP_TYPES[effective_message_type(update)](media=update.effective_message.photo[-1].file_id if update.effective_message.photo else update.effective_message.effective_attachment.file_id, caption=sablon)])
                     except RetryAfter as rtfr:
                         sleep(rtfr.retry_after+1)
                         try:
                             if len(postee) == 1:
                                 post = update.effective_message.copy(kan, caption=sablon)
                             else:
-                                grup.append(MEDIA_GROUP_TYPES[effective_message_type(update)](media=update.effective_message.photo[-1].file_id if update.effective_message.photo else update.effective_message.effective_attachment.file_id, caption=sablon))
-                                post = bot.send_media_group(kan, media=grup)
+                                post = bot.send_media_group(kan, media=grup+[MEDIA_GROUP_TYPES[effective_message_type(update)](media=update.effective_message.photo[-1].file_id if update.effective_message.photo else update.effective_message.effective_attachment.file_id, caption=sablon)])
                         except Exception as e:
                             if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
                                 try:
