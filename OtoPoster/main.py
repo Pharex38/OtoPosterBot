@@ -15,7 +15,16 @@ bildir('Bot Başladı 🍕')
 def main() -> None:
 
     persistence = PicklePersistence(filename='OtoPosterPersistence', store_user_data=True, store_chat_data=True, single_file=True, store_callback_data=True)
-    updater = Updater(bot=bot, workers=40, persistence=persistence)
+    try:
+        updater = Updater(bot=bot, workers=40, persistence=persistence)
+    except Exception as eee:
+        print("\n\n\n\n\neee")
+        print("\n\n\n\n\neee")
+        print("\n\n\n\n\neee")
+        print("\n\n\n\n\neee")
+        print("\n\n\n\n\neee")
+        print("\n\n\n\n\neee")
+        return
     dispatcher = updater.dispatcher
     upjob = updater.job_queue
     """ Repeating Jobs """
@@ -108,16 +117,8 @@ def main() -> None:
         yjcount += 1
     logger.warning(str(yjcount)+" Adet Job Yüklendi!")
     """ Polling """
-    try:
-        updater.start_polling()
-        updater.idle()
-    except Exception as eee:
-        print("\n\n\n\n\neee")
-        print("\n\n\n\n\neee")
-        print("\n\n\n\n\neee")
-        print("\n\n\n\n\neee")
-        print("\n\n\n\n\neee")
-        print("\n\n\n\n\neee")
+    updater.start_polling()
+    updater.idle()
 
 
     upjob.run_once(jobyedekleme, when=1, name="yedekleme")
