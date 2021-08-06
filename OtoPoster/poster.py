@@ -13,6 +13,7 @@ def poster_job(context):
         for postre in postee:
             chat = postre['chatid']
             update = postre['update']
+            mesaj = update.effective_message.caption
             if mesaj != None:
                 poste = postre
                 continue
