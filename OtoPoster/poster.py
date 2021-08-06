@@ -9,16 +9,24 @@ def poster_job(context):
     vipler = collection.find_one({"_id": 0})['vipuye']
     postee = context.job.context
     grup = []
-    for poste in postee:
+    if len(postee) > 1:
+        for postre in postee:
+            chat = postre['chatid']
+            update = postre['update']
+            if mesaj != None:
+                poste = postre
+                continue
+            else:
+                grup.append(MEDIA_GROUP_TYPES[effective_message_type(update)](media=update.effective_message.photo[-1].file_id if update.effective_message.photo else update.effective_message.effective_attachment.file_id, caption=None))
+    else:
+        poste = postee[0]
+    if True:
         print(grup)
         chat = poste['chatid']
         update = poste['update']
         chatdat = KaynakCol.find_one({"_id": chat})
         count = 0
         mesaj = update.effective_message.caption
-        if len(postee) > 1 and mesaj == None:
-            grup.append(MEDIA_GROUP_TYPES[effective_message_type(update)](media=update.effective_message.photo[-1].file_id if update.effective_message.photo else update.effective_message.effective_attachment.file_id, caption=None))
-            continue
         if postee.index(poste) != len(postee)-1:
             postee.append(poste)
             continue
