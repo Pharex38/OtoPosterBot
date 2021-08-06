@@ -24,12 +24,8 @@ def menu(update, context):
         bot.send_message(chat, """⛔ Henüz bir API kaydetmemişsiniz!\n\n📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark())
         return APIDEGISTIR
     if mesaj == "📝 Kaydet":
-        try:
-            tokenn = mj['token']
-        except:
-            bot.send_message(chat, """📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark())
-            
-            return APIDEGISTIR
+        bot.send_message(chat, """📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark())
+        return APIDEGISTIR
     if mesaj == "🖥 Kanal Menü":
         kayitli = 0
         menu_mesaj = "<b>🖥Kayıtlı Kanalınız;</b>\n"
