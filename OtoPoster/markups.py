@@ -1,5 +1,5 @@
-from . import *
 from .misc import *
+from . import *
 
 markup = ForceReply(selective=False)
 
@@ -42,7 +42,7 @@ def sfsmark(user):
             try:
                 sfslink = bot.get_chat(sfskan).invite_link
             except Exception as e:
-                logger.error(e)
+                sfslink = ""
                 pass
             else:
                 sfssatir.append(InlineKeyboardButton(sfsname, url=sfslink))
@@ -189,12 +189,7 @@ def gen_markup(user):
     for k in kayd['kanal']:
         try:
             ismi = bot.get_chat(k)
-        except BadRequest as bd:
-            if bd.args == "Chat is not found":
-                raise Unauthorized
-            else:
-                logger.error(bd)
-        except Unauthorized:
+        except:
             collection.update_one({"_id": user}, {"$pull": {"kanal": k}})
         else:
             keyb.append([InlineKeyboardButton("{}".format(ismi.title), callback_data="sil-{}".format(butonno))])

@@ -51,7 +51,7 @@ def poster_job(context):
     try:
         lmsg = bot.send_message(botlog, "<code>{} kaynağının postu paylaşılıyor...</code>".format(kynk.title))
     except RetryAfter as rtfr:
-        sleep(rftr.retry_after+1)
+        sleep(rtfr.retry_after+1)
         lmsg = bot.send_message(botlog, "<code>{} kaynağının postu paylaşılıyor...</code>".format(kynk.title))
     except Exception as e:
         logger.error(e)
@@ -217,30 +217,6 @@ def poster_job(context):
                 except:
                     pass
                 continue
-            if vakitler != 0:
-                trysch = 0
-                while True:
-                    if dailycount >= len(user_dat['vakit']):
-                        dailycount = 0
-                    raw_vakit = user_dat['vakit'][dailycount]
-                    bugün = datetime.datetime.now()
-                    raw_vakit = str(bugün.day).zfill(2) + "/" + str(bugün.month).zfill(2) + "/" + str(bugün.year) + " " + str(raw_vakit) + ":59"
-                    tvakit = datetime.timedelta(hours = 3)
-                    vakit = datetime.datetime.strptime(raw_vakit, '%d/%m/%Y %H:%M:%S') - tvakit
-                    kontrol = vakit - datetime.datetime.utcnow()
-                    if not kontrol.days < 0:
-                        break
-                    if trysch > len(user_dat['vakit']):
-                        return
-                    dailycount += 1
-                    trysch += 1
-                try:
-                    bot.send_message(eklenti, str(kan) + "+" + str(dailycount) + "+" + str(user))
-                except RetryAfter as rtfr:
-                    sleep(rftr.retry_after+1)                            
-                    bot.send_message(eklenti, str(kan) + "+" + str(dailycount) + "+" + str(user))
-                collection.update_one({"_id": user}, {"$set": {"time": dailycount}})
-                sleep(0.1)
             for kan in kanal:
                 sleep(0.1)
                 if not kan in chatdat['kanal'] or kan in eski:
@@ -259,10 +235,10 @@ def poster_job(context):
                         logger.warning(f"Hatalı kanal: {kan}")
                         collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
                         try:
-                            bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {user}\nÜYE: {membersayi}\nKANAL: {kan}")
+                            bot.send_message(blog, F"#KANAL_SİLİNDİ\n_ID: {user}\nÜYE: {membersayi}\nKANAL: <a href='tg://privatepost?channel={kan[3:]}&post=9999999'>{kan}</a>\n#kan{kan}\n#id{user}")
                         except RetryAfter as rtfr:
-                            sleep(rftr.retry_after+1)
-                            bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {user}\nÜYE: {membersayi}\nKANAL: {kan}")
+                            sleep(rtfr.retry_after+1)
+                            bot.send_message(blog, F"#KANAL_SİLİNDİ\n_ID: {user}\nÜYE: {membersayi}\nKANAL: <a href='tg://privatepost?channel={kan[3:]}&post=9999999'>{kan}</a>\n#kan{kan}\n#id{user}")
                         collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
                         continue
                     except:
@@ -291,11 +267,11 @@ def poster_job(context):
                                     kanname = "Kanaldan Çıkarılmış."
                                 collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
                                 try:
-                                    bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {user}\nÜYE: {kanname}\nKANAL: {kan}")
+                                    bot.send_message(blog, F"#KANAL_SİLİNDİ\n_ID: {user}\nÜYE: {kanname}\nKANAL: <a href='tg://privatepost?channel={kan[3:]}&post=9999999'>{kan}</a>\n#kan{kan}\n#id{user}")
                                     bot.send_message(user, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
                                 except RetryAfter as rtfr:
-                                    sleep(rftr.retry_after+1)
-                                    bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {user}\nÜYE: {kanname}\nKANAL: {kan}")
+                                    sleep(rtfr.retry_after+1)
+                                    bot.send_message(blog, F"#KANAL_SİLİNDİ\n_ID: {user}\nÜYE: {kanname}\nKANAL: <a href='tg://privatepost?channel={kan[3:]}&post=9999999'>{kan}</a>\n#kan{kan}\n#id{user}")
                                     bot.send_message(user, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
                             except:
                                 pass   
@@ -321,11 +297,11 @@ def poster_job(context):
                                 kanname = "Kanaldan Çıkarılmış."
                             collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
                             try:
-                                bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {user}\nÜYE: {kanname}\nKANAL: {kan}")
+                                bot.send_message(blog, F"#KANAL_SİLİNDİ\n_ID: {user}\nÜYE: {kanname}\nKANAL: <a href='tg://privatepost?channel={kan[3:]}&post=9999999'>{kan}</a>\n#kan{kan}\n#id{user}")
                                 bot.send_message(user, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
                             except RetryAfter as rtfr:
-                                sleep(rftr.retry_after+1)
-                                bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {user}\nÜYE: {kanname}\nKANAL: {kan}")
+                                sleep(rtfr.retry_after+1)
+                                bot.send_message(blog, F"#KANAL_SİLİNDİ\n_ID: {user}\nÜYE: {kanname}\nKANAL: <a href='tg://privatepost?channel={kan[3:]}&post=9999999'>{kan}</a>\n#kan{kan}\n#id{user}")
                                 bot.send_message(user, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
                         except:
                             pass   
@@ -353,9 +329,9 @@ def ozel_poster_job(context):
     opostee = context.job.context    
     ogrup = []
     if len(opostee) > 1:
-        for postre in opostee:
-            ochat = postre['chatid']
-            oupdate = postre['update']
+        for opostre in opostee:
+            ochat = opostre['chatid']
+            oupdate = opostre['update']
             omesaj = oupdate.effective_message.caption
             if omesaj != None:
                 oposte = opostre
@@ -458,7 +434,7 @@ def ozel_poster_job(context):
                     if osite == "4":
                         olink = get(f"http://ouo.io/api/{otoken}?", params={'s': omesajb}, headers=headers).text
                     if osite == "5":
-                        olink = get(f"http://pubiza.com/api.php?", params={'token': etoken, 'url': omesajb, 'ads_type': "adult"}, headers=headers).text
+                        olink = get(f"http://pubiza.com/api.php?", params={'token': otoken, 'url': omesajb, 'ads_type': "adult"}, headers=headers).text
                     if osite == "6":
                         ojson = get("https://gir.ist/api?", params={"api": otoken, "url": omesajb}, headers=headerss).json()
                         olink = ojson['shortenedUrl']
@@ -471,7 +447,7 @@ def ozel_poster_job(context):
                 try:
                     bot.send_message(ouser, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
                 except RetryAfter as ortfr:
-                    sleep(orftr.retry_after+1)
+                    sleep(ortfr.retry_after+1)
                     bot.send_message(ouser, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
                 logger.error(e)
                 continue
@@ -486,7 +462,7 @@ def ozel_poster_job(context):
                         bot.send_message(sahip, f"{oupdate.effective_message.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{oupdate.effective_message.link}")
                         bot.send_message(okaynak['_id'], f"{oupdate.effective_message.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{oupdate.effective_message.link}")
                     except RetryAfter as ortfr:
-                        sleep(orftr.retry_after+1)
+                        sleep(ortfr.retry_after+1)
                         bot.send_message(sahip, f"{oupdate.effective_message.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{oupdate.effective_message.link}")
                         bot.send_message(okaynak['_id'], f"{oupdate.effective_message.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{oupdate.effective_message.link}")
                     break
@@ -522,11 +498,11 @@ def ozel_poster_job(context):
                     try:
                         logger.warning(f"Hatalı kanal: {okan}")
                         try:
-                            bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {ouser}\nÜYE: {omembersayi}\nKANAL: {okan}")
+                            bot.send_message(blog, F"#KANAL_SİLİNDİ\n_ID: {ouser}\nÜYE: {omembersayi}\nKANAL: <a href='tg://privatepost?channel={okan[3:]}&post=9999999'>{okan}</a>\n#kan{okan}\n#id{ouser}")
                         except RetryAfter as ortfr:
                             sleep(ortfr.retry_after+1)
                             try:
-                                bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {ouser}\nÜYE: {omembersayi}\nKANAL: {okan}")
+                                bot.send_message(blog, F"#KANAL_SİLİNDİ\n_ID: {ouser}\nÜYE: {omembersayi}\nKANAL: <a href='tg://privatepost?channel={okan[3:]}&post=9999999'>{okan}</a>\n#kan{okan}\n#id{ouser}")
                             except:
                                 pass
                         collection.update_one({"_id": ouser}, {"$pull": {"kanal": okan}})
@@ -552,11 +528,15 @@ def ozel_poster_job(context):
                                 logger.warning(f"Hatalı kanal: {okan}")
                                 collection.update_one({"_id": ouser}, {"$pull": {"kanal": okan}})
                                 try:
-                                    bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {ouser}\nÜYE: {bot.get_chat_members_count(okan)}\nKANAL: {okan}")
+                                    oukisim = bot.get_chat_members_count(okan)
+                                except:
+                                    oukisim = "Kanala ulaşılamadı."
+                                try:
+                                    bot.send_message(blog, F"#KANAL_SİLİNDİ\n_ID: {ouser}\nÜYE: {oukisim}\nKANAL: <a href='tg://privatepost?channel={okan[3:]}&post=9999999'>{okan}</a>\n#kan{okan}\n#id{ouser}")
                                     bot.send_message(ouser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
                                 except RetryAfter as ortfr:
-                                    sleep(orftr.retry_after+1)
-                                    bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {ouser}\nÜYE: {bot.get_chat_members_count(okan)}\nKANAL: {okan}")
+                                    sleep(ortfr.retry_after+1)
+                                    bot.send_message(blog, F"#KANAL_SİLİNDİ\n_ID: {ouser}\nÜYE: {oukisim}\nKANAL: <a href='tg://privatepost?channel={okan[3:]}&post=9999999'>{okan}</a>\n#kan{okan}\n#id{ouser}")
                                     bot.send_message(ouser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
                             except Exception as e: 
                                 logger.error(e)
@@ -573,11 +553,15 @@ def ozel_poster_job(context):
                             logger.warning(f"Hatalı kanal: {okan}")
                             collection.update_one({"_id": ouser}, {"$pull": {"kanal": okan}})
                             try:
-                                bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {ouser}\nÜYE: {bot.get_chat_members_count(okan)}\nKANAL: {okan}")
+                                oukisim = bot.get_chat_members_count(okan)
+                            except:
+                                oukisim = "Kanala ulaşılamadı."
+                            try:
+                                bot.send_message(blog, F"#KANAL_SİLİNDİ\n_ID: {ouser}\nÜYE: {oukisim}\nKANAL: <a href='tg://privatepost?channel={okan[3:]}&post=9999999'>{okan}</a>\n#kan{okan}\n#id{ouser}")
                                 bot.send_message(ouser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
                             except RetryAfter as ortfr:
-                                sleep(orftr.retry_after+1)
-                                bot.send_message(blog, F"#KANAL_SİLİNDİ\nSAHİP: {ouser}\nÜYE: {bot.get_chat_members_count(okan)}\nKANAL: {okan}")
+                                sleep(ortfr.retry_after+1)
+                                bot.send_message(blog, F"#KANAL_SİLİNDİ\n_ID: {ouser}\nÜYE: {oukisim}\nKANAL: <a href='tg://privatepost?channel={okan[3:]}&post=9999999'>{okan}</a>\n#kan{okan}\n#id{ouser}")
                                 bot.send_message(ouser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
                         except Exception as e: 
                             logger.error(e)
@@ -593,7 +577,7 @@ def ozel_poster_job(context):
         try:
             bot.send_message(okaynak["log"], obasari[7:])
         except RetryAfter as ortfr:
-            sleep(orftr.retry_after+1)
+            sleep(ortfr.retry_after+1)
             try:
                 bot.send_message(okaynak["log"], obasari[7:])
             except:
@@ -632,7 +616,9 @@ def poster_edit(update, context):
             site = edi_dat['site'] 
             altsite = edi_dat['altsite'] 
             altapi = edi_dat['altapi'] 
+            kanal = edi_dat['kanal']
             token = edi_dat['token'] 
+            sablon = edi_dat['sablon']
             chatdat = KaynakCol.find_one({"_id": chat})
             try:
                 if sira == "2":
@@ -655,7 +641,7 @@ def poster_edit(update, context):
                         if altsite == "4":
                             alink = get(f"http://ouo.io/api/{altapi}?", params={'s': edited_l}, headers=headers).text
                         if altsite == "5":
-                            alink = get(f"http://pubiza.com/api.php?", params={'token': altapi, 'url': mesajb, 'ads_type': "adult"}, headers=headers).text
+                            alink = get(f"http://pubiza.com/api.php?", params={'token': altapi, 'url': edited_l, 'ads_type': "adult"}, headers=headers).text
                         if altsite == "6":
                             json = get("http://gir.ist/api?", params={"api": altapi, "url": edited_l}, headers=headerss).json()
                             alink = json['shortenedUrl']
@@ -676,7 +662,7 @@ def poster_edit(update, context):
                     if site == "4":
                         link = get(f"http://ouo.io/api/{token}?", params={'s': edited_l}, headers=headers).text
                     if site == "5":
-                        link = get(f"http://pubiza.com/api.php?", params={'token': token, 'url': mesajb, 'ads_type': "adult"}, headers=headers).text
+                        link = get(f"http://pubiza.com/api.php?", params={'token': token, 'url': edited_l, 'ads_type': "adult"}, headers=headers).text
                     if site == "6":
                         json = get("http://gir.ist/api?", params={"api": token, "url": edited_l}, headers=headerss).json()
                         link = json['shortenedUrl']
@@ -792,5 +778,5 @@ def poster(update, context):
             if opoj.context[0]['groupid'] == update.effective_message.media_group_id and opoj.context[0]['chatid'] == pochat:
                 opoj.context.append(opostdict)
                 return
-        context.job_queue.run_once(ozel_poster_job, when=owhn, name="ozelposter", context=opostes)
+        context.job_queue.run_once(ozel_poster_job, when=owhn, name="ozelposter", context=opostdict)
         
