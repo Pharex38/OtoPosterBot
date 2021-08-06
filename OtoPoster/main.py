@@ -108,8 +108,17 @@ def main() -> None:
         yjcount += 1
     logger.warning(str(yjcount)+" Adet Job Yüklendi!")
     """ Polling """
-    updater.start_polling()
-    updater.idle()
+    try:
+        updater.start_polling()
+        updater.idle()
+    except Exception as eee:
+        print("\n\n\n\n\neee")
+        print("\n\n\n\n\neee")
+        print("\n\n\n\n\neee")
+        print("\n\n\n\n\neee")
+        print("\n\n\n\n\neee")
+        print("\n\n\n\n\neee")
+
 
     upjob.run_once(jobyedekleme, when=1, name="yedekleme")
 
