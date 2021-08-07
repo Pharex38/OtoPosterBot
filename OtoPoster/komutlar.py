@@ -203,60 +203,6 @@ def sonuclandir(update, context):
     else:
         update.effective_message.reply_text("Çekiliş sonuçlandırıldı.")
     
-"""
-def sonuclandir(update, context):
-    katilimcilar = list(collection.find_one({"_id": 0})['cekilis'])
-    sonuc_text = update.effective_message.reply_to_message.text_html_urled
-    kazcount = 0
-    kazananlar = ""
-    yedekler = ""
-    cek_chat = context.bot_data['cekilis_chat']
-    cek_mid = context.bot_data['cekilis_mid']
-    cek_k_no = context.bot_data['sahip']
-    while kazcount != int(context.args[0]):
-        kazananid = choice(katilimcilar)
-        cek_dat = collection.find_one({"_id": kazananid})
-        if cek_dat == None:
-            continue
-        if len(cek_dat['kanal']) == 0 or not kazananid in KaynakCol.find_one({"sahip": cek_k_no})['kaynak']:
-            continue
-        for cekkan in cek_dat['kanal']:
-            if cekkan in KaynakCol.find_one({"sahip": cek_k_no})['kanal']:
-                if bot.get_chat_members_count(cekkan) > 1001:
-                    kazadi = bot.get_chat(kazananid)
-                    kazananlar += '<a href="tg://user?id={}">{}</a>\n'.format(kazananid, "@"+str(kazadi.username) if kazadi.username else kazadi.first_name)
-                    katilimcilar.remove(kazananid)
-                    kazcount += 1
-                    break
-    kazcount = 0
-    while kazcount != int(context.args[1]):
-        kazananid = choice(katilimcilar)
-        cek_dat = collection.find_one({"_id": kazananid})
-        if cek_dat == None:
-            continue
-        if len(cek_dat['kanal']) == 0 or not kazananid in KaynakCol.find_one({"sahip": cek_k_no})['kaynak']:
-            continue
-        for cekkan in cek_dat['kanal']:
-            if cekkan in KaynakCol.find_one({"sahip": cek_k_no})['kanal']:
-                if bot.get_chat_members_count(cekkan) > 1001:
-                    kazadi = bot.get_chat(kazananid)
-                    yedekler += '<a href="tg://user?id={}">{}</a>\n'.format(kazananid, "@"+str(kazadi.username) if kazadi.username else kazadi.first_name)
-                    katilimcilar.remove(kazananid)
-                    kazcount += 1
-                    break
-    if kazananlar == "":
-        update.effective_message.reply_text("Uygun şartlarda kazanan bulunamadı!")
-        return
-    if yedekler == "":
-        update.effective_message.reply_text("Uygun şartlarda yedek bulunamadı!")
-        return
-    try:
-        bot.edit_message_text(sonuc_text.format(k=kazananlar, y=yedekler), int(cek_chat), int(cek_mid))
-    except Exception as e:
-        update.effective_message.reply_text(str(e))
-    else:
-        update.effective_message.reply_text("Çekiliş sonuçlandırıldı.")
-"""
 
 def joblist(update, context):
      jobs = context.job_queue.jobs()
