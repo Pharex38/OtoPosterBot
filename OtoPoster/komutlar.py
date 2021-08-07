@@ -197,7 +197,7 @@ def sonuclandir(update, context):
         update.effective_message.reply_text("Uygun şartlarda yedek bulunamadı!")
         return
     try:
-        bot.edit_message_text(botlog, sonuc_text.format(k=kazananlar, y=yedekler))
+        bot.send_message(botlog, sonuc_text.format(k=kazananlar, y=yedekler))
     except Exception as e:
         update.effective_message.reply_text(str(e))
     else:
