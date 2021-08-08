@@ -88,8 +88,8 @@ def kanalmenu(update, context):
         return 
     if mesaj == "🔶 Yeni Kanal Ekle":
         vip_uyeler = collection.find_one({"_id": 0})['vipuye']
-        if len(kudat['kanal']) > 9 and not user in vip_uyeler:
-            bot.send_message(chat, "<i>Üzgünüm en fazla 10 kanal kaydedebilirsiniz.</i>")
+        if len(kudat['kanal']) > 14 and not user in vip_uyeler:
+            bot.send_message(chat, "<i>Üzgünüm en fazla 15 kanal kaydedebilirsiniz.</i>")
             return 
         bot.send_message(chat, """📝 <i>Lütfen kanalınızdan bir gönderi iletin.</i>""", reply_markup=imark())
         return KANALKAYDET
