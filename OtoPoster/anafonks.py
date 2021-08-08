@@ -210,7 +210,7 @@ def postmenu(update, context):
         return
     if mesaj == "🔧 Kaynak":
         if len(poudat['kanal']) < 1:
-            bot.send_message(chat, "Henüz bir kanal kaydetmemişsiniz.", reply_markup=kanalmenumark())
+            bot.send_message(chat, "Henüz bir kanal kaydetmemişsiniz.", reply_markup=postmenumark())
             return
         kaynakmsg = bot.send_message(chat, "<code>Yükleniyor...</code>")
         kynskm = poudat['kanal'][0]
