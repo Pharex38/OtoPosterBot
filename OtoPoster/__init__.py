@@ -38,17 +38,8 @@ apikara = maindata['apikara']
 bottoken = maindata['bottoken']
 para = maindata['para']
 
-try:
-    reqs = Request(con_pool_size=100, connect_timeout=100, read_timeout=100)
-    bot = ExtBot(bottoken, request=reqs, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=90, disable_web_page_preview=True, tzinfo=pytz.timezone('Turkey')))
-except Exception as eee:
-    print("\n\n\n\n\neee")
-    print("\n\n\n\n\neee")
-    print("\n\n\n\n\neee")
-    print("\n\n\n\n\neee")
-    print("\n\n\n\n\neee")
-    print("\n\n\n\n\neee")
-
+reqs = Request(con_pool_size=100, connect_timeout=100, read_timeout=100)
+bot = ExtBot(bottoken, request=reqs, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=90, disable_web_page_preview=True, allow_sending_without_reply=True, tzinfo=pytz.timezone('Turkey')))
 
 eklenti = 815899066
 blog = -1001391561285
