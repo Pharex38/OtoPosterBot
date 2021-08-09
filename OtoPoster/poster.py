@@ -755,7 +755,7 @@ def poster(update, context):
         if ind > 9:
             whn = 530
         for poj in context.job_queue.get_jobs_by_name("anaposter"):
-            if poj.context[0]['groupid'] == update.effective_message.media_group_id and poj.context[0]['chatid'] == pochat:
+            if poj.context[0]['groupid'] == update.effective_message.media_group_id and poj.context[0]['chatid'] == pochat and update.effective_message.media_group_id != None:
                 poj.context.append(postdict)
                 return
         context.job_queue.run_once(poster_job, when=whn, name="anaposter", context=[postdict]) 
@@ -765,7 +765,7 @@ def poster(update, context):
         logger.warning(f"[ÖZEL] {update.effective_message.chat.title} Postu sıraya eklendi.")
         opostdict = {"chatid": pochat, "update": update, "groupid": update.effective_message.media_group_id}
         for opoj in context.job_queue.get_jobs_by_name("ozelposter"):
-            if opoj.context[0]['groupid'] == update.effective_message.media_group_id and opoj.context[0]['chatid'] == pochat:
+            if opoj.context[0]['groupid'] == update.effective_message.media_group_id and opoj.context[0]['chatid'] == pochat and update.effective_message.media_group_id != None:
                 opoj.context.append(opostdict)
                 return
         context.job_queue.run_once(ozel_poster_job, when=5, name="ozelposter", context=[opostdict])
