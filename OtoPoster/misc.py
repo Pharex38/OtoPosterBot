@@ -166,16 +166,20 @@ def error_handler(update: object, context: CallbackContext) -> None:
                             postsirasi.remove(oer)
                         except Exception as e:
                             print(e)
-        message = (
+        message1 = (
         f'BİR HATA OLUŞTU!\n'
-        f'<pre>update = {html.escape(jason.dumps(update_str, indent=2, ensure_ascii=False))}'
-        '</pre>\n\n'
+        f'<pre>update = {html.escape(jason.dumps(update_str, indent=2, ensure_ascii=False))}')
+        message2 = (
         f'<pre>context.chat_data = {html.escape(str(context.chat_data))}</pre>\n\n'
         f'<pre>context.user_data = {html.escape(str(context.user_data))}</pre>\n\n'
+        f'{collection.find_one({"_id": update.effective_user.id if update.effective_user else 31})}')
+        message3 = (
         f'<pre>{html.escape(tb_string)}</pre>'
         )
 
-        context.bot.send_message(chat_id=1302980840, text=message, parse_mode=ParseMode.HTML)
+        context.bot.send_message(chat_id=sahip, text=message1, parse_mode=ParseMode.HTML)
+        context.bot.send_message(chat_id=sahip, text=message2, parse_mode=ParseMode.HTML)
+        context.bot.send_message(chat_id=sahip, text=message3, parse_mode=ParseMode.HTML)
     except Exception as es:
         print(es)
 

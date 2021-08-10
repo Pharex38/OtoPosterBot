@@ -350,10 +350,9 @@ def begenidegistir(update, context):
     mesaj = update.message.text
     chat = update.message.chat.id
     user = update.message.from_user.id
-    for bbb in mesaj.split("/"):
-        if len(bbb) != 1:
-            update.effective_message.reply_text("Hatalı biçim! Lütfen örnekteki gibi gönderin.\n\nÖrnek;\n<code>❤️/⛔️/🥰</code>")
-            return
+    if len(mesaj.split("/")) < 1:
+        update.effective_message.reply_text("Hatalı biçim! Lütfen örnekteki gibi gönderin.\n\nÖrnek;\n<code>❤️/⛔️/🥰</code>")
+        return
     collection.update_one({"_id": user}, {"$set": {"begeni": update.message.text.split("/")}})
     update.effective_message.reply_text("Butonlarınız kaydedildi!")
     return conversationhandler.END
@@ -397,7 +396,7 @@ def cancel(update, context):
     return ConversationHandler.END
 
 def altakayit(update, context):
-    amesaj = update.message.text
+    amesaj = html.escape(update.message.text)
     user = update.message.from_user.id
     chat = update.message.chat.id
     if collection.find_one({"_id": user}) == None:
@@ -435,7 +434,7 @@ def postzaman(update, context):
     return ConversationHandler.END
 
 def apikayit(update, context):
-    token = update.message.text
+    token = html.escape(update.message.text)
     user = update.message.from_user.id
     chat = update.message.chat.id
     bnb = collection.find_one({"_id": user})
