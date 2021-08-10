@@ -202,8 +202,13 @@ def gen_markup(user):
     
     return silkey
 
-def begenimark(kalp, bomb, rose):
-    bmark = InlineKeyboardMarkup([[InlineKeyboardButton(f"♥️{kalp}", callback_data="emo-{}-{}-{}-1".format(kalp, bomb, rose)), InlineKeyboardButton(f"💣{bomb}", callback_data="emo-{}-{}-{}-2".format(kalp, bomb, rose)), InlineKeyboardButton(f"🌹{rose}", callback_data="emo-{}-{}-{}-3".format(kalp, bomb, rose))]])
+def begenimark(eudat):
+    try:
+        eudat['begeni']
+    except KeyError:
+        bmark = InlineKeyboardMarkup([[InlineKeyboardButton('Beğeni Butonları Oluştur.', callback_data="begeniolustur")], [InlineKeyboardButton('İptal.', callback_data="iptal")]])
+    else:
+        bmark = InlineKeyboardMarkup([[InlineKeyboardButton('Butonları değiştir.', callback_data="begeniolustur")], [InlineKeyboardButton('Butonları kaldır', callback_data="begenikaldir")], [InlineKeyboardButton('İptal.', callback_data="iptal")]])
     return bmark
 
 def jobmark(user, context):
