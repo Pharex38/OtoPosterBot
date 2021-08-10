@@ -18,13 +18,13 @@ def menu(update, context):
     if mesaj == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))    
         return
+    if mesaj == "📝 Kaydet":
+        bot.send_message(chat, """📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark())
+        return APIDEGISTIR
     try:
         tokenn = mj['token']
     except:
         bot.send_message(chat, """⛔ Henüz bir API kaydetmemişsiniz!\n\n📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark())
-        return APIDEGISTIR
-    if mesaj == "📝 Kaydet":
-        bot.send_message(chat, """📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark())
         return APIDEGISTIR
     if mesaj == "🖥 Kanal Menü":
         kayitli = 0
@@ -47,6 +47,7 @@ def menu(update, context):
         return KANALMENU
     if mesaj == "↩️ Ana Menü":
         bot.send_message(chat, "Ana Menü.", reply_markup=dugme(user))
+        return
     if mesaj == "🎛 Post Menü":
         bot.send_message(chat, "Post menüsü.", reply_markup=postmenumark())
         return POSTMENU
