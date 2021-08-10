@@ -53,7 +53,7 @@ def menu(update, context):
         return KANALMENU
     if mesaj == "🛠 Ekstralar":
         bot.send_message(chat, "Ekstralar Menüsü", reply_markup=ekstralarmenumark())
-        return
+        return EKSTRAMENU
     if mesaj == "🎛 Post Menü":
         bot.send_message(chat, "Post menüsü.", reply_markup=postmenumark())
         return POSTMENU
