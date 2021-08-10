@@ -357,7 +357,7 @@ def begenidegistir(update, context):
         update.effective_message.reply_text("Hatalı biçim! Lütfen örnekteki gibi gönderin.\n\nÖrnek;\n<code>❤️/⛔️/🥰</code>")
         return ConversationHandler.END
     collection.update_one({"_id": user}, {"$set": {"begeni": update.message.text.split("/")}})
-    update.effective_message.reply_text("Butonlarınız kaydedildi!")
+    update.effective_message.reply_text("Butonlarınız kaydedildi!", reply_markup=ekstralarmenumark())
     return ConversationHandler.END
     
 
