@@ -352,10 +352,10 @@ def begenidegistir(update, context):
     user = update.message.from_user.id
     for bbb in mesaj.split("/"):
         if len(bbb) != 1:
-            update.reply_text("Hatalı biçim! Lütfen örnekteki gibi gönderin.\n\nÖrnek;\n<code>❤️/⛔️/🥰</code>")
+            update.effective_message.reply_text("Hatalı biçim! Lütfen örnekteki gibi gönderin.\n\nÖrnek;\n<code>❤️/⛔️/🥰</code>")
             return
     collection.update_one({"_id": user}, {"$set": {"begeni": update.message.text.split("/")}})
-    update.reply_text("Butonlarınız kaydedildi!")
+    update.effective_message.reply_text("Butonlarınız kaydedildi!")
     return conversationhandler.END
     
 
