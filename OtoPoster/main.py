@@ -56,7 +56,7 @@ def main() -> None:
         CallbackQueryHandler(postzamancall, pattern="^(pzayarla)$"),
         CallbackQueryHandler(callback_query, pattern="^pzamanla(.*)"),
         CallbackQueryHandler(devampatcall, pattern="^devam(.*)"),
-        CallbackQueryHandler(begenicall, pattern="^begenidegistir(.*)")
+        CallbackQueryHandler(begenicall, pattern="^begeniolustur(.*)")
         ],
         states={ 
             KANALMENU: [MessageHandler(~Filters.command & Filters.update.message, kanalmenu)],
@@ -69,7 +69,7 @@ def main() -> None:
             CallbackQueryHandler(postzamancall, pattern="^(pzayarla)$"),
             CallbackQueryHandler(callback_query, pattern="^pzamanla(.*)")], 
             EKSTRAMENU: [MessageHandler(~Filters.command & Filters.update.message, ekstramenu),
-            CallbackQueryHandler(begenicall, pattern="^begenidegistir(.*)")],
+            CallbackQueryHandler(begenicall, pattern="^begeniolustur(.*)")],
             BEGENI: [MessageHandler(~Filters.command & Filters.text, begenidegistir)],
             APIDEGISTIR: [MessageHandler(~Filters.command & Filters.update.message, apikayit)],
             KANALKAYDET: [MessageHandler(~Filters.command & Filters.update.message, kanalkayit)],
