@@ -350,12 +350,15 @@ def begenidegistir(update, context):
     mesaj = update.message.text
     chat = update.message.chat.id
     user = update.message.from_user.id
+    if mesaj == "❌ İptal":
+        bot.send_message(chat, "İptal Edildi.", reply_markup=ekstralarmenumark())
+        return ConversationHandler.END
     if len(mesaj.split("/")) < 1:
         update.effective_message.reply_text("Hatalı biçim! Lütfen örnekteki gibi gönderin.\n\nÖrnek;\n<code>❤️/⛔️/🥰</code>")
-        return
+        return ConversationHandler.END
     collection.update_one({"_id": user}, {"$set": {"begeni": update.message.text.split("/")}})
     update.effective_message.reply_text("Butonlarınız kaydedildi!")
-    return conversationhandler.END
+    return ConversationHandler.END
     
 
 def sabloniki(update, context):
