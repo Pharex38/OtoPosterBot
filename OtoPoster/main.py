@@ -66,6 +66,7 @@ def main() -> None:
             CallbackQueryHandler(ozellogcall, pattern="^logokay(.*)"), 
             CallbackQueryHandler(postzamancall, pattern="^(pzayarla)$"),
             CallbackQueryHandler(callback_query, pattern="^pzamanla(.*)")], 
+            EKSTRAMENU: [MessageHandler(~Filters.command & Filters.update.message, ekstramenu)],
             APIDEGISTIR: [MessageHandler(~Filters.command & Filters.update.message, apikayit)],
             KANALKAYDET: [MessageHandler(~Filters.command & Filters.update.message, kanalkayit)],
             SABLONA: [MessageHandler(~Filters.command & Filters.update.message, sabloniki)],

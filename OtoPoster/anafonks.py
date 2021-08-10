@@ -53,6 +53,7 @@ def menu(update, context):
         return KANALMENU
     if mesaj == "🛠 Ekstralar":
         bot.send_message(chat, "Ekstralar Menüsü", reply_markup=ekstralarmenumark())
+        return
     if mesaj == "🎛 Post Menü":
         bot.send_message(chat, "Post menüsü.", reply_markup=postmenumark())
         return POSTMENU
@@ -267,7 +268,21 @@ def postmenu(update, context):
         return ConversationHandler.END
 
     bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=postmenumark())
-   
+
+@send_typing_action
+def ekstramenu(update, context):
+    user = update.effective_user.id
+    chat = update.effective_chat.id
+    eudat = collection.find_one({"_id": user})
+    mesaj = update.effective_message.text
+    if user in kara:
+        bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
+        return
+    if mesaj == "❤️ Beğeni Butonları":
+        bot.send_message(chat, "zort")
+        
+    bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=ekstralarmenumark())
+
 def ozelk(update, context):
     user = update.message.from_user.id
     chat = update.message.chat.id
