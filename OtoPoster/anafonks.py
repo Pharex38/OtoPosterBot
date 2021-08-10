@@ -18,14 +18,20 @@ def menu(update, context):
     if mesaj == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))    
         return
-    if mesaj == "📝 Kaydet":
-        bot.send_message(chat, """📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark())
-        return APIDEGISTIR
+    if mesaj == "🥰 Bağış":
+        bot.send_message(chat, "🥰Madem bu kadar çok istiyorsun. \n\n🏧Papara: <code>1666982412</code> \n🏦İninal: <code>4003140030544</code>")
+        return
     try:
         tokenn = mj['token']
     except:
         bot.send_message(chat, """⛔ Henüz bir API kaydetmemişsiniz!\n\n📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark())
         return APIDEGISTIR
+    if mesaj == "📝 Kaydet":
+        bot.send_message(chat, """📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark())
+        return APIDEGISTIR
+    if mesaj == "↩️ Ana Menü":
+        bot.send_message(chat, "Ana Menü.", reply_markup=dugme(user))
+        return
     if mesaj == "🖥 Kanal Menü":
         kayitli = 0
         menu_mesaj = "<b>🖥Kayıtlı Kanalınız;</b>\n"
@@ -45,9 +51,8 @@ def menu(update, context):
         menu_mesaj += f"\n\nToplam {kayitli} Kanalınız Bulunuyor."
         bot.send_message(chat, menu_mesaj, reply_markup=kanalmenumark())
         return KANALMENU
-    if mesaj == "↩️ Ana Menü":
-        bot.send_message(chat, "Ana Menü.", reply_markup=dugme(user))
-        return
+    if mesaj == "🛠 Ekstralar":
+        bot.send_message(chat, "Ekstralar Menüsü", reply_markup=ekstralarmenumark())
     if mesaj == "🎛 Post Menü":
         bot.send_message(chat, "Post menüsü.", reply_markup=postmenumark())
         return POSTMENU
@@ -58,12 +63,7 @@ def menu(update, context):
             apimenu_mesaj = "<i>♦️Birincil API: {}\n  Birincil Site: {}\n  Alternatif API: {}\n  Alternatif Site: {}</i>".format(mj['token'], site_isim(mj['site']), mj['altapi'], site_isim(mj['altsite']))
         bot.send_message(chat, apimenu_mesaj, reply_markup=apimenumark())
         return APIMENU
-    
-    if mesaj == "🥰 Bağış":
-        bot.send_message(chat, "🥰Madem bu kadar çok istiyorsun. \n\n🏧Papara: <code>1666982412</code> \n🏦İninal: <code>4003140030544</code>")
-        return
-    
-        
+            
     bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=dugme(user))
 
 @send_typing_action

@@ -21,6 +21,9 @@ def postmenumark():
 def apimenumark():
     return ReplyKeyboardMarkup(keyboard=[['♻️ API değiştir', '🔗 Site değiştir'], ['🤖 Alternatif Link'], ['↩️ Ana Menü']], resize_keyboard=True, selective=True)
 
+def ekstralarmenumark():
+    return ReplyKeyboardMarkup(keyboard=[['❤️ Beğeni Butonları'], ['📌 Post sabitleme']])
+
 def imark():
     imark = ReplyKeyboardMarkup(keyboard=[['❌ İptal']], one_time_keyboard=True, resize_keyboard=True, selective=True)
     return imark
@@ -40,7 +43,7 @@ def sfsmark(user):
             pass
         else:
             try:
-                sfslink = bot.get_chat(sfskan).invite_link
+                sfslink = "tg://privatepost?channel={}&post=9999999".format(sfskan[3:])
             except Exception as e:
                 sfslink = ""
                 pass
@@ -52,7 +55,7 @@ def sfsmark(user):
                     sfssatir.append(InlineKeyboardButton("Kapalı", callback_data="sfs-{}".format(sfsbutno)))
                 sfskeyb.append(sfssatir)
                 sfssatir = []
-            sfsbutno += 1
+        sfsbutno += 1
 
     return InlineKeyboardMarkup(sfskeyb)
 
