@@ -1,3 +1,4 @@
+from telegram.ext import conversationhandler
 from .misc import *
 from . import *
 from .jobs import *
@@ -344,6 +345,19 @@ def ozellog(update, context):
     OzelCol.update_one({"_id": user}, {"$set": {"log": kanal}})
     bot.send_message(update.message.chat.id, "<b>Özel Botlog Kaydedildi!</b>", reply_markup=dugme(user))
     return ConversationHandler.END
+
+def begenidegistir(update, context):
+    mesaj = update.message.text
+    chat = update.message.chat.id
+    user = update.message.from_user.id
+    for bbb in mesaj.split("/"):
+        if len(bbb) != 1:
+            update.reply_text("Hatalı biçim! Lütfen örnekteki gibi gönderin.\n\nÖrnek;\n<code>❤️/⛔️/🥰</code>")
+            return
+    collection.update_one({"_id": user}, {"$set": {"begeni": update.message.text.split("/")}})
+    update.reply_text("Butonlarınız kaydedildi!")
+    return conversationhandler.END
+    
 
 def sabloniki(update, context):
     mesaj = update.message.text_html_urled

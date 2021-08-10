@@ -29,6 +29,12 @@ def altcall(call, context):
     bot.send_message(chat, "📝 Alternatif API adresinizi gönderin.", reply_markup=imark())
     return ALTAPI
 
+def begenicall(call, context):
+    user = call.effective_user.id
+    chat = call.effective_chat.id
+    bot.send_message(chat, "Ayarlamak istediğin buton emojilerini örnekteki gibi gönderin.\n\nÖrnek;\n<code>❤️/⛔️/🥰</code>", reply_markup=imark())
+    return BEGENI
+
 def kaynakcall(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
@@ -401,25 +407,7 @@ def callback_query(call, context):
             collection.update_one({"_id": user}, {"$set": {"sablon": "1"}})
         bot.edit_message_text("Varsayılana döndürüldü.", chat, mesajid)
     """ Emoji """
-    if call.callback_query.data.startswith("emo"):
-        deger = call.callback_query.data.split("-")
-        rose = int(deger[3])
-        bomb = int(deger[2])
-        kalp = int(deger[1])
-        pushed = deger[-1]
-        try:
-            eskidata = db[str(sahip)].find_one({"_id": mesajid})
-        except:
-            call.callback_query.answer("Butonların geçerlilik süresi dolmuş.")
-            return
-        if user in eskidata['basan']:
-            call.callback_query.answer("Sadece bir kez kullanabilirsiniz.")
-            return
-        db[str(sahip)].update_one({"_id": mesajid}, {"$push": {"basan": user}})
-        if pushed == "1":
-            kalp += 1
-        if pushed == "2":
-            bomb += 1
-        if pushed == "3":
-            rose += 1
-        call.callback_query.edit_message_reply_markup(begenimark(kalp, bomb, rose))
+    if call.callback_query.data == "begenikaldir":
+        collection.update_one({"_id": user}, {"$unset": {"begeni": ""}})
+        call.callback_query.edit_message_text("Beğeni butonları kaldırıldı!")
+        

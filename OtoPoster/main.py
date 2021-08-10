@@ -1,4 +1,5 @@
 
+from telegram.ext import callbackqueryhandler
 from . import *
 from .anafonks import *
 from .callbacks import *
@@ -54,7 +55,8 @@ def main() -> None:
         CallbackQueryHandler(altcall, pattern="^asite(.*)"),
         CallbackQueryHandler(postzamancall, pattern="^(pzayarla)$"),
         CallbackQueryHandler(callback_query, pattern="^pzamanla(.*)"),
-        CallbackQueryHandler(devampatcall, pattern="^devam(.*)")
+        CallbackQueryHandler(devampatcall, pattern="^devam(.*)"),
+        CallbackQueryHandler(begenicall, pattern="^begenidegistir(.*)")
         ],
         states={ 
             KANALMENU: [MessageHandler(~Filters.command & Filters.update.message, kanalmenu)],
@@ -66,7 +68,9 @@ def main() -> None:
             CallbackQueryHandler(ozellogcall, pattern="^logokay(.*)"), 
             CallbackQueryHandler(postzamancall, pattern="^(pzayarla)$"),
             CallbackQueryHandler(callback_query, pattern="^pzamanla(.*)")], 
-            EKSTRAMENU: [MessageHandler(~Filters.command & Filters.update.message, ekstramenu)],
+            EKSTRAMENU: [MessageHandler(~Filters.command & Filters.update.message, ekstramenu),
+            CallbackQueryHandler(begenicall, pattern="^begenidegistir(.*)")],
+            BEGENI: [MessageHandler(~Filters.command & Filters.text, begenidegistir)],
             APIDEGISTIR: [MessageHandler(~Filters.command & Filters.update.message, apikayit)],
             KANALKAYDET: [MessageHandler(~Filters.command & Filters.update.message, kanalkayit)],
             SABLONA: [MessageHandler(~Filters.command & Filters.update.message, sabloniki)],
