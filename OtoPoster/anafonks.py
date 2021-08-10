@@ -279,7 +279,7 @@ def ekstramenu(update, context):
         bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
     if mesaj == "❤️ Beğeni Butonları":
-        bot.send_message(chat, "zort", reply_markup=begenimark(user))
+        bot.send_message(chat, "zort", reply_markup=begenimark(eudat))
         
     bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=ekstralarmenumark())
 
