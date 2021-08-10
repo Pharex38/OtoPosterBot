@@ -168,7 +168,7 @@ def error_handler(update: object, context: CallbackContext) -> None:
                             print(e)
         message1 = (
         f'BİR HATA OLUŞTU!\n'
-        f'<pre>update = {html.escape(jason.dumps(update_str, indent=2, ensure_ascii=False))}')
+        f'<pre>update = {html.escape(jason.dumps(update_str, indent=2, ensure_ascii=False))}</pre>')
         message2 = (
         f'<pre>context.chat_data = {html.escape(str(context.chat_data))}</pre>\n\n'
         f'<pre>context.user_data = {html.escape(str(context.user_data))}</pre>\n\n'
