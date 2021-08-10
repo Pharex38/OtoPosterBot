@@ -281,7 +281,7 @@ def ekstramenu(update, context):
         return
     if mesaj == "❤️ Beğeni Butonları":
         bot.send_message(chat, "zort", reply_markup=begenimark(eudat))
-        
+        return
     bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=ekstralarmenumark())
 
 def ozelk(update, context):
