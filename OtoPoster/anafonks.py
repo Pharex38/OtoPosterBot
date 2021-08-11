@@ -280,7 +280,8 @@ def ekstramenu(update, context):
         bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
     if mesaj == "❤️ Beğeni Butonları":
-        bot.send_message(chat, "zort", reply_markup=begenimark(eudat))
+        butonlari = collection.find_one({"_id": user})['begeni']
+        bot.send_message(chat, "<b>Paylaşılan her postun altına buton ayaralyabilirsiniz.</b>\n\n{}".format(butonlari if len(butonlari) > 0 else "Henüz buton ayarlamamışsınız"), reply_markup=begenimark(eudat))
         return
     if mesaj == "↩️ Ana Menü" or mesaj == "❌ İptal":
         bot.send_message(chat, "<b>Biliyor muydunuz? -></b> "+"<i>"+choice(tips)+"</i>")
