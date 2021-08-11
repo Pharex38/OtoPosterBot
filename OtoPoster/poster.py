@@ -222,11 +222,13 @@ def poster_job(context):
                 posterkeyb = []
                 mrkpc = 0
                 for beg in begeni:
-                    posterkeyb.append(InlineKeyboardButton(beg, callbackdata="begeni-{}".format(mrkpc))
+                    posterkeyb.append(InlineKeyboardButton(str(beg)+" "+str("0"), callbackdata="begeni-{}".format(mrkpc)))
                 postermarkup = InlineKeyboardMarkup([posterkeyb])
             else:
                 postermarkup = InlineKeyboardMarkup([[]])
             for kan in kanal:
+                if len(begeni) > 0:
+                    ButonCol.insert_one({"_id": kan, "basanlar": []})
                 sleep(0.1)
                 if not kan in chatdat['kanal'] or kan in eski:
                     continue

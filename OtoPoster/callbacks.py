@@ -410,4 +410,20 @@ def callback_query(call, context):
     if call.callback_query.data == "begenikaldir":
         collection.update_one({"_id": user}, {"$unset": {"begeni": ""}})
         call.callback_query.edit_message_text("Beğeni butonları kaldırıldı!")
+        call.callback_query.answer("Kaldırıldı")
+        return
+    if call.callback_query.data.startswith("begeni-"):
+        pushed = int(call.callback_query.data.split("-")[-1])
+        begkeyb = []
+        mrkpc = 0
+        if not user in ButonCol.find_one({"_id": str(chat)})['basanlar']:
+            ButonCol.update_one({"_id": str(chat)}, {"$push": {"basanlar": user}})
+        for beg in collection.find_one({"_id": user})['begeni']:
+            butsayi = int(call.effective_message.reply_markup.inline_keyboard[0][pushed].split()[-1])
+            if mrkpc == pushed:
+                begkeyb.append(InlineKeyboardButton(str(beg)+" "+str(butsayi), callback_data="begeni-{}".format(mrkpc)))
+            else:
+                begkeyb.append(InlineKeyboardButton(str(beg)+" "+str(butsayi+1), callback_data="begeni-{}".format(mrkpc)))
+            mrkpc += 1
+        call.callback_query.edit_message_reply_markup(reply_markup=InlineKeyboardMarkup([begkeyb]))
         
