@@ -320,11 +320,11 @@ def poster_job(context):
                         logger.error(e)
                 else:
                     count = count + 1
-                    if len(begeni) > 0:
+                    if len(begeni) > 0 and len(postee) == 1:
                         if ButonCol.find_one({"_id": kan}) == None:
-                            ButonCol.insert_one({"_id": kan, str(post.message_id): []})
+                            ButonCol.insert_one({"_id": kan, str(post.message_id): [], "begeni": begeni})
                         else:
-                            ButonCol.update_one({"_id": kan}, {"$set": {str(post.message_id): []}})
+                            ButonCol.update_one({"_id": kan}, {"$set": {str(post.message_id): [], "begeni": begeni}})
                     if len(postee) == 1:
                         postdata.update_one({"_id": mesjid}, {"$push": {"pids": {"pid": post.message_id, "chat": kan, "user": user, "link": link, "alink": alink}}})
                     else:
