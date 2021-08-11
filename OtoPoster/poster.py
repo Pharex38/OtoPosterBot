@@ -267,7 +267,7 @@ def poster_job(context):
                         else:
                             post = bot.send_media_group(kan, media=grup+[MEDIA_GROUP_TYPES[effective_message_type(update)](media=update.effective_message.photo[-1].file_id if update.effective_message.photo else update.effective_message.effective_attachment.file_id, caption=sablon)])
                     except Exception as e:
-                        if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
+                        if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1 or str(e).find("Chat_restricted") != -1:
                             try:
                                 logger.warning(f"Hatalı kanal: {kan}")
                                 try:
@@ -297,7 +297,7 @@ def poster_job(context):
                                 postdata.update_one({"_id": mesjid}, {"$push": {"pids": {"pid": pos.message_id, "chat": kan, "user": user, "link": link, "alink": alink}}})
                         logger.info("Başarılı! "+str(kan))
                 except Exception as e:
-                    if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
+                    if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1 or str(e).find("Chat_restricted") != -1:
                         try:
                             logger.warning(f"Hatalı kanal: {kan}")
                             try:
