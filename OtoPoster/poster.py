@@ -88,6 +88,7 @@ def poster_job(context):
             vakitler = hesap['vakit']
             begeni = hesap['begeni']
             dailycount = hesap['time']
+            pins = hesap['pin']
             if pcount < 19:
                 collection.update_one({"_id": user}, {"$inc": {"pcount": 1}})
             else:
@@ -246,15 +247,17 @@ def poster_job(context):
                         collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
                         try:
                             bot.send_message(blog, F"#KANAL_SİLİNDİ\n_ID: <a href='tg://user?id={user}>{user}</a>\nÜYE: {membersayi}\nKANAL: <a href='tg://privatepost?channel={str(kan)[3:]}&post=9999999'>{kan}</a>\n#kan{str(kan)[1:]}\n#id{user}")
+                            bot.send_message(user, "Kanalda artık yetkili olmadığınız için kanalınız silindi.")
                         except RetryAfter as rtfr:
                             sleep(rtfr.retry_after+1)
                             bot.send_message(blog, F"#KANAL_SİLİNDİ\n_ID: <a href='tg://user?id={user}>{user}</a>\nÜYE: {membersayi}\nKANAL: <a href='tg://privatepost?channel={str(kan)[3:]}&post=9999999'>{kan}</a>\n#kan{str(kan)[1:]}\n#id{user}")
+                            bot.send_message(user, "Kanalda artık yetkili olmadığınız için kanalınız silindi.")
                         collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
-                        continue
                     except:
                         pass
                     else:
                         logger.warning(f"{kan} kayıtlardan silindi.")
+                    continue
                 try:
                     if len(postee) == 1:
                         post = update.effective_message.copy(kan, caption=sablon, reply_markup=postermarkup)
@@ -291,9 +294,24 @@ def poster_job(context):
                             logger.error(e)
                     else:
                         count = count + 1
+                        if len(begeni) > 0 and len(postee) == 1:
+                            if ButonCol.find_one({"_id": kan}) == None:
+                                ButonCol.insert_one({"_id": kan, str(post.message_id): [], "begeni": begeni})
+                            else:
+                                ButonCol.update_one({"_id": kan}, {"$set": {str(post.message_id): [], "begeni": begeni}})
                         if len(postee) == 1:
+                            if kan in pins:
+                                try:
+                                    post.pin()
+                                except Exception as e:
+                                    bildir(e)
                             postdata.update_one({"_id": mesjid}, {"$push": {"pids": {"pid": post.message_id, "chat": kan, "user": user, "link": link, "alink": alink}}})
                         else:
+                            if kan in pins:
+                                try:
+                                    post[-1].pin()
+                                except Exception as e:
+                                    bildir(e)
                             for pos in post:
                                 postdata.update_one({"_id": mesjid}, {"$push": {"pids": {"pid": pos.message_id, "chat": kan, "user": user, "link": link, "alink": alink}}})
                         logger.info("Başarılı! "+str(kan))
