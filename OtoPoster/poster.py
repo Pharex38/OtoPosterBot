@@ -345,8 +345,18 @@ def poster_job(context):
                         else:
                             ButonCol.update_one({"_id": kan}, {"$set": {str(post.message_id): [], "begeni": begeni}})
                     if len(postee) == 1:
+                        if kan in pins:
+                            try:
+                                post.pin()
+                            except Exception as e:
+                                bildir(e)
                         postdata.update_one({"_id": mesjid}, {"$push": {"pids": {"pid": post.message_id, "chat": kan, "user": user, "link": link, "alink": alink}}})
                     else:
+                        if kan in pins:
+                            try:
+                                post[-1].pin()
+                            except Exception as e:
+                                bildir(e)
                         for pos in post:
                             postdata.update_one({"_id": mesjid}, {"$push": {"pids": {"pid": pos.message_id, "chat": kan, "user": user, "link": link, "alink": alink}}})
                     logger.info("Başarılı! "+str(kan))
