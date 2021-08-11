@@ -412,22 +412,27 @@ def callback_query(call, context):
         call.callback_query.edit_message_text("Beğeni butonları kaldırıldı!")
         call.callback_query.answer("Kaldırıldı")
         return
-    if call.callback_query.data.startswith("begeni-"):
-        pushed = int(call.callback_query.data.split("-")[-1])
-        begkeyb = []
-        mrkpc = 0
-        if not user in ButonCol.find_one({"_id": str(chat)})[str(mesajid)]:
-            ButonCol.update_one({"_id": str(chat)}, {"$push": {str(mesajid): user}})
+        
+
+def begeniislemcall(call, context):
+    user = call.effective_user.id
+    chat = call.effective_chat.id
+    mesajid = call.callback_query.message.message_id    
+    pushed = int(call.callback_query.data.split("-")[-1])
+    begkeyb = []
+    mrkpc = 0
+    if not user in ButonCol.find_one({"_id": str(chat)})[str(mesajid)]:
+        ButonCol.update_one({"_id": str(chat)}, {"$push": {str(mesajid): user}})
+    else:
+        call.callback_query.answer("Butonları bir kez kullanabilirsiniz")
+        return
+    for beg in ButonCol.find_one({"_id": str(chat)})['begeni']:
+        butsayi = int(call.effective_message.reply_markup.inline_keyboard[0][mrkpc].text.split()[-1])
+        if mrkpc == pushed:
+            begkeyb.append(InlineKeyboardButton(str(beg)+" "+str(butsayi+1), callback_data="begeni-{}".format(mrkpc)))
         else:
-            call.callback_query.answer("Butonları bir kez kullanabilirsiniz")
-            return
-        for beg in ButonCol.find_one({"_id": str(chat)})['begeni']:
-            butsayi = int(call.effective_message.reply_markup.inline_keyboard[0][mrkpc].text.split()[-1])
-            if mrkpc == pushed:
-                begkeyb.append(InlineKeyboardButton(str(beg)+" "+str(butsayi+1), callback_data="begeni-{}".format(mrkpc)))
-            else:
-                begkeyb.append(InlineKeyboardButton(str(beg)+" "+str(butsayi), callback_data="begeni-{}".format(mrkpc)))
-            mrkpc += 1
-        call.callback_query.edit_message_reply_markup(reply_markup=InlineKeyboardMarkup([begkeyb]))
-        call.callback_query.answer(str(call.effective_message.reply_markup.inline_keyboard[0][pushed].text.split()[-2]))
+            begkeyb.append(InlineKeyboardButton(str(beg)+" "+str(butsayi), callback_data="begeni-{}".format(mrkpc)))
+        mrkpc += 1
+    call.callback_query.edit_message_reply_markup(reply_markup=InlineKeyboardMarkup([begkeyb]))
+    call.callback_query.answer(str(call.effective_message.reply_markup.inline_keyboard[0][pushed].text.split()[-2]))
         
