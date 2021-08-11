@@ -44,7 +44,7 @@ def sfsmark(user):
         else:
             sfslink = "tg://privatepost?channel={}&post=9999999".format(sfskan[3:])
             sfssatir.append(InlineKeyboardButton(sfsname, url=sfslink))
-            if sfskan in sfs_dat['pin']:
+            if sfskan in sfs_dat['eski']:
                 sfssatir.append(InlineKeyboardButton("Açık", callback_data="sfs-{}".format(sfsbutno)))
             else:
                 sfssatir.append(InlineKeyboardButton("Kapalı", callback_data="sfs-{}".format(sfsbutno)))
@@ -66,7 +66,7 @@ def pinmark(user):
         else:
             pinlink = "tg://privatepost?channel={}&post=9999999".format(pinkan[3:])
             pinsatir.append(InlineKeyboardButton(pinname, url=pinlink))
-            if pinkan in pin_dat['eski']:
+            if pinkan in pin_dat['pin']:
                 pinsatir.append(InlineKeyboardButton("Açık", callback_data="pin-{}".format(pinbutno)))
             else:
                 pinsatir.append(InlineKeyboardButton("Kapalı", callback_data="pin-{}".format(pinbutno)))
