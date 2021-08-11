@@ -222,7 +222,7 @@ def poster_job(context):
                 posterkeyb = []
                 mrkpc = 0
                 for beg in begeni:
-                    posterkeyb.append(InlineKeyboardButton(str(beg)+" "+str("0"), callbackdata="begeni-{}".format(mrkpc)))
+                    posterkeyb.append(InlineKeyboardButton(str(beg)+" "+str("0"), callback_data="begeni-{}".format(mrkpc)))
                 postermarkup = InlineKeyboardMarkup([posterkeyb])
             else:
                 postermarkup = InlineKeyboardMarkup([[]])
