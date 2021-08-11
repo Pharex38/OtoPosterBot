@@ -283,6 +283,9 @@ def ekstramenu(update, context):
         butonlari = collection.find_one({"_id": user})['begeni']
         bot.send_message(chat, "<b>Paylaşılan her postun altına buton ayarlayabilirsiniz.</b>\n\n{}".format(butonlari if len(butonlari) > 0 else "Henüz buton ayarlamamışsınız"), reply_markup=begenimark(eudat))
         return
+    if mesaj == "📌 Post Sabitleme":
+        bot.send_message(chat, "<b>Paylaşılan postların otomatik olarak sabitlenmesini istersen bu modu açabilirsin.</b>", reply_markup=pinmark(user))
+        return
     if mesaj == "↩️ Ana Menü" or mesaj == "❌ İptal":
         bot.send_message(chat, "<b>Biliyor muydunuz? -></b> "+"<i>"+choice(tips)+"</i>")
         bot.send_message(chat, "Ana Menü.", reply_markup=dugme(user))
