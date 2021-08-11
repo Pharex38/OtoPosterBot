@@ -227,8 +227,6 @@ def poster_job(context):
             else:
                 postermarkup = InlineKeyboardMarkup([[]])
             for kan in kanal:
-                if len(begeni) > 0:
-                    ButonCol.insert_one({"_id": kan, "basanlar": []})
                 sleep(0.1)
                 if not kan in chatdat['kanal'] or kan in eski:
                     continue
@@ -322,6 +320,11 @@ def poster_job(context):
                         logger.error(e)
                 else:
                     count = count + 1
+                    if len(begeni) > 0:
+                        if ButonCol.find_one({"_id": kan}) == None:
+                            ButonCol.insert_one({"_id": kan, str(post.message_id): []})
+                        else:
+                            ButonCol.update_one({"_id": kan}, {"$set": {str(post.message_id): []}})
                     if len(postee) == 1:
                         postdata.update_one({"_id": mesjid}, {"$push": {"pids": {"pid": post.message_id, "chat": kan, "user": user, "link": link, "alink": alink}}})
                     else:
