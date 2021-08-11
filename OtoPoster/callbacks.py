@@ -408,7 +408,7 @@ def callback_query(call, context):
         bot.edit_message_text("Varsayılana döndürüldü.", chat, mesajid)
     """ Emoji """
     if call.callback_query.data == "begenikaldir":
-        collection.update_one({"_id": user}, {"$unset": {"begeni": ""}})
+        collection.update_one({"_id": user}, {"$set": {"begeni": []}})
         call.callback_query.edit_message_text("Beğeni butonları kaldırıldı!")
         call.callback_query.answer("Kaldırıldı")
         return

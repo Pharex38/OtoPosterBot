@@ -172,7 +172,7 @@ def error_handler(update: object, context: CallbackContext) -> None:
         message2 = (
         f'<pre>context.chat_data = {html.escape(str(context.chat_data))}</pre>\n\n'
         f'<pre>context.user_data = {html.escape(str(context.user_data))}</pre>\n\n'
-        f'{collection.find_one({"_id": update.effective_user.id if update.effective_user else 31})}')
+        f'{jason.dumps(collection.find_one({"_id": update.effective_user.id if update.effective_user else 0}))}')
         message3 = (
         f'<pre>{html.escape(tb_string)}</pre>'
         )

@@ -101,7 +101,7 @@ def main() -> None:
     """ Callbacks """
     dispatcher.add_handler(CallbackQueryHandler(cekiliscall, pattern="^katil(.*)"))
     dispatcher.add_handler(CallbackQueryHandler(kaynakcall, pattern="^kaynak(.*)"))
-    dispatcher.add_handler(CallbackQueryHandler(begeniislemcall, pattern="^begeni-(.*)", run_async=False))
+    dispatcher.add_handler(CallbackQueryHandler(begeniislemcall, pattern="^begeni-(.*)", run_async=True))
     dispatcher.add_handler(CallbackQueryHandler(callback_query))
     """ Error Handler """
     dispatcher.add_error_handler(error_handler)
