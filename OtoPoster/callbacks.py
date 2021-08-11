@@ -163,11 +163,11 @@ def callback_query(call, context):
     if call.callback_query.data.startswith("pin-"):
         pinno = int(call.callback_query.data.split("-")[-1])
         pushedpinkan = collection.find_one({"_id": user})['kanal'][pinno]
-        if pushedpinkan in collection.find_one({"_id": user})['eski']:
-            collection.update_one({"_id": user}, {"$pull": {"eski": pushedpinkan}})
+        if pushedpinkan in collection.find_one({"_id": user})['pin']:
+            collection.update_one({"_id": user}, {"$pull": {"pin": pushedpinkan}})
             call.callback_query.answer("Kanalınız için Pin modu kapatıldı.")
         else:
-            collection.update_one({"_id": user}, {"$push": {"eski": pushedpinkan}})
+            collection.update_one({"_id": user}, {"$push": {"pin": pushedpinkan}})
             call.callback_query.answer("Kanalınız için Pin modu açıldı.")
         call.callback_query.edit_message_reply_markup(pinmark(user))
         return 
