@@ -427,7 +427,10 @@ def begeniislemcall(call, context):
         call.callback_query.answer("Butonları bir kez kullanabilirsiniz")
         return
     for beg in ButonCol.find_one({"_id": str(chat)})['begeni']:
-        butsayi = int(call.effective_message.reply_markup.inline_keyboard[0][mrkpc].text.split()[-1])
+        try:
+            butsayi = int(call.effective_message.reply_markup.inline_keyboard[0][mrkpc].text.split()[-1])
+        except IndexError:
+            butsayi = 0
         if mrkpc == pushed:
             begkeyb.append(InlineKeyboardButton(str(beg)+" "+str(butsayi+1), callback_data="begeni-{}".format(mrkpc)))
         else:
