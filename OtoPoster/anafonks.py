@@ -359,7 +359,7 @@ def begenidegistir(update, context):
     if mesaj == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=ekstralarmenumark())
         return ConversationHandler.END
-    if len(mesaj.split("/")) < 1:
+    if len(mesaj.split("/")) < 1 or " " in mesaj:
         update.effective_message.reply_text("Hatalı biçim! Lütfen örnekteki gibi gönderin.\n\nÖrnek;\n<code>❤️/⛔️/🥰</code>")
         return ConversationHandler.END
     collection.update_one({"_id": user}, {"$set": {"begeni": update.message.text.split("/")}})
@@ -456,7 +456,7 @@ def apikayit(update, context):
     if token.startswith('http') or "url=trlink" in token:
         mso = bot.send_message(chat, "❌ Geçersiz bir API verdiniz! Lütfen doğru bir API adresi verin.")
         return APIDEGISTIR
-    key = {"_id": user, "token": token, "kanal": [], "sablon": "1", "kaynak": [], "site": "1", "altapi": "None", "altsite": "None", "sira": "0", "ozel": False, "pcount": 0, "time": 0, "vakit": 0, "eski": [], "begeni": []}
+    key = {"_id": user, "token": token, "kanal": [], "sablon": "1", "kaynak": [], "site": "1", "altapi": "None", "altsite": "None", "sira": "0", "ozel": False, "pcount": 0, "time": 0, "vakit": 0, "eski": [], "begeni": [], "pin": []}
     if token in apikara:
             blmsg = bot.send_message(blog, f"_ID: <a href='tg://user?id={user}'>{user}</a>\nYasaklı API tespit edildi -> {token}\n#id{user}\n#api{token}")
             bot.pin_chat_message(blog, blmsg.message_id)

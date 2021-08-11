@@ -51,11 +51,32 @@ def sfsmark(user):
             sfskeyb.append(sfssatir)
             sfssatir = []
         sfsbutno += 1
-
     return InlineKeyboardMarkup(sfskeyb)
 
+def pinmark(user):
+    pin_dat = collection.find_one({"_id": user})
+    pinbutno = 0
+    pinkeyb = []
+    pinsatir = []
+    for pinkan in pin_dat['kanal']:
+        try:
+            pinname = bot.get_chat(pinkan).title
+        except:
+            pass
+        else:
+            pinlink = "tg://privatepost?channel={}&post=9999999".format(sfskan[3:])
+            pinsatir.append(InlineKeyboardButton(pinname, url=pinlink))
+            if pinkan in pin_dat['eski']:
+                sfssatir.append(InlineKeyboardButton("Açık", callback_data="pin-{}".format(pinbutno)))
+            else:
+                sfssatir.append(InlineKeyboardButton("Kapalı", callback_data="pin-{}".format(pinbutno)))
+            pinkeyb.append(sfssatir)
+            sfssatir = []
+        pinbutno += 1
+    return InlineKeyboardMarkup(pinkeyb)
+
 def dagme():
-    dagme = ReplyKeyboardMarkup(keyboard=[['📝 Kaydet']], row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
+    dagme = ReplyKeyboardMarkup(keyboard=[['📝 Kaydet']], row_width=2, one_time_keyboard=True, resize_keyboard=False, selective=True)
     return dagme
 
 def sitemarkup():

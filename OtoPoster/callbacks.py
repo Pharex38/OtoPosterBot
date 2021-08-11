@@ -158,7 +158,19 @@ def devampatcall(call, context):
 def callback_query(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
-    mesajid = call.callback_query.message.message_id    
+    mesajid = call.callback_query.message.message_id   
+    """ PIN """
+    if call.callback_query.data.startswith("pin-"):
+        pinno = int(call.callback_query.data.split("-")[-1])
+        pushedpinkan = collection.find_one({"_id": user})['kanal'][pinno]
+        if pushedpinkan in collection.find_one({"_id": user})['eski']:
+            collection.update_one({"_id": user}, {"$pull": {"eski": pushedpinkan}})
+            call.callback_query.answer("Kanalınız için Pin modu kapatıldı.")
+        else:
+            collection.update_one({"_id": user}, {"$push": {"eski": pushedpinkan}})
+            call.callback_query.answer("Kanalınız için Pin modu açıldı.")
+        call.callback_query.edit_message_reply_markup(pinmark(user))
+        return 
     """ SFS Modu """
     if call.callback_query.data.startswith("sfs"):
         sfsno = int(call.callback_query.data.split("-")[-1])
