@@ -86,6 +86,7 @@ def poster_job(context):
             sira = hesap['sira']
             pcount = hesap['pcount']
             vakitler = hesap['vakit']
+            begeni = hesap['begeni']
             dailycount = hesap['time']
             if pcount < 19:
                 collection.update_one({"_id": user}, {"$inc": {"pcount": 1}})
@@ -217,6 +218,13 @@ def poster_job(context):
                 except:
                     pass
                 continue
+            if len(begeni) > 0:
+                posterkeyb = []
+                for beg in begeni:
+                    posterkeyb.append(InlineKeyboardButton(beg, callbackdata="!")
+                postermarkup = InlineKeyboardMarkup([[]])
+            else:
+                postermarkup = InlineKeyboardMarkup([[]])
             for kan in kanal:
                 sleep(0.1)
                 if not kan in chatdat['kanal'] or kan in eski:
@@ -247,14 +255,14 @@ def poster_job(context):
                         logger.warning(f"{kan} kayıtlardan silindi.")
                 try:
                     if len(postee) == 1:
-                        post = update.effective_message.copy(kan, caption=sablon)
+                        post = update.effective_message.copy(kan, caption=sablon, reply_markup=postermarkup)
                     else:
                         post = bot.send_media_group(kan, media=grup+[MEDIA_GROUP_TYPES[effective_message_type(update)](media=update.effective_message.photo[-1].file_id if update.effective_message.photo else update.effective_message.effective_attachment.file_id, caption=sablon)])
                 except RetryAfter as rtfr:
                     sleep(rtfr.retry_after+1)
                     try:
                         if len(postee) == 1:
-                            post = update.effective_message.copy(kan, caption=sablon)
+                            post = update.effective_message.copy(kan, caption=sablon, reply_markup=postermarkup)
                         else:
                             post = bot.send_media_group(kan, media=grup+[MEDIA_GROUP_TYPES[effective_message_type(update)](media=update.effective_message.photo[-1].file_id if update.effective_message.photo else update.effective_message.effective_attachment.file_id, caption=sablon)])
                     except Exception as e:
