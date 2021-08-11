@@ -42,19 +42,14 @@ def sfsmark(user):
         except:
             pass
         else:
-            try:
-                sfslink = "tg://privatepost?channel={}&post=9999999".format(sfskan[3:])
-            except Exception as e:
-                sfslink = ""
-                pass
+            sfslink = "tg://privatepost?channel={}&post=9999999".format(sfskan[3:])
+            sfssatir.append(InlineKeyboardButton(sfsname, url=sfslink))
+            if sfskan in sfs_dat['eski']:
+                sfssatir.append(InlineKeyboardButton("Açık", callback_data="sfs-{}".format(sfsbutno)))
             else:
-                sfssatir.append(InlineKeyboardButton(sfsname, url=sfslink))
-                if sfskan in sfs_dat['eski']:
-                    sfssatir.append(InlineKeyboardButton("Açık", callback_data="sfs-{}".format(sfsbutno)))
-                else:
-                    sfssatir.append(InlineKeyboardButton("Kapalı", callback_data="sfs-{}".format(sfsbutno)))
-                sfskeyb.append(sfssatir)
-                sfssatir = []
+                sfssatir.append(InlineKeyboardButton("Kapalı", callback_data="sfs-{}".format(sfsbutno)))
+            sfskeyb.append(sfssatir)
+            sfssatir = []
         sfsbutno += 1
 
     return InlineKeyboardMarkup(sfskeyb)
