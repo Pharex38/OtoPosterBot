@@ -418,7 +418,7 @@ def callback_query(call, context):
         mrkpc = 0
         if not user in ButonCol.find_one({"_id": str(chat)})[str(mesajid)]:
             ButonCol.update_one({"_id": str(chat)}, {"$push": {str(mesajid): user}})
-        for beg in ButonCol.find_one({"_id": chat})['begeni']:
+        for beg in ButonCol.find_one({"_id": str(chat)})['begeni']:
             butsayi = int(call.effective_message.reply_markup.inline_keyboard[0][pushed].text.split()[-1])
             if mrkpc == pushed:
                 begkeyb.append(InlineKeyboardButton(str(beg)+" "+str(butsayi), callback_data="begeni-{}".format(mrkpc)))
