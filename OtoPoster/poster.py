@@ -220,9 +220,10 @@ def poster_job(context):
                 continue
             if len(begeni) > 0:
                 posterkeyb = []
+                mrkpc = 0
                 for beg in begeni:
-                    posterkeyb.append(InlineKeyboardButton(beg, callbackdata="!")
-                postermarkup = InlineKeyboardMarkup([[]])
+                    posterkeyb.append(InlineKeyboardButton(beg, callbackdata="begeni-{}".format(mrkpc))
+                postermarkup = InlineKeyboardMarkup([posterkeyb])
             else:
                 postermarkup = InlineKeyboardMarkup([[]])
             for kan in kanal:
