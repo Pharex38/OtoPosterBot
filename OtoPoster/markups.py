@@ -64,7 +64,7 @@ def pinmark(user):
         except:
             pass
         else:
-            pinlink = "tg://privatepost?channel={}&post=9999999".format(sfskan[3:])
+            pinlink = "tg://privatepost?channel={}&post=9999999".format(pinkan[3:])
             pinsatir.append(InlineKeyboardButton(pinname, url=pinlink))
             if pinkan in pin_dat['eski']:
                 sfssatir.append(InlineKeyboardButton("Açık", callback_data="pin-{}".format(pinbutno)))
