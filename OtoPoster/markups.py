@@ -49,9 +49,8 @@ def tekrarlisaatmark():
     tsmk = []
     tsmksatir = []
     for ts in range(1, 24):
-        if not ts % 6 == 0:
-            tsmksatir.append(InlineKeyboardButton(str(), callback_data="ts-"+str(ts)))
-        else:
+        tsmksatir.append(InlineKeyboardButton(str(), callback_data="ts-"+str(ts)))
+        if ts % 6 == 0:
             tsmk.append(tsmksatir)
             tsmksatir = []
     tsmk.append([InlineKeyboardButton("❌ İptal ❌", callback_data="iptal")])
