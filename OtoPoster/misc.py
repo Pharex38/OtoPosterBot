@@ -49,9 +49,6 @@ def deep(u_kod, user):
             bot.send_message(user, "Kaynak silinmiş veya bulunamadı!")
             return False
         ref_kanal_ismi = bot.get_chat(KaynakCol.find_one({"no": int(u_kod)})['_id']).title
-        if OzelCol.find_one({"_id": int(u_kod)}) == None:
-                bot.send_message(user, "Kaynak silinmiş veya bulunamadı!")
-                return True
         if not user in KaynakCol.find_one({"no": int(u_kod)})['kaynak']:
             KaynakCol.update_one({"no": int(u_kod)}, {"$push": {"kaynak": int(user)}})
         bot.send_message(user, "🏋🏻 {} referansı ile geldiniz!".format(ref_kanal_ismi))
