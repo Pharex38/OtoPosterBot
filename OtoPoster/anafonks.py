@@ -287,7 +287,13 @@ def ekstramenu(update, context):
         bot.send_message(chat, "<b>Paylaşılan postların otomatik olarak sabitlenmesini istersen bu modu açabilirsin.</b>", reply_markup=pinmark(user))
         return
     if mesaj == "🔁 Tekrarlı Post Paylaş":
-        bot.send_message(chat, "zz")
+        tekrarlipostlari = context.job_queue.get_jobs_by_name("tekrarli"+str(user))
+        text_tekrarli = "<b>Tekrarlı Postlarınız;</b>\n\n"
+        for tpost in tekrarlipostlari:
+            tpp = tpost.name.find("run at: ")
+            tapp = tpost.name.find("rval[")
+            text_tekrarli += "Sonraki tetiklenme tarihi: {}\nPaylaşılma aralığı: {}\nBaşlık: {}\n\n".format(tpost.name[tpp+8:tpp+27], tpost.name[tapp+4:tapp+13], tapp.context['baslik'])
+        bot.send_message(chat, text_tekrarli, reply_markup=tekrarlipostmark())
         return
     if mesaj == "🍎 iOS Ban Kontrol":
         bot.send_message(chat, "z")
@@ -298,6 +304,7 @@ def ekstramenu(update, context):
         return ConversationHandler.END
     
     bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=ekstralarmenumark())
+
 
 def ozelk(update, context):
     user = update.message.from_user.id

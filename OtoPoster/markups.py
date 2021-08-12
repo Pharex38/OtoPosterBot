@@ -31,6 +31,32 @@ def imark():
 def cekilismark():
     return InlineKeyboardMarkup([[InlineKeyboardButton("Çekilişe Katıl!", callback_data="katil")]])
 
+def tekrarlipostmark():
+    return InlineKeyboardMarkup([[InlineKeyboardButton("Yeni Post Oluştur", callback_data="yenitekrarli")], [InlineKeyboardButton("Tekrarli Post Sil", callback_data="siltekrarli")], [InlineKeyboardButton("❌ İptal", callback_data="iptal")]])
+
+def tekrarlipostkan(user):
+    tpk = []
+    for tkan in collection.find_one({"_id": user})['kanal']:
+        try:
+            tkanisim = bot.get_chat(tkan).title
+        except:
+            continue
+        tpk.append([InlineKeyboardButton(tkanisim, callback_data="tkan+{}".format(tkan))])
+    tpk.append([InlineKeyboardButton("❌ İptal ❌", callback_data="iptal")])
+    return InlineKeyboardMarkup(tpk)
+
+def tekrarlisaatmark():
+    tsmk = []
+    tsmksatir = []
+    for ts in range(1, 24):
+        if not ts % 6 == 0:
+            tsmksatir.append(InlineKeyboardButton(str(), callback_data="ts-"+str(ts)))
+        else:
+            tsmk.append(tsmksatir)
+            tsmksatir = []
+    tsmk.append([InlineKeyboardButton("❌ İptal ❌", callback_data="iptal")])
+    return InlineKeyboardMarkup(tsmk)
+
 def sfsmark(user):
     sfs_dat = collection.find_one({"_id": user})
     sfsbutno = 0

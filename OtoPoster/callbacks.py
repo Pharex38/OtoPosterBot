@@ -424,7 +424,20 @@ def callback_query(call, context):
         call.callback_query.edit_message_text("Beğeni butonları kaldırıldı!")
         call.callback_query.answer("Kaldırıldı")
         return
-        
+    """ Tekrarli Post """
+    if call.callback_query.data.startswith("tkan+"):
+        context.user_data['tskanal'] = call.callback_query.data.split("+")[-1]
+        call.callback_query.answer("Kanal belirlendi!")
+        call.callback_query.edit_message_text("Tekrarli Postunuzun kaç saatte bir gönderilmesini istediğiniz saati seçin", reply_markup=tekrarlisaatmark())
+        return 
+    if call.callback_query.data == "yenitekrarli":
+        call.callback_query.edit_message_text("Tekrarli Post ayarlamak istediğiniz kanalı seçin.", reply_markup=tekrarlipostkan(user))
+
+def tekrarlisaatayarlacall(call, context):
+    context.user_data['tsaat'] = int(call.callback_query.data.split("-")[-1])
+    bot.send_message(call.effective_chat.id, "Paylaşılmasını istediğiniz postunu gönderin.", reply_markup=imark())
+    call.callback_query.answer("Saat belirlendi!")
+    return TSPOST
 
 def begeniislemcall(call, context):
     user = call.effective_user.id
