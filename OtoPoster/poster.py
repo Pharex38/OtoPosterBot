@@ -302,14 +302,14 @@ def poster_job(context):
                         if len(postee) == 1:
                             if kan in pins:
                                 try:
-                                    post.pin()
+                                    bot.pin_chat_message(kan, post.message_id)
                                 except Exception as e:
                                     bildir(e)
                             postdata.update_one({"_id": mesjid}, {"$push": {"pids": {"pid": post.message_id, "chat": kan, "user": user, "link": link, "alink": alink}}})
                         else:
                             if kan in pins:
                                 try:
-                                    post[-1].pin()
+                                    bot.pin_chat_message(kan, post[-1].message_id)
                                 except Exception as e:
                                     bildir(e)
                             for pos in post:
@@ -347,14 +347,14 @@ def poster_job(context):
                     if len(postee) == 1:
                         if kan in pins:
                             try:
-                                post.pin()
+                                bot.pin_chat_message(kan, post.message_id)
                             except Exception as e:
                                 bildir(e)
                         postdata.update_one({"_id": mesjid}, {"$push": {"pids": {"pid": post.message_id, "chat": kan, "user": user, "link": link, "alink": alink}}})
                     else:
                         if kan in pins:
                             try:
-                                post[-1].pin()
+                                bot.pin_chat_message(kan, post[-1].message_id)
                             except Exception as e:
                                 bildir(e)
                         for pos in post:
