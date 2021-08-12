@@ -52,7 +52,6 @@ def tekrarlisaatmark():
         tsmksatir.append(InlineKeyboardButton(str(), callback_data="ts-"+str(ts)))
         if ts in [6, 12, 18, 24]:
             tsmk.append(tsmksatir)
-            tsmksatir = []
     tsmk.append([InlineKeyboardButton("❌ İptal ❌", callback_data="iptal")])
     return InlineKeyboardMarkup(tsmk)
 
