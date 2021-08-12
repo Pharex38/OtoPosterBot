@@ -151,7 +151,7 @@ def duraklat(update, context):
     update.effective_message.reply_text(f"{context.bot_data['durak']}")
 
 def sonuclandir(update, context):
-    katilimcilar = list(collection.find_one({"_id: 0"})['cekilis'])
+    katilimcilar = list(collection.find_one({"_id": 0})['cekilis'])
     sonuc_text = update.effective_message.reply_to_message.text_html_urled
     kazcount = 0
     kazananlar = ""

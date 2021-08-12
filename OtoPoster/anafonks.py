@@ -286,6 +286,12 @@ def ekstramenu(update, context):
     if mesaj == "📌 Post Sabitleme":
         bot.send_message(chat, "<b>Paylaşılan postların otomatik olarak sabitlenmesini istersen bu modu açabilirsin.</b>", reply_markup=pinmark(user))
         return
+    if mesaj == "🔁 Tekrarlı Post Paylaş":
+        bot.send_message(chat, "zz")
+        return
+    if mesaj == "🍎 iOS Ban Kontrol":
+        bot.send_message(chat, "z")
+        return
     if mesaj == "↩️ Ana Menü" or mesaj == "❌ İptal":
         bot.send_message(chat, "<b>Biliyor muydunuz? -></b> "+"<i>"+choice(tips)+"</i>")
         bot.send_message(chat, "Ana Menü.", reply_markup=dugme(user))
