@@ -48,9 +48,9 @@ def tekrarlipostkan(user):
 def tekrarlisaatmark():
     tsmk = []
     tsmksatir = []
-    for ts in range(1, 24):
+    for ts in range(1, 25):
         tsmksatir.append(InlineKeyboardButton(str(ts), callback_data="ts-"+str(ts)))
-        if ts % 3 == 0:
+        if ts % 6 == 0:
             tsmk.append(tsmksatir)
             tsmksatir = []
     tsmk.append([InlineKeyboardButton("❌ İptal ❌", callback_data="iptal")])
