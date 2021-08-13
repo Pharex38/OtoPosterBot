@@ -287,7 +287,7 @@ def ekstramenu(update, context):
         bot.send_message(chat, "<b>Paylaşılan postların otomatik olarak sabitlenmesini istersen bu modu açabilirsin.</b>", reply_markup=pinmark(user))
         return
     if mesaj == "🔁 Tekrarlı Post Paylaş":
-        tekrarlipostlari = context.job_queue.get_jobs_by_name("tekrarli"+str(user))
+        tekrarlipostlari = context.job_queue.get_jobs_by_name("ts"+str(user))
         text_tekrarli = "<b>Tekrarlı Postlarınız;</b>\n\n"
         for tpost in tekrarlipostlari:
             tpp = tpost.name.find("run at: ")
@@ -316,7 +316,7 @@ def tekrarlipostayarla(update, context):
     user = update.effective_user.id
     chat = update.effective_chat.id
     tspostdict = {"baslik": context.user_data['tsbaslik'], "tsaat": context.user_data['tsaat'], "tskan": context.user_data['tskan'], "tsupdate": update, "tsuser": user}
-    context.job_queue.run_repeating(tekrarlipostjob, first=2, interval=60*int(context.user_data['tsaat']), name=f"ts{user}", context=tspostdict)
+    context.job_queue.run_repeating(tekrarlipostjob, first=2, interval=3600*int(context.user_data['tsaat']), name=f"ts{user}", context=tspostdict)
     bot.send_message(chat, "Postunuz başarıyla ayarlandı!")
     return ConversationHandler.END
 

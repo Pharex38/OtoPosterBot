@@ -112,10 +112,12 @@ def main() -> None:
     """ Job Yedekleme """
     yjcount = 0
     for uh in collection.find_one({"_id": 0})['jobs']:
+        yjcount += 1
+        if uh['name'].startswith("ts"):
+            upjob.run_repeating(tekrarlipostjob, interval=3600*int(uh['msgdict']['tsaat']), name=uh['name'], context=uh['msgdict'])
+            continue
         uhzamani = datetime.datetime.strptime(uh['when'], '%y-%m-%d %H:%M:%S')
         upjob.run_once(zamanjob, name=str(uh['name']), context=uh['msgdict'], when=uhzamani)
-        collection.update_one({"_id": 0}, {"$pull": {"jobs": uh}})
-        yjcount += 1
     logger.warning(str(yjcount)+" Adet Job Yüklendi!")
     """ Polling """
     try:
