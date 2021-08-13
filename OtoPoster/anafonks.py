@@ -292,7 +292,7 @@ def ekstramenu(update, context):
         for tpost in tekrarlipostlari:
             tpp = tpost.name.find("run at: ")
             tapp = tpost.name.find("rval[")
-            text_tekrarli += "Sonraki tetiklenme tarihi: {}\nPaylaşılma aralığı: {}\nBaşlık: {}\n\n".format(tpost.name[tpp+8:tpp+27], tpost.name[tapp+4:tapp+13], tapp.context['baslik'])
+            text_tekrarli += "Sonraki tetiklenme tarihi: {}\nPaylaşılma aralığı: {}\nBaşlık: {}\n\n".format(tpost.name[tpp+8:tpp+27], tpost.name[tapp+4:tapp+13], tpost.context['baslik'])
         bot.send_message(chat, text_tekrarli, reply_markup=tekrarlipostmark())
         return
     if mesaj == "🍎 iOS Ban Kontrol":
