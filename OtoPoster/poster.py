@@ -47,7 +47,7 @@ def poster_job(context):
     postdata = db[str(chat)]
     binb =  chatdat['kaynak']
     mesjid = update.effective_message.message_id
-    postdata.insert_one({"_id": mesjid, "pids": [], "aciklama": aciklama, "link": mesajb})
+    postdata.insert_one({"_id": mesjid, "pids": [], "aciklama": aciklama, "link": mesajb, "user": 0})
     try:
         lmsg = bot.send_message(botlog, "<code>{} kaynağının postu paylaşılıyor...</code>".format(kynk.title))
     except RetryAfter as rtfr:
@@ -654,6 +654,8 @@ def poster_edit(update, context):
         logger.warning(f"{update.effective_chat.title} kaynağının postu düzenleniyor...")
         for edil in mesdata['pids']:
             db[str(chat)].update_one({"_id": emid}, {"$set": {"pids": []}})
+            if edil['user'] == 0:
+                edcount
             edi_dat = collection.find_one({"_id": edil['user']})
             sira = edi_dat['sira']
             site = edi_dat['site'] 
