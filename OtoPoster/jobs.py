@@ -19,9 +19,9 @@ def jobyedekleme(context):
 def tekrarlipostjob(context):
     tsdict = context.job.context
     try:
-        tsdict['tsupdate'].copy(tsdict['tskan'])
+        tsdict['tsupdate'].effective_message.copy(tsdict['tskan'])
     except:
-        bot.send_message(tsdict['tsuser'], f"{tsdict['tsbaslik']} Tekrarli Postunuz gönderilemedi!")
+        bot.send_message(tsdict['tsuser'], f"{tsdict['baslik']} Tekrarli Postunuz gönderilemedi!")
 
 def deljob(context):
     delcont = context.job.context
