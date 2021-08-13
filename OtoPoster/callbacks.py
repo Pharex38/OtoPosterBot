@@ -426,7 +426,7 @@ def callback_query(call, context):
         return
     """ Tekrarli Post """
     if call.callback_query.data.startswith("tkan+"):
-        context.user_data['tskanal'] = call.callback_query.data.split("+")[-1]
+        context.user_data['tskan'] = call.callback_query.data.split("+")[-1]
         call.callback_query.answer("Kanal belirlendi!")
         call.callback_query.edit_message_text("Tekrarli Postunuzun kaç saatte bir gönderilmesini istediğiniz saati seçin", reply_markup=tekrarlisaatmark())
         return 
