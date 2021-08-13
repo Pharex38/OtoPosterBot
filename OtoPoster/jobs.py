@@ -16,6 +16,13 @@ def jobyedekleme(context):
                 yjcount += 1
     logger.warning(str(yjcount)+" Adet Job Yedeklendi!")
 
+def tekrarlipostjob(context):
+    tsdict = context.job.context
+    try:
+        tsdict['tsupdate'].copy(tsdict['tskan'])
+    except:
+        bot.send_message(tsdict['user'], f"{tsdict['baslik']} Tekrarli Postunuz gönderilemedi!")
+
 def deljob(context):
     delcont = context.job.context
     hedef = "-100"+delcont.split("/")[-2]

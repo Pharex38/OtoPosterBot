@@ -435,9 +435,9 @@ def callback_query(call, context):
 
 def tekrarlisaatayarlacall(call, context):
     context.user_data['tsaat'] = int(call.callback_query.data.split("-")[-1])
-    bot.send_message(call.effective_chat.id, "Paylaşılmasını istediğiniz postunu gönderin.", reply_markup=imark())
+    bot.send_message(call.effective_chat.id, "Tekrarlı postunuza bir başlık verin.\n\nÖrnek;\nJigolo afiş, Data afiş", reply_markup=imark())
     call.callback_query.answer("Saat belirlendi!")
-    return TSPOST
+    return TSBASLIK
 
 def begeniislemcall(call, context):
     user = call.effective_user.id

@@ -305,6 +305,20 @@ def ekstramenu(update, context):
     
     bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=ekstralarmenumark())
 
+def tekrarlipostbaslikayarla(update, context):
+    user = update.effective_user.id
+    chat = update.effective_chat.id
+    context.user_data['tsbaslik'] = update.effective_message.text
+    bot.send_message(chat, "Başlık ayarlandı, son olarak paylaşılmasını istediğiniz postu gönderin.", reply_markup=imark())
+    return TSPOST
+
+def tekrarlipostbaslikayarla(update, context):
+    user = update.effective_user.id
+    chat = update.effective_chat.id
+    tspostdict = {"baslik": context.user_data['baslik'], "tsaat": context.user_data['tsaat'], "tskan": context.user_data['tskan'], "tsupdate": update, "tsuser": user}
+    context.job_queue.run_repeating(tekrarlipostjob, first=2, interval=60*int(context.user_data['tsaat'], name=f"ts{user}", context=tspostdict))
+    bot.send_message(chat, "Postunuz başarıyla ayarlandı!")
+    return ConversationHandler.END
 
 def ozelk(update, context):
     user = update.message.from_user.id
