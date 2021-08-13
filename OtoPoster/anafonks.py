@@ -312,7 +312,7 @@ def tekrarlipostbaslikayarla(update, context):
     bot.send_message(chat, "Başlık ayarlandı, son olarak paylaşılmasını istediğiniz postu gönderin.", reply_markup=imark())
     return TSPOST
 
-def tekrarlipostbaslikayarla(update, context):
+def tekrarlipostayarla(update, context):
     user = update.effective_user.id
     chat = update.effective_chat.id
     tspostdict = {"baslik": context.user_data['baslik'], "tsaat": context.user_data['tsaat'], "tskan": context.user_data['tskan'], "tsupdate": update, "tsuser": user}
