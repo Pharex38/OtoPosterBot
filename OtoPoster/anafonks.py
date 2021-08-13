@@ -317,7 +317,7 @@ def tekrarlipostayarla(update, context):
     chat = update.effective_chat.id
     tspostdict = {"baslik": context.user_data['tsbaslik'], "tsaat": context.user_data['tsaat'], "tskan": context.user_data['tskan'], "tsupdate": update, "tsuser": user}
     context.job_queue.run_repeating(tekrarlipostjob, first=2, interval=3600*int(context.user_data['tsaat']), name=f"ts{user}", context=tspostdict)
-    bot.send_message(chat, "Postunuz başarıyla ayarlandı!")
+    bot.send_message(chat, "Postunuz başarıyla ayarlandı!", reply_markup=dugme(user))
     return ConversationHandler.END
 
 def ozelk(update, context):
@@ -387,13 +387,13 @@ def begenidegistir(update, context):
     chat = update.message.chat.id
     user = update.message.from_user.id
     if mesaj == "❌ İptal":
-        bot.send_message(chat, "İptal Edildi.", reply_markup=ekstralarmenumark())
+        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
     if len(mesaj.split("/")) < 1 or " " in mesaj:
         update.effective_message.reply_text("Hatalı biçim! Lütfen örnekteki gibi gönderin.\n\nÖrnek;\n<code>❤️/⛔️/🥰</code>")
-        return ConversationHandler.END
+        return 
     collection.update_one({"_id": user}, {"$set": {"begeni": update.message.text.split("/")}})
-    update.effective_message.reply_text("Butonlarınız kaydedildi!", reply_markup=ekstralarmenumark())
+    update.effective_message.reply_text("Butonlarınız kaydedildi!", reply_markup=dugme(user))
     return ConversationHandler.END
     
 
