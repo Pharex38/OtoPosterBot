@@ -19,10 +19,13 @@ def jobyedekleme(context):
 def tekrarlipostjob(context):
     tsdict = context.job.context
     if tsdict['text'] != None:
-        bot.send_message(tsdict['tskan'], tsdict['text'])
+        try:
+            bot.send_message(tsdict['tskan'], tsdict['text'])
+        except:
+            bot.send_message(tsdict['tsuser'], f"{tsdict['baslik']} Tekrarli Postunuz gönderilemedi!")
         return
     try:
-        SEND_MEDIA_TYPES[tsdict['ptip']](tsdict['tskan'], tsdict['fid'], caption=tsdict['caption'])
+        SEND_MEDIA_TYPES[tsdict['ptip']](tsdict['tskan'], tsdict['fid'], caption=tsdict['tscaption'])
     except:
         bot.send_message(tsdict['tsuser'], f"{tsdict['baslik']} Tekrarli Postunuz gönderilemedi!")
 
