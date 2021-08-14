@@ -32,6 +32,9 @@ def altcall(call, context):
 def begenicall(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
+    if len(collection.find_one({"_id": user})['kanal']) == 0:
+        bot.send_message(chat, "Beğeni butonu ayarlayabilmek için önce bir kanal kaydetmelisiniz!")
+        return
     bot.send_message(chat, "Ayarlamak istediğin buton emojilerini örnekteki gibi gönderin.\n\nÖrnek;\n<code>❤️/⛔️/🥰</code>", reply_markup=imark())
     return BEGENI
 
@@ -187,8 +190,11 @@ def callback_query(call, context):
         call.effective_message.delete()
     if call.callback_query.data == "dsil":
         collection.delete_one({"_id": user})
-        call.callback_query.answer("💔")
-        call.callback_query.edit_message_text("💔")
+        try:
+            call.callback_query.answer("💔")
+            call.callback_query.edit_message_text("💔")
+        except:
+            pass
         bot.send_message(chat, "Tüm bilgileriniz silindi.", reply_markup=dagme())
     if call.callback_query.data == "akaldır":
         collection.update_one({"_id": user}, {"$set": {"altsite": "None", "altapi": "None", "sira": "0", "sablon": "1"}})
@@ -405,7 +411,13 @@ def callback_query(call, context):
         call.callback_query.edit_message_text("Silmek istediğiniz postu seçin.", reply_markup=tekrarlipostsilmark(user, context))
         return
     if call.callback_query.data == "yenitekrarli":
-        call.callback_query.edit_message_text("Tekrarli Post ayarlamak istediğiniz kanalı seçin.", reply_markup=tekrarlipostkan(user))
+        if len(collection.find_one({"_id": user})['kanal']) > 0:
+            call.callback_query.edit_message_text("Tekrarli Post ayarlayabilmek için önce bir kanal kaydetmelisiniz!")
+            return
+        elif len(collection.find_one({"_id": user})['kanal']) > 1:
+            call.callback_query.edit_message_text("Tekrarli Post ayarlamak istediğiniz kanalı seçin.", reply_markup=tekrarlipostkan(user))
+        else:
+            call.callback_query.edit_message_text("Tekrarli Postunuzun kaç saatte bir gönderilmesini istediğiniz saati seçin", reply_markup=tekrarlisaatmark())
         return
     if call.callback_query.data.startswith("tssil-"):
         try:
@@ -417,6 +429,7 @@ def callback_query(call, context):
         return
     """ iOS Kontrol """
     if call.callback_query.data.startswith("iosk-"):
+        call.callback_query.edit_message_text("<code>Kontrol ediliyor...</code>")
         ioskanal = collection.find_one({"_id": user})['kanal'][int(call.callback_query.data.split("-")[-1])]
         ioskanlink = bot.get_chat(ioskanal)
         bot.send_message(eklenti, f'{user}+{ioskanlink.invite_link}')
@@ -424,7 +437,7 @@ def callback_query(call, context):
 
 def tekrarlisaatayarlacall(call, context):
     context.user_data['tsaat'] = int(call.callback_query.data.split("-")[-1])
-    bot.send_message(call.effective_chat.id, "Tekrarlı postunuza bir başlık verin.\n\nÖrnek;\nJigolo afiş, Data afiş", reply_markup=imark())
+    bot.send_message(call.effective_chat.id, "Tekrarlı postunuza bir başlık verin.\n\nÖrnek;\nJigolo afiş, IVR afiş", reply_markup=imark())
     call.callback_query.answer("Saat belirlendi!")
     return TSBASLIK
 

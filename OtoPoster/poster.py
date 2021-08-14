@@ -664,6 +664,7 @@ def poster_edit(update, context):
             kanal = edi_dat['kanal']
             token = edi_dat['token'] 
             sablon = edi_dat['sablon']
+            begeni = edi_dat['begeni']
             chatdat = KaynakCol.find_one({"_id": chat})
             try:
                 if sira == "2":
@@ -754,8 +755,21 @@ def poster_edit(update, context):
             elif sablon == "9":
                 sablon = "{aciklama} \n\n𝙇𝙄𝙉𝙆🔗 {link} \n\n     𝙇𝙄𝙉𝙆🔗 {alink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
             newedim_l = sablon.format(aciklama=edited_a, link=link, alink=alink)
+            if len(begeni) > 0:
+                begkeyb = []
+                mrkpc = 0
+                for beg in ButonCol.find_one({"_id": str(chat)})['begeni']:
+                    try:
+                        butsayi = int(call.effective_message.reply_markup.inline_keyboard[0][mrkpc].text.split()[-1])
+                    except IndexError:
+                        butsayi = 0
+                    begkeyb.append(InlineKeyboardButton(str(beg)+" "+str(butsayi), callback_data="begeni-{}".format(mrkpc)))
+                    mrkpc += 1
+                epostermarkup = InlineKeyboardMarkup([begkeyb])
+            else:
+                epostermarkup = InlineKeyboardMarkup([[]])
             try:
-                bot.edit_message_caption(caption=newedim_l, chat_id=edil['chat'], message_id=edil['pid'])
+                bot.edit_message_caption(caption=newedim_l, chat_id=edil['chat'], message_id=edil['pid'], reply_markup=epostermarkup)
             except Exception as e:
                 logger.error(e)
                 pass
@@ -780,9 +794,14 @@ def poster_edit(update, context):
             newedim = sablon.format(aciklama=edited_a, link=edi['link'], alink=edi['alink'])
             try:
                 bot.edit_message_caption(caption=newedim, chat_id=edi['chat'], message_id=edi['pid'])
+            except RetryAfter as ertf:
+                sleep(ertf.retry_after+1)
+                try:
+                    bot.edit_message_caption(caption=newedim, chat_id=edi['chat'], message_id=edi['pid'])
+                except Exception as e:
+                    logger.error(e)
             except Exception as e:
                 logger.error(e)
-                pass
             else:
                 db[str(chat)].update_one({"_id": emid}, {"$set": {"aciklama": edited_a}})
                 edcount += 1

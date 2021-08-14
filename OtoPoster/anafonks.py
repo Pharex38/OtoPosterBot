@@ -1,4 +1,3 @@
-from telegram.ext import conversationhandler
 from .misc import *
 from . import *
 from .jobs import *
@@ -22,11 +21,6 @@ def menu(update, context):
     if mesaj == "🥰 Bağış":
         bot.send_message(chat, "🥰Madem bu kadar çok istiyorsun. \n\n🏧Papara: <code>1666982412</code> \n🏦İninal: <code>4003140030544</code>")
         return
-    try:
-        tokenn = mj['token']
-    except:
-        bot.send_message(chat, """⛔ Henüz bir API kaydetmemişsiniz!\n\n📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark())
-        return APIDEGISTIR
     if mesaj == "📝 Kaydet":
         bot.send_message(chat, """📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark())
         return APIDEGISTIR
@@ -34,6 +28,11 @@ def menu(update, context):
         bot.send_message(chat, "Ana Menü.", reply_markup=dugme(user))
         return
     if mesaj == "🖥 Kanal Menü":
+        try:
+            tokenn = mj['token']
+        except:
+            bot.send_message(chat, """⛔ Bu menüyü görebilmek içim önce bir API kaydetmelisiniz!\n\n📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark())
+            return APIDEGISTIR
         kayitli = 0
         menu_mesaj = "<b>🖥Kayıtlı Kanalınız;</b>\n"
         for chan in mj['kanal']:
@@ -53,12 +52,27 @@ def menu(update, context):
         bot.send_message(chat, menu_mesaj, reply_markup=kanalmenumark())
         return KANALMENU
     if mesaj == "🛠 Ekstralar":
+        try:
+            tokenn = mj['token']
+        except:
+            bot.send_message(chat, """⛔ Bu menüyü görebilmek içim önce bir API kaydetmelisiniz!\n\n📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark())
+            return APIDEGISTIR
         bot.send_message(chat, "Ekstralar Menüsü", reply_markup=ekstralarmenumark())
         return EKSTRAMENU
     if mesaj == "🎛 Post Menü":
+        try:
+            tokenn = mj['token']
+        except:
+            bot.send_message(chat, """⛔ Bu menüyü görebilmek içim önce bir API kaydetmelisiniz!\n\n📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark())
+            return APIDEGISTIR
         bot.send_message(chat, "Post menüsü.", reply_markup=postmenumark())
         return POSTMENU
     if mesaj == "🔗 API Menü":
+        try:
+            tokenn = mj['token']
+        except:
+            bot.send_message(chat, """⛔ Bu menüyü görebilmek içim önce bir API kaydetmelisiniz!\n\n📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark())
+            return APIDEGISTIR
         if mj['altsite'] == "None":
             apimenu_mesaj = "<i>♦️Kayıtlı API: {}\nSite: {}</i>".format(mj['token'], site_isim(mj['site']))
         else:
@@ -80,7 +94,7 @@ def kanalmenu(update, context):
     try:
         tokenn = kudat['token']
     except:
-        msg = bot.send_message(chat, """⛔ Henüz bir API kaydetmemişsiniz!\n\n📝 <i></i> <a href="https://tr.link/member/tools/quick">buraya tıklayarak</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark())            
+        msg = bot.send_message(chat, """⛔ Bu menüyü görebilmek içim önce bir API kaydetmelisiniz!\n\n📝 <i></i> <a href="https://tr.link/member/tools/quick">buraya tıklayarak</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark())            
         return APIDEGISTIR
 
     if mesaj == "🗑️ Kanal Sil":
@@ -118,7 +132,7 @@ def apimenu(update, context):
     try:
         tokenn = audat['token']
     except:
-        bot.send_message(chat, "⛔ Henüz bir API kaydetmemişsiniz!\n\n📝 <i></i> <a href='https://tr.link/member/tools/quick'>buraya tıklayarak</a> <i>aldığınız API adresinizi gönderin</i>", reply_markup=imark())
+        bot.send_message(chat, "⛔ Bu menüyü görebilmek içim önce bir API kaydetmelisiniz!\n\n📝 <i></i> <a href='https://tr.link/member/tools/quick'>buraya tıklayarak</a> <i>aldığınız API adresinizi gönderin</i>", reply_markup=imark())
         return APIDEGISTIR
     if mesaj == "♻️ API değiştir":
         bot.send_message(chat, "Yeni API adresinizi girin.", reply_markup=imark())
@@ -148,7 +162,7 @@ def postmenu(update, context):
     try:
         tokenn = poudat['token']
     except:
-        bot.send_message(chat, """⛔ Henüz bir API kaydetmemişsiniz!\n\n📝 <i></i> <a href="https://tr.link/member/tools/quick">buraya tıklayarak</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark())            
+        bot.send_message(chat, """⛔ Bu menüyü görebilmek içim önce bir API kaydetmelisiniz!\n\n📝 <i></i> <a href="https://tr.link/member/tools/quick">buraya tıklayarak</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark())            
         return APIDEGISTIR
     if mesaj == "⏱ Post Zamanları":
         if not user == sahip:
@@ -280,15 +294,21 @@ def ekstramenu(update, context):
         bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
     if mesaj == "❤️ Beğeni Butonları":
-        butonlari = collection.find_one({"_id": user})['begeni']
+        butonlari = eudat['begeni']
         bot.send_message(chat, "<b>Paylaşılan her postun altına buton ayarlayabilirsiniz.</b>\n\n{}".format(butonlari if len(butonlari) > 0 else "Henüz buton ayarlamamışsınız"), reply_markup=begenimark(eudat))
         return
     if mesaj == "📌 Post Sabitleme":
+        if len(eudat['kanal']) == 0:
+            bot.send_message(chat, "Bu modu kullanabilmek için önce bir kanal kaydetmelisin!")
+            return
         bot.send_message(chat, "<b>Paylaşılan postların otomatik olarak sabitlenmesini istersen bu modu açabilirsin.</b>", reply_markup=pinmark(user))
         return
     if mesaj == "🔁 Tekrarlı Post Paylaş":
         tekrarlipostlari = context.job_queue.get_jobs_by_name("ts"+str(user))
-        text_tekrarli = "<b>Tekrarlı Postlarınız;</b>\n\n"
+        if len(tekrarlipostlari) == 0:
+            text_tekrarli = f"<b>Henüz hiç tekrarlı post ayarlamamışsınız.</b>"
+        else:
+            text_tekrarli = "<b>Tekrarlı Postlarınız;</b>\n\n"
         for tpost in tekrarlipostlari:
             tpoststr = str(tpost.job)
             tpp = tpoststr.find("run at: ")
@@ -297,6 +317,9 @@ def ekstramenu(update, context):
         bot.send_message(chat, text_tekrarli, reply_markup=tekrarlipostmark())
         return
     if mesaj == "🍎 iOS Ban Kontrol":
+        if len(eudat['kanal']) == 0:
+            bot.send_message(chat, "Kontrol edebilmem için önce bir kanal kaydetmelisin!")
+            return
         bot.send_message(chat, "Kontrol etmek istediğiniz kanalı seçin.", reply_markup=ioskontrolmark(user))
         return
     if mesaj == "↩️ Ana Menü" or mesaj == "❌ İptal":
@@ -309,6 +332,9 @@ def ekstramenu(update, context):
 def tekrarlipostbaslikayarla(update, context):
     user = update.effective_user.id
     chat = update.effective_chat.id
+    if update.message.text == "❌ İptal":
+        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
+        return ConversationHandler.END
     context.user_data['tsbaslik'] = update.effective_message.text
     bot.send_message(chat, "Başlık ayarlandı, son olarak paylaşılmasını istediğiniz postu gönderin.", reply_markup=imark())
     return TSPOST
@@ -316,6 +342,9 @@ def tekrarlipostbaslikayarla(update, context):
 def tekrarlipostayarla(update, context):
     user = update.effective_user.id
     chat = update.effective_chat.id
+    if update.message.text == "❌ İptal":
+        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
+        return ConversationHandler.END
     tfid = None
     if update.effective_message.text == None:
         tfid = update.effective_message.photo[-1].file_id if update.effective_message.photo else update.effective_message.effective_attachment.file_id
@@ -400,7 +429,6 @@ def begenidegistir(update, context):
     update.effective_message.reply_text("Butonlarınız kaydedildi!", reply_markup=dugme(user))
     return ConversationHandler.END
     
-
 def sabloniki(update, context):
     mesaj = update.message.text_html_urled
     chat = update.message.chat.id
@@ -516,24 +544,24 @@ def kanalkayit(update, context):
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
     if not update.message.forward_from_chat:
-        msg = bot.send_message(chat, "↪️ Bunun ne olduğu hakkında bir fikrim yok! Lütfen kanaldan herhangi bir gönderi iletin.", reply_markup=imark())
+        bot.send_message(chat, "↪️ Bunun ne olduğu hakkında bir fikrim yok! Lütfen kanaldan herhangi bir gönderi iletin.", reply_markup=imark())
         return 
     kanal = update.message.forward_from_chat.id
     if KaynakCol.find_one({"_id": kanal}):
-        mst = bot.send_message(chat, "Kaynak kanalını nasıl kaydedebilirim ki?", reply_markup=imark())
+        bot.send_message(chat, "Kaynak kanalını nasıl kaydedebilirim ki?", reply_markup=imark())
         return 
     if str(kanal) in y['kanal']:
-        msl = bot.send_message(chat, "Bu kanalı zaten kaydetmişsiniz")
+        bot.send_message(chat, "Bu kanalı zaten kaydetmişsiniz")
         return 
     try:
         kanalbilgi = bot.get_chat(kanal)
     except:
-        msg = bot.send_message(chat, "Botu kanalınızda yönetici eklememişsiniz.")
+        bot.send_message(chat, "Botu kanalınızda yönetici eklememişsiniz.")
         return 
     try:
         yetkiler = bot.get_chat_administrators(kanal)
     except:
-        msg = bot.send_message(chat, "Botu kanalınızda yönetici eklememişsiniz.")        
+        bot.send_message(chat, "Botu kanalınızda yönetici eklememişsiniz.")        
         return 
     ytliler = [y.user.id for y in yetkiler]
     if not user in ytliler:

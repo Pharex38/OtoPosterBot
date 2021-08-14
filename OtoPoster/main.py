@@ -1,5 +1,3 @@
-
-from telegram.ext import callbackqueryhandler
 from . import *
 from .anafonks import *
 from .callbacks import *
@@ -27,7 +25,7 @@ def main() -> None:
     dispatcher.add_handler(MessageHandler(Filters.chat(-1001584743136), comment))
     dispatcher.add_handler(MessageHandler(Filters.chat(eklenti), eklentiiletisim))
     dispatcher.add_handler(MessageHandler(Filters.chat(-1001572618573), posterkomut2)) 
-    dispatcher.add_handler(MessageHandler(Filters.update.edited_channel_post, poster_edit))
+    dispatcher.add_handler(MessageHandler(Filters.photo & Filters.update.edited_channel_post | Filters.video & Filters.update.edited_channel_post | Filters.animation & Filters.update.edited_channel_post, poster_edit))
     """ Admin Komutları """
     dispatcher.add_handler(CommandHandler('bul', bul, Filters.chat(sahip)))
     dispatcher.add_handler(CommandHandler('duyuru', duy, Filters.chat(sahip)))
@@ -72,7 +70,7 @@ def main() -> None:
             EKSTRAMENU: [MessageHandler(~Filters.command & Filters.update.message, ekstramenu),
             CallbackQueryHandler(begenicall, pattern="^(begeniolustur)$"),
             CallbackQueryHandler(tekrarlisaatayarlacall, pattern="^ts-(.*)")],
-            TSPOST: [MessageHandler(~Filters.command, tekrarlipostayarla)],
+            TSPOST: [MessageHandler(~Filters.command & ~Filters.update.sticker, tekrarlipostayarla)],
             TSBASLIK: [MessageHandler(~Filters.command & Filters.text, tekrarlipostbaslikayarla)],
             BEGENI: [MessageHandler(~Filters.command & Filters.text, begenidegistir)],
             APIDEGISTIR: [MessageHandler(~Filters.command & Filters.update.message, apikayit)],
@@ -105,7 +103,7 @@ def main() -> None:
     """ Callbacks """
     dispatcher.add_handler(CallbackQueryHandler(cekiliscall, pattern="^katil(.*)"))
     dispatcher.add_handler(CallbackQueryHandler(kaynakcall, pattern="^kaynak(.*)"))
-    dispatcher.add_handler(CallbackQueryHandler(begeniislemcall, pattern="^begeni-(.*)", run_async=True))
+    dispatcher.add_handler(CallbackQueryHandler(begeniislemcall, pattern="^begeni-(.*)", run_async=False))
     dispatcher.add_handler(CallbackQueryHandler(callback_query))
     """ Error Handler """
     dispatcher.add_error_handler(error_handler)
