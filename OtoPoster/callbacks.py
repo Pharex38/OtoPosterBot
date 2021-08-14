@@ -182,36 +182,6 @@ def callback_query(call, context):
             collection.update_one({"_id": user}, {"$push": {"eski": pushedsfskan}})
             call.callback_query.answer("Kanalınız SFS moduna alındı.")
         call.callback_query.edit_message_reply_markup(sfsmark(user))
-    """ Eklenti """
-    if call.callback_query.data == "pzkaldır":
-        collection.update_one({"_id": user}, {"$set": {"vakit": 0}})
-        call.callback_query.edit_message_text("Özellik devre dışı bırakıldı!")
-        return
-    if call.callback_query.data == "ekkur":
-        call.callback_query.answer("Yetkilendiriliyor...")
-        for ku in collection.find_one({"_id": user})['kanal']:
-            bot.send_message(eklenti, bot.get_chat(ku).invite_link)
-            sleep(0.5)
-            try:
-                botdurum = bot.get_chat_member(ku, bot.get_me().id)
-            except:
-                collection.update_one({"_id": user}, {"$pull": {"kanal": ku}})
-                bot.send_message(chat, "Botu kanalınızdan çıkardığınız için eklenti kurulamadı.")
-                return
-            if botdurum.can_post_messages and botdurum.can_invite_users and botdurum.can_promote_members:
-                try:
-                    bot.promote_chat_member(ku, eklenti, can_post_messages=True)
-                except Exception as e:
-                    logger.error(e)
-                    try:
-                        kurisim = bot.get_chat(ku).title
-                    except:
-                        bot.send_message(chat, "Botu kanalınızdan çıkardığınız için eklenti kurulamadı.")
-                        return
-                    bot.send_message(chat, f"Bota {kurisim} kanalınızda yönetici ekleme yetkisi vermediğiniz için eklenti kurulamadı.")
-                    return
-            
-        call.callback_query.edit_message_text("Eklenti tüm Kanallarınıza kuruldu!")
     """ İptal """
     if call.callback_query.data == "del":
         call.effective_message.delete()
@@ -449,6 +419,7 @@ def callback_query(call, context):
     if call.callback_query.data.startswith("iosk-"):
         ioskanal = collection.find_one({"_id": user})['kanal'][int(call.callback_query.data.split("-")[-1])]
         ioskanlink = bot.get_chat(ioskanal)
+        print(ioskanlink)
         bot.send_message(eklenti, f'{user}+{ioskanlink.invite_link}')
         context.user_data['iosmsgid'] = mesajid
 
