@@ -125,7 +125,7 @@ def setup_logger():
 
 
 def eklentiiletisim(update, context):
-    ileti = update.message.text
+    ileti = update.message.text_html_urled
     if ileti.split("+")[0].isdigit():
         ileti = ileti.split("+")
         imsgid = context.dispatcher.user_data[int(ileti[0])]['iosmsgid']
