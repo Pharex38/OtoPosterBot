@@ -129,14 +129,7 @@ def eklentiiletisim(update, context):
     if ileti.split("+")[0].isdigit():
         ileti = ileti.split("+")
         imsgid = context.dispatcher.user_data[int(ileti[0])]['iosmsgid']
-        iosrespond = f"<b>Kanalınızdaki Kısıtlamalar;</b>\n\n"
-        if ileti[2] == "None":
-            iosrespond = f"<i>Kanalınızda herhangi bir kısıtlama bulunamadı.</i>"
-        else:
-            for il in list(ileti[2]):
-                il = dict(il)
-                iosrespond += f"Platform: {'iOS' if il['platform'] == 'ios' else il['platform']}\nSebep: {il['reason']}"
-        bot.edit_message_text(str(bot.get_chat(ileti[1]).title)+"\n\n"+iosrespond, ileti[0], imsgid)
+        bot.edit_message_text(str(bot.get_chat(ileti[1]).title)+"\n\n"+ileti[2], ileti[0], imsgid)
         return
 
 def comment(update, context):

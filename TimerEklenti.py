@@ -28,8 +28,14 @@ def islem(client, message):
     mesaj = message.text.split("+")
     if ".me" in message.text:
         chat = app.join_chat(mesaj[1])
-        print(chat.restrictions)
-        return_text = f"{mesaj[0]}+{chat.id}+{chat.restrictions}"
+        iosrespond = f"<b>Kanalınızdaki Kısıtlamalar;</b>\n\n"
+        if len(chat.restrictions) == 0:
+            iosrespond = f"<i>Kanalınızda herhangi bir kısıtlama bulunamadı.</i>"
+        else:
+            for il in list(chat.restrictions):
+                il = dict(il)
+                iosrespond += f"Platform: {'iOS' if il['platform'] == 'ios' else il['platform']}\nSebep: {il['reason']}"
+        return_text = f"{mesaj[0]}+{chat.id}+{iosrespond}"
         message.reply(return_text)
         chat.leave()
 
