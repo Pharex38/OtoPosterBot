@@ -18,6 +18,7 @@ from telegram.constants import *
 import html
 import json as jason
 import traceback
+from pyrogram import Client
 
 pid = os.getpid()
 open("pid.txt", "w").write(str(pid))
