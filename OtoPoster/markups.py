@@ -32,7 +32,7 @@ def cekilismark():
     return InlineKeyboardMarkup([[InlineKeyboardButton("Çekilişe Katıl!", callback_data="katil")]])
 
 def tekrarlipostmark():
-    return InlineKeyboardMarkup([[InlineKeyboardButton("Yeni Post Oluştur", callback_data="yenitekrarli")], [InlineKeyboardButton("Tekrarli Post Sil", callback_data="siltekrarli")], [InlineKeyboardButton("❌ İptal", callback_data="iptal")]])
+    return InlineKeyboardMarkup([[InlineKeyboardButton("Yeni Post Oluştur", callback_data="yenitekrarli")], [InlineKeyboardButton("Tekrarli Post Sil", callback_data="tekrarlisil")], [InlineKeyboardButton("❌ İptal", callback_data="iptal")]])
 
 def tekrarlipostkan(user):
     tpk = []
@@ -244,9 +244,7 @@ def gen_markup(user):
     return silkey
 
 def begenimark(eudat):
-    try:
-        eudat['begeni']
-    except KeyError:
+    if len(eudat['begeni']) < 1:
         bmark = InlineKeyboardMarkup([[InlineKeyboardButton('Beğeni Butonları Oluştur.', callback_data="begeniolustur")], [InlineKeyboardButton('İptal.', callback_data="iptal")]])
     else:
         bmark = InlineKeyboardMarkup([[InlineKeyboardButton('Butonları değiştir.', callback_data="begeniolustur")], [InlineKeyboardButton('Butonları kaldır', callback_data="begenikaldir")], [InlineKeyboardButton('İptal.', callback_data="iptal")]])
