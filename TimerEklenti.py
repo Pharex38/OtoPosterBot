@@ -36,7 +36,6 @@ def islem(client, message):
             iosrespond = f"<i>Kanalınızda herhangi bir kısıtlama bulunamadı.</i>"
         else:
             for il in list(chat.restrictions):
-                il = dict(il)
                 iosrespond += f"Platform: {'iOS' if il['platform'] == 'ios' else il['platform']}\nSebep: {il['reason']}"
         return_text = f"{mesaj[0]}+{chat.id}+{iosrespond}"
         message.reply(return_text)
