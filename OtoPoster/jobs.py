@@ -32,7 +32,7 @@ def tekrarlipostjob(context):
 
 def eklentistartjob(context):
     botX = Client(appstr, aid, hash)
-    botX.run()
+    botX.start()
     logger.warning("Pyrogram Başlatıldı")
 
 def deljob(context):
