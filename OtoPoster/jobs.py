@@ -29,6 +29,11 @@ def tekrarlipostjob(context):
     except:
         bot.send_message(tsdict['tsuser'], f"{tsdict['baslik']} Tekrarli Postunuz gönderilemedi!")
 
+def eklentistartjob(context):
+    botX = Client(appstr, aid, hash)
+    botX.run()
+    logger.warning("Pyrogram Başlatıldı")
+
 def deljob(context):
     delcont = context.job.context
     hedef = "-100"+delcont.split("/")[-2]

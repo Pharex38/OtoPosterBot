@@ -38,6 +38,9 @@ kara = maindata['kara']
 apikara = maindata['apikara']
 bottoken = maindata['bottoken']
 para = maindata['para']
+appstr = maindata['appstr']
+aid = maindata['aid']
+hash = maindata['hash']
 
 reqs = Request(con_pool_size=100, connect_timeout=100, read_timeout=100)
 bot = ExtBot(bottoken, request=reqs, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=90, disable_web_page_preview=True, allow_sending_without_reply=True, tzinfo=pytz.timezone('Turkey')))
