@@ -7,8 +7,9 @@ def deep(u_kod, user):
     kat = collection.find_one({"_id": user})
     key = {"_id": user, "kanal": [], "sablon": "1", "kaynak": ["32"], "site": "1", "altapi": "None", "altsite": "None", "sira": "0", "ozel": True, "time": 0, "vakit": 0, "pcount": 0, "eski": [], "begeni": [], "pin": []}
     if int(u_kod) > 100:
+        kanal = OzelCol.find_one({"_id": int(u_kod)})['okaynak']
         try:
-            ref_kanal_ismi = bot.get_chat(OzelCol.find_one({"_id": int(u_kod)})['okaynak']).title
+            ref_kanal_ismi = bot.get_chat(kanal).title
         except:
             ref_kanal_ismi = "Kanala ulaşılamıyor."
         if kat == None:
@@ -143,6 +144,10 @@ def error_handler(update: object, context: CallbackContext) -> None:
         logger.error(msg="Bir Hata oluştu:", exc_info=context.error)
         tb_list = traceback.format_exception(None, context.error, context.error.__traceback__)
         tb_string = ''.join(tb_list)
+        if update:
+            updateerr = update.effective_user if update.effective_user else update
+        else:
+            updateerr = None
         update_str = update.to_dict() if isinstance(update, Update) else str(update)
         try:
             update.message.chat.id
@@ -169,7 +174,7 @@ def error_handler(update: object, context: CallbackContext) -> None:
         message2 = (
         f'<pre>context.chat_data = {html.escape(str(context.chat_data))}</pre>\n\n'
         f'<pre>context.user_data = {html.escape(str(context.user_data))}</pre>\n\n'
-        f'{jason.dumps(collection.find_one({"_id": update.effective_user.id if update.effective_user else 0}))}')
+        f'{jason.dumps(collection.find_one({"_id": update.effective_user.id if updateerr else 0}))}')
         message3 = (
         f'<pre>{html.escape(tb_string)}</pre>'
         )
