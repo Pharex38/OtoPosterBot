@@ -759,10 +759,7 @@ def poster_edit(update, context):
                 begkeyb = []
                 mrkpc = 0
                 for beg in ButonCol.find_one({"_id": str(chat)})['begeni']:
-                    try:
-                        butsayi = int(call.effective_message.reply_markup.inline_keyboard[0][mrkpc].text.split()[-1])
-                    except IndexError:
-                        butsayi = 0
+                    butsayi = 0
                     begkeyb.append(InlineKeyboardButton(str(beg)+" "+str(butsayi), callback_data="begeni-{}".format(mrkpc)))
                     mrkpc += 1
                 epostermarkup = InlineKeyboardMarkup([begkeyb])
