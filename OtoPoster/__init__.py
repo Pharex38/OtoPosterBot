@@ -46,7 +46,7 @@ hash = maindata['hash']
 reqs = Request(con_pool_size=100, connect_timeout=100, read_timeout=100)
 bot = ExtBot(bottoken, request=reqs, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=90, disable_web_page_preview=True, allow_sending_without_reply=True, tzinfo=pytz.timezone('Turkey')))
 
-eklenti = 815899066
+eklenti = 1654723447
 blog = -1001391561285
 botlog = -1001352123979
 sahip = 1302980840

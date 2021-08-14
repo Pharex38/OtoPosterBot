@@ -445,6 +445,10 @@ def callback_query(call, context):
         else:
             call.callback_query.edit_message_text("Postunuz silindi artık paylaşılmayacak")
         return
+    """ iOS Kontrol """
+    if call.callback_query.data.startswith("iosk-"):
+        bot.send_message(eklenti, f'{user}+{bot.get_chat(collection.find_one({"_id": user})["kanal"][int(call.callback_query.data.split("-")[-1])]).invite_link}')
+        context.user_data['iosmsgid'] = mesajid
 
 def tekrarlisaatayarlacall(call, context):
     context.user_data['tsaat'] = int(call.callback_query.data.split("-")[-1])

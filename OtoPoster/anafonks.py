@@ -298,7 +298,7 @@ def ekstramenu(update, context):
         return
     if mesaj == "🍎 iOS Ban Kontrol":
         context.job_queue.run_once(eklentistartjob, when=3)
-        bot.send_message(chat, "z")
+        bot.send_message(chat, "Kontrol etmek istediğiniz kanalı seçin.", reply_markup=ioskontrolmark(user))
         return
     if mesaj == "↩️ Ana Menü" or mesaj == "❌ İptal":
         bot.send_message(chat, "<b>Biliyor muydunuz? -></b> "+"<i>"+choice(tips)+"</i>")
