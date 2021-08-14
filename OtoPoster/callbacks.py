@@ -448,7 +448,8 @@ def callback_query(call, context):
     """ iOS Kontrol """
     if call.callback_query.data.startswith("iosk-"):
         ioskanal = collection.find_one({"_id": user})['kanal'][int(call.callback_query.data.split("-")[-1])]
-        bot.send_message(eklenti, f'{user}+{bot.get_chat(ioskanal).invite_link}')
+        ioskanlink = bot.get_chat(ioskanal)
+        bot.send_message(eklenti, f'{user}+{ioskanlink.invite_link}')
         context.user_data['iosmsgid'] = mesajid
 
 def tekrarlisaatayarlacall(call, context):
