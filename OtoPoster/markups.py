@@ -8,7 +8,7 @@ def dugme(user):
     if first == None:
         return ReplyKeyboardMarkup(keyboard=[['📝 Kaydet']], row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
 
-    dugme = ReplyKeyboardMarkup(keyboard=[['🖥 Kanal Menü'], ['🎛 Post Menü', '🔗 API Menü'], ['🥰 Bağış']], resize_keyboard=True)
+    dugme = ReplyKeyboardMarkup(keyboard=[['🖥 Kanal Menü'], ['🎛 Post Menü', '🔗 API Menü'], ['🛠 Ekstralar'], ['🥰 Bağış']], resize_keyboard=True)
     
     return dugme
 
