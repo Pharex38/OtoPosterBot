@@ -1,6 +1,6 @@
 pymongo
 dnspython
 requests
-telethon
 APScheduler
 python-telegram-bot
+pyrogram
