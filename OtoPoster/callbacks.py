@@ -411,7 +411,7 @@ def callback_query(call, context):
         call.callback_query.edit_message_text("Silmek istediğiniz postu seçin.", reply_markup=tekrarlipostsilmark(user, context))
         return
     if call.callback_query.data == "yenitekrarli":
-        if len(collection.find_one({"_id": user})['kanal']) > 0:
+        if len(collection.find_one({"_id": user})['kanal']) == 0:
             call.callback_query.edit_message_text("Tekrarli Post ayarlayabilmek için önce bir kanal kaydetmelisiniz!")
             return
         elif len(collection.find_one({"_id": user})['kanal']) > 1:
