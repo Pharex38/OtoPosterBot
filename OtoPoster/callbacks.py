@@ -439,7 +439,7 @@ def callback_query(call, context):
         return
     if call.callback_query.data.startswith("tssil-"):
         try:
-            context.job_queue.get_jobs_by_name(f"ts{user}")[call.callback_query.data.split("-")[-1]].schedule_removal()
+            context.job_queue.get_jobs_by_name(f"ts{user}")[int(call.callback_query.data.split("-")[-1])].schedule_removal()
         except:
             call.callback_query.edit_message_text("Post iptal edilemedi!")
         else:
