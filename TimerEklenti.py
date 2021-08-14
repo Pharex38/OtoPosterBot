@@ -32,7 +32,7 @@ def islem(client, message):
         except:
             chat = app.get_chat(mesaj[1])
         iosrespond = f"<b>Kanalınızdaki Kısıtlamalar;</b>\n\n"
-        if len(chat.restrictions) == 0:
+        if not chat.is_restricted:
             iosrespond = f"<i>Kanalınızda herhangi bir kısıtlama bulunamadı.</i>"
         else:
             for il in list(chat.restrictions):
