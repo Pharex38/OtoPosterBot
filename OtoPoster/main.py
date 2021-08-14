@@ -70,7 +70,7 @@ def main() -> None:
             EKSTRAMENU: [MessageHandler(~Filters.command & Filters.update.message, ekstramenu),
             CallbackQueryHandler(begenicall, pattern="^(begeniolustur)$"),
             CallbackQueryHandler(tekrarlisaatayarlacall, pattern="^ts-(.*)")],
-            TSPOST: [MessageHandler(~Filters.command & ~Filters.update.sticker, tekrarlipostayarla)],
+            TSPOST: [MessageHandler(~Filters.command, tekrarlipostayarla)],
             TSBASLIK: [MessageHandler(~Filters.command & Filters.text, tekrarlipostbaslikayarla)],
             BEGENI: [MessageHandler(~Filters.command & Filters.text, begenidegistir)],
             APIDEGISTIR: [MessageHandler(~Filters.command & Filters.update.message, apikayit)],
