@@ -28,6 +28,19 @@ def imark():
     imark = ReplyKeyboardMarkup(keyboard=[['❌ İptal']], one_time_keyboard=True, resize_keyboard=True, selective=True)
     return imark
 
+def ioskontrolmark(user):
+    iosk = []
+    iosc = 0
+    for ikan in collection.find_one({"_id": user})['kanal']:
+        try:
+            ioski = bot.get_chat(ikan).title
+        except:
+            continue
+        iosk.append([InlineKeyboardButton(ioski, callback_data=f"iosk-{iosc}")])
+        iosc += 1
+    iosk.append([InlineKeyboardButton("❌ İptal ❌", callback_data="iptal")])
+    return InlineKeyboardMarkup(iosk)
+
 def cekilismark():
     return InlineKeyboardMarkup([[InlineKeyboardButton("Çekilişe Katıl!", callback_data="katil")]])
 

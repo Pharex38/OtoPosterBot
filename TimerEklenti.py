@@ -1,10 +1,7 @@
-from telethon import *
+from pyrogram import *
 import logging, os, datetime, time, asyncio, pytz
 from ssl import CERT_NONE
 from pymongo import *
-from telethon.tl.functions.messages import ImportChatInviteRequest
-from telethon.tl.functions.messages import GetScheduledHistoryRequest
-from telethon.errors.rpcbaseerrors import *
 
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -24,44 +21,20 @@ api_id = maindata['aid']
 api_hash = maindata['hash']
 app_str = maindata['string']
 
-app = TelegramClient("app_str", api_id, api_hash).start()
+app = Client("app_str", api_id, api_hash).start()
 
-@app.on(events.NewMessage(incoming=True, from_users=opb))
-async def islem(event):
-	if event.raw_text.startswith("-"):
-		async with event.client.conversation(event.chat_id) as conv:
-			raws = event.raw_text.split("+")
-			try:
-				kan = await event.client.get_entity(int(raws[0]))
-			except FloodError as ex:
-				time.sleep(ex.x)
-			except:
-				collection.update_one({"_id": user}, {"$set": {"vakit": 0}})
-				await app.send_message(opb, str(user)+"+"+str("Eklentiyi kanaldan çıkardığınız Post Zamanalama özelliği devre dışı bırakıldı."))
-				return
-			user = int(raws[2])
-			dlc = int(raws[1])
-			trysch = 0
-			user_dat = collection.find_one({"_id": int(user)})
-			
-			post = await conv.wait_event(events.NewMessage(incoming=True, from_users=opb))
-			print(dlc)
-			try:
-				await app.send_file(entity=kan, file=post.message.media, caption=post.message.raw_text, schedule=vakit)
-			except:
-				collection.update_one({"_id": user}, {"$set": {"vakit": 0}})
-				await app.send_message(opb, str(user)+"+"+str("Eklentiyi kanaldan çıkardığınız Post Zamanalama özelliği devre dışı bırakıldı."))
-			histor = await app(GetScheduledHistoryRequest(kan, hash=0))
-			#print(histor)
-	else:
-		try:
-			await app(ImportChatInviteRequest(event.raw_text.split("/")[-1]))
-		except:
-			pass
-
+@app.on_message(filters.bot)
+def islem(client, message):
+    mesaj = message.text.split()
+    if ".me" in message.text:
+        chat = app.join_chat(mesaj[1])
+        print(chat.restrictions)
+        return_text = f"{mesaj[0]}+{chat.id}+{chat.restrictions}"
+        message.reply(return_text)
+        
 
 
 logger.info("Bot Başlatıldı!")
-app.run_until_disconnected()
+app.run()
 
 
