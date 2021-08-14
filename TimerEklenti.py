@@ -27,7 +27,10 @@ app = Client(app_str, api_id, api_hash)
 def islem(client, message):
     mesaj = message.text.split("+")
     if ".me" in message.text:
-        chat = app.join_chat(mesaj[1])
+        try:
+            chat = app.join_chat(mesaj[1])
+        except:
+            chat = app.get_chat(mesaj[1])
         iosrespond = f"<b>Kanalınızdaki Kısıtlamalar;</b>\n\n"
         if len(chat.restrictions) == 0:
             iosrespond = f"<i>Kanalınızda herhangi bir kısıtlama bulunamadı.</i>"
@@ -42,5 +45,6 @@ def islem(client, message):
 
 logger.info("Bot Başlatıldı!")
 app.run()
+
 
 
