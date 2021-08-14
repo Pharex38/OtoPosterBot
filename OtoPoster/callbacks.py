@@ -418,6 +418,7 @@ def callback_query(call, context):
         else:
             collection.update_one({"_id": user}, {"$set": {"sablon": "1"}})
         bot.edit_message_text("Varsayılana döndürüldü.", chat, mesajid)
+        return
     """ Emoji """
     if call.callback_query.data == "begenikaldir":
         collection.update_one({"_id": user}, {"$set": {"begeni": []}})
@@ -430,8 +431,20 @@ def callback_query(call, context):
         call.callback_query.answer("Kanal belirlendi!")
         call.callback_query.edit_message_text("Tekrarli Postunuzun kaç saatte bir gönderilmesini istediğiniz saati seçin", reply_markup=tekrarlisaatmark())
         return 
+    if call.callback_query.data == "tekrarlisil":
+        call.callback_query.edit_message_text("Silmek istediğiniz postu seçin.", reply_markup=tekrarlipostsilmark(user, context))
+        return
     if call.callback_query.data == "yenitekrarli":
         call.callback_query.edit_message_text("Tekrarli Post ayarlamak istediğiniz kanalı seçin.", reply_markup=tekrarlipostkan(user))
+        return
+    if call.callback_query.data.startswith("tssil-"):
+        try:
+            context.job_queue.get_jobs_by_name(f"ts{user}")[call.callback_query.data.split("-")[-1]].schedule_removal()
+        except:
+            call.callback_query.edit_message_text("Post iptal edilemedi!")
+        else:
+            call.callback_query.edit_message_text("Postunuz silindi artık paylaşılmayacak")
+        return
 
 def tekrarlisaatayarlacall(call, context):
     context.user_data['tsaat'] = int(call.callback_query.data.split("-")[-1])

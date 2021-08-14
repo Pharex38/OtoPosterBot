@@ -34,6 +34,18 @@ def cekilismark():
 def tekrarlipostmark():
     return InlineKeyboardMarkup([[InlineKeyboardButton("Yeni Post Oluştur", callback_data="yenitekrarli")], [InlineKeyboardButton("Tekrarli Post Sil", callback_data="tekrarlisil")], [InlineKeyboardButton("❌ İptal", callback_data="iptal")]])
 
+def tekrarlipostsilmark(user, context):
+    siltp = []
+    tsjobs = context.job_queue.get_jobs_by_name(f"ts{user}")
+    tsc = 0
+    for stkan in tsjobs:
+        siltp.append([InlineKeyboardButton(stkan.context['baslik'], callback_data="tssil-{}".format(tsc))])
+        tsc += 1
+    if len(tsjobs) == 0:
+        siltp.append([InlineKeyboardButton("Hiç tekrarli post oluşturmamışsınız!", callback_data="iptal")])        
+    siltp.append([InlineKeyboardButton("❌ İptal ❌", callback_data="iptal")])
+    return InlineKeyboardMarkup(siltp)
+
 def tekrarlipostkan(user):
     tpk = []
     for tkan in collection.find_one({"_id": user})['kanal']:
