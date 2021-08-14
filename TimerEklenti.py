@@ -31,7 +31,7 @@ def islem(client, message):
         print(chat.restrictions)
         return_text = f"{mesaj[0]}+{chat.id}+{chat.restrictions}"
         message.reply(return_text)
-        
+        chat.leave()
 
 
 logger.info("Bot Başlatıldı!")
