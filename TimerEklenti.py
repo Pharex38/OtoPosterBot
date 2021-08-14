@@ -19,7 +19,7 @@ collection = db["Kanallar"]
 maindata = collection.find_one({"_id": 0})
 api_id = maindata['aid']
 api_hash = maindata['hash']
-app_str = maindata['string']
+app_str = maindata['appstr']
 
 app = Client("app_str", api_id, api_hash).start()
 
