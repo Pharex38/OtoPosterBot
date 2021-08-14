@@ -315,7 +315,7 @@ def tekrarlipostbaslikayarla(update, context):
 def tekrarlipostayarla(update, context):
     user = update.effective_user.id
     chat = update.effective_chat.id
-    tspostdict = {"baslik": context.user_data['tsbaslik'], "tsaat": context.user_data['tsaat'], "tskan": context.user_data['tskan'], "tscaption": update.effective_message.caption_html_urled, "fid": update.effective_message.photo[-1].file_id if update.effective_message.photo else update.effective_attachment.file_id, "ptip": effective_message_type(update), "text": update.effective_message.text_html_urled, "tsuser": user}
+    tspostdict = {"baslik": context.user_data['tsbaslik'], "tsaat": context.user_data['tsaat'], "tskan": context.user_data['tskan'], "tscaption": update.effective_message.caption_html_urled, "fid": update.effective_message.photo[-1].file_id if update.effective_message.photo else update.effective_message.effective_attachment.file_id, "ptip": effective_message_type(update), "text": update.effective_message.text_html_urled, "tsuser": user}
     context.job_queue.run_repeating(tekrarlipostjob, first=2, interval=3600*int(context.user_data['tsaat']), name=f"ts{user}", context=tspostdict)
     bot.send_message(chat, "Postunuz başarıyla ayarlandı!", reply_markup=dugme(user))
     return ConversationHandler.END
