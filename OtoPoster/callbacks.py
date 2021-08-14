@@ -419,7 +419,6 @@ def callback_query(call, context):
     if call.callback_query.data.startswith("iosk-"):
         ioskanal = collection.find_one({"_id": user})['kanal'][int(call.callback_query.data.split("-")[-1])]
         ioskanlink = bot.get_chat(ioskanal)
-        print(ioskanlink)
         bot.send_message(eklenti, f'{user}+{ioskanlink.invite_link}')
         context.user_data['iosmsgid'] = mesajid
 
