@@ -341,7 +341,8 @@ def callback_query(call, context):
             for pbeg in patbegeni:
                 pbkeyb.append(InlineKeyboardButton(str(pbeg), callback_data="begeni-{}".format(pbkc)))
                 pbkc += 1
-            patmarkup = InlineKeyboardMarkup([pbkeyb])        kanal = collection.find_one({"_id": user})['kanal']
+            patmarkup = InlineKeyboardMarkup([pbkeyb])        
+        kanal = collection.find_one({"_id": user})['kanal']
         if context.user_data['zaman'] == "yok":
             if o == -1:
                 for kan in kanal:
