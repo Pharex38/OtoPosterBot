@@ -76,13 +76,19 @@ def zamanjob(context):
         patmarkup = InlineKeyboardMarkup([pbkeyb])
     for msgd in cont:
         try:
-            SEND_MEDIA_TYPES[msgd['ptip']](msgd['pkan'], msgd['fid'], caption=msgd['psablon'], reply_markup=patmarkup)
+            ppost = SEND_MEDIA_TYPES[msgd['ptip']](msgd['pkan'], msgd['fid'], caption=msgd['psablon'], reply_markup=patmarkup)
         except Exception as e:
             logger.error(e)
             try:
                 bot.send_message(msgd['user'], "Zamanlı Postunuz gönderilemedi.")
             except:
                 pass
+        else:            
+            if len(patbegeni) > 0:
+                if ButonCol.find_one({"_id": msgd['pkan']}) == None:
+                    ButonCol.insert_one({"_id": msgd['pkan'], str(ppost.message_id): [], "begeni": patbegeni})
+                else:
+                    ButonCol.update_one({"_id": msgd['pkan']}, {"$set": {str(ppost.message_id): [], "begeni": patbegeni}})
 
 def delonejob(context):
     delh = context.job.context
