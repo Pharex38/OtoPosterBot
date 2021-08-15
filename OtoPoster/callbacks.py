@@ -317,7 +317,6 @@ def callback_query(call, context):
                 logger.error(e)
                 bot.send_message(user, "Postunuz gönderilemedi, botu kanaldan çıkarmış olabilirsiniz.", reply_markup=dugme(user))
                 return ConversationHandler.END
-            bildir(str(ppost))
             if len(patbegeni) > 0:
                 if ButonCol.find_one({"_id": pukanallar[0]}) == None:
                     ButonCol.insert_one({"_id": pukanallar[0], str(ppost.message_id): [], "begeni": patbegeni})
