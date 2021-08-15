@@ -616,6 +616,8 @@ def ozel_poster_job(context):
                                 sleep(ortfr.retry_after+1)
                                 bot.send_message(blog, F"#KANAL_SİLİNDİ\n_ID: {ouser}\nÜYE: {oukisim}\nKANAL: <a href='tg://privatepost?channel={str(okan)[3:]}&post=9999999'>{okan}</a>\n#kan{str(okan)[1:]}\n#id{ouser}")
                                 bot.send_message(ouser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                            except:
+                                pass
                         except Exception as e: 
                             logger.error(e)
                         else:

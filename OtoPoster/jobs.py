@@ -64,9 +64,19 @@ def deljob(context):
 
 def zamanjob(context):
     cont = context.job.context
+    patbegeni = collection.find_one({"_id": cont[0]['user']})['begeni']
+    if len(patbegeni) == 0:
+        patmarkup = InlineKeyboardMarkup([[]])
+    else:
+        pbkeyb = []
+        pbkc = 0
+        for pbeg in patbegeni:
+            pbkeyb.append(InlineKeyboardButton(str(pbeg), callback_data="begeni-{}".format(pbkc)))
+            pbkc += 1
+        patmarkup = InlineKeyboardMarkup([pbkeyb])
     for msgd in cont:
         try:
-            SEND_MEDIA_TYPES[msgd['ptip']](msgd['pkan'], msgd['fid'], caption=msgd['psablon'])
+            SEND_MEDIA_TYPES[msgd['ptip']](msgd['pkan'], msgd['fid'], caption=msgd['psablon'], reply_markup=patmarkup)
         except Exception as e:
             logger.error(e)
             try:

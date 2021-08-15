@@ -288,7 +288,20 @@ def callback_query(call, context):
         call.callback_query.edit_message_text("Postun gönderilmesini istediğiniz saati gönderin.\n\n<b>Örnek biçim;</b>\n<code>30/03/21 18:30:00</code>")
         return PATZAMAN
     if call.callback_query.data == "simdi": 
-        bot.delete_message(user, mesajid)
+        try:
+            bot.delete_message(user, mesajid)
+        except:
+            pass
+        patbegeni = collection.find_one({"_id": user})['begeni']
+        if len(patbegeni) == 0:
+            patmarkup = InlineKeyboardMarkup([[]])
+        else:
+            pbkeyb = []
+            pbkc = 0
+            for pbeg in patbegeni:
+                pbkeyb.append(InlineKeyboardButton(str(pbeg), callback_data="begeni-{}".format(pbkc)))
+                pbkc += 1
+            patmarkup = InlineKeyboardMarkup([pbkeyb])
         try:
             ptip = context.user_data['ptip']
             fid = context.user_data['fid']
@@ -298,7 +311,7 @@ def callback_query(call, context):
             return
         if len(collection.find_one({"_id": user})['kanal']) < 2:
             try:
-                SEND_MEDIA_TYPES[ptip](collection.find_one({"_id": user})['kanal'][0], fid, caption=psablon)
+                SEND_MEDIA_TYPES[ptip](collection.find_one({"_id": user})['kanal'][0], fid, caption=psablon, reply_markup=patmarkup)
             except Exception as e:
                 logger.error(e)
                 bot.send_message(user, "Postunuz gönderilemedi, botu kanaldan çıkarmış olabilirsiniz.", reply_markup=dugme(user))
@@ -319,7 +332,16 @@ def callback_query(call, context):
             fid = context.user_data['fid']
         except:
             return
-        kanal = collection.find_one({"_id": user})['kanal']
+        patbegeni = collection.find_one({"_id": user})['begeni']
+        if len(patbegeni) == 0:
+            patmarkup = InlineKeyboardMarkup([[]])
+        else:
+            pbkeyb = []
+            pbkc = 0
+            for pbeg in patbegeni:
+                pbkeyb.append(InlineKeyboardButton(str(pbeg), callback_data="begeni-{}".format(pbkc)))
+                pbkc += 1
+            patmarkup = InlineKeyboardMarkup([pbkeyb])        kanal = collection.find_one({"_id": user})['kanal']
         if context.user_data['zaman'] == "yok":
             if o == -1:
                 for kan in kanal:
@@ -330,7 +352,7 @@ def callback_query(call, context):
                         collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
                         continue 
                     try:
-                        SEND_MEDIA_TYPES[ptip](kan, fid, caption=psablon)
+                        SEND_MEDIA_TYPES[ptip](kan, fid, caption=psablon, reply_markup=patmarkup)
                     except Exception as e:
                         logger.error(e)
                         pass
@@ -345,7 +367,7 @@ def callback_query(call, context):
                 collection.update_one({"_id": user}, {"$pull": {"kanal": kanal[o]}})
                 return ConversationHandler.END
             try:
-                SEND_MEDIA_TYPES[ptip](kanal[o], fid, caption=psablon)
+                SEND_MEDIA_TYPES[ptip](kanal[o], fid, caption=psablon, reply_markup=patmarkup)
             except Exception as e:
                 bot.edit_message_text(f"Postunuz gönderilemedi \n\n{e}", user, mesajid)
                 context.user_data.clear()
