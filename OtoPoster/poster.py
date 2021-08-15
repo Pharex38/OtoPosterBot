@@ -423,6 +423,8 @@ def ozel_poster_job(context):
         opcount = ohesap['pcount']
         ovakitler = ohesap['vakit']
         odailycount = ohesap['time']
+        obegeni = ohesap['begeni']
+        opins = ohesap['pin']
         collection.update_one({"_id": ouser}, {"$inc": {"time": 1}})
         if not "31" in ohesap['kaynak'] and len(okanal) > 0:
             oalink = " "
@@ -509,7 +511,6 @@ def ozel_poster_job(context):
                         bot.send_message(sahip, f"{oupdate.effective_message.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{oupdate.effective_message.link}")
                         bot.send_message(okaynak['_id'], f"{oupdate.effective_message.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{oupdate.effective_message.link}")
                     break
-                
             if osablon == "1":
                 osablon = f"🔥{oaciklama}\n\n🔱 TIKLA 👉 {olink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
             elif osablon == "2" or osablon == "3":
@@ -527,6 +528,15 @@ def ozel_poster_job(context):
                 except:
                     pass
                 continue
+            if len(obegeni) > 0:
+                oposterkeyb = []
+                omrkpc = 0
+                for obeg in obegeni:
+                    oposterkeyb.append(InlineKeyboardButton(str(obeg)+" "+str("0"), callback_data="begeni-{}".format(omrkpc)))
+                    omrkpc += 1
+                opostermarkup = InlineKeyboardMarkup([oposterkeyb])
+            else:
+                opostermarkup = InlineKeyboardMarkup([[]])
             for okan in okanal:
                 sleep(0.1)
                 try:
@@ -555,16 +565,16 @@ def ozel_poster_job(context):
                         continue
                 try:
                     if len(opostee) == 1:
-                        oupdate.effective_message.copy(okan, caption=osablon)
+                        opost = oupdate.effective_message.copy(okan, caption=osablon, reply_markup=opostermarkup)
                     else:
-                        bot.send_media_group(okan, media=ogrup+[MEDIA_GROUP_TYPES[effective_message_type(oupdate)](media=oupdate.effective_message.photo[-1].file_id if oupdate.effective_message.photo else oupdate.effective_message.effective_attachment.file_id, caption=osablon)])
+                        opost = bot.send_media_group(okan, media=ogrup+[MEDIA_GROUP_TYPES[effective_message_type(oupdate)](media=oupdate.effective_message.photo[-1].file_id if oupdate.effective_message.photo else oupdate.effective_message.effective_attachment.file_id, caption=osablon)])
                 except RetryAfter as ortfr:
                     sleep(ortfr.retry_after+1)
                     try:
                         if len(opostee) == 1:
-                            oupdate.effective_message.copy(okan, caption=osablon)
+                            opost = oupdate.effective_message.copy(okan, caption=osablon, reply_markup=opostermarkup)
                         else:
-                            bot.send_media_group(okan, media=ogrup+[MEDIA_GROUP_TYPES[effective_message_type(oupdate)](media=oupdate.effective_message.photo[-1].file_id if oupdate.effective_message.photo else oupdate.effective_message.effective_attachment.file_id, caption=osablon)])
+                            opost = bot.send_media_group(okan, media=ogrup+[MEDIA_GROUP_TYPES[effective_message_type(oupdate)](media=oupdate.effective_message.photo[-1].file_id if oupdate.effective_message.photo else oupdate.effective_message.effective_attachment.file_id, caption=osablon)])
                     except Exception as e:
                         if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
                             try:
@@ -613,7 +623,21 @@ def ozel_poster_job(context):
                     else:
                         logger.error(e)
                 else:
-                    ocount += 1                     
+                    ocount += 1
+                    if len(obegeni) > 0 and len(opostee) == 1:
+                        if ButonCol.find_one({"_id": okan}) == None:
+                            ButonCol.insert_one({"_id": okan, str(opost.message_id): [], "begeni": obegeni})
+                        else:
+                            ButonCol.update_one({"_id": okan}, {"$set": {str(opost.message_id): [], "begeni": obegeni}})
+                    if len(opostee) == 1:
+                        if okan in opins:
+                            try:
+                                bot.pin_chat_message(okan, opost.message_id)
+                            except RetryAfter as orpf:
+                                sleep(orpf.retry_after+1)
+                                bot.pin_chat_message(okan, opost.message_id)
+                            except Exception as e:
+                                bildir(e)
                     logger.info("Başarılı! "+str(okan))
     obasari = "[ÖZEL] {} kaynağından {} kanalda post paylaşıldı.".format(okynk.title, ocount)
     if okaynak["log"] != "yok":
