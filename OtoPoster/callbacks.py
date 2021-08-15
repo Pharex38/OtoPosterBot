@@ -353,10 +353,15 @@ def callback_query(call, context):
                         collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
                         continue 
                     try:
-                        SEND_MEDIA_TYPES[ptip](kan, fid, caption=psablon, reply_markup=patmarkup)
+                        ppost = SEND_MEDIA_TYPES[ptip](kan, fid, caption=psablon, reply_markup=patmarkup)
                     except Exception as e:
                         logger.error(e)
                         pass
+                    if len(patbegeni) > 0:
+                        if ButonCol.find_one({"_id": kan}) == None:
+                            ButonCol.insert_one({"_id": kan, str(ppost.message_id): [], "begeni": patbegeni})
+                        else:
+                            ButonCol.update_one({"_id": kan}, {"$set": {str(ppost.message_id): [], "begeni": patbegeni}})
                 bot.edit_message_text("✅<b>Postunuz Tüm Kanallarınıza Gönderildi!</b>", user, mesajid)
                 context.user_data.clear()
                 mstd = bot.send_message(chat, "Başka post paylaşacak mısınız?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Evet", callback_data="devam"), InlineKeyboardButton("Hayır", callback_data="del")]]))
@@ -368,11 +373,16 @@ def callback_query(call, context):
                 collection.update_one({"_id": user}, {"$pull": {"kanal": kanal[o]}})
                 return ConversationHandler.END
             try:
-                SEND_MEDIA_TYPES[ptip](kanal[o], fid, caption=psablon, reply_markup=patmarkup)
+                ppost = SEND_MEDIA_TYPES[ptip](kanal[o], fid, caption=psablon, reply_markup=patmarkup)
             except Exception as e:
                 bot.edit_message_text(f"Postunuz gönderilemedi \n\n{e}", user, mesajid)
                 context.user_data.clear()
                 return ConversationHandler.END
+            if len(patbegeni) > 0:
+                if ButonCol.find_one({"_id": kanal[o]}) == None:
+                    ButonCol.insert_one({"_id": kanal[o], str(ppost.message_id): [], "begeni": patbegeni})
+                else:
+                    ButonCol.update_one({"_id": kanal[o]}, {"$set": {str(ppost.message_id): [], "begeni": patbegeni}})
             bot.edit_message_text("✅<b>Postunuz Kanalınıza Gönderildi!</b>", user, mesajid)
             context.user_data.clear()
             mstd = bot.send_message(chat, "Başka post paylaşacak mısınız?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Evet", callback_data="devam"), InlineKeyboardButton("Hayır", callback_data="del")]]))
