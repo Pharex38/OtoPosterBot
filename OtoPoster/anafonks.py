@@ -222,7 +222,7 @@ def postmenu(update, context):
             if poudat['sira'] == "1":
                 pst = poudat['sablon'].replace("{aciklama}", "{a}").replace("{link}", "{l}").replace("{alink}", "{al}").format(a=aciklama, l=link, al=alink)
             else:
-                pst = poudat['sablon'].replace("{aciklama}", "{a}").replace("{link}", "{l}").replace("{alink}", "{al]").format(a=aciklama, l=link)
+                pst = poudat['sablon'].replace("{aciklama}", "{a}").replace("{link}", "{l}").replace("{alink}", "{al}").format(a=aciklama, l=link)
             bot.send_message(chat, f"<b>Şablonunuz böyle gözükecek:</b>\n\n{pst}", reply_markup=sablonmark(user))
         return
     if mesaj == "🔧 Kaynak":
