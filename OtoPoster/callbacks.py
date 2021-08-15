@@ -309,15 +309,22 @@ def callback_query(call, context):
         except:
             call.callback_query.edit_message_text("Bir hata oluştı! Lütfen tekrar deneyin.")
             return
-        if len(collection.find_one({"_id": user})['kanal']) < 2:
+        pukanallar = collection.find_one({"_id": user})['kanal']
+        if len(pukanallar) < 2:
             try:
-                SEND_MEDIA_TYPES[ptip](collection.find_one({"_id": user})['kanal'][0], fid, caption=psablon, reply_markup=patmarkup)
+                ppost = SEND_MEDIA_TYPES[ptip](pukanallar[0], fid, caption=psablon, reply_markup=patmarkup)
             except Exception as e:
                 logger.error(e)
                 bot.send_message(user, "Postunuz gönderilemedi, botu kanaldan çıkarmış olabilirsiniz.", reply_markup=dugme(user))
                 return ConversationHandler.END
+            bildir(str(ppost))
+            if len(patbegeni) > 0:
+                if ButonCol.find_one({"_id": pukanallar[0]}) == None:
+                    ButonCol.insert_one({"_id": pukanallar[0], str(ppost.message_id): [], "begeni": patbegeni})
+                else:
+                    ButonCol.update_one({"_id": pukanallar[0]}, {"$set": {str(ppost.message_id): [], "begeni": patbegeni}})
             bot.send_message(user, "Postunuz gönderildi.", reply_markup=dugme(user))
-            mstd = bot.send_message(chat, "Başka post paylaşacak mısınız?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Evet", callback_data="devam"), InlineKeyboardButton("Hayır", callback_data="del")]]))
+            bot.send_message(chat, "Başka post paylaşacak mısınız?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Evet", callback_data="devam"), InlineKeyboardButton("Hayır", callback_data="del")]]))
             return ConversationHandler.END
         context.user_data['zaman'] = "yok"
         bot.send_message(user, "Post Hazırlandı!", reply_markup=dugme(user))
