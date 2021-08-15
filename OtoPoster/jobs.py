@@ -71,7 +71,7 @@ def zamanjob(context):
         pbkeyb = []
         pbkc = 0
         for pbeg in patbegeni:
-            pbkeyb.append(InlineKeyboardButton(str(pbeg), callback_data="begeni-{}".format(pbkc)))
+            pbkeyb.append(InlineKeyboardButton(str(pbeg)+" 0", callback_data="begeni-{}".format(pbkc)))
             pbkc += 1
         patmarkup = InlineKeyboardMarkup([pbkeyb])
     for msgd in cont:
