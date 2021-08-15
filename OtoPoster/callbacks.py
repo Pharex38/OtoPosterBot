@@ -432,6 +432,9 @@ def callback_query(call, context):
         call.callback_query.edit_message_text("<code>Kontrol ediliyor...</code>")
         ioskanal = collection.find_one({"_id": user})['kanal'][int(call.callback_query.data.split("-")[-1])]
         ioskanlink = bot.get_chat(ioskanal)
+        if ioskanlink.invite_link == None:
+            call.callback_query.edit_message_text("iOS Ban kontrol edebilmem için bota kanalınızda <b>Üye Ekleme</b> yetkisi vermelisiniz!")
+            return
         bot.send_message(eklenti, f'{user}+{ioskanlink.invite_link}')
         context.user_data['iosmsgid'] = mesajid
 
