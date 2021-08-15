@@ -422,7 +422,7 @@ def begenidegistir(update, context):
     if mesaj == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
-    if len(mesaj.split("/")) < 1 or " " in mesaj:
+    if len(mesaj.split("/")) < 1 or " " in mesaj or "//" in mesaj:
         update.effective_message.reply_text("Hatalı biçim! Lütfen örnekteki gibi gönderin.\n\nÖrnek;\n<code>❤️/⛔️/🥰</code>")
         return 
     collection.update_one({"_id": user}, {"$set": {"begeni": update.message.text.split("/")}})
