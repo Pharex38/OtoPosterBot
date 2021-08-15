@@ -651,6 +651,8 @@ def poster_edit(update, context):
         return
     edcount = 0
     if eski_l != edited_l:
+        if edited_l.startswith("https://ay") or edited_l.startswith("https://pgg") or edited_l.startswith("https://pnd") or edited_l.startswith("https://ouo") or edited_l.startswith("https://exe") or edited_l.startswith("https://lnk") or edited_l.startswith("https://t.me/"):
+            return  
         logger.warning(f"{update.effective_chat.title} kaynağının postu düzenleniyor...")
         for edil in mesdata['pids']:
             db[str(chat)].update_one({"_id": emid}, {"$set": {"pids": []}})
