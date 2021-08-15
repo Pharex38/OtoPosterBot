@@ -129,7 +129,7 @@ def eklentiiletisim(update, context):
     if ileti.split("+")[0].isdigit():
         ileti = ileti.split("+")
         imsgid = context.dispatcher.user_data[int(ileti[0])]['iosmsgid']
-        bot.edit_message_text("<b>"+str(bot.get_chat(ileti[1]).title)+"<b> "+ileti[2], ileti[0], imsgid)
+        bot.edit_message_text("<b>"+str(bot.get_chat(ileti[1]).title)+"</b> "+ileti[2], ileti[0], imsgid)
         return
 
 def comment(update, context):
