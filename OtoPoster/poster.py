@@ -341,7 +341,10 @@ def poster_job(context):
                     count = count + 1
                     if len(begeni) > 0 and len(postee) == 1:
                         if ButonCol.find_one({"_id": kan}) == None:
-                            ButonCol.insert_one({"_id": kan, str(post.message_id): [], "begeni": begeni})
+                            try:
+                                ButonCol.insert_one({"_id": kan, str(post.message_id): [], "begeni": begeni})
+                            except:
+                                ButonCol.update_one({"_id": kan}, {"$set": {str(post.message_id): [], "begeni": begeni}})
                         else:
                             ButonCol.update_one({"_id": kan}, {"$set": {str(post.message_id): [], "begeni": begeni}})
                     if len(postee) == 1:
