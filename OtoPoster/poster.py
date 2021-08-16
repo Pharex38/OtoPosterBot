@@ -126,8 +126,8 @@ def poster_job(context):
                             json = get("http://gir.ist/api?", params={"api": altapi, "url": mesajb}, headers=headerss).json()
                             alink = json['shortenedUrl']
                         linktry += 1
-                        sleep(0.3)
                         if linktry > 1:
+                            sleep(0.3)
                             logger.warning(f"Link kısaltılamadı tekrar deneniyor {linktry}")
                     except Exception as e:
                         if linktry == 15:
@@ -165,8 +165,8 @@ def poster_job(context):
                         json = get("http://gir.ist/api?", params={"api": token, "url": mesajb}, headers=headerss).json()
                         link = json['shortenedUrl']
                     linktry += 1
-                    sleep(0.4)
                     if linktry > 1:
+                        sleep(0.4)
                         logger.warning(f"Tekrar deneniyor {linktry}")
                 except Exception as e:
                     if linktry == 15:
