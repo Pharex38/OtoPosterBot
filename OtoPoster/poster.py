@@ -628,7 +628,10 @@ def ozel_poster_job(context):
                     ocount += 1
                     if len(obegeni) > 0 and len(opostee) == 1:
                         if ButonCol.find_one({"_id": okan}) == None:
-                            ButonCol.insert_one({"_id": okan, str(opost.message_id): [], "begeni": obegeni})
+                            try:
+                                ButonCol.insert_one({"_id": okan, str(opost.message_id): [], "begeni": obegeni})
+                            except:
+                                ButonCol.update_one({"_id": okan}, {"$set": {str(opost.message_id): [], "begeni": obegeni}})
                         else:
                             ButonCol.update_one({"_id": okan}, {"$set": {str(opost.message_id): [], "begeni": obegeni}})
                     if len(opostee) == 1:
