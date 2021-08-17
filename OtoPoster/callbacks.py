@@ -189,7 +189,7 @@ def callback_query(call, context):
     if call.callback_query.data.startswith("icerik"):
         icerikno = int(call.callback_query.data.split("-")[-1])
         pushedicerikkan = collection.find_one({"_id": user})['kanal'][icerikno]
-        if pushedicerikkan in collection.find_one({"_id": user})['eski']:
+        if pushedicerikkan in collection.find_one({"_id": user})['icerik']:
             collection.update_one({"_id": user}, {"$pull": {"icerik": pushedicerikkan}})
         else:
             collection.update_one({"_id": user}, {"$push": {"icerik": pushedicerikkan}})
