@@ -41,7 +41,7 @@ def poster_job(context):
     if mesajb.startswith("https://ay") or mesajb.startswith("https://pgg") or mesajb.startswith("https://pnd") or mesajb.startswith("https://ouo") or mesajb.startswith("https://exe") or mesajb.startswith("https://lnk") or mesajb.startswith("https://t.me/"):
         return
     """  Açıklama tespit  """
-    ason = mesaj.find("\n\n")
+    ason = mesaj.find("\n")
     aciklama = mesaj[:ason].strip()
     """  Veri Tabanı  """
     postdata = db[str(chat)]
