@@ -488,27 +488,34 @@ def begeniislemcall(call, context):
     chat = call.effective_chat.id
     mesajid = call.callback_query.message.message_id    
     pushed = int(call.callback_query.data.split("-")[-1])
-    begkeyb = []
-    mrkpc = 0
-    if not user in ButonCol.find_one({"_id": str(chat)})[str(mesajid)]:
-        ButonCol.update_one({"_id": str(chat)}, {"$push": {str(mesajid): user}})
-    else:
-        call.callback_query.answer("Butonları bir kez kullanabilirsiniz")
-        return
-    for beg in ButonCol.find_one({"_id": str(chat)})['begeni']:
-        try:
-            butsayi = int(call.effective_message.reply_markup.inline_keyboard[0][mrkpc].text.split()[-1])
-        except IndexError:
-            butsayi = 0
-        if mrkpc == pushed:
-            begkeyb.append(InlineKeyboardButton(str(beg)+" "+str(butsayi+1), callback_data="begeni-{}".format(mrkpc)))
+    while True:
+        begkeyb = []
+        mrkpc = 0
+        if not user in ButonCol.find_one({"_id": str(chat)})[str(mesajid)]:
+            ButonCol.update_one({"_id": str(chat)}, {"$push": {str(mesajid): user}})
         else:
-            begkeyb.append(InlineKeyboardButton(str(beg)+" "+str(butsayi), callback_data="begeni-{}".format(mrkpc)))
-        mrkpc += 1
-    call.callback_query.answer(str(call.effective_message.reply_markup.inline_keyboard[0][pushed].text.split()[-2]))
-    try:
-        call.callback_query.edit_message_reply_markup(reply_markup=InlineKeyboardMarkup([begkeyb]))
-    except RetryAfter as rtt:
-        time.sleep(rtt.retry_after+1)
-        call.callback_query.edit_message_reply_markup(reply_markup=InlineKeyboardMarkup([begkeyb]))
-        
+            call.callback_query.answer("Butonları bir kez kullanabilirsiniz")
+            return
+        for beg in ButonCol.find_one({"_id": str(chat)})['begeni']:
+            try:
+                butsayi = int(call.effective_message.reply_markup.inline_keyboard[0][mrkpc].text.split()[-1])
+            except IndexError:
+                butsayi = 0
+            if mrkpc == pushed:
+                begkeyb.append(InlineKeyboardButton(str(beg)+" "+str(butsayi+1), callback_data="begeni-{}".format(mrkpc)))
+            else:
+                begkeyb.append(InlineKeyboardButton(str(beg)+" "+str(butsayi), callback_data="begeni-{}".format(mrkpc)))
+            mrkpc += 1
+        call.callback_query.answer(str(call.effective_message.reply_markup.inline_keyboard[0][pushed].text.split()[-2]))
+        try:
+            call.callback_query.edit_message_reply_markup(reply_markup=InlineKeyboardMarkup([begkeyb]))
+        except RetryAfter as rtt:
+            time.sleep(rtt.retry_after+1)
+            try:
+                call.callback_query.edit_message_reply_markup(reply_markup=InlineKeyboardMarkup([begkeyb]))
+            except:
+                pass
+            else:
+                break
+        else:
+            break
