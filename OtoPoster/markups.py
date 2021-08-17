@@ -148,13 +148,33 @@ def altmarkup(user):
 
 def inmark():
     inmark = InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")]])
-
     return inmark
 
 def ozelmark():
     omark = InlineKeyboardMarkup([[InlineKeyboardButton("➕ Oluştur ➕", callback_data="okayt")], [InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")]])
-
     return omark
+
+def icerikmark(user):
+    icerik_dat = collection.find_one({"_id": user})
+    icerikbutno = 0
+    icerikkeyb = []
+    iceriksatir = []
+    for icerikkan in icerik_dat['kanal']:
+        try:
+            icerikname = bot.get_chat(icerikkan).title
+        except:
+            pass
+        else:
+            iceriklink = "tg://privatepost?channel={}&post=9999999".format(icerikkan[3:])
+            iceriksatir.append(InlineKeyboardButton(icerikname, url=iceriklink))
+            if icerikkan in icerik_dat['icerik']:
+                iceriksatir.append(InlineKeyboardButton("Açık", callback_data="icerik-{}".format(icerikbutno)))
+            else:
+                iceriksatir.append(InlineKeyboardButton("Kapalı", callback_data="icerik-{}".format(icerikbutno)))
+            icerikkeyb.append(iceriksatir)
+            iceriksatir = []
+        icerikbutno += 1
+    return InlineKeyboardMarkup(icerikkeyb)
 
 def kaynakmark(user, kanil):
     u = collection.find_one({"_id": user})

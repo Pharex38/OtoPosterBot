@@ -103,6 +103,12 @@ def kanalmenu(update, context):
             return 
         bot.send_message(chat, "Silmek istediğiniz kanalı seçin.", reply_markup=gen_markup(user))
         return 
+    if mesaj == "💠 Tür Değiştir":
+        if len(kudat['kanal']) < 1:
+            bot.send_message(chat, "Henüz bir kanal kaydetmemişsiniz!", reply_markup=kanalmenumark())
+            return 
+        bot.send_message(chat, "Türünü değiştirmek istediğiniz kanalı seçin.", reply_markup=icerikmark(user))
+        return
     if mesaj == "🔶 Yeni Kanal Ekle":
         vip_uyeler = collection.find_one({"_id": 0})['vipuye']
         if len(kudat['kanal']) > 24 and not user in vip_uyeler:

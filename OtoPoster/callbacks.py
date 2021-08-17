@@ -198,7 +198,7 @@ def callback_query(call, context):
         bot.send_message(chat, "Tüm bilgileriniz silindi.", reply_markup=dagme())
     if call.callback_query.data == "akaldır":
         collection.update_one({"_id": user}, {"$set": {"altsite": "None", "altapi": "None", "sira": "0", "sablon": "1"}})
-        msg = bot.edit_message_text("⛔ Alternatif Kaldırıldı.", user, mesajid)
+        bot.edit_message_text("⛔ Alternatif Kaldırıldı.", user, mesajid)
         call.callback_query.answer("⛔ Alternatif Kaldırıldı.")
     if call.callback_query.data == "aiptal":
         bot.edit_message_text("<i>İptal Edildi</i>", user, mesajid)
