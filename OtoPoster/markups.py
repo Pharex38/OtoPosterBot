@@ -168,9 +168,9 @@ def icerikmark(user):
             iceriklink = "tg://privatepost?channel={}&post=9999999".format(icerikkan[3:])
             iceriksatir.append(InlineKeyboardButton(icerikname, url=iceriklink))
             if icerikkan in icerik_dat['icerik']:
-                iceriksatir.append(InlineKeyboardButton("Açık", callback_data="icerik-{}".format(icerikbutno)))
+                iceriksatir.append(InlineKeyboardButton("Arşiv", callback_data="icerik-{}".format(icerikbutno)))
             else:
-                iceriksatir.append(InlineKeyboardButton("Kapalı", callback_data="icerik-{}".format(icerikbutno)))
+                iceriksatir.append(InlineKeyboardButton("+18", callback_data="icerik-{}".format(icerikbutno)))
             icerikkeyb.append(iceriksatir)
             iceriksatir = []
         icerikbutno += 1
