@@ -318,6 +318,7 @@ def kpostsil(update, context):
         psmg.edit_text(f"Post silinimedi!")
     else:
         psmg.edit_text(f"{spcount} Post Silindi.")
+    collection.update_one({"_id": 0}, {"$pull": {"iptal": str(chat)}})
 
 def cpostsil(update, context):
     chat = update.message.chat.id
