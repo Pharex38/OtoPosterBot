@@ -97,6 +97,7 @@ def poster_job(context):
             begeni = hesap['begeni']
             dailycount = hesap['time']
             pins = hesap['pin']
+            icerik = hesap['icerik']
             if pcount < 19:
                 collection.update_one({"_id": user}, {"$inc": {"pcount": 1}})
             else:
@@ -237,10 +238,10 @@ def poster_job(context):
             else:
                 postermarkup = InlineKeyboardMarkup([[]])
             for kan in kanal:
-                sleep(0.1)
-                if not kan in chatdat['kanal'] or kan in eski:
+                if not kan in chatdat['kanal'] or kan in eski or chatdat['icerik'] == "arsiv" and not kan in icerik or chatdat['icerik'] == "+18" and kan in icerik:
                     continue
                 post = update.effective_message
+                sleep(0.1)
                 try:
                     yetkililer = [xy.user.id for xy in bot.get_chat_administrators(kan)]
                 except:
