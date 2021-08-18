@@ -84,18 +84,15 @@ def poster_job(context):
             continue
         kanal = hesap['kanal']
         eski = hesap['eski']
-        if len(kanal) != len(eski) and len(kanal) > 0:
+        if len(kanal) != len(eski) and len(kanal) > 0 or chatdat['icerik'] == "+18" and len(kanal) != len(icerik) or chatdat['icerik'] == "arsiv" and len(icerik) != 0:
             sablon = hesap['sablon']
             user = hesap['_id']
             site = hesap["site"]
             altapi = hesap['altapi']
-            kaynak = hesap['kaynak']
             altsite = hesap['altsite']
             sira = hesap['sira']
             pcount = hesap['pcount']
-            vakitler = hesap['vakit']
             begeni = hesap['begeni']
-            dailycount = hesap['time']
             pins = hesap['pin']
             icerik = hesap['icerik']
             if pcount < 19:
