@@ -96,7 +96,10 @@ def ozelkaynakcall(call, context):
     if "31" in collection.find_one({"_id": user})['kaynak']:
         bot.send_message(user, "<b>Önce Sfs Modunu Kapatın!</b>")
         return ConversationHandler.END
-    bot.delete_message(chat, mesajid)
+    try:
+        bot.delete_message(chat, mesajid)
+    except:
+        pass
     bot.send_message(chat, """<b>Yapmanız Gerekenler</b>
 <i>
 1 - Kaynak yapacağınız kanal oluşturun.
@@ -165,7 +168,11 @@ def callback_query(call, context):
     """ PIN """
     if call.callback_query.data.startswith("pin-"):
         pinno = int(call.callback_query.data.split("-")[-1])
-        pushedpinkan = collection.find_one({"_id": user})['kanal'][pinno]
+        try:
+            pushedpinkan = collection.find_one({"_id": user})['kanal'][pinno]
+        except:
+            call.callback_query.edit_message_text("Butonların kullanım süresi dolmuş lütfen menüden tekrar açın.")
+            return
         if pushedpinkan in collection.find_one({"_id": user})['pin']:
             collection.update_one({"_id": user}, {"$pull": {"pin": pushedpinkan}})
             call.callback_query.answer("Kanalınız için Pin modu kapatıldı.")
@@ -177,7 +184,11 @@ def callback_query(call, context):
     """ SFS Modu """
     if call.callback_query.data.startswith("sfs"):
         sfsno = int(call.callback_query.data.split("-")[-1])
-        pushedsfskan = collection.find_one({"_id": user})['kanal'][sfsno]
+        try:
+            pushedsfskan = collection.find_one({"_id": user})['kanal'][sfsno]
+        except:
+            call.callback_query.edit_message_text("Butonların kullanım süresi dolmuş lütfen menüden tekrar açın.")
+            return
         if pushedsfskan in collection.find_one({"_id": user})['eski']:
             collection.update_one({"_id": user}, {"$pull": {"eski": pushedsfskan}})
             call.callback_query.answer("Kanalınız için SFS modu kapatıldı.")
