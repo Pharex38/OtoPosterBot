@@ -177,20 +177,22 @@ def icerikmark(user):
         icerikbutno += 1
     return InlineKeyboardMarkup(icerikkeyb)
 
+def ozelkaynakmark(user, kanil):
+    for x in OzelCol.find({}):
+        if user in x['kanal']:
+            y = x['_id']
+    if user == y:
+        if OzelCol.find_one({"_id": user})["log"] == "yok":
+            kmark = InlineKeyboardMarkup([[InlineKeyboardButton("🟣 Özel Kaynağı Kaldır 🟣", callback_data="okayk")], [InlineKeyboardButton("🤖 Botlog Oluştur 🤖", callback_data="logokay")], [InlineKeyboardButton("💣 Kaynağı Yok Et 💣", callback_data="eminmisin")], [InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")]])
+        else:
+            kmark = InlineKeyboardMarkup([[InlineKeyboardButton("🟣 Özel Kaynağı Kaldır 🟣", callback_data="okayk")], [InlineKeyboardButton("🤖 Botlog Kaldır ❌", callback_data="logokaldir")], [InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")]])
+    else:
+        kmark = InlineKeyboardMarkup([[InlineKeyboardButton("🟣 Özel Kaynağı Kaldır 🟣", callback_data="okayk")], [InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")]])
+    return kmark 
+    
+
 def kaynakmark(user, kanil):
     u = collection.find_one({"_id": user})
-    if u['ozel']:
-        for x in OzelCol.find({}):
-            if user in x['kanal']:
-                y = x['_id']
-        if user == y:
-            if OzelCol.find_one({"_id": user})["log"] == "yok":
-                kmark = InlineKeyboardMarkup([[InlineKeyboardButton("🟣 Özel Kaynağı Kaldır 🟣", callback_data="okayk")], [InlineKeyboardButton("🤖 Botlog Oluştur 🤖", callback_data="logokay")], [InlineKeyboardButton("💣 Kaynağı Yok Et 💣", callback_data="eminmisin")], [InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")]])
-            else:
-                kmark = InlineKeyboardMarkup([[InlineKeyboardButton("🟣 Özel Kaynağı Kaldır 🟣", callback_data="okayk")], [InlineKeyboardButton("🤖 Botlog Kaldır ❌", callback_data="logokaldir")], [InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")]])
-        else:
-            kmark = InlineKeyboardMarkup([[InlineKeyboardButton("🟣 Özel Kaynağı Kaldır 🟣", callback_data="okayk")], [InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")]])
-        return kmark 
     linkkaynakkeyb = []
     butonkaynakkeyb = []
     anakaynakkeyb = []
@@ -238,7 +240,10 @@ def kaynakmark(user, kanil):
     else:
         turtext = "+18"
     anakaynakkeyb.append([InlineKeyboardButton("💠 Tür Değiştir: "+turtext, callback_data="icerik-{}-k".format(kanil))])
-    anakaynakkeyb.append([InlineKeyboardButton("♋️ Özel Kaynak Oluştur ♋️", callback_data="okay")])
+    if u['ozel']:
+        anakaynakkeyb.append([InlineKeyboardButton("♋️ Özel Kaynak Ayarları 🛠", callback_data="ozkay")])
+    else:
+        anakaynakkeyb.append([InlineKeyboardButton("♋️ Özel Kaynak Oluştur ♋️", callback_data="okay")])
     anakaynakkeyb.append([InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")])
     kmark = InlineKeyboardMarkup(inline_keyboard=anakaynakkeyb)
     return kmark
