@@ -275,7 +275,7 @@ def callback_query(call, context):
             kaynakmsg.edit_text(f"""<b> >>>    {kcisim}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>""", reply_markup=ozelkaynakmark(user, 0))
             return
         ref_link = create_deep_linked_url(context.bot.username, str(refsahip))
-        kaynakmsg.edit_text("""<b>Sadece bir tane Özel Kaynak kullanabilirsiniz.<b>\n\n      <i>Özel Kaynağınız:</i><b> <a href="{}">{}</a>\n</b>      <i>Bu Kaynağı Toplam </i><code>{}</code> <i>Kişi Kullanıyor.</i>\n\n<b>Kaynak Referans Linki;</b>\n<code>{}</code>\n<i>Bu link ile botu başlatan herkes otomatik olarak sizin kaynağınıza bağlanacak.</i>""".format(ozel_kaynak_bilgi.invite_link, ozel_kaynak_bilgi.title, kullanan_sayisi, ref_link), reply_markup=kaynakmark(user, 0))
+        kaynakmsg.edit_text("""<b>Sadece bir tane Özel Kaynak kullanabilirsiniz.</b>\n\n      <i>Özel Kaynağınız:</i><b> <a href="{}">{}</a>\n</b>      <i>Bu Kaynağı Toplam </i><code>{}</code> <i>Kişi Kullanıyor.</i>\n\n<b>Kaynak Referans Linki;</b>\n<code>{}</code>\n<i>Bu link ile botu başlatan herkes otomatik olarak sizin kaynağınıza bağlanacak.</i>""".format(ozel_kaynak_bilgi.invite_link, ozel_kaynak_bilgi.title, kullanan_sayisi, ref_link), reply_markup=kaynakmark(user, 0))
         return
     if call.callback_query.data.startswith("zaman"):
         dgr = int(call.callback_query.data.split("-")[1])
