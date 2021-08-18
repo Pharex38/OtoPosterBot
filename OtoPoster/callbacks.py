@@ -180,7 +180,11 @@ def callback_query(call, context):
     """ SFS Modu """
     if call.callback_query.data.startswith("sfs"):
         sfsno = int(call.callback_query.data.split("-")[-1])
-        pushedsfskan = collection.find_one({"_id": user})['kanal'][sfsno]
+        try:
+            pushedsfskan = collection.find_one({"_id": user})['kanal'][sfsno]
+        except:
+            call.callback_query.edit_message_text("Butonların kullanım süresi dolmuş lütfen menüden tekrar açın.")
+            return
         if pushedsfskan in collection.find_one({"_id": user})['eski']:
             collection.update_one({"_id": user}, {"$pull": {"eski": pushedsfskan}})
             call.callback_query.answer("Kanalınız için SFS modu kapatıldı.")
