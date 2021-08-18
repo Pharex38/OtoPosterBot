@@ -248,6 +248,15 @@ def callback_query(call, context):
         bot.edit_message_text("Alternatif olarak kullanmak istediğiniz siteyi seçin.", user, mesajid)
         bot.edit_message_reply_markup(chat_id=chat, message_id=mesajid, reply_markup=altsitemarkup())
     """ Kaynak """
+    if call.callback_query.data == "anakay":
+        kaynakmsg = call.effective_message
+        kynskm = collection.find_one({"_id": user})['kanal'][0]
+        try:
+            kcisim = bot.get_chat(kynskm).title
+        except:
+            kcisim = "Kanalınıza ulaşılamadı!"
+        kaynakmsg.edit_text(f"""<b> >>>    {kcisim}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>""", reply_markup=kaynakmark(user, 0))
+        return
     if call.callback_query.data == "ozkay":
         kaynakmsg = call.effective_message
         kynskm = collection.find_one({"_id": user})['kanal'][0]

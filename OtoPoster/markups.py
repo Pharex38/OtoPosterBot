@@ -183,11 +183,11 @@ def ozelkaynakmark(user, kanil):
             y = x['_id']
     if user == y:
         if OzelCol.find_one({"_id": user})["log"] == "yok":
-            kmark = InlineKeyboardMarkup([[InlineKeyboardButton("🟣 Özel Kaynağı Kaldır 🟣", callback_data="okayk")], [InlineKeyboardButton("🤖 Botlog Oluştur 🤖", callback_data="logokay")], [InlineKeyboardButton("💣 Kaynağı Yok Et 💣", callback_data="eminmisin")], [InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")]])
+            kmark = InlineKeyboardMarkup([[InlineKeyboardButton("🟣 Özel Kaynağı Kaldır 🟣", callback_data="okayk")], [InlineKeyboardButton("🤖 Botlog Oluştur 🤖", callback_data="logokay")], [InlineKeyboardButton("💣 Kaynağı Yok Et 💣", callback_data="eminmisin")], [InlineKeyboardButton("🔧 Ana Kaynaklar 🔧", callback_data="anakay")], [InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")]])
         else:
-            kmark = InlineKeyboardMarkup([[InlineKeyboardButton("🟣 Özel Kaynağı Kaldır 🟣", callback_data="okayk")], [InlineKeyboardButton("🤖 Botlog Kaldır ❌", callback_data="logokaldir")], [InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")]])
+            kmark = InlineKeyboardMarkup([[InlineKeyboardButton("🟣 Özel Kaynağı Kaldır 🟣", callback_data="okayk")], [InlineKeyboardButton("🤖 Botlog Kaldır ❌", callback_data="logokaldir")], [InlineKeyboardButton("🔧 Ana Kaynaklar 🔧", callback_data="anakay")], [InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")]])
     else:
-        kmark = InlineKeyboardMarkup([[InlineKeyboardButton("🟣 Özel Kaynağı Kaldır 🟣", callback_data="okayk")], [InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")]])
+        kmark = InlineKeyboardMarkup([[InlineKeyboardButton("🟣 Özel Kaynağı Kaldır 🟣", callback_data="okayk")], [InlineKeyboardButton("🔧 Ana Kaynaklar 🔧", callback_data="anakay")], [InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")]])
     return kmark 
     
 
@@ -241,7 +241,7 @@ def kaynakmark(user, kanil):
         turtext = "+18"
     anakaynakkeyb.append([InlineKeyboardButton("💠 Tür Değiştir: "+turtext, callback_data="icerik-{}-k".format(kanil))])
     if u['ozel']:
-        anakaynakkeyb.append([InlineKeyboardButton("♋️ Özel Kaynak Ayarları 🛠", callback_data="ozkay")])
+        anakaynakkeyb.append([InlineKeyboardButton("♋️ Özel Kaynak Ayarları 🛠", callback_data="ozayar")])
     else:
         anakaynakkeyb.append([InlineKeyboardButton("♋️ Özel Kaynak Oluştur ♋️", callback_data="okay")])
     anakaynakkeyb.append([InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")])
