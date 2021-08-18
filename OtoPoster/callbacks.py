@@ -231,13 +231,12 @@ def callback_query(call, context):
     if call.callback_query.data.startswith("sil"):
         kul = collection.find_one({"_id": user})
         s = int(call.callback_query.data.split("-")[1])
-        collection.update_one({"_id": user}, {"$pull": {"kanal": kul['kanal'][s], "eski": kul['kanal'][s]}})
+        collection.update_one({"_id": user}, {"$pull": {"kanal": kul['kanal'][s], "eski": kul['kanal'][s], "icerik": kul['kanal'][s]}})
         bot.edit_message_text("Kanalınız Silindi!", user, mesajid)
         call.callback_query.answer(call.callback_query.id, "Kanalınız Silindi!")
         bot.send_message(blog, f"""#KANAL_SİLİNDİ\n_ID: <a href='tg://user?id={user}'>{user}</a>\nKANAL: <a href='tg://privatepost?channel={kul['kanal'][s][3:]}&post=9999999'>{kul['kanal'][s][3:]}</a>\nÜYE: {bot.get_chat_members_count(kul['kanal'][s])}\n#id{user}\n#kan{kul['kanal'][s][1:]}""")
     """ Site Değiştir """
     if call.callback_query.data.startswith("site"):
-        skul = collection.find_one({"_id": user})
         ss = str(call.callback_query.data.split("-")[1])
         collection.update_one({"_id": user}, {"$set": {"site": ss}})
         bot.edit_message_text("Site Kaydedildi!\n\nAPI adresinizi seçtiğiniz siteye göre değiştirmeyi unutmayın.", user, mesajid)

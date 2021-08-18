@@ -84,6 +84,7 @@ def poster_job(context):
             continue
         kanal = hesap['kanal']
         eski = hesap['eski']
+        icerik = hesap['icerik']
         if len(kanal) != len(eski) and len(kanal) > 0 or chatdat['icerik'] == "+18" and len(kanal) != len(icerik) or chatdat['icerik'] == "arsiv" and len(icerik) != 0:
             sablon = hesap['sablon']
             user = hesap['_id']
@@ -94,7 +95,6 @@ def poster_job(context):
             pcount = hesap['pcount']
             begeni = hesap['begeni']
             pins = hesap['pin']
-            icerik = hesap['icerik']
             if pcount < 19:
                 collection.update_one({"_id": user}, {"$inc": {"pcount": 1}})
             else:

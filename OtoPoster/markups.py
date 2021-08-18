@@ -5,12 +5,13 @@ markup = ForceReply(selective=False)
 
 def dugme(user):
     first = collection.find_one({'_id': user})
-    if first == None:
+    try:
+        first['token']
+    except:
         return ReplyKeyboardMarkup(keyboard=[['📝 Kaydet']], row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
+    else:
+        return ReplyKeyboardMarkup(keyboard=[['🖥 Kanal Menü'], ['🎛 Post Menü', '🔗 API Menü'], ['🛠 Ekstralar'], ['🥰 Bağış']], resize_keyboard=True)
 
-    dugme = ReplyKeyboardMarkup(keyboard=[['🖥 Kanal Menü'], ['🎛 Post Menü', '🔗 API Menü'], ['🛠 Ekstralar'], ['🥰 Bağış']], resize_keyboard=True)
-    
-    return dugme
 
 def kanalmenumark():
     return ReplyKeyboardMarkup(keyboard=[['🔶 Yeni Kanal Ekle', '🗑️ Kanal Sil'], ['▶️ SFS Modu', '💠 Tür Değiştir'], ['↩️ Ana Menü']], resize_keyboard=True, selective=True)
@@ -233,12 +234,12 @@ def kaynakmark(user, kanil):
     else:
         anakaynakkeyb.append([InlineKeyboardButton("⏪⏪", callback_data="solyan-{}".format(kanil)), InlineKeyboardButton("⏩⏩", callback_data="sagyan-{}".format(kanil))])
     if u['kanal'][int(kanil)] in u['icerik']:
-        turtext = "Tür Değiştir: Arşiv"
+        turtext = "Arşiv"
     else:
-        turtext = "Tür Değiştir: +18"
-    anakaynakkeyb.append([InlineKeyboardButton(turtext, callback_data="icerik-{}-k".format(kanil))])
-    anakaynakkeyb.append([InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")])
+        turtext = "+18"
+    anakaynakkeyb.append([InlineKeyboardButton("💠 Tür Değiştir: "+turtext, callback_data="icerik-{}-k".format(kanil))])
     anakaynakkeyb.append([InlineKeyboardButton("♋️ Özel Kaynak Oluştur ♋️", callback_data="okay")])
+    anakaynakkeyb.append([InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")])
     kmark = InlineKeyboardMarkup(inline_keyboard=anakaynakkeyb)
     return kmark
 
