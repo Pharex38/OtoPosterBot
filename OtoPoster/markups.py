@@ -196,6 +196,10 @@ def kaynakmark(user, kanil):
     for kaynak in KaynakCol.find({}):
         if kaynak['no'] in ignorekaynak:
             continue
+        if kaynak['icerik'] == "arsiv" and not u['kanal'][int(kanil)] in u['icerik']:
+             continue
+        if kaynak['icerik'] != "arsiv" and u['kanal'][int(kanil)] in u['icerik']:
+            continue
         try:
             getkaynak = bot.get_chat(kaynak["_id"])
         except:
