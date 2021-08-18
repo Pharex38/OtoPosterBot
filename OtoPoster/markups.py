@@ -232,6 +232,11 @@ def kaynakmark(user, kanil):
         anakaynakkeyb.append([InlineKeyboardButton("⏩⏩", callback_data="sagyan-{}".format(kanil))])
     else:
         anakaynakkeyb.append([InlineKeyboardButton("⏪⏪", callback_data="solyan-{}".format(kanil)), InlineKeyboardButton("⏩⏩", callback_data="sagyan-{}".format(kanil))])
+    if u['kanal'][int(kanil)] in u['icerik']:
+        turtext = "Tür Değiştir: Arşiv"
+    else:
+        turtext = "Tür Değiştir: +18"
+    anakaynakkeyb.append([InlineKeyboardButton(turtext, callback_data="icerik-{}".format(kanil))])
     anakaynakkeyb.append([InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")])
     anakaynakkeyb.append([InlineKeyboardButton("♋️ Özel Kaynak Oluştur ♋️", callback_data="okay")])
     kmark = InlineKeyboardMarkup(inline_keyboard=anakaynakkeyb)
