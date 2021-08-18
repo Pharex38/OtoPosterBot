@@ -168,9 +168,9 @@ def icerikmark(user):
             iceriklink = "tg://privatepost?channel={}&post=9999999".format(icerikkan[3:])
             iceriksatir.append(InlineKeyboardButton(icerikname, url=iceriklink))
             if icerikkan in icerik_dat['icerik']:
-                iceriksatir.append(InlineKeyboardButton("Arşiv", callback_data="icerik-{}".format(icerikbutno)))
+                iceriksatir.append(InlineKeyboardButton("Arşiv", callback_data="icerik-{}-m".format(icerikbutno)))
             else:
-                iceriksatir.append(InlineKeyboardButton("+18", callback_data="icerik-{}".format(icerikbutno)))
+                iceriksatir.append(InlineKeyboardButton("+18", callback_data="icerik-{}-m".format(icerikbutno)))
             icerikkeyb.append(iceriksatir)
             iceriksatir = []
         icerikbutno += 1
@@ -236,7 +236,7 @@ def kaynakmark(user, kanil):
         turtext = "Tür Değiştir: Arşiv"
     else:
         turtext = "Tür Değiştir: +18"
-    anakaynakkeyb.append([InlineKeyboardButton(turtext, callback_data="icerik-{}".format(kanil))])
+    anakaynakkeyb.append([InlineKeyboardButton(turtext, callback_data="icerik-{}-k".format(kanil))])
     anakaynakkeyb.append([InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")])
     anakaynakkeyb.append([InlineKeyboardButton("♋️ Özel Kaynak Oluştur ♋️", callback_data="okay")])
     kmark = InlineKeyboardMarkup(inline_keyboard=anakaynakkeyb)

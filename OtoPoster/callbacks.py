@@ -197,14 +197,17 @@ def callback_query(call, context):
         call.callback_query.edit_message_reply_markup(sfsmark(user))
     """ İcerik """
     if call.callback_query.data.startswith("icerik"):
-        icerikno = int(call.callback_query.data.split("-")[-1])
+        icerikno = int(call.callback_query.data.split("-")[-2])
         pushedicerikkan = collection.find_one({"_id": user})['kanal'][icerikno]
         if pushedicerikkan in collection.find_one({"_id": user})['icerik']:
             collection.update_one({"_id": user}, {"$pull": {"icerik": pushedicerikkan}})
         else:
             collection.update_one({"_id": user}, {"$push": {"icerik": pushedicerikkan}})
         call.callback_query.answer("Kanalınızın içeriği değiştirildi.")
-        call.callback_query.edit_message_reply_markup(icerikmark(user))
+        if call.callback_query.data.split("-")[-2] == "k":
+            call.callback_query.edit_message_reply_markup(kaynakmark(user, icerikno))
+        else:
+            call.callback_query.edit_message_reply_markup(icerikmark(user))
     """ İptal """
     if call.callback_query.data == "del":
         call.effective_message.delete()
