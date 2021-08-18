@@ -50,7 +50,6 @@ def kaynakcall(call, context):
     if kkul['ozel']:
         call.callback_query.edit_message_text(text="<b>Özel kaynak kullandığınız için kaynak başka kaynak kullanamazsınız!</b>")
         return
-    mesajid = call.effective_message.message_id
     if user in KaynakCol.find_one({"sahip": kys})['kaynak'] and kkul['kanal'][kkanil] in KaynakCol.find_one({"sahip": kys})['kanal']:
         KaynakCol.update_one({"sahip": kys}, {"$pull": {"kanal": kkul['kanal'][kkanil]}})
         durak = context.bot_data['durak']

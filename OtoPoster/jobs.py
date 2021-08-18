@@ -1,6 +1,5 @@
 from . import *
 from .misc import *
-from . import Client
 
 
 def jobyedekleme(context):
@@ -29,11 +28,6 @@ def tekrarlipostjob(context):
         SEND_MEDIA_TYPES[tsdict['ptip']](tsdict['tskan'], tsdict['fid'], caption=tsdict['tscaption'])
     except:
         bot.send_message(tsdict['tsuser'], f"{tsdict['baslik']} Tekrarli Postunuz gönderilemedi!")
-
-def eklentistartjob(context):
-    botX = Client(appstr, aid, hash)
-    botX.start()
-    logger.warning("Pyrogram Başlatıldı")
 
 def deljob(context):
     delcont = context.job.context
