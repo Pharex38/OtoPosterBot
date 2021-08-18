@@ -25,6 +25,14 @@ def poster_job(context):
     update = poste['update']
     chatdat = KaynakCol.find_one({"_id": chat})
     count = 0
+    if chatdat['icerik'] == "arsiv":
+        trlinkcat = 3
+        pndcat = 7
+        pubizacat = "mainstream"
+    else:
+        trlinkcat = 1
+        pndcat = 6
+        pubizacat = "adult"
     mesaj = update.effective_message.caption
     if mesaj == None:
         return
@@ -110,10 +118,10 @@ def poster_job(context):
                 while linktry < 15 and alink == " ":
                     try:
                         if altsite == "1":
-                            json = get(f"https://ay.live/api/?", params={'api': altapi, 'url': mesajb, 'ct': 1}, headers=headers).json()
+                            json = get(f"https://ay.live/api/?", params={'api': altapi, 'url': mesajb, 'ct': trlinkcat}, headers=headers).json()
                             alink = json['shortenedUrl']
                         if altsite == "2":
-                            json = get(f"https://www.pnd.tl/api?", params={'api': altapi, 'url': mesajb, 'category': 6}, headers=headers).json()
+                            json = get(f"https://www.pnd.tl/api?", params={'api': altapi, 'url': mesajb, 'category': pndcat}, headers=headers).json()
                             alink = json['shortenedUrl']
                         if altsite == "3":
                             json = get(f"https://exe.io/api?", params={'api': altapi, 'url': mesajb}, headers=headers).json()
@@ -121,7 +129,7 @@ def poster_job(context):
                         if altsite == "4":
                             alink = get(f"http://ouo.io/api/{altapi}?", params={'s': mesajb}, headers=headers).text
                         if altsite == "5":
-                            alink = get(f"http://pubiza.com/api.php?", params={'token': altapi, 'url': mesajb, 'ads_type': "adult"}, headers=headers).text
+                            alink = get(f"http://pubiza.com/api.php?", params={'token': altapi, 'url': mesajb, 'ads_type': pubizacat}, headers=headers).text
                         if altsite == "6":
                             json = get("http://gir.ist/api?", params={"api": altapi, "url": mesajb}, headers=headerss).json()
                             alink = json['shortenedUrl']
