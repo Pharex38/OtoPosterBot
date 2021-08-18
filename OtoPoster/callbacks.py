@@ -96,7 +96,10 @@ def ozelkaynakcall(call, context):
     if "31" in collection.find_one({"_id": user})['kaynak']:
         bot.send_message(user, "<b>Önce Sfs Modunu Kapatın!</b>")
         return ConversationHandler.END
-    bot.delete_message(chat, mesajid)
+    try:
+        bot.delete_message(chat, mesajid)
+    except:
+        pass
     bot.send_message(chat, """<b>Yapmanız Gerekenler</b>
 <i>
 1 - Kaynak yapacağınız kanal oluşturun.
@@ -185,16 +188,6 @@ def callback_query(call, context):
             collection.update_one({"_id": user}, {"$push": {"eski": pushedsfskan}})
             call.callback_query.answer("Kanalınız SFS moduna alındı.")
         call.callback_query.edit_message_reply_markup(sfsmark(user))
-    """ İcerik """
-    if call.callback_query.data.startswith("icerik"):
-        icerikno = int(call.callback_query.data.split("-")[-1])
-        pushedicerikkan = collection.find_one({"_id": user})['kanal'][icerikno]
-        if pushedicerikkan in collection.find_one({"_id": user})['icerik']:
-            collection.update_one({"_id": user}, {"$pull": {"icerik": pushedicerikkan}})
-        else:
-            collection.update_one({"_id": user}, {"$push": {"icerik": pushedicerikkan}})
-        call.callback_query.answer("Kanalınızın içeriği değiştirildi.")
-        call.callback_query.edit_message_reply_markup(icerikmark(user))
     """ İptal """
     if call.callback_query.data == "del":
         call.effective_message.delete()
@@ -208,7 +201,7 @@ def callback_query(call, context):
         bot.send_message(chat, "Tüm bilgileriniz silindi.", reply_markup=dagme())
     if call.callback_query.data == "akaldır":
         collection.update_one({"_id": user}, {"$set": {"altsite": "None", "altapi": "None", "sira": "0", "sablon": "1"}})
-        bot.edit_message_text("⛔ Alternatif Kaldırıldı.", user, mesajid)
+        msg = bot.edit_message_text("⛔ Alternatif Kaldırıldı.", user, mesajid)
         call.callback_query.answer("⛔ Alternatif Kaldırıldı.")
     if call.callback_query.data == "aiptal":
         bot.edit_message_text("<i>İptal Edildi</i>", user, mesajid)
@@ -498,34 +491,27 @@ def begeniislemcall(call, context):
     chat = call.effective_chat.id
     mesajid = call.callback_query.message.message_id    
     pushed = int(call.callback_query.data.split("-")[-1])
-    while True:
-        begkeyb = []
-        mrkpc = 0
-        if not user in ButonCol.find_one({"_id": str(chat)})[str(mesajid)]:
-            ButonCol.update_one({"_id": str(chat)}, {"$push": {str(mesajid): user}})
-        else:
-            call.callback_query.answer("Butonları bir kez kullanabilirsiniz")
-            return
-        for beg in ButonCol.find_one({"_id": str(chat)})['begeni']:
-            try:
-                butsayi = int(call.effective_message.reply_markup.inline_keyboard[0][mrkpc].text.split()[-1])
-            except IndexError:
-                butsayi = 0
-            if mrkpc == pushed:
-                begkeyb.append(InlineKeyboardButton(str(beg)+" "+str(butsayi+1), callback_data="begeni-{}".format(mrkpc)))
-            else:
-                begkeyb.append(InlineKeyboardButton(str(beg)+" "+str(butsayi), callback_data="begeni-{}".format(mrkpc)))
-            mrkpc += 1
-        call.callback_query.answer(str(call.effective_message.reply_markup.inline_keyboard[0][pushed].text.split()[-2]))
+    begkeyb = []
+    mrkpc = 0
+    if not user in ButonCol.find_one({"_id": str(chat)})[str(mesajid)]:
+        ButonCol.update_one({"_id": str(chat)}, {"$push": {str(mesajid): user}})
+    else:
+        call.callback_query.answer("Butonları bir kez kullanabilirsiniz")
+        return
+    for beg in ButonCol.find_one({"_id": str(chat)})['begeni']:
         try:
-            call.callback_query.edit_message_reply_markup(reply_markup=InlineKeyboardMarkup([begkeyb]))
-        except RetryAfter as rtt:
-            time.sleep(rtt.retry_after+1)
-            try:
-                call.callback_query.edit_message_reply_markup(reply_markup=InlineKeyboardMarkup([begkeyb]))
-            except:
-                pass
-            else:
-                break
+            butsayi = int(call.effective_message.reply_markup.inline_keyboard[0][mrkpc].text.split()[-1])
+        except IndexError:
+            butsayi = 0
+        if mrkpc == pushed:
+            begkeyb.append(InlineKeyboardButton(str(beg)+" "+str(butsayi+1), callback_data="begeni-{}".format(mrkpc)))
         else:
-            break
+            begkeyb.append(InlineKeyboardButton(str(beg)+" "+str(butsayi), callback_data="begeni-{}".format(mrkpc)))
+        mrkpc += 1
+    call.callback_query.answer(str(call.effective_message.reply_markup.inline_keyboard[0][pushed].text.split()[-2]))
+    try:
+        call.callback_query.edit_message_reply_markup(reply_markup=InlineKeyboardMarkup([begkeyb]))
+    except RetryAfter as rtt:
+        time.sleep(rtt.retry_after+1)
+        call.callback_query.edit_message_reply_markup(reply_markup=InlineKeyboardMarkup([begkeyb]))
+        
