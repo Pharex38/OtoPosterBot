@@ -13,7 +13,7 @@ def dugme(user):
     return dugme
 
 def kanalmenumark():
-    return ReplyKeyboardMarkup(keyboard=[['🔶 Yeni Kanal Ekle', '🗑️ Kanal Sil'], ['▶️ SFS Modu'], ['↩️ Ana Menü']], resize_keyboard=True, selective=True)
+    return ReplyKeyboardMarkup(keyboard=[['🔶 Yeni Kanal Ekle', '🗑️ Kanal Sil'], ['▶️ SFS Modu', '💠 Tür Değiştir'], ['↩️ Ana Menü']], resize_keyboard=True, selective=True)
 
 def postmenumark():
     return ReplyKeyboardMarkup(keyboard=[['⛓️ Elle Post Paylaş', '⏱ Zamanladıklarım'], ['🔧 Kaynak', '📏 Şablon'], ['↩️ Ana Menü']], resize_keyboard=True, selective=True)
