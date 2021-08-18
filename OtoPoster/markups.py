@@ -197,7 +197,7 @@ def kaynakmark(user, kanil):
         if kaynak['no'] in ignorekaynak:
             continue
         if kaynak['icerik'] == "arsiv" and not u['kanal'][int(kanil)] in u['icerik']:
-             continue
+            continue
         if kaynak['icerik'] != "arsiv" and u['kanal'][int(kanil)] in u['icerik']:
             continue
         try:
@@ -221,6 +221,9 @@ def kaynakmark(user, kanil):
             anakaynakkeyb.append(butonkaynakkeyb)
             linkkaynakkeyb = []
             butonkaynakkeyb = []
+    if not len(linkkaynakkeyb) == 0:
+        anakaynakkeyb.append(linkkaynakkeyb)
+        anakaynakkeyb.append(butonkaynakkeyb)
     if len(u['kanal']) == 1:
         pass
     elif kanil == len(u['kanal'])-1:
