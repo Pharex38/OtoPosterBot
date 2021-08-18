@@ -405,11 +405,11 @@ def posterkomut(update, context):
 
 def posterkomut2(update, context):
     global postsirasi, opostsirasi
-    pochat = context.bot_data['posterchat']
+    pochat = update.effective_message.forward_from_chat.id
     # Ana Kaynaklar
     if KaynakCol.find_one({"_id": pochat}) != None:
         logger.warning(f"{update.effective_message.chat.title} Postu sıraya eklendi.")
-        postdict = {"chatid": pochat, "update": update, "groupid": update.effective_message.media_group_id}
+        postdict = {"chatid": pochat, "update": update.for, "groupid": update.effective_message.media_group_id}
         ind = len(context.job_queue.get_jobs_by_name("anaposter"))
         whn = 130 if 2 <= ind < 4 else 10
         if 5 >= ind > 3:
