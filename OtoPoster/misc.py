@@ -7,19 +7,20 @@ def deep(u_kod, user):
     kat = collection.find_one({"_id": user})
     key = {"_id": user, "kanal": [], "sablon": "1", "kaynak": ["32"], "site": "1", "altapi": "None", "altsite": "None", "sira": "0", "ozel": True, "time": 0, "vakit": 0, "pcount": 0, "eski": [], "begeni": [], "pin": [], "icerik": []}
     if int(u_kod) > 100:
-        kanal = OzelCol.find_one({"_id": int(u_kod)})['okaynak']
+        ozelkaynak = OzelCol.find_one({"_id": int(u_kod)})
+        kanal = ozelkaynak['okaynak']
         try:
             ref_kanal_ismi = bot.get_chat(kanal).title
         except:
             ref_kanal_ismi = "Kanala ulaşılamıyor."
         if kat == None:
-            if OzelCol.find_one({"_id": int(u_kod)}) == None:
+            if ozelkaynak == None:
                 bot.send_message(user, "Kaynak silinmiş veya bulunamadı!")
                 return False
             for koy in KaynakCol.find({}):
                 if user in koy['kaynak']:
                     KaynakCol.update_one({"_id": koy['_id']}, {"$pull": {"kaynak": user}})
-            if not user in OzelCol.find_one({"_id": int(u_kod)})['kanal']:
+            if not user in ozelkaynak['kanal']:
                 OzelCol.update_one({"_id": int(u_kod)}, {"$push": {"kanal": user}})
             collection.insert_one(key)
             if len(OzelCol.find_one({"okaynak": kanal})['kanal']) == 6:
@@ -28,46 +29,55 @@ def deep(u_kod, user):
             bot.send_message(user, "📝 API adresinizi gönderin.", reply_markup=imark())
             return False
         else:
-            if OzelCol.find_one({"_id": int(u_kod)}) == None:
+            if ozelkaynak == None:
                 bot.send_message(user, "Kaynak silinmiş veya bulunamadı!")
                 return True
-            if user in OzelCol.find_one({"_id": int(u_kod)})['kanal']:
+            if user in ozelkaynak['kanal']:
                 bot.send_message(user, "Zaten Bu Kaynağı Kullanıyorsunuz!", reply_markup=dugme(user))
                 return True
             for koy in KaynakCol.find({}):
                 if user in koy['kaynak']:
                     KaynakCol.update_one({"_id": koy['_id']}, {"$pull": {"kaynak": user}})
             collection.update_one({"_id": user}, {"$set": {"ozel": True, "kaynak": ["32"]}})
-            if not user in OzelCol.find_one({"_id": int(u_kod)})['kanal']:
+            if not user in ozelkaynak['kanal']:
                 OzelCol.update_one({"_id": int(u_kod)}, {"$push": {"kanal": user}})
-            if len(OzelCol.find_one({"_id": int(u_kod)})['kanal']) == 6:
+            if len(ozelkaynak['kanal']) == 6:
                 bot.send_message(OzelCol.find_one({"okaynak": kanal})['_id'], "<i>Özel Kaynağınız 5 kişiyi geçtiği için artık 20 linkte 1 olayı sizin için de geçerilidir.</i>")
             bot.send_message(user, "🏋🏻 {} referansı ile geldiniz!".format(ref_kanal_ismi), reply_markup=dugme(user))
             return True
-    key = {"_id": user, "kanal": [], "sablon": "1", "kaynak": [str(u_kod)], "site": "1", "altapi": "None", "altsite": "None", "sira": "0", "ozel": False, "pcount": 0, "time": 0, "vakit": 0, "begeni": [], "pin": [], "eski": [], "icerik": []}
+    key = {"_id": user, "kanal": [], "sablon": "1", "kaynak": [], "site": "1", "altapi": "None", "altsite": "None", "sira": "0", "ozel": False, "pcount": 0, "time": 0, "vakit": 0, "begeni": [], "pin": [], "eski": [], "icerik": []}
+    rkaynak = KaynakCol.find_one({"no": int(u_kod)})
     if kat == None:
-        if KaynakCol.find_one({"no": int(u_kod)}) == None:
+        if rkaynak == None:
             bot.send_message(user, "Kaynak silinmiş veya bulunamadı!")
             return False
-        ref_kanal_ismi = bot.get_chat(KaynakCol.find_one({"no": int(u_kod)})['_id']).title
-        if not user in KaynakCol.find_one({"no": int(u_kod)})['kaynak']:
+        ref_kanal_ismi = bot.get_chat(rkaynak['_id']).title
+        if not user in rkaynak['kaynak']:
             KaynakCol.update_one({"no": int(u_kod)}, {"$push": {"kaynak": int(user)}})
         bot.send_message(user, "🏋🏻 {} referansı ile geldiniz!".format(ref_kanal_ismi))
         bot.send_message(user, "📝 API adresinizi gönderin.", reply_markup=imark())
         return False
     else:
-        if KaynakCol.find_one({"no": int(u_kod)}) == None:
+        if rkaynak == None:
             bot.send_message(user, "Kaynak silinmiş veya bulunamadı!")
             return True
-        ref_kanal_ismi = bot.get_chat(KaynakCol.find_one({"no": int(u_kod)})['_id']).title
-        if not kat['ozel']:
-            if not user in KaynakCol.find_one({"no": int(u_kod)})['kaynak']:
-                KaynakCol.update_one({"no": int(u_kod)}, {"$push": {"kaynak": int(user)}})
-            for ktyo in kat['kanal']:
-                KaynakCol.update_one({"no":int(u_kod)}, {"$push": {"kanal": ktyo}})
-            bot.send_message(user, "Kaynağınız Eklendi!", reply_markup=dugme(user))
-        else:
+        ref_kanal_ismi = bot.get_chat(rkaynak['_id']).title
+        if len(kat['icerik']) == 0 and rkaynak['icerik'] == "arsiv":
+            bot.send_message(user, "Bu bir Arşiv Kaynak ama sizin hiç arşiv türünde kanalınız yok 😕")
+            return True
+        if kat['ozel']:
             bot.send_message(user, "Özel kaynağınız olduğu için başka kaynak kullanamazsınız!")
+            return True
+        if not user in rkaynak['kaynak']:
+            KaynakCol.update_one({"no": int(u_kod)}, {"$push": {"kaynak": int(user)}})
+        for ktyo in kat['kanal']:
+            if rkaynak['icerik'] == "arsiv":
+                if ktyo in kat['icerik']:
+                    KaynakCol.update_one({"no":int(u_kod)}, {"$push": {"kanal": ktyo}})
+            else:    
+                if not ktyo in kat['icerik']:
+                    KaynakCol.update_one({"no":int(u_kod)}, {"$push": {"kanal": ktyo}})
+        bot.send_message(user, "Kaynağınız Eklendi!")
         return True
 
 def send_typing_action(func):
