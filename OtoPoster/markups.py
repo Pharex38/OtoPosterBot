@@ -212,6 +212,8 @@ def kaynakmark(user, kanil):
         else:
             k_title = getkaynak.title
             k_link = getkaynak.invite_link
+        if k_link == None:
+            k_link = "tg://privatepost?channel={}&post=9999999".format(str(kaynak['_id'])[3:])
         saatbut = InlineKeyboardButton("⏳", callback_data="zaman-{}".format(kaynak['sahip']))
         if user in kaynak['kaynak'] and u['kanal'][int(kanil)] in kaynak['kanal']:
             kb1 = InlineKeyboardButton("✅", callback_data="kaynak-{}-{}".format(kaynak['sahip'], kanil))
