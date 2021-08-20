@@ -131,6 +131,9 @@ def poster_job(context):
                         if altsite == "6":
                             json = get("http://gir.ist/api?", params={"api": altapi, "url": mesajb}, headers=headerss).json()
                             alink = json['shortenedUrl']
+                        if altsite == "7":
+                            json = get("https://urlably.com/api?", params={"api": altapi, "url": mesajb}, headers=headerss).json()
+                            alink = json['shortenedUrl']
                         linktry += 1
                         if linktry > 1:
                             sleep(0.3)
@@ -169,6 +172,9 @@ def poster_job(context):
                         link = get(f"http://pubiza.com/api.php?", params={'token': token, 'url': mesajb, 'ads_type': "adult"}, headers=headers).text
                     if site == "6":
                         json = get("http://gir.ist/api?", params={"api": token, "url": mesajb}, headers=headerss).json()
+                        link = json['shortenedUrl']
+                    if site == "7":
+                        json = get("https://urlably.com/api?", params={"api": token, "url": mesajb}, headers=headerss).json()
                         link = json['shortenedUrl']
                     linktry += 1
                     if linktry > 1:
@@ -471,6 +477,9 @@ def ozel_poster_job(context):
                         if oaltsite == "6":
                             oajson = get("http://gir.ist/api?", params={"api": oaltapi, "url": omesajb}, headers=headerss).json()
                             oalink = oajson['shortenedUrl']
+                        if oaltsite == "7":
+                            oajson = get("https://urlably.com/api?", params={"api": oaltapi, "url": omesajb}, headers=headerss).json()
+                            oalink = oajson['shortenedUrl']
                         olinktry += 1
                         sleep(0.3)
                         if olinktry > 1:
@@ -491,6 +500,9 @@ def ozel_poster_job(context):
                         olink = get(f"http://pubiza.com/api.php?", params={'token': otoken, 'url': omesajb, 'ads_type': "adult"}, headers=headers).text
                     if osite == "6":
                         ojson = get("https://gir.ist/api?", params={"api": otoken, "url": omesajb}, headers=headerss).json()
+                        olink = ojson['shortenedUrl']
+                    if osite == "7":
+                        ojson = get("https://urlably.com/api?", params={"api": otoken, "url": omesajb}, headers=headerss).json()
                         olink = ojson['shortenedUrl']
                     olinktry += 1
                     sleep(0.4)
