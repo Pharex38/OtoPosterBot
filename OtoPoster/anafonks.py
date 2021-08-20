@@ -688,7 +688,9 @@ def pat(update, context):
                 plink = get(f"http://pubiza.com/api.php?", params={"token": ptoken, "url": kplink, "ads_type": "adult"}).text
             if psite == "6":
                 plink = get("http://gir.ist/api?", params={"api": ptoken, "url": kplink, "format": "text"}, headers=headerss).text
-                print(plink)
+            if psite == "7":
+                pjson = get("https://urlably.com/api?", params={"api": ptoken, "url": kplink}, headers=headerss).json()
+                plink = pjson['shortenedUrl']
             time.sleep(1)
             ptry += 1
         if plink == " ":
