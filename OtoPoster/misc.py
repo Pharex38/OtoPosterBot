@@ -109,6 +109,8 @@ def phaapi(sit):
         return "***REMOVED-SHORTENER-KEY***"
     if sit == "6":
         return "***REMOVED-SHORTENER-KEY***"
+    if sit == "7":
+        return "***REMOVED-KEY***"
     
 def site_isim(no):
     if no == "1":
