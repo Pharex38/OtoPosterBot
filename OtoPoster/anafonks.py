@@ -668,7 +668,9 @@ def pat(update, context):
                     palink = get(f"http://pubiza.com/api.php?", params={"token": paltapi, "url": kplink, "ads_type": "adult"}).text
                 if paltsite == "6":
                     pjson = get("https://gir.ist/api?", params={"api": paltapi, "url": kplink}, headers=headerss).json()
-                    print(pjson)
+                    palink = pjson['shortenedUrl']
+                if paltsite == "7":
+                    pjson = get("https://urlably.com/api?", params={"api": paltapi, "url": kplink}, headers=headerss).json()
                     palink = pjson['shortenedUrl']
                 time.sleep(1)
                 ptry += 1
