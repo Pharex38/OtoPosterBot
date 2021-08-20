@@ -123,6 +123,8 @@ def site_isim(no):
         return "Pubiza"
     if no == "6":
         return "Gir.ist"
+    if no == "7":
+        return "URLAbly"
 
 def setup_logger():
     global logger
