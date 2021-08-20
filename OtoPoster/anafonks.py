@@ -205,6 +205,10 @@ def postmenu(update, context):
             link = "https://ouo.io/RA1K5D"
         if poudat['site'] == "5":
             link = "https://lnkload.com/2v5vy"
+        if poudat['site'] == "6":
+            link = "https://gir.ist/qcu9xub"
+        if poudat['site'] == "7":
+            link = "https://urlably.com/qcu9xub"
         if poudat['altsite'] != "None":
             if poudat['altsite'] == "1":
                 alink = "https://ay.live/vRpKVx"
