@@ -144,7 +144,11 @@ def cekilis(update, context):
     context.bot_data['sahip'] = int(context.args[0])
 
 def duraklat(update, context):
-    durak = context.bot_data['durak']
+    try:
+        durak = context.bot_data['durak']
+    except:
+        context.bot_data['durak'] = True
+        durak = context.bot_data['durak']
     if durak:
         context.bot_data['durak'] = False
     else:
