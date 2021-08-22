@@ -90,7 +90,7 @@ def delonejob(context):
 
 def gunluk(context):
     ozel_kaynak_kullanan_sayisi = 0
-    exe_kullanan_sayisi, pubiza_kullanan_sayisi, ouo_kullanan_sayisi, trlink_kullanan_sayisi, pnd_kullanan_sayisi, girist = 0, 0, 0, 0, 0, 0
+    exe_kullanan_sayisi, pubiza_kullanan_sayisi, ouo_kullanan_sayisi, urlably_kullanan_sayisi, trlink_kullanan_sayisi, pnd_kullanan_sayisi, girist = 0, 0, 0, 0, 0, 0, 0
     msg = bot.send_message(botlog, "<code>Günlük veriler hesaplanıyor...</code>")
     db[str(sahip)].insert_one({"_id": msg.message_id, "basan": []})
     toplam = 0
@@ -127,6 +127,10 @@ def gunluk(context):
             girist += 1
         elif kullanici['altsite'] == "6":
             girist += 1
+        elif kullanici['site'] == "7":
+            urlably_kullanan_sayisi += 1
+        elif kullanici['altsite'] == "7":
+            urlably_kullanan_sayisi += 1
         if kullanici['ozel']:
             ozel_kaynak_kullanan_sayisi += 1
         users += 1
