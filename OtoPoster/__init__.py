@@ -50,6 +50,7 @@ blog = -1001391561285
 botlog = -1001352123979
 sahip = 1302980840
 fixer = 1687646994
+ptimeout = 4
 adminlist = [sahip]
 postsirasi = []
 opostsirasi = []
