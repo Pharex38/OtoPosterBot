@@ -366,7 +366,7 @@ def ozelk(update, context):
         if not user in OzelCol.find_one({"okaynak": kanal})['kanal']:
             OzelCol.update_one({"okaynak": kanal}, {"$push": {"kanal": user}})
         if len(OzelCol.find_one({"okaynak": kanal})['kanal']) == 6:
-            bot.send_message(OzelCol.find_one({"okaynak": kanal})['_id'], "<i>Özel Kaynağınız 5 kişiyi geçtiği için artık 20 linkte 1 Pharexin olayı sizin için de geçerilidir.</i>")
+            bot.send_message(OzelCol.find_one({"okaynak": kanal})['_id'], "<i>Özel Kaynağınız 5 kişiyi geçtiği için artık postlarınızın 1/20'si benim API adresim ile kısaltılacaktır.</i>")
         bot.send_message(update.message.chat.id, "<b>Özel Kaynak Kaydedildi!</b>", reply_markup=dugme(user))
         return ConversationHandler.END
     else:
@@ -374,7 +374,7 @@ def ozelk(update, context):
             if user in koy['kaynak']:
                 KaynakCol.update_one({"_id": koy['_id']}, {"$pull": {"kaynak": user}})
         if OzelCol.find_one({"_id": user}) == None:
-            OzelCol.insert_one({"_id": user, "okaynak": 546421354, "log": "yok"}) 
+            OzelCol.insert_one({"_id": user, "okaynak": 546421354, "log": "yok", "kaynak": [], "icerik": "+18"}) 
         OzelCol.update_one({"_id": user}, {"$set": {"okaynak": kanal, "kanal": [user]}})
         collection.update_one({"_id": user}, {"$set": {"ozel": True, "kaynak": ["32"]}})
         bot.send_message(update.message.chat.id, "<b>Özel Kaynak Oluşturuldu!\n\nKaynak butonuna basarak ayarlarını görebilirsin.</b>", reply_markup=dugme(user))
