@@ -305,6 +305,25 @@ def callback_query(call, context):
     if call.callback_query.data == "okaykanal":
         call.callback_query.edit_message_text("Özel kaynağınızda kullanmak istediğiniz kanalları seçin.", okaykanalmark(user))
         return
+    if call.callback_query.data.startswith("okayk-"):
+        for okx in OzelCol.find():
+            if user in okx['kanal']:
+                okid = okx['_id']
+        okaykno = int(call.callback_query.data.split("-")[-1])
+        try:
+            pushedokaykkan = collection.find_one({"_id": user})['kanal'][okaykno]
+        except:
+            call.callback_query.edit_message_text("Butonların kullanım süresi dolmuş lütfen menüden tekrar açın.")
+            return
+        if pushedokaykkan in OzelCol.find_one({"_id": okid})['kaynak']:
+            OzelCol.update_one({"_id": okid}, {"$pull": {"kaynak": pushedokaykkan}})
+            call.callback_query.answer("Kanalınız için okayk modu kapatıldı.")
+        else:
+            OzelCol.update_one({"_id": okid}, {"$push": {"kaynak": pushedokaykkan}})
+            call.callback_query.answer("Kanalınız için okayk modu açıldı.")
+        call.callback_query.edit_message_reply_markup(okaykmark(user))
+        return
+        
     if call.callback_query.data == "yoket":
         kayna_k = OzelCol.find_one({"_id": user})
         for xk in kayna_k['kanal']:
