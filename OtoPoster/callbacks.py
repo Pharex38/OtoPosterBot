@@ -309,6 +309,7 @@ def callback_query(call, context):
         for okx in OzelCol.find():
             if user in okx['kanal']:
                 okid = okx['_id']
+                break
         okaykno = int(call.callback_query.data.split("-")[-1])
         try:
             pushedokaykkan = collection.find_one({"_id": user})['kanal'][okaykno]
@@ -323,7 +324,6 @@ def callback_query(call, context):
             call.callback_query.answer("Kanalınız için okayk modu açıldı.")
         call.callback_query.edit_message_reply_markup(okaykmark(user))
         return
-        
     if call.callback_query.data == "yoket":
         kayna_k = OzelCol.find_one({"_id": user})
         for xk in kayna_k['kanal']:
