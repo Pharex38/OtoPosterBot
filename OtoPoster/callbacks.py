@@ -302,6 +302,9 @@ def callback_query(call, context):
     if call.callback_query.data == "logokaldir":
         OzelCol.update_one({"_id": user}, {"$set": {"log": "yok"}})
         call.callback_query.edit_message_text("Botlog Kaldırıldı.")
+    if call.callback_query.data == "okaykanal":
+        call.callback_query.edit_message_text("Özel kaynağınızda kullanmak istediğiniz kanalları seçin.", okaykanalmark(user))
+        return
     if call.callback_query.data == "yoket":
         kayna_k = OzelCol.find_one({"_id": user})
         for xk in kayna_k['kanal']:
