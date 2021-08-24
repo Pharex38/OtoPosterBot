@@ -225,7 +225,6 @@ def poster_job(context):
             if link == "-" or alink == "-":
                 continue
             if link == " ":
-                print(json)
                 try:
                     bot.send_message(-1001190898326, str(hesap)+"\n\nX "+str(json))
                 except:
