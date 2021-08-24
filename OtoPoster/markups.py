@@ -177,6 +177,32 @@ def icerikmark(user):
         icerikbutno += 1
     return InlineKeyboardMarkup(icerikkeyb)
 
+def okaykanalmark(user):
+    okayk_dat = collection.find_one({"_id": user})
+    for okz in OzelCol.find():
+        if user in okz['kanal']:
+            okaynakk = okz
+            break
+    okaykbutno = 0
+    okaykkeyb = []
+    okayksatir = []
+    for okaykkan in okayk_dat['kanal']:
+        try:
+            okaykname = bot.get_chat(okaykkan).title
+        except:
+            pass
+        else:
+            okayklink = "tg://privatepost?channel={}&post=9999999".format(okaykkan[3:])
+            okayksatir.append(InlineKeyboardButton(okaykname, url=okayklink))
+            if okaykkan in okaynakk['kaynak']:
+                okayksatir.append(InlineKeyboardButton("✅", callback_data="okayk-{}".format(okaykbutno)))
+            else:
+                okayksatir.append(InlineKeyboardButton("⚫", callback_data="okayk-{}".format(okaykbutno)))
+            okaykkeyb.append(okayksatir)
+            okayksatir = []
+        okaykbutno += 1
+    return InlineKeyboardMarkup(okaykkeyb)
+
 def ozelkaynakmark(user, kanil):
     for x in OzelCol.find({}):
         if user in x['kanal']:
