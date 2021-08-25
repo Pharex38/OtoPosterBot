@@ -207,7 +207,7 @@ def ozelkaynakmark(user, kanil):
     for x in OzelCol.find({}):
         if user in x['kanal']:
             y = x['_id']
-    if y['icerik'] == "arsiv":
+    if OzelCol.find_one({"_id": y})['icerik'] == "arsiv":
         ozicerik = {"isim": "🗃️ Arşiv 🗃️", "data": "ozicerik-arsiv"}
     else:
         ozicerik = {"isim": "🔞 +18 🔞", "data": "ozicerik-+18"}

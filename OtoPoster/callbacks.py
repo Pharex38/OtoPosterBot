@@ -322,7 +322,7 @@ def callback_query(call, context):
         else:
             OzelCol.update_one({"_id": okid}, {"$push": {"kaynak": pushedokaykkan}})
             call.callback_query.answer("Kanalınız için okayk modu açıldı.")
-        call.callback_query.edit_message_reply_markup(okaykmark(user))
+        call.callback_query.edit_message_reply_markup(okaykanalmark(user))
         return
     if call.callback_query.data == "yoket":
         kayna_k = OzelCol.find_one({"_id": user})
