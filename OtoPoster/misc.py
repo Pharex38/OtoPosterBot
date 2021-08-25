@@ -35,6 +35,9 @@ def deep(u_kod, user):
             if user in ozelkaynak['kanal']:
                 bot.send_message(user, "Zaten Bu Kaynağı Kullanıyorsunuz!", reply_markup=dugme(user))
                 return True
+            if len(kat['icerik']) == 0 and ozelkaynak['icerik'] == "arsiv":
+                bot.send_message(user, "Bu bir Arşiv Kaynak ama sizin hiç arşiv türünde kanalınız yok 😕")
+                return True
             for koy in KaynakCol.find({}):
                 if user in koy['kaynak']:
                     KaynakCol.update_one({"_id": koy['_id']}, {"$pull": {"kaynak": user}})
