@@ -405,9 +405,13 @@ def unbanla(update, context):
         bot.send_message(chat, "Kullanıcının yasağı kaldırıldı!")
     kara = collection.find_one({"_id": 0})['kara']
 
+def posterkomut(update, context):
+    context.bot_data['pochat'] = int(context.args[0])
+    update.effective_message.reply_text("Ayarlandı")
+
 def posterkomut2(update, context):
     global postsirasi, opostsirasi
-    pochat = update.effective_message.forward_from_chat.id
+    pochat = update.effective_message.forward_from_chat.id if update.effective_message.forward_from_chat else context.bot_data['pochat']
     # Ana Kaynaklar
     if KaynakCol.find_one({"_id": pochat}) != None:
         logger.warning(f"{update.effective_message.chat.title} Postu sıraya eklendi.")
