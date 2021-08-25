@@ -211,7 +211,7 @@ def callback_query(call, context):
         else:
             icc = "arsiv"
         OzelCol.update_one({"_id": user}, {"$set": {"icerik": icc}})
-        bot.edit_message_reply_markup(chat_id=chat, message_id=mesajid, reply_markup=ozelkaynakmark())
+        bot.edit_message_reply_markup(chat_id=chat, message_id=mesajid, reply_markup=ozelkaynakmark(user, 0))
         call.callback_query.answer("Tür değiştirildi")
     """ İptal """
     if call.callback_query.data == "del":
