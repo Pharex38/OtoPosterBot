@@ -233,11 +233,18 @@ def postmenu(update, context):
         elif poudat['sablon'] == "9":
             bot.send_message(chat, "<b>Varsayılan Şablon:</b>\n\n{aciklama} \n\n𝙇𝙄𝙉𝙆🔗 {link} \n\n     𝙇𝙄𝙉𝙆🔗 {alink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee", reply_markup=sablonmark(user))
         else:
-            if poudat['sira'] == "1":
-                pst = poudat['sablon'].replace("{aciklama}", "{a}").replace("{link}", "{l}").replace("{alink}", "{al}").format(a=aciklama, l=link, al=alink)
-            else:
-                pst = poudat['sablon'].replace("{aciklama}", "{a}").replace("{link}", "{l}").format(a=aciklama, l=link)
-            bot.send_message(chat, f"<b>Şablonunuz böyle gözükecek:</b>\n\n{pst}", reply_markup=sablonmark(user))
+            try:
+                if poudat['sira'] == "1":
+                    pst = poudat['sablon'].replace("{aciklama}", "{a}").replace("{link}", "{l}").replace("{alink}", "{al}").format(a=aciklama, l=link, al=alink)
+                else:
+                    pst = poudat['sablon'].replace("{aciklama}", "{a}").replace("{link}", "{l}").format(a=aciklama, l=link)
+            except:
+                pst = "Şablonunuz hatalı olduğun için görüntülenemedi lütfen Varsayılana döndürün veya yeni şablon ayarlayın."
+            try:
+                bot.send_message(chat, f"<b>Şablonunuz böyle gözükecek:</b>\n\n{pst}", reply_markup=sablonmark(user))
+            except:
+                pst = "Şablonunuz hatalı olduğun için görüntülenemedi lütfen Varsayılana döndürün veya yeni şablon ayarlayın."
+                bot.send_message(chat, f"<b>Şablonunuz böyle gözükecek:</b>\n\n{pst}", reply_markup=sablonmark(user))
         return
     if mesaj == "🔧 Kaynak":
         if len(poudat['kanal']) < 1:
