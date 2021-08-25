@@ -205,6 +205,14 @@ def callback_query(call, context):
             call.callback_query.edit_message_reply_markup(kaynakmark(user, icerikno))
         else:
             call.callback_query.edit_message_reply_markup(icerikmark(user))
+    if call.callback_query.data.startswith("ozicerik-"):
+        if call.callback_query.data.split("-")[-1] == "arsiv":
+            icc = "+18"
+        else:
+            icc = "arsiv"
+        OzelCol.update_one({"_id": user}, {"$set": {"icerik": icc}})
+        bot.edit_message_reply_markup(chat_id=chat, message_id=mesajid, reply_markup=ozelkaynakmark())
+        call.callback_query.answer("Tür değiştirildi")
     """ İptal """
     if call.callback_query.data == "del":
         call.effective_message.delete()
@@ -303,7 +311,7 @@ def callback_query(call, context):
         OzelCol.update_one({"_id": user}, {"$set": {"log": "yok"}})
         call.callback_query.edit_message_text("Botlog Kaldırıldı.")
     if call.callback_query.data == "okaykanal":
-        call.callback_query.edit_message_text("Özel kaynağınızda kullanmak istediğiniz kanalları seçin.", reply_markup=okaykanalmark(user))
+        bot.send_message(chat, "Özel kaynağınızda kullanmak istediğiniz kanalları seçin.", reply_markup=okaykanalmark(user))
         return
     if call.callback_query.data.startswith("okayk-"):
         for okx in OzelCol.find():
