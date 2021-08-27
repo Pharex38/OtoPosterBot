@@ -152,19 +152,21 @@ def gunluk(context):
                 else:
                     toplam += uye
                     kanals += 1
-  
+                    
     toplam = toplam / 1000
     toplam = str(round(toplam, 1))+"K" if round(toplam, 1) < 1000 else str(round(toplam / 1000, 2))+"M"
-    statscount = 0
+    statscount = 1
     stat_text = "👥 Toplam Kullanıcı Sayısı: {}\n📢 Toplam Kayıtlı Kanal Sayısı: {}\n🙋 Toplam Kitle: {}\n\n<b>Sitelerin Toplam Kullanıcı Sayıları(Alternatifler dahil);</b>\nTRLink -> {}\nPND.TL -> {}\nExe.io -> {}\nOuo.io -> {}\nPubiza -> {}\nURLAbly -> {}\nGir.ist -> {}\n\n<b>Kaynakların Toplam Kullanıcı Sayıları:</b>\n".format(users, kanals, toplam, trlink_kullanan_sayisi, pnd_kullanan_sayisi, exe_kullanan_sayisi, ouo_kullanan_sayisi, pubiza_kullanan_sayisi, urlably_kullanan_sayisi, girist)
-    for kstat in KaynakCol.find({}):
+    gkaynaklar = KaynakCol.find()
+    for kstat in sorted(gkaynaklar, lambda i: len(i['kaynak'])):
         try:
             getskaynak = bot.get_chat(kstat['_id'])
         except:
             gktitle = "Kaynağa ulaşılamıyor..."
         else:
             gktitle = getskaynak.title
-        stat_text += "{} -> {} \n".format(gktitle, len(kstat['kaynak']))
+        stat_text += "{}. {} -> {} \n".format(statscount, gktitle, len(kstat['kaynak']))
+        statscount += 1
     ozel_text = f"Özel Kaynaklar: {ozel_kaynak_kullanan_sayisi}\n\n<b>Her gün saat 22:00'da otomatik olarak güncel veriler paylaşılacak. </b>"
     bot.edit_message_text(stat_text+ozel_text, botlog, msg.message_id)
     bot.pin_chat_message(botlog, msg.message_id)
