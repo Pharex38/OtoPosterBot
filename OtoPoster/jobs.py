@@ -172,7 +172,7 @@ def gunluk(context):
     stat_text += f"Özel Kaynaklar: {ozel_kaynak_kullanan_sayisi}\n\n<b>Arşiv Kaynakların Toplam Kullanıcı Sayıları:</b>\n"
     statscount = 1
     for kstat in sorted(gkaynaklar, key = lambda i: len(i['kaynak']), reverse=True):
-        if kstat['icerik'] != "arsiv":
+        if kstat['icerik'] == "+18":
             continue
         try:
             getskaynak = bot.get_chat(kstat['_id'])
