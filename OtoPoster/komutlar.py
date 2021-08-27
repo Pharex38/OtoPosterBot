@@ -411,7 +411,7 @@ def posterkomut(update, context):
 
 def posterkomut2(update, context):
     global postsirasi, opostsirasi
-    pochat = update.effective_message.forward_from_chat.id if update.effective_message.forward_from_chat != None else context.bot_data['pochat']
+    pochat = update.effective_message.forward_from_chat.id if update.effective_message.forward_from_chat else context.bot_data['pochat']
     # Ana Kaynaklar
     if KaynakCol.find_one({"_id": pochat}) != None:
         logger.warning(f"{update.effective_message.chat.title} Postu sıraya eklendi.")
