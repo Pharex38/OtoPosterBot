@@ -97,6 +97,7 @@ def gunluk(context):
     kanals = 0
     users = 0
     kullanicilar = collection.find({})
+    """
     for kullanici in kullanicilar:
         try:
             kullanici['site']
@@ -151,7 +152,7 @@ def gunluk(context):
                 else:
                     toplam += uye
                     kanals += 1
-                    
+    """
     toplam = toplam / 1000
     toplam = str(round(toplam, 1))+"K" if round(toplam, 1) < 1000 else str(round(toplam / 1000, 2))+"M"
     statscount = 1
@@ -160,6 +161,7 @@ def gunluk(context):
     for kstat in sorted(gkaynaklar, key = lambda i: len(i['kaynak']), reverse=True):
         if kstat['icerik'] != "+18":
             continue
+        bildir(kstat['icerik'])
         try:
             getskaynak = bot.get_chat(kstat['_id'])
         except:
@@ -174,6 +176,7 @@ def gunluk(context):
     for kstat in sorted(gkaynaklar, key = lambda i: len(i['kaynak']), reverse=True):
         if kstat['icerik'] == "+18":
             continue
+        bildir(kstat['icerik'])
         try:
             getskaynak = bot.get_chat(kstat['_id'])
         except:
