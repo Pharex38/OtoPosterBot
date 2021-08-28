@@ -173,7 +173,7 @@ def gunluk(context):
     stat_text += f"Özel Kaynaklar: {ozel_kaynak_kullanan_sayisi}\n\n"
     statscount = 1
     astat_text = "<b>Arşiv Kaynakların Toplam Kullanıcı Sayıları:</b>\n"
-    for kstat in sorted(gkaynaklar, key = lambda i: len(i['kaynak']), reverse=True):
+    for kstat in sorted(KaynakCol.find(), key = lambda i: len(i['kaynak']), reverse=True):
         bildir(kstat['icerik'])
         if kstat['icerik'] == "+18":
             continue
