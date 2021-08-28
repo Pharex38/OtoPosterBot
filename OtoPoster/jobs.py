@@ -92,7 +92,6 @@ def gunluk(context):
     ozel_kaynak_kullanan_sayisi = 0
     exe_kullanan_sayisi, pubiza_kullanan_sayisi, ouo_kullanan_sayisi, urlably_kullanan_sayisi, trlink_kullanan_sayisi, pnd_kullanan_sayisi, girist = 0, 0, 0, 0, 0, 0, 0
     msg = bot.send_message(botlog, "<code>Günlük veriler hesaplanıyor...</code>")
-    db[str(sahip)].insert_one({"_id": msg.message_id, "basan": []})
     toplam = 0
     kum = []
     kanals = 0
@@ -169,8 +168,9 @@ def gunluk(context):
             gktitle = getskaynak.title
         stat_text += "{}. {} -> {} \n".format(statscount, gktitle, len(kstat['kaynak']))
         statscount += 1
-    stat_text += f"Özel Kaynaklar: {ozel_kaynak_kullanan_sayisi}\n\n<b>Arşiv Kaynakların Toplam Kullanıcı Sayıları:</b>\n"
+    stat_text += f"Özel Kaynaklar: {ozel_kaynak_kullanan_sayisi}\n\n"
     statscount = 1
+    astat_text = "<b>Arşiv Kaynakların Toplam Kullanıcı Sayıları:</b>\n"
     for kstat in sorted(gkaynaklar, key = lambda i: len(i['kaynak']), reverse=True):
         if kstat['icerik'] == "+18":
             continue
@@ -180,10 +180,10 @@ def gunluk(context):
             gktitle = "Kaynağa ulaşılamıyor..."
         else:
             gktitle = getskaynak.title
-        stat_text += "{}. {} -> {} \n".format(statscount, gktitle, len(kstat['kaynak']))
+        astat_text += "{}. {} -> {} \n".format(statscount, gktitle, len(kstat['kaynak']))
         statscount += 1
     last_text = "\n\n<b>Her gün saat 22:00'da otomatik olarak güncel veriler paylaşılacak. </b>"
-    bot.edit_message_text(stat_text+last_text, botlog, msg.message_id)
+    bot.edit_message_text(stat_text+astat_text+last_text, botlog, msg.message_id)
     bot.pin_chat_message(botlog, msg.message_id)
 
 def resetleme(context):
