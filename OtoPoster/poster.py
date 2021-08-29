@@ -875,6 +875,7 @@ def poster(update, context):
         logger.warning(f"{update.effective_message.chat.title} Postu sıraya eklendi.")
         if KaynakCol.find_one({"_id": pochat})['no'] in ignorekaynak:
             return
+        sleep(randint(1,15))
         postdict = {"chatid": pochat, "update": update, "groupid": update.effective_message.media_group_id}
         ind = len(context.job_queue.get_jobs_by_name("anaposter"))
         while ind > 1:
