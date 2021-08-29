@@ -15,6 +15,7 @@ from functools import wraps
 from telegram.utils.helpers import *
 from telegram.utils.request import Request
 from telegram.constants import *
+from random import randint
 import html
 import json as jason
 import traceback
