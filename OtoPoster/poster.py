@@ -877,7 +877,6 @@ def poster(update, context):
             return
         sleep(randint(1,15))
         postdict = {"chatid": pochat, "update": update, "groupid": update.effective_message.media_group_id}
-        ind = len(context.job_queue.get_jobs_by_name("anaposter"))
         """
         whn = 130 if 2 <= ind < 4 else 10
         if 5 >= ind > 3:
@@ -893,6 +892,7 @@ def poster(update, context):
             if poj.context[0]['groupid'] == update.effective_message.media_group_id and poj.context[0]['chatid'] == pochat and update.effective_message.media_group_id != None:
                 poj.context.append(postdict)
                 return
+        ind = len(context.job_queue.get_jobs_by_name("anaposter"))
         while ind > 1:
             sleep(3)
             ind = len(context.job_queue.get_jobs_by_name("anaposter"))
