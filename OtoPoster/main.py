@@ -99,7 +99,7 @@ def main() -> None:
     dispatcher.add_handler(CommandHandler('iptal', IptalPoster))
     dispatcher.add_handler(CommandHandler('zaman', zaman, Filters.update.message & Filters.chat_type.private))
     """ Poster """
-    dispatcher.add_handler(MessageHandler(Filters.photo & Filters.update.channel_post | Filters.video & Filters.update.channel_post | Filters.animation & Filters.update.channel_post, poster, run_async=False))
+    dispatcher.add_handler(MessageHandler(Filters.photo & Filters.update.channel_post | Filters.video & Filters.update.channel_post | Filters.animation & Filters.update.channel_post, poster, run_async=True))
     """ Callbacks """
     dispatcher.add_handler(CallbackQueryHandler(cekiliscall, pattern="^katil(.*)"))
     dispatcher.add_handler(CallbackQueryHandler(kaynakcall, pattern="^kaynak(.*)"))
