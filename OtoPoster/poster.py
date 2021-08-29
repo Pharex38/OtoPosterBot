@@ -877,6 +877,10 @@ def poster(update, context):
             return
         postdict = {"chatid": pochat, "update": update, "groupid": update.effective_message.media_group_id}
         ind = len(context.job_queue.get_jobs_by_name("anaposter"))
+        while ind > 1:
+            sleep(3)
+            ind = len(context.job_queue.get_jobs_by_name("anaposter"))
+        """
         whn = 130 if 2 <= ind < 4 else 10
         if 5 >= ind > 3:
             whn = 230
@@ -886,11 +890,12 @@ def poster(update, context):
             whn = 430
         if ind > 9:
             whn = 530
+        """
         for poj in context.job_queue.get_jobs_by_name("anaposter"):
             if poj.context[0]['groupid'] == update.effective_message.media_group_id and poj.context[0]['chatid'] == pochat and update.effective_message.media_group_id != None:
                 poj.context.append(postdict)
                 return
-        context.job_queue.run_once(poster_job, when=whn, name="anaposter", context=[postdict]) 
+        context.job_queue.run_once(poster_job, when=7, name="anaposter", context=[postdict]) 
 
     # Özel Kaynaklar
     elif OzelCol.find_one({"okaynak": pochat}) != None:
