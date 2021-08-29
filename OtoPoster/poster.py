@@ -25,14 +25,6 @@ def poster_job(context):
     update = poste['update']
     chatdat = KaynakCol.find_one({"_id": chat})
     count = 0
-    if chatdat['icerik'] == "arsiv":
-        trlinkcat = 3
-        pndcat = 7
-        pubizacat = "mainstream"
-    else:
-        trlinkcat = 1
-        pndcat = 6
-        pubizacat = "adult"
     mesaj = update.effective_message.caption
     if mesaj == None:
         return
@@ -159,25 +151,7 @@ def poster_job(context):
                             continue
             while linktry < 15 and link == " ":
                 try:
-                    if site == "1":
-                        json = get(f"https://ay.live/api/?", params={'api': token, 'url': mesajb, 'ct': 1}, headers=headers, timeout=ptimeout).json()
-                        link = json['shortenedUrl']
-                    if site == "2":
-                        json = get(f"https://www.pnd.tl/api?", params={'api': token, 'url': mesajb, 'category': 6}, headers=headers, timeout=ptimeout).json()
-                        link = json['shortenedUrl']
-                    if site == "3":
-                        json = get(f"https://exe.io/api?", params={'api': token, 'url': mesajb}, headers=headers, timeout=ptimeout).json()
-                        link = json['shortenedUrl']
-                    if site == "4":
-                        link = get(f"http://ouo.io/api/{token}?", params={'s': mesajb}, headers=headers, timeout=ptimeout).text
-                    if site == "5":
-                        link = get(f"http://pubiza.com/api.php?", params={'token': token, 'url': mesajb, 'ads_type': "adult"}, headers=headers, timeout=ptimeout).text
-                    if site == "6":
-                        json = get("http://gir.ist/api?", params={"api": token, "url": mesajb}, headers=headerss, timeout=ptimeout).json()
-                        link = json['shortenedUrl']
-                    if site == "7":
-                        json = get("https://urlably.com/api?", params={"api": token, "url": mesajb}, headers=headerss, timeout=ptimeout).json()
-                        link = json['shortenedUrl']
+                    link, json = linkkisalt(site, token, mesajb, chatdat['icerik'])
                     linktry += 1
                     if linktry > 1:
                         sleep(0.4)
@@ -879,14 +853,6 @@ def poster_edit(update, context):
                 edcount += 1
         logger.warning(f"{update.effective_chat.title} kaynağının {edcount} postu düzenlendi")
 
-def poster_poster(context):
-    ind = len(context.job_queue.get_jobs_by_name("anaposter"))
-    while ind > 1:
-        sleep(3)
-        bildir(ind)
-        ind = len(context.job_queue.get_jobs_by_name("anaposter"))
-    context.job_queue.run_once(poster_job, when=7, name="anaposter", context=context.job.context)
-
 def poster(update, context):
     global postsirasi, opostsirasi
     pochat = update.effective_message.chat.id
@@ -900,17 +866,19 @@ def poster(update, context):
         whn = 150 if 2 <= ind < 4 else 10
         if 5 >= ind > 3:
             whn = 250
-        if 7 >= ind > 5:
+        elif 7 >= ind > 5:
             whn = 350
-        if 9 >= ind > 7:
+        elif 9 >= ind > 7:
             whn = 450
-        if ind > 9:
+        elif ind > 9:
             whn = 550
+        if KaynakCol.find_one({"_id": pochat})['icerik'] == "arsiv":
+            whn = 5
         for poj in context.job_queue.get_jobs_by_name("anaposter"):
             if poj.context[0]['groupid'] == update.effective_message.media_group_id and poj.context[0]['chatid'] == pochat and update.effective_message.media_group_id != None:
                 poj.context.append(postdict)
                 return
-        context.job_queue.run_once(poster_job, when=whn, name="anaposter", context=[postdict]) 
+        context.job_queue.run_once(poster_job, when=whn, name="anaposter" if whn != 5 else "arsivanaposter", context=[postdict]) 
 
     # Özel Kaynaklar
     elif OzelCol.find_one({"okaynak": pochat}) != None:
