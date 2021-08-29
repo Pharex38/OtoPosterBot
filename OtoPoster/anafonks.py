@@ -670,46 +670,11 @@ def pat(update, context):
     try:
         if not paltapi == "None":
             while ptry < 10 and palink == " ":
-                if paltsite == "1":
-                    pjson = get(f"https://ay.live/api/?", params={"api": paltapi, "url": kplink, "ct": 1}).json()
-                    palink = pjson['shortenedUrl']
-                if paltsite == "2":
-                    pjson = get(f"https://www.pnd.tl/api?", params={'api': paltapi, 'url': kplink, 'category': 6}).json()
-                    palink = pjson['shortenedUrl']
-                if paltsite == "3":
-                    pjson = get(f"https://exe.io/api?", params={"api": paltapi, "url": kplink}).json()
-                    palink = pjson['shortenedUrl']
-                if paltsite == "4":
-                    palink = get(f"http://ouo.io/api/{paltapi}", params={"s": kplink}).text
-                if paltsite == "5":
-                    palink = get(f"http://pubiza.com/api.php?", params={"token": paltapi, "url": kplink, "ads_type": "adult"}).text
-                if paltsite == "6":
-                    pjson = get("https://gir.ist/api?", params={"api": paltapi, "url": kplink}, headers=headerss).json()
-                    palink = pjson['shortenedUrl']
-                if paltsite == "7":
-                    pjson = get("https://urlably.com/api?", params={"api": paltapi, "url": kplink}, headers=headerss).json()
-                    palink = pjson['shortenedUrl']
+                palink, pjson = linkkisalt(paltsite, paltapi, kplink, "+18")
                 time.sleep(1)
                 ptry += 1
         while ptry < 10 and plink == " ":
-            if psite == "1":
-                pjson = get(f"https://ay.live/api/?", params={"api": ptoken, "url": kplink, "ct": 1}).json()
-                plink = pjson['shortenedUrl']
-            if psite == "2":
-                pjson = get(f"https://www.pnd.tl/api?", params={'api': ptoken, 'url': kplink, 'category': 6}).json()
-                plink = pjson['shortenedUrl']
-            if psite == "3":
-                pjson = get(f"https://exe.io/api?", params={"api": ptoken, "url": kplink}).json()
-                plink = pjson['shortenedUrl']
-            if psite == "4":
-                plink = get(f"http://ouo.io/api/{ptoken}?", params={"s": kplink}).text
-            if psite == "5":
-                plink = get(f"http://pubiza.com/api.php?", params={"token": ptoken, "url": kplink, "ads_type": "adult"}).text
-            if psite == "6":
-                plink = get("http://gir.ist/api?", params={"api": ptoken, "url": kplink, "format": "text"}, headers=headerss).text
-            if psite == "7":
-                pjson = get("https://urlably.com/api?", params={"api": ptoken, "url": kplink}, headers=headerss).json()
-                plink = pjson['shortenedUrl']
+            plink, pjson = linkkisalt(psite, ptoken, kplink, "+18")
             time.sleep(1)
             ptry += 1
         if plink == " ":

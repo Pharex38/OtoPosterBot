@@ -104,22 +104,26 @@ def linkkisalt(site, token, text, icerik):
     if site == "1":
         json = get(f"https://ay.live/api/?", params={'api': token, 'url': text, 'ct': trlinkcat}, headers=headers, timeout=ptimeout).json()
         link = json['shortenedUrl']
-    if site == "2":
+    elif site == "2":
         json = get(f"https://www.pnd.tl/api?", params={'api': token, 'url': text, 'category': pndcat}, headers=headers, timeout=ptimeout).json()
         link = json['shortenedUrl']
-    if site == "3":
+    elif site == "3":
         json = get(f"https://exe.io/api?", params={'api': token, 'url': text}, headers=headers, timeout=ptimeout).json()
         link = json['shortenedUrl']
-    if site == "4":
+    elif site == "4":
         link = get(f"http://ouo.io/api/{token}?", params={'s': text}, headers=headers, timeout=ptimeout).text
-    if site == "5":
+    elif site == "5":
         link = get(f"http://pubiza.com/api.php?", params={'token': token, 'url': text, 'ads_type': pubizacat}, headers=headers, timeout=ptimeout).text
-    if site == "6":
+    elif site == "6":
         json = get("http://gir.ist/api?", params={"api": token, "url": text}, headers=headerss, timeout=ptimeout).json()
         link = json['shortenedUrl']
-    if site == "7":
+    elif site == "7":
         json = get("https://urlably.com/api?", params={"api": token, "url": text}, headers=headerss, timeout=ptimeout).json()
         link = json['shortenedUrl']
+    elif site == "0":
+        json = get("https://urlcik.com/api?", params={"api": token, "url": text}, headers=headerss, timeout=ptimeout).json()
+        link = json['shortenedUrl']
+
     return link, json
 
 def bildir(neyi='Boş Bildirim Testi !'):

@@ -108,25 +108,7 @@ def poster_job(context):
             if not altapi == "None":
                 while linktry < 15 and alink == " ":
                     try:
-                        if altsite == "1":
-                            json = get(f"https://ay.live/api/?", params={'api': altapi, 'url': mesajb, 'ct': trlinkcat}, headers=headers, timeout=ptimeout).json()
-                            alink = json['shortenedUrl']
-                        if altsite == "2":
-                            json = get(f"https://www.pnd.tl/api?", params={'api': altapi, 'url': mesajb, 'category': pndcat}, headers=headers, timeout=ptimeout).json()
-                            alink = json['shortenedUrl']
-                        if altsite == "3":
-                            json = get(f"https://exe.io/api?", params={'api': altapi, 'url': mesajb}, headers=headers, timeout=ptimeout).json()
-                            alink = json['shortenedUrl']
-                        if altsite == "4":
-                            alink = get(f"http://ouo.io/api/{altapi}?", params={'s': mesajb}, headers=headers, timeout=ptimeout).text
-                        if altsite == "5":
-                            alink = get(f"http://pubiza.com/api.php?", params={'token': altapi, 'url': mesajb, 'ads_type': pubizacat}, headers=headers, timeout=ptimeout).text
-                        if altsite == "6":
-                            json = get("http://gir.ist/api?", params={"api": altapi, "url": mesajb}, headers=headerss, timeout=ptimeout).json()
-                            alink = json['shortenedUrl']
-                        if altsite == "7":
-                            json = get("https://urlably.com/api?", params={"api": altapi, "url": mesajb}, headers=headerss, timeout=ptimeout).json()
-                            alink = json['shortenedUrl']
+                        alink, json = linkkisalt(altsite, altapi, mesajb, chatdat['icerik'])
                         linktry += 1
                         if linktry > 1:
                             sleep(0.3)
@@ -388,14 +370,6 @@ def ozel_poster_job(context):
     oupdate = oposte['update']
     okaynak = OzelCol.find_one({"okaynak": ochat})
     ocount = 0
-    if okaynak['icerik'] == "arsiv":
-        trlinkcat = 3
-        pndcat = 7
-        pubizacat = "mainstream"
-    else:
-        trlinkcat = 1
-        pndcat = 6
-        pubizacat = "adult"
     omesaj = oupdate.effective_message.caption
     if omesaj == None:
         return
@@ -429,8 +403,6 @@ def ozel_poster_job(context):
         oaltsite = ohesap['altsite']
         osira = ohesap['sira']
         opcount = ohesap['pcount']
-        ovakitler = ohesap['vakit']
-        odailycount = ohesap['time']
         obegeni = ohesap['begeni']
         opins = ohesap['pin']
         oeski = ohesap['eski']
@@ -456,49 +428,13 @@ def ozel_poster_job(context):
             try:
                 if not oaltapi == "None":
                     while olinktry < 10 and oalink == " ":
-                        if oaltsite == "1":
-                            ojson = get(f"https://ay.live/api/?", params={'api': oaltapi, 'url': omesajb, 'ct': trlinkcat}, headers=headers, timeout=ptimeout).json()
-                            oalink = ojson['shortenedUrl']
-                        if oaltsite == "2":
-                            ojson = get(f"https://www.pnd.tl/api?", params={'api': oaltapi, 'url': omesajb, 'category': pndcat}, headers=headers, timeout=ptimeout).json()
-                            oalink = ojson['shortenedUrl']
-                        if oaltsite == "3":
-                            ojson = get(f"https://exe.io/api?", params={'api': oaltapi, 'url': omesajb}, headers=headers, timeout=ptimeout).json()
-                            oalink = ojson['shortenedUrl']
-                        if oaltsite == "4":
-                            oalink = get(f"http://ouo.io/api/{oaltapi}?", params={'s': omesajb}, headers=headers, timeout=ptimeout).text
-                        if oaltsite == "5":
-                            oalink = get(f"http://pubiza.com/api.php?", params={'token': oaltapi, 'url': omesajb, 'ads_type': pubizacat}, headers=headers, timeout=ptimeout).text
-                        if oaltsite == "6":
-                            oajson = get("http://gir.ist/api?", params={"api": oaltapi, "url": omesajb}, headers=headerss, timeout=ptimeout).json()
-                            oalink = oajson['shortenedUrl']
-                        if oaltsite == "7":
-                            oajson = get("https://urlably.com/api?", params={"api": oaltapi, "url": omesajb}, headers=headerss, timeout=ptimeout).json()
-                            oalink = oajson['shortenedUrl']
+                        oalink, ojson = linkkisalt(oaltsite, oaltapi, omesajb, okaynak['icerik'])
                         olinktry += 1
                         sleep(0.3)
                         if olinktry > 1:
                             logger.warning(f"Tekrar deneniyor {olinktry}")
                 while olinktry < 10 and olink == " ":
-                    if osite == "1":
-                        ojson = get(f"https://ay.live/api/?", params={'api': otoken, 'url': omesajb, 'ct': trlinkcat}, headers=headers, timeout=ptimeout).json()
-                        olink = ojson['shortenedUrl']
-                    if osite == "2":
-                        ojson = get(f"https://www.pnd.tl/api?", params={'api': otoken, 'url': omesajb, 'category': pndcat}, headers=headers, timeout=ptimeout).json()
-                        olink = ojson['shortenedUrl']
-                    if osite == "3":
-                        ojson = get(f"https://exe.io/api?", params={'api': otoken, 'url': omesajb}, headers=headers, timeout=ptimeout).json()
-                        olink = ojson['shortenedUrl']
-                    if osite == "4":
-                        olink = get(f"http://ouo.io/api/{otoken}?", params={'s': omesajb}, headers=headers, timeout=ptimeout).text
-                    if osite == "5":
-                        olink = get(f"http://pubiza.com/api.php?", params={'token': otoken, 'url': omesajb, 'ads_type': pubizacat}, headers=headers, timeout=ptimeout).text
-                    if osite == "6":
-                        ojson = get("https://gir.ist/api?", params={"api": otoken, "url": omesajb}, headers=headerss, timeout=ptimeout).json()
-                        olink = ojson['shortenedUrl']
-                    if osite == "7":
-                        ojson = get("https://urlably.com/api?", params={"api": otoken, "url": omesajb}, headers=headerss, timeout=ptimeout).json()
-                        olink = ojson['shortenedUrl']
+                    olink, ojson = linkkisalt(osite, otoken, omesajb, okaynak['icerik'])
                     olinktry += 1
                     sleep(0.4)
                     if olinktry > 1:
