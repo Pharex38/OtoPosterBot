@@ -871,6 +871,7 @@ def poster_poster(context):
     ind = len(context.job_queue.get_jobs_by_name("anaposter"))
     while ind > 1:
         sleep(3)
+        bildir(ind)
         ind = len(context.job_queue.get_jobs_by_name("anaposter"))
     context.job_queue.run_once(poster_job, when=7, name="anaposter", context=context.job.context)
 
