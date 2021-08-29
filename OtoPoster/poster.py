@@ -379,6 +379,9 @@ def poster_job(context):
     logger.warning(basari)
     try:
         bot.edit_message_text(basari, botlog, lmsg.message_id)
+    except RetryAfter as rtfr:
+        sleep(rtfr.retry_after+1)
+        bot.edit_message_text(basari, botlog, lmsg.message_id)
     except Exception as e:
         logger.error(e)
 
