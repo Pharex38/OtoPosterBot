@@ -867,6 +867,13 @@ def poster_edit(update, context):
                 edcount += 1
         logger.warning(f"{update.effective_chat.title} kaynağının {edcount} postu düzenlendi")
 
+def poster_poster(context):
+    ind = len(context.job_queue.get_jobs_by_name("anaposter"))
+    while ind > 1:
+        sleep(3)
+        ind = len(context.job_queue.get_jobs_by_name("anaposter"))
+    context.job_queue.run_once(poster_job, when=7, name="anaposter", context=context.job.context)
+
 def poster(update, context):
     global postsirasi, opostsirasi
     pochat = update.effective_message.chat.id
@@ -875,7 +882,6 @@ def poster(update, context):
         logger.warning(f"{update.effective_message.chat.title} Postu sıraya eklendi.")
         if KaynakCol.find_one({"_id": pochat})['no'] in ignorekaynak:
             return
-        sleep(randint(1,15))
         postdict = {"chatid": pochat, "update": update, "groupid": update.effective_message.media_group_id}
         """
         whn = 130 if 2 <= ind < 4 else 10
@@ -896,7 +902,7 @@ def poster(update, context):
         while ind > 1:
             sleep(3)
             ind = len(context.job_queue.get_jobs_by_name("anaposter"))
-        context.job_queue.run_once(poster_job, when=7, name="anaposter", context=[postdict]) 
+        context.job_queue.run_once(poster_poster, when=4, name="anaposter", context=[postdict]) 
 
     # Özel Kaynaklar
     elif OzelCol.find_one({"okaynak": pochat}) != None:
