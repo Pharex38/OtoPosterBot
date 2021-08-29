@@ -59,6 +59,7 @@ def poster_job(context):
     try:
         lmsg = bot.send_message(botlog, "<code>{} kaynağının postu paylaşılıyor...</code>".format(kynk.title))
     except RetryAfter as rtfr:
+        logger.warning(f"Floodwait -  {rtfr.retry_after} Saniye uyutuluyor...")
         sleep(rtfr.retry_after+1)
         lmsg = bot.send_message(botlog, "<code>{} kaynağının postu paylaşılıyor...</code>".format(kynk.title))
     except Exception as e:
@@ -144,6 +145,7 @@ def poster_job(context):
                                 bot.send_message(user, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
                                 bildir(e)
                             except RetryAfter as rtfr:
+                                logger.warning(f"Floodwait -  {rtfr.retry_after} Saniye uyutuluyor...")
                                 sleep(rtfr.retry_after+1)
                                 try:
                                     bot.send_message(user, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
@@ -186,6 +188,7 @@ def poster_job(context):
                             bot.send_message(user, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
                             bildir(e)
                         except RetryAfter as rtfr:
+                            logger.warning(f"Floodwait -  {rtfr.retry_after} Saniye uyutuluyor...")
                             sleep(rtfr.retry_after+1)
                             try:
                                 bot.send_message(user, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
@@ -209,6 +212,7 @@ def poster_job(context):
                         bot.send_message(sahip, f"{update.effective_message.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{json['message']}\n\n{update.effective_message.link}")
                         bot.send_message(chatdat['sahip'], f"{update.effective_message.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{json['message']}\n\n{update.effective_message.link}")
                     except RetryAfter as rtfr:
+                        logger.warning(f"Floodwait -  {rtfr.retry_after} Saniye uyutuluyor...")
                         sleep(rtfr.retry_after+1)
                     context.job_queue.run_once(deljob, when=2, name="yedekleme", context=update.effective_message.link)
                     break
@@ -260,6 +264,7 @@ def poster_job(context):
                             bot.send_message(blog, F"#KANAL_SİLİNDİ\n_ID: <a href='tg://user?id={user}>{user}</a>\nÜYE: {membersayi}\nKANAL: <a href='tg://privatepost?channel={str(kan)[3:]}&post=9999999'>{kan}</a>\n#kan{str(kan)[1:]}\n#id{user}")
                             bot.send_message(user, "Kanalda artık yetkili olmadığınız için kanalınız silindi.")
                         except RetryAfter as rtfr:
+                            logger.warning(f"Floodwait -  {rtfr.retry_after} Saniye uyutuluyor...")
                             sleep(rtfr.retry_after+1)
                             bot.send_message(blog, F"#KANAL_SİLİNDİ\n_ID: <a href='tg://user?id={user}>{user}</a>\nÜYE: {membersayi}\nKANAL: <a href='tg://privatepost?channel={str(kan)[3:]}&post=9999999'>{kan}</a>\n#kan{str(kan)[1:]}\n#id{user}")
                             bot.send_message(user, "Kanalda artık yetkili olmadığınız için kanalınız silindi.")
@@ -275,6 +280,7 @@ def poster_job(context):
                     else:
                         post = bot.send_media_group(kan, media=grup+[MEDIA_GROUP_TYPES[effective_message_type(update)](media=update.effective_message.photo[-1].file_id if update.effective_message.photo else update.effective_message.effective_attachment.file_id, caption=sablon)])
                 except RetryAfter as rtfr:
+                    logger.warning(f"Floodwait -  {rtfr.retry_after} Saniye uyutuluyor...")
                     sleep(rtfr.retry_after+1)
                     try:
                         if len(postee) == 1:
@@ -294,6 +300,7 @@ def poster_job(context):
                                     bot.send_message(blog, F"#KANAL_SİLİNDİ\n_ID: <a href='tg://user?id={user}>{user}</a>\nÜYE: {kanname}\nKANAL: <a href='tg://privatepost?channel={str(kan)[3:]}&post=9999999'>{kan}</a>\n#kan{str(kan)[1:]}\n#id{user}")
                                     bot.send_message(user, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
                                 except RetryAfter as rtfr:
+                                    logger.warning(f"Floodwait -  {rtfr.retry_after} Saniye uyutuluyor...")
                                     sleep(rtfr.retry_after+1)
                                     bot.send_message(blog, F"#KANAL_SİLİNDİ\n_ID: <a href='tg://user?id={user}>{user}</a>\nÜYE: {kanname}\nKANAL: <a href='tg://privatepost?channel={str(kan)[3:]}&post=9999999'>{kan}</a>\n#kan{str(kan)[1:]}\n#id{user}")
                                     bot.send_message(user, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
@@ -339,6 +346,7 @@ def poster_job(context):
                                 bot.send_message(blog, F"#KANAL_SİLİNDİ\n_ID: <a href='tg://user?id={user}>{user}</a>\nÜYE: {kanname}\nKANAL: <a href='tg://privatepost?channel={str(kan)[3:]}&post=9999999'>{kan}</a>\n#kan{str(kan)[1:]}\n#id{user}")
                                 bot.send_message(user, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
                             except RetryAfter as rtfr:
+                                logger.warning(f"Floodwait -  {rtfr.retry_after} Saniye uyutuluyor...")
                                 sleep(rtfr.retry_after+1)
                                 bot.send_message(blog, F"#KANAL_SİLİNDİ\n_ID: <a href='tg://user?id={user}>{user}</a>\nÜYE: {kanname}\nKANAL: <a href='tg://privatepost?channel={str(kan)[3:]}&post=9999999'>{kan}</a>\n#kan{str(kan)[1:]}\n#id{user}")
                                 bot.send_message(user, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
@@ -380,6 +388,7 @@ def poster_job(context):
     try:
         bot.edit_message_text(basari, botlog, lmsg.message_id)
     except RetryAfter as rtfr:
+        logger.warning(f"Floodwait -  {rtfr.retry_after} Saniye uyutuluyor...")   
         sleep(rtfr.retry_after+1)
         bot.edit_message_text(basari, botlog, lmsg.message_id)
     except Exception as e:
