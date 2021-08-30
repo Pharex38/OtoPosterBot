@@ -133,6 +133,9 @@ def bildir(neyi='Boş Bildirim Testi !'):
         except:
             pass
 
+def Deb(msg = None):
+    print(f"Debug {sys._getframe().f_back.f_lineno}: {msg if msg is not None else ''}")
+
 def phaapi(sit):
     if sit == "1":
         return "***REMOVED-SHORTENER-KEY***"
