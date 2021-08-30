@@ -119,6 +119,7 @@ def poster_job(context):
                 collection.update_one({"_id": user}, {"$set": {"sira": "2"}})
             Deb("Alternatif Link kısaltılıyor...")
             if not altapi == "None":
+                continue
                 while linktry < 15 and alink == " ":
                     try:
                         alink, json = linkkisalt(altsite, altapi, mesajb, chatdat['icerik'])
