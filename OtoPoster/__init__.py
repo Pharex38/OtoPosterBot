@@ -43,8 +43,8 @@ appstr = maindata['appstr']
 aid = maindata['aid']
 hash = maindata['hash']
 
-reqs = Request(con_pool_size=100, connect_timeout=40, read_timeout=40)
-bot = ExtBot(bottoken, request=reqs, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=90, disable_web_page_preview=True, allow_sending_without_reply=True, tzinfo=pytz.timezone('Turkey')))
+reqs = Request(con_pool_size=30, connect_timeout=30, read_timeout=30)
+bot = ExtBot(bottoken, request=reqs, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=20, disable_web_page_preview=True, allow_sending_without_reply=True, tzinfo=pytz.timezone('Turkey')))
 
 eklenti = 1654723447
 blog = -1001391561285
