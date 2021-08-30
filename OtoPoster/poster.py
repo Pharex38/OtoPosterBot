@@ -109,7 +109,7 @@ def poster_job(context):
                 collection.update_one({"_id": user}, {"$set": {"pcount": 0}})
             link = " "
             alink = " "
-            json = " "
+            json = {"shortenedUrl": "", "message": "", "status": ""}
             linktry = 0
             if sira == "2":
                 token = altapi
