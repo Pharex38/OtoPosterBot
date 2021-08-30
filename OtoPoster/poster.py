@@ -77,6 +77,7 @@ def poster_job(context):
             context.job_queue.run_once(deljob, when=2, name="yedekleme", context=update.effective_message.link)
             lmsg.edit_text("{} kaynağının postu iptal edildi. Post kanallardan siliniyor...".format(kynk.title))
             return
+        Deb("İptal değil")
         hesap = collection.find_one({"_id": hesap_id})
         if hesap == None:
             KaynakCol.update_one({"_id": chat}, {"$pull": {"kaynak": hesap_id}})
@@ -89,6 +90,7 @@ def poster_job(context):
         eski = hesap['eski']
         icerik = hesap['icerik']
         if len(kanal) != len(eski) and len(kanal) > 0 or chatdat['icerik'] == "+18" and len(kanal) != len(icerik) or chatdat['icerik'] == "arsiv" and len(icerik) != 0:
+            Deb("Başlıyor")
             sablon = hesap['sablon']
             user = hesap['_id']
             site = hesap["site"]
@@ -115,6 +117,7 @@ def poster_job(context):
                 collection.update_one({"_id": user}, {"$set": {"sira": "3"}})
             if sira == "3":
                 collection.update_one({"_id": user}, {"$set": {"sira": "2"}})
+            Deb("Alternatif Link kısaltılıyor...")
             if not altapi == "None":
                 while linktry < 15 and alink == " ":
                     try:
@@ -141,6 +144,7 @@ def poster_job(context):
                             logger.error(e)
                             logger.warning(json)
                             continue
+            Deb("Ana link kısaltılıyor...")
             while linktry < 15 and link == " ":
                 try:
                     link, json = linkkisalt(site, token, mesajb, chatdat['icerik'])
