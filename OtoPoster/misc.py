@@ -93,6 +93,7 @@ def send_typing_action(func):
     return command_func
 
 def linkkisalt(site, token, text, icerik):
+    json = {"shortenedUrl": "", "message": "", "status": ""}
     if icerik == "arsiv":
         trlinkcat = 3
         pndcat = 7
