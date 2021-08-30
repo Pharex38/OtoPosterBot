@@ -52,8 +52,11 @@ def poster_job(context):
     """  Veri Tabanı  """
     postdata = db[str(chat)]
     binb =  chatdat['kaynak']
-    mesjid = update.effective_message.message_id
-    postdata.insert_one({"_id": update.effective_message.forward_from_message_id if poste['poster'] else mesjid, "pids": [], "aciklama": aciklama, "link": mesajb, "user": 0})
+    mesjid = update.effective_message.forward_from_message_id if poste['poster'] else update.effective_message.message_id
+    try:
+        postdata.insert_one({"_id": mesjid, "pids": [], "aciklama": aciklama, "link": mesajb, "user": 0})
+    except:
+        postdata.update_one({"_id": mesjid}, {"$set": {"pids": [], "aciklama": aciklama, "link": mesajb, "user": 0}})
     try:
         lmsg = bot.send_message(botlog, "<code>{} kaynağının postu paylaşılıyor...</code>".format(kynk.title))
     except RetryAfter as rtfr:
