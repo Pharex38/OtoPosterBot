@@ -196,6 +196,7 @@ def poster_job(context):
                 sablon = sablon.replace("{aciklama}", "{a}").replace("{alink}", "{al}").replace("{link}", "{l}").format(a=aciklama, l=link, al=alink)
             else:
                 sablon = sablon.replace("{aciklama}", "{a}").replace("{link}", "{l}").format(a=aciklama, l=link)
+            Deb("Şablon seçildi")
             if link == "-" or alink == "-":
                 continue
             if link == " ":
@@ -213,6 +214,7 @@ def poster_job(context):
                 postermarkup = InlineKeyboardMarkup([posterkeyb])
             else:
                 postermarkup = InlineKeyboardMarkup([[]])
+            Deb("Kanallara paylaşılıyor.")
             for kan in kanal:
                 if not kan in chatdat['kanal'] or kan in eski or chatdat['icerik'] == "arsiv" and not kan in icerik or chatdat['icerik'] == "+18" and kan in icerik:
                     continue
