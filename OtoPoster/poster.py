@@ -118,7 +118,8 @@ def poster_job(context):
             if not altapi == "None":
                 while linktry < 15 and alink == " ":
                     try:
-                        alink, json = linkkisalt(altsite, altapi, mesajb, chatdat['icerik'])
+                        with eventlet.Timeout(5, TimeoutException("Error")):
+                            alink, json = linkkisalt(altsite, altapi, mesajb, chatdat['icerik'])
                         linktry += 1
                         if linktry > 1:
                             sleep(0.3)
@@ -143,7 +144,8 @@ def poster_job(context):
                             continue
             while linktry < 15 and link == " ":
                 try:
-                    link, json = linkkisalt(site, token, mesajb, chatdat['icerik'])
+                    with eventlet.Timeout(5, TimeoutException("Error")):
+                        link, json = linkkisalt(site, token, mesajb, chatdat['icerik'])
                     linktry += 1
                     if linktry > 1:
                         sleep(0.4)
