@@ -20,7 +20,7 @@ import html
 import json as jason
 import traceback
 import sys
-import timeout-decorator
+import timeout_decorator
 
 pid = os.getpid()
 open("pid.txt", "w").write(str(pid))
