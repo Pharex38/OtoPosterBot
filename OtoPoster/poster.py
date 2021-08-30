@@ -148,9 +148,9 @@ def poster_job(context):
             Deb("Ana link kısaltılıyor...")
             while linktry < 15 and link == " ":
                 try:
-                    link, json = linkkisalt(site, token, mesajb, chatdat['icerik'])
                     linktry += 1
-                    if linktry > 1:
+                    link, json = linkkisalt(site, token, mesajb, chatdat['icerik'])
+                    if linktry > 2:
                         sleep(0.4)
                         logger.warning(f"Tekrar deneniyor {linktry}")
                 except Exception as e:
