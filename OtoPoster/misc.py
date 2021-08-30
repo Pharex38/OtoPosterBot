@@ -101,28 +101,29 @@ def linkkisalt(site, token, text, icerik):
         trlinkcat = 1
         pndcat = 6
         pubizacat = "adult"
-    if site == "1":
-        json = get(f"https://ay.live/api/?", params={'api': token, 'url': text, 'ct': trlinkcat}, headers=headers, timeout=ptimeout).json()
-        link = json['shortenedUrl']
-    elif site == "2":
-        json = get(f"https://www.pnd.tl/api?", params={'api': token, 'url': text, 'category': pndcat}, headers=headers, timeout=ptimeout).json()
-        link = json['shortenedUrl']
-    elif site == "3":
-        json = get(f"https://exe.io/api?", params={'api': token, 'url': text}, headers=headers, timeout=ptimeout).json()
-        link = json['shortenedUrl']
-    elif site == "4":
-        link = get(f"http://ouo.io/api/{token}?", params={'s': text}, headers=headers, timeout=ptimeout).text
-    elif site == "5":
-        link = get(f"http://pubiza.com/api.php?", params={'token': token, 'url': text, 'ads_type': pubizacat}, headers=headers, timeout=ptimeout).text
-    elif site == "6":
-        json = get("http://gir.ist/api?", params={"api": token, "url": text}, headers=headerss, timeout=ptimeout).json()
-        link = json['shortenedUrl']
-    elif site == "7":
-        json = get("https://urlably.com/api?", params={"api": token, "url": text}, headers=headerss, timeout=ptimeout).json()
-        link = json['shortenedUrl']
-    elif site == "0":
-        json = get("https://urlcik.com/api?", params={"api": token, "url": text}, headers=headerss, timeout=ptimeout).json()
-        link = json['shortenedUrl']
+    with eventlet.Timeout(5, TimeoutException("Error")):
+        if site == "1":
+            json = get(f"https://ay.live/api/?", params={'api': token, 'url': text, 'ct': trlinkcat}, headers=headers, timeout=ptimeout).json()
+            link = json['shortenedUrl']
+        elif site == "2":
+            json = get(f"https://www.pnd.tl/api?", params={'api': token, 'url': text, 'category': pndcat}, headers=headers, timeout=ptimeout).json()
+            link = json['shortenedUrl']
+        elif site == "3":
+            json = get(f"https://exe.io/api?", params={'api': token, 'url': text}, headers=headers, timeout=ptimeout).json()
+            link = json['shortenedUrl']
+        elif site == "4":
+            link = get(f"http://ouo.io/api/{token}?", params={'s': text}, headers=headers, timeout=ptimeout).text
+        elif site == "5":
+            link = get(f"http://pubiza.com/api.php?", params={'token': token, 'url': text, 'ads_type': pubizacat}, headers=headers, timeout=ptimeout).text
+        elif site == "6":
+            json = get("http://gir.ist/api?", params={"api": token, "url": text}, headers=headerss, timeout=ptimeout).json()
+            link = json['shortenedUrl']
+        elif site == "7":
+            json = get("https://urlably.com/api?", params={"api": token, "url": text}, headers=headerss, timeout=ptimeout).json()
+            link = json['shortenedUrl']
+        elif site == "0":
+            json = get("https://urlcik.com/api?", params={"api": token, "url": text}, headers=headerss, timeout=ptimeout).json()
+            link = json['shortenedUrl']
 
     return link, json
 
