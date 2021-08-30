@@ -26,8 +26,10 @@ def poster_job(context):
     chatdat = KaynakCol.find_one({"_id": chat})
     count = 0
     mainsira = collection.find_one({"_id": 0})['sira']
+    kynk = bot.get_chat(chat)
     while mainsira > 1:
-        sleep(2)
+        sleep(10)
+        logger.warning(f"{kynk.title} kaynağının postu sırada bekletiliyor...")
         mainsira = collection.find_one({"_id": 0})['sira']
     collection.update_one({"_id": 0}, {"$inc": {"sira": 1}})
     mesaj = update.effective_message.caption
@@ -39,7 +41,6 @@ def poster_job(context):
     if sol == -1 or sol != solx:
         return
     sag = mesaj.find("\n", sol)
-    kynk = bot.get_chat(chat)
     mesajb = mesaj[sol:sag].strip()
     if mesaj.find("\n", sol) == -1:
         mesajb = mesaj[sol:].strip()

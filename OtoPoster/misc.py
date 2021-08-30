@@ -202,24 +202,12 @@ def error_handler(update: object, context: CallbackContext) -> None:
             updateerr = None
         update_str = update.to_dict() if isinstance(update, Update) else str(update)
         try:
-            update.message.chat.id
+            update.effective_chat.id
         except:
             pass
         else:
-            if update.message.chat.id in postsirasi:
-                for er in postsirasi:
-                    if update.message.chat.id == er['chatid']:
-                        try:
-                            postsirasi.remove(er)
-                        except Exception as e:
-                            print(e)
-            elif update.message.chat.id in opostsirasi:
-                for oer in opostsirasi:
-                    if update.message.chat.id == oer['chatid']:
-                        try:
-                            postsirasi.remove(oer)
-                        except Exception as e:
-                            print(e)
+            if KaynakCol.find_one({"_id": update.effective_chat.id}):
+                collection.update_one({"_id": 0}, {"$set": {"sira": collection.find_one({"_id": 0})['sira']-1}})
         message1 = (
         f'BİR HATA OLUŞTU!\n'
         f'<pre>update = {html.escape(jason.dumps(update_str, indent=2, ensure_ascii=False))}</pre>')
