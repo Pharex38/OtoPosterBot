@@ -8,6 +8,7 @@ MEDIA_GROUP_TYPES = {"audio": InputMediaAudio, "document": InputMediaDocument, "
 def poster_job(context):
     vipler = collection.find_one({"_id": 0})['vipuye']
     postee = context.job.context
+    sendtimeout = 15
     grup = []
     if len(postee) > 1:
         for postre in postee:
@@ -58,11 +59,11 @@ def poster_job(context):
     except:
         postdata.update_one({"_id": mesjid}, {"$set": {"pids": [], "aciklama": aciklama, "link": mesajb, "user": 0}})
     try:
-        lmsg = bot.send_message(botlog, "<code>{} kaynağının postu paylaşılıyor...</code>".format(kynk.title))
+        lmsg = bot.send_message(botlog, "<code>{} kaynağının postu paylaşılıyor...</code>".format(kynk.title), timeout=sendtimeout)
     except RetryAfter as rtfr:
         logger.warning(f"Floodwait -  {rtfr.retry_after} Saniye uyutuluyor...")
         sleep(rtfr.retry_after+1)
-        lmsg = bot.send_message(botlog, "<code>{} kaynağının postu paylaşılıyor...</code>".format(kynk.title))
+        lmsg = bot.send_message(botlog, "<code>{} kaynağının postu paylaşılıyor...</code>".format(kynk.title), timeout=sendtimeout)
     except Exception as e:
         logger.error(e)
         bot.send_message(sahip, str(e))
@@ -91,8 +92,6 @@ def poster_job(context):
             sablon = hesap['sablon']
             user = hesap['_id']
             site = hesap["site"]
-            if site == "7":
-                continue
             altapi = hesap['altapi']
             altsite = hesap['altsite']
             sira = hesap['sira']
@@ -127,13 +126,13 @@ def poster_job(context):
                     except Exception as e:
                         if linktry == 15:
                             try:
-                                bot.send_message(user, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
+                                bot.send_message(user, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>", timeout=sendtimeout)
                                 bildir(e)
                             except RetryAfter as rtfr:
                                 logger.warning(f"Floodwait -  {rtfr.retry_after} Saniye uyutuluyor...")
                                 sleep(rtfr.retry_after+1)
                                 try:
-                                    bot.send_message(user, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
+                                    bot.send_message(user, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>", timeout=sendtimeout)
                                 except:
                                     pass
                             except:
@@ -152,13 +151,13 @@ def poster_job(context):
                 except Exception as e:
                     if linktry == 15:
                         try:
-                            bot.send_message(user, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
+                            bot.send_message(user, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>", timeout=sendtimeout)
                             bildir(e)
                         except RetryAfter as rtfr:
                             logger.warning(f"Floodwait -  {rtfr.retry_after} Saniye uyutuluyor...")
                             sleep(rtfr.retry_after+1)
                             try:
-                                bot.send_message(user, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
+                                bot.send_message(user, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>", timeout=sendtimeout)
                             except:
                                 pass
                         except:
@@ -176,8 +175,8 @@ def poster_job(context):
                 if json['message'] == "Invalid URL":
                     logger.error(f"{update.effective_message.chat.title} son postu hatalı olduğu için iptal edildi!")
                     try:
-                        bot.send_message(sahip, f"{update.effective_message.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{json['message']}\n\n{update.effective_message.link}")
-                        bot.send_message(chatdat['sahip'], f"{update.effective_message.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{json['message']}\n\n{update.effective_message.link}")
+                        bot.send_message(sahip, f"{update.effective_message.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{json['message']}\n\n{update.effective_message.link}", timeout=sendtimeout)
+                        bot.send_message(chatdat['sahip'], f"{update.effective_message.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{json['message']}\n\n{update.effective_message.link}", timeout=sendtimeout)
                     except RetryAfter as rtfr:
                         logger.warning(f"Floodwait -  {rtfr.retry_after} Saniye uyutuluyor...")
                         sleep(rtfr.retry_after+1)
@@ -197,7 +196,7 @@ def poster_job(context):
                 continue
             if link == " ":
                 try:
-                    bot.send_message(-1001190898326, str(hesap)+"\n\nX "+str(json))
+                    bot.send_message(-1001190898326, str(hesap)+"\n\nX "+str(json), timeout=sendtimeout)
                 except:
                     pass
                 continue
@@ -216,25 +215,26 @@ def poster_job(context):
                 post = update.effective_message
                 sleep(0.1)
                 try:
-                    yetkililer = [xy.user.id for xy in bot.get_chat_administrators(kan)]
+                    yetkililer = [xy.user.id for xy in bot.get_chat_administrators(kan, timeout=sendtimeout)]
                 except:
+                    continue
                     yetkililer = []
                 if not user in yetkililer:
                     try:
-                        membersayi = bot.get_chat_members_count(kan)
+                        membersayi = bot.get_chat_members_count(kan, timeout=sendtimeout)
                     except:
                         membersayi = "Bot kanaldan çıkarılmış."
                     try:
                         logger.warning(f"Hatalı kanal: {kan}")
                         collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
                         try:
-                            bot.send_message(blog, F"#KANAL_SİLİNDİ\n_ID: <a href='tg://user?id={user}>{user}</a>\nÜYE: {membersayi}\nKANAL: <a href='tg://privatepost?channel={str(kan)[3:]}&post=9999999'>{kan}</a>\n#kan{str(kan)[1:]}\n#id{user}")
-                            bot.send_message(user, "Kanalda artık yetkili olmadığınız için kanalınız silindi.")
+                            bot.send_message(blog, F"#KANAL_SİLİNDİ\n_ID: <a href='tg://user?id={user}>{user}</a>\nÜYE: {membersayi}\nKANAL: <a href='tg://privatepost?channel={str(kan)[3:]}&post=9999999'>{kan}</a>\n#kan{str(kan)[1:]}\n#id{user}", timeout=sendtimeout)
+                            bot.send_message(user, "Kanalda artık yetkili olmadığınız için kanalınız silindi.", timeout=sendtimeout)
                         except RetryAfter as rtfr:
                             logger.warning(f"Floodwait -  {rtfr.retry_after} Saniye uyutuluyor...")
                             sleep(rtfr.retry_after+1)
-                            bot.send_message(blog, F"#KANAL_SİLİNDİ\n_ID: <a href='tg://user?id={user}>{user}</a>\nÜYE: {membersayi}\nKANAL: <a href='tg://privatepost?channel={str(kan)[3:]}&post=9999999'>{kan}</a>\n#kan{str(kan)[1:]}\n#id{user}")
-                            bot.send_message(user, "Kanalda artık yetkili olmadığınız için kanalınız silindi.")
+                            bot.send_message(blog, F"#KANAL_SİLİNDİ\n_ID: <a href='tg://user?id={user}>{user}</a>\nÜYE: {membersayi}\nKANAL: <a href='tg://privatepost?channel={str(kan)[3:]}&post=9999999'>{kan}</a>\n#kan{str(kan)[1:]}\n#id{user}", timeout=sendtimeout)
+                            bot.send_message(user, "Kanalda artık yetkili olmadığınız için kanalınız silindi.", timeout=sendtimeout)
                         collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
                     except:
                         pass
@@ -243,9 +243,9 @@ def poster_job(context):
                     continue
                 try:
                     if len(postee) == 1:
-                        post = update.effective_message.copy(kan, caption=sablon, reply_markup=postermarkup)
+                        post = update.effective_message.copy(kan, caption=sablon, reply_markup=postermarkup, timeout=sendtimeout)
                     else:
-                        post = bot.send_media_group(kan, media=grup+[MEDIA_GROUP_TYPES[effective_message_type(update)](media=update.effective_message.photo[-1].file_id if update.effective_message.photo else update.effective_message.effective_attachment.file_id, caption=sablon)])
+                        post = bot.send_media_group(kan, media=grup+[MEDIA_GROUP_TYPES[effective_message_type(update)](media=update.effective_message.photo[-1].file_id if update.effective_message.photo else update.effective_message.effective_attachment.file_id, caption=sablon)], timeout=sendtimeout)
                 except RetryAfter as rtfr:
                     logger.warning(f"Floodwait -  {rtfr.retry_after} Saniye uyutuluyor...")
                     sleep(rtfr.retry_after+1)
@@ -253,24 +253,24 @@ def poster_job(context):
                         if len(postee) == 1:
                             post = update.effective_message.copy(kan, caption=sablon, reply_markup=postermarkup)
                         else:
-                            post = bot.send_media_group(kan, media=grup+[MEDIA_GROUP_TYPES[effective_message_type(update)](media=update.effective_message.photo[-1].file_id if update.effective_message.photo else update.effective_message.effective_attachment.file_id, caption=sablon)])
+                            post = bot.send_media_group(kan, media=grup+[MEDIA_GROUP_TYPES[effective_message_type(update)](media=update.effective_message.photo[-1].file_id if update.effective_message.photo else update.effective_message.effective_attachment.file_id, caption=sablon)], timeout=sendtimeout)
                     except Exception as e:
                         if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1 or str(e).find("Chat_restricted") != -1:
                             try:
                                 logger.warning(f"Hatalı kanal: {kan}")
                                 try:
-                                    kanname = bot.get_chat_members_count(kan)
+                                    kanname = bot.get_chat_members_count(kan, timeout=sendtimeout)
                                 except:
                                     kanname = "Kanaldan Çıkarılmış."
                                 collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
                                 try:
-                                    bot.send_message(blog, F"#KANAL_SİLİNDİ\n_ID: <a href='tg://user?id={user}>{user}</a>\nÜYE: {kanname}\nKANAL: <a href='tg://privatepost?channel={str(kan)[3:]}&post=9999999'>{kan}</a>\n#kan{str(kan)[1:]}\n#id{user}")
-                                    bot.send_message(user, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                                    bot.send_message(blog, F"#KANAL_SİLİNDİ\n_ID: <a href='tg://user?id={user}>{user}</a>\nÜYE: {kanname}\nKANAL: <a href='tg://privatepost?channel={str(kan)[3:]}&post=9999999'>{kan}</a>\n#kan{str(kan)[1:]}\n#id{user}", timeout=sendtimeout)
+                                    bot.send_message(user, "Botu kanalınızdan çıkardığınız için kanalınız silindi.", timeout=sendtimeout)
                                 except RetryAfter as rtfr:
                                     logger.warning(f"Floodwait -  {rtfr.retry_after} Saniye uyutuluyor...")
                                     sleep(rtfr.retry_after+1)
-                                    bot.send_message(blog, F"#KANAL_SİLİNDİ\n_ID: <a href='tg://user?id={user}>{user}</a>\nÜYE: {kanname}\nKANAL: <a href='tg://privatepost?channel={str(kan)[3:]}&post=9999999'>{kan}</a>\n#kan{str(kan)[1:]}\n#id{user}")
-                                    bot.send_message(user, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                                    bot.send_message(blog, F"#KANAL_SİLİNDİ\n_ID: <a href='tg://user?id={user}>{user}</a>\nÜYE: {kanname}\nKANAL: <a href='tg://privatepost?channel={str(kan)[3:]}&post=9999999'>{kan}</a>\n#kan{str(kan)[1:]}\n#id{user}", timeout=sendtimeout)
+                                    bot.send_message(user, "Botu kanalınızdan çıkardığınız için kanalınız silindi.", timeout=sendtimeout)
                             except:
                                 pass   
                             else:
@@ -287,14 +287,14 @@ def poster_job(context):
                         if len(postee) == 1:
                             if kan in pins:
                                 try:
-                                    bot.pin_chat_message(kan, post.message_id)
+                                    bot.pin_chat_message(kan, post.message_id, timeout=sendtimeout)
                                 except Exception as e:
                                     bildir(e)
                             postdata.update_one({"_id": mesjid}, {"$push": {"pids": {"pid": post.message_id, "chat": kan, "user": user, "link": link, "alink": alink}}})
                         else:
                             if kan in pins:
                                 try:
-                                    bot.pin_chat_message(kan, post[-1].message_id)
+                                    bot.pin_chat_message(kan, post[-1].message_id, timeout=sendtimeout)
                                 except Exception as e:
                                     bildir(e)
                             for pos in post:
@@ -305,18 +305,18 @@ def poster_job(context):
                         try:
                             logger.warning(f"Hatalı kanal: {kan}")
                             try:
-                                kanname = bot.get_chat_members_count(kan)
+                                kanname = bot.get_chat_members_count(kan, timeout=sendtimeout)
                             except:
                                 kanname = "Kanaldan Çıkarılmış."
                             collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
                             try:
-                                bot.send_message(blog, F"#KANAL_SİLİNDİ\n_ID: <a href='tg://user?id={user}>{user}</a>\nÜYE: {kanname}\nKANAL: <a href='tg://privatepost?channel={str(kan)[3:]}&post=9999999'>{kan}</a>\n#kan{str(kan)[1:]}\n#id{user}")
-                                bot.send_message(user, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                                bot.send_message(blog, F"#KANAL_SİLİNDİ\n_ID: <a href='tg://user?id={user}>{user}</a>\nÜYE: {kanname}\nKANAL: <a href='tg://privatepost?channel={str(kan)[3:]}&post=9999999'>{kan}</a>\n#kan{str(kan)[1:]}\n#id{user}", timeout=sendtimeout)
+                                bot.send_message(user, "Botu kanalınızdan çıkardığınız için kanalınız silindi.", timeout=sendtimeout)
                             except RetryAfter as rtfr:
                                 logger.warning(f"Floodwait -  {rtfr.retry_after} Saniye uyutuluyor...")
                                 sleep(rtfr.retry_after+1)
-                                bot.send_message(blog, F"#KANAL_SİLİNDİ\n_ID: <a href='tg://user?id={user}>{user}</a>\nÜYE: {kanname}\nKANAL: <a href='tg://privatepost?channel={str(kan)[3:]}&post=9999999'>{kan}</a>\n#kan{str(kan)[1:]}\n#id{user}")
-                                bot.send_message(user, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
+                                bot.send_message(blog, F"#KANAL_SİLİNDİ\n_ID: <a href='tg://user?id={user}>{user}</a>\nÜYE: {kanname}\nKANAL: <a href='tg://privatepost?channel={str(kan)[3:]}&post=9999999'>{kan}</a>\n#kan{str(kan)[1:]}\n#id{user}", timeout=sendtimeout)
+                                bot.send_message(user, "Botu kanalınızdan çıkardığınız için kanalınız silindi.", timeout=sendtimeout)
                         except:
                             pass   
                         else:
@@ -336,14 +336,14 @@ def poster_job(context):
                     if len(postee) == 1:
                         if kan in pins:
                             try:
-                                bot.pin_chat_message(kan, post.message_id)
+                                bot.pin_chat_message(kan, post.message_id, timeout=sendtimeout)
                             except Exception as e:
                                 bildir(e)
                         postdata.update_one({"_id": mesjid}, {"$push": {"pids": {"pid": post.message_id, "chat": kan, "user": user, "link": link, "alink": alink}}})
                     else:
                         if kan in pins:
                             try:
-                                bot.pin_chat_message(kan, post[-1].message_id)
+                                bot.pin_chat_message(kan, post[-1].message_id, timeout=sendtimeout)
                             except Exception as e:
                                 bildir(e)
                         for pos in post:
@@ -355,11 +355,11 @@ def poster_job(context):
     collection.update_one({"_id": 0}, {"$set": {"sira": mainsira-1}})
     logger.warning(basari)
     try:
-        bot.edit_message_text(basari, botlog, lmsg.message_id)
+        bot.edit_message_text(basari, botlog, lmsg.message_id, timeout=sendtimeout)
     except RetryAfter as rtfr:
         logger.warning(f"Floodwait -  {rtfr.retry_after} Saniye uyutuluyor...")   
         sleep(rtfr.retry_after+1)
-        bot.edit_message_text(basari, botlog, lmsg.message_id)
+        bot.edit_message_text(basari, botlog, lmsg.message_id, timeout=sendtimeout)
     except Exception as e:
         logger.error(e)
 
