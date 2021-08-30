@@ -92,7 +92,6 @@ def send_typing_action(func):
 
     return command_func
 
-@timeout_decorator.timeout(6, use_signals=False)
 def linkkisalt(site, token, text, icerik):
     if icerik == "arsiv":
         trlinkcat = 3
@@ -126,18 +125,6 @@ def linkkisalt(site, token, text, icerik):
         link = json['shortenedUrl']
 
     return link, json
-
-
-@contextmanager
-def time_limit(seconds):
-    def signal_handler(signum, frame):
-        raise TimeoutException("Timed out!")
-    signal.signal(signal.SIGALRM, signal_handler)
-    signal.alarm(seconds)
-    try:
-        yield
-    finally:
-        signal.alarm(0)
 
 
 def bildir(neyi='Boş Bildirim Testi !'):
