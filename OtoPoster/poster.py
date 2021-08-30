@@ -25,6 +25,11 @@ def poster_job(context):
     update = poste['update']
     chatdat = KaynakCol.find_one({"_id": chat})
     count = 0
+    mainsira = collection.find_one({"_id": 0})['sira']
+    while mainsira > 1:
+        sleep(2)
+        mainsira = collection.find_one({"_id": 0})['sira']
+    collection.update_one({"_id": 0}, {"$inc": {"sira": 1}})
     mesaj = update.effective_message.caption
     if mesaj == None:
         return
@@ -340,6 +345,8 @@ def poster_job(context):
                     logger.info("Başarılı! "+str(kan))
                     
     basari = "{} kaynağından, {} kanalda post paylaşıldı.".format(kynk.title, count)
+    mainsira = collection.find_one({"_id": 0})['sira']
+    collection.update_one({"_id": 0}, {"$set": {"sira": mainsira-1}})
     logger.warning(basari)
     try:
         bot.edit_message_text(basari, botlog, lmsg.message_id)
