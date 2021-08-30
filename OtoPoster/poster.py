@@ -130,7 +130,7 @@ def poster_job(context):
                     except Exception as e:
                         if linktry == 15:
                             try:
-                                bot.send_message(user, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>", timeout=sendtimeout)
+                                bot.send_message(user, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(site)}</code>", timeout=sendtimeout)
                                 bildir(e)
                             except RetryAfter as rtfr:
                                 logger.warning(f"Floodwait -  {rtfr.retry_after} Saniye uyutuluyor...")
@@ -162,7 +162,7 @@ def poster_job(context):
                             logger.warning(f"Floodwait -  {rtfr.retry_after} Saniye uyutuluyor...")
                             sleep(rtfr.retry_after+1)
                             try:
-                                bot.send_message(user, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>", timeout=sendtimeout)
+                                bot.send_message(user, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(site)}</code>", timeout=sendtimeout)
                             except:
                                 pass
                         except:
@@ -462,10 +462,10 @@ def ozel_poster_job(context):
                 logger.info(f"{okanal} + {olink} + {otoken}")
             except Exception as e:
                 try:
-                    bot.send_message(ouser, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
+                    bot.send_message(ouser, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(osite)}</code>")
                 except RetryAfter as ortfr:
                     sleep(ortfr.retry_after+1)
-                    bot.send_message(ouser, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
+                    bot.send_message(ouser, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(osite)}</code>"")
                 logger.error(e)
                 continue
             try:
@@ -724,12 +724,12 @@ def poster_edit(update, context):
                 logger.info(f"{kanal} + {link} + {token}")
             except Exception as e:
                 try:
-                    bot.send_message(edil['user'], "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
+                    bot.send_message(edil['user'], f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(site)}</code>")
                     bildir(e)
                 except RetryAfter as rtfr:
                     sleep(rtfr.retry_after+1)
                     try:
-                        bot.send_message(edil['user'], "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>")
+                        bot.send_message(edil['user'], f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(site)}</code>")
                     except:
                         pass
                 except:
