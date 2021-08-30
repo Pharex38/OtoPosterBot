@@ -92,6 +92,7 @@ def send_typing_action(func):
 
     return command_func
 
+@timeout-decorator.timeout(6, use_signals=False)
 def linkkisalt(site, token, text, icerik):
     if icerik == "arsiv":
         trlinkcat = 3
