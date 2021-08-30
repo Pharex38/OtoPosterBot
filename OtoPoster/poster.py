@@ -52,7 +52,7 @@ def poster_job(context):
     postdata = db[str(chat)]
     binb =  chatdat['kaynak']
     mesjid = update.effective_message.message_id
-    postdata.insert_one({"_id": mesjid, "pids": [], "aciklama": aciklama, "link": mesajb, "user": 0})
+    postdata.insert_one({"_id": update.effective_message.forward_from_message_id if poste['poster'] else mesjid, "pids": [], "aciklama": aciklama, "link": mesajb, "user": 0})
     try:
         lmsg = bot.send_message(botlog, "<code>{} kaynağının postu paylaşılıyor...</code>".format(kynk.title))
     except RetryAfter as rtfr:
@@ -806,7 +806,7 @@ def poster(update, context):
         logger.warning(f"{update.effective_message.chat.title} Postu sıraya eklendi.")
         if KaynakCol.find_one({"_id": pochat})['no'] in ignorekaynak:
             return
-        postdict = {"chatid": pochat, "update": update, "groupid": update.effective_message.media_group_id}
+        postdict = {"chatid": pochat, "update": update, "groupid": update.effective_message.media_group_id, "poster": False}
         ind = len(context.job_queue.get_jobs_by_name("anaposter"))
         whn = 150 if 2 <= ind < 4 else 10
         if 5 >= ind > 3:
@@ -828,7 +828,7 @@ def poster(update, context):
     # Özel Kaynaklar
     elif OzelCol.find_one({"okaynak": pochat}) != None:
         logger.warning(f"[ÖZEL] {update.effective_message.chat.title} Postu sıraya eklendi.")
-        opostdict = {"chatid": pochat, "update": update, "groupid": update.effective_message.media_group_id}
+        opostdict = {"chatid": pochat, "update": update, "groupid": update.effective_message.media_group_id, "poster": False}
         for opoj in context.job_queue.get_jobs_by_name("ozelposter"):
             if opoj.context[0]['groupid'] == update.effective_message.media_group_id and opoj.context[0]['chatid'] == pochat and update.effective_message.media_group_id != None:
                 opoj.context.append(opostdict)

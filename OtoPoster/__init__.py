@@ -43,7 +43,7 @@ appstr = maindata['appstr']
 aid = maindata['aid']
 hash = maindata['hash']
 
-reqs = Request(con_pool_size=30, connect_timeout=30, read_timeout=30)
+reqs = Request(con_pool_size=50, connect_timeout=30, read_timeout=30)
 bot = ExtBot(bottoken, request=reqs, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=20, disable_web_page_preview=True, allow_sending_without_reply=True, tzinfo=pytz.timezone('Turkey')))
 
 eklenti = 1654723447

@@ -415,7 +415,7 @@ def posterkomut2(update, context):
     # Ana Kaynaklar
     if KaynakCol.find_one({"_id": pochat}) != None:
         logger.warning(f"{update.effective_message.chat.title} Postu sıraya eklendi.")
-        postdict = {"chatid": pochat, "update": update, "groupid": update.effective_message.media_group_id}
+        postdict = {"chatid": pochat, "update": update, "groupid": update.effective_message.media_group_id, "poster": True}
         ind = len(context.job_queue.get_jobs_by_name("anaposter"))
         whn = 130 if 2 <= ind < 4 else 10
         if 5 >= ind > 3:
@@ -434,7 +434,7 @@ def posterkomut2(update, context):
     # Özel Kaynaklar
     elif OzelCol.find_one({"okaynak": pochat}) != None:
         logger.warning(f"[ÖZEL] {update.effective_message.chat.title} Postu sıraya eklendi.")
-        opostdict = {"chatid": pochat, "update": update, "groupid": update.effective_message.media_group_id}
+        opostdict = {"chatid": pochat, "update": update, "groupid": update.effective_message.media_group_id, "poster": True}
         oind = len(context.job_queue.get_jobs_by_name("ozelposter"))
         owhn = 20 if 2 <= oind < 4 else 10
         if 5 >= oind > 3:
