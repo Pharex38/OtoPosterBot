@@ -465,7 +465,7 @@ def ozel_poster_job(context):
                     bot.send_message(ouser, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(osite)}</code>")
                 except RetryAfter as ortfr:
                     sleep(ortfr.retry_after+1)
-                    bot.send_message(ouser, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(osite)}</code>"")
+                    bot.send_message(ouser, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(osite)}</code>")
                 logger.error(e)
                 continue
             try:
