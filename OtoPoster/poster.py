@@ -136,7 +136,7 @@ def poster_job(context):
                                 logger.warning(f"Floodwait -  {rtfr.retry_after} Saniye uyutuluyor...")
                                 sleep(rtfr.retry_after+1)
                                 try:
-                                    bot.send_message(user, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>", timeout=sendtimeout)
+                                    bot.send_message(user, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(site)}</code>", timeout=sendtimeout)
                                 except:
                                     pass
                             except:
@@ -156,7 +156,7 @@ def poster_job(context):
                 except Exception as e:
                     if linktry == 15:
                         try:
-                            bot.send_message(user, "Son postunuz gönderilemedi;\n\n<code>API adresiniz sıkıntılı veya sitenize ulaşılamıyor. API adresinizi kontrol edin, bir sıkıntı yoksa bu mesajı görmezden gelin muhtemelen seçtiğiniz site ile ilgili bir sorun vardır.</code>", timeout=sendtimeout)
+                            bot.send_message(user, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(site)}</code>", timeout=sendtimeout)
                             bildir(e)
                         except RetryAfter as rtfr:
                             logger.warning(f"Floodwait -  {rtfr.retry_after} Saniye uyutuluyor...")
