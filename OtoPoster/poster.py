@@ -122,10 +122,9 @@ def poster_job(context):
                 
                 while linktry < 15 and alink == " ":
                     try:
-                        with time_limit(6):
-                            alink, json = linkkisalt(altsite, altapi, mesajb, chatdat['icerik'])
                         linktry += 1
-                        if linktry > 1:
+                        alink, json = linkkisalt(altsite, altapi, mesajb, chatdat['icerik'])
+                        if linktry > 2:
                             sleep(0.3)
                             logger.warning(f"Link kısaltılamadı tekrar deneniyor {linktry}")
                     except Exception as e:
