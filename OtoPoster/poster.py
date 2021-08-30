@@ -87,6 +87,8 @@ def poster_job(context):
             sablon = hesap['sablon']
             user = hesap['_id']
             site = hesap["site"]
+            if site == "7":
+                continue
             altapi = hesap['altapi']
             altsite = hesap['altsite']
             sira = hesap['sira']
