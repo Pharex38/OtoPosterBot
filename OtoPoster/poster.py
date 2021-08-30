@@ -802,6 +802,10 @@ def poster_edit(update, context):
                 edcount += 1
         logger.warning(f"{update.effective_chat.title} kaynağının {edcount} postu düzenlendi")
 
+def postersira(update, context):
+    collection.update_one({"_id": 0}, {"$set": {"sira": 1}})
+    update.effective_message.reply_text("Sıra düşürüldü")
+
 def poster(update, context):
     global postsirasi, opostsirasi
     pochat = update.effective_message.chat.id
