@@ -113,7 +113,7 @@ def linkkisalt(site, token, text, icerik):
     elif site == "4":
         link = get(f"http://ouo.io/api/{token}?", params={'s': text}, headers=headers, timeout=ptimeout).text
     elif site == "5":
-        link = get(f"http://pubiza.com/api.php?", params={'token': token, 'url': text, 'ads_type': pubizacat}, headers=headers, timeout=ptimeout).text
+        link = get(f"http://pubiza.com/api.php?", params={'token': token, 'url': text, 'ads_type': pubizacat}, headers=headerss, timeout=ptimeout).text
     elif site == "6":
         json = get("http://gir.ist/api?", params={"api": token, "url": text}, headers=headerss, timeout=ptimeout).json()
         link = json['shortenedUrl']
@@ -125,7 +125,6 @@ def linkkisalt(site, token, text, icerik):
         link = json['shortenedUrl']
 
     return link, json
-
 
 def bildir(neyi='Boş Bildirim Testi !'):
     for i in adminlist:
@@ -177,7 +176,6 @@ def setup_logger():
     logd = "{}.{}.{} - {}.{}".format(zaman.year, zaman.month, zaman.day, zaman.hour, zaman.minute)
     logging.basicConfig(format="%(asctime)s - %(levelname)s - %(message)s", handlers=[logging.FileHandler(f'Loglar/{logd}.txt', 'w', 'utf-8'), logging.StreamHandler()], level=logging.INFO)
     logger = logging.getLogger("OtoPosterBot")
-
 
 def eklentiiletisim(update, context):
     ileti = update.message.text_html_urled
