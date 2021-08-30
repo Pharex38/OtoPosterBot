@@ -21,6 +21,9 @@ import json as jason
 import traceback
 import sys
 import timeout_decorator
+import signal
+from contextlib import contextmanager
+
 
 pid = os.getpid()
 open("pid.txt", "w").write(str(pid))
@@ -67,7 +70,10 @@ tips = [
     "Her kanlınıza farklı kaynak seçebilirsiniz."
     ]
 ignorejob = ["yedekleme", "gunluk", "resetleme", "arsivanaposter", "ozelposter", "anaposter", "anapostersiralayici", "ozelpostersiralayici"]
-ignorekaynak = [12, 2, 9]
+ignorekaynak = []
+
+class TimeoutException(Exception):
+    pass
 
 SEND_MEDIA_TYPES = {"document": bot.send_document, "photo": bot.send_photo, "video": bot.send_video, "animation": bot.send_animation}
 POSTMENU, APIMENU, KANALMENU, EKSTRAMENU, TSBASLIK, TSPOST, BEGENI, APIDEGISTIR, KANALKAYDET, SABLONA, PATPOST, POSTZAMAN, PATZAMAN, CALLALT, ALTAPI, OZELBOTLOG, OZELKAYNAK= range(17)
