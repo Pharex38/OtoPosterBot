@@ -73,7 +73,7 @@ def main() -> None:
             CallbackQueryHandler(begenicall, pattern="^(begeniolustur)$"),
             CallbackQueryHandler(tekrarlisaatayarlacall, pattern="^ts-(.*)")],
             TSPOST: [MessageHandler(~Filters.command, tekrarlipostayarla)],
-            PANELZAMAN: [MessageHandler(~Filters.command & Filters.text, zaman)]
+            PANELZAMAN: [MessageHandler(~Filters.command & Filters.text, zaman)],
             TSBASLIK: [MessageHandler(~Filters.command & Filters.text, tekrarlipostbaslikayarla)],
             BEGENI: [MessageHandler(~Filters.command & Filters.text, begenidegistir)],
             APIDEGISTIR: [MessageHandler(~Filters.command & Filters.update.message, apikayit)],
