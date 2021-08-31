@@ -695,7 +695,7 @@ def pat(update, context):
         bot.send_message(chat, "Kullandığınız link kısaltma servisine ulaşılamıyor.", reply_markup=dugme(user))
         return ConversationHandler.END
     except Exception as e:
-        bot.send_message(chat, f"Bir sorun oluştu: \n\n{html.escape(e)}")
+        bot.send_message(chat, f"Bir sorun oluştu: \n\n{html.escape(str(e))}")
         logger.error(e)
         return
     context.user_data['psablon'] = psablon
