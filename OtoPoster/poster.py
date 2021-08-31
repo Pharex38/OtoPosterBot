@@ -124,7 +124,7 @@ def poster_job(context):
                             logger.warning(f"Link kısaltılamadı tekrar deneniyor {linktry}")
                         alink, json = linkkisalt(altsite, altapi, mesajb, chatdat['icerik'])
                     except Exception as e:
-                        if linktry == 15:
+                        if linktry == 10:
                             try:
                                 bot.send_message(user, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(site)}</code>", timeout=sendtimeout)
                                 bildir(e)
@@ -149,7 +149,7 @@ def poster_job(context):
                         logger.warning(f"Tekrar deneniyor {linktry}")
                     link, json = linkkisalt(site, token, mesajb, chatdat['icerik'])
                 except Exception as e:
-                    if linktry == 15:
+                    if linktry == 10:
                         try:
                             bot.send_message(user, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(site)}</code>", timeout=sendtimeout)
                             bildir(e)
