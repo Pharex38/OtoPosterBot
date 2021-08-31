@@ -542,7 +542,7 @@ def kaynakpanel(update, context):
     panelkaynak = KaynakCol.find_one({"sahip": user})
     if panelkaynak == None:
         return
-    panelmessage = bot.send_message(user, "<code>Yükleniyor</code>")
+    panelmessage = bot.send_animation(user, animation="CgACAgQAAxkBAAEMT_lhLrYhZpgOT6y8AQZRPB-RpHRpaQACNgIAAmbf3VKP6eJ5oebSyiAE",  caption="<code>Yükleniyor</code>")
     try:
         panelkaynakkanal = bot.get_chat(panelkaynak['_id'])
     except:
@@ -567,4 +567,26 @@ def kaynakpanel(update, context):
                     continue
                 else:
                     panco.append(pankan)
-    panelmessage.edit_text("<b>{} Kaynak Paneli;</b>\n\n👥Toplam Kullanıcı: {}\n📢Toplam Kanal: {}\n🙋Toplam Kitle: {}".format(panelkaynakkanalisim, len(panelkaynak['kaynak']), len(panco), str(round(pankanmember / 1000, 1))+"K"), reply_markup=panelkaynakmark(user))
+    tarihnow = datetime.datetime.now(pytz.timezone('Europe/Istanbul'))
+    ylab = []
+    xlab = []
+    for g in dict(panelkaynak['grafik']).keys():
+        if int(g) >= tarihnow.day:
+            ylab.append(str(g.zfill(2))+"/"+str(tarihnow.month).zfill(2))
+            if len(ylab) == 7:
+                break
+
+    vals = list(panelkaynak['grafik'].values())
+    for icc in range(7):
+        xlab.append(vals[icc]['user'])
+    fig, plot = plot.subplots()
+    plot.plot(ylab, xlab, label="Kullanıcı Sayısı")
+    xlab = []
+    for icc in range(7):
+        xlab.append(vals[icc]['kanal'])
+    plot.plot(ylab, xlab, label="Kanal Sayısı")
+    plot.set_title(panelkaynakkanalisim)
+    plot.set_xlabel('Bir Haftalık Grafik')
+    fig.savefig("grafik.png")
+    panelmessage.edit_media(InputMediaPhoto(media="grafik.png", caption=None))
+    panelmessage.edit_caption("<b>{} Kaynak Paneli;</b>\n\n👥Toplam Kullanıcı: {}\n📢Toplam Kanal: {}\nŞimdiye Kadar Paylaştığınız Post Sayısı: {}\n🙋Toplam Kitle: {}".format(panelkaynakkanalisim, len(panelkaynak['kaynak']), len(panco), db[str(panelkaynak['_id'])].countDocuments(), str(round(pankanmember / 1000, 1))+"K"), reply_markup=panelkaynakmark(user))

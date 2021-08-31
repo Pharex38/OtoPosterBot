@@ -157,6 +157,7 @@ def gunluk(context):
     statscount = 1
     stat_text = "👥 Toplam Kullanıcı Sayısı: {}\n📢 Toplam Kayıtlı Kanal Sayısı: {}\n🙋 Toplam Kitle: {}\n\n<b>Sitelerin Toplam Kullanıcı Sayıları(Alternatifler dahil);</b>\nTRLink -> {}\nPND.TL -> {}\nExe.io -> {}\nOuo.io -> {}\nPubiza -> {}\nURLAbly -> {}\nGir.ist -> {}\n\n<b>+18 Kaynakların Toplam Kullanıcı Sayıları:</b>\n".format(users, kanals, toplam, trlink_kullanan_sayisi, pnd_kullanan_sayisi, exe_kullanan_sayisi, ouo_kullanan_sayisi, pubiza_kullanan_sayisi, urlably_kullanan_sayisi, girist)
     gkaynaklar = KaynakCol.find()
+    tarih = datetime.datetime.now()
     for kstat in sorted(gkaynaklar, key = lambda i: len(i['kaynak']), reverse=True):
         if kstat['icerik'] != "+18":
             continue
@@ -167,6 +168,12 @@ def gunluk(context):
         else:
             gktitle = getskaynak.title
         stat_text += "{}. {} -> {} \n".format(statscount, gktitle, len(kstat['kaynak']))
+        gunkans = []
+        for kus in kstat['kaynak']:
+            for gk in collection.find_one({"_id": kus})['kanal']:
+                if gk in kstat['kanal'] and not gk in gunkans:
+                    gunkans.append(gk)
+        KaynakCol.update_one({"_id": kstat['_id']}, {"$set": {f"grafik.{tarih.day}": {"user": len(kstat['kaynak']), "kanal": len(gunkans)}}})
         statscount += 1
     stat_text += f"Özel Kaynaklar: {ozel_kaynak_kullanan_sayisi}\n\n"
     statscount = 1
@@ -181,8 +188,14 @@ def gunluk(context):
         else:
             gktitle = getskaynak.title
         astat_text += "{}. {} -> {} \n".format(statscount, gktitle, len(kstat['kaynak']))
+        gunkans = []
+        for kus in kstat['kaynak']:
+            for gk in collection.find_one({"_id": kus})['kanal']:
+                if gk in kstat['kanal'] and not gk in gunkans:
+                    gunkans.append(gk)
+        KaynakCol.update_one({"_id": kstat['_id']}, {"$set": {f"grafik.{tarih.day}": {"user": len(kstat['kaynak']), "kanal": len(gunkans)}}})
         statscount += 1
-    last_text = "\n\n<b>Her gün saat 22:00'da otomatik olarak güncel veriler paylaşılacak. </b>"
+    last_text = "\n<b>Her gün saat 22:00'da otomatik olarak güncel veriler paylaşılacak. </b>"
     bot.edit_message_text(stat_text+astat_text+last_text, botlog, msg.message_id)
     bot.pin_chat_message(botlog, msg.message_id)
 
