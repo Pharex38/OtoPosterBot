@@ -782,15 +782,15 @@ def poster(update, context):
             return
         postdict = {"chatid": pochat, "update": update, "groupid": update.effective_message.media_group_id, "poster": False}
         ind = len(context.job_queue.get_jobs_by_name("anaposter"))
-        whn = 150 if 2 <= ind < 4 else 10
+        whn = 100 if 2 <= ind < 4 else 10
         if 5 >= ind > 3:
-            whn = 250
+            whn = 200
         elif 7 >= ind > 5:
-            whn = 350
+            whn = 300
         elif 9 >= ind > 7:
-            whn = 450
+            whn = 400
         elif ind > 9:
-            whn = 550
+            whn = 500
         if KaynakCol.find_one({"_id": pochat})['icerik'] == "arsiv":
             whn = 5
         for poj in context.job_queue.get_jobs_by_name("anaposter"):
