@@ -56,7 +56,8 @@ def main() -> None:
         CallbackQueryHandler(callback_query, pattern="^pzamanla(.*)"),
         CallbackQueryHandler(devampatcall, pattern="^devam(.*)"),
         CallbackQueryHandler(begenicall, pattern="^begeniolustur(.*)"),
-        CallbackQueryHandler(tekrarlisaatayarlacall, pattern="^ts-(.*)")
+        CallbackQueryHandler(tekrarlisaatayarlacall, pattern="^ts-(.*)"),
+        CallbackQueryHandler(panelcall, pattern="^(panelzaman)")
         ],
         states={ 
             KANALMENU: [MessageHandler(~Filters.command & Filters.update.message, kanalmenu)],
@@ -72,6 +73,7 @@ def main() -> None:
             CallbackQueryHandler(begenicall, pattern="^(begeniolustur)$"),
             CallbackQueryHandler(tekrarlisaatayarlacall, pattern="^ts-(.*)")],
             TSPOST: [MessageHandler(~Filters.command, tekrarlipostayarla)],
+            PANELZAMAN: [MessageHandler(~Filters.command & Filters.text, zaman)]
             TSBASLIK: [MessageHandler(~Filters.command & Filters.text, tekrarlipostbaslikayarla)],
             BEGENI: [MessageHandler(~Filters.command & Filters.text, begenidegistir)],
             APIDEGISTIR: [MessageHandler(~Filters.command & Filters.update.message, apikayit)],
