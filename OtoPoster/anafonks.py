@@ -670,13 +670,13 @@ def pat(update, context):
     try:
         if not paltapi == "None":
             while ptry < 10 and palink == " ":
-                palink, pjson = linkkisalt(paltsite, paltapi, kplink, "+18")
-                time.sleep(1)
                 ptry += 1
+                palink, pjson = linkkisalt(paltsite, paltapi, kplink, "+18")
+                time.sleep(0.2)
         while ptry < 10 and plink == " ":
-            plink, pjson = linkkisalt(psite, ptoken, kplink, "+18")
-            time.sleep(1)
             ptry += 1
+            plink, pjson = linkkisalt(psite, ptoken, kplink, "+18")
+            time.sleep(0.2)
         if plink == " ":
             bot.send_message(chat, "İşlem başarısız oldu lütfen tekrar deneyin.")
             return
