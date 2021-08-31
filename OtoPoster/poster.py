@@ -634,6 +634,7 @@ def poster_edit(update, context):
     chat = update.effective_chat.id
     if KaynakCol.find_one({"_id": chat}) == None:
         return
+    editkaynak = KaynakCol.find_one({"_id": chat})
     indt = context.job_queue.get_jobs_by_name("anaposter")
     while len(indt) != 0:
         sleep(1)
@@ -675,49 +676,16 @@ def poster_edit(update, context):
                 if sira == "2":
                     token = altapi
                     site = altsite
-                    collection.update_one({"_id": edil['user']}, {"$set": {"sira": "3"}})
-                if sira == "3":
-                    collection.update_one({"_id": edil['user']}, {"$set": {"sira": "2"}})
                 if not altapi == "None":
                     while linktry < 15 and alink == " ":
-                        if altsite == "1":
-                            json = get(f"https://ay.live/api/?", params={'api': altapi, 'url': edited_l, 'ct': 1}, headers=headers).json()
-                            alink = json['shortenedUrl']
-                        if altsite == "2":
-                            json = get(f"https://www.pnd.tl/api?", params={'api': altapi, 'url': edited_l, 'category': 6}, headers=headers).json()
-                            alink = json['shortenedUrl']
-                        if altsite == "3":
-                            json = get(f"https://exe.io/api?", params={'api': altapi, 'url': edited_l}, headers=headers).json()
-                            alink = json['shortenedUrl']
-                        if altsite == "4":
-                            alink = get(f"http://ouo.io/api/{altapi}?", params={'s': edited_l}, headers=headers).text
-                        if altsite == "5":
-                            alink = get(f"http://pubiza.com/api.php?", params={'token': altapi, 'url': edited_l, 'ads_type': "adult"}, headers=headers).text
-                        if altsite == "6":
-                            json = get("http://gir.ist/api?", params={"api": altapi, "url": edited_l}, headers=headerss).json()
-                            alink = json['shortenedUrl']
                         linktry += 1
+                        alink, json = linkkisalt(altsite, altapi, edited_l, editkaynak['icerik'])
                         sleep(0.3)
-                        if linktry > 1:
+                        if linktry > 2:
                             logger.warning(f"Link kısaltılamadı tekrar deneniyor {linktry}")
                 while linktry < 15 and link == " ":
-                    if site == "1":
-                        json = get(f"https://ay.live/api/?", params={'api': token, 'url': edited_l, 'ct': 1}, headers=headers).json()
-                        link = json['shortenedUrl']
-                    if site == "2":
-                        json = get(f"https://www.pnd.tl/api?", params={'api': token, 'url': edited_l, 'category': 6}, headers=headers).json()
-                        link = json['shortenedUrl']
-                    if site == "3":
-                        json = get(f"https://exe.io/api?", params={'api': token, 'url': edited_l}, headers=headers).json()
-                        link = json['shortenedUrl']
-                    if site == "4":
-                        link = get(f"http://ouo.io/api/{token}?", params={'s': edited_l}, headers=headers).text
-                    if site == "5":
-                        link = get(f"http://pubiza.com/api.php?", params={'token': token, 'url': edited_l, 'ads_type': "adult"}, headers=headers).text
-                    if site == "6":
-                        json = get("http://gir.ist/api?", params={"api": token, "url": edited_l}, headers=headerss).json()
-                        link = json['shortenedUrl']
                     linktry += 1
+                    link, json = linkkisalt(site, token, edited_l, editkaynak['icerik'])
                     sleep(0.4)
                     if linktry > 1:
                         logger.warning(f"Tekrar deneniyor {linktry}")
