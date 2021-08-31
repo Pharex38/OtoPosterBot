@@ -542,10 +542,23 @@ def kaynakpanel(update, context):
     panelkaynak = KaynakCol.find_one({"sahip": user})
     if panelkaynak == None:
         return
+    panelmessage = bot.send_message(user, "<code>Yükleniyor</code>")
     try:
         panelkaynakkanal = bot.get_chat(panelkaynak['_id'])
     except:
         panelkaynakkanalisim = "Kaynağa ulaşılamıyor."
     else:
         panelkaynakkanalisim = panelkaynakkanal.title
-    bot.send_message(user, "<b>{} Kaynak Paneli;</b>\n\nToplam Kullanıcı: {}\nToplam Kanal: {}".format(panelkaynakkanalisim, len(panelkaynak['kaynak']), len(panelkaynak['kanal'])), reply_markup=panelkaynakmark(user))
+    panco = 0
+    pankanmember = 0
+    for panuser in panelkaynak['kaynak']:
+        panuserdat = collection.find_one({"_id": panuser})
+        for pankan in panuserdat['kanal']:
+            if pankan in panelkaynak['kanal']:
+                try:
+                    pankanmember += bot.get_chat_members_count(pankan)
+                except:
+                    continue
+                else:
+                    panco += 1
+    panelmessage.edit_text("<b>{} Kaynak Paneli;</b>\n\nToplam Kullanıcı: {}\nToplam Kanal: {}\nToplam Kitle: {}".format(panelkaynakkanalisim, len(panelkaynak['kaynak']), panco, str(pankanmember / 1000)+"K"), reply_markup=panelkaynakmark(user))
