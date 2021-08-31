@@ -303,12 +303,6 @@ def kpostsil(update, context):
     except:
         data = db[str(chat)].find({"mesih": mesid})
     spcount = 0
-    for kpsd in KaynakCol.find_one({"_id": chat})['kaynak']:
-        try:
-            kpsd = collection.find_one({"_id": kpsd})
-            collection.update_one({"_id": kpsd['_id']}, {"$set": {"pcount": kpsd['pcount']-1}})
-        except:
-            pass
     if type(data) == dict:
         data = data['pids']
     for d in data:
@@ -321,6 +315,12 @@ def kpostsil(update, context):
     if spcount == 0:
         psmg.edit_text(f"Post silinimedi!")
     else:
+        for kpsd in KaynakCol.find_one({"_id": chat})['kaynak']:
+            try:
+                kpsd = collection.find_one({"_id": kpsd})
+                collection.update_one({"_id": kpsd['_id']}, {"$set": {"pcount": kpsd['pcount']-1}})
+            except:
+                pass
         psmg.edit_text(f"{spcount} Post Silindi.")
     collection.update_one({"_id": 0}, {"$pull": {"iptal": str(chat)}})
 
