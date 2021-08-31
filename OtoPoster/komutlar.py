@@ -208,7 +208,6 @@ def sonuclandir(update, context):
     else:
         update.effective_message.reply_text("Çekiliş sonuçlandırıldı.")
     
-
 def joblist(update, context):
     jobs = context.job_queue.jobs()
     context.job_queue.run_once(jobyedekleme, when=1, name="yedekleme")
@@ -520,3 +519,16 @@ def zaman(update, context):
         return
     else:
         bot.send_message(chat, "Kaydedildi.")
+
+def kaynakpanel(update, context):
+    user = update.effective_user.id
+    panelkaynak = KaynakCol.find_one({"sahip": user})
+    if panelkaynak == None:
+        return
+    try:
+        panelkaynakkanal = bot.get_chat(panelkaynak['_id'])
+    except:
+        panelkaynakkanalisim = "Kaynağa ulaşılamıyor."
+    else:
+        panelkaynakkanalisim = panelkaynakkanal.title
+    bot.send_message(user, f"""<b>{panelkaynakkanalisim} Kaynak Paneli;</b>\n\nToplam Kullanıcı: {len(panelkaynak['kaynak'])}\nToplam Kanal: {panelkaynak['kanal']}""",reply_markup=panelkaynakmark(user))
