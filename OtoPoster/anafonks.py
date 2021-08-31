@@ -691,6 +691,9 @@ def pat(update, context):
         else:
             psablon = psablon.replace("{aciklama}", "{}").replace("{link}", "{}").format(paciklama, plink)
         pkanallar = pathesap['kanal']
+    except ConnectionTimeout:
+        bot.send_message(chat, "Kullandığınız link kısaltma servisine ulaşılamıyor.")
+        return
     except Exception as e:
         bot.send_message(chat, f"Bir sorun oluştu: \n\n{html.escape(e)}")
         logger.error(e)
