@@ -47,22 +47,26 @@ def kaynakcall(call, context):
     if kkul == None:
         call.callback_query.edit_message_text(text="<b>Önce bir API kaydedin!</b>")
         return
-    if user in KaynakCol.find_one({"sahip": kys})['kaynak'] and kkul['kanal'][kkanil] in KaynakCol.find_one({"sahip": kys})['kanal']:
+    callkaynak = KaynakCol.find_one({"sahip": kys})
+    if callkaynak == None:
+        call.callback_query.edit_message_text("Menü eski kaldığı için kapatıldı.")
+        return
+    if user in callkaynak['kaynak'] and kkul['kanal'][kkanil] in callkaynak['kanal']:
         KaynakCol.update_one({"sahip": kys}, {"$pull": {"kanal": kkul['kanal'][kkanil]}})
         durak = context.bot_data['durak']
         if durak and user in collection.find_one({"_id": 0})['cekilis'] and kys == int(context.bot_data['sahip']):
             bot.send_message(chat, "Çekiliş kaynağını kullanmayı bıraktığınız için çekilişten atıldınız!")
             collection.update_one({"_id": 0}, {"$pull": {"cekilis": user}})
         for kop in kkul['kanal']:
-            if kop in KaynakCol.find_one({"sahip": kys})['kanal']:
+            if kop in callkaynak['kanal']:
                 call.callback_query.answer(text="❌ Kaynak Kaldırıldı")
                 return
         KaynakCol.update_one({"sahip": kys}, {"$pull": {"kaynak": user}})
         call.callback_query.answer(text="❌ Kaynak Kaldırıldı")
     else:
-        if not kkul['kanal'][kkanil] in KaynakCol.find_one({"sahip": kys})['kanal']:
+        if not kkul['kanal'][kkanil] in callkaynak['kanal']:
             KaynakCol.update_one({"sahip": kys}, {"$push": {"kanal": kkul['kanal'][kkanil]}})
-        if not user in KaynakCol.find_one({"sahip": kys})['kaynak']:
+        if not user in callkaynak['kaynak']:
             KaynakCol.update_one({"sahip": kys}, {"$push": {"kaynak": user}})
         call.callback_query.answer(text="✅ Kaynak Eklendi")
     try:
