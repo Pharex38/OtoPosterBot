@@ -162,7 +162,7 @@ def devampatcall(call, context):
     return PATPOST
 
 def panelcall(call, context):
-    bot.send_message("Ayarlamak istediğiniz mesajı gönderin.")
+    bot.send_message(call.effective_chat.id, "Ayarlamak istediğiniz mesajı gönderin.")
     return PANELZAMAN
 
 def callback_query(call, context):
