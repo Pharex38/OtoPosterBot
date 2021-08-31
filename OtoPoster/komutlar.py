@@ -544,29 +544,35 @@ def kaynakpanel(update, context):
         return
     panelmessage = bot.send_animation(user, animation="CgACAgQAAxkBAAEMT_lhLrYhZpgOT6y8AQZRPB-RpHRpaQACNgIAAmbf3VKP6eJ5oebSyiAE",  caption="<code>Yükleniyor</code>")
     try:
-        panelkaynakkanal = bot.get_chat(panelkaynak['_id'])
+        panel_text = context.user_data['panel_text']
     except:
-        panelkaynakkanalisim = "Kaynağa ulaşılamıyor."
-    else:
-        panelkaynakkanalisim = panelkaynakkanal.title
-    panco = []
-    pankanmember = 0
-    for panuser in panelkaynak['kaynak']:
-        panuserdat = collection.find_one({"_id": panuser})
-        for pankan in panuserdat['kanal']:
-            if pankan in panelkaynak['kanal'] and not pankan in panco:
-                try:
-                    pankanmember += bot.get_chat_members_count(pankan)
-                except RetryAfter as panafter:
-                    sleep(panafter.retry_after)
+        try:
+            panelkaynakkanal = bot.get_chat(panelkaynak['_id'])
+        except:
+            panelkaynakkanalisim = "Kaynağa ulaşılamıyor."
+        else:
+            panelkaynakkanalisim = panelkaynakkanal.title
+        panco = []
+        pankanmember = 0
+        for panuser in panelkaynak['kaynak']:
+            panuserdat = collection.find_one({"_id": panuser})
+            for pankan in panuserdat['kanal']:
+                if pankan in panelkaynak['kanal'] and not pankan in panco:
                     try:
                         pankanmember += bot.get_chat_members_count(pankan)
+                    except RetryAfter as panafter:
+                        sleep(panafter.retry_after)
+                        try:
+                            pankanmember += bot.get_chat_members_count(pankan)
+                        except:
+                            continue
                     except:
                         continue
-                except:
-                    continue
-                else:
-                    panco.append(pankan)
+                    else:
+                        panco.append(pankan)
+        panel_text = "<b>{} Kaynak Paneli;</b>\n\n👥Toplam Kullanıcı: {}\n📢Toplam Kanal: {}\n💿Şimdiye Kadar Paylaştığınız Post Sayısı: {}\n🙋Toplam Kitle: {}".format(panelkaynakkanalisim, len(panelkaynak['kaynak']), len(panco), db[str(panelkaynak['_id'])].count_documents({}), str(round(pankanmember / 1000, 1))+"K")
+        context.user_data['panel_text'] = panel_text
+        
     tarihnow = datetime.datetime.now(pytz.timezone('Europe/Istanbul'))
     ylab = []
     xlab = []
@@ -579,6 +585,7 @@ def kaynakpanel(update, context):
     vals = list(panelkaynak['grafik'].values())
     for icc in range(7):
         xlab.append(vals[icc]['user'])
+    pyplot.style.use(['dark_background'])
     fig, plot = pyplot.subplots()
     plot.plot(ylab, xlab, label="Kullanıcı Sayısı")
     xlab = []
@@ -586,9 +593,11 @@ def kaynakpanel(update, context):
         xlab.append(vals[icc]['kanal'])
     plot.plot(ylab, xlab, label="Kanal Sayısı")
     plot.set_title(panelkaynakkanalisim)
-    plot.set_xlabel('Bir Haftalık Grafik')
+    plot.set_xlabel('7 Günlük Grafik')
     fig.savefig("grafik.png")
     grafikpng = open("grafik.png", "rb")
     panelmessage.edit_media(InputMediaPhoto(media=grafikpng, caption=None))
     grafikpng.close()
-    panelmessage.edit_caption("<b>{} Kaynak Paneli;</b>\n\n👥Toplam Kullanıcı: {}\n📢Toplam Kanal: {}\nŞimdiye Kadar Paylaştığınız Post Sayısı: {}\n🙋Toplam Kitle: {}".format(panelkaynakkanalisim, len(panelkaynak['kaynak']), len(panco), db[str(panelkaynak['_id'])].count_documents({}), str(round(pankanmember / 1000, 1))+"K"), reply_markup=panelkaynakmark(user))
+    
+    panelmessage.edit_caption(panel_text, reply_markup=panelkaynakmark(user))
+    context.job_queue.run_once(panelcleaner, when=30, name="panelcleaner", context=user)

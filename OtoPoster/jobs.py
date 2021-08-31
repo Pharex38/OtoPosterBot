@@ -199,6 +199,9 @@ def gunluk(context):
     bot.edit_message_text(stat_text+astat_text+last_text, botlog, msg.message_id)
     bot.pin_chat_message(botlog, msg.message_id)
 
+def panelcleaner(context):
+    context.dispatcher.user_data[context.job.context].pop("panel_text")
+
 def resetleme(context):
     try:
         for rest in collection.find({}):
