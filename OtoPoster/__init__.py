@@ -23,7 +23,7 @@ pid.write(str(os.getpid()))
 pid.close()
 print(pid)
 
-mpass = environ['MONGOPASS']
+mpass = os.environ['MONGOPASS']
 mongo = f"os.environ["MONGO_URI"]"
 
 cluster = MongoClient(mongo, ssl_cert_reqs=CERT_NONE)
