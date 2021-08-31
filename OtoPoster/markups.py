@@ -362,6 +362,9 @@ def jobmark(user, context):
         jobkeyb.append([InlineKeyboardButton("Henüz bir post zamanlamamışsınız.", callback_data="iptal")])
     return InlineKeyboardMarkup(jobkeyb)
 
+def panelkaynakmark(user):
+    return InlineKeyboardMarkup([[InlineKeyboardButton("🆕 Son Güncellemeler", callback_data="guncellemeler")], [InlineKeyboardButton("🌐 Kullanan Kanallar", callback_data="panelkanal-{}".format(user))], [InlineKeyboardButton("👥 Kullanan Kişiler", callback_data="panelkullanici-{}".format(user))]])
+
 def eminmisin():
     return InlineKeyboardMarkup([[InlineKeyboardButton("Evet, kesinlikle eminim.", callback_data="yoket")], [InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")]])
     
