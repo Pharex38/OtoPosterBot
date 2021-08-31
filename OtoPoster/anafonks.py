@@ -692,7 +692,7 @@ def pat(update, context):
             psablon = psablon.replace("{aciklama}", "{}").replace("{link}", "{}").format(paciklama, plink)
         pkanallar = pathesap['kanal']
     except Exception as e:
-        bot.send_message(chat, f"Bir sorun oluştu: \n\n{e}")
+        bot.send_message(chat, f"Bir sorun oluştu: \n\n{html.escape(e)}")
         logger.error(e)
         return
     context.user_data['psablon'] = psablon
