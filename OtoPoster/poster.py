@@ -116,7 +116,7 @@ def poster_job(context):
             if sira == "3":
                 collection.update_one({"_id": user}, {"$set": {"sira": "2"}})
             if not altapi == "None":
-                while linktry < 15 and alink == " ":
+                while linktry < 10 and alink == " ":
                     try:
                         linktry += 1
                         if linktry > 2:
@@ -141,7 +141,7 @@ def poster_job(context):
                             logger.error(e)
                             logger.warning(json)
                             continue
-            while linktry < 15 and link == " ":
+            while linktry < 10 and link == " ":
                 try:
                     linktry += 1
                     if linktry > 2:
@@ -670,13 +670,13 @@ def poster_edit(update, context):
                     token = altapi
                     site = altsite
                 if not altapi == "None":
-                    while linktry < 15 and alink == " ":
+                    while linktry < 10 and alink == " ":
                         linktry += 1
                         alink, json = linkkisalt(altsite, altapi, edited_l, editkaynak['icerik'])
                         sleep(0.3)
                         if linktry > 2:
                             logger.warning(f"Link kısaltılamadı tekrar deneniyor {linktry}")
-                while linktry < 15 and link == " ":
+                while linktry < 10 and link == " ":
                     linktry += 1
                     link, json = linkkisalt(site, token, edited_l, editkaynak['icerik'])
                     sleep(0.4)
