@@ -1,6 +1,5 @@
 
 from requests import get, Session
-from os import environ
 from time import sleep
 from pymongo import MongoClient
 import time, datetime
@@ -15,18 +14,16 @@ from functools import wraps
 from telegram.utils.helpers import *
 from telegram.utils.request import Request
 from telegram.constants import *
-from random import randint
-import html
 import json as jason
-import traceback
-import sys
+import traceback, sys, html
 
 
-pid = os.getpid()
-open("pid.txt", "w").write(str(pid))
+pid = open("pid.txt", "w")
+pid.write(str(os.getpid()))
+pid.close()
 print(pid)
 
-mpass = os.environ['MONGOPASS']
+mpass = environ['MONGOPASS']
 mongo = f"os.environ["MONGO_URI"]"
 
 cluster = MongoClient(mongo, ssl_cert_reqs=CERT_NONE)
@@ -69,8 +66,6 @@ tips = [
 ignorejob = ["yedekleme", "gunluk", "resetleme", "arsivanaposter", "ozelposter", "anaposter", "anapostersiralayici", "ozelpostersiralayici"]
 ignorekaynak = []
 
-class TimeoutException(Exception):
-    pass
 
 SEND_MEDIA_TYPES = {"document": bot.send_document, "photo": bot.send_photo, "video": bot.send_video, "animation": bot.send_animation}
 POSTMENU, APIMENU, KANALMENU, EKSTRAMENU, TSBASLIK, TSPOST, BEGENI, APIDEGISTIR, KANALKAYDET, SABLONA, PATPOST, POSTZAMAN, PATZAMAN, CALLALT, ALTAPI, OZELBOTLOG, OZELKAYNAK= range(17)
