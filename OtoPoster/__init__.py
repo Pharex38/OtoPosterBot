@@ -1,5 +1,6 @@
 
 from requests import get, Session
+from requests.exceptions import *
 from time import sleep
 from pymongo import MongoClient
 import time, datetime
