@@ -549,16 +549,22 @@ def kaynakpanel(update, context):
         panelkaynakkanalisim = "Kaynağa ulaşılamıyor."
     else:
         panelkaynakkanalisim = panelkaynakkanal.title
-    panco = 0
+    panco = []
     pankanmember = 0
     for panuser in panelkaynak['kaynak']:
         panuserdat = collection.find_one({"_id": panuser})
         for pankan in panuserdat['kanal']:
-            if pankan in panelkaynak['kanal']:
+            if pankan in panelkaynak['kanal'] and not pankan in panco:
                 try:
                     pankanmember += bot.get_chat_members_count(pankan)
+                except RetryAfter as panafter:
+                    sleep(panafter.retry_after)
+                    try:
+                        pankanmember += bot.get_chat_members_count(pankan)
+                    except:
+                        continue
                 except:
                     continue
                 else:
-                    panco += 1
-    panelmessage.edit_text("<b>{} Kaynak Paneli;</b>\n\nToplam Kullanıcı: {}\nToplam Kanal: {}\nToplam Kitle: {}".format(panelkaynakkanalisim, len(panelkaynak['kaynak']), panco, str(pankanmember / 1000)+"K"), reply_markup=panelkaynakmark(user))
+                    panco.append(pankan)
+    panelmessage.edit_text("<b>{} Kaynak Paneli;</b>\n\n👥Toplam Kullanıcı: {}\n📢Toplam Kanal: {}\n🙋Toplam Kitle: {}".format(panelkaynakkanalisim, len(panelkaynak['kaynak']), len(panco), str(round(pankanmember / 1000, 1))+"K"), reply_markup=panelkaynakmark(user))
