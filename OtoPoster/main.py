@@ -91,6 +91,7 @@ def main() -> None:
         )
     dispatcher.add_handler(conv_handler)
     """ Müşteri Komutları """
+    dispatcher.add_handler(CommandHandler('panel', kaynakpanel))
     dispatcher.add_handler(CommandHandler('start', start, Filters.update.message & Filters.chat_type.private))
     dispatcher.add_handler(MessageHandler(Filters.regex("^/onayla(.*)") & Filters.update.channel_post, post))
     dispatcher.add_handler(CommandHandler('onayla', ona, Filters.update.message))
