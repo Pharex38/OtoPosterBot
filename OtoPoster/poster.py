@@ -77,7 +77,6 @@ def poster_job(context):
             context.job_queue.run_once(deljob, when=2, name="yedekleme", context=update.effective_message.link)
             lmsg.edit_text("{} kaynağının postu iptal edildi. Post kanallardan siliniyor...".format(kynk.title))
             return
-        Deb("İptal değil")
         hesap = collection.find_one({"_id": hesap_id})
         if hesap == None:
             KaynakCol.update_one({"_id": chat}, {"$pull": {"kaynak": hesap_id}})
@@ -90,7 +89,6 @@ def poster_job(context):
         eski = hesap['eski']
         icerik = hesap['icerik']
         if len(kanal) != len(eski) and len(kanal) > 0 or chatdat['icerik'] == "+18" and len(kanal) != len(icerik) or chatdat['icerik'] == "arsiv" and len(icerik) != 0:
-            Deb("Başlıyor")
             sablon = hesap['sablon']
             user = hesap['_id']
             site = hesap["site"]
@@ -117,14 +115,12 @@ def poster_job(context):
                 collection.update_one({"_id": user}, {"$set": {"sira": "3"}})
             if sira == "3":
                 collection.update_one({"_id": user}, {"$set": {"sira": "2"}})
-            Deb("Alternatif Link kısaltılıyor...")
             if not altapi == "None":
-                
                 while linktry < 15 and alink == " ":
                     try:
                         linktry += 1
                         if linktry > 2:
-                            sleep(0.3)
+                            sleep(0.15)
                             logger.warning(f"Link kısaltılamadı tekrar deneniyor {linktry}")
                         alink, json = linkkisalt(altsite, altapi, mesajb, chatdat['icerik'])
                     except Exception as e:
@@ -145,12 +141,11 @@ def poster_job(context):
                             logger.error(e)
                             logger.warning(json)
                             continue
-            Deb("Ana link kısaltılıyor...")
             while linktry < 15 and link == " ":
                 try:
                     linktry += 1
                     if linktry > 2:
-                        sleep(0.4)
+                        sleep(0.15)
                         logger.warning(f"Tekrar deneniyor {linktry}")
                     link, json = linkkisalt(site, token, mesajb, chatdat['icerik'])
                 except Exception as e:
@@ -197,7 +192,6 @@ def poster_job(context):
                 sablon = sablon.replace("{aciklama}", "{a}").replace("{alink}", "{al}").replace("{link}", "{l}").format(a=aciklama, l=link, al=alink)
             else:
                 sablon = sablon.replace("{aciklama}", "{a}").replace("{link}", "{l}").format(a=aciklama, l=link)
-            Deb("Şablon seçildi")
             if link == "-" or alink == "-":
                 continue
             if link == " ":
@@ -215,7 +209,6 @@ def poster_job(context):
                 postermarkup = InlineKeyboardMarkup([posterkeyb])
             else:
                 postermarkup = InlineKeyboardMarkup([[]])
-            Deb("Kanallara paylaşılıyor.")
             for kan in kanal:
                 if not kan in chatdat['kanal'] or kan in eski or chatdat['icerik'] == "arsiv" and not kan in icerik or chatdat['icerik'] == "+18" and kan in icerik:
                     continue

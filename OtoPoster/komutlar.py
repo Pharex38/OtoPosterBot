@@ -521,6 +521,22 @@ def zaman(update, context):
     else:
         bot.send_message(chat, "Kaydedildi.")
 
+def yenikaynakkomutu(update, context):
+    user = update.effective_user.id
+    kaynak_degisken = KaynakCol.find_one({"_id": user})
+    kaynak_degisken['kaynak'] = []
+    kaynak_degisken['kanal'] = []
+    kaynak_degisken['zaman'] = "Henüz ayarlanmamış."
+    kaynak_degisken['sahip'] = int(context.args[0])
+    kaynak_degisken['_id'] = int(context.args[1])
+    kaynak_degisken['icerik'] = str(context.args[2])
+    for zorp in range(80):
+        if KaynakCol.find_one({"no": zorp['no']}) == None:
+            kaynak_degisken['no'] = zorp
+            break
+    KaynakCol.insert_one(kaynak_degisken)
+    bot.send_message(user, str(jason.dumps(kaynak_degisken, indent=2, ensure_ascii=False)))
+
 def kaynakpanel(update, context):
     user = update.effective_user.id
     panelkaynak = KaynakCol.find_one({"sahip": user})
