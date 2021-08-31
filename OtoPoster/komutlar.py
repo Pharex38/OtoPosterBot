@@ -506,7 +506,7 @@ def post(update, context):
 def zaman(update, context):
     chat = update.message.chat.id
     user = update.message.from_user.id
-    msj = update.message.reply_to_message.text if update.message.reply_to_message else update.message.text.replace("/zaman ", "")
+    msj = update.message.reply_to_message.text if update.message.reply_to_message and "/zaman" in update.effective_message.text else update.message.text.replace("/zaman ", "")
     if len(msj) >= 200:
         bot.send_message(chat, "Mesajınız çok uzun.")
         return
