@@ -579,7 +579,7 @@ def kaynakpanel(update, context):
     vals = list(panelkaynak['grafik'].values())
     for icc in range(7):
         xlab.append(vals[icc]['user'])
-    fig, plot = plot.subplots()
+    fig, plot = pyplot.subplots()
     plot.plot(ylab, xlab, label="Kullanıcı Sayısı")
     xlab = []
     for icc in range(7):

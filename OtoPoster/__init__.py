@@ -17,7 +17,7 @@ from telegram.utils.request import Request
 from telegram.constants import *
 import json as jason
 import traceback, sys, html
-from matplotlib import pyplot as plot
+from matplotlib import pyplot
 
 
 pid = open("pid.txt", "w")
