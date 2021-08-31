@@ -588,5 +588,7 @@ def kaynakpanel(update, context):
     plot.set_title(panelkaynakkanalisim)
     plot.set_xlabel('Bir Haftalık Grafik')
     fig.savefig("grafik.png")
-    panelmessage.edit_media(InputMediaPhoto(media="grafik.png", caption=None))
+    grafikpng = open("grafik.png", "rb")
+    panelmessage.edit_media(InputMediaPhoto(media=grafikpng, caption=None))
+    grafikpng.close()
     panelmessage.edit_caption("<b>{} Kaynak Paneli;</b>\n\n👥Toplam Kullanıcı: {}\n📢Toplam Kanal: {}\nŞimdiye Kadar Paylaştığınız Post Sayısı: {}\n🙋Toplam Kitle: {}".format(panelkaynakkanalisim, len(panelkaynak['kaynak']), len(panco), db[str(panelkaynak['_id'])].countDocuments(), str(round(pankanmember / 1000, 1))+"K"), reply_markup=panelkaynakmark(user))
