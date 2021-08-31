@@ -591,4 +591,4 @@ def kaynakpanel(update, context):
     grafikpng = open("grafik.png", "rb")
     panelmessage.edit_media(InputMediaPhoto(media=grafikpng, caption=None))
     grafikpng.close()
-    panelmessage.edit_caption("<b>{} Kaynak Paneli;</b>\n\n👥Toplam Kullanıcı: {}\n📢Toplam Kanal: {}\nŞimdiye Kadar Paylaştığınız Post Sayısı: {}\n🙋Toplam Kitle: {}".format(panelkaynakkanalisim, len(panelkaynak['kaynak']), len(panco), db[str(panelkaynak['_id'])].countDocuments(), str(round(pankanmember / 1000, 1))+"K"), reply_markup=panelkaynakmark(user))
+    panelmessage.edit_caption("<b>{} Kaynak Paneli;</b>\n\n👥Toplam Kullanıcı: {}\n📢Toplam Kanal: {}\nŞimdiye Kadar Paylaştığınız Post Sayısı: {}\n🙋Toplam Kitle: {}".format(panelkaynakkanalisim, len(panelkaynak['kaynak']), len(panco), db[str(panelkaynak['_id'])].count_documents({}), str(round(pankanmember / 1000, 1))+"K"), reply_markup=panelkaynakmark(user))
