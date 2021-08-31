@@ -21,7 +21,7 @@ import traceback, sys, html
 pid = open("pid.txt", "w")
 pid.write(str(os.getpid()))
 pid.close()
-print(pid)
+print(os.getpid())
 
 mpass = os.environ['MONGOPASS']
 mongo = f"os.environ["MONGO_URI"]"
