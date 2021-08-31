@@ -531,4 +531,4 @@ def kaynakpanel(update, context):
         panelkaynakkanalisim = "Kaynağa ulaşılamıyor."
     else:
         panelkaynakkanalisim = panelkaynakkanal.title
-    bot.send_message(user, f"""<b>{panelkaynakkanalisim} Kaynak Paneli;</b>\n\nToplam Kullanıcı: {len(panelkaynak['kaynak'])}\nToplam Kanal: {panelkaynak['kanal']}""",reply_markup=panelkaynakmark(user))
+    bot.send_message(user, "<b>{} Kaynak Paneli;</b>\n\nToplam Kullanıcı: {}\nToplam Kanal: {}".format(panelkaynakkanalisim, len(panelkaynak['kaynak'], len(panelkaynak['kanal']))) ,reply_markup=panelkaynakmark(user))
