@@ -161,6 +161,10 @@ def devampatcall(call, context):
     bot.send_message(chat, "Paylaşmamı istediğin hazır postu ilet.", reply_markup=imark())
     return PATPOST
 
+def panelcall(call, context):
+    bot.send_message("Ayarlamak istediğiniz mesajı gönderin.")
+    return PANELZAMAN
+
 def callback_query(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
@@ -557,6 +561,7 @@ def callback_query(call, context):
         else:
             call.callback_query.edit_message_text("Postunuz silindi artık paylaşılmayacak")
         return
+    """ Panel """
     """ iOS Kontrol """
     if call.callback_query.data.startswith("iosk-"):
         call.callback_query.edit_message_text("<code>Kontrol ediliyor...</code>")
