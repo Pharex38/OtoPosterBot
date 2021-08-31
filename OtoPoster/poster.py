@@ -691,26 +691,13 @@ def poster_edit(update, context):
                         logger.warning(f"Tekrar deneniyor {linktry}")
                 logger.info(f"{kanal} + {link} + {token}")
             except Exception as e:
-                try:
-                    bot.send_message(edil['user'], f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(site)}</code>")
-                    bildir(e)
-                except RetryAfter as rtfr:
-                    sleep(rtfr.retry_after+1)
-                    try:
-                        bot.send_message(edil['user'], f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(site)}</code>")
-                    except:
-                        pass
-                except:
-                    pass
-                logger.error(e)
-                logger.warning(json)
-                continue
+                pass
             try:
                 json['message']
             except:
                 pass
             else:
-                if json['message'] == "Invalid URL":
+                if json['message'] != "":
                     logger.error(f"{update.effective_message.chat.title} son postu hatalı olduğu için iptal edildi!")
                     try:
                         bot.send_message(sahip, f"{update.effective_message.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{json['message']}\n\n{update.effective_message.link}")
