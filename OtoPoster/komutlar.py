@@ -572,7 +572,7 @@ def kaynakpanel(update, context):
         context.user_data['panel_text'] = panel_text
         context.job_queue.run_once(panelcleaner, when=3600, name="panelcleaner", context=user)
         
-    tarihnow = datetime.datetime.now(pytz.timezone('Europe/Istanbul')) + datetime.timedelta(days = 7)
+    tarihnow = datetime.datetime.now(pytz.timezone('Europe/Istanbul')) - datetime.timedelta(days = 7)
     ylab = []
     xlab = []
     for g in dict(panelkaynak['grafik']).keys():
@@ -584,13 +584,13 @@ def kaynakpanel(update, context):
     vals = list(panelkaynak['grafik'].values())
     for icc in range(7):
         xlab.append(vals[icc]['user'])
-    #pyplot.style.use(['dark_background'])
+    pyplot.style.use(['dark_background'])
     fig, plot = pyplot.subplots()
-    plot.bar(ylab, xlab, label="Kullanıcı Sayısı")
+    plot.bar(ylab, xlab, label="Kullanıcı Sayısı", align="edge")
     xlab = []
     for icc in range(7):
         xlab.append(vals[icc]['kanal'])
-    plot.bar(ylab, xlab, label="Kanal Sayısı")
+    plot.bar(ylab, xlab, label="Kanal Sayısı", align="edge")
     plot.set_title(panelkaynakkanalisim)
     plot.set_xlabel('7 Günlük Grafik')
     plot.legend()
