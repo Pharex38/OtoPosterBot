@@ -572,7 +572,7 @@ def kaynakpanel(update, context):
         context.user_data['panel_text'] = panel_text
         context.job_queue.run_once(panelcleaner, when=3600, name="panelcleaner", context=user)
         
-    tarihnow = datetime.datetime.now(pytz.timezone('Europe/Istanbul'))
+    tarihnow = datetime.datetime.now(pytz.timezone('Europe/Istanbul')) + datetime.timedelta(days = 7)
     ylab = []
     xlab = []
     for g in dict(panelkaynak['grafik']).keys():
