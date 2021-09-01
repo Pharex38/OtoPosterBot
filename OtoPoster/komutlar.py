@@ -573,6 +573,7 @@ def kaynakpanel(update, context):
         context.job_queue.run_once(panelcleaner, when=3600, name="panelcleaner", context=user)
         
     tarihnow = datetime.datetime.now(pytz.timezone('Europe/Istanbul')) - datetime.timedelta(days = 6)
+    aykaccekiyo = calendar.monthrange(tarihnow.year, tarihnow.month-1 if tarihnow.month != 1 else 12)[1] + 1
     ylab = []
     xlab = []
     for g in dict(panelkaynak['grafik']).keys():
@@ -592,7 +593,7 @@ def kaynakpanel(update, context):
         try:
             xlab.append(vals[tarihnow.day+icc]['user'])
         except IndexError:
-            xlab.append(vals[icc-31]['user'])
+            xlab.append(vals[icc-aykaccekiyo]['user'])
             
     pyplot.style.use(['dark_background'])
     fig, plot = pyplot.subplots()
@@ -602,7 +603,7 @@ def kaynakpanel(update, context):
         try:
             xlab.append(vals[tarihnow.day+icc]['kanal'])
         except IndexError:
-            xlab.append(vals[icc-32]['kanal'])
+            xlab.append(vals[icc-aykaccekiyo]['kanal'])
             
     plot.bar(ylab, xlab, label="Kanal Sayısı", align="edge", width=0.4)
     plot.set_title(panelkaynakkanalisim)
