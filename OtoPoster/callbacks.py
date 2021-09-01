@@ -589,7 +589,7 @@ def tekrarlisaatayarlacall(call, context):
 def begeniislemcall(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
-    mesajid = call.callback_query.effective_message.message_id    
+    mesajid = call.effective_message.message_id    
     pushed = int(call.callback_query.data.split("-")[-1])
     begenitry = 0
     while begenitry < 10:
