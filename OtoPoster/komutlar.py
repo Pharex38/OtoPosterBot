@@ -586,13 +586,14 @@ def kaynakpanel(update, context):
         xlab.append(vals[icc]['user'])
     #pyplot.style.use(['dark_background'])
     fig, plot = pyplot.subplots()
-    plot.plot(ylab, xlab, label="Kullanıcı Sayısı")
+    plot.bar(ylab, xlab, label="Kullanıcı Sayısı")
     xlab = []
     for icc in range(7):
         xlab.append(vals[icc]['kanal'])
-    plot.plot(ylab, xlab, label="Kanal Sayısı")
+    plot.bar(ylab, xlab, label="Kanal Sayısı")
     plot.set_title(panelkaynakkanalisim)
     plot.set_xlabel('7 Günlük Grafik')
+    plot.legend()
     fig.savefig("grafik.png")
     grafikpng = open("grafik.png", "rb")
     panelmessage.edit_media(InputMediaPhoto(media=grafikpng, caption=None))
