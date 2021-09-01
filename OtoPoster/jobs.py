@@ -173,7 +173,7 @@ def gunluk(context):
             for gk in collection.find_one({"_id": kus})['kanal']:
                 if gk in kstat['kanal'] and not gk in gunkans:
                     gunkans.append(gk)
-        KaynakCol.update_one({"_id": kstat['_id']}, {"$set": {f"grafik.{tarih.day}": {"user": len(kstat['kaynak']), "kanal": len(gunkans)}}})
+        KaynakCol.update_one({"_id": kstat['_id']}, {"$set": {f"grafik.{tarih.day}": {"user": len(kstat['kaynak']), "kanal": len(gunkans)}, "kanal": gunkans}})
         statscount += 1
     stat_text += f"Özel Kaynaklar: {ozel_kaynak_kullanan_sayisi}\n\n"
     statscount = 1
@@ -193,7 +193,7 @@ def gunluk(context):
             for gk in collection.find_one({"_id": kus})['kanal']:
                 if gk in kstat['kanal'] and not gk in gunkans:
                     gunkans.append(gk)
-        KaynakCol.update_one({"_id": kstat['_id']}, {"$set": {f"grafik.{tarih.day}": {"user": len(kstat['kaynak']), "kanal": len(gunkans)}}})
+        KaynakCol.update_one({"_id": kstat['_id']}, {"$set": {f"grafik.{tarih.day}": {"user": len(kstat['kaynak']), "kanal": len(gunkans)}, "kanal": gunkans}})
         statscount += 1
     last_text = "\n<b>Her gün saat 22:00'da otomatik olarak güncel veriler paylaşılacak. </b>"
     bot.edit_message_text(stat_text+astat_text+last_text, botlog, msg.message_id)
