@@ -591,9 +591,9 @@ def kaynakpanel(update, context):
     vals = list(panelkaynak['grafik'].values())
     for icc in range(7):
         try:
-            xlab.append(vals[tarihnow.day+icc]['user'])
+            xlab.append(vals[tarihnow.day+icc]['user']) 
         except IndexError:
-            xlab.append(vals[icc-aykaccekiyo]['user'])
+            xlab.append(vals[tarihnow.day+icc-aykaccekiyo]['user'])
             
     pyplot.style.use(['dark_background'])
     fig, plot = pyplot.subplots()
@@ -603,7 +603,7 @@ def kaynakpanel(update, context):
         try:
             xlab.append(vals[tarihnow.day+icc]['kanal'])
         except IndexError:
-            xlab.append(vals[icc-aykaccekiyo]['kanal'])
+            xlab.append(vals[tarihnow.day+icc-aykaccekiyo]['kanal'])
             
     plot.bar(ylab, xlab, label="Kanal Sayısı", align="edge", width=0.4)
     plot.set_title(panelkaynakkanalisim)
