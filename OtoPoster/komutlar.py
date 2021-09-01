@@ -554,22 +554,20 @@ def kaynakpanel(update, context):
     except:
         panco = []
         pankanmember = 0
-        for panuser in panelkaynak['kaynak']:
-            panuserdat = collection.find_one({"_id": panuser})
-            for pankan in panuserdat['kanal']:
-                if pankan in panelkaynak['kanal'] and not pankan in panco:
+        for pankan in panelkaynak['kanal']:
+            if not pankan in panco:
+                try:
+                    pankanmember += bot.get_chat_members_count(pankan)
+                except RetryAfter as panafter:
+                    sleep(panafter.retry_after)
                     try:
                         pankanmember += bot.get_chat_members_count(pankan)
-                    except RetryAfter as panafter:
-                        sleep(panafter.retry_after)
-                        try:
-                            pankanmember += bot.get_chat_members_count(pankan)
-                        except:
-                            continue
                     except:
                         continue
-                    else:
-                        panco.append(pankan)
+                except:
+                    continue
+                else:
+                    panco.append(pankan)
         panel_text = "<b>{} Kaynak Paneli;</b>\n\n👥Toplam Kullanıcı: {}\n📢Toplam Kanal: {}\n💿Şimdiye Kadar Paylaştığınız Post Sayısı: {}\n🙋Toplam Kitle: {}".format(panelkaynakkanalisim, len(panelkaynak['kaynak']), len(panco), db[str(panelkaynak['_id'])].count_documents({}), str(round(pankanmember / 1000, 1))+"K")
         context.user_data['panel_text'] = panel_text
         context.job_queue.run_once(panelcleaner, when=3600, name="panelcleaner", context=user)
