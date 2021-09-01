@@ -572,6 +572,7 @@ def kaynakpanel(update, context):
                         panco.append(pankan)
         panel_text = "<b>{} Kaynak Paneli;</b>\n\n👥Toplam Kullanıcı: {}\n📢Toplam Kanal: {}\n💿Şimdiye Kadar Paylaştığınız Post Sayısı: {}\n🙋Toplam Kitle: {}".format(panelkaynakkanalisim, len(panelkaynak['kaynak']), len(panco), db[str(panelkaynak['_id'])].count_documents({}), str(round(pankanmember / 1000, 1))+"K")
         context.user_data['panel_text'] = panel_text
+        context.job_queue.run_once(panelcleaner, when=3600, name="panelcleaner", context=user)
         
     tarihnow = datetime.datetime.now(pytz.timezone('Europe/Istanbul'))
     ylab = []
@@ -600,4 +601,3 @@ def kaynakpanel(update, context):
     grafikpng.close()
     
     panelmessage.edit_caption(panel_text, reply_markup=panelkaynakmark(user))
-    context.job_queue.run_once(panelcleaner, when=30, name="panelcleaner", context=user)
