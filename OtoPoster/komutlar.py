@@ -590,7 +590,7 @@ def kaynakpanel(update, context):
     xlab = []
     for icc in range(7):
         xlab.append(vals[icc]['kanal'])
-    plot.bar(ylab, xlab, label="Kanal Sayısı", align="edge", width=0.4)
+    plot.bar(ylab, xlab, label="Kanal Sayısı", width=0.4)
     plot.set_title(panelkaynakkanalisim)
     plot.set_xlabel('7 Günlük Grafik')
     plot.legend()
