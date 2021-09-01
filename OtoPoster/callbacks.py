@@ -125,20 +125,20 @@ def cekiliscall(call, context):
     mesajid = call.callback_query.message.message_id
     cek_dat = collection.find_one({"_id": user})
     if user in collection.find_one({"_id": 0})['cekilis']:
-        call.callback_query.answer("Çekilişe zaten katılmışsınız, geriye kazanmak kaldı!")
+        call.callback_query.answer(show_alert=True, text="Çekilişe zaten katılmışsınız, geriye kazanmak kaldı!")
         return
     if context.bot_data['durak']:
-        call.callback_query.answer("Çekilişe katılılım süresi dolmuş, geç kaldınız :(")
+        call.callback_query.answer(show_alert=True, text="Çekilişe katılılım süresi dolmuş, geç kaldınız :(")
         return
     if cek_dat == None:
-        call.callback_query.answer("Çekilişe katılabilmek için en az bir kanalınız olmalı!")
+        call.callback_query.answer(show_alert=True, text="Çekilişe katılabilmek için en az bir kanalınız olmalı!")
         return
     if len(cek_dat['kanal']) == 0:
-        call.callback_query.answer("Çekilişe katılabilmek için en az bir kanalınız olmalı!")
+        call.callback_query.answer(show_alert=True, text="Çekilişe katılabilmek için en az bir kanalınız olmalı!")
         return
     cek_k_isim = bot.get_chat(KaynakCol.find_one({'sahip': int(context.bot_data['sahip'])})['_id']).title
     if not user in KaynakCol.find_one({"sahip": int(context.bot_data['sahip'])})['kaynak']:
-        call.callback_query.answer(f"Çekilişe katılabilmek için en az bir kanalınız {cek_k_isim} kaynağını kullanıyor olmalı.")
+        call.callback_query.answer(show_alert=True, text=f"Çekilişe katılabilmek için en az bir kanalınız {cek_k_isim} kaynağını kullanıyor olmalı.")
         return
     for cekkan in cek_dat['kanal']:
         if cekkan in KaynakCol.find_one({"sahip": int(context.bot_data['sahip'])})['kanal']:
@@ -146,18 +146,21 @@ def cekiliscall(call, context):
                 try:
                     collection.update_one({"_id": 0}, {"$push": {"cekilis": user}})
                 except:
-                    call.callback_query.answer("Bir sorun oluştu.")
+                    call.callback_query.answer(show_alert=True, text="Bir sorun oluştu.")
                     return
                 else:
                     call.callback_query.answer("Çekilişe katıldınız.")
                     cekilis_text = context.bot_data['cekilis'].format(len(collection.find_one({"_id": 0})['cekilis']))
                     call.callback_query.edit_message_text(cekilis_text, reply_markup=cekilismark())
                     return
-    call.callback_query.answer(f"En az 1000 abone olan bir kanalınız {cek_k_isim} kaynağını kullanmak zorunda.")
+    call.callback_query.answer(show_alert=True, text=f"En az 1000 abone olan bir kanalınız {cek_k_isim} kaynağını kullanmak zorunda.")
 
 def devampatcall(call, context):
     chat = call.effective_chat.id
-    call.effective_message.delete()
+    try:
+        call.effective_message.delete()
+    except:
+        pass
     bot.send_message(chat, "Paylaşmamı istediğin hazır postu ilet.", reply_markup=imark())
     return PATPOST
 
@@ -209,10 +212,13 @@ def callback_query(call, context):
         else:
             collection.update_one({"_id": user}, {"$push": {"icerik": pushedicerikkan}})
         call.callback_query.answer("Kanalınızın içeriği değiştirildi.")
-        if call.callback_query.data.split("-")[-1] == "k":
-            call.callback_query.edit_message_reply_markup(kaynakmark(user, icerikno))
-        else:
-            call.callback_query.edit_message_reply_markup(icerikmark(user))
+        try:
+            if call.callback_query.data.split("-")[-1] == "k":
+                call.callback_query.edit_message_reply_markup(kaynakmark(user, icerikno))
+            else:
+                call.callback_query.edit_message_reply_markup(icerikmark(user))
+        except:
+            pass
     if call.callback_query.data.startswith("ozicerik-"):
         if call.callback_query.data.split("-")[-1] == "arsiv":
             icc = "+18"
@@ -431,6 +437,7 @@ def callback_query(call, context):
             ptip = context.user_data['ptip']
             psablon = context.user_data['psablon']
             fid = context.user_data['fid']
+            context.user_data['zaman']
         except:
             return
         patbegeni = collection.find_one({"_id": user})['begeni']
@@ -582,15 +589,19 @@ def tekrarlisaatayarlacall(call, context):
 def begeniislemcall(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
-    mesajid = call.callback_query.message.message_id    
+    mesajid = call.callback_query.effective_message.message_id    
     pushed = int(call.callback_query.data.split("-")[-1])
-    while True:
+    begenitry = 0
+    while begenitry < 10:
         begkeyb = []
         mrkpc = 0
         if not user in ButonCol.find_one({"_id": str(chat)})[str(mesajid)]:
             ButonCol.update_one({"_id": str(chat)}, {"$push": {str(mesajid): user}})
         else:
-            call.callback_query.answer("Butonları bir kez kullanabilirsiniz")
+            try:
+                call.callback_query.answer("Butonları bir kez kullanabilirsiniz")
+            except:
+                pass
             return
         for beg in ButonCol.find_one({"_id": str(chat)})['begeni']:
             try:
