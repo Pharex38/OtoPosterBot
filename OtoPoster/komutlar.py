@@ -530,7 +530,7 @@ def yenikaynakkomutu(update, context):
     kaynak_degisken['sahip'] = int(context.args[0])
     kaynak_degisken['_id'] = int(context.args[1])
     kaynak_degisken['icerik'] = str(context.args[2])
-    for zorp in range(80):
+    for zorp in range(1, 80):
         if KaynakCol.find_one({"no": zorp['no']}) == None:
             kaynak_degisken['no'] = zorp
             break
