@@ -582,7 +582,7 @@ def kaynakpanel(update, context):
     buaykaccekiyo = calendar.monthrange(tarihnow.year, tarihnow.month if tarihnow.month != 1 else 12)[1]
     xlab = []
     for g in dict(panelkaynak['grafik']).keys():
-        if int(g) >= tarihnow.day and tarihnow.day <= buaykaccekiyo:
+        if int(g) >= tarihnow.day-1 and tarihnow.day-1 <= buaykaccekiyo:
             ylab.append(str(g.zfill(2))+"/"+str(tarihnow.month).zfill(2))
             if len(ylab) == 7:
                 break
@@ -596,9 +596,9 @@ def kaynakpanel(update, context):
     vals = list(panelkaynak['grafik'].values())
     for icc in range(7):
         try:
-            xlab.append(vals[tarihnow.day+icc]['user']) 
+            xlab.append(vals[tarihnow.day-1+icc]['user']) 
         except IndexError:
-            xlab.append(vals[tarihnow.day+icc-aykaccekiyo]['user'])
+            xlab.append(vals[tarihnow.day-1+icc-aykaccekiyo]['user'])
             
     pyplot.style.use(['dark_background'])
     fig, plot = pyplot.subplots()
@@ -606,9 +606,9 @@ def kaynakpanel(update, context):
     xlab = []
     for icc in range(7):
         try:
-            xlab.append(vals[tarihnow.day+icc]['kanal'])
+            xlab.append(vals[tarihnow.day-1+icc]['kanal'])
         except IndexError:
-            xlab.append(vals[tarihnow.day+icc-aykaccekiyo]['kanal'])
+            xlab.append(vals[tarihnow.day-1+icc-aykaccekiyo]['kanal'])
             
     plot.bar(ylab, xlab, label="Kanal Sayısı", align="edge", width=0.4)
     plot.set_title(panelkaynakkanalisim)
