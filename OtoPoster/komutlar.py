@@ -570,14 +570,19 @@ def kaynakpanel(update, context):
                     panco.append(pankan)
         panel_text = "<b>{} Kaynak Paneli;</b>\n\n👥Toplam Kullanıcı: {}\n📢Toplam Kanal: {}\n💿Şimdiye Kadar Paylaştığınız Post Sayısı: {}\n🙋Toplam Kitle: {}".format(panelkaynakkanalisim, len(panelkaynak['kaynak']), len(panco), db[str(panelkaynak['_id'])].count_documents({}), str(round(pankanmember / 1000, 1))+"K")
         context.user_data['panel_text'] = panel_text
+    for cleanjob in context.job_queue.get_jobs_by_name("panelcleaner"):
+        if cleanjob.context == user:
+            break
+    else:
         context.job_queue.run_once(panelcleaner, when=3600, name="panelcleaner", context=user)
         
     tarihnow = datetime.datetime.now(pytz.timezone('Europe/Istanbul')) - datetime.timedelta(days = 6)
-    aykaccekiyo = calendar.monthrange(tarihnow.year, tarihnow.month-1 if tarihnow.month != 1 else 12)[1] + 1
     ylab = []
+    aykaccekiyo = calendar.monthrange(tarihnow.year, tarihnow.month-1 if tarihnow.month != 1 else 12)[1] + 1
+    buaykaccekiyo = calendar.monthrange(tarihnow.year, tarihnow.month if tarihnow.month != 1 else 12)[1]
     xlab = []
     for g in dict(panelkaynak['grafik']).keys():
-        if int(g) >= tarihnow.day:
+        if int(g) >= tarihnow.day and tarihnow.day <= buaykaccekiyo:
             ylab.append(str(g.zfill(2))+"/"+str(tarihnow.month).zfill(2))
             if len(ylab) == 7:
                 break
