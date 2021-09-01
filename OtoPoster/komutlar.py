@@ -544,14 +544,14 @@ def kaynakpanel(update, context):
         return
     panelmessage = bot.send_animation(user, animation="CgACAgQAAxkBAAEMT_lhLrYhZpgOT6y8AQZRPB-RpHRpaQACNgIAAmbf3VKP6eJ5oebSyiAE",  caption="<code>Yükleniyor</code>")
     try:
+        panelkaynakkanal = bot.get_chat(panelkaynak['_id'])
+    except:
+        panelkaynakkanalisim = "Kaynağa ulaşılamıyor."
+    else:
+        panelkaynakkanalisim = panelkaynakkanal.title
+    try:
         panel_text = context.user_data['panel_text']
     except:
-        try:
-            panelkaynakkanal = bot.get_chat(panelkaynak['_id'])
-        except:
-            panelkaynakkanalisim = "Kaynağa ulaşılamıyor."
-        else:
-            panelkaynakkanalisim = panelkaynakkanal.title
         panco = []
         pankanmember = 0
         for panuser in panelkaynak['kaynak']:
