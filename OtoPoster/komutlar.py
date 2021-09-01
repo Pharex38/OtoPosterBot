@@ -578,7 +578,7 @@ def kaynakpanel(update, context):
     for g in dict(panelkaynak['grafik']).keys():
         if int(g) >= tarihnow.day:
             ylab.append(str(g.zfill(2))+"/"+str(tarihnow.month).zfill(2))
-            if len(ylab) == 7:
+            if len(ylab) == 6:
                 break
 
     vals = list(panelkaynak['grafik'].values())
@@ -586,7 +586,7 @@ def kaynakpanel(update, context):
         xlab.append(vals[icc]['user'])
     pyplot.style.use(['dark_background'])
     fig, plot = pyplot.subplots()
-    plot.bar(ylab, xlab, label="Kullanıcı Sayısı", width=0.4)
+    plot.bar(ylab, xlab, label="Kullanıcı Sayısı", width=0.8)
     xlab = []
     for icc in range(7):
         xlab.append(vals[icc]['kanal'])
