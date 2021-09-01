@@ -586,7 +586,7 @@ def kaynakpanel(update, context):
         xlab.append(vals[icc]['user'])
     pyplot.style.use(['dark_background'])
     fig, plot = pyplot.subplots()
-    plot.bar(ylab, xlab, label="Kullanıcı Sayısı", width=0.8)
+    plot.bar(ylab, xlab, label="Kullanıcı Sayısı")
     xlab = []
     for icc in range(7):
         xlab.append(vals[icc]['kanal'])
