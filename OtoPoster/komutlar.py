@@ -602,7 +602,7 @@ def kaynakpanel(update, context):
         try:
             xlab.append(vals[tarihnow.day+icc]['kanal'])
         except IndexError:
-            xlab.append(vals[icc-31]['kanal'])
+            xlab.append(vals[icc-32]['kanal'])
             
     plot.bar(ylab, xlab, label="Kanal Sayısı", align="edge", width=0.4)
     plot.set_title(panelkaynakkanalisim)
