@@ -586,7 +586,7 @@ def kaynakpanel(update, context):
     vals = list(panelkaynak['grafik'].values())
     for icc in range(7):
         xlab.append(vals[icc]['user'])
-    pyplot.style.use(['dark_background'])
+    #pyplot.style.use(['dark_background'])
     fig, plot = pyplot.subplots()
     plot.plot(ylab, xlab, label="Kullanıcı Sayısı")
     xlab = []
