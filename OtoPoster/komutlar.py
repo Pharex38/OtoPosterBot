@@ -20,7 +20,7 @@ def start(update, context):
         return APIDEGISTIR
     
     mention = "@"+update.message.from_user.username if update.message.from_user.username else update.message.from_user.first_name
-    bot.send_message(chat, """
+    msg = bot.send_message(chat, """
 ✨ <b>Merhaba {}!</b>
 
 ❔<b>Ne İşe Yarıyor? </b>
@@ -39,7 +39,7 @@ def start(update, context):
 👨🏻‍🔧 Fix & Eklentiler : @berce</b>
  
   📔        <b>@OtoPosterBotLog</b>
-""".format(mention), disable_web_page_preview=True, reply_markup=dugme(user))
+""".format(mention), disable_web_page_preview=True, reply_markup=dugme(user)).edit_reply_markup(InlineKeyboardMarkup([ [InlineKeyboardButton("✨ Diğer Botlarım", url="https://t.me/LinkBotlari")]]))
     return ConversationHandler.END
 
 def stats(update, context):
