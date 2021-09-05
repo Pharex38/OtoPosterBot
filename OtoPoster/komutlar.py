@@ -45,7 +45,7 @@ def start(update, context):
 def stats(update, context):
     kanals = 0
     users = 0
-    toplam = 4
+    toplam = 0
     chat = update.message.chat.id
     user = update.message.from_user.id
     kum = []
