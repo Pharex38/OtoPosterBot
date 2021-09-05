@@ -40,7 +40,7 @@ def start(update, context):
  
   📔        <b>@OtoPosterBotLog</b>
 """.format(mention), disable_web_page_preview=True, reply_markup=dugme(user))
-    msg.edit_text(msg.text_html_urled, reply_markup=InlineKeyboardMarkup([ [InlineKeyboardButton("✨ Diğer Botlarım", url="https://t.me/LinkBotlari")]]))
+    msg.edit_text(msg.text_html_urled+"..", reply_markup=InlineKeyboardMarkup([ [InlineKeyboardButton("✨ Diğer Botlarım", url="https://t.me/LinkBotlari")]]))
     return ConversationHandler.END
 
 def stats(update, context):
