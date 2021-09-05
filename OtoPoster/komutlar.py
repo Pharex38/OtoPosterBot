@@ -39,8 +39,7 @@ def start(update, context):
 👨🏻‍🔧 Fix & Eklentiler : @berce</b>
  
   📔        <b>@OtoPosterBotLog</b>
-""".format(mention), disable_web_page_preview=True, reply_markup=dugme(user)))
-    .edit_reply_markup(InlineKeyboardMarkup([ [InlineKeyboardButton("✨ Diğer Botlarım", url="https://t.me/LinkBotlari")]]))
+""".format(mention), disable_web_page_preview=True, reply_markup=dugme(user))).edit_reply_markup(InlineKeyboardMarkup([ [InlineKeyboardButton("✨ Diğer Botlarım", url="https://t.me/LinkBotlari")]]))
     return ConversationHandler.END
 
 def stats(update, context):
