@@ -20,7 +20,7 @@ def start(update, context):
         return APIDEGISTIR
     
     mention = "@"+update.message.from_user.username if update.message.from_user.username else update.message.from_user.first_name
-    msg = bot.send_message(chat, """
+    msg = (bot.send_message(chat, """
 ✨ <b>Merhaba {}!</b>
 
 ❔<b>Ne İşe Yarıyor? </b>
@@ -39,13 +39,14 @@ def start(update, context):
 👨🏻‍🔧 Fix & Eklentiler : @berce</b>
  
   📔        <b>@OtoPosterBotLog</b>
-""".format(mention), disable_web_page_preview=True, reply_markup=dugme(user)).edit_reply_markup(InlineKeyboardMarkup([ [InlineKeyboardButton("✨ Diğer Botlarım", url="https://t.me/LinkBotlari")]]))
+""".format(mention), disable_web_page_preview=True, reply_markup=dugme(user)))
+    .edit_reply_markup(InlineKeyboardMarkup([ [InlineKeyboardButton("✨ Diğer Botlarım", url="https://t.me/LinkBotlari")]]))
     return ConversationHandler.END
 
 def stats(update, context):
     kanals = 0
     users = 0
-    toplam = 0
+    toplam = 4
     chat = update.message.chat.id
     user = update.message.from_user.id
     kum = []
@@ -54,7 +55,7 @@ def stats(update, context):
     if not user in [sahip,fixer]:
         bot.send_message(chat, "Sen benim sahibim değilsin!")
         return
-    msg = bot.send_message(chat, "<code> Veriler toplanıyor...</code>")
+     = bot.send_message(chat, "<code> Veriler toplanıyor...</code>")
     kullanicilar = [x for x in collection.find({})]
     for kullanici in kullanicilar:
         try:
@@ -113,7 +114,7 @@ def stats(update, context):
         stat_text += "{} -> {}\nKitle: {}".format(getskaynak.title, len(kstat['kaynak']), round(kkitle / 1000, 1))
     ozel_text = f"Özel kullanan: {ozel_kaynak_kullanan_sayisi}"
           
-    bot.edit_message_text(stat_text+ozel_text, chat, msg.message_id)
+    bot.edit_message_text(stat_text+ozel_text, chat, .message_id)
 
 def IptalPoster(update, context):
     user = update.effective_user.id
@@ -137,9 +138,9 @@ def cekilis(update, context):
     collection.update_one({"_id": 0}, {"$set": {"cekilis": []}})
     context.bot_data['cekilis'] = cekilis_text
     bot.send_message(user, "Çekiliş başladı")
-    cek_msg = bot.send_message(botlog, cekilis_text.format("0"), reply_markup=cekilismark())
+    cek_ = bot.send_message(botlog, cekilis_text.format("0"), reply_markup=cekilismark())
     context.bot_data['cekilis_chat'] = botlog
-    context.bot_data['cekilis_mid'] = cek_msg.message_id
+    context.bot_data['cekilis_mid'] = cek_.message_id
     context.bot_data['durak'] = False
     context.bot_data['sahip'] = int(context.args[0])
 
@@ -457,21 +458,21 @@ def duy(update, context):
         return
     duyurus = 0
     if update.message.reply_to_message:
-        duyurumsg = update.message.reply_to_message.text
+        duyuru = update.message.reply_to_message.text
         kullanicilar = collection.find({})
         for kullanici in kullanicilar:
             if len(kullanici['kanal']) > 0:
                 try:
-                    dmsg = update.effective_message.reply_to_message.copy(kullanici['_id'])
+                    d = update.effective_message.reply_to_message.copy(kullanici['_id'])
                 except Exception as e:
                     logger.error(e)
                 else:
                     duyurus += 1
                     kont = db[str(chat)].find_one({"_id": kullanici['_id']})
                     if kont == None:
-                        db[str(chat)].insert_one({"_id": kullanici['_id'], "mid": dmsg.message_id})
+                        db[str(chat)].insert_one({"_id": kullanici['_id'], "mid": d.message_id})
                     else:
-                        db[str(chat)].update_one({"_id": kullanici['_id']}, {"$set": {"mid": dmsg.message_id}})
+                        db[str(chat)].update_one({"_id": kullanici['_id']}, {"$set": {"mid": d.message_id}})
                     
         bot.send_message(chat, "{} Kişiye Duyuru Mesajı Gönderildi!".format(duyurus))
 
