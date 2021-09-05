@@ -54,7 +54,7 @@ def stats(update, context):
     if not user in [sahip,fixer]:
         bot.send_message(chat, "Sen benim sahibim değilsin!")
         return
-     = bot.send_message(chat, "<code> Veriler toplanıyor...</code>")
+    msg = bot.send_message(chat, "<code> Veriler toplanıyor...</code>")
     kullanicilar = [x for x in collection.find({})]
     for kullanici in kullanicilar:
         try:
@@ -113,7 +113,7 @@ def stats(update, context):
         stat_text += "{} -> {}\nKitle: {}".format(getskaynak.title, len(kstat['kaynak']), round(kkitle / 1000, 1))
     ozel_text = f"Özel kullanan: {ozel_kaynak_kullanan_sayisi}"
           
-    bot.edit_message_text(stat_text+ozel_text, chat, .message_id)
+    bot.edit_message_text(stat_text+ozel_text, chat, msg.message_id)
 
 def IptalPoster(update, context):
     user = update.effective_user.id
