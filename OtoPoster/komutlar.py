@@ -457,7 +457,6 @@ def duy(update, context):
         return
     duyurus = 0
     if update.message.reply_to_message:
-        duyuru = update.message.reply_to_message.text
         kullanicilar = collection.find({})
         for kullanici in kullanicilar:
             if len(kullanici['kanal']) > 0:
