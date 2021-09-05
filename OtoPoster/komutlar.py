@@ -462,16 +462,16 @@ def duy(update, context):
         for kullanici in kullanicilar:
             if len(kullanici['kanal']) > 0:
                 try:
-                    d = update.effective_message.reply_to_message.copy(kullanici['_id'])
+                    dmsg = update.effective_message.reply_to_message.copy(kullanici['_id'])
                 except Exception as e:
                     logger.error(e)
                 else:
                     duyurus += 1
                     kont = db[str(chat)].find_one({"_id": kullanici['_id']})
                     if kont == None:
-                        db[str(chat)].insert_one({"_id": kullanici['_id'], "mid": d.message_id})
+                        db[str(chat)].insert_one({"_id": kullanici['_id'], "mid": dmsg.message_id})
                     else:
-                        db[str(chat)].update_one({"_id": kullanici['_id']}, {"$set": {"mid": d.message_id}})
+                        db[str(chat)].update_one({"_id": kullanici['_id']}, {"$set": {"mid": dmsg.message_id}})
                     
         bot.send_message(chat, "{} Kişiye Duyuru Mesajı Gönderildi!".format(duyurus))
 
