@@ -537,8 +537,20 @@ def yenikaynakkomutu(update, context):
     bot.send_message(user, str(jason.dumps(kaynak_degisken, indent=2, ensure_ascii=False)))
 
 def SetKomutu(update, context):
-    collection.update_one({"_id": int(context.args[0])}, {"$"+str(context.args[1]): {str(context.args[2]): update.effective_message.reply_to_message.text_html_urled}})
-    update.effective_message.reply_text("Set!")
+    if len(context.args) != 4:
+        update.effective_message.reply_text("Eksik parametre!")
+        return
+    deger = update.effective_message.reply_to_message.text_html_urled
+    if context.args[3] == "dict":
+        deger = dict(deger)
+    elif context.args[3] == "list":
+        deger = list(deger)
+    elif context.args[3] == "int":
+        deger = int(deger)
+    elif context.args[3] == "str":
+        deger = str(deger)
+    collection.update_one({"_id": int(context.args[0])}, {"$"+str(context.args[1]): {str(context.args[2]): deger}})
+    update.effective_message.reply_to_message.reply_text("Set!")
 
 def kaynakpanel(update, context):
     user = update.effective_user.id
