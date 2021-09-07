@@ -206,7 +206,7 @@ def panelcall(call, context):
         bot.send_message(chat, panel_user_text, reply_markup=InlineKeyboardMarkup(paumark))
     elif query.data == "panelguncellemeler":
         gunc_text = "<b>Bottaki Son Güncellemeler;</b>\n\n<i>• "
-        gunc_text += "\n• ".join(collection.find_one({"_id": 0})['guncelleme'][:5:-1])
+        gunc_text += "\n• ".join(collection.find_one({"_id": 0})['guncelleme'][::-1][:5])
         bot.send_message(chat, gunc_text+"</i>")
     else:
         query.answer("Yanıt bulunamadı!")
