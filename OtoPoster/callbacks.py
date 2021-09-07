@@ -215,14 +215,14 @@ def panelcall(call, context):
             try:
                 panel_user_text += str(pakcount) + ". " + kan_mention_html(kaynak_users[pakcount]) + "\n"
             except IndexError:
-                pakmark = [[InlineKeyboardButton("🔍 Kullanıcı Bul", callback_data="pak-bul")], [InlineKeyboardButton("⏪Önceki Sayfa ", callback_data="pak-{}".format(que-10))]]
+                pakmark = [[InlineKeyboardButton("🔍 Kanal Bul", callback_data="pak-bul")], [InlineKeyboardButton("⏪Önceki Sayfa ", callback_data="pak-{}".format(que-10))]]
                 break
         else:
-            pakmark = [[InlineKeyboardButton("🔍 Kullanıcı Bul", callback_data="pak-bul")], [InlineKeyboardButton("⏪Önceki Sayfa ", callback_data="pak-{}".format(que-10)), InlineKeyboardButton("Sonraki Sayfa ⏩", callback_data="pak-{}".format(que+10))] if len(kaynak_users) > que else []]
+            pakmark = [[InlineKeyboardButton("🔍 Kanal Bul", callback_data="pak-bul")], [InlineKeyboardButton("⏪Önceki Sayfa ", callback_data="pak-{}".format(que-10)), InlineKeyboardButton("Sonraki Sayfa ⏩", callback_data="pak-{}".format(que+10))] if len(kaynak_users) > que else []]
         if que == len(kaynak_users):
-            pakmark = [[InlineKeyboardButton("🔍 Kullanıcı Bul", callback_data="pak-bul")], [InlineKeyboardButton("⏪Önceki Sayfa ", callback_data="pak-{}".format(que-10))]]
+            pakmark = [[InlineKeyboardButton("🔍 Kanal Bul", callback_data="pak-bul")], [InlineKeyboardButton("⏪Önceki Sayfa ", callback_data="pak-{}".format(que-10))]]
         if que == 10:
-            pakmark = [[InlineKeyboardButton("🔍 Kullanıcı Bul", callback_data="pak-bul")], [InlineKeyboardButton("Sonraki Sayfa ⏩", callback_data="pak-{}".format(que+10))] if len(kaynak_users) > que else []]
+            pakmark = [[InlineKeyboardButton("🔍 Kanal Bul", callback_data="pak-bul")], [InlineKeyboardButton("Sonraki Sayfa ⏩", callback_data="pak-{}".format(que+10))] if len(kaynak_users) > que else []]
         query.edit_message_text(panel_user_text, reply_markup=InlineKeyboardMarkup(pakmark))
     elif query.data == "panelkanal":
         kaynak_users = KaynakCol.find_one({"sahip": user})['kanal']
@@ -231,7 +231,7 @@ def panelcall(call, context):
             try:
                 panel_user_text += str(pakcount) + ". " + kan_mention_html(kaynak_users[pakcount]) + "\n"
             except IndexError:
-                pakmark = [[InlineKeyboardButton("🔍 Kullanıcı Bul", callback_data="pak-bul")]]
+                pakmark = [[InlineKeyboardButton("🔍 Kanal Bul", callback_data="pak-bul")]]
                 break
         else:
             pakmark = [[InlineKeyboardButton("🔍 Kanal Bul", callback_data="pak-bul")], [InlineKeyboardButton("Sonraki Sayfa ⏩", callback_data="pak-20")] if len(kaynak_users) > 10 else []]
