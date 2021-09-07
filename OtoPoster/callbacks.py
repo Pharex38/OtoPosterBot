@@ -165,8 +165,20 @@ def devampatcall(call, context):
     return PATPOST
 
 def panelcall(call, context):
-    bot.send_message(call.effective_chat.id, "Ayarlamak istediğiniz mesajı gönderin.")
-    return PANELZAMAN
+    query = call.callback_query
+    chat = call.effective_chat.id
+    user = call.effective_user.id
+    query.answer(" ")
+    if query.data == "panelzaman":
+        bot.send_message(call.effective_chat.id, "Ayarlamak istediğiniz mesajı gönderin.")
+        return PANELZAMAN
+    elif query.data == "panelkullanici":
+        kaynak_users = KaynakCol.find_one({"sahip": user})
+        panel_user_text = f"<b>Kaynağınızı Kullanan Kullanıcılar;</b>\n\n"
+        for paucount in range(1,10):
+            panel_user_text += paucount + ". " + mention_html(kaynak_users[paucount], bot.get_chat(kaynak_users[paucount]).first_name) + "\n"
+        paumark = [InlineKeyboardButton("Sonraki Sayfa", callback_data="pau-10")] if len(kaynak_users) > 10 else []
+        bot.send_message(chat, panel_user_text, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Kullanıcı Bul", callback_data="pau-bul")], paumark]))
 
 def callback_query(call, context):
     user = call.effective_user.id
