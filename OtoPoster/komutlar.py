@@ -628,7 +628,7 @@ def kaynakpanel(update, context):
     plot.bar(ylab, xlab, label="Kanal Sayısı", align="edge", width=0.4)
     plot.set_title(panelkaynakkanalisim)
     plot.set_xlabel('7 Günlük Grafik')
-    plot.legend()
+    plot.legend(loc=3)
     fig.savefig("grafik.png")
     grafikpng = open("grafik.png", "rb")
     panelmessage.edit_media(InputMediaPhoto(media=grafikpng, caption=None))
