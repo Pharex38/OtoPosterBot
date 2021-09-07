@@ -331,9 +331,11 @@ def panelbul(update, context):
     if update.effective_message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
-    kaynak_user_dat = KaynakCol.find_one({"sahip": user})['kaynak']
+    kaynak_user_dat = KaynakCol.find_one({"sahip": user})
     if update.effective_message.forward_from:
         bul_user = int(update.effective_message.forward_from.id)
+    elif update.effective_message.forward_from_chat:
+        bul_user = int(update.effective_message.forward_from_chat.id)
     else:
         try:
             bul_user = int(update.effective_message.text)
