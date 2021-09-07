@@ -331,7 +331,8 @@ def panelbul(update, context):
     if update.effective_message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
-    kaynak_user_dat = KaynakCol.find_one({"sahip": user})
+    kaynak_user_dat = KaynakCol.find_one({"sahip": user})['kaynak']
+    kaynak_kanal_dat = KaynakCol.find_one({"sahip": user})['kanal']
     if update.effective_message.forward_from:
         bul_user = int(update.effective_message.forward_from.id)
     elif update.effective_message.forward_from_chat:
@@ -342,7 +343,10 @@ def panelbul(update, context):
         except:
             update.effective_message.reply_text("Geçersiz bir ID gönderdiniz!")
             return ConversationHandler.END
-    if not bul_user in kaynak_user_dat:
+    if not bul_user in kaynak_kanal_dat and bul_user < 0:
+        update.effective_message.reply_text("Bu kanal sizin kaynağınıza bağlı değil.")
+        return ConversationHandler.END
+    if not bul_user in kaynak_user_dat and bul_user > 0:
         update.effective_message.reply_text("Bu kullanıcı sizin kaynağınızı kullanmıyor.")
         return ConversationHandler.END
     bultext = "<b>🔢 ID:</b> {}\n🏷 <b>İsim:</b> {}\n🖥 <b>Kaynağınıza Bağlı Kanalları:</b> \n".format(bul_user, bot.get_chat(bul_user).full_name)
