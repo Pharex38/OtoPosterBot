@@ -187,7 +187,7 @@ def panelcall(call, context):
         panel_user_text = f"<b>Kaynağınızı Kullanan Kullanıcılar;</b>\n\n"
         for paucount in range(1,11):
             panel_user_text += str(paucount) + ". " + mention_html(kaynak_users[paucount], bot.get_chat(kaynak_users[paucount]).first_name) + "\n"
-        paumark = [InlineKeyboardButton("Sonraki Sayfa ⏩", callback_data="pau-10")] if len(kaynak_users) > 10 else []
+        paumark = [InlineKeyboardButton("Sonraki Sayfa ⏩", callback_data="pau-20")] if len(kaynak_users) > 10 else []
         bot.send_message(chat, panel_user_text, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Kullanıcı Bul", callback_data="pau-bul")], paumark]))
     else:
         query.answer("Yanıt bulunamadı!")
