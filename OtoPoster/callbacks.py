@@ -179,6 +179,8 @@ def panelcall(call, context):
             panel_user_text += paucount + ". " + mention_html(kaynak_users[paucount], bot.get_chat(kaynak_users[paucount]).first_name) + "\n"
         paumark = [InlineKeyboardButton("Sonraki Sayfa", callback_data="pau-10")] if len(kaynak_users) > 10 else []
         bot.send_message(chat, panel_user_text, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Kullanıcı Bul", callback_data="pau-bul")], paumark]))
+    else:
+        query.answer("Yanıt bulunamadı!")
 
 def callback_query(call, context):
     user = call.effective_user.id
