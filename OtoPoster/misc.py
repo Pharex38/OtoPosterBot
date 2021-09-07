@@ -175,8 +175,8 @@ def kan_mention_html(kanid):
 
 def setup_logger():
     global logger
-    aps_logger = logging.getLogger('apscheduler')
-    aps_logger.setLevel(logging.WARNING)
+    logging.getLogger('apscheduler').setLevel(logging.WARNING)
+    logging.getLogger('matplotlib').setLevel(logging.WARNING)
     zaman = datetime.datetime.now()
     logd = "{}.{}.{} - {}.{}".format(zaman.year, zaman.month, zaman.day, zaman.hour, zaman.minute)
     logging.basicConfig(format="%(asctime)s - %(levelname)s - %(message)s", handlers=[logging.FileHandler(f'Loglar/{logd}.txt', 'w', 'utf-8'), logging.StreamHandler()], level=logging.INFO)
