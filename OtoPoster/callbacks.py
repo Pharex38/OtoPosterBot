@@ -172,7 +172,7 @@ def panelcall(call, context):
         bot.send_message(call.effective_chat.id, "Ayarlamak istediğiniz mesajı gönderin.")
         return PANELZAMAN
     elif query.data == "panelkullanici":
-        kaynak_users = KaynakCol.find_one({"sahip": user})
+        kaynak_users = KaynakCol.find_one({"sahip": user})['kaynak']
         panel_user_text = f"<b>Kaynağınızı Kullanan Kullanıcılar;</b>\n\n"
         for paucount in range(1,10):
             panel_user_text += str(paucount) + ". " + mention_html(kaynak_users[paucount], bot.get_chat(kaynak_users[paucount]).first_name) + "\n"
