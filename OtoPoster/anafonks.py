@@ -350,7 +350,8 @@ def panelbul(update, context):
         update.effective_message.reply_text("Bu kullanıcı sizin kaynağınızı kullanmıyor.")
         return ConversationHandler.END
     bultext = "<b>🔢 ID:</b> {}\n🏷 <b>İsim:</b> {}\n🖥 <b>Kaynağınıza Bağlı Kanalları:</b> \n".format(bul_user, bot.get_chat(bul_user).full_name)
-    for bulkan in collection.find_one({"_id": bul_user})['kanal']:
+    bulunanuser = collection.find_one({"kanal": {"$in": [bul_user]}}) if bul_user < 0 else collection.find_one({"_id": bul_user})
+    for bulkan in bulunanuser['kanal']:
         if not bulkan in KaynakCol.find_one({"sahip": user})['kanal']:
             continue
         try:
