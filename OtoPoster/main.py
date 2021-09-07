@@ -57,7 +57,7 @@ def main() -> None:
         CallbackQueryHandler(devampatcall, pattern="^devam(.*)"),
         CallbackQueryHandler(begenicall, pattern="^begeniolustur(.*)"),
         CallbackQueryHandler(tekrarlisaatayarlacall, pattern="^ts-(.*)"),
-        CallbackQueryHandler(panelcall, pattern="^(panelzaman)")
+        CallbackQueryHandler(panelcall, pattern="^(panelzaman|pau-bul)")
         ],
         states={ 
             KANALMENU: [MessageHandler(~Filters.command & Filters.update.message, kanalmenu)],
