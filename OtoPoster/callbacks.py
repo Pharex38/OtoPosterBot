@@ -628,6 +628,8 @@ def begeniislemcall(call, context):
                 pass
             else:
                 break
+        except:
+            pass
         else:
             break
         begenitry += 1
