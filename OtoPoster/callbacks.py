@@ -177,7 +177,7 @@ def panelcall(call, context):
         panel_user_text = f"<b>Kaynağınızı Kullanan Kullanıcılar;</b>\n\n"
         que = int(query.data.split("-")[-1]) if query.data.split("-")[-1] != "bul" else None
         if que == None:
-            bot.send_message(chat, "Bulmak istediğiniz kullanıcının ID'sini veya kullanıcıdan herhangi bir mesaj iletin.")
+            bot.send_message(chat, "Bulmak istediğiniz kullanıcının ID'sini veya kullanıcıdan herhangi bir mesaj iletin.", reply_markup=imark())
             return PANELBUL
         for paucount in range(que-10,que):
             try:
@@ -209,7 +209,7 @@ def panelcall(call, context):
         panel_user_text = f"<b>Kaynağınızı Kullanan Kanallar;</b>\n\n"
         que = int(query.data.split("-")[-1]) if query.data.split("-")[-1] != "bul" else None
         if que == None:
-            bot.send_message(chat, "Bulmak istediğiniz Kanalın ID'sini veya Kanaldan herhangi bir mesaj iletin.")
+            bot.send_message(chat, "Bulmak istediğiniz Kanalın ID'sini veya Kanaldan herhangi bir mesaj iletin.", reply_markup=imark())
             return PANELBUL
         for pakcount in range(que-10,que):
             try:
