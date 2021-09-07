@@ -171,7 +171,7 @@ def site_isim(no):
 
 def kan_mention_html(kanid):
     kanmh = bot.get_chat(kanid)
-    return f"<a href='tg://privatepost?channel={str(kanid)[3:]}&post=9999999'>{kanmh.title}</a>"
+    return f"<a href='tg://privatepost?channel={kanmh.invite_link if kanmh.invite_link else str(kanid)[3:]}&post=9999999'>{kanmh.title}</a>"
 
 def setup_logger():
     global logger

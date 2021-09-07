@@ -337,13 +337,19 @@ def panelbul(update, context):
         except:
             update.effective_message.reply_text("Geçersiz bir ID gönderdiniz!")
             return ConversationHandler.END
-    bultext = "ID: {}\nİsim: {}\nKaynağınızı Kullanan Kanalları: \n".format(bul_user, bot.get_chat(bul_user).full_name)
+    if not bul_user in kaynak_user_dat:
+        update.effective_message.reply_text("Bu kullanıcı sizin kaynağınızı kullanmıyor.")
+        return ConversationHandler.END
+    bultext = "<b>🔢 ID:</b> {}\n🏷 <b>İsim:</b> {}\n🖥 <b>Kaynağınıza Bağlı Kanalları:</b> \n".format(bul_user, bot.get_chat(bul_user).full_name)
     for bulkan in collection.find_one({"_id": bul_user})['kanal']:
+        if not bulkan in KaynakCol.find_one({"sahip": user})['kanal']:
+            continue
         try:
             bultext += kan_mention_html(bulkan) + "\n"
         except:
             pass
     bot.send_message(chat, bultext)
+    return ConversationHandler.END
 
 def tekrarlipostbaslikayarla(update, context):
     user = update.effective_user.id
