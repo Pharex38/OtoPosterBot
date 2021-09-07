@@ -343,7 +343,7 @@ def panelbul(update, context):
         except:
             update.effective_message.reply_text("Geçersiz bir ID gönderdiniz!")
             return ConversationHandler.END
-    if not bul_user in kaynak_kanal_dat and bul_user < 0:
+    if not str(bul_user) in kaynak_kanal_dat and bul_user < 0:
         update.effective_message.reply_text("Bu kanal sizin kaynağınıza bağlı değil.")
         return ConversationHandler.END
     if not bul_user in kaynak_user_dat and bul_user > 0:
