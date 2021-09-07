@@ -333,9 +333,9 @@ def panelbul(update, context):
         return ConversationHandler.END
     kaynak_user_dat = KaynakCol.find_one({"sahip": user})['kaynak']
     kaynak_kanal_dat = KaynakCol.find_one({"sahip": user})['kanal']
-    if update.effective_message.forward_from:
+    if update.effective_message.forward_from_chat:
         bul_user = int(update.effective_message.forward_from.id)
-    elif update.effective_message.forward_from_chat:
+    elif update.effective_message.forward_from:
         bul_user = int(update.effective_message.forward_from_chat.id)
     else:
         try:
