@@ -358,10 +358,13 @@ def panelbul(update, context):
         try:
             if bulunanuser['kanal'].index(bulkan) == len(bulunanuser['kanal'])-1:
                 bultext += "└" + kan_mention_html(bulkan) + "\n"
+                break
             else:
                 bultext += "├" + kan_mention_html(bulkan) + "\n"
         except:
             pass
+    else:
+        bultext += "Kaynığınıza bağlı hiç kanalı bulunmuyor."
     bot.send_message(chat, bultext)
     return ConversationHandler.END
 
