@@ -172,6 +172,12 @@ def site_isim(no):
 def kan_mention_html(kanid):
     try:
         kanmh = bot.get_chat(kanid)
+    except RetryAfter as mhafter:
+        sleep(mhafter.retry_after)
+        try:
+            kanmh = bot.get_chat(kanid)
+        except:
+            return f"<a href='tg://privatepost?channel={str(kanid)[3:]}&post=9999999'>'Kanala Ulaşılamadı.'</a>"
     except:
         return f"<a href='tg://privatepost?channel={str(kanid)[3:]}&post=9999999'>'Kanala Ulaşılamadı.'</a>"
     return f"<a href='{kanmh.invite_link}'>{kanmh.title}</a>" if kanmh.invite_link else f"<a href='tg://privatepost?channel={str(kanid)[3:]}&post=9999999'>{kanmh.title}</a>"
