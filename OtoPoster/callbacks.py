@@ -170,7 +170,7 @@ def panelcall(call, context):
     user = call.effective_user.id
     query.answer("Lütfen bekleyin...")
     if query.data == "panelzaman":
-        bot.send_message(call.effective_chat.id, "Ayarlamak istediğiniz mesajı gönderin.")
+        bot.send_message(call.effective_chat.id, "Ayarlamak istediğiniz mesajı gönderin.", reply_markup=imark())
         return PANELZAMAN
     elif query.data.startswith("pau"):
         kaynak_users = KaynakCol.find_one({"sahip": user})['kaynak']

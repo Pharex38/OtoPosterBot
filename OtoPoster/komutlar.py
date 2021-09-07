@@ -506,11 +506,11 @@ def zaman(update, context):
     chat = update.message.chat.id
     user = update.message.from_user.id
     msj = update.message.reply_to_message.text if update.message.reply_to_message and "/zaman" in update.effective_message.text else update.message.text.replace("/zaman ", "")
+    if update.effective_message.text == "❌ İptal":
+        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
+        return ConversationHandler.END
     if len(msj) >= 200:
         bot.send_message(chat, "Mesajınız çok uzun.")
-        return
-    if msj == None:
-        bot.send_message(chat, "Bu komut bir mesajı yanıtlayarak kullanılmalıdır.")
         return
     try:
         KaynakCol.update_one({"sahip": user}, {"$set": {"zaman": msj}})
