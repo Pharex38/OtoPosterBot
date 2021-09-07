@@ -328,6 +328,9 @@ def ekstramenu(update, context):
 def panelbul(update, context):
     chat = update.message.chat.id
     user = update.message.from_user.id
+    if update.effective_message.text == "❌ İptal":
+        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
+        return ConversationHandler.END
     kaynak_user_dat = KaynakCol.find_one({"sahip": user})['kaynak']
     if update.effective_message.forward_from:
         bul_user = int(update.effective_message.forward_from.id)
