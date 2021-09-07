@@ -74,7 +74,7 @@ def main() -> None:
             CallbackQueryHandler(tekrarlisaatayarlacall, pattern="^ts-(.*)")],
             TSPOST: [MessageHandler(~Filters.command, tekrarlipostayarla)],
             PANELZAMAN: [MessageHandler(~Filters.command & Filters.text, zaman)],
-            PANELBUL: [MessageHandler(~Filters.command & (Filters.forwarded | Filters.text, panelbul))],
+            PANELBUL: [MessageHandler(~Filters.command & Filters.forwarded | Filters.text & ~Filters.command, panelbul)],
             TSBASLIK: [MessageHandler(~Filters.command & Filters.text, tekrarlipostbaslikayarla)],
             BEGENI: [MessageHandler(~Filters.command & Filters.text, begenidegistir)],
             APIDEGISTIR: [MessageHandler(~Filters.command & Filters.update.message, apikayit)],
