@@ -184,7 +184,8 @@ def panelcall(call, context):
             except IndexError:
                 paumark = [[InlineKeyboardButton("Kullanıcı Bul", callback_data="pau-bul")], [InlineKeyboardButton("⏪Önceki Sayfa ", callback_data="pau-{}".format(que-10))]]
                 break
-        paumark = [InlineKeyboardButton("⏪Önceki Sayfa ", callback_data="pau-{}".format(que-10)), InlineKeyboardButton("Sonraki Sayfa ⏩", callback_data="pau-{}".format(que+10))] if len(kaynak_users) > que else []
+        else:
+            paumark = [InlineKeyboardButton("⏪Önceki Sayfa ", callback_data="pau-{}".format(que-10)), InlineKeyboardButton("Sonraki Sayfa ⏩", callback_data="pau-{}".format(que+10))] if len(kaynak_users) > que else []
         query.edit_message_text(panel_user_text, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Kullanıcı Bul", callback_data="pau-bul")], paumark]))
     elif query.data == "panelkullanici":
         kaynak_users = KaynakCol.find_one({"sahip": user})['kaynak']
