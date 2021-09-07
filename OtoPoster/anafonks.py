@@ -355,7 +355,7 @@ def panelbul(update, context):
         if not bulkan in KaynakCol.find_one({"sahip": user})['kanal']:
             continue
         try:
-            bultext += kan_mention_html(bulkan) + "\n"
+            bultext += "├" + kan_mention_html(bulkan) + "\n"
         except:
             pass
     bot.send_message(chat, bultext)
