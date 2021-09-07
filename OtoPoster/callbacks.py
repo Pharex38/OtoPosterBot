@@ -168,6 +168,7 @@ def panelcall(call, context):
     query = call.callback_query
     chat = call.effective_chat.id
     user = call.effective_user.id
+    query.answer("Lütfen bekleyin...")
     if query.data == "panelzaman":
         bot.send_message(call.effective_chat.id, "Ayarlamak istediğiniz mesajı gönderin.")
         return PANELZAMAN
@@ -186,6 +187,8 @@ def panelcall(call, context):
                 break
         else:
             paumark = [[InlineKeyboardButton("🔍 Kullanıcı Bul", callback_data="pau-bul")], [InlineKeyboardButton("⏪Önceki Sayfa ", callback_data="pau-{}".format(que-10)), InlineKeyboardButton("Sonraki Sayfa ⏩", callback_data="pau-{}".format(que+10))] if len(kaynak_users) > que else []]
+        if que == len(kaynak_users):
+            paumark = [[InlineKeyboardButton("🔍 Kullanıcı Bul", callback_data="pau-bul")], [InlineKeyboardButton("⏪Önceki Sayfa ", callback_data="pau-{}".format(que-10))]]
         if que == 10:
             paumark = [[InlineKeyboardButton("🔍 Kullanıcı Bul", callback_data="pau-bul")], [InlineKeyboardButton("Sonraki Sayfa ⏩", callback_data="pau-{}".format(que+10))] if len(kaynak_users) > que else []]
         query.edit_message_text(panel_user_text, reply_markup=InlineKeyboardMarkup(paumark))
