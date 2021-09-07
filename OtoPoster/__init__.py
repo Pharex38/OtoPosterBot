@@ -1,4 +1,6 @@
 
+from warnings import filterwarnings
+filterwarnings("ignore")
 from requests import get, Session
 from requests.exceptions import *
 from time import sleep
