@@ -325,6 +325,26 @@ def ekstramenu(update, context):
     
     bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=ekstralarmenumark())
 
+def panelbul(update, context):
+    chat = update.message.chat.id
+    user = update.message.from_user.id
+    kaynak_user_dat = KaynakCol.find_one({"sahip": user})['kaynak']
+    if update.effective_message.forward_from:
+        bul_user = int(update.effective_message.forward_from.id)
+    else:
+        try:
+            bul_user = int(update.effective_message.text)
+        except:
+            update.effective_message.reply_text("Geçersiz bir ID gönderdiniz!")
+            return ConversationHandler.END
+    bultext = "ID: {}\nİsim: {}\nKaynağınızı Kullanan Kanalları: \n".format(bul_user, bot.get_chat(bul_user).full_name)
+    for bulkan in collection.find_one({"_id": bul_user})['kanal']:
+        try:
+            bultext += kan_mention_html(bulkan) + "\n"
+        except:
+            pass
+    bot.send_message(chat, bultext)
+
 def tekrarlipostbaslikayarla(update, context):
     user = update.effective_user.id
     chat = update.effective_chat.id

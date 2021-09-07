@@ -171,12 +171,23 @@ def panelcall(call, context):
     if query.data == "panelzaman":
         bot.send_message(call.effective_chat.id, "Ayarlamak istediğiniz mesajı gönderin.")
         return PANELZAMAN
+    elif query.data.startswith("pau"):
+        kaynak_users = KaynakCol.find_one({"sahip": user})['kaynak']
+        panel_user_text = f"<b>Kaynağınızı Kullanan Kullanıcılar;</b>\n\n"
+        que = int(query.data.split("-")[-1]) if query.data.split("-")[-1] != "bul" else None
+        if que == None:
+            bot.send_message(chat, "Bulmak istediğiniz kullanıcının ID'sini veya kullanıcıdan herhangi bir mesaj iletin.")
+            return PANELBUL
+        for paucount in range(que-10,que):
+            panel_user_text += str(paucount) + ". " + mention_html(kaynak_users[paucount], bot.get_chat(kaynak_users[paucount]).first_name) + "\n"
+        paumark = [InlineKeyboardButton("Sonraki Sayfa ⏩", callback_data="pau-10")] if len(kaynak_users) > 10 else []
+        query.edit_message_text(panel_user_text, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Kullanıcı Bul", callback_data="pau-bul")], paumark]))
     elif query.data == "panelkullanici":
         kaynak_users = KaynakCol.find_one({"sahip": user})['kaynak']
         panel_user_text = f"<b>Kaynağınızı Kullanan Kullanıcılar;</b>\n\n"
-        for paucount in range(1,10):
+        for paucount in range(1,11):
             panel_user_text += str(paucount) + ". " + mention_html(kaynak_users[paucount], bot.get_chat(kaynak_users[paucount]).first_name) + "\n"
-        paumark = [InlineKeyboardButton("Sonraki Sayfa", callback_data="pau-10")] if len(kaynak_users) > 10 else []
+        paumark = [InlineKeyboardButton("Sonraki Sayfa ⏩", callback_data="pau-10")] if len(kaynak_users) > 10 else []
         bot.send_message(chat, panel_user_text, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Kullanıcı Bul", callback_data="pau-bul")], paumark]))
     else:
         query.answer("Yanıt bulunamadı!")

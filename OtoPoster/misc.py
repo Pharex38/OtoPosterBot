@@ -169,6 +169,10 @@ def site_isim(no):
     if no == "7":
         return "URLAbly"
 
+def kan_mention_html(kanid):
+    kanmh = bot.get_chat(kanid)
+    return f"<a href='tg://privatepost?channel={str(kanid)[3:]}&post=9999999'>{kanmh.title}</a>"
+
 def setup_logger():
     global logger
     aps_logger = logging.getLogger('apscheduler')
