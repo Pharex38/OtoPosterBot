@@ -205,9 +205,9 @@ def panelcall(call, context):
             paumark = [[InlineKeyboardButton("🔍 Kullanıcı Bul", callback_data="pau-bul")], [InlineKeyboardButton("Sonraki Sayfa ⏩", callback_data="pau-20")] if len(kaynak_users) > 10 else []]
         bot.send_message(chat, panel_user_text, reply_markup=InlineKeyboardMarkup(paumark))
     elif query.data == "panelguncellemeler":
-        gunc_text = "<b>Bottaki Son Güncellemeler;</b>\n\n• "
+        gunc_text = "<b>Bottaki Son Güncellemeler;</b>\n\n<i>• "
         gunc_text += "\n• ".join(collection.find_one({"_id": 0})['guncelleme'][:5])
-        bot.send_message(chat, gunc_text)
+        bot.send_message(chat, gunc_text+"</i>")
     else:
         query.answer("Yanıt bulunamadı!")
 
