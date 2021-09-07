@@ -180,7 +180,7 @@ def panelcall(call, context):
             return PANELBUL
         for paucount in range(que-10,que):
             panel_user_text += str(paucount) + ". " + mention_html(kaynak_users[paucount], bot.get_chat(kaynak_users[paucount]).first_name) + "\n"
-        paumark = [InlineKeyboardButton("⏪Önceki Sayfa ", callback_data="pau-{}".format(que-20)), InlineKeyboardButton("Sonraki Sayfa ⏩", callback_data="pau-{}".format(que))] if len(kaynak_users) > que else []
+        paumark = [InlineKeyboardButton("⏪Önceki Sayfa ", callback_data="pau-{}".format(que-10)), InlineKeyboardButton("Sonraki Sayfa ⏩", callback_data="pau-{}".format(que+10))] if len(kaynak_users) > que else []
         query.edit_message_text(panel_user_text, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Kullanıcı Bul", callback_data="pau-bul")], paumark]))
     elif query.data == "panelkullanici":
         kaynak_users = KaynakCol.find_one({"sahip": user})['kaynak']
