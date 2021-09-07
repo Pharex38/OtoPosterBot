@@ -168,7 +168,7 @@ def panelcall(call, context):
     query = call.callback_query
     chat = call.effective_chat.id
     user = call.effective_user.id
-    query.answer(" ")
+    query.answer("zzzz")
     if query.data == "panelzaman":
         bot.send_message(call.effective_chat.id, "Ayarlamak istediğiniz mesajı gönderin.")
         return PANELZAMAN
