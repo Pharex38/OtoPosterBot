@@ -170,7 +170,10 @@ def site_isim(no):
         return "URLAbly"
 
 def kan_mention_html(kanid):
-    kanmh = bot.get_chat(kanid)
+    try:
+        kanmh = bot.get_chat(kanid)
+    except:
+        return f"<a href='tg://privatepost?channel={str(kanid)[3:]}&post=9999999'>'Kanala Ulaşılamadı.'</a>"
     return kanmh.invite_link if kanmh.invite_link else f"<a href='tg://privatepost?channel={str(kanid)[3:]}&post=9999999'>{kanmh.title}</a>"
 
 def setup_logger():

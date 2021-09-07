@@ -28,7 +28,7 @@ def poster_job(context):
     count = 0
     mainsira = collection.find_one({"_id": 0})['sira']
     kynk = bot.get_chat(chat)
-    while mainsira > 1:
+    while mainsira > 2:
         sleep(10)
         logger.warning(f"{kynk.title} kaynağının postu sırada bekletiliyor...")
         mainsira = collection.find_one({"_id": 0})['sira']
