@@ -592,8 +592,7 @@ def begeniislemcall(call, context):
     chat = call.effective_chat.id
     mesajid = call.effective_message.message_id    
     pushed = int(call.callback_query.data.split("-")[-1])
-    begenitry = 0
-    while begenitry < 10:
+    for i in range(10):
         begkeyb = []
         mrkpc = 0
         if not user in ButonCol.find_one({"_id": str(chat)})[str(mesajid)]:
@@ -607,7 +606,7 @@ def begeniislemcall(call, context):
         for beg in ButonCol.find_one({"_id": str(chat)})['begeni']:
             try:
                 butsayi = int(call.effective_message.reply_markup.inline_keyboard[0][mrkpc].text.split()[-1])
-            except IndexError:
+            except:
                 butsayi = 0
             if mrkpc == pushed:
                 begkeyb.append(InlineKeyboardButton(str(beg)+" "+str(butsayi+1), callback_data="begeni-{}".format(mrkpc)))
@@ -632,4 +631,3 @@ def begeniislemcall(call, context):
             pass
         else:
             break
-        begenitry += 1

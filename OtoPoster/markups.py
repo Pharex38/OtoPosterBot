@@ -264,11 +264,11 @@ def kaynakmark(user, kanil):
     if len(u['kanal']) == 1:
         pass
     elif kanil == len(u['kanal'])-1:
-        anakaynakkeyb.append([InlineKeyboardButton("⏪⏪", callback_data="solyan-{}".format(kanil))])
+        anakaynakkeyb.append([InlineKeyboardButton("⏪Önceki Kanal⏪", callback_data="solyan-{}".format(kanil))])
     elif kanil == 0:
-        anakaynakkeyb.append([InlineKeyboardButton("⏩⏩", callback_data="sagyan-{}".format(kanil))])
+        anakaynakkeyb.append([InlineKeyboardButton("⏩Sonraki Kanal⏩", callback_data="sagyan-{}".format(kanil))])
     else:
-        anakaynakkeyb.append([InlineKeyboardButton("⏪⏪", callback_data="solyan-{}".format(kanil)), InlineKeyboardButton("⏩⏩", callback_data="sagyan-{}".format(kanil))])
+        anakaynakkeyb.append([InlineKeyboardButton("⏪Önceki Kanal⏪", callback_data="solyan-{}".format(kanil)), InlineKeyboardButton("⏩Sonraki Kanal⏩", callback_data="sagyan-{}".format(kanil))])
     if u['kanal'][int(kanil)] in u['icerik']:
         turtext = "Arşiv"
     else:
