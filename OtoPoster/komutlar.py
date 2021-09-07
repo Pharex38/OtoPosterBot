@@ -567,7 +567,7 @@ def kaynakpanel(update, context):
                     continue
                 else:
                     panco.append(pankan)
-        panel_text = "<b>{} Kaynak Paneli;</b>\n\n👥Toplam Kullanıcı: {}\n📢Toplam Kanal: {}\n💿Şimdiye Kadar Paylaştığınız Post Sayısı: {}\n🙋Toplam Kitle: {}".format(panelkaynakkanalisim, len(panelkaynak['kaynak']), len(panco), db[str(panelkaynak['_id'])].count_documents({}), str(round(pankanmember / 1000, 1))+"K")
+        panel_text = "<b>{} Kaynak Paneli;</b>\n\n👥Toplam Kullanıcı: {}\n📢Toplam Kanal: {}\n💿Şimdiye Kadar Paylaştığınız Post Sayısı: {}\n🙋Toplam Kitle: {}\n\n🔗Referans Linkiniz: {}".format(panelkaynakkanalisim, len(panelkaynak['kaynak']), len(panco), db[str(panelkaynak['_id'])].count_documents({}), str(round(pankanmember / 1000, 1))+"K", "https://telegram.me/OtoPosterBot?start=Kaynak"+str(panelkaynak['no']))
         context.user_data['panel_text'] = panel_text
     for cleanjob in context.job_queue.get_jobs_by_name("panelcleaner"):
         if cleanjob.context == user:
