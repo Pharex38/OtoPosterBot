@@ -185,7 +185,7 @@ def panelcall(call, context):
                 paumark = [[InlineKeyboardButton("🔍 Kullanıcı Bul", callback_data="pau-bul")], [InlineKeyboardButton("⏪Önceki Sayfa ", callback_data="pau-{}".format(que-10))]]
                 break
         else:
-            paumark = [[InlineKeyboardButton("⏪Önceki Sayfa ", callback_data="pau-{}".format(que-10)), InlineKeyboardButton("Sonraki Sayfa ⏩", callback_data="pau-{}".format(que+10))] if len(kaynak_users) > que else []]
+            paumark = [[InlineKeyboardButton("🔍 Kullanıcı Bul", callback_data="pau-bul")], [InlineKeyboardButton("⏪Önceki Sayfa ", callback_data="pau-{}".format(que-10)), InlineKeyboardButton("Sonraki Sayfa ⏩", callback_data="pau-{}".format(que+10))] if len(kaynak_users) > que else []]
         query.edit_message_text(panel_user_text, reply_markup=InlineKeyboardMarkup(paumark))
     elif query.data == "panelkullanici":
         kaynak_users = KaynakCol.find_one({"sahip": user})['kaynak']
@@ -205,7 +205,7 @@ def panelcall(call, context):
 def callback_query(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
-    mesajid = call.callback_query.message.message_id   
+    mesajid = call.callback_query.message.message_id
     """ PIN """
     if call.callback_query.data.startswith("pin-"):
         pinno = int(call.callback_query.data.split("-")[-1])
