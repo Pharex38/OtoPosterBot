@@ -186,6 +186,8 @@ def panelcall(call, context):
                 break
         else:
             paumark = [[InlineKeyboardButton("🔍 Kullanıcı Bul", callback_data="pau-bul")], [InlineKeyboardButton("⏪Önceki Sayfa ", callback_data="pau-{}".format(que-10)), InlineKeyboardButton("Sonraki Sayfa ⏩", callback_data="pau-{}".format(que+10))] if len(kaynak_users) > que else []]
+        if que == 9:
+            paumark = [[InlineKeyboardButton("🔍 Kullanıcı Bul", callback_data="pau-bul")], [InlineKeyboardButton("Sonraki Sayfa ⏩", callback_data="pau-{}".format(que+10))] if len(kaynak_users) > que else []]
         query.edit_message_text(panel_user_text, reply_markup=InlineKeyboardMarkup(paumark))
     elif query.data == "panelkullanici":
         kaynak_users = KaynakCol.find_one({"sahip": user})['kaynak']
