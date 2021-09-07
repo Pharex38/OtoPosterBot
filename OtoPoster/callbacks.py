@@ -182,7 +182,7 @@ def panelcall(call, context):
             try:
                 panel_user_text += str(paucount) + ". " + mention_html(kaynak_users[paucount], bot.get_chat(kaynak_users[paucount]).first_name) + "\n"
             except IndexError:
-                paumark = [[InlineKeyboardButton("Kullanıcı Bul", callback_data="pau-bul")], [InlineKeyboardButton("⏪Önceki Sayfa ", callback_data="pau-{}".format(que-10))]]
+                paumark = [[InlineKeyboardButton("🔍 Kullanıcı Bul", callback_data="pau-bul")], [InlineKeyboardButton("⏪Önceki Sayfa ", callback_data="pau-{}".format(que-10))]]
                 break
         else:
             paumark = [[InlineKeyboardButton("⏪Önceki Sayfa ", callback_data="pau-{}".format(que-10)), InlineKeyboardButton("Sonraki Sayfa ⏩", callback_data="pau-{}".format(que+10))] if len(kaynak_users) > que else []]
@@ -194,10 +194,10 @@ def panelcall(call, context):
             try:
                 panel_user_text += str(paucount) + ". " + mention_html(kaynak_users[paucount], bot.get_chat(kaynak_users[paucount]).first_name) + "\n"
             except IndexError:
-                paumark = [[InlineKeyboardButton("Kullanıcı Bul", callback_data="pau-bul")]]
+                paumark = [[InlineKeyboardButton("🔍 Kullanıcı Bul", callback_data="pau-bul")]]
                 break
         else:
-            paumark = [[InlineKeyboardButton("Kullanıcı Bul", callback_data="pau-bul")], [InlineKeyboardButton("Sonraki Sayfa ⏩", callback_data="pau-20")] if len(kaynak_users) > 10 else []]
+            paumark = [[InlineKeyboardButton("🔍 Kullanıcı Bul", callback_data="pau-bul")], [InlineKeyboardButton("Sonraki Sayfa ⏩", callback_data="pau-20")] if len(kaynak_users) > 10 else []]
         bot.send_message(chat, panel_user_text, reply_markup=InlineKeyboardMarkup(paumark))
     else:
         query.answer("Yanıt bulunamadı!")
