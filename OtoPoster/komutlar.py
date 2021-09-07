@@ -536,6 +536,10 @@ def yenikaynakkomutu(update, context):
     KaynakCol.insert_one(kaynak_degisken)
     bot.send_message(user, str(jason.dumps(kaynak_degisken, indent=2, ensure_ascii=False)))
 
+def SetKomutu(update, context):
+    collection.update_one({"_id": 0}, {"$push": {str(context.args[0]): update.effective_message.reply_to_message.text_html_urled}})
+    update.effective_message.reply_text("Set!")
+
 def kaynakpanel(update, context):
     user = update.effective_user.id
     panelkaynak = KaynakCol.find_one({"sahip": user})
