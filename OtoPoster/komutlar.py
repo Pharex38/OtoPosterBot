@@ -236,7 +236,7 @@ def bul(update, context):
         buldeg = str(context.args[1])
     bulko = collection.find({str(context.args[0]): buldeg})
     if len([bulk for bulk in bulko]) != 0:
-        for bulk in buldeg:
+        for bulk in bulko:
             update.effective_message.reply_text(jason.dumps(bulk, indent=2, ensure_ascii=False))
     else:
         update.effective_message.reply_text("Kriterlerinize uygun sonuç bulunamadı!")
