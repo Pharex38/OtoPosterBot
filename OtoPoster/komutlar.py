@@ -226,44 +226,11 @@ def parak(update, context):
     bot.send_message(update.message.chat.id, f"Para: {para}")
 
 def bul(update, context):
-    cnt = update.message.text.split()[1] if len(update.message.text.split()) > 1 else int(update.message.from_user.id)
-    if not update.message.from_user.id in adminlist:
-        bot.send_message(update.message.chat.id, "Sie")
-        return
-    try:
-        cntt = collection.find({"_id": int(cnt)})
-        for c in cntt:
-            bot.send_message(update.message.chat.id, jason.dumps(c, indent=2, ensure_ascii=False))
-            for kkkkk in KaynakCol.find({}):
-                if c['_id'] in kkkkk['kaynak']:
-                    bot.send_message(update.message.chat.id, str(kkkkk['no']))
-    except Exception as e:
-        print(e)
-    try:
-        cntt = collection.find({"token": cnt})
-        for c in cntt:
-            bot.send_message(update.message.chat.id, jason.dumps(c, indent=2, ensure_ascii=False))
-    except:
-        pass
-    try:
-        cntt = collection.find({"altapi": cnt})
-        for c in cntt:
-            bot.send_message(update.message.chat.id, jason.dumps(c, indent=2, ensure_ascii=False))
-    except:
-        pass
-    try:
-        cntt = collection.find({})
-        for c in cntt:
-            if cnt in c['kanal']:
-                bot.send_message(update.message.chat.id, jason.dumps(c, indent=2, ensure_ascii=False))
-    except:
-        pass
-    try:
-        cntt = collection.find({"site": cnt})
-        for c in cntt:
-            bot.send_message(update.message.chat.id, jason.dumps(c, indent=2, ensure_ascii=False))
-    except:
-        pass
+    bulko = collection.find_one(dict(context.args[0]))
+    if bulko:
+        update.effective_message.reply_text(jason.dumps(bulko, indent=2, ensure_ascii=False))
+    else:
+        update.effective_message.reply_text("Kriterlerinize uygun sonuç bulunamadı!")
 
 def ona(m, context):
     cid = m.message.chat.id
