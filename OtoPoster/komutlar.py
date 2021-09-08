@@ -231,7 +231,7 @@ def bul(update, context):
         return
     if context.args[2] == "list":
         buldeg = list(context.args[1])
-    if context.args[2] == "int":
+    elif context.args[2] == "int":
         buldeg = int(context.args[1])
     else:
         buldeg = str(context.args[1])
