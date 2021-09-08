@@ -13,7 +13,7 @@ bildir('Bot Başladı 🍕')
 
 def main() -> None:
 
-    persistence = BasePersistence(filename='OtoPosterBasePersistence')
+    persistence = BasePersistence(filename='OtoPosterBasePersistence', store_user_data=False, store_chat_data=False, store_bot_data=False, store_callback_data=False)
     updater = Updater(bot=bot, workers=40, persistence=persistence)
     dispatcher = updater.dispatcher
     upjob = updater.job_queue
