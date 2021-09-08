@@ -120,11 +120,13 @@ def main() -> None:
     dispatcher.add_error_handler(error_handler)
     """ Job Yedekleme """
     yjcount = 0
+    ytjcount = 0
     for uh in collection.find_one({"_id": 0})['jobs']:
-        yjcount += 1
         if uh['name'].startswith("ts"):
             upjob.run_repeating(tekrarlipostjob, interval=3600*int(uh['msgdict']['tsaat']), name=uh['name'], context=uh['msgdict'])
+            ytjcount += 1
             continue
+        yjcount += 1
         uhzamani = datetime.datetime.strptime(uh['when'], '%y-%m-%d %H:%M:%S')
         upjob.run_once(zamanjob, name=str(uh['name']), context=uh['msgdict'], when=uhzamani)
     logger.warning(str(yjcount)+" Adet Job Yüklendi!")
