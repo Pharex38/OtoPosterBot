@@ -234,8 +234,8 @@ def bul(update, context):
         buldeg = int(context.args[1])
     else:
         buldeg = str(context.args[1])
-    bulko = collection.find_one({str(context.args[0]): buldeg})
-    if bulko:
+    bulko = collection.find({str(context.args[0]): buldeg})
+    if len(bulko) != 0:
         update.effective_message.reply_text(jason.dumps(bulko, indent=2, ensure_ascii=False))
     else:
         update.effective_message.reply_text("Kriterlerinize uygun sonuç bulunamadı!")
