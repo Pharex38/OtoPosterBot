@@ -138,8 +138,5 @@ def main() -> None:
     upjob.run_once(jobyedekleme, when=1, name="yedekleme")
 
 logger.info("Bot Çalışıyor...")
-try:
-    main()
-except:
-    pass
+main()
 bildir("Bot kapandı!")
