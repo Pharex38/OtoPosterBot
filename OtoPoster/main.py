@@ -131,10 +131,7 @@ def main() -> None:
         upjob.run_once(zamanjob, name=str(uh['name']), context=uh['msgdict'], when=uhzamani)
     logger.warning(str(yjcount)+" Adet Job Yüklendi!")
     """ Polling """
-    try:
-        updater.start_polling()
-    except:
-        return
+    updater.start_polling()
     updater.idle()
 
 
