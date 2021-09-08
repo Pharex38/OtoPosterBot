@@ -228,14 +228,15 @@ def parak(update, context):
 def bul(update, context):
     if len(context.args) != 3:
         update.effective_message.reply_text("Eksik parametre!")
+        return
     if context.args[2] == "list":
         buldeg = list(context.args[1])
     if context.args[2] == "int":
         buldeg = int(context.args[1])
     else:
         buldeg = str(context.args[1])
-    bulko = collection.find({str(context.args[0]): buldeg})
-    if len([bulk for bulk in bulko]) != 0:
+    bulko = [i for i in collection.find({str(context.args[0]): buldeg})]
+    if len(bulko) != 0:
         for bulk in bulko:
             update.effective_message.reply_text(jason.dumps(bulk, indent=2, ensure_ascii=False))
     else:
