@@ -13,7 +13,7 @@ bildir('Bot Başladı 🍕')
 
 def main() -> None:
 
-    persistence = DictPersistence(filename='OtoPosterBasePersistence', store_user_data=False, store_chat_data=False, store_bot_data=False, store_callback_data=False)
+    persistence = PicklePersistence(filename='OtoPosterPersistence', store_user_data=True, store_chat_data=True, single_file=True, store_callback_data=True)
     updater = Updater(bot=bot, workers=40, persistence=persistence)
     dispatcher = updater.dispatcher
     upjob = updater.job_queue
@@ -129,7 +129,7 @@ def main() -> None:
         yjcount += 1
         uhzamani = datetime.datetime.strptime(uh['when'], '%y-%m-%d %H:%M:%S')
         upjob.run_once(zamanjob, name=str(uh['name']), context=uh['msgdict'], when=uhzamani)
-    logger.warning(str(yjcount)+" Adet Tekil, "+str(ytjcount)+" Adet Tekrarlı Job Yüklendi!")
+    logger.warning(str(yjcount)+" Adet Job Yüklendi!")
     """ Polling """
     updater.start_polling()
     updater.idle()
@@ -138,5 +138,8 @@ def main() -> None:
     upjob.run_once(jobyedekleme, when=1, name="yedekleme")
 
 logger.info("Bot Çalışıyor...")
-main()
+try:
+    main()
+except:
+    pass
 bildir("Bot kapandı!")
