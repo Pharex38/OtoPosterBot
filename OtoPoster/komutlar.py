@@ -226,7 +226,15 @@ def parak(update, context):
     bot.send_message(update.message.chat.id, f"Para: {para}")
 
 def bul(update, context):
-    bulko = collection.find_one(dict(context.args[0]))
+    if len(context.args) != 3:
+        update.effective_message.reply_text("Eksik parametre!")
+    if context.args[2] == "list":
+        buldeg = list(context.args[1])
+    if context.args[2] == "int":
+        buldeg = int(context.args[1])
+    else:
+        buldeg = str(context.args[1])
+    bulko = collection.find_one({str(context.args[0]): buldeg})
     if bulko:
         update.effective_message.reply_text(jason.dumps(bulko, indent=2, ensure_ascii=False))
     else:
