@@ -15,6 +15,11 @@ def main() -> None:
 
     persistence = BasePersistence(filename='OtoPosterBasePersistence', store_user_data=False, store_chat_data=False, store_bot_data=False, store_callback_data=False)
     persistence.set_bot(bot)
+    persistence.get_bot_data()
+    persistence.get_chat_data()
+    persistence.get_callback_data()
+    persistence.get_user_data()
+    
     updater = Updater(bot=bot, workers=40, persistence=persistence)
     dispatcher = updater.dispatcher
     upjob = updater.job_queue
