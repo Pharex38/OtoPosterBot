@@ -129,7 +129,7 @@ def main() -> None:
         yjcount += 1
         uhzamani = datetime.datetime.strptime(uh['when'], '%y-%m-%d %H:%M:%S')
         upjob.run_once(zamanjob, name=str(uh['name']), context=uh['msgdict'], when=uhzamani)
-    logger.warning(str(yjcount)+" Adet Job Yüklendi!")
+    logger.warning(str(yjcount)+" Adet Tekil, "+str(ytjcount)+" Adet Tekrarlı Job Yüklendi!")
     """ Polling """
     updater.start_polling()
     updater.idle()
