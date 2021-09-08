@@ -238,7 +238,7 @@ def bul(update, context):
     if bool(context.args[3]):
         bulko = [i for i in collection.find({str(context.args[0]): buldeg})]
     else:
-        bulko = [i for i in collection.find({str(context.args[0]): {"$in": buldeg}})]
+        bulko = [i for i in collection.find({str(context.args[0]): {"$in": [buldeg]}})]
     if len(bulko) != 0:
         for bulk in bulko:
             update.effective_message.reply_text(jason.dumps(bulk, indent=2, ensure_ascii=False))
