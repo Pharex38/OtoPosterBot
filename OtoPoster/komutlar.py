@@ -241,7 +241,7 @@ def bul(update, context):
         bulko = [i for i in collection.find({str(context.args[0]): {"$in": [buldeg]}})]
     if len(bulko) != 0:
         for bulk in bulko:
-            update.effective_message.reply_text(jason.dumps(bulk, indent=2, ensure_ascii=False))
+            update.effective_message.reply_text(html.escape(jason.dumps(bulk, indent=2, ensure_ascii=False)))
     else:
         update.effective_message.reply_text("Kriterlerinize uygun sonuç bulunamadı!")
 
