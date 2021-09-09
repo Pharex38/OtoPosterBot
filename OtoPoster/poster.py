@@ -466,7 +466,7 @@ def ozel_poster_job(context):
             except:
                 pass
             else:
-                if ojson['message'] == "Invalid URL":
+                if ojson['message'] != "":
                     logger.error(f"[ÖZEL] {oupdate.effective_message.chat.title} son postu hatalı olduğu için iptal edildi!")
                     try:
                         bot.send_message(sahip, f"{oupdate.effective_message.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{oupdate.effective_message.link}")
