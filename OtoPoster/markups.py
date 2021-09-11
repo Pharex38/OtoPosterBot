@@ -1,4 +1,4 @@
-from .misc import *
+
 from . import *
 
 markup = ForceReply(selective=False)
