@@ -337,12 +337,13 @@ def callback_query(call, context):
         call.callback_query.answer(call.callback_query.id, "Site Kaydedildi!")
     """ Alternatif """
     if call.callback_query.data.startswith("sistem"):
-        context.user_data['sss'] = str(call.callback_query.data.split("-")[1])
-        call.callback_query.answer(call.callback_query.id, "✅ Site Kaydedildi!")
+        context.user_data['sss'] = int(call.callback_query.data.split("-")[1])
+        call.callback_query.answer(call.callback_query.id, "✅ Sistem Kaydedildi!")
         bot.edit_message_text("Alternatif olarak kullanmak istediğiniz siteyi seçin.", user, mesajid)
         bot.edit_message_reply_markup(chat_id=chat, message_id=mesajid, reply_markup=altsitemarkup("asite"))
     if call.callback_query.data == "gelişmişalternatif":
-        call.callback_query.edit_message_text("İlk alternatif sitenizi seçin.", reply_markup=altsitemarkup("advsite"))
+        context.user_data["sss"] = 10
+        call.callback_query.edit_message_text("Alternatif olarak kullanmak istediğiniz siteyi seçin.", reply_markup=altsitemarkup("advsite"))
     """ Kaynak """
     if call.callback_query.data == "ozayar":
         kaynakmsg = call.effective_message
