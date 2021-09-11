@@ -113,8 +113,15 @@ def poster_job(context):
                 token = altapi
                 site = altsite
                 collection.update_one({"_id": user}, {"$set": {"sira": 3}})
-            if sira == 3:
+            elif sira == 3:
                 collection.update_one({"_id": user}, {"$set": {"sira": 2}})
+            elif sira >= 10:
+                altapi = altapi[sira-10]["api"]
+                altsite = altapi[sira-10]["site"]
+                if sira-10 == len(altapi)-1:
+                    collection.update_one({"_id": user}, {"$set": {"sira": 10}})
+                else:
+                    collection.update_one({"_id": user}, {"$inc": {"sira": 1}})
             if not altapi == "None":
                 while linktry < 10 and alink == " ":
                     try:
