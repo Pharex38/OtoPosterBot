@@ -1,5 +1,4 @@
 from .misc import *
-from .misc import site_isim
 from . import *
 
 markup = ForceReply(selective=False)
