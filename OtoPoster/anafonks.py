@@ -527,7 +527,8 @@ def altakayit(update, context):
         sss = 10
     collection.update_one({"_id": user}, {"$set": {"altsite": str(smesaj), "altapi": amesaj, "sira": int(sss)}})
     if sss == 10:
-        pass
+        bot.send_message(chat, "İlk Gelişmiş Alternatifiniz kaydedildi.\n\nAyarlarını görmek için <code>🤖 Alternatif Link</code> butonuna basabilirsin.", reply_markup=apimenumark())
+        return APIMENU
     else:
         bot.send_message(chat, "✅ Alternatif API kaydedildi", reply_markup=dugme(user))
     return ConversationHandler.END
