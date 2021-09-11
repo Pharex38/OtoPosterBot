@@ -236,7 +236,7 @@ def postmenu(update, context):
             bot.send_message(chat, "<b>Varsayılan Şablon:</b>\n\n{aciklama} \n\n𝙇𝙄𝙉𝙆🔗 {link} \n\n     𝙇𝙄𝙉𝙆🔗 {alink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee", reply_markup=sablonmark(user))
         else:
             try:
-                if poudat['sira'] == "1":
+                if poudat['sira'] == 1:
                     pst = poudat['sablon'].replace("{aciklama}", "{a}").replace("{link}", "{l}").replace("{alink}", "{al}").format(a=aciklama, l=link, al=alink)
                 else:
                     pst = poudat['sablon'].replace("{aciklama}", "{a}").replace("{link}", "{l}").format(a=aciklama, l=link)
@@ -482,7 +482,7 @@ def sabloniki(update, context):
     if update.message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
-    if bnb['sira'] == "1":
+    if bnb['sira'] == 1:
         if mesaj.find("{link}") == -1 or mesaj.find("{aciklama}") == -1 or mesaj.find("{alink}") == -1:
             msg = bot.send_message(chat, """ ❌<i> Lütfen mesajınızda "{link}", "{alink}" ve "{aciklama}" bulunduğudan emin olun.</i> """)
             return SABLONA
@@ -516,12 +516,12 @@ def altakayit(update, context):
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
     if update.message.text == "⛔ Alternatif Kaldır":
-        collection.update_one({"_id": user}, {"$set": {"altsite": "None", "altapi": "None", "sablon": "1", "sira": "0"}})
+        collection.update_one({"_id": user}, {"$set": {"altsite": "None", "altapi": "None", "sablon": "1", "sira": 0}})
         bot.send_message(chat, "Alternatif kaldırıldı, artık postlarınız alternatif linksiz paylaşılacak.", reply_markup=dugme(user))
         return ConversationHandler.END
     smesaj = context.user_data['asite']
     sss = context.user_data['sss']
-    collection.update_one({"_id": user}, {"$set": {"altsite": str(smesaj), "altapi": str(amesaj), "sira": str(sss)}})
+    collection.update_one({"_id": user}, {"$set": {"altsite": str(smesaj), "altapi": str(amesaj), "sira": int(sss)}})
     bot.send_message(chat, "✅ Alternatif API kaydedildi", reply_markup=dugme(user))
     return ConversationHandler.END
 
@@ -557,7 +557,7 @@ def apikayit(update, context):
     if token.startswith('http') or "url=trlink" in token:
         mso = bot.send_message(chat, "❌ Geçersiz bir API verdiniz! Lütfen doğru bir API adresi verin.")
         return APIDEGISTIR
-    key = {"_id": user, "token": token, "kanal": [], "sablon": "1", "kaynak": [], "site": "1", "altapi": "None", "altsite": "None", "sira": "0", "ozel": False, "pcount": 0, "time": 0, "vakit": 0, "eski": [], "begeni": [], "pin": [], "icerik": []}
+    key = {"_id": user, "token": token, "kanal": [], "sablon": "1", "kaynak": [], "site": "1", "altapi": "None", "altsite": "None", "sira": 0, "ozel": False, "pcount": 0, "time": 0, "vakit": 0, "eski": [], "begeni": [], "pin": [], "icerik": []}
     if token in apikara:
             blmsg = bot.send_message(blog, f"_ID: <a href='tg://user?id={user}'>{user}</a>\nYasaklı API tespit edildi -> {token}\n#id{user}\n#api{token}")
             bot.pin_chat_message(blog, blmsg.message_id)
@@ -704,12 +704,12 @@ def pat(update, context):
     palink = " "
     plink = " "
     ptry = 0
-    if psira == "2":
+    if psira == 2:
         ptoken = paltapi
         psite = paltsite
-        collection.update_one({"_id": user}, {"$set": {"sira": "3"}})
-    if psira == "3":
-        collection.update_one({"_id": user}, {"$set": {"sira": "2"}})
+        collection.update_one({"_id": user}, {"$set": {"sira": 3}})
+    if psira == 3:
+        collection.update_one({"_id": user}, {"$set": {"sira": 2}})
     try:
         if not paltapi == "None":
             while ptry < 10 and palink == " ":
