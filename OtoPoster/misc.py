@@ -168,6 +168,7 @@ def site_isim(no):
         return "Gir.ist"
     if no == "7":
         return "URLAbly"
+    return "Bulunamadı"
 
 def kan_mention_html(kanid):
     try:
