@@ -316,7 +316,7 @@ def zamanmenumark(user):
 def advaltmark(user):
     advkeyb = []
     advdat = collection.find_one({"_id": user})
-    advkeyb.append([InlineKeyboardButton("Sıralı" if advdat['altsite'] == "sirali" else "Tek Post İki Link", callback_data=f"advsistem")])
+    advkeyb.append([InlineKeyboardButton("Sistem: Sıralı" if advdat['altsite'] == "sirali" else "Sistem: Tek Post İki Link", callback_data=f"advsistem")])
     for advdex, advalt in enumerate(advdat['altapi']):
         advisim = site_isim(advalt["site"])
         advkeyb.append([InlineKeyboardButton(advisim, callback_data=f"advalt-{advdex}"), InlineKeyboardButton("API 👁️", callback_data=f"advapi-{advdex}")])
