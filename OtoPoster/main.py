@@ -65,7 +65,7 @@ def main() -> None:
             KANALMENU: [MessageHandler(~Filters.command & Filters.update.message, kanalmenu), 
             CallbackQueryHandler(panelcall, pattern="^(panelzaman|pau-bul|pak-bul)$")],
             APIMENU: [MessageHandler(~Filters.command & Filters.update.message, apimenu),  
-            CallbackQueryHandler(altcall, pattern="^(asite(.*)|advsite(.*))"),
+            CallbackQueryHandler(altcall, pattern="^asite(.*)"),
             CallbackQueryHandler(panelcall, pattern="^(panelzaman|pau-bul|pak-bul)$")],
             POSTMENU: [MessageHandler(~Filters.command & Filters.update.message, postmenu),
             CallbackQueryHandler(sabloncall, pattern="^(sablon)$"),
