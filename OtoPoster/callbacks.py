@@ -12,7 +12,7 @@ def sabloncall(call, context):
     if collection.find_one({"_id": user}) == None:
         call.callback_query.edit_message_text(text="<b>Önce bir API kaydedin!</b>")
         return
-    if collection.find_one({"_id": user})['sira'] == "1":
+    if collection.find_one({"_id": user})['sira'] == 1:
         msz = bot.send_message(chat, "<i>Oluşturduğunuz şablonda</i> <b>{aciklama}, {alink}</b> ve <b>{link}</b> <i>kelimelerinin bulunduğundan emin olun yoksa şablon çalışmaz</i>", reply_markup=imark())
     else:
         msz = bot.send_message(chat, "<i>Oluşturduğunuz şablonda</i> <b>{aciklama}</b> ve <b>{link}</b> <i>kelimelerinin bulunduğundan emin olun yoksa şablon çalışmaz</i>", reply_markup=imark())
@@ -314,7 +314,7 @@ def callback_query(call, context):
             pass
         bot.send_message(chat, "Tüm bilgileriniz silindi.", reply_markup=dagme())
     if call.callback_query.data == "akaldır":
-        collection.update_one({"_id": user}, {"$set": {"altsite": "None", "altapi": "None", "sira": "0", "sablon": "1"}})
+        collection.update_one({"_id": user}, {"$set": {"altsite": "None", "altapi": "None", "sira": 0, "sablon": "1"}})
         bot.edit_message_text("⛔ Alternatif Kaldırıldı.", user, mesajid)
         call.callback_query.answer("⛔ Alternatif Kaldırıldı.")
     if call.callback_query.data == "aiptal":
@@ -605,7 +605,7 @@ def callback_query(call, context):
             return ConversationHandler.END
     """ Şablon """
     if call.callback_query.data == "vsablon":
-        if collection.find_one({"_id": user})['sira'] == "1":
+        if collection.find_one({"_id": user})['sira'] == 1:
             collection.update_one({"_id": user}, {"$set": {"sablon": "9"}})
         else:
             collection.update_one({"_id": user}, {"$set": {"sablon": "1"}})
