@@ -103,7 +103,7 @@ def poster_job(context):
             else:
                 if para and not user in vipler:
                     token = phaapi(site)
-                    altapi = phaapi(altsite) if altsite != "None" else "None"
+                    altapi = phaapi(altsite) if altsite != "None" and sira < 10 else "None"
                 collection.update_one({"_id": user}, {"$set": {"pcount": 0}})
             link = " "
             alink = " "
