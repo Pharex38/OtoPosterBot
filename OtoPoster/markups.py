@@ -299,7 +299,8 @@ def advaltmark(user):
     advdat = collection.find_one({"_id": user})
     advkeyb.append([InlineKeyboardButton("Sıralı" if advdat['altsite'] == "sirali" else "Tek Post İki Link", callback_data=f"advsistem")])
     for advalt, advdex in enumerate(advdat['altapi']):
-        advkeyb.append([InlineKeyboardButton(site_isim(advalt['site']), callback_data=f"advalt-{advdex}"), InlineKeyboardButton("API 👁️", callback_data=f"advapi-{advdex}")])
+        advisim = site_isim(advalt["site"])
+        advkeyb.append([InlineKeyboardButton(advisim, callback_data=f"advalt-{advdex}"), InlineKeyboardButton("API 👁️", callback_data=f"advapi-{advdex}")])
     advkeyb.append([InlineKeyboardButton("➕ Ekle", callback_data="advekle")])
     return InlineKeyboardMarkup(advkeyb)
 
