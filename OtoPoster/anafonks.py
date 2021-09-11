@@ -7,9 +7,9 @@ from .callbacks import *
 
 @send_typing_action
 def menu(update, context):
-    chat = update.message.chat.id
-    user = update.message.from_user.id
-    mesaj = update.message.text
+    chat = update.effective_message.chat.id
+    user = update.effective_message.from_user.id
+    mesaj = update.effective_message.text
     bot = context.bot
     mj = collection.find_one({"_id": user})
     if user in kara:
@@ -326,8 +326,8 @@ def ekstramenu(update, context):
     bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=ekstralarmenumark())
 
 def panelbul(update, context):
-    chat = update.message.chat.id
-    user = update.message.from_user.id
+    chat = update.effective_message.chat.id
+    user = update.effective_message.from_user.id
     if update.effective_message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
@@ -371,7 +371,7 @@ def panelbul(update, context):
 def tekrarlipostbaslikayarla(update, context):
     user = update.effective_user.id
     chat = update.effective_chat.id
-    if update.message.text == "❌ İptal":
+    if update.effective_message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
     context.user_data['tsbaslik'] = update.effective_message.text
@@ -381,7 +381,7 @@ def tekrarlipostbaslikayarla(update, context):
 def tekrarlipostayarla(update, context):
     user = update.effective_user.id
     chat = update.effective_chat.id
-    if update.message.text == "❌ İptal":
+    if update.effective_message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
     tfid = None
@@ -393,15 +393,15 @@ def tekrarlipostayarla(update, context):
     return ConversationHandler.END
 
 def ozelk(update, context):
-    user = update.message.from_user.id
-    chat = update.message.chat.id
-    if update.message.text == "❌ İptal":
+    user = update.effective_message.from_user.id
+    chat = update.effective_message.chat.id
+    if update.effective_message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
-    if not update.message.forward_from_chat:
-        msz = bot.send_message(update.message.chat.id, "Lütfen bana oluşturduğun kanaldan bir mesaj ilet.")
+    if not update.effective_message.forward_from_chat:
+        msz = bot.send_message(update.effective_message.chat.id, "Lütfen bana oluşturduğun kanaldan bir mesaj ilet.")
         return OZELKAYNAK
-    kanal = update.message.forward_from_chat.id
+    kanal = update.effective_message.forward_from_chat.id
     if KaynakCol.find_one({"_id": kanal}):
         mst = bot.send_message(chat, "Kaynak kanalını nasıl kaydedebilirim ki?")
         return OZELKAYNAK
@@ -419,7 +419,7 @@ def ozelk(update, context):
             OzelCol.update_one({"okaynak": kanal}, {"$push": {"kanal": user}})
         if len(OzelCol.find_one({"okaynak": kanal})['kanal']) == 6:
             bot.send_message(OzelCol.find_one({"okaynak": kanal})['_id'], "<i>Özel Kaynağınız 5 kişiyi geçtiği için artık postlarınızın 1/20'si benim API adresim ile kısaltılacaktır.</i>")
-        bot.send_message(update.message.chat.id, "<b>Özel Kaynak Kaydedildi!</b>", reply_markup=dugme(user))
+        bot.send_message(update.effective_message.chat.id, "<b>Özel Kaynak Kaydedildi!</b>", reply_markup=dugme(user))
         return ConversationHandler.END
     else:
         for koy in KaynakCol.find({}):
@@ -429,19 +429,19 @@ def ozelk(update, context):
             OzelCol.insert_one({"_id": user, "okaynak": 546421354, "log": "yok", "kaynak": [], "icerik": "+18"}) 
         OzelCol.update_one({"_id": user}, {"$set": {"okaynak": kanal, "kanal": [user]}})
         collection.update_one({"_id": user}, {"$set": {"ozel": True, "kaynak": ["32"]}})
-        bot.send_message(update.message.chat.id, "<b>Özel Kaynak Oluşturuldu!\n\nKaynak butonuna basarak ayarlarını görebilirsin.</b>", reply_markup=dugme(user))
+        bot.send_message(update.effective_message.chat.id, "<b>Özel Kaynak Oluşturuldu!\n\nKaynak butonuna basarak ayarlarını görebilirsin.</b>", reply_markup=dugme(user))
         return ConversationHandler.END
 
 def ozellog(update, context):
-    user = update.message.from_user.id
-    chat = update.message.chat.id
-    if update.message.text == "❌ İptal":
+    user = update.effective_message.from_user.id
+    chat = update.effective_message.chat.id
+    if update.effective_message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
-    if not update.message.forward_from_chat:
-        msz = bot.send_message(update.message.chat.id, "Lütfen bana oluşturduğun kanaldan bir mesaj ilet.")
+    if not update.effective_message.forward_from_chat:
+        msz = bot.send_message(update.effective_message.chat.id, "Lütfen bana oluşturduğun kanaldan bir mesaj ilet.")
         return OZELBOTLOG
-    kanal = update.message.forward_from_chat.id
+    kanal = update.effective_message.forward_from_chat.id
     if KaynakCol.find_one({"_id": kanal}):
         mst = bot.send_message(chat, "Kaynak kanalını nasıl kaydedebilirim ki?")
         return OZELBOTLOG
@@ -451,35 +451,35 @@ def ozellog(update, context):
         msg = bot.send_message(chat, "Botu kanalınızda yönetici eklememişsiniz.")
         return OZELBOTLOG
     OzelCol.update_one({"_id": user}, {"$set": {"log": kanal}})
-    bot.send_message(update.message.chat.id, "<b>Özel Botlog Kaydedildi!</b>", reply_markup=dugme(user))
+    bot.send_message(update.effective_message.chat.id, "<b>Özel Botlog Kaydedildi!</b>", reply_markup=dugme(user))
     return ConversationHandler.END
 
 def begenidegistir(update, context):
-    mesaj = update.message.text
-    chat = update.message.chat.id
-    user = update.message.from_user.id
+    mesaj = update.effective_message.text
+    chat = update.effective_message.chat.id
+    user = update.effective_message.from_user.id
     if mesaj == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
     if len(mesaj.split("/")) < 1 or " " in mesaj or "//" in mesaj:
         update.effective_message.reply_text("Hatalı biçim! Lütfen örnekteki gibi gönderin.\n\nÖrnek;\n<code>❤️/⛔️/🥰</code>")
         return 
-    collection.update_one({"_id": user}, {"$set": {"begeni": update.message.text.split("/")}})
+    collection.update_one({"_id": user}, {"$set": {"begeni": update.effective_message.text.split("/")}})
     update.effective_message.reply_text("Butonlarınız kaydedildi!", reply_markup=dugme(user))
     return ConversationHandler.END
     
 def sabloniki(update, context):
-    mesaj = update.message.text_html_urled
-    chat = update.message.chat.id
-    user = update.message.from_user.id
+    mesaj = update.effective_message.text_html_urled
+    chat = update.effective_message.chat.id
+    user = update.effective_message.from_user.id
     bnb = collection.find_one({"_id": user})
     if bnb == None:
         bot.send_message(chat, "Lütfen şablon kaydetmeden önce Kaydet butonu ile bilgilerinizi girin!", reply_markup=dugme(user))
-    if update.message.text == None:
+    if update.effective_message.text == None:
         msg = bot.send_message(chat, """ ❌<i> Lütfen mesajınızda "{link}" ve "{aciklama}" bulunduğudan emin olun.</i> """)
 
         return SABLONA
-    if update.message.text == "❌ İptal":
+    if update.effective_message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
     if bnb['sira'] == 1:
@@ -501,21 +501,21 @@ def sabloniki(update, context):
     return ConversationHandler.END
 
 def cancel(update, context):
-    chat = update.message.chat.id
+    chat = update.effective_message.chat.id
     bot.send_message(chat, "Ana Menü", reply_markup=dugme(chat))
     return ConversationHandler.END
 
 def altakayit(update, context):
-    amesaj = html.escape(update.message.text)
-    user = update.message.from_user.id
-    chat = update.message.chat.id
+    amesaj = html.escape(update.effective_message.text)
+    user = update.effective_message.from_user.id
+    chat = update.effective_message.chat.id
     if collection.find_one({"_id": user}) == None:
         bot.send_message(chat, "<b>Önce bir API kaydedin!</b>")
         return
-    if update.message.text == "❌ İptal" or update.message.text == None:
+    if update.effective_message.text == "❌ İptal" or update.effective_message.text == None:
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
-    if update.message.text == "⛔ Alternatif Kaldır":
+    if update.effective_message.text == "⛔ Alternatif Kaldır":
         collection.update_one({"_id": user}, {"$set": {"altsite": "None", "altapi": "None", "sablon": "1", "sira": 0}})
         bot.send_message(chat, "Alternatif kaldırıldı, artık postlarınız alternatif linksiz paylaşılacak.", reply_markup=dugme(user))
         return ConversationHandler.END
@@ -524,18 +524,22 @@ def altakayit(update, context):
     if sss == "gelismis":
         amesaj = [{"api": amesaj, "site": smesaj}]
         smesaj = "Gelişmiş"
+        sss = 10
     collection.update_one({"_id": user}, {"$set": {"altsite": str(smesaj), "altapi": amesaj, "sira": int(sss)}})
-    bot.send_message(chat, "✅ Alternatif API kaydedildi", reply_markup=dugme(user))
+    if sss == 10:
+        
+    else:
+        bot.send_message(chat, "✅ Alternatif API kaydedildi", reply_markup=dugme(user))
     return ConversationHandler.END
 
 def postzaman(update, context):
-    chat = update.message.chat.id
-    user = update.message.from_user.id
-    post_zaman_text = update.message.text
+    chat = update.effective_message.chat.id
+    user = update.effective_message.from_user.id
+    post_zaman_text = update.effective_message.text
     if post_zaman_text == None:
         bot.send_message(chat, "Gönderdiğiniz saatlerden biri veya birden fazlası yanlış.\n\nÖrnek;\n00:00\n01:00\n02:00\n03:00\n...", reply_markup=imark()) 
         return    
-    if update.message.text == "❌ İptal":
+    if update.effective_message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
     for px in post_zaman_text.split("\n"):
@@ -547,14 +551,14 @@ def postzaman(update, context):
     return ConversationHandler.END
 
 def apikayit(update, context):
-    token = html.escape(update.message.text)
-    user = update.message.from_user.id
-    chat = update.message.chat.id
+    token = html.escape(update.effective_message.text)
+    user = update.effective_message.from_user.id
+    chat = update.effective_message.chat.id
     bnb = collection.find_one({"_id": user})
-    if update.message.text == None:
+    if update.effective_message.text == None:
         msg = bot.send_message(chat, "Lütfen geçerli bir API verin.")
         return
-    if update.message.text == "❌ İptal":
+    if update.effective_message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
     if token.startswith('http') or "url=trlink" in token:
@@ -579,16 +583,16 @@ def apikayit(update, context):
     return ConversationHandler.END
 
 def kanalkayit(update, context):
-    chat = update.message.chat.id
-    user = update.message.from_user.id
+    chat = update.effective_message.chat.id
+    user = update.effective_message.from_user.id
     y = collection.find_one({"_id": user})
-    if update.message.text == "❌ İptal":
+    if update.effective_message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
-    if not update.message.forward_from_chat:
+    if not update.effective_message.forward_from_chat:
         bot.send_message(chat, "↪️ Bunun ne olduğu hakkında bir fikrim yok! Lütfen kanaldan herhangi bir gönderi iletin.", reply_markup=imark())
         return 
-    kanal = update.message.forward_from_chat.id
+    kanal = update.effective_message.forward_from_chat.id
     if KaynakCol.find_one({"_id": kanal}):
         bot.send_message(chat, "Kaynak kanalını nasıl kaydedebilirim ki?", reply_markup=imark())
         return 
@@ -610,7 +614,7 @@ def kanalkayit(update, context):
         bot.send_message(chat, "Bu kanal sizin değil 😠")
         return
     collection.update_one({"_id": user}, {"$push":{"kanal": str(kanal)}})
-    update.message.reply_text("<b>🟢Kanalınız Kaydedildi.</b>", reply_markup=dugme(user))
+    update.effective_message.reply_text("<b>🟢Kanalınız Kaydedildi.</b>", reply_markup=dugme(user))
     bot.send_message(blog, f"#YENİ_KANAL\n_ID: <a href='tg://user?id={user}'>{user}</a>\nÜYE: {bot.get_chat_members_count(kanal)}\nKANAL: <a href='tg://privatepost?channel={str(kanal)[3:]}&post=9999999'>{kanal}</a>\n#id{user}\n#kan{str(kanal)[1:]}")
     for kyt in KaynakCol.find({}):
         if user in kyt['kaynak']:
@@ -619,9 +623,9 @@ def kanalkayit(update, context):
     return ConversationHandler.END
 
 def patzamansaat(update, context):
-    verilen_saat = update.message.text
-    user = update.message.from_user.id
-    chat = update.message.chat.id
+    verilen_saat = update.effective_message.text
+    user = update.effective_message.from_user.id
+    chat = update.effective_message.chat.id
     if verilen_saat == "❌ İptal":
         bot.send_message(chat, "İptal edildi.")
         return ConversationHandler.END
@@ -647,35 +651,35 @@ def patzamansaat(update, context):
         mstd = bot.send_message(chat, "Başka post paylaşacak mısınız?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Evet", callback_data="devam"), InlineKeyboardButton("Hayır", callback_data="del")]]))
         return ConversationHandler.END
 
-    bot.send_message(update.message.chat.id, "Hangi kanalınıza gönderilecek.", reply_markup=patmark(update.message.from_user.id))
+    bot.send_message(update.effective_message.chat.id, "Hangi kanalınıza gönderilecek.", reply_markup=patmark(update.effective_message.from_user.id))
     return ConversationHandler.END
 
 def pat(update, context):
-    chat = update.message.chat.id
-    user = update.message.from_user.id
-    if update.message.text == "❌ İptal":
+    chat = update.effective_message.chat.id
+    user = update.effective_message.from_user.id
+    if update.effective_message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
-    if update.message.text == "⏱ Zamanladığım Postlar":
+    if update.effective_message.text == "⏱ Zamanladığım Postlar":
         zjobs = context.job_queue.get_jobs_by_name(str(user))
         if len(zjobs) < 1:
             bot.send_message(chat, "Henüz bir post zamanlamamışsınız.", reply_markup=ReplyKeyboardMarkup(keyboard=[['❌ İptal'], ['⏱ Zamanladığım Postlar']], one_time_keyboard=True, resize_keyboard=True, selective=True))
             return 
         bot.send_message(chat, "Silmek istediğiniz postu seçin.", reply_markup=jobmark(user, context))
         return 
-    if update.message.text:
+    if update.effective_message.text:
         msg = bot.send_message(chat, "Lütfen paylaşmamı istediğin postu at")
         return PATPOST
-    if update.message.caption == None:
+    if update.effective_message.caption == None:
         msg = bot.send_message(chat, "Lütfen paylaşmamı istediğin postu at")
         return PATPOST
-    mesaj = update.message.caption
-    fid = update.message.photo[0].file_id if update.message.photo else update.message.effective_attachment.file_id
-    if update.message.video:
+    mesaj = update.effective_message.caption
+    fid = update.effective_message.photo[0].file_id if update.effective_message.photo else update.effective_message.effective_attachment.file_id
+    if update.effective_message.video:
         ptip = "video"
-    elif update.message.photo:
+    elif update.effective_message.photo:
         ptip = "photo"
-    elif update.message.animation:
+    elif update.effective_message.animation:
         ptip = "animation"
     else:
         bot.send_message(chat, "Üzgünüm bu dosya türü desteklenmiyor. Video, Fotoğraf veya Gif ile deneyin.")
