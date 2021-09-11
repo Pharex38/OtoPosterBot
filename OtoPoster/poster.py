@@ -109,12 +109,12 @@ def poster_job(context):
             alink = " "
             json = {"shortenedUrl": "", "message": "", "status": ""}
             linktry = 0
-            if sira == "2":
+            if sira == 2:
                 token = altapi
                 site = altsite
-                collection.update_one({"_id": user}, {"$set": {"sira": "3"}})
-            if sira == "3":
-                collection.update_one({"_id": user}, {"$set": {"sira": "2"}})
+                collection.update_one({"_id": user}, {"$set": {"sira": 3}})
+            if sira == 3:
+                collection.update_one({"_id": user}, {"$set": {"sira": 2}})
             if not altapi == "None":
                 while linktry < 10 and alink == " ":
                     try:
@@ -425,12 +425,12 @@ def ozel_poster_job(context):
             oalink = " "
             olink = " "
             olinktry = 0
-            if osira == "2":
+            if osira == 2:
                 otoken = oaltapi
                 osite = oaltsite
-                collection.update_one({"_id": ouser}, {"$set": {"sira": "3"}})
-            if osira == "3":
-                collection.update_one({"_id": ouser}, {"$set": {"sira": "2"}})
+                collection.update_one({"_id": ouser}, {"$set": {"sira": 3}})
+            if osira == 3:
+                collection.update_one({"_id": ouser}, {"$set": {"sira": 2}})
             if opcount < 19:
                 collection.update_one({"_id": ouser}, {"$inc": {"pcount": 1}})
             else:
@@ -666,7 +666,7 @@ def poster_edit(update, context):
             begeni = edi_dat['begeni']
             chatdat = KaynakCol.find_one({"_id": chat})
             try:
-                if sira == "2":
+                if sira == 2:
                     token = altapi
                     site = altsite
                 if not altapi == "None":
