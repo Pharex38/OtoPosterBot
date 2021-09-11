@@ -145,7 +145,7 @@ def altmarkup(user):
     if collection.find_one({"_id": user})['altapi'] != "None":
         altkey.append([InlineKeyboardButton("⛔ Alternatif Kaldır", callback_data="akaldır")])
     if user == sahip:
-        altkey.append([InlineKeyboardMarkup("Gelişmiş", callback_data="sistem-gelismis")])
+        altkey.append([InlineKeyboardButton("Gelişmiş", callback_data="sistem-gelismis")])
     altmark = InlineKeyboardMarkup(altkey)
     return altmark
 
