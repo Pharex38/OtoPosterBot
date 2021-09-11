@@ -294,6 +294,14 @@ def zamanmenumark(user):
     else:
         return InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton("Post Zamanları Ayarla", callback_data="pzayarla")], [InlineKeyboardButton("Post Zamanlarını Devre Dışı Bırak", callback_data="pzkaldır")], [InlineKeyboardButton("❌ İptal ❌", callback_data="iptal")]])
 
+def advaltmark(user):
+    advkeyb = []
+    advdat = collection.find_one({"_id": user})
+    advkeyb.append([InlineKeyboardButton("Sıralı" if advdat['altsite'] == "sirali" else "Tek Post İki Link", callback_data=f"advsistem")])
+    for advalt, advdex in enumerate(advdat['altapi']):
+        advkeyb.append([InlineKeyboardButton(site_isim(advalt['site']), callback_data=f"advalt-{advdex}"), InlineKeyboardButton("API 👁️", callback_data=f"advapi-{advdex}")])
+    advkeyb.append([InlineKeyboardButton("➕ Ekle", callback_data="advekle")])
+    return InlineKeyboardMarkup(advkeyb)
 
 def sablonmark(user):
     if collection.find_one({"_id": user})['sablon'] in ["1", "2", "3", "9"]:
@@ -309,7 +317,7 @@ def sablonmark(user):
 
 def patmark(user):
     zero = 0
-    pkeyb = [[InlineKeyboardButton("Hepsine Gönder", callback_data="pat-0")]]
+    pkeyb = [[InlineKeyboardButton("💎Hepsine Gönder💎", callback_data="pat-0")]]
     pkul = collection.find_one({"_id": user})
 
     for k in pkul['kanal']:
