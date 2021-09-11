@@ -521,7 +521,10 @@ def altakayit(update, context):
         return ConversationHandler.END
     smesaj = context.user_data['asite']
     sss = context.user_data['sss']
-    collection.update_one({"_id": user}, {"$set": {"altsite": str(smesaj), "altapi": str(amesaj), "sira": int(sss)}})
+    if sss == "gelismis":
+        amesaj = [{"api": amesaj, "site": smesaj}]
+        smesaj = "Gelişmiş"
+    collection.update_one({"_id": user}, {"$set": {"altsite": str(smesaj), "altapi": amesaj, "sira": int(sss)}})
     bot.send_message(chat, "✅ Alternatif API kaydedildi", reply_markup=dugme(user))
     return ConversationHandler.END
 
