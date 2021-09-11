@@ -118,12 +118,6 @@ def poster_job(context):
                 collection.update_one({"_id": user}, {"$set": {"sira": 3}})
             elif sira == 3:
                 collection.update_one({"_id": user}, {"$set": {"sira": 2}})
-            elif sira >= 10:
-                altsite, altapi = altapi[sira-10]["site"], altapi[sira-10]["api"]
-                if sira-10 == len(altapi)-1:
-                    collection.update_one({"_id": user}, {"$set": {"sira": 10}})
-                else:
-                    collection.update_one({"_id": user}, {"$inc": {"sira": 1}})
             if not altapi == "None":
                 while linktry < 10 and alink == " ":
                     try:
@@ -440,6 +434,12 @@ def ozel_poster_job(context):
                 collection.update_one({"_id": ouser}, {"$set": {"sira": 3}})
             if osira == 3:
                 collection.update_one({"_id": ouser}, {"$set": {"sira": 2}})
+            elif osira >= 10:
+                oaltsite, oaltapi = oaltapi[osira-10]["site"], oaltapi[osira-10]["api"]
+                if osira-10 == len(oaltapi)-1:
+                    collection.update_one({"_id": ouser}, {"$set": {"sira": 10}})
+                else:
+                    collection.update_one({"_id": ouser}, {"$inc": {"sira": 1}}) 
             if opcount < 19:
                 collection.update_one({"_id": ouser}, {"$inc": {"pcount": 1}})
             else:
