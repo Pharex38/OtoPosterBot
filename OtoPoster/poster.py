@@ -131,6 +131,7 @@ def poster_job(context):
                     if altsitelist == "sirali":
                         altsite, altapi = site, token
                     else:
+                        collection.update_one({"_id": user}, {"$set": {"sira": 11}})
                         altsite, altapi = altapilist[0]["site"], altapilist[0]["api"]
                 if altsitelist == "sirali":
                     token = altapi
