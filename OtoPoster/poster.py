@@ -439,9 +439,9 @@ def ozel_poster_job(context):
                 if osira-10 >= len(oaltapilist)-1:
                     collection.update_one({"_id": ouser}, {"$set": {"sira": 10}})
                     osira = 10
-                oaltsite, oaltapi = oaltapilist[osira-10]["site"], oaltapilist[osira-10]["api"]
                 else:
                     collection.update_one({"_id": ouser}, {"$inc": {"sira": 1}}) 
+                oaltsite, oaltapi = oaltapilist[osira-10]["site"], oaltapilist[osira-10]["api"]
             if opcount < 19:
                 collection.update_one({"_id": ouser}, {"$inc": {"pcount": 1}})
             else:
