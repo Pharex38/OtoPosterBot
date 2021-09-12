@@ -448,13 +448,13 @@ def ozel_poster_job(context):
                 collection.update_one({"_id": ouser}, {"$set": {"sira": 2}})
             elif osira >= 10:
                 oaltapilist = oaltapi
-                if osira-10 >= len(oaltapilist)-1:
+                oaltsitelist = oaltsite
+                if osira-10 > len(oaltapilist)-1:
                     collection.update_one({"_id": ouser}, {"$set": {"sira": 10}})
-                    osira = 10
                 else:
                     collection.update_one({"_id": ouser}, {"$inc": {"sira": 1}}) 
                 oaltsite, oaltapi = oaltapilist[osira-10]["site"], oaltapilist[osira-10]["api"]
-                if oaltsite == "sirali":
+                if oaltsitelist == "sirali":
                     otoken = oaltapi
                     osite = oaltsite
                     oaltapi = "None"
