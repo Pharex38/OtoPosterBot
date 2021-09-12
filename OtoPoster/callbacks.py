@@ -683,6 +683,8 @@ def advcall(call, context):
         query.answer(f"API Adresiniz:\n {advdat['altapi'][int(query.data.split('-')[-1])]['api']}", show_alert=True)
     elif query.data.startswith("advsil-"):
         collection.update_one({"_id": user}, {"$pull": {"altapi": advdat['altapi'][int(query.data.split("-")[-1])]}})
+        query.answer("API Kaldırıldı!")
+        query.edit_message_reply_markup(advaltmark(user))
     
 
 def begeniislemcall(call, context):
