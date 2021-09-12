@@ -121,7 +121,7 @@ def poster_job(context):
             elif sira >= 10:
                 altapilist = altapi
                 altsitelist = altsite
-                if sira-10 >= len(altapilist)-1:
+                if sira-10 > len(altapilist)-1:
                     collection.update_one({"_id": user}, {"$set": {"sira": 10}})
                     sira = 10
                 else:
