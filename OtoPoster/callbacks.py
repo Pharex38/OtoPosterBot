@@ -663,6 +663,21 @@ def tekrarlisaatayarlacall(call, context):
     call.callback_query.answer("Saat belirlendi!")
     return TSBASLIK
 
+def advcall(call, context):
+    user = call.effective_user.id
+    chat = call.effective_chat.id
+    advdat = collection.find_one({"_id": user})
+    query = call.callback_query
+    if query.data == "advsistem":
+        if advdat["altsite"] == "sirali":
+            collection.update_one({"_id": user}, {"$set": {"altsite": "tpil"}})
+            query.answer("Alternatif sisteminiz Tek Post İki Link olarak değiştirldi.")
+        else:
+            query.answer("Alternatif sisteminiz Sıralı olarak değiştirldi.")
+            collection.update_one({"_id": user}, {"$set": {"altsite": "sirali"}})
+        query.edit_message_reply_markup(advaltmark(user))
+    
+
 def begeniislemcall(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
