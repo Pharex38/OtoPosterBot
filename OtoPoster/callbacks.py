@@ -655,6 +655,7 @@ def callback_query(call, context):
             return
         bot.send_message(eklenti, f'{user}+{ioskanlink.invite_link}')
         context.user_data['iosmsgid'] = mesajid
+    call.callback_query.answer(f"Yanıt yok - {call.callback_query.data}")
 
 def tekrarlisaatayarlacall(call, context):
     context.user_data['tsaat'] = int(call.callback_query.data.split("-")[-1])
