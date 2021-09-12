@@ -120,13 +120,14 @@ def poster_job(context):
                 collection.update_one({"_id": user}, {"$set": {"sira": 2}})
             elif sira >= 10:
                 altapilist = altapi
+                altsitelist = altsite
                 if sira-10 >= len(altapilist)-1:
                     collection.update_one({"_id": user}, {"$set": {"sira": 10}})
                     sira = 10
                 else:
                     collection.update_one({"_id": user}, {"$inc": {"sira": 1}}) 
                 altsite, altapi = altapilist[sira-10]["site"], altapilist[sira-10]["api"]
-                if altsite == "sirali":
+                if altsitelist == "sirali":
                     token = altapi
                     site = altsite
                     altapi = "None"
