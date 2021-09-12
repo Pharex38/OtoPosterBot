@@ -4,6 +4,7 @@ from .misc import *
 
 def jobyedekleme(context):
     collection.update_one({"_id": 0}, {"$set": {"jobs": []}})
+    ptimeout = collection.find_one({"_id": 0})['timeout']
     yjcount = 0
     for kap in context.job_queue.jobs():
         if not str(kap.name) in ignorejob:
