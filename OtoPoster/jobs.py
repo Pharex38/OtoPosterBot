@@ -3,6 +3,7 @@ from .misc import *
 
 
 def jobyedekleme(context):
+    global ptimeout
     collection.update_one({"_id": 0}, {"$set": {"jobs": []}})
     ptimeout = collection.find_one({"_id": 0})['timeout']
     yjcount = 0
