@@ -528,6 +528,8 @@ def altakayit(update, context):
             smesaj = "sirali"
         sss = 10
     if sss == "ekle":
+        if amesaj in [m for m in collection.find_one({"_id": user})["altapi"]["api"]]:
+            bot.send_message(chat, "Bu apiyi zaten kaydetmişsin!", reply_markup=imark())
         amesaj = {"api": amesaj, "site": smesaj}
         collection.update_one({"_id": user}, {"$push": {"altapi": amesaj}})
     else:
