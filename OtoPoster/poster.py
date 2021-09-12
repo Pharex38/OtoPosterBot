@@ -131,8 +131,7 @@ def poster_job(context):
                     if altsitelist == "sirali":
                         altsite, altapi = site, token
                     else:
-                    altsite, altapi = altapilist[0]["site"], altapilist[0]["api"]
-                        
+                        altsite, altapi = altapilist[0]["site"], altapilist[0]["api"]
                 if altsitelist == "sirali":
                     token = altapi
                     site = altsite
@@ -465,6 +464,8 @@ def ozel_poster_job(context):
                 except IndexError:
                     if oaltsitelist == "sirali":
                         oaltsite, oaltapi = osite, otoken
+                    else:
+                        oaltsite, oaltapi = oaltapilist[0]["site"], oaltapilist[0]["api"]
                 if oaltsitelist == "sirali":
                     otoken = oaltapi
                     osite = oaltsite
