@@ -518,15 +518,14 @@ def altakayit(update, context):
     if update.effective_message.text == "❌ İptal" or update.effective_message.text == None:
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
-    if update.effective_message.text == "⛔ Alternatif Kaldır":
-        collection.update_one({"_id": user}, {"$set": {"altsite": "None", "altapi": "None", "sablon": "1", "sira": 0}})
-        bot.send_message(chat, "Alternatif kaldırıldı, artık postlarınız alternatif linksiz paylaşılacak.", reply_markup=dugme(user))
-        return ConversationHandler.END
     smesaj = context.user_data['asite']
     sss = context.user_data['sss']
     if sss == "gelismis":
         amesaj = [{"api": amesaj, "site": smesaj}]
-        smesaj = "Gelişmiş"
+        if "{alink}" in collection.find({"_id": user})["sablon"]:
+            smesaj = "tpil"
+        else:
+            smesaj = "sirali"
         sss = 10
     collection.update_one({"_id": user}, {"$set": {"altsite": str(smesaj), "altapi": amesaj, "sira": int(sss)}})
     if sss == 10:
