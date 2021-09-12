@@ -677,6 +677,7 @@ def advcall(call, context):
             collection.update_one({"_id": user}, {"$set": {"altsite": "sirali"}})
         query.edit_message_reply_markup(advaltmark(user))
     elif query.data == "advekle":
+        query.answer("Site seçin.")
         context.user_data["sss"] = "ekle"
         bot.send_message(chat, "Yeni eklemem istediğiniz siteyi seçin.", reply_markup=altsitemarkup("asite"))
     elif query.data.startswith("advapi-"):
@@ -685,6 +686,8 @@ def advcall(call, context):
         collection.update_one({"_id": user}, {"$pull": {"altapi": advdat['altapi'][int(query.data.split("-")[-1])]}})
         query.answer("API Kaldırıldı!")
         query.edit_message_reply_markup(advaltmark(user))
+    elif query.data == "advbilgi":
+        query.answer("Sıralı:\nKaydettiğiniz tüm apileri sırayla kullanır.\n\nTek Post İki Link:\nKaydettiğiniz tüm apileri birincil apiniz ile birlikte tek postta iki link olarak paylaşır.", show_alert=True)
     
 
 def begeniislemcall(call, context):
