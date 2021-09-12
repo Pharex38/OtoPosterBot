@@ -676,6 +676,11 @@ def advcall(call, context):
             query.answer("Alternatif sisteminiz Sıralı olarak değiştirldi.")
             collection.update_one({"_id": user}, {"$set": {"altsite": "sirali"}})
         query.edit_message_reply_markup(advaltmark(user))
+    elif query.data == "advekle":
+        context.user_data["sss"] = "ekle"
+        bot.send_message(chat, "Yeni eklemem istediğiniz siteyi seçin.", reply_markup=altsitemarkup("asite"))
+    elif query.data.startswith("advapi-"):
+        query.answer(f"API Adresiniz:\n {advdat['altapi'][int(query.data.split('-')[-1]) ]['site']}", show_alert=True)
     
 
 def begeniislemcall(call, context):
