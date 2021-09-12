@@ -454,6 +454,10 @@ def ozel_poster_job(context):
                 else:
                     collection.update_one({"_id": ouser}, {"$inc": {"sira": 1}}) 
                 oaltsite, oaltapi = oaltapilist[osira-10]["site"], oaltapilist[osira-10]["api"]
+                if oaltsite == "sirali":
+                    otoken = oaltapi
+                    osite = oaltsite
+                    oaltapi = "None"
             if opcount < 19:
                 collection.update_one({"_id": ouser}, {"$inc": {"pcount": 1}})
             else:
