@@ -320,7 +320,7 @@ def advaltmark(user):
     for advdex, advalt in enumerate(advdat['altapi']):
         advisim = site_isim(advalt["site"])
         advkeyb.append([InlineKeyboardButton(advisim, callback_data=f"advalt-{advdex}"), InlineKeyboardButton("API 👁️", callback_data=f"advapi-{advdex}"), InlineKeyboardButton("⛔ Kaldır", callback_data=f"advsil-{advdex}")])
-    advkeyb.append([InlineKeyboardButton("➕ Ekle", callback_data="advekle"), InlineKeyboardButton("⛔ Tüm Alternatifleri Kaldır", callback_data="akaldır")])
+    advkeyb.append([InlineKeyboardButton("➕ Ekle", callback_data="advekle"), InlineKeyboardButton("⛔ Tümünü Kaldır", callback_data="akaldır")])
     return InlineKeyboardMarkup(advkeyb)
 
 def sablonmark(user):
