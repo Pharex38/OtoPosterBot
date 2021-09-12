@@ -109,7 +109,7 @@ def poster_job(context):
             alink = " "
             json = {"shortenedUrl": "", "message": "", "status": ""}
             linktry = 0
-            if site in collection.find_one({"_id": "site"})['site']:
+            if site in collection.find_one({"_id": 0})['site']:
                 logger.warning("Site yasaklı olduğu için atlandı!")
                 continue
             if sira == 2:
