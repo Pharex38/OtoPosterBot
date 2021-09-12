@@ -171,6 +171,8 @@ def gunluk(context):
         stat_text += "{}. {} -> {} \n".format(statscount, gktitle, len(kstat['kaynak']))
         gunkans = []
         for kus in kstat['kaynak']:
+            if collection.find_one({"_id": kus}) == None:
+                continue
             for gk in collection.find_one({"_id": kus})['kanal']:
                 if gk in kstat['kanal'] and not gk in gunkans:
                     gunkans.append(gk)
@@ -191,6 +193,8 @@ def gunluk(context):
         astat_text += "{}. {} -> {} \n".format(statscount, gktitle, len(kstat['kaynak']))
         gunkans = []
         for kus in kstat['kaynak']:
+            if collection.find_one({"_id": kus}) == None:
+                continue
             for gk in collection.find_one({"_id": kus})['kanal']:
                 if gk in kstat['kanal'] and not gk in gunkans:
                     gunkans.append(gk)
