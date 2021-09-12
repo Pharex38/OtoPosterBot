@@ -687,7 +687,7 @@ def advcall(call, context):
         query.answer("API Kaldırıldı!")
         query.edit_message_reply_markup(advaltmark(user))
     elif query.data == "advbilgi":
-        query.answer("Sıralı:\nKaydettiğiniz tüm apileri sırayla kullanır.\n\nTek Post İki Link:\nKaydettiğiniz tüm apileri birincil apiniz ile birlikte tek postta iki link olarak paylaşır.", show_alert=True)
+        query.answer("Sıralı:\nKaydettiğiniz tüm apileri sırayla kullanır.\n\nTek Post İki Link:\nKaydettiğiniz tüm apileri birincil apiniz ile birlikte tek postta iki link olarak sırayla paylaşır.", show_alert=True)
     
 
 def begeniislemcall(call, context):
