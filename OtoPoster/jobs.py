@@ -100,6 +100,7 @@ def gunluk(context):
     for kullanici in kullanicilar:
         try:
             kullanici['site']
+            kullanici['altsite']
         except:
             continue
         if kullanici['site'] == "1":
