@@ -125,7 +125,14 @@ def poster_job(context):
                     collection.update_one({"_id": user}, {"$set": {"sira": 10}})
                 else:
                     collection.update_one({"_id": user}, {"$inc": {"sira": 1}}) 
-                altsite, altapi = altapilist[sira-10]["site"], altapilist[sira-10]["api"]
+                try:
+                    altsite, altapi = altapilist[sira-10]["site"], altapilist[sira-10]["api"]
+                except IndexError:
+                    if altsitelist == "sirali":
+                        altsite, altapi = site, token
+                    else:
+                    altsite, altapi = altapilist[0]["site"], altapilist[0]["api"]
+                        
                 if altsitelist == "sirali":
                     token = altapi
                     site = altsite
