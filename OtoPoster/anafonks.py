@@ -527,7 +527,11 @@ def altakayit(update, context):
         else:
             smesaj = "sirali"
         sss = 10
-    collection.update_one({"_id": user}, {"$set": {"altsite": str(smesaj), "altapi": amesaj, "sira": int(sss)}})
+    if sss == "ekle":
+        amesaj = {"api": amesaj, "site": smesaj}
+        collection.update_one({"_id": user}, {"$push": {"altapi": amesaj}})
+    else:
+        collection.update_one({"_id": user}, {"$set": {"altsite": str(smesaj), "altapi": amesaj, "sira": int(sss)}})
     if sss == 10:
         bot.send_message(chat, "İlk Gelişmiş Alternatifiniz kaydedildi.\n\nAyarlarını görmek için <code>🤖 Alternatif Link</code> butonuna basabilirsin.", reply_markup=apimenumark())
         return APIMENU
