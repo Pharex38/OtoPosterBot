@@ -680,7 +680,9 @@ def advcall(call, context):
         context.user_data["sss"] = "ekle"
         bot.send_message(chat, "Yeni eklemem istediğiniz siteyi seçin.", reply_markup=altsitemarkup("asite"))
     elif query.data.startswith("advapi-"):
-        query.answer(f"API Adresiniz:\n {advdat['altapi'][int(query.data.split('-')[-1]) ]['api']}", show_alert=True)
+        query.answer(f"API Adresiniz:\n {advdat['altapi'][int(query.data.split('-')[-1])]['api']}", show_alert=True)
+    elif query.data.startswith("advsil-"):
+        collection.update_one({"_id": user}, {"$pull": {"altapi": advdat['altapi'][int(query.data.split("-")[-1])]}})
     
 
 def begeniislemcall(call, context):
