@@ -118,7 +118,7 @@ def poster_job(context):
                 collection.update_one({"_id": user}, {"$set": {"sira": 3}})
             elif sira == 3:
                 collection.update_one({"_id": user}, {"$set": {"sira": 2}})
-            elif sira <= 10:
+            elif sira >= 10:
                 altapilist = altapi
                 if sira-10 >= len(altapilist)-1:
                     collection.update_one({"_id": user}, {"$set": {"sira": 10}})
