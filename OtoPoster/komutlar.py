@@ -227,7 +227,7 @@ def parak(update, context):
 
 def bul(update, context):
     if len(context.args) != 4:
-        update.effective_message.reply_text(html.escape(jason.dumps(collection.find_one({"_id": sahip}), indent=2, ensure_ascii=False))))
+        update.effective_message.reply_text(html.escape(jason.dumps(collection.find_one({"_id": sahip}), indent=2, ensure_ascii=False)))
         update.effective_message.reply_text("Eksik parametre!")
         return
     if context.args[2] == "list":
