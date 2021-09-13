@@ -73,7 +73,7 @@ def menu(update, context):
         except:
             bot.send_message(chat, """⛔ Bu menüyü görebilmek içim önce bir API kaydetmelisiniz!\n\n📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark())
             return APIDEGISTIR
-        if mj['altsite'] == "None":
+        if mj['altsite'] == "None" or mj['sira'] not in [2, 3, 1]:
             apimenu_mesaj = "<i>♦️Kayıtlı API: {}\nSite: {}</i>".format(mj['token'], site_isim(mj['site']))
         else:
             apimenu_mesaj = "<i>♦️Birincil API: {}\n  Birincil Site: {}\n  Alternatif API: {}\n  Alternatif Site: {}</i>".format(mj['token'], site_isim(mj['site']), mj['altapi'], site_isim(mj['altsite']))
