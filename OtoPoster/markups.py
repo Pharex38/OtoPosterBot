@@ -160,7 +160,7 @@ def altsitemarkup(asite):
 
 def altmarkup(user):
 
-    altkey = [[InlineKeyboardButton("Sıralı", callback_data="sistem-2")], [InlineKeyboardButton("Tek Post İki Link", callback_data="sistem-1")], [InlineKeyboardButton("❌ İptal ❌", callback_data="iptal")], [InlineKeyboardButton("Gelişmiş", callback_data="sistem-gelismis")]]
+    altkey = [[InlineKeyboardButton("Sıralı", callback_data="sistem-2")], [InlineKeyboardButton("Tek Post İki Link", callback_data="sistem-1")], [InlineKeyboardButton("Gelişmiş", callback_data="sistem-gelismis")], [InlineKeyboardButton("❌ İptal ❌", callback_data="iptal")]]
     if collection.find_one({"_id": user})['altapi'] != "None":
         altkey.append([InlineKeyboardButton("⛔ Alternatif Kaldır", callback_data="akaldır")])
     altmark = InlineKeyboardMarkup(altkey)
