@@ -27,7 +27,11 @@ def poster_job(context):
     chatdat = KaynakCol.find_one({"_id": chat})
     count = 0
     mainsira = collection.find_one({"_id": 0})['sira']
-    kynk = bot.get_chat(chat)
+    try:
+        kynk = bot.get_chat(chat)
+    except RetryAfter as rtfr:
+        sleep(rtfr+1)
+        kynk = bot.get_chat(chat)
     while mainsira > 2:
         sleep(10)
         logger.warning(f"{kynk.title} kaynağının postu sırada bekletiliyor...")
