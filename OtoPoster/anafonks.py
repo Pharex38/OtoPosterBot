@@ -522,7 +522,7 @@ def altakayit(update, context):
     sss = context.user_data['sss']
     if sss == "gelismis":
         amesaj = [{"api": amesaj, "site": smesaj}]
-        if "{alink}" in collection.find({"_id": user})["sablon"]:
+        if "{alink}" in collection.find_one({"_id": user})["sablon"]:
             smesaj = "tpil"
         else:
             smesaj = "sirali"
