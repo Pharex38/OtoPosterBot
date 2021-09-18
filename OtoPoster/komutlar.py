@@ -513,6 +513,10 @@ def yenikaynakkomutu(update, context):
     kaynak_degisken['sahip'] = int(context.args[0])
     kaynak_degisken['_id'] = int(context.args[1])
     kaynak_degisken['icerik'] = str(context.args[2])
+    graff = {}
+    for gg in range(1, 32):
+        graff[str(gg)] = {"user": 0, "kanal": 0}
+    kaynak_degisken['grafik'] = graff
     for zorp in range(1, 80):
         if KaynakCol.find_one({"no": zorp}) == None:
             kaynak_degisken['no'] = zorp
