@@ -180,6 +180,8 @@ def panelcall(call, context):
             bot.send_message(chat, "Bulmak istediğiniz kullanıcının ID'sini veya kullanıcıdan herhangi bir mesaj iletin.", reply_markup=imark())
             return PANELBUL
         for paucount in range(que-10,que):
+            if kaynak_users[paucount] == sahip:
+                continue
             try:
                 panel_user_text += str(paucount) + ". " + mention_html(kaynak_users[paucount], bot.get_chat(kaynak_users[paucount]).first_name) + "\n"
             except IndexError:
