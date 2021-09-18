@@ -133,7 +133,7 @@ def poster_job(context):
                 else:
                     collection.update_one({"_id": user}, {"$inc": {"sira": 1}}) 
                 try:
-                    altsite, altapi = altapilist[sira-10]["site"], altapilist[sira-10]["api"]
+                    altsite, altapi = dict(altapilist[int(sira-10)])["site"], dict(altapilist[int(sira-10)])["api"]
                 except IndexError:
                     if altsitelist == "sirali":
                         altsite, altapi = site, token
