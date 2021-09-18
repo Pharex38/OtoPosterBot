@@ -507,6 +507,8 @@ def yenikaynakkomutu(update, context):
     if len(context.args) == 0:
         update.effective_message.reply_text("/kaynak sahip _id icerik")
         return
+    if context.args[0].lower() == "sil":
+        KaynakCol.delete_one({"no": int(context.args[1])})
     kaynak_degisken['kaynak'] = []
     kaynak_degisken['kanal'] = []
     kaynak_degisken['zaman'] = "Henüz ayarlanmamış."
