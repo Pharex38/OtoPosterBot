@@ -68,9 +68,6 @@ def deep(u_kod, user):
         if len(kat['icerik']) == 0 and rkaynak['icerik'] == "arsiv":
             bot.send_message(user, "Bu bir Arşiv Kaynak ama sizin hiç arşiv türünde kanalınız yok 😕")
             return True
-        if kat['ozel']:
-            bot.send_message(user, "Özel kaynağınız olduğu için başka kaynak kullanamazsınız!")
-            return True
         if not user in rkaynak['kaynak']:
             KaynakCol.update_one({"no": int(u_kod)}, {"$push": {"kaynak": int(user)}})
         for ktyo in kat['kanal']:
