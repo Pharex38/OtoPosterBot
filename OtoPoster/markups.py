@@ -223,10 +223,8 @@ def okaykanalmark(user):
     return InlineKeyboardMarkup(okaykkeyb)
 
 def ozelkaynakmark(user, kanil):
-    y = "yok"
-    for x in OzelCol.find({}):
-        if user in x['kanal']:
-            y = x['_id']
+    y = OzelCol.find_one({"kanal": {"$in": [user]}})
+    y = y['_id'] if y else "yok"
     if OzelCol.find_one({"_id": y})['icerik'] == "arsiv":
         ozicerik = {"isim": "🗃️ Arşiv 🗃️", "data": "ozicerik-arsiv"}
     else:
@@ -236,7 +234,7 @@ def ozelkaynakmark(user, kanil):
             kmark = InlineKeyboardMarkup([[InlineKeyboardButton("🟣 Özel Kaynağı Kaldır 🟣", callback_data="okayk")], [InlineKeyboardButton("🤖 Botlog Oluştur 🤖", callback_data="logokay")], [InlineKeyboardButton("🌐 Bağlı Kanallarım 🌐", callback_data="okaykanal")], [InlineKeyboardButton("💣 Kaynağı Yok Et 💣", callback_data="eminmisin")], [InlineKeyboardButton("Kaynak Tür: "+ozicerik['isim'], callback_data=ozicerik['data'])], [InlineKeyboardButton("🔧 Ana Kaynaklar 🔧", callback_data="anakay")], [InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")]])
         else:
             kmark = InlineKeyboardMarkup([[InlineKeyboardButton("🟣 Özel Kaynağı Kaldır 🟣", callback_data="okayk")], [InlineKeyboardButton("🤖 Botlog Kaldır ❌", callback_data="logokaldir")], [InlineKeyboardButton("🌐 Bağlı Kanallarım 🌐", callback_data="okaykanal")], [InlineKeyboardButton("💣 Kaynağı Yok Et 💣", callback_data="eminmisin")], [InlineKeyboardButton("Kaynak Tür: "+ozicerik['isim'], callback_data=ozicerik['data'])], [InlineKeyboardButton("🔧 Ana Kaynaklar 🔧", callback_data="anakay")], [InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")]])
-    elif y == "yok":
+    else:
         kmark = InlineKeyboardMarkup([[InlineKeyboardButton("🟣 Özel Kaynağı Kaldır 🟣", callback_data="okayk")], [InlineKeyboardButton("🌐 Bağlı Kanallarım 🌐", callback_data="okaykanal")], [InlineKeyboardButton("🔧 Ana Kaynaklar 🔧", callback_data="anakay")], [InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")]])
     return kmark 
     
