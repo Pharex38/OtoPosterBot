@@ -141,7 +141,7 @@ def poster_job(context):
                         collection.update_one({"_id": user}, {"$set": {"sira": 11}})
                         altsite, altapi = altapilist[0]["site"], altapilist[0]["api"]
                 except Exception as e:
-                    bildir("Altapi Error: "+"\n\n"+str(e)+"\n\n"+str(altapilist)+"\n\n"+str(altapilist[sira-10]))
+                    bildir("Altapi Error: "+"\n\n"+str(e)+"\n\n"+str(altapilist)+"\n\n"+str(altapilist[sira-10])+"\n\n"+str(hesap))
                     continue
                 if altsitelist == "sirali":
                     token = altapi
