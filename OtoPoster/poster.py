@@ -26,12 +26,15 @@ def poster_job(context):
     update = poste['update']
     chatdat = KaynakCol.find_one({"_id": chat})
     count = 0
+    kynk = None
     mainsira = collection.find_one({"_id": 0})['sira']
-    try:
-        kynk = bot.get_chat(chat)
-    except RetryAfter as rtfr:
-        sleep(rtfr+1)
-        kynk = bot.get_chat(chat)
+    while kynk == None:
+        try:
+            kynk = bot.get_chat(chat)
+        except RetryAfter as rtfr:
+            sleep(rtfr+1)
+        else:
+            break
     while mainsira > 2:
         sleep(10)
         logger.warning(f"{kynk.title} kaynağının postu sırada bekletiliyor...")
