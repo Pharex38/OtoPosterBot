@@ -295,7 +295,7 @@ def kaynakmark(user, kanil):
         anakaynakkeyb.append([InlineKeyboardButton("♋️ Özel Kaynak Ayarları 🛠", callback_data="ozayar")])
     else:
         anakaynakkeyb.append([InlineKeyboardButton("♋️ Özel Kaynak Oluştur ♋️", callback_data="okay")])
-    anakaynakkeyb.append([InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")])
+    anakaynakkeyb.append([InlineKeyboardButton("❌ Menüyü Kapat ❌", callback_data="aiptal")])
     kmark = InlineKeyboardMarkup(inline_keyboard=anakaynakkeyb)
     return kmark
 
