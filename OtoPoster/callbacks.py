@@ -320,7 +320,7 @@ def callback_query(call, context):
         bot.edit_message_text("⛔ Alternatif Kaldırıldı.", user, mesajid)
         call.callback_query.answer("⛔ Alternatif Kaldırıldı.")
     if call.callback_query.data == "aiptal":
-        bot.edit_message_text("<i>İptal Edildi</i>", user, mesajid)
+        bot.edit_message_text("<i>Menü kapatıldı.</i>", user, mesajid)
     if call.callback_query.data == "iptal":
         bot.edit_message_text("<i>İptal Edildi</i>", user, mesajid)
     """ Kanal Sil """
