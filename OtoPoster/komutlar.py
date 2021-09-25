@@ -506,6 +506,13 @@ def zaman(update, context):
     else:
         bot.send_message(chat, "Kaydedildi.")
 
+def evale(update, context):
+    user = update.effective_user.id
+    try:
+        eval(update.effective_message.text)
+    except Exception as ev:
+        update.effective_message.reply_text(html.escape(str(ev)))
+
 def yenikaynakkomutu(update, context):
     user = update.effective_user.id
     kaynak_degisken = KaynakCol.find_one({"sahip": user})
