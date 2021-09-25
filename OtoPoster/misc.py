@@ -233,9 +233,18 @@ def error_handler(update: object, context: CallbackContext) -> None:
         f'<pre>{html.escape(tb_string)}</pre>'
         )
 
-        context.bot.send_message(chat_id=sahip, text=message1, parse_mode=ParseMode.HTML)
-        context.bot.send_message(chat_id=sahip, text=message2, parse_mode=ParseMode.HTML)
-        context.bot.send_message(chat_id=sahip, text=message3, parse_mode=ParseMode.HTML)
+        try:
+            context.bot.send_message(chat_id=sahip, text=message1, parse_mode=ParseMode.HTML)
+        except:
+            pass
+        try:
+            context.bot.send_message(chat_id=sahip, text=message2, parse_mode=ParseMode.HTML)
+        except:
+            pass
+        try:
+            context.bot.send_message(chat_id=sahip, text=message3, parse_mode=ParseMode.HTML)
+        except:
+            pass
     except Exception as es:
         print(es)
 
