@@ -509,9 +509,11 @@ def zaman(update, context):
 def evale(update, context):
     user = update.effective_user.id
     try:
-        eval(update.effective_message.text)
+        evol =  eval(update.effective_message.text)
     except Exception as ev:
         update.effective_message.reply_text(html.escape(str(ev)))
+    else:
+        update.effective_message.reply_text(str(evol))
 
 def yenikaynakkomutu(update, context):
     user = update.effective_user.id
