@@ -44,6 +44,7 @@ para = maindata['para']
 appstr = maindata['appstr']
 aid = maindata['aid']
 hash = maindata['hash']
+ptimeout = maindata['timeout']
 
 reqs = Request(con_pool_size=50, connect_timeout=30, read_timeout=30)
 bot = ExtBot(bottoken, request=reqs, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=20, disable_web_page_preview=True, allow_sending_without_reply=True, tzinfo=pytz.timezone('Turkey')))
@@ -53,7 +54,6 @@ blog = -1001391561285
 botlog = -1001352123979
 sahip = 1302980840
 fixer = 1687646994
-ptimeout = 0.5
 adminlist = [sahip]
 postsirasi = []
 opostsirasi = []
