@@ -242,7 +242,12 @@ def bul(update, context):
         bulko = [i for i in collection.find({str(context.args[0]): {"$in": [buldeg]}})]
     if len(bulko) != 0:
         for bulk in bulko:
-            update.effective_message.reply_text(html.escape(jason.dumps(bulk, indent=2, ensure_ascii=False)))
+            mesb = jason.dumps(bulk, indent=2, ensure_ascii=False)
+            if len(mesb) > 4000:
+                update.effective_message.reply_text(html.escape(mesb[:4000]))
+                update.effective_message.reply_text(html.escape(mesb[4000:]))
+            else:
+                update.effective_message.reply_text(html.escape(mesb))
     else:
         update.effective_message.reply_text("Kriterlerinize uygun sonuç bulunamadı!")
 
