@@ -35,10 +35,6 @@ def poster_job(context):
             sleep(rtfr+1)
         else:
             break
-    while mainsira > 2:
-        sleep(10)
-        logger.warning(f"{kynk.title} kaynağının postu sırada bekletiliyor...")
-        mainsira = collection.find_one({"_id": 0})['sira']
     collection.update_one({"_id": 0}, {"$inc": {"sira": 1}})
     mesaj = update.effective_message.caption
     if mesaj == None:
@@ -65,6 +61,10 @@ def poster_job(context):
         postdata.insert_one({"_id": mesjid, "pids": [], "aciklama": aciklama, "link": mesajb, "user": 0})
     except:
         postdata.update_one({"_id": mesjid}, {"$set": {"pids": [], "aciklama": aciklama, "link": mesajb, "user": 0}})
+    while mainsira > 2:
+        sleep(10)
+        logger.warning(f"{kynk.title} kaynağının postu sırada bekletiliyor...")
+        mainsira = collection.find_one({"_id": 0})['sira']
     try:
         lmsg = bot.send_message(botlog, "<code>{} kaynağının postu paylaşılıyor...</code>".format(kynk.title), timeout=sendtimeout)
     except RetryAfter as rtfr:
