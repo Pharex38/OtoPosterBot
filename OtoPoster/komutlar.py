@@ -299,7 +299,7 @@ def kpostsil(update, context):
         else:
             spcount += 1
     if spcount == 0:
-        psmg.edit_text(f"Post silinimedi!")
+        psmg.edit_text(f"Post silinemedi!")
     else:
         for kpsd in KaynakCol.find_one({"_id": chat})['kaynak']:
             try:
