@@ -210,7 +210,8 @@ def panelcleaner(context):
     context.dispatcher.user_data[context.job.context].pop("panel_text")
 
 def siraclean(context):
-    collection.update_one({"_id": 0}, {"$set": {"sira": 0}})
+    if len(context.job_queue.get_jobs_by_name("anaposter")) < 2:
+        collection.update_one({"_id": 0}, {"$set": {"sira": 0}})
 
 def resetleme(context):
     try:
