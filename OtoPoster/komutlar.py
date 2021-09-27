@@ -512,9 +512,13 @@ def Loot(update, context):
         try:
             getcloot = bot.get_chat(lot["_id"])
         except:
+            try:
+                lot['kanal']
+            except KeyError:
+                continue
             if len(lot['kanal']) != 0:
                 update.effective_message.reply_text("Get Chat Error:\n\n "+str(lot))
-                return
+                continue
         if getcloot.first_name == "" and len(lot['kanal']) != 0:
             lootkanal = ""
             for lkan in lot['kanal']:
