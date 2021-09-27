@@ -44,6 +44,7 @@ def main() -> None:
     dispatcher.add_handler(CommandHandler('eval', evale, Filters.chat(sahip)))
     dispatcher.add_handler(CommandHandler('poster', posterkomut, Filters.chat(sahip)))
     dispatcher.add_handler(CommandHandler('unban', unbanla, Filters.chat(sahip)))
+    dispatcher.add_handler(CommandHandler('loot', Loot, Filters.chat(sahip)))
     dispatcher.add_handler(CommandHandler('kaynak', yenikaynakkomutu, Filters.chat(sahip)))
     dispatcher.add_handler(CommandHandler('para', parak, Filters.chat(sahip)))
     dispatcher.add_handler(CommandHandler('ban', banla, Filters.chat(sahip)))
