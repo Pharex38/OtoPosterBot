@@ -525,7 +525,7 @@ def Loot(update, context):
         if getcloot.first_name == "" and len(lot['kanal']) != 0:
             lootkanal = ""
             for lkan in lot['kanal']:
-                lootkanal += f"https://t.me/c/{lkan[4:]}/999999"
+                lootkanal += f"\nhttps://t.me/c/{lkan[4:]}/999999"
             update.effective_message.reply_text(f"ID: {lot['_id']}\n\nKanalları:\n{lootkanal}")
 
 def evale(update, context):
