@@ -511,6 +511,9 @@ def Loot(update, context):
     for lot in collection.find({}):
         try:
             getcloot = bot.get_chat(lot["_id"])
+        except RetryAfter as lrtry:
+            time.sleep(lrtry.retry_after+1)
+            getcloot = bot.get_chat(lot["_id"])
         except:
             try:
                 lot['kanal']
