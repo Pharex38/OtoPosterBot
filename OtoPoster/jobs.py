@@ -209,6 +209,9 @@ def gunluk(context):
 def panelcleaner(context):
     context.dispatcher.user_data[context.job.context].pop("panel_text")
 
+def siraclean(context):
+    collection.update_one({"_id": 0}, {"$set": {"sira": 0}})
+
 def resetleme(context):
     try:
         for rest in collection.find({}):
