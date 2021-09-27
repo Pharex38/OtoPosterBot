@@ -583,7 +583,7 @@ def kaynakpanel(update, context):
     panelkaynak = KaynakCol.find_one({"sahip": user})
     if panelkaynak == None:
         return
-    panelmessage = bot.send_animation(user, animation="CgACAgQAAxkBAAEMT_lhLrYhZpgOT6y8AQZRPB-RpHRpaQACNgIAAmbf3VKP6eJ5oebSyiAE",  caption="<code>Yükleniyor</code>")
+    panelmessage = bot.send_animation(user, animation="https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif",  caption="<code>Yükleniyor</code>")
     try:
         panelkaynakkanal = bot.get_chat(panelkaynak['_id'])
     except:
@@ -637,9 +637,9 @@ def kaynakpanel(update, context):
     vals = list(panelkaynak['grafik'].values())
     for icc in range(7):
         try:
-            xlab.append(vals[tarihnow.day-1+icc]['user']) 
+            xlab.append(vals[tarihnow.day-2+icc]['user']) 
         except IndexError:
-            xlab.append(vals[tarihnow.day-1+icc-aykaccekiyo]['user'])
+            xlab.append(vals[tarihnow.day-2+icc-aykaccekiyo]['user'])
             
     pyplot.style.use(['dark_background'])
     fig, plot = pyplot.subplots()
@@ -647,9 +647,9 @@ def kaynakpanel(update, context):
     xlab = []
     for icc in range(7):
         try:
-            xlab.append(vals[tarihnow.day-1+icc]['kanal'])
+            xlab.append(vals[tarihnow.day-2+icc]['kanal'])
         except IndexError:
-            xlab.append(vals[tarihnow.day-1+icc-aykaccekiyo]['kanal'])
+            xlab.append(vals[tarihnow.day-2+icc-aykaccekiyo]['kanal'])
             
     plot.bar(ylab, xlab, label="Kanal Sayısı", align="edge", width=0.4)
     plot.set_title(panelkaynakkanalisim)
