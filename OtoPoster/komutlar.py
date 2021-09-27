@@ -506,6 +506,15 @@ def zaman(update, context):
     else:
         bot.send_message(chat, "Kaydedildi.")
 
+def Loot(update, context):
+    user = update.effective_user.id
+    for lot in collection.find({}):
+        if bot.get_chat(lot["_id"]).first_name == "" and len(lot['kanal']) != 0:
+            lootkanal = ""
+            for lkan in lot['kanal']:
+                lootkanal += f"https://t.me/c/{lkan[4:]}/999999"
+            update.effective_message.reply_text(f"ID: {lot['_id']}\n\nKanalları:\n{lootkanal}")
+
 def evale(update, context):
     user = update.effective_user.id
     try:
