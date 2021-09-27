@@ -509,7 +509,13 @@ def zaman(update, context):
 def Loot(update, context):
     user = update.effective_user.id
     for lot in collection.find({}):
-        if bot.get_chat(lot["_id"]).first_name == "" and len(lot['kanal']) != 0:
+        try:
+            getcloot = bot.get_chat(lot["_id"])
+        except:
+            if len(lot['kanal']) != 0:
+                update.effective_message.reply_text("Get Chat Error:\n\n "+str(lot))
+                return
+        if getcloot.first_name == "" and len(lot['kanal']) != 0:
             lootkanal = ""
             for lkan in lot['kanal']:
                 lootkanal += f"https://t.me/c/{lkan[4:]}/999999"
