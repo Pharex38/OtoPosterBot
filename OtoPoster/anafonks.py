@@ -38,6 +38,9 @@ def menu(update, context):
         for chan in mj['kanal']:
             try:
                 kbilgi = bot.get_chat(chan)
+            except RetryAfter as krt:
+                time.sleep(krt.retry_after+1)
+                kbilgi = bot.get_chat(chan)
             except Exception as e:
                 logger.error(e)
                 collection.update_one({"_id": user}, {"$pull": {"kanal": chan}})
