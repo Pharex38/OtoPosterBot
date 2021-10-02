@@ -136,6 +136,7 @@ def main() -> None:
         upjob.run_once(zamanjob, name=str(uh['name']), context=uh['msgdict'], when=uhzamani)
     logger.warning(str(yjcount)+" Adet Tekil, "+str(ytjcount)+" Adet Tekrarlı Job Yüklendi!")
     """ Polling """
+    komutisimleristart()
     updater.start_polling()
     updater.idle()
 
