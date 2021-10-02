@@ -531,7 +531,7 @@ def Loot(update, context):
 def evale(update, context):
     user = update.effective_user.id
     try:
-        evol =  eval(update.effective_message.text.replace("/eval ", "") if len(update.effective_message.text) > 1 else update.effective_message.reply_to_message.text.replace("/eval ", ""))
+        evol =  eval(update.effective_message.reply_to_message.text.replace("/eval ", "") if update.effective_message.reply_to_message else update.effective_message.text.replace("/eval ", ""))
     except Exception as ev:
         update.effective_message.reply_text(html.escape(str(ev)))
     else:
