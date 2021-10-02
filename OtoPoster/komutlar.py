@@ -312,6 +312,7 @@ def kpostsil(update, context):
 
 def KanalSilKomutu(update, context):
     try:
+        update.effective_message.delete()
         update.effective_message.reply_to_message.delete()
     except:
         try:
