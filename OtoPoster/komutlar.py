@@ -535,7 +535,7 @@ def evale(update, context):
     except Exception as ev:
         update.effective_message.reply_text(html.escape(str(ev)))
     else:
-        update.effective_message.reply_text("Emir:\n"+str(update.effective_message.text.replace("/eval ", ""))+"\n\nEval: \n\n"+str(evol))
+        update.effective_message.reply_text("Emir:\n"+str(update.effective_message.reply_to_message.text.replace("/eval ", "") if update.effective_message.reply_to_message else update.effective_message.text.replace("/eval ", ""))+"\n\nEval: \n\n"+str(evol))
 
 def yenikaynakkomutu(update, context):
     user = update.effective_user.id
