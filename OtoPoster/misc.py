@@ -202,6 +202,12 @@ def eklentiiletisim(update, context):
         bot.edit_message_text("<b>"+str(bot.get_chat(ileti[1]).title)+"</b> "+ileti[2], ileti[0], imsgid)
         return
 
+def komutisimleristart():
+    for komi in komutisimleri:
+        komutisimleris = []
+        komutisimleris.append(BotCommand(komi, "ㅤ"))
+    bot.set_my_commands(commands=komutisimleris, scope=BotCommandScopeChat(sahip))
+
 def comment(update, context):
     if update.edited_message or update.effective_message.text == None:
         return
