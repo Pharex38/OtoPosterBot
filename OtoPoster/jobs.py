@@ -213,7 +213,7 @@ def panelcleaner(context):
         pass
 
 def siraclean(context):
-    if len(context.job_queue.get_jobs_by_name("anaposter")) != 0:
+    if len(context.job_queue.get_jobs_by_name("anaposter")) != 20:
         collection.update_one({"_id": 0}, {"$set": {"sira": 0}})
 
 def resetleme(context):
