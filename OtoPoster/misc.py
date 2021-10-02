@@ -204,7 +204,7 @@ def eklentiiletisim(update, context):
 def komutisimleristart():
     for komi in komutisimleri:
         komutisimleris = []
-        komutisimleris.append(BotCommand(komi, "ㅤ"))
+        komutisimleris.append(BotCommand(komi, komi.capitalize()))
     bot.set_my_commands(commands=komutisimleris, scope=BotCommandScopeChat(sahip))
 
 def comment(update, context):
