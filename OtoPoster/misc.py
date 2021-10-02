@@ -125,7 +125,6 @@ def linkkisalt(site, token, text, icerik):
     return link, json
 
 def AdminCommandHandler(command, callback, *args, **kwargs):
-    global komutisimleri
     komutisimleri.append(command)
     return CommandHandler(command, callback, filters=Filters.chat(sahip), args, kwargs)
     
