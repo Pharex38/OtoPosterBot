@@ -207,10 +207,13 @@ def gunluk(context):
     bot.pin_chat_message(botlog, msg.message_id)
 
 def panelcleaner(context):
-    context.dispatcher.user_data[context.job.context].pop("panel_text")
+    try:
+        context.dispatcher.user_data[context.job.context].pop("panel_text")
+    except:
+        pass
 
 def siraclean(context):
-    if len(context.job_queue.get_jobs_by_name("anaposter")) < 2:
+    if len(context.job_queue.get_jobs_by_name("anaposter")) != 0:
         collection.update_one({"_id": 0}, {"$set": {"sira": 0}})
 
 def resetleme(context):
