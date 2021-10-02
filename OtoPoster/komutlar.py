@@ -310,6 +310,15 @@ def kpostsil(update, context):
         psmg.edit_text(f"{spcount} Post Silindi.")
     collection.update_one({"_id": 0}, {"$pull": {"iptal": str(chat)}})
 
+def KanalSilKomutu(update, context):
+    try:
+        update.effective_message.reply_to_message.delete()
+    except:
+        try:
+            bot.send_message(update.effective_chat.id, "Post silinemedi, sebebi mesaj silme yetkim olmayabilir.")
+        except:
+            pass
+
 def cpostsil(update, context):
     chat = update.message.chat.id
     if chat != sahip:
