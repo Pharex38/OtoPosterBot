@@ -35,7 +35,6 @@ def poster_job(context):
             sleep(rtfr+1)
         else:
             break
-    collection.update_one({"_id": 0}, {"$inc": {"sira": 1}})
     mesaj = update.effective_message.caption
     if mesaj == None:
         return
@@ -65,6 +64,7 @@ def poster_job(context):
         sleep(10)
         logger.warning(f"{kynk.title} kaynağının postu sırada bekletiliyor...")
         mainsira = collection.find_one({"_id": 0})['sira']
+    collection.update_one({"_id": 0}, {"$inc": {"sira": 1}})
     try:
         lmsg = bot.send_message(botlog, "<code>{} kaynağının postu paylaşılıyor...</code>".format(kynk.title), timeout=sendtimeout)
     except RetryAfter as rtfr:
@@ -79,6 +79,7 @@ def poster_job(context):
     logger.warning("{} kaynağının postu paylaşılıyor...".format(kynk.title))
     for hesap_id in binb:
         if str(chat) in collection.find_one({"_id": 0})['iptal']:
+            collection.update_one({"_id": 0}, {"$inc": {"sira": 1}})
             collection.update_one({"_id": 0}, {"$pull": {"iptal": str(chat)}})
             logger.warning("{} kaynağının postu iptal edildi.".format(kynk.title))
             context.job_queue.run_once(deljob, when=2, name="yedekleme", context=update.effective_message.link)
