@@ -124,10 +124,10 @@ def linkkisalt(site, token, text, icerik):
 
     return link, json
 
-def AdminCommandHandler(command, callback, filters=None, allow_edited=None, pass_args=False, pass_update_queue=False, pass_job_queue=False, pass_user_data=False, pass_chat_data=False, run_async=False):
+def AdminCommandHandler(command, callback, *args, **kwargs):
     global komutisimleri
     komutisimleri.append(command)
-    return CommandHandler(command, callback, filters=Filters.chat(sahip), allow_edited=allow_edited, pass_args=pass_args, pass_update_queue=pass_update_queue, pass_job_queue=pass_job_queue, pass_user_data=pass_user_data, pass_chat_data=pass_chat_data, run_async=run_async)
+    return CommandHandler(command, callback, filters=Filters.chat(sahip), args, kwargs)
     
 def bildir(neyi='Boş Bildirim Testi !'):
     for i in adminlist:
