@@ -71,8 +71,7 @@ ignorekaynak = []
 
 
 komutisimleri = []
-bot.set_my_commands(commands=[BotCommand("start", "Botu başlat."), BotCommand("menu", "Menüyü aç.")], scope=BotCommandScopeChat(sahip))
-
+    
 SEND_MEDIA_TYPES = {"document": bot.send_document, "photo": bot.send_photo, "video": bot.send_video, "animation": bot.send_animation}
 POSTMENU, APIMENU, KANALMENU, EKSTRAMENU, TSBASLIK, TSPOST, BEGENI, APIDEGISTIR, KANALKAYDET, SABLONA, PANELZAMAN, PANELBUL, PATPOST, POSTZAMAN, PATZAMAN, CALLALT, ALTAPI, OZELBOTLOG, OZELKAYNAK= range(19)
 headerss = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
