@@ -648,8 +648,8 @@ def kaynakpanel(update, context):
     vals = list(panelkaynak['grafik'].values())
     for icc in range(50):
         print(tarihnow.day-2+icc)
-        if tarihnow.day-2+icc > aykaccekiyo-1:
-            xlab.append(vals[0]['user'])
+        if tarihnow.day-2+icc >= aykaccekiyo-1:
+            xlab.append(vals[tarihnow.day-2+icc-aykaccekiyo]['user'])
         else:
             try:
                 xlab.append(vals[tarihnow.day-2+icc]['user']) 
