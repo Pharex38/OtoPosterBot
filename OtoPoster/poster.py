@@ -311,6 +311,16 @@ def poster_job(context):
                                 pass   
                             else:
                                 logger.warning(f"{kan} kayıtlardan silindi.")
+                        if "copy not found" in str(e).lower():
+                            collection.update_one({"_id": 0}, {"$inc": {"sira": 1}})
+                            collection.update_one({"_id": 0}, {"$pull": {"iptal": str(chat)}})
+                            logger.warning("{} kaynağının postu iptal edildi.".format(kynk.title))
+                            context.job_queue.run_once(deljob, when=2, name="yedekleme", context=update.effective_message.link)
+                            try:
+                                lmsg.edit_text("{} kaynağının postu iptal edildi. Post kanallardan siliniyor...".format(kynk.title))
+                            except:
+                                pass
+                            return
                         else:
                             logger.error(e)
                     else:
@@ -357,6 +367,16 @@ def poster_job(context):
                             pass   
                         else:
                             logger.warning(f"{kan} kayıtlardan silindi.")
+                    if "copy not found" in str(e).lower():
+                        collection.update_one({"_id": 0}, {"$inc": {"sira": 1}})
+                        collection.update_one({"_id": 0}, {"$pull": {"iptal": str(chat)}})
+                        logger.warning("{} kaynağının postu iptal edildi.".format(kynk.title))
+                        context.job_queue.run_once(deljob, when=2, name="yedekleme", context=update.effective_message.link)
+                        try:
+                            lmsg.edit_text("{} kaynağının postu iptal edildi. Post kanallardan siliniyor...".format(kynk.title))
+                        except:
+                            pass
+                        return
                     else:
                         logger.error(e)
                 else:
