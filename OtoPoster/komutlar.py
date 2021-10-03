@@ -646,11 +646,15 @@ def kaynakpanel(update, context):
                     if len(ylab) == 7:
                         break
     vals = list(panelkaynak['grafik'].values())
-    for icc in range(7):
+    for icc in range(14):
+        if tarihnow.day-2+icc > aykaccekiyo:
+            continue
         try:
             xlab.append(vals[tarihnow.day-2+icc]['user']) 
         except IndexError:
             xlab.append(vals[tarihnow.day-2+icc-aykaccekiyo]['user'])
+        if len(xlab) == 7:
+            break
             
     pyplot.style.use(['dark_background'])
     fig, plot = pyplot.subplots()
