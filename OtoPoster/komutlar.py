@@ -628,13 +628,14 @@ def kaynakpanel(update, context):
         context.job_queue.run_once(panelcleaner, when=3600, name="panelcleaner", context=user)
         
     tarihnow = datetime.datetime.now(pytz.timezone('Europe/Istanbul')) - datetime.timedelta(days = 6)
+    tarihnowa = datetime.datetime.now(pytz.timezone('Europe/Istanbul'))
     ylab = []
-    aykaccekiyo = calendar.monthrange(tarihnow.year, tarihnow.month-1 if tarihnow.month != 1 else 12)[1] + 1
+    aykaccekiyo = calendar.monthrange(tarihnowa.year, tarihnow.month-1 if tarihnow.month != 1 else 12)[1] + 1
     buaykaccekiyo = calendar.monthrange(tarihnow.year, tarihnow.month if tarihnow.month != 1 else 12)[1]
     xlab = []
     for g in dict(panelkaynak['grafik']).keys():
         if int(g) >= tarihnow.day-1 and tarihnow.day-1 <= aykaccekiyo:
-            ylab.append(str(g.zfill(2))+"/"+str(tarihnow.month).zfill(2))
+            ylab.append(str(g.zfill(2))+"/"+str(tarihnow.month if tarihnow.day > 15 else tarihnowa.month).zfill(2))
             if len(ylab) == 7:
                 break
     else:
