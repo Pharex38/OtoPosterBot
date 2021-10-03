@@ -633,7 +633,7 @@ def kaynakpanel(update, context):
     buaykaccekiyo = calendar.monthrange(tarihnow.year, tarihnow.month if tarihnow.month != 1 else 12)[1]
     xlab = []
     for g in dict(panelkaynak['grafik']).keys():
-        if int(g) >= tarihnow.day-1 and tarihnow.day-1 <= buaykaccekiyo:
+        if int(g) >= tarihnow.day-1 and tarihnow.day-1 <= aykaccekiyo:
             ylab.append(str(g.zfill(2))+"/"+str(tarihnow.month).zfill(2))
             if len(ylab) == 7:
                 break
