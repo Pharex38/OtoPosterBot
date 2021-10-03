@@ -306,7 +306,11 @@ def callback_query(call, context):
         call.callback_query.answer("Tür değiştirildi")
     """ İptal """
     if call.callback_query.data == "del":
-        call.effective_message.delete()
+        try:
+            call.callback_query.answer("❤️")
+            call.effective_message.delete()
+        except:
+            pass
     if call.callback_query.data == "dsil":
         collection.delete_one({"_id": user})
         try:
