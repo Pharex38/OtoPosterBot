@@ -646,7 +646,7 @@ def kaynakpanel(update, context):
                     if len(ylab) == 7:
                         break
     vals = list(panelkaynak['grafik'].values())
-    for icc in range(14):
+    for icc in range(50):
         if tarihnow.day-2+icc >= aykaccekiyo:
             continue
         try:
