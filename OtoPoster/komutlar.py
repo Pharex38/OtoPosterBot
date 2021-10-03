@@ -673,7 +673,7 @@ def kaynakpanel(update, context):
         if len(xlab) == 7:
             break
             
-    plot.bar(ylab, xlab, label="Kanal Sayısı", align="edge", width=0.4)
+    plot.bar(ylab, xlab, label="Kanal Sayısı", align="edge", width=-0.4)
     plot.set_title(panelkaynakkanalisim)
     plot.set_xlabel('7 Günlük Grafik')
     plot.legend(loc=3)
