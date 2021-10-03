@@ -660,7 +660,7 @@ def kaynakpanel(update, context):
     pyplot.style.use(['dark_background'])
     fig, plot = pyplot.subplots()
     print(str(ylab)+"\n"+str(xlab))
-    plot.bar(ylab, xlab, label="Kullanıcı Sayısı", width=0.8)
+    plot.bar(ylab, xlab, label="Kullanıcı Sayısı", align="edge", width=0.4)
     xlab = []
     for icc in range(50):
         if tarihnow.day-2+icc >= aykaccekiyo-1:
