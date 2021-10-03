@@ -647,7 +647,6 @@ def kaynakpanel(update, context):
                         break
     vals = list(panelkaynak['grafik'].values())
     for icc in range(50):
-        print(tarihnow.day-2+icc, aykaccekiyo-1)
         if tarihnow.day-2+icc >= aykaccekiyo-1:
             xlab.append(vals[tarihnow.day-1+icc-aykaccekiyo]['user'])
         else:
@@ -663,11 +662,16 @@ def kaynakpanel(update, context):
     print(str(ylab)+"\n"+str(xlab))
     plot.bar(ylab, xlab, label="Kullanıcı Sayısı", width=0.8)
     xlab = []
-    for icc in range(7):
-        try:
-            xlab.append(vals[tarihnow.day-2+icc]['kanal'])
-        except IndexError:
-            xlab.append(vals[tarihnow.day-2+icc-aykaccekiyo]['kanal'])
+    for icc in range(50):
+        if tarihnow.day-2+icc >= aykaccekiyo-1:
+            xlab.append(vals[tarihnow.day-1+icc-aykaccekiyo]['user'])
+        else:
+            try:
+                xlab.append(vals[tarihnow.day-2+icc]['kanal'])
+            except IndexError:
+                xlab.append(vals[tarihnow.day-2+icc-aykaccekiyo]['kanal'])
+        if len(xlab) == 7:
+            break
             
     plot.bar(ylab, xlab, label="Kanal Sayısı", align="edge", width=0.4)
     plot.set_title(panelkaynakkanalisim)
