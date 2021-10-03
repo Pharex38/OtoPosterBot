@@ -663,7 +663,7 @@ def kaynakpanel(update, context):
     xlab = []
     for icc in range(50):
         if tarihnow.day-2+icc >= aykaccekiyo-1:
-            xlab.append(vals[tarihnow.day-1+icc-aykaccekiyo]['user'])
+            xlab.append(vals[tarihnow.day-1+icc-aykaccekiyo]['kanal'])
         else:
             try:
                 xlab.append(vals[tarihnow.day-2+icc]['kanal'])
