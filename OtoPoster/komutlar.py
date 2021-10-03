@@ -635,7 +635,7 @@ def kaynakpanel(update, context):
     xlab = []
     for g in dict(panelkaynak['grafik']).keys():
         if int(g) >= tarihnow.day-1 and tarihnow.day-1 <= aykaccekiyo:
-            ylab.append(str(g.zfill(2))+"/"+str(tarihnow.month if tarihnow.day > 15 else tarihnowa.month).zfill(2))
+            ylab.append(str(g.zfill(2))+"/"+str(tarihnow.month if tarihnow.day < 15 else tarihnowa.month).zfill(2))
             if len(ylab) == 7:
                 break
     else:
