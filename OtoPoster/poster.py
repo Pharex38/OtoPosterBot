@@ -156,7 +156,7 @@ def poster_job(context):
                     try:
                         linktry += 1
                         if linktry > 2:
-                            sleep(0.1)
+                            sleep(0.15)
                             logger.warning(f"Link kısaltılamadı tekrar deneniyor {linktry}")
                         alink, json = linkkisalt(altsite, altapi, mesajb, chatdat['icerik'])
                     except Exception as e:
@@ -181,7 +181,7 @@ def poster_job(context):
                 try:
                     linktry += 1
                     if linktry > 2:
-                        sleep(0.05)
+                        sleep(0.15)
                         logger.warning(f"Tekrar deneniyor {linktry}")
                     link, json = linkkisalt(site, token, mesajb, chatdat['icerik'])
                 except Exception as e:
@@ -208,7 +208,7 @@ def poster_job(context):
             except:
                 pass
             else:
-                if json['message'] == "Invalid URL":
+                if json['message'] != "":
                     logger.error(f"{update.effective_message.chat.title} son postu hatalı olduğu için iptal edildi!")
                     try:
                         bot.send_message(sahip, f"{update.effective_message.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{json['message']}\n\n{update.effective_message.link}", timeout=sendtimeout)
@@ -232,7 +232,7 @@ def poster_job(context):
                 continue
             if link == " ":
                 try:
-                    bot.send_message(-1001190898326, str(hesap)+"\n\nX "+str(json), timeout=sendtimeout)
+                    bot.send_message(-1001190898326, str(hesap)+"\n\n"+str(json), timeout=sendtimeout)
                 except:
                     pass
                 continue
