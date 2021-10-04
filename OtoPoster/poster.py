@@ -208,7 +208,13 @@ def poster_job(context):
             except:
                 pass
             else:
-                if json['message'] != "":
+                if json['message'] == "Invalid API token":
+                    try:
+                        bot.send_message(user, "API adresiniz yanlış!")
+                    except:
+                        pass
+                    continue
+                elif json['message'] != "" and json['message'] != "Invalid API token":
                     logger.error(f"{update.effective_message.chat.title} son postu hatalı olduğu için iptal edildi!")
                     try:
                         bot.send_message(sahip, f"{update.effective_message.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{json['message']}\n\n{update.effective_message.link}", timeout=sendtimeout)
