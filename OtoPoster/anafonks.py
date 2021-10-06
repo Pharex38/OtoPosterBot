@@ -122,6 +122,7 @@ def kanalmenu(update, context):
     if mesaj == "▶️ SFS Modu":
         if len(kudat['kanal']) < 1:
             bot.send_message(chat, "SFS moduna alabilmek için henüz bir kanal kaydetmemişsiniz!", reply_markup=kanalmenumark())
+            return
         bot.send_message(chat, "<i>SFS moduna almak istediğiniz kanalı seçin. SFS moduna aldığınız kanala modu kapatana kadar post atılmaz!</i>\n\n", reply_markup=sfsmark(user))    
         return
     if mesaj == "↩️ Ana Menü" or mesaj == "❌ İptal":
