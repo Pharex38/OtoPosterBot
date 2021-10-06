@@ -206,6 +206,7 @@ def komutisimleristart():
     for komi in komutisimleri:
         komutisimleris.append(BotCommand(komi, komi.capitalize()))
     bot.set_my_commands(commands=komutisimleris, scope=BotCommandScopeChat(sahip))
+    bot.set_my_commands(commands=komutisimleris, scope=BotCommandScopeChatAdministrators(blog))
 
 def comment(update, context):
     if update.edited_message or update.effective_message.text == None:
