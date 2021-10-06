@@ -126,7 +126,7 @@ def linkkisalt(site, token, text, icerik):
 
 def AdminCommandHandler(command, callback, *args, **kwargs):
     komutisimleri.append(command)
-    return CommandHandler(command, callback, filters=Filters.chat(sahip))
+    return CommandHandler(command, callback, filters=Filters.user(sahip))
     
 def bildir(neyi='Boş Bildirim Testi !'):
     for i in adminlist:
