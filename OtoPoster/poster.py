@@ -150,7 +150,7 @@ def poster_job(context):
                 except Exception as e:
                     bildir("Altapi Error: "+"\n\n"+str(e)+"\n\n"+str(altapilist)+"\n\n"+str(altapilist[sira-10])+"\n\n"+str(hesap))
                     continue
-                if altsitelist == "sirali":
+                if altsitelist == "sirali" and len(altapilist) != 0:
                     token = altapi
                     site = altsite
                     altapi = "None"
@@ -513,7 +513,7 @@ def ozel_poster_job(context):
                             oaltsite, oaltapi = osite, otoken
                         else:
                             oaltsite, oaltapi = oaltapilist[0]["site"], oaltapilist[0]["api"]
-                if oaltsitelist == "sirali":
+                if oaltsitelist == "sirali" and len(oaltapilist) != 0:
                     otoken = oaltapi
                     osite = oaltsite
                     oaltapi = "None"
