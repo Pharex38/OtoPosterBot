@@ -139,11 +139,14 @@ def poster_job(context):
                 try:
                     altsite, altapi = dict(altapilist[int(sira-10)])["site"], dict(altapilist[int(sira-10)])["api"]
                 except IndexError:
-                    if altsitelist == "sirali":
-                        altsite, altapi = site, token
+                    if len(altapilist) == 0:
+                        pass
                     else:
-                        collection.update_one({"_id": user}, {"$set": {"sira": 11}})
-                        altsite, altapi = altapilist[0]["site"], altapilist[0]["api"]
+                        if altsitelist == "sirali":
+                            altsite, altapi = site, token
+                        else:
+                            collection.update_one({"_id": user}, {"$set": {"sira": 11}})
+                            altsite, altapi = altapilist[0]["site"], altapilist[0]["api"]
                 except Exception as e:
                     bildir("Altapi Error: "+"\n\n"+str(e)+"\n\n"+str(altapilist)+"\n\n"+str(altapilist[sira-10])+"\n\n"+str(hesap))
                     continue
