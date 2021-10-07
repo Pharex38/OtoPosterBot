@@ -539,6 +539,12 @@ def altakayit(update, context):
         collection.update_one({"_id": user}, {"$push": {"altapi": amesaj}})
     else:
         collection.update_one({"_id": user}, {"$set": {"altsite": str(smesaj), "altapi": amesaj, "sira": int(sss)}})
+        if int(sss) in [2, 3]:
+            seskisablon = collection.find_one({"_id": user})['sablon']
+            collection.update_one({"_id": user}, {"$set": {"sablon": seskisablon.replace("{alink}", "")}})
+        else:
+            collection.update_one({"_id": user}, {"$set": {"sablon": "9"}})
+            
     if sss == 10:
         bot.send_message(chat, "İlk Gelişmiş Alternatifiniz kaydedildi.\n\nAyarlarını görmek için <code>🤖 Alternatif Link</code> butonuna basabilirsin.", reply_markup=apimenumark())
         return APIMENU
