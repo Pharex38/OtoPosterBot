@@ -506,10 +506,13 @@ def ozel_poster_job(context):
                 try:
                     oaltsite, oaltapi = oaltapilist[osira-10]["site"], oaltapilist[osira-10]["api"]
                 except IndexError:
-                    if oaltsitelist == "sirali":
-                        oaltsite, oaltapi = osite, otoken
+                    if len(oaltsitelist) == 0:
+                        pass
                     else:
-                        oaltsite, oaltapi = oaltapilist[0]["site"], oaltapilist[0]["api"]
+                        if oaltsitelist == "sirali":
+                            oaltsite, oaltapi = osite, otoken
+                        else:
+                            oaltsite, oaltapi = oaltapilist[0]["site"], oaltapilist[0]["api"]
                 if oaltsitelist == "sirali":
                     otoken = oaltapi
                     osite = oaltsite
