@@ -142,6 +142,7 @@ def poster_job(context):
                     if len(altapilist) == 0:
                         collection.update_one({"_id": user}, {"$set": {"sira": 0}})
                         altapi = "None"
+                        altsite = "None"
                     else:
                         if altsitelist == "sirali":
                             altsite, altapi = site, token
