@@ -32,7 +32,20 @@ def tekrarlipostjob(context):
         try:
             bot.send_message(tsdict['tsuser'], f"{tsdict['baslik']} Tekrarli Postunuz gönderilemedi!")
         except:
-            pass
+            for tsgetj in context.job_queue.get_jobs_by_name(f"ts{tsdict['tsuser']}"):
+                if tsgetj.context['fid'] == tsdict['fid'] and tsgetj.context['tscaption'] == tsdict['tscaption']:
+                    tsgetjj = tsgetj
+                    break
+            try:
+                tsdict['try']
+            except:
+                tsgetjj.context['try'] = 0
+            else:
+                if tsdict['try'] >= 6:
+                    tsgetjj[0].schedule_removal()
+                else:
+                    tsgetjj.context['try'] = tsdict['try']+1
+                    
 
 def deljob(context):
     delcont = context.job.context
