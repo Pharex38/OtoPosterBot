@@ -29,7 +29,10 @@ def tekrarlipostjob(context):
     try:
         SEND_MEDIA_TYPES[tsdict['ptip']](tsdict['tskan'], tsdict['fid'], caption=tsdict['tscaption'])
     except:
-        bot.send_message(tsdict['tsuser'], f"{tsdict['baslik']} Tekrarli Postunuz gönderilemedi!")
+        try:
+            bot.send_message(tsdict['tsuser'], f"{tsdict['baslik']} Tekrarli Postunuz gönderilemedi!")
+        except:
+            pass
 
 def deljob(context):
     delcont = context.job.context
