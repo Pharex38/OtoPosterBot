@@ -42,7 +42,7 @@ def tekrarlipostjob(context):
                 tsgetjj.context['try'] = 0
             else:
                 if tsdict['try'] >= 6:
-                    tsgetjj[0].schedule_removal()
+                    tsgetjj.schedule_removal()
                 else:
                     tsgetjj.context['try'] = tsdict['try']+1
                     
