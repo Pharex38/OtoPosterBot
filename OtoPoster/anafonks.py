@@ -18,7 +18,7 @@ def menu(update, context):
     if mesaj == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))    
         return
-    if mesaj == "🥰 Bağış":
+    if mesaj == "🥰   Bağış":
         bot.send_message(chat, "🥰Madem bu kadar çok istiyorsun. \n\n🏧Papara: <code>1666982412</code> \n🏦İninal: <code>4003140030544</code>")
         return
     if mesaj == "📝 Kaydet":
