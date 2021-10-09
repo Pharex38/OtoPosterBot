@@ -29,7 +29,7 @@ def dugme(user):
     except:
         return ReplyKeyboardMarkup(keyboard=[['📝 Kaydet']], row_width=2, one_time_keyboard=True, resize_keyboard=True, selective=True)
     else:
-        return ReplyKeyboardMarkup(keyboard=[['🖥 Kanal Menü'], ['🎛 Post Menü', '🔗 API Menü'], ['🛠 Ekstralar'], ['🥰 Bağış']], input_field_placeholder="Merhaba!", resize_keyboard=True)
+        return ReplyKeyboardMarkup(keyboard=[['🖥 Kanal Menü'], ['🎛 Post Menü', '🔗 API Menü'], ['🛠 Ekstralar']], input_field_placeholder="Merhaba!", resize_keyboard=True)
 
 
 def kanalmenumark():
