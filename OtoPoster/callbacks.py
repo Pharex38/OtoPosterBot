@@ -453,8 +453,12 @@ def callback_query(call, context):
             bot.edit_message_text("<i>İptal Edildi</i>", user, mesajid)
             logger.error(e)
             return
-        call.callback_query.answer(bot.get_chat(sgynknl).title)
-        call.callback_query.edit_message_text(f"<b> >>>    {bot.get_chat(sgynknl).title}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>", reply_markup=kaynakmark(user, int(call.callback_query.data.split("-")[-1])-1))
+        try:
+            sgyisim = bot.get_chat(sgynknl).title
+        except:
+            sgyisim = "Kanalınıza ulaşılamadı!"
+        call.callback_query.answer(sgyisim)
+        call.callback_query.edit_message_text(f"<b> >>>    {sgyisim}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>", reply_markup=kaynakmark(user, int(call.callback_query.data.split("-")[-1])-1))
     """ PAT """
     if call.callback_query.data.startswith("jop"):
         jc = int(call.callback_query.data.split("-")[-1])
