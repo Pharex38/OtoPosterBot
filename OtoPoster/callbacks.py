@@ -466,7 +466,7 @@ def callback_query(call, context):
         try:
             calljob[jc].schedule_removal()
         except:
-            call.callback_query.edit_message_text("Bu post gönderilmiş veya zaten silinmiş.")
+            call.callback_query.edit_message_text("Bu post zaten gönderilmiş veya silinmiş.")
             return ConversationHandler.END
         call.callback_query.edit_message_text("Post silindi.")
         return ConversationHandler.END
