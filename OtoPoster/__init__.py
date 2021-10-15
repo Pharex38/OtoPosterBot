@@ -8,7 +8,7 @@ import time, datetime, calendar
 import threading, pytz, os, asyncio, logging
 from ssl import CERT_NONE
 from random import choice
-#import Colorer
+import Colorer
 from telegram import *
 from telegram.error import *
 from telegram.ext import *
