@@ -8,7 +8,6 @@ import time, datetime, calendar
 import threading, pytz, os, asyncio, logging
 from ssl import CERT_NONE
 from random import choice
-import Colorer
 from telegram import *
 from telegram.error import *
 from telegram.ext import *
@@ -20,6 +19,10 @@ import json as jason
 import traceback, sys, html
 from matplotlib import pyplot
 
+try:
+    os.environ['HEROKU']
+except:
+    import Colorer
 
 pid = open("pid.txt", "w")
 pid.write(str(os.getpid()))
