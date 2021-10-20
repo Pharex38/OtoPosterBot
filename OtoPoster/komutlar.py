@@ -545,12 +545,13 @@ def evale(update, context):
 
 def yenikaynakkomutu(update, context):
     user = update.effective_user.id
-    kaynak_degisken = KaynakCol.find_one({"sahip": user})
     if len(context.args) == 0:
         update.effective_message.reply_text("/kaynak sahip _id icerik")
         return
     if context.args[0].lower() == "sil":
         KaynakCol.delete_one({"no": int(context.args[1])})
+        return
+    kaynak_degisken = KaynakCol.find_one({"sahip": user})
     kaynak_degisken['kaynak'] = []
     kaynak_degisken['kanal'] = []
     kaynak_degisken['zaman'] = "Henüz ayarlanmamış."
