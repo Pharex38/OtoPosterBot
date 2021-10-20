@@ -45,12 +45,11 @@ def tekrarlipostjob(context):
                     tsgetjj.schedule_removal()
                 else:
                     tsgetjj.context['try'] = tsdict['try']+1
-                    
 
 def deljob(context):
     delcont = context.job.context
-    hedef = "-100"+delcont.split("/")[-2]
-    mesid = int(delcont.split("/")[-1])
+    hedef = str(delcont.effective_chat.id)
+    mesid = int(delcont.effective_message.message_id)
     try:
         data = db[str(hedef)].find_one({"_id": mesid})
         data['pids']
