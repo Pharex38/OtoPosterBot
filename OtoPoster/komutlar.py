@@ -7,7 +7,6 @@ from .poster import poster_job, ozel_poster_job
 def start(update, context):
     user = update.message.from_user.id
     chat = update.message.chat.id
-    bot = context.bot
     if user in kara:
         bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
@@ -51,9 +50,6 @@ def stats(update, context):
     kum = []
     kulkum = []
     exe_kullanan_sayisi, ozel_kaynak_kullanan_sayisi, pubiza_kullanan_sayisi, ouo_kullanan_sayisi, trlink_kullanan_sayisi, pnd_kullanan_sayisi, girist = 0, 0, 0, 0, 0, 0, 0
-    if not user in [sahip,fixer]:
-        bot.send_message(chat, "Sen benim sahibim değilsin!")
-        return
     msg = bot.send_message(chat, "<code> Veriler toplanıyor...</code>")
     kullanicilar = [x for x in collection.find({})]
     for kullanici in kullanicilar:
