@@ -82,7 +82,7 @@ def poster_job(context):
             collection.update_one({"_id": 0}, {"$inc": {"sira": 1}})
             collection.update_one({"_id": 0}, {"$pull": {"iptal": str(chat)}})
             logger.warning("{} kaynağının postu iptal edildi.".format(kynk.title))
-            context.job_queue.run_once(deljob, when=2, name="yedekleme", context=update.effective_message.link)
+            context.job_queue.run_once(deljob, when=2, name="yedekleme", context=update)
             try:
                 lmsg.edit_text("{} kaynağının postu iptal edildi. Post kanallardan siliniyor...".format(kynk.title))
             except:
@@ -227,7 +227,7 @@ def poster_job(context):
                     except RetryAfter as rtfr:
                         logger.warning(f"Floodwait -  {rtfr.retry_after} Saniye uyutuluyor...")
                         sleep(rtfr.retry_after+1)
-                    context.job_queue.run_once(deljob, when=2, name="yedekleme", context=update.effective_message.link)
+                    context.job_queue.run_once(deljob, when=2, name="yedekleme", context=update)
                     break
             if sablon == "1":
                 sablon = f"🔥{aciklama}\n\n🔱 TIKLA 👉 {link}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
@@ -326,7 +326,7 @@ def poster_job(context):
                             collection.update_one({"_id": 0}, {"$inc": {"sira": 1}})
                             collection.update_one({"_id": 0}, {"$pull": {"iptal": str(chat)}})
                             logger.warning("{} kaynağının postu iptal edildi.".format(kynk.title))
-                            context.job_queue.run_once(deljob, when=2, name="yedekleme", context=update.effective_message.link)
+                            context.job_queue.run_once(deljob, when=2, name="yedekleme", context=update)
                             try:
                                 lmsg.edit_text("{} kaynağının postu iptal edildi. Post kanallardan siliniyor...".format(kynk.title))
                             except:
@@ -382,7 +382,7 @@ def poster_job(context):
                         collection.update_one({"_id": 0}, {"$inc": {"sira": 1}})
                         collection.update_one({"_id": 0}, {"$pull": {"iptal": str(chat)}})
                         logger.warning("{} kaynağının postu iptal edildi.".format(kynk.title))
-                        context.job_queue.run_once(deljob, when=2, name="yedekleme", context=update.effective_message.link)
+                        context.job_queue.run_once(deljob, when=2, name="yedekleme", context=update)
                         try:
                             lmsg.edit_text("{} kaynağının postu iptal edildi. Post kanallardan siliniyor...".format(kynk.title))
                         except:
@@ -788,7 +788,7 @@ def poster_edit(update, context):
                         sleep(rtfr.retry_after+1)
                         bot.send_message(sahip, f"{update.effective_message.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{json['message']}\n\n{update.effective_message.link}")
                         bot.send_message(chatdat['sahip'], f"{update.effective_message.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{json['message']}\n\n{update.effective_message.link}")
-                    context.job_queue.run_once(deljob, when=2, name="yedekleme", context=update.effective_message.link)
+                    context.job_queue.run_once(deljob, when=2, name="yedekleme", context=update)
                     break
             if sablon == "1":
                 sablon = "🔥{aciklama}\n\n🔱 TIKLA 👉 {link}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
