@@ -307,7 +307,6 @@ def callback_query(call, context):
     """ İptal """
     if call.callback_query.data == "del":
         try:
-            call.callback_query.answer("❤️")
             call.effective_message.delete()
         except:
             pass
@@ -325,8 +324,10 @@ def callback_query(call, context):
         call.callback_query.answer("⛔ Alternatif Kaldırıldı.")
     if call.callback_query.data == "aiptal":
         bot.edit_message_text("<i>Menü kapatıldı.</i>", user, mesajid)
+        return
     if call.callback_query.data == "iptal":
         bot.edit_message_text("<i>İptal Edildi</i>", user, mesajid)
+        return
     """ Kanal Sil """
     if call.callback_query.data.startswith("sil"):
         kul = collection.find_one({"_id": user})
@@ -388,7 +389,10 @@ def callback_query(call, context):
         return
     if call.callback_query.data.startswith("zaman"):
         dgr = int(call.callback_query.data.split("-")[1])
-        saatalert = KaynakCol.find_one({"sahip": dgr})['zaman']
+        try:
+            saatalert = KaynakCol.find_one({"sahip": dgr})['zaman']
+        except:
+            saatalert = "Kaynak silinmiş."
         call.callback_query.answer(show_alert=True, text=saatalert)
     if call.callback_query.data == "okay":
         bot.edit_message_text("""<b>Özel Kaynak Hakkında Bilmeniz Gerekenler</b>\n\n<i>- Sadece bir tane Özel kaynak kullanabilirsiniz.\n- Başkaları da isterse sizin özel kaynağınızı kullanabilir.\n- Kaynağınız @OtoPosterBotLog'da gözükmeyecek.\n- Postlar, diğer kaynaklara göre daha yavaş atılır.\n- Özel kaynağa kısaltılmamış link atmanız gerekiyor. Kısaltılmış linkli post atarsanız bot linki geçmez direkt olarak kısaltılmış linki tekrar kısaltır.</i>""", chat, mesajid)
