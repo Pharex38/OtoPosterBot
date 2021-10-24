@@ -298,6 +298,9 @@ def ekstramenu(update, context):
         return
     if mesaj == "❤️ Beğeni Butonları":
         butonlari = eudat['begeni']
+        if not begstate:
+            bot.send_message(chat, "Bu özellik geçici olarak devredışı bırakılmıştır. 😔")
+            return
         bot.send_message(chat, "<b>Paylaşılan her postun altına buton ayarlayabilirsiniz.</b>\n\n{}".format(butonlari if len(butonlari) > 0 else "Henüz buton ayarlamamışsınız"), reply_markup=begenimark(eudat))
         return
     if mesaj == "📌 Post Sabitleme":
