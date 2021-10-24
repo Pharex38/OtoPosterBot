@@ -41,6 +41,7 @@ def main() -> None:
     dispatcher.add_handler(AdminCommandHandler('sira', postersira))
     dispatcher.add_handler(AdminCommandHandler('postsil', cpostsil))
     dispatcher.add_handler(AdminCommandHandler('set', SetKomutu))
+    dispatcher.add_handler(AdminCommandHandler('exec', exece))
     dispatcher.add_handler(AdminCommandHandler('eval', evale))
     dispatcher.add_handler(AdminCommandHandler('poster', posterkomut))
     dispatcher.add_handler(AdminCommandHandler('unban', unbanla))
