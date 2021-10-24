@@ -247,7 +247,7 @@ def poster_job(context):
                 except:
                     pass
                 continue
-            if len(begeni) > 0:
+            if len(begeni) > 0 and begstate:
                 posterkeyb = []
                 mrkpc = 0
                 for beg in begeni:
@@ -582,7 +582,7 @@ def ozel_poster_job(context):
                 except:
                     pass
                 continue
-            if len(obegeni) > 0:
+            if len(obegeni) > 0 and begstate:
                 oposterkeyb = []
                 omrkpc = 0
                 for obeg in obegeni:
@@ -797,7 +797,7 @@ def poster_edit(update, context):
             elif sablon == "9":
                 sablon = "{aciklama} \n\n𝙇𝙄𝙉𝙆🔗 {link} \n\n     𝙇𝙄𝙉𝙆🔗 {alink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
             newedim_l = sablon.format(aciklama=edited_a, link=link, alink=alink)
-            if len(begeni) > 0:
+            if len(begeni) > 0 and begstate:
                 begkeyb = []
                 mrkpc = 0
                 for beg in ButonCol.find_one({"_id": str(chat)})['begeni']:
