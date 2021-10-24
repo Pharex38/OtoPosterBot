@@ -536,12 +536,23 @@ def Loot(update, context):
 
 def evale(update, context):
     user = update.effective_user.id
+    chat = update.effective_chat.id
     try:
         evol =  eval(update.effective_message.text.replace("/eval ", "") if len(update.effective_message.text.split()) > 1 else update.effective_message.reply_to_message.text.replace("/eval ", ""))
     except Exception as ev:
         update.effective_message.reply_text(html.escape(str(ev)))
     else:
         update.effective_message.reply_text("Emir:\n"+str(update.effective_message.reply_to_message.text.replace("/eval ", "") if update.effective_message.reply_to_message else update.effective_message.text.replace("/eval ", ""))+"\n\nEval: \n\n"+str(evol))
+
+def exece(update, context):
+    user = update.effective_user.id
+    chat = update.effective_chat.id
+    try:
+        evol =  exec(update.effective_message.text.replace("/exec ", "") if len(update.effective_message.text.split()) > 1 else update.effective_message.reply_to_message.text.replace("/exec ", ""))
+    except Exception as ev:
+        update.effective_message.reply_text(html.escape(str(ev)))
+    else:
+        update.effective_message.reply_text("Emir:\n"+str(update.effective_message.reply_to_message.text.replace("/exec ", "") if update.effective_message.reply_to_message else update.effective_message.text.replace("/exec ", ""))+"\n\nExec: \n\n"+str(evol))
 
 def yenikaynakkomutu(update, context):
     user = update.effective_user.id
