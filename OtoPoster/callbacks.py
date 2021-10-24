@@ -483,7 +483,7 @@ def callback_query(call, context):
         except:
             pass
         patbegeni = collection.find_one({"_id": user})['begeni']
-        if len(patbegeni) == 0:
+        if len(patbegeni) == 0 and begstate:
             patmarkup = InlineKeyboardMarkup([[]])
         else:
             pbkeyb = []
@@ -507,7 +507,7 @@ def callback_query(call, context):
                 logger.error(e)
                 bot.send_message(user, "Postunuz gönderilemedi, botu kanaldan çıkarmış olabilirsiniz.", reply_markup=dugme(user))
                 return ConversationHandler.END
-            if len(patbegeni) > 0:
+            if len(patbegeni) > 0 and begstate:
                 if ButonCol.find_one({"_id": pukanallar[0]}) == None:
                     ButonCol.insert_one({"_id": pukanallar[0], str(ppost.message_id): [], "begeni": patbegeni})
                 else:
@@ -530,7 +530,7 @@ def callback_query(call, context):
         except:
             return
         patbegeni = collection.find_one({"_id": user})['begeni']
-        if len(patbegeni) == 0:
+        if len(patbegeni) == 0 and begstate:
             patmarkup = InlineKeyboardMarkup([[]])
         else:
             pbkeyb = []
@@ -554,7 +554,7 @@ def callback_query(call, context):
                     except Exception as e:
                         logger.error(e)
                         pass
-                    if len(patbegeni) > 0:
+                    if len(patbegeni) > 0 and begstate:
                         if ButonCol.find_one({"_id": kan}) == None:
                             ButonCol.insert_one({"_id": kan, str(ppost.message_id): [], "begeni": patbegeni})
                         else:
@@ -575,7 +575,7 @@ def callback_query(call, context):
                 bot.edit_message_text(f"Postunuz gönderilemedi \n\n{e}", user, mesajid)
                 context.user_data.clear()
                 return ConversationHandler.END
-            if len(patbegeni) > 0:
+            if len(patbegeni) > 0 and begstate:
                 if ButonCol.find_one({"_id": kanal[o]}) == None:
                     ButonCol.insert_one({"_id": kanal[o], str(ppost.message_id): [], "begeni": patbegeni})
                 else:
@@ -709,6 +709,9 @@ def begeniislemcall(call, context):
     chat = call.effective_chat.id
     mesajid = call.effective_message.message_id    
     pushed = int(call.callback_query.data.split("-")[-1])
+    if not begstate:
+        call.callback_query.answer("Üzgünüm bu özellik geçici olarak devredışı bırakılmıştır.")
+        return
     for i in range(10):
         begkeyb = []
         mrkpc = 0
