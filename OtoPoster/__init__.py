@@ -48,7 +48,10 @@ appstr = maindata['appstr']
 aid = maindata['aid']
 hash = maindata['hash']
 ptimeout = maindata['timeout']
-begstate = maindata['beg']
+try:
+    begstate = maindata['beg']
+except:
+    begstate = False
 
 reqs = Request(con_pool_size=50, connect_timeout=30, read_timeout=30)
 bot = ExtBot(bottoken, request=reqs, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=20, disable_web_page_preview=True, allow_sending_without_reply=True, tzinfo=pytz.timezone('Turkey')))
