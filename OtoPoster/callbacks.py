@@ -142,7 +142,11 @@ def cekiliscall(call, context):
         return
     for cekkan in cek_dat['kanal']:
         if cekkan in KaynakCol.find_one({"sahip": int(context.bot_data['sahip'])})['kanal']:
-            if bot.get_chat_members_count(cekkan) > 1001:
+            try:
+                cekkanabone = bot.get_chat_members_count(cekkan)
+            except:
+                continue
+            if cekkanabone > 1001:
                 try:
                     collection.update_one({"_id": 0}, {"$push": {"cekilis": user}})
                 except:
