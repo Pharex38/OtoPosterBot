@@ -218,6 +218,8 @@ def postmenu(update, context):
             link = "https://gir.ist/qcu9xub"
         if poudat['site'] == "7":
             link = "https://urlably.com/qcu9xub"
+        if poudat['site'] == "0":
+            link = "https://urlcik.com/bTdmM5F6"
         if poudat['altsite'] != "None":
             if poudat['altsite'] == "1":
                 alink = "https://ay.live/vRpKVx"
@@ -233,6 +235,8 @@ def postmenu(update, context):
                 alink = "https://gir.ist/qcu9xub"
             if poudat['altsite'] == "7":
                 alink = "https://urlably.com/qcu9xub"
+            if poudat['altsite'] == "0":
+                alink = "https://urlcik.com/bTdmM5F6"
         else:
             alink = "https://lnkload.com/2v5vy"
         if poudat['sablon'] == "1":
