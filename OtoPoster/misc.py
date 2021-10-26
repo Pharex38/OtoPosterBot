@@ -140,6 +140,8 @@ def Deb(msg = None):
     print(f"Debug {sys._getframe().f_back.f_lineno}: {msg if msg is not None else ''}")
 
 def phaapi(sit):
+    if sit == "0":
+        return "***REMOVED-KEY***"
     if sit == "1":
         return "***REMOVED-SHORTENER-KEY***"
     if sit == "2":
@@ -156,6 +158,8 @@ def phaapi(sit):
         return "***REMOVED-KEY***"
     
 def site_isim(no):
+    if no == "0":
+        return "URLcik"
     if no == "1":
         return "TRLink"
     if no == "2":
