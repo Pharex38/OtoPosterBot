@@ -336,7 +336,13 @@ def cpostsil(update, context):
         data = data['pids']
     for d in data:
         try:
-            bot.delete_message(d['chat'], d['pid'])
+            bot.edit_message_media(d['chat'], d['pid'], media= InputMediaPhoto(media="https://www.pinclipart.com/picdir/big/532-5329134_computer-icons-x-mark-clip-art-red-cross.png", caption="Post Silindi!"))
+        except RetryAfter as pdr:
+            time.sleep(pdr.retry_after+2)
+            try:
+                bot.edit_message_media(d['chat'], d['pid'], media= InputMediaPhoto(media="https://www.pinclipart.com/picdir/big/532-5329134_computer-icons-x-mark-clip-art-red-cross.png", caption="Post Silindi!"))
+            except:
+                pass
         except Exception as e:
             logger.error(e)
         else:
