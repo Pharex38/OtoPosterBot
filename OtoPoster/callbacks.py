@@ -398,9 +398,11 @@ def callback_query(call, context):
         except:
             saatalert = "Kaynak silinmiş."
         call.callback_query.answer(show_alert=True, text=saatalert)
+        return
     if call.callback_query.data == "okay":
         bot.edit_message_text("""<b>Özel Kaynak Hakkında Bilmeniz Gerekenler</b>\n\n<i>- Sadece bir tane Özel kaynak kullanabilirsiniz.\n- Başkaları da isterse sizin özel kaynağınızı kullanabilir.\n- Kaynağınız @OtoPosterBotLog'da gözükmeyecek.\n- Postlar, diğer kaynaklara göre daha yavaş atılır.\n- Özel kaynağa kısaltılmamış link atmanız gerekiyor. Kısaltılmış linkli post atarsanız bot linki geçmez direkt olarak kısaltılmış linki tekrar kısaltır.</i>""", chat, mesajid)
         bot.edit_message_reply_markup(chat, mesajid, reply_markup=ozelmark())
+        return
     if call.callback_query.data == "okayk":
         use_r = 0
         collection.update_one({"_id": user}, {"$set": {"ozel": False}})
@@ -410,9 +412,11 @@ def callback_query(call, context):
         OzelCol.update_one({"_id": use_r}, {"$pull": {"kanal": user}})
         collection.update_one({"_id": user}, {"$pull": {"kaynak": "32"}})
         bot.edit_message_text("Özel Kaynak Kaldırıldı.", chat, mesajid)
+        return
     if call.callback_query.data == "logokaldir":
         OzelCol.update_one({"_id": user}, {"$set": {"log": "yok"}})
         call.callback_query.edit_message_text("Botlog Kaldırıldı.")
+        return
     if call.callback_query.data == "okaykanal":
         bot.send_message(chat, "Özel kaynağınızda kullanmak istediğiniz kanalları seçin.", reply_markup=okaykanalmark(user))
         return
@@ -443,8 +447,10 @@ def callback_query(call, context):
         OzelCol.delete_one({"_id": user})
         collection.update_one({"_id": user}, {"$set": {"ozel": False}})
         call.callback_query.edit_message_text("Kaynak, sen de dahil bütün kullanıcılardan silindi. 💣")
+        return
     if call.callback_query.data == "eminmisin":
         call.callback_query.edit_message_text("Alttaki düğmeye basarsan, bu kaynağı kullanan herkesi güzel postlarından mahrum ediceksin.", reply_markup=eminmisin())
+        return
     if call.callback_query.data.startswith("sagyan"):
         try:
             sgynknl = collection.find_one({"_id": user})['kanal'][int(call.callback_query.data.split("-")[-1])+1]
@@ -454,6 +460,7 @@ def callback_query(call, context):
             return
         call.callback_query.answer(bot.get_chat(sgynknl).title)
         call.callback_query.edit_message_text(f"<b> >>>    {bot.get_chat(sgynknl).title}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>", reply_markup=kaynakmark(user, int(call.callback_query.data.split("-")[-1])+1))
+        return
     if call.callback_query.data.startswith("solyan"):
         try:
             sgynknl = collection.find_one({"_id": user})['kanal'][int(call.callback_query.data.split("-")[-1])-1]
@@ -467,6 +474,7 @@ def callback_query(call, context):
             sgyisim = "Kanalınıza ulaşılamadı!"
         call.callback_query.answer(sgyisim)
         call.callback_query.edit_message_text(f"<b> >>>    {sgyisim}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>", reply_markup=kaynakmark(user, int(call.callback_query.data.split("-")[-1])-1))
+        return
     """ PAT """
     if call.callback_query.data.startswith("jop"):
         jc = int(call.callback_query.data.split("-")[-1])
@@ -621,6 +629,7 @@ def callback_query(call, context):
             context.user_data.clear()
             mstd = bot.send_message(chat, "Başka post paylaşacak mısınız?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Evet", callback_data="devam"), InlineKeyboardButton("Hayır", callback_data="del")]]))
             return ConversationHandler.END
+        return
     """ Şablon """
     if call.callback_query.data == "vsablon":
         if collection.find_one({"_id": user})['sira'] == 1:
@@ -673,6 +682,7 @@ def callback_query(call, context):
             return
         bot.send_message(eklenti, f'{user}+{ioskanlink.invite_link}')
         context.user_data['iosmsgid'] = mesajid
+        return
     call.callback_query.answer(f"Yanıt yok - {call.callback_query.data}")
 
 def tekrarlisaatayarlacall(call, context):
