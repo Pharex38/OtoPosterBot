@@ -49,6 +49,7 @@ aid = maindata['aid']
 hash = maindata['hash']
 ptimeout = maindata['timeout']
 begstate = maindata['beg']
+mainsiralimit = maindata['mainsira']
 
 
 reqs = Request(con_pool_size=50, connect_timeout=30, read_timeout=30)
