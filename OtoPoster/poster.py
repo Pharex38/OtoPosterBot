@@ -100,6 +100,11 @@ def poster_job(context):
         eski = hesap['eski']
         icerik = hesap['icerik']
         if len(kanal) != len(eski) and len(kanal) > 0 or chatdat['icerik'] == "+18" and len(kanal) != len(icerik) or chatdat['icerik'] == "arsiv" and len(icerik) != 0:
+            for kan in kanal:
+                if kan in chatdat['kanal']:
+                    break
+            else:
+                continue
             sablon = hesap['sablon']
             user = hesap['_id']
             site = hesap["site"]
@@ -476,6 +481,11 @@ def ozel_poster_job(context):
         except:
             continue
         okanal = ohesap['kanal']
+        for kkan in okanal:
+            if kkan in okaynak['kaynal']:
+                break
+        else:
+            continue
         osablon = ohesap['sablon']
         ouser = ohesap['_id']
         osite = ohesap["site"]
