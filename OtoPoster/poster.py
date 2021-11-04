@@ -482,7 +482,7 @@ def ozel_poster_job(context):
             continue
         okanal = ohesap['kanal']
         for kkan in okanal:
-            if kkan in okaynak['kaynal']:
+            if kkan in okaynak['kaynak']:
                 break
         else:
             continue
