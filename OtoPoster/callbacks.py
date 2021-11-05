@@ -473,7 +473,7 @@ def callback_query(call, context):
         except Exception as e:
             logger.error(e)
             pass
-    return
+        return
     if call.callback_query.data.startswith("solyan"):
         try:
             sgynknl = collection.find_one({"_id": user})['kanal'][int(call.callback_query.data.split("-")[-1])-1]
