@@ -65,7 +65,8 @@ def cekilismark():
     return InlineKeyboardMarkup([[InlineKeyboardButton("Çekilişe Katıl!", callback_data="katil")]])
 
 def tekrarlipostmark(user, context):
-    return InlineKeyboardMarkup([[InlineKeyboardButton("Yeni Post Oluştur", callback_data="yenitekrarli")], [InlineKeyboardButton("Tekrarli Post Sil", callback_data="tekrarlisil") if len(context.job_queue.get_jobs_by_name(f"ts{user}")) != 0], [InlineKeyboardButton("❌ İptal", callback_data="iptal")]])
+    silbutts = [InlineKeyboardButton("Tekrarli Post Sil", callback_data="tekrarlisil")] if len(context.job_queue.get_jobs_by_name(f"ts{user}")) != 0 else []
+    return InlineKeyboardMarkup([[InlineKeyboardButton("Yeni Post Oluştur", callback_data="yenitekrarli")], silbutts, [InlineKeyboardButton("❌ İptal", callback_data="iptal")]])
 
 def tspostmod(user):
     return InlineKeyboardMarkup([[InlineKeyboardButton("Postlardan birini rastgele paylaş.", callback_data="tsmod-rastgele")], [InlineKeyboardButton("Postları sırayla birer birer paylaş.", callback_data="tsmod-sirali")]])
