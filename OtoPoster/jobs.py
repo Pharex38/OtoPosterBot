@@ -22,7 +22,7 @@ def tekrarlipostjob(context):
     tsdict = context.job.context
     tspostsira = int(tsdict["mod"].split("-")[1])
     tspostdict = choice(tsdict["tspost"]) if tsdict["mod"].startswith("rastgele") else tsdict["tspost"][tspostsira]
-    if tspostsira = len(tsdict["tspost"])-1:
+    if tspostsira == len(tsdict["tspost"])-1:
         tspostsira = -1
     for tsgetj in context.job_queue.get_jobs_by_name(f"ts{tsdict['tsuser']}"):
         if tsgetj.context['fid'] == tspostdict['fid'] and tsgetj.context['tscaption'] == tspostdict['tscaption'] and tsgetj.context['text'] == tspostdict['text']:
