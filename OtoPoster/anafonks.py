@@ -398,13 +398,20 @@ def tekrarlipostayarla(update, context):
     if update.effective_message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
+    try:
+        bot.delete_message(chat, context.user_data['lastts'])
+    except:
+        pass
     tfid = None
     if update.effective_message.text == None:
         tfid = update.effective_message.photo[-1].file_id if update.effective_message.photo else update.effective_message.effective_attachment.file_id
-    tspostdict = {"baslik": context.user_data['tsbaslik'], "tsaat": context.user_data['tsaat'], "tskan": context.user_data['tskan'], "tscaption": update.effective_message.caption_html_urled, "fid": tfid, "ptip": effective_message_type(update), "text": update.effective_message.text_html_urled, "tsuser": user}
-    context.job_queue.run_repeating(tekrarlipostjob, first=2, interval=3600*int(context.user_data['tsaat']), name=f"ts{user}", context=tspostdict)
-    bot.send_message(chat, "Postunuz başarıyla ayarlandı!", reply_markup=dugme(user))
-    return ConversationHandler.END
+    if context.user_data.get("tspostdict", None) == None:
+        context.user_data["tspostdict"] = {"baslik": context.user_data['tsbaslik'], "tsaat": context.user_data['tsaat'], "tskan": context.user_data['tskan'], "tspost": [{"tscaption": update.effective_message.caption_html_urled, "fid": tfid, "ptip": effective_message_type(update), "text": update.effective_message.text_html_urled}], "tsuser": user, "mod": None}
+    else:
+        context.user_data["tspostdict"]["tspost"].append({"tscaption": update.effective_message.caption_html_urled, "fid": tfid, "ptip": effective_message_type(update), "text": update.effective_message.text_html_urled})
+    msz = bot.send_message(chat, "Postunuz eklendi!\n\nPost eklemeye devam etmek isterseniz iletmeye devam edin. Bu kadar yeterli ise alttaki butonlardan mod seçin.", reply_markup=tspostmod(user))
+    context.user_data["lastts"] = msz.message_id
+    return
 
 def ozelk(update, context):
     user = update.effective_message.from_user.id
