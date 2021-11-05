@@ -28,7 +28,7 @@ def tekrarlipostjob(context):
         if tsgetj.context["tspost"][0]['fid'] == tsdict["tspost"][0]['fid'] and tsgetj.context["tspost"][0]['tscaption'] == tsdict["tspost"][0]['tscaption'] and tsgetj.context["tspost"][0]['text'] == tsdict["tspost"][0]['text']:
             tsgetjj = tsgetj
             break
-    tsgetjj.context["mod"] = tsdict["mod"].split("-")[0] + "-" + tspostsira + 1
+    tsgetjj.context["mod"] = str(tsdict["mod"].split("-")[0]) + "-" + str(tspostsira) + "1"
     if tspostdict['text'] != None:
         try:
             bot.send_message(tsdict['tskan'], tspostdict['text'])
