@@ -8,7 +8,10 @@ def sabloncall(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
     mesajid = call.effective_message.message_id
-    bot.delete_message(chat, mesajid)
+    try:
+        bot.delete_message(chat, mesajid)
+    except:
+        pass
     if collection.find_one({"_id": user}) == None:
         call.callback_query.edit_message_text(text="<b>Önce bir API kaydedin!</b>")
         return
@@ -687,6 +690,10 @@ def callback_query(call, context):
 
 def tekrarlisaatayarlacall(call, context):
     context.user_data['tsaat'] = int(call.callback_query.data.split("-")[-1])
+    try:
+        call.effective_message.delete()
+    except:
+        pass
     bot.send_message(call.effective_chat.id, "Tekrarlı postunuza bir başlık verin.\n\nÖrnek;\nJigolo afiş, IVR afiş", reply_markup=imark())
     call.callback_query.answer("Saat belirlendi!")
     return TSBASLIK
