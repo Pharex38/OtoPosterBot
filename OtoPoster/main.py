@@ -82,7 +82,7 @@ def main() -> None:
             CallbackQueryHandler(begenicall, pattern="^(begeniolustur)$"),
             CallbackQueryHandler(panelcall, pattern="^(panelzaman|pau-bul|pak-bul)$"),
             CallbackQueryHandler(tekrarlisaatayarlacall, pattern="^ts-(.*)")],
-            TSPOST: [MessageHandler(~Filters.command, tekrarlipostayarla), CallbackQueryHandler(tsmodcall, pattern="^(tsmod-rastgele|tsmod_sirali)$")],
+            TSPOST: [MessageHandler(~Filters.command, tekrarlipostayarla), CallbackQueryHandler(tsmodcall, pattern="^(tsmod-rastgele|tsmod-sirali)$")],
             PANELZAMAN: [MessageHandler(~Filters.command & Filters.text, zaman)],
             PANELBUL: [MessageHandler(~Filters.command & Filters.forwarded | Filters.text & ~Filters.command, panelbul)],
             TSBASLIK: [MessageHandler(~Filters.command & Filters.text, tekrarlipostbaslikayarla)],
