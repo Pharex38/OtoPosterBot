@@ -324,7 +324,7 @@ def ekstramenu(update, context):
             tpp = tpoststr.find("run at: ")
             tapp = tpoststr.find("rval[")
             text_tekrarli += "Sonraki tetiklenme tarihi: {}\nPaylaşılma aralığı: {}\nBaşlık: {}\n\n".format(tpoststr[tpp+8:tpp+27], tpoststr[tapp+4:tapp+13], tpost.context['baslik'])
-        bot.send_message(chat, text_tekrarli, reply_markup=tekrarlipostmark())
+        bot.send_message(chat, text_tekrarli, reply_markup=tekrarlipostmark(user))
         return
     if mesaj == "🍎 iOS Ban Kontrol":
         if len(eudat['kanal']) == 0:
