@@ -702,6 +702,8 @@ def tsmodcall(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
     query = call.callback_query
+    try:
+        call.effective_message.delete()
     mod = query.data.split("-")[1] + "-0"
     context.user_data["tspostdict"]["mod"] = mod
     context.job_queue.run_repeating(tekrarlipostjob, first=2, interval=3600*int(context.user_data['tsaat']), name=f"ts{user}", context=context.user_data["tspostdict"])
