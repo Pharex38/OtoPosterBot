@@ -470,7 +470,8 @@ def callback_query(call, context):
         call.callback_query.answer(sgyisim)
         try:
             call.callback_query.edit_message_text(f"<b> >>>    {sgyisim}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>", reply_markup=kaynakmark(user, int(call.callback_query.data.split("-")[-1])+1))
-        except:
+        except Exception as e:
+            logger.error(e)
             pass
     return
     if call.callback_query.data.startswith("solyan"):
@@ -487,7 +488,8 @@ def callback_query(call, context):
         call.callback_query.answer(sgyisim)
         try:
             call.callback_query.edit_message_text(f"<b> >>>    {sgyisim}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>", reply_markup=kaynakmark(user, int(call.callback_query.data.split("-")[-1])-1))
-        except:
+        except Exception as e:
+            logger.error(e)
             pass
         return
     """ PAT """
