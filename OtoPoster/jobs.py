@@ -25,7 +25,7 @@ def tekrarlipostjob(context):
     if tspostsira == len(tsdict["tspost"])-1:
         tspostsira = -1
     for tsgetj in context.job_queue.get_jobs_by_name(f"ts{tsdict['tsuser']}"):
-        if tsgetj.context['fid'] == tspostdict['fid'] and tsgetj.context['tscaption'] == tspostdict['tscaption'] and tsgetj.context['text'] == tspostdict['text']:
+        if tsgetj.context["tspost"][0]['fid'] == tsdict["tspost"][0]['fid'] and tsgetj.context["tspost"][0]['tscaption'] == tsdict["tspost"][0]['tscaption'] and tsgetj.context["tspost"][0]['text'] == tsdict["tspost"][0]['text']:
             tsgetjj = tsgetj
             break
     tsgetjj.context["mod"] = tsdict["mod"].split("-")[0] + "-" + tspostsira + 1
@@ -42,7 +42,7 @@ def tekrarlipostjob(context):
             bot.send_message(tsdict['tsuser'], f"{tsdict['baslik']} Tekrarli Postunuz gönderilemedi!")
         except:
             for tsgetj in context.job_queue.get_jobs_by_name(f"ts{tsdict['tsuser']}"):
-                if tsgetj.context['fid'] == tspostdict['fid'] and tsgetj.context['tscaption'] == tspostdict['tscaption'] and tsgetj.context['text'] == tspostdict['text']:
+                if tsgetj.context["tspost"][0]['fid'] == tsdict["tspost"][0]['fid'] and tsgetj.context["tspost"][0]['tscaption'] == tsdict["tspost"][0]['tscaption'] and tsgetj.context["tspost"][0]['text'] == tsdict["tspost"][0]['text']:
                     tsgetjj = tsgetj
                     break
             try:
