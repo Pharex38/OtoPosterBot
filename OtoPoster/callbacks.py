@@ -180,7 +180,7 @@ def panelcall(call, context):
         bot.send_message(call.effective_chat.id, "Ayarlamak istediğiniz mesajı gönderin.", reply_markup=imark())
         return PANELZAMAN
     elif query.data.startswith("pau"):
-        kaynak_users = KaynakCol.find_one({"sahip": user})['kaynak']
+        kaynak_users = KaynakCol.find_one({"sahip": user})['kaynak'].remove(sahip)
         panel_user_text = f"<b>Kaynağınızı Kullanan Kullanıcılar;</b>\n\n"
         que = int(query.data.split("-")[-1]) if query.data.split("-")[-1] != "bul" else None
         if que == None:
