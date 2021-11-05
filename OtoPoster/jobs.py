@@ -20,20 +20,29 @@ def jobyedekleme(context):
 
 def tekrarlipostjob(context):
     tsdict = context.job.context
-    if tsdict['text'] != None:
+    tspostsira = int(tsdict["mod"].split("-")[1])
+    tspostdict = choice(tsdict["tspost"]) if tsdict["mod"].startswith("rastgele") else tsdict["tspost"][tspostsira]
+    if tspostsira = len(tsdict["tspost"])-1:
+        tspostsira = -1
+    for tsgetj in context.job_queue.get_jobs_by_name(f"ts{tsdict['tsuser']}"):
+        if tsgetj.context['fid'] == tspostdict['fid'] and tsgetj.context['tscaption'] == tspostdict['tscaption'] and tsgetj.context['text'] == tspostdict['text']:
+            tsgetjj = tsgetj
+            break
+    tsgetjj.context["mod"] = tsdict["mod"].split("-")[0] + "-" + tspostsira + 1
+    if tspostdict['text'] != None:
         try:
-            bot.send_message(tsdict['tskan'], tsdict['text'])
+            bot.send_message(tsdict['tskan'], tspostdict['text'])
         except:
             bot.send_message(tsdict['tsuser'], f"{tsdict['baslik']} Tekrarli Postunuz gönderilemedi!")
         return
     try:
-        SEND_MEDIA_TYPES[tsdict['ptip']](tsdict['tskan'], tsdict['fid'], caption=tsdict['tscaption'])
+        SEND_MEDIA_TYPES[tspostdict['ptip']](tspostdict['tskan'], tspostdict['fid'], caption=tspostdict['tscaption'])
     except:
         try:
             bot.send_message(tsdict['tsuser'], f"{tsdict['baslik']} Tekrarli Postunuz gönderilemedi!")
         except:
             for tsgetj in context.job_queue.get_jobs_by_name(f"ts{tsdict['tsuser']}"):
-                if tsgetj.context['fid'] == tsdict['fid'] and tsgetj.context['tscaption'] == tsdict['tscaption']:
+                if tsgetj.context['fid'] == tspostdict['fid'] and tsgetj.context['tscaption'] == tspostdict['tscaption'] and tsgetj.context['text'] == tspostdict['text']:
                     tsgetjj = tsgetj
                     break
             try:
