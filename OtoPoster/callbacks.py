@@ -698,6 +698,17 @@ def tekrarlisaatayarlacall(call, context):
     call.callback_query.answer("Saat belirlendi!")
     return TSBASLIK
 
+def tsmodcall(call, context):
+    user = call.effective_user.id
+    chat = call.effective_chat.id
+    query = call.callback_query
+    mod = query.data.split("-")[1] + "-0"
+    context.user_data["tspostdict"]["tsmod"] = mod
+    context.job_queue.run_repeating(tekrarlipostjob, first=2, interval=3600*int(context.user_data['tsaat']), name=f"ts{user}", context=context.user_data["tspostdict"])
+    bot.send_message(chat, "Postlarınız başarıyla ayarlandı!", reply_markup=dugme(user))
+    return ConversationHandler.END
+
+
 def advcall(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
