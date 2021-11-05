@@ -73,11 +73,7 @@ def kaynakcall(call, context):
             KaynakCol.update_one({"sahip": kys}, {"$push": {"kaynak": user}})
         call.callback_query.answer(text="✅ Kaynak Eklendi")
     try:
-        kcisim = bot.get_chat(kkul['kanal'][kkanil]).title
-    except:
-        kcisim = "Kanalınıza ulaşılamadı!"
-    try:
-        call.callback_query.edit_message_text(text=f"<b> >>>     {kcisim}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>", reply_markup=kaynakmark(user, kkanil))
+        call.callback_query.edit_message_reply_markup(kaynakmark(user, kkanil))
     except:
         pass
 
@@ -270,7 +266,10 @@ def callback_query(call, context):
         else:
             collection.update_one({"_id": user}, {"$push": {"pin": pushedpinkan}})
             call.callback_query.answer("Kanalınız için Pin modu açıldı.")
-        call.callback_query.edit_message_reply_markup(pinmark(user))
+        try:
+            call.callback_query.edit_message_reply_markup(pinmark(user))
+        except:
+            pass
         return 
     """ SFS Modu """
     if call.callback_query.data.startswith("sfs"):
@@ -286,7 +285,10 @@ def callback_query(call, context):
         else:
             collection.update_one({"_id": user}, {"$push": {"eski": pushedsfskan}})
             call.callback_query.answer("Kanalınız SFS moduna alındı.")
-        call.callback_query.edit_message_reply_markup(sfsmark(user))
+        try:
+            call.callback_query.edit_message_reply_markup(sfsmark(user))
+        except:
+            pass
     """ İcerik """
     if call.callback_query.data.startswith("icerik"):
         icerikno = int(call.callback_query.data.split("-")[-2])
@@ -462,8 +464,11 @@ def callback_query(call, context):
             logger.error(e)
             return
         call.callback_query.answer(bot.get_chat(sgynknl).title)
-        call.callback_query.edit_message_text(f"<b> >>>    {bot.get_chat(sgynknl).title}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>", reply_markup=kaynakmark(user, int(call.callback_query.data.split("-")[-1])+1))
-        return
+        try:
+            call.callback_query.edit_message_text(f"<b> >>>    {bot.get_chat(sgynknl).title}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>", reply_markup=kaynakmark(user, int(call.callback_query.data.split("-")[-1])+1))
+        except:
+            pass
+    return
     if call.callback_query.data.startswith("solyan"):
         try:
             sgynknl = collection.find_one({"_id": user})['kanal'][int(call.callback_query.data.split("-")[-1])-1]
@@ -476,7 +481,10 @@ def callback_query(call, context):
         except:
             sgyisim = "Kanalınıza ulaşılamadı!"
         call.callback_query.answer(sgyisim)
-        call.callback_query.edit_message_text(f"<b> >>>    {sgyisim}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>", reply_markup=kaynakmark(user, int(call.callback_query.data.split("-")[-1])-1))
+        try:
+            call.callback_query.edit_message_text(f"<b> >>>    {sgyisim}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>", reply_markup=kaynakmark(user, int(call.callback_query.data.split("-")[-1])-1))
+        except:
+            pass
         return
     """ PAT """
     if call.callback_query.data.startswith("jop"):
