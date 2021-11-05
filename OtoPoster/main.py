@@ -130,8 +130,9 @@ def main() -> None:
     ytjcount = 0
     for uh in collection.find_one({"_id": 0})['jobs']:
         if uh['name'].startswith("ts"):
-            uh['msgdict']['tspost'] = uh['msgdict']
+            uh['msgdict']['tspost'] = [uh['msgdict'].pop("tsbaslik").pop("tsaat").pop("tskan")]
             uh['msgdict']['mod'] = "rastgele-0"
+            uh['msgdict'].pop("fid").pop("text").pop("tscaption").pop("ptip")
             upjob.run_repeating(tekrarlipostjob, interval=3600*int(uh['msgdict']['tsaat']), name=uh['name'], context=uh['msgdict'])
             ytjcount += 1
             continue
