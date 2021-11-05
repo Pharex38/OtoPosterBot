@@ -28,6 +28,12 @@ def tekrarlipostjob(context):
         if tsgetj.context["tspost"][0]['fid'] == tsdict["tspost"][0]['fid'] and tsgetj.context["tspost"][0]['tscaption'] == tsdict["tspost"][0]['tscaption'] and tsgetj.context["tspost"][0]['text'] == tsdict["tspost"][0]['text']:
             tsgetjj = tsgetj
             break
+    tsjtext = str(tsgetjj.job)
+    jstnam = tsjtext.find("next run at: ")+13
+    jsttime = datetime.strptime(tsjtext[jstnam:jstnam+19], "%Y-%m-%d %H:%M:%S") + datetime.timedelta(hours = 3600*int(tsdict["tsaat"]))
+    jsttimestr = jsttime.strftime("%Y-%m-%d %H:%M:%S")
+    bildir(jsttimestr)
+    tsgetjj.context["tetik"] = jsttimestr
     tsgetjj.context["mod"] = str(tsdict["mod"].split("-")[0]) + "-" + str(tspostsira) + "1"
     if tspostdict['text'] != None:
         try:
@@ -41,10 +47,6 @@ def tekrarlipostjob(context):
         try:
             bot.send_message(tsdict['tsuser'], f"{tsdict['baslik']} Tekrarli Postunuz gönderilemedi!")
         except:
-            for tsgetj in context.job_queue.get_jobs_by_name(f"ts{tsdict['tsuser']}"):
-                if tsgetj.context["tspost"][0]['fid'] == tsdict["tspost"][0]['fid'] and tsgetj.context["tspost"][0]['tscaption'] == tsdict["tspost"][0]['tscaption'] and tsgetj.context["tspost"][0]['text'] == tsdict["tspost"][0]['text']:
-                    tsgetjj = tsgetj
-                    break
             try:
                 tsdict['try']
             except:
