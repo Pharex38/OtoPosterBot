@@ -130,6 +130,8 @@ def main() -> None:
     ytjcount = 0
     for uh in collection.find_one({"_id": 0})['jobs']:
         if uh['name'].startswith("ts"):
+            if uh['msgdict'].get("tetik", None) == None:
+                continue
             firtime = datetime.datetime.strptime(uh['msgdict']["tetik"], "%Y-%m-%d %H:%M:%S").replace(tzinfo=pytz.timezone('Europe/Istanbul'))
             vakit = datetime.datetime.now(pytz.timezone('Europe/Istanbul'))
             firt = firtime - vakit
