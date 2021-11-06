@@ -34,7 +34,7 @@ def tekrarlipostjob(context):
             break
     tsjtext = str(tsgetjj.job)
     jstnam = tsjtext.find("next run at: ")+13
-    jsttime = datetime.datetime.strptime(tsjtext[jstnam:jstnam+19], "%Y-%m-%d %H:%M:%S") + datetime.timedelta(hours = int(tsdict["tsaat"]))
+    jsttime = datetime.datetime.strptime(tsjtext[jstnam:jstnam+19], "%Y-%m-%d %H:%M:%S") + datetime.timedelta(hours = int(tsdict["tsaat"]-3))
     jsttimestr = jsttime.strftime("%Y-%m-%d %H:%M:%S")
     bildir(jsttimestr)
     tsgetjj.context["tetik"] = jsttimestr
