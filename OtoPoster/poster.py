@@ -752,8 +752,8 @@ def poster_edit(update, context):
         logger.warning(f"{update.effective_chat.title} kaynağının postu düzenleniyor...")
         for edil in mesdata['pids']:
             db[str(chat)].update_one({"_id": emid}, {"$set": {"pids": []}})
-            if edil['user'] == 0:
-                edcount
+            if edil.get("user", 0) == 0:
+                continue
             edi_dat = collection.find_one({"_id": edil['user']})
             sira = edi_dat['sira']
             site = edi_dat['site'] 
