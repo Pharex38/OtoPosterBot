@@ -722,7 +722,7 @@ def tsmodcall(call, context):
         pass
     mod = query.data.split("-")[1] + "-0"
     context.user_data["tspostdict"]["mod"] = mod
-    context.job_queue.run_repeating(tekrarlipostjob, first=3600*int(context.user_data["tsaat"], interval=3600*int(context.user_data['tsaat']), name=f"ts{user}", context=context.user_data["tspostdict"])
+    context.job_queue.run_repeating(tekrarlipostjob, first=3600*int(context.user_data["tsaat"], interval=3600*int(context.user_data['tsaat']), name=f"ts{user}", context=context.user_data["tspostdict"]))
     context.user_data.clear()
     bot.send_message(chat, "Postlarınız başarıyla ayarlandı!", reply_markup=dugme(user))
     return ConversationHandler.END
