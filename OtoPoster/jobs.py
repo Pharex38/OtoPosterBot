@@ -38,7 +38,7 @@ def tekrarlipostjob(context):
     jsttimestr = jsttime.strftime("%Y-%m-%d %H:%M:%S")
     bildir(jsttimestr)
     tsgetjj.context["tetik"] = jsttimestr
-    tsgetjj.context["mod"] = str(tsdict["mod"].split("-")[0]) + "-" + str(tspostsira) + "1"
+    tsgetjj.context["mod"] = str(tsdict["mod"].split("-")[0]) + "-" + str(tspostsira+1)
     if tspostdict['text'] != None:
         try:
             bot.send_message(tsdict['tskan'], tspostdict['text'])
