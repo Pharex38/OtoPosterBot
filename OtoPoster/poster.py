@@ -100,13 +100,14 @@ def poster_job(context):
         eski = hesap['eski']
         icerik = hesap['icerik']
         if len(kanal) != len(eski) and len(kanal) > 0 or chatdat['icerik'] == "+18" and len(kanal) != len(icerik) or chatdat['icerik'] == "arsiv" and len(icerik) != 0:
+            user = hesap['_id']
             for kan in kanal:
                 if kan in chatdat['kanal']:
                     break
             else:
+                KaynakCol.update_one({"_id": chat}, {"$pull": {"kaynak": user}})
                 continue
             sablon = hesap['sablon']
-            user = hesap['_id']
             site = hesap["site"]
             altapi = hesap['altapi']
             altsite = hesap['altsite']
