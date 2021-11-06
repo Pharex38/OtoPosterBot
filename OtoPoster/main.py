@@ -131,7 +131,9 @@ def main() -> None:
     for uh in collection.find_one({"_id": 0})['jobs']:
         if uh['name'].startswith("ts"):
             firtime = datetime.datetime.strptime(uh['msgdict']["tetik"], "%Y-%m-%d %H:%M:%S")
+            print(type(firtime))
             vakit = datetime.datetime.now(pytz.timezone('Europe/Istanbul'))
+            print(type(vakit))
             firt = firtime - vakit
             upjob.run_repeating(tekrarlipostjob, first=firt.total_seconds(), interval=3600*int(uh['msgdict']['tsaat']), name=uh['name'], context=uh['msgdict'])
             ytjcount += 1
