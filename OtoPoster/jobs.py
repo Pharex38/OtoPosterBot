@@ -20,7 +20,8 @@ def jobyedekleme(context):
 
 def tekrarlipostjob(context):
     tsdict = context.job.context
-    tspostsira = int(tsdict["mod"].split("-")[1])
+    bildir(tsdict["mod"].split("-"))
+    tspostsira = int(tsdict["mod"].split("-")[-1])
     try:
         tspostdict = choice(tsdict["tspost"]) if tsdict["mod"].startswith("rastgele") else tsdict["tspost"][tspostsira]
     except:
