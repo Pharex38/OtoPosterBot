@@ -325,7 +325,7 @@ def ekstramenu(update, context):
             tapp = tpoststr.find("rval[")
             tskanisim = ""
             tskanerrorcount = 0
-            if tpost.context['tskan'] == list:
+            if type(tpost.context['tskan']) == list:
                 for tspostk in tpost.context['tskan']:
                     try:
                         tskanisim += bot.get_chat(tspostk).title + ", " if not tpost.context['tskan'].index(tspostk) in [len(tpost.context['tskan'])-1] and len(tpost.context['tskan']) != 1 else bot.get_chat(tspostk).title
