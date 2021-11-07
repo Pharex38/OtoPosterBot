@@ -338,7 +338,7 @@ def ekstramenu(update, context):
                         tskanisim += "Kanalınıza ulaşılamadı."
             else:
                 try:
-                    tskanisim = bot.get_chat(tspostk).title
+                    tskanisim = bot.get_chat(tpost.context['tskan']).title
                 except:
                     tskanisim = "Kanalınıza ulaşılamadı."
             text_tekrarli += "<b>Sonraki tetiklenme tarihi:</b> {}\n<b>Paylaşılma aralığı:</b> {}\n<b>Başlık:</b> {}\n<b>Kanal(lar):</b> {}\n<b>Post Sayısı: {}</b>\n\n".format(tpoststr[tpp+8:tpp+27], tpoststr[tapp+4:tapp+13], tpost.context['baslik'], tskanisim, len(tpost.context["tspost"]))
