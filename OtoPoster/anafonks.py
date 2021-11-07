@@ -327,7 +327,7 @@ def ekstramenu(update, context):
                 tskanisim = bot.get_chat(tpost.context['tskan']).title
             except:
                 tskanisim = "Kanala ulaşılamadı."
-            text_tekrarli += "<b>Sonraki tetiklenme tarihi:</b> {}\n<b>Paylaşılma aralığı:</b> {}\n<b>Başlık:</b> {}\n<b>Kanal:</b> {}\n<b>Post Sayısı: {}</b>\n\n".format(tpoststr[tpp+8:tpp+27], tpoststr[tapp+4:tapp+13], tpost.context['baslik'], tskanisim, len(tspost.context["tspost"]))
+            text_tekrarli += "<b>Sonraki tetiklenme tarihi:</b> {}\n<b>Paylaşılma aralığı:</b> {}\n<b>Başlık:</b> {}\n<b>Kanal:</b> {}\n<b>Post Sayısı: {}</b>\n\n".format(tpoststr[tpp+8:tpp+27], tpoststr[tapp+4:tapp+13], tpost.context['baslik'], tskanisim, len(tpost.context["tspost"]))
         bot.send_message(chat, text_tekrarli, reply_markup=tekrarlipostmark(user, context))
         return
     if mesaj == "🍎 iOS Ban Kontrol":
