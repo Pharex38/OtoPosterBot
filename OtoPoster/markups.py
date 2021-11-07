@@ -83,13 +83,17 @@ def tekrarlipostsilmark(user, context):
     siltp.append([InlineKeyboardButton("❌ İptal ❌", callback_data="iptal")])
     return InlineKeyboardMarkup(siltp)
 
-def tekrarlipostkan(user):
+def tekrarlipostkan(user, context):
     tpk = []
     for tkan in collection.find_one({"_id": user})['kanal']:
         try:
             tkanisim = bot.get_chat(tkan).title
         except:
             continue
+        if tkan in context.user_data['tskan']:
+            tkanisim += " ✅"
+        else:
+            tkanisim += " ➕"
         tpk.append([InlineKeyboardButton(tkanisim, callback_data="tkan+{}".format(tkan))])
     tpk.append([InlineKeyboardButton("❌ İptal ❌", callback_data="iptal")])
     return InlineKeyboardMarkup(tpk)
