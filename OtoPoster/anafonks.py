@@ -335,7 +335,7 @@ def ekstramenu(update, context):
                     if len(tpost.context['tskan']) != 1:
                         tskanisim += " ve {} ulaşılamayan kanal.".format(tskanerrorcount)
                     else:
-                        tskanisim += "Kanalınıza ulaşılamadı."
+                        tskanisim += "Kanalınıza ulaşılamadı!"
             else:
                 try:
                     tskanisim = bot.get_chat(tpost.context['tskan']).title
