@@ -323,10 +323,13 @@ def ekstramenu(update, context):
             tpoststr = str(tpost.job)
             tpp = tpoststr.find("run at: ")
             tapp = tpoststr.find("rval[")
-            try:
-                tskanisim = bot.get_chat(tpost.context['tskan']).title
-            except:
-                tskanisim = "Kanala ulaşılamadı."
+            tskanisim = ""
+            tskanerrorcount = 0
+            for tspostk in tpost.context['tskan']:
+                try:
+                    tskanisim = bot.get_chat(tspostk).title
+                except:
+                    tskanerrorcount += 1
             text_tekrarli += "<b>Sonraki tetiklenme tarihi:</b> {}\n<b>Paylaşılma aralığı:</b> {}\n<b>Başlık:</b> {}\n<b>Kanal:</b> {}\n<b>Post Sayısı: {}</b>\n\n".format(tpoststr[tpp+8:tpp+27], tpoststr[tapp+4:tapp+13], tpost.context['baslik'], tskanisim, len(tpost.context["tspost"]))
         bot.send_message(chat, text_tekrarli, reply_markup=tekrarlipostmark(user, context))
         return
