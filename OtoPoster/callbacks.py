@@ -681,7 +681,7 @@ def callback_query(call, context):
             return
         elif len(collection.find_one({"_id": user})['kanal']) > 1:
             context.user_data['tskan'] = []
-            call.callback_query.edit_message_text("Tekrarli Post ayarlamak istediğiniz kanalları seçin.", reply_markup=tekrarlipostkan(user))
+            call.callback_query.edit_message_text("Tekrarli Post ayarlamak istediğiniz kanalları seçin.", reply_markup=tekrarlipostkan(user, context))
         else:
             context.user_data["tskan"] = collection.find_one({"_id": user})['kanal'][0]
             call.callback_query.edit_message_text("Tekrarli Postunuzun kaç saatte bir gönderilmesini istediğiniz saati seçin", reply_markup=tekrarlisaatmark())
