@@ -662,6 +662,9 @@ def callback_query(call, context):
         call.callback_query.answer("Kaldırıldı")
         return
     """ Tekrarli Post """
+    if call.callback_query.data.startswith("tsenough"):
+        call.callback_query.edit_message_text("Tekrarli Postunuzun kaç saatte bir gönderilmesini istediğiniz saati seçin", reply_markup=tekrarlisaatmark())
+        return
     if call.callback_query.data.startswith("tkan+"):
         try:
             context.user_data['tskan']
@@ -670,7 +673,7 @@ def callback_query(call, context):
         
         context.user_data['tskan'].append(call.callback_query.data.split("+")[-1])
         call.callback_query.answer("Kanal belirlendi!")
-        call.callback_query.edit_message_text("Tekrarli Postunuzun kaç saatte bir gönderilmesini istediğiniz saati seçin", reply_markup=tekrarlisaatmark())
+        
         return 
     if call.callback_query.data == "tekrarlisil":
         call.callback_query.edit_message_text("Silmek istediğiniz postu seçin.", reply_markup=tekrarlipostsilmark(user, context))
