@@ -673,7 +673,7 @@ def callback_query(call, context):
         
         context.user_data['tskan'].append(call.callback_query.data.split("+")[-1])
         call.callback_query.answer("Kanal belirlendi!")
-        
+        call.callback_query.edit_message_reply_markup(tekrarlipostkan(user, context))
         return 
     if call.callback_query.data == "tekrarlisil":
         call.callback_query.edit_message_text("Silmek istediğiniz postu seçin.", reply_markup=tekrarlipostsilmark(user, context))
