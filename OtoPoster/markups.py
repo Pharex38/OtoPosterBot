@@ -95,6 +95,7 @@ def tekrarlipostkan(user, context):
         else:
             tkanisim += " ➕"
         tpk.append([InlineKeyboardButton(tkanisim, callback_data="tkan+{}".format(tkan))])
+    tpk.append([InlineKeyboardButton("👍 Bitti", callback_data="tsenough")])
     tpk.append([InlineKeyboardButton("❌ İptal ❌", callback_data="iptal")])
     return InlineKeyboardMarkup(tpk)
 
