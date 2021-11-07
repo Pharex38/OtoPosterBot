@@ -42,13 +42,22 @@ def tekrarlipostjob(context):
     tsgetjj.context["mod"] = str(tsdict["mod"].split("-")[0]) + "-" + str(tspostsira+1)
     if tspostdict['text'] != None:
         try:
-            bot.send_message(tsdict['tskan'], tspostdict['text'])
+            if type(tsdict['tskan']) != list:
+                bot.send_message(tsdict['tskan'], tspostdict['text'])
+            else:
+                for tskand in tsdict['tskan']:
+                    bot.send_message(tskand, tspostdict['text'])
         except Exception as e:
             logger.exception(e)
             bot.send_message(tsdict['tsuser'], f"{tsdict['baslik']} Tekrarli Postunuz gönderilemedi!")
         return
     try:
-        SEND_MEDIA_TYPES[tspostdict['ptip']](tsdict['tskan'], tspostdict['fid'], caption=tspostdict['tscaption'])
+        if type(tsdict['tskan']) != list:
+            SEND_MEDIA_TYPES[tspostdict['ptip']](tsdict['tskan'], tspostdict['fid'], caption=tspostdict['tscaption'])
+        else:
+            for tskand in tsdict['tskan']:
+                SEND_MEDIA_TYPES[tspostdict['ptip']](tskand, tspostdict['fid'], caption=tspostdict['tscaption'])
+            
     except Exception as e:
         logger.exception(e)
         try:
