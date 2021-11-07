@@ -325,16 +325,22 @@ def ekstramenu(update, context):
             tapp = tpoststr.find("rval[")
             tskanisim = ""
             tskanerrorcount = 0
-            for tspostk in tpost.context['tskan']:
+            if tpost.context['tskan'] == list:
+                for tspostk in tpost.context['tskan']:
+                    try:
+                        tskanisim += bot.get_chat(tspostk).title + ", " if not tpost.context['tskan'].index(tspostk) in [len(tpost.context['tskan'])-1] and len(tpost.context['tskan']) != 1 else bot.get_chat(tspostk).title
+                    except:
+                        tskanerrorcount += 1
+                if tskanerrorcount != 0:
+                    if len(tpost.context['tskan']) != 1:
+                        tskanisim += " ve {} ulaşılamayan kanal.".format(tskanerrorcount)
+                    else:
+                        tskanisim += "Kanalınıza ulaşılamadı."
+            else:
                 try:
-                    tskanisim += bot.get_chat(tspostk).title + ", " if not tpost.context['tskan'].index(tspostk) in [len(tpost.context['tskan'])-1] and len(tpost.context['tskan']) != 1 else bot.get_chat(tspostk).title
+                    tskanisim bot.get_chat(tspostk).title
                 except:
-                    tskanerrorcount += 1
-            if tskanerrorcount != 0:
-                if len(tpost.context['tskan']) != 1:
-                    tskanisim += " ve {} ulaşılamayan kanal.".format(tskanerrorcount)
-                else:
-                    tskanisim += "Kanalınıza ulaşılamadı.".format(tskanerrorcount)
+                    tskanisim = "Kanalınıza ulaşılamadı."
             text_tekrarli += "<b>Sonraki tetiklenme tarihi:</b> {}\n<b>Paylaşılma aralığı:</b> {}\n<b>Başlık:</b> {}\n<b>Kanal:</b> {}\n<b>Post Sayısı: {}</b>\n\n".format(tpoststr[tpp+8:tpp+27], tpoststr[tapp+4:tapp+13], tpost.context['baslik'], tskanisim, len(tpost.context["tspost"]))
         bot.send_message(chat, text_tekrarli, reply_markup=tekrarlipostmark(user, context))
         return
