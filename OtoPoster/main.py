@@ -48,6 +48,7 @@ def main() -> None:
     dispatcher.add_handler(AdminCommandHandler('loot', Loot))
     dispatcher.add_handler(AdminCommandHandler('kaynak', yenikaynakkomutu))
     dispatcher.add_handler(AdminCommandHandler('para', parak))
+    dispatcher.add_handler(AdminCommandHandler('ayarlar', AyarlarKomut))
     dispatcher.add_handler(AdminCommandHandler('ban', banla))
     """ Menü """
     conv_handler = ConversationHandler(
