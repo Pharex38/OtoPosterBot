@@ -411,10 +411,9 @@ def callback_query(call, context):
     if call.callback_query.data == "okayk":
         use_r = 0
         collection.update_one({"_id": user}, {"$set": {"ozel": False}})
-        for u in OzelCol.find({}):
-            if user in u['kanal']:
-                use_r = u['_id']
-        OzelCol.update_one({"_id": use_r}, {"$pull": {"kanal": user}})
+        for u in OzelCol.find({"kanal": {"$in": [user]}}):
+            
+            OzelCol.update_one({"_id": u['_id']}, {"$pull": {"kanal": user}})
         collection.update_one({"_id": user}, {"$pull": {"kaynak": "32"}})
         bot.edit_message_text("Özel Kaynak Kaldırıldı.", chat, mesajid)
         return
