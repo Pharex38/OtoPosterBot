@@ -32,6 +32,12 @@ def altcall(call, context):
     bot.send_message(chat, "📝 Alternatif API adresinizi gönderin.", reply_markup=imark())
     return ALTAPI
 
+def ayarlarcall(call, context):
+    user = call.effective_user.id
+    chat = call.effective_chat.id
+    
+    
+
 def begenicall(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
