@@ -38,12 +38,16 @@ def deep(u_kod, user):
             if len(kat['icerik']) == 0 and ozelkaynak['icerik'] == "arsiv":
                 bot.send_message(user, "Bu bir Arşiv Kaynak ama sizin hiç arşiv türünde kanalınız yok 😕")
                 return True
-            for koy in KaynakCol.find({}):
-                if user in koy['kaynak']:
-                    KaynakCol.update_one({"_id": koy['_id']}, {"$pull": {"kaynak": user}})
             collection.update_one({"_id": user}, {"$set": {"ozel": True, "kaynak": ["32"]}})
             if not user in ozelkaynak['kanal']:
                 OzelCol.update_one({"_id": int(u_kod)}, {"$push": {"kanal": user}})
+            for ktyo in kat['kanal']:
+                if ozelkaynak['icerik'] == "arsiv":
+                    if ktyo in kat['icerik']:
+                        OzelCol.update_one({"_id":int(u_kod)}, {"$push": {"kanal": ktyo}})
+                else:    
+                    if not ktyo in kat['icerik']:
+                        OzelCol.update_one({"_id":int(u_kod)}, {"$push": {"kanal": ktyo}})
             if len(ozelkaynak['kanal']) == 6:
                 bot.send_message(OzelCol.find_one({"okaynak": kanal})['_id'], "<i>Özel Kaynağınız 5 kişiyi geçtiği için artık 20 linkte 1 olayı sizin için de geçerilidir.</i>")
             bot.send_message(user, "🏋🏻 {} referansı ile geldiniz!".format(ref_kanal_ismi), reply_markup=dugme(user))
