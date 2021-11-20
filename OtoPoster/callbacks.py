@@ -62,7 +62,10 @@ def kaynakcall(call, context):
         return
     if user in callkaynak['kaynak'] and kkul['kanal'][kkanil] in callkaynak['kanal']:
         KaynakCol.update_one({"sahip": kys}, {"$pull": {"kanal": kkul['kanal'][kkanil]}})
-        durak = context.bot_data['durak']
+        try:
+            durak = context.bot_data['durak']
+        except KeyError:
+            durak = False
         if durak and user in collection.find_one({"_id": 0})['cekilis'] and kys == int(context.bot_data['sahip']):
             bot.send_message(chat, "Çekiliş kaynağını kullanmayı bıraktığınız için çekilişten atıldınız!")
             collection.update_one({"_id": 0}, {"$pull": {"cekilis": user}})
@@ -132,6 +135,10 @@ def cekiliscall(call, context):
     if user in collection.find_one({"_id": 0})['cekilis']:
         call.callback_query.answer(show_alert=True, text="Çekilişe zaten katılmışsınız, geriye kazanmak kaldı!")
         return
+    try:
+        durak = context.bot_data['durak']
+    except KeyError:
+        durak = False
     if context.bot_data['durak']:
         call.callback_query.answer(show_alert=True, text="Çekilişe katılılım süresi dolmuş, geç kaldınız :(")
         return
