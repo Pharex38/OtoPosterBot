@@ -20,7 +20,6 @@ def jobyedekleme(context):
 
 def tekrarlipostjob(context):
     tsdict = context.job.context
-    bildir(tsdict["mod"].split("-"))
     tspostsira = int(tsdict["mod"].split("-")[-1])
     try:
         tspostdict = choice(tsdict["tspost"]) if tsdict["mod"].startswith("rastgele") else tsdict["tspost"][tspostsira]
@@ -37,7 +36,6 @@ def tekrarlipostjob(context):
     jstnam = tsjtext.find("next run at: ")+13
     jsttime = datetime.datetime.strptime(tsjtext[jstnam:jstnam+19], "%Y-%m-%d %H:%M:%S") + datetime.timedelta(hours = int(tsdict["tsaat"]-3))
     jsttimestr = jsttime.strftime("%Y-%m-%d %H:%M:%S")
-    bildir(jsttimestr)
     tsgetjj.context["tetik"] = jsttimestr
     tsgetjj.context["mod"] = str(tsdict["mod"].split("-")[0]) + "-" + str(tspostsira+1)
     if tspostdict['text'] != None:
