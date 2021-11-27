@@ -47,7 +47,10 @@ def tekrarlipostjob(context):
                     bot.send_message(tskand, tspostdict['text'])
         except Exception as e:
             logger.exception(e)
-            bot.send_message(tsdict['tsuser'], f"{tsdict['baslik']} Tekrarli Postunuz gönderilemedi!")
+            try:
+                bot.send_message(tsdict['tsuser'], f"{tsdict['baslik']} Tekrarli Postunuz gönderilemedi!")
+            except:
+                pass
         return
     try:
         if type(tsdict['tskan']) != list:
