@@ -345,6 +345,8 @@ def ekstramenu(update, context):
         bot.send_message(chat, text_tekrarli, reply_markup=tekrarlipostmark(user, context))
         return
     if mesaj == "🍎 iOS Ban Kontrol":
+        bot.send_message(chat, "Bu özellik geçici olarak devredışı.")
+        return
         if len(eudat['kanal']) == 0:
             bot.send_message(chat, "Kontrol edebilmem için önce bir kanal kaydetmelisin!")
             return
