@@ -5,6 +5,8 @@ markup = ForceReply(selective=False)
 
     
 def site_isim(no):
+    if no == "0":
+        return "URLcik"
     if no == "1":
         return "TRLink"
     if no == "2":
@@ -160,11 +162,11 @@ def dagme():
 
 def sitemarkup():
     skey = []
-    smark = InlineKeyboardMarkup([[InlineKeyboardButton("TRLink", callback_data="site-1")], [InlineKeyboardButton("PND.TL", callback_data="site-2")], [InlineKeyboardButton("Exe.io", callback_data="site-3")], [InlineKeyboardButton("Ouo.io", callback_data="site-4")], [InlineKeyboardButton("Pubiza", callback_data="site-5")], [InlineKeyboardButton("Gir.ist", callback_data="site-6")], [InlineKeyboardButton("❌ İptal ❌", callback_data="iptal")]])
+    smark = InlineKeyboardMarkup([[InlineKeyboardButton("TRLink", callback_data="site-1")], [InlineKeyboardButton("PND.TL", callback_data="site-2")], [InlineKeyboardButton("Exe.io", callback_data="site-3")], [InlineKeyboardButton("Ouo.io", callback_data="site-4")], [InlineKeyboardButton("Pubiza", callback_data="site-5")], [InlineKeyboardButton("Gir.ist", callback_data="site-6")], [InlineKeyboardButton("URLcik", callback_data="site-0")], [InlineKeyboardButton("❌ İptal ❌", callback_data="iptal")]])
     return smark
 
 def altsitemarkup(asite):
-    asmark = InlineKeyboardMarkup([[InlineKeyboardButton("TRLink", callback_data=f"{asite}-1")], [InlineKeyboardButton("PND.TL", callback_data=f"{asite}-2")], [InlineKeyboardButton("Exe.io", callback_data=f"{asite}-3")], [InlineKeyboardButton("Ouo.io", callback_data=f"{asite}-4")], [InlineKeyboardButton("Pubiza", callback_data=f"{asite}-5")], [InlineKeyboardButton("Gir.ist", callback_data=f"{asite}-6")], [InlineKeyboardButton("❌ İptal ❌", callback_data="iptal")]])
+    asmark = InlineKeyboardMarkup([[InlineKeyboardButton("TRLink", callback_data=f"{asite}-1")], [InlineKeyboardButton("PND.TL", callback_data=f"{asite}-2")], [InlineKeyboardButton("Exe.io", callback_data=f"{asite}-3")], [InlineKeyboardButton("Ouo.io", callback_data=f"{asite}-4")], [InlineKeyboardButton("Pubiza", callback_data=f"{asite}-5")], [InlineKeyboardButton("Gir.ist", callback_data=f"{asite}-6")], [InlineKeyboardButton("URLcik", callback_data=f"{asite}-0")], [InlineKeyboardButton("❌ İptal ❌", callback_data="iptal")]])
     return asmark
 
 def altmarkup(user):
