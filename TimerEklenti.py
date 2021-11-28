@@ -25,7 +25,7 @@ app = Client(app_str, api_id, api_hash)
 
 @app.on_message(filters.bot)
 def islem(client, message):
-    mesaj = message.text.split("+")
+    mesaj = message.text.split("*")
     if ".me" in message.text:
         try:
             chat = app.join_chat(mesaj[1].replace("+", "joinchat/"))
