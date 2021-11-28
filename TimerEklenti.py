@@ -28,7 +28,7 @@ def islem(client, message):
     mesaj = message.text.split("+")
     if ".me" in message.text:
         try:
-            chat = app.join_chat(mesaj[1])
+            chat = app.join_chat(mesaj[1].replace("+", "joinchat/"))
         except:
             chat = app.get_chat(mesaj[1])
         iosrespond = f"<b>Kanalınızdaki Kısıtlamalar;</b>\n\n"
