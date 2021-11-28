@@ -30,7 +30,7 @@ def islem(client, message):
         try:
             chat = app.join_chat(mesaj[1].replace("+", "joinchat/"))
         except:
-            chat = app.get_chat(mesaj[1])
+            chat = app.get_chat(mesaj[1].replace("+", "joinchat/"))
         iosrespond = f"<b>Kanalınızdaki Kısıtlamalar;</b>\n\n"
         if not chat.is_restricted:
             iosrespond = f"<i>Kanalınızda herhangi bir kısıtlama bulunamadı.</i>"
