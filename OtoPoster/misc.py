@@ -24,7 +24,14 @@ def deep(u_kod, user):
                 OzelCol.update_one({"_id": int(u_kod)}, {"$push": {"kanal": user}})
             collection.insert_one(key)
             if len(OzelCol.find_one({"okaynak": kanal})['kanal']) == 6:
-                bot.send_message(OzelCol.find_one({"okaynak": kanal})['_id'], "<i>Özel Kaynağınız 5 kişiyi geçtiği için artık 20 linkte 1 olayı sizin için de geçerilidir.</i>")
+                try:
+                    bot.send_message(OzelCol.find_one({"okaynak": kanal})['_id'], "<i>Özel Kaynağınız 5 kişiyi geçtiği için artık 20 linkte 1 olayı sizin için de geçerilidir.</i>")
+                except RetryAfter as rtry:
+                    sleep(rtry.retry_after+1)
+                    try:
+                        bot.send_message(OzelCol.find_one({"okaynak": kanal})['_id'], "<i>Özel Kaynağınız 5 kişiyi geçtiği için artık 20 linkte 1 olayı sizin için de geçerilidir.</i>")
+                    except:
+                        pass
             bot.send_message(user, "🏋🏻 {} referansı ile geldiniz!".format(ref_kanal_ismi))
             bot.send_message(user, "📝 API adresinizi gönderin.", reply_markup=imark())
             return False
