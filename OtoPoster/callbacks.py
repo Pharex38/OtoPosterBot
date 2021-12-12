@@ -438,10 +438,11 @@ def callback_query(call, context):
         bot.send_message(chat, "Özel kaynağınızda kullanmak istediğiniz kanalları seçin.", reply_markup=okaykanalmark(user))
         return
     if call.callback_query.data.startswith("okayk-"):
-        for okx in OzelCol.find():
-            if user in okx['kanal']:
-                okid = okx['_id']
-                break
+        okid = OzelCol.find_one({"kanal": {"$in": [user]}})["_id"]
+        if okid == None:
+            call.callback_query.edit_message_text("Butonların kullanım süresi dolmuş lütfen menüden tekrar açın.")
+            return
+            
         okaykno = int(call.callback_query.data.split("-")[-1])
         try:
             pushedokaykkan = collection.find_one({"_id": user})['kanal'][okaykno]
