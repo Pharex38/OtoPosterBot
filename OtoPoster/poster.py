@@ -439,7 +439,9 @@ def poster_job(context):
 def ozel_poster_job(context):
     opostee = context.job.context    
     ogrup = []
-    if len(opostee) > 1:
+    if len(opostee) == 0:
+        return
+    elif len(opostee) > 1:
         for opostre in opostee:
             ochat = opostre['chatid']
             oupdate = opostre['update']
