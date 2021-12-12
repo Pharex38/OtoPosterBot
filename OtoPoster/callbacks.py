@@ -57,6 +57,11 @@ def kaynakcall(call, context):
         call.callback_query.edit_message_text(text="<b>Önce bir API kaydedin!</b>")
         return
     callkaynak = KaynakCol.find_one({"sahip": kys})
+    try:
+        kkul['kanal'][kkanil]
+    except:
+        call.callback_query.edit_message_text("Menü eski kaldığı için kapatıldı.")
+        return
     if callkaynak == None:
         call.callback_query.edit_message_text("Menü eski kaldığı için kapatıldı.")
         return
