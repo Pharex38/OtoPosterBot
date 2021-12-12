@@ -438,7 +438,7 @@ def callback_query(call, context):
         bot.send_message(chat, "Özel kaynağınızda kullanmak istediğiniz kanalları seçin.", reply_markup=okaykanalmark(user))
         return
     if call.callback_query.data.startswith("okayk-"):
-        okid = OzelCol.find_one({"kanal": {"$in": [user]}})["_id"]
+        okid = None if OzelCol.find_one({"kanal": {"$in": [user]}}) == None else OzelCol.find_one({"kanal": {"$in": [user]}})["_id"]
         if okid == None:
             call.callback_query.edit_message_text("Butonların kullanım süresi dolmuş lütfen menüden tekrar açın.")
             return
