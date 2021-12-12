@@ -40,7 +40,10 @@ def menu(update, context):
                 kbilgi = bot.get_chat(chan)
             except RetryAfter as krt:
                 time.sleep(krt.retry_after+1)
-                kbilgi = bot.get_chat(chan)
+                try:
+                    kbilgi = bot.get_chat(chan)
+                except:
+                    pass
             except Exception as e:
                 logger.error(e)
                 collection.update_one({"_id": user}, {"$pull": {"kanal": chan}})
