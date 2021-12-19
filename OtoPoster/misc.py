@@ -42,6 +42,8 @@ def deep(u_kod, user):
             if user in ozelkaynak['kanal']:
                 bot.send_message(user, "Zaten Bu Kaynağı Kullanıyorsunuz!", reply_markup=dugme(user))
                 return True
+            if OzelCol.find_one({"kanal": {"$in": [user]}}) != None:
+                bot.send_message(user, "Zaten bir özel kaynak kullanıyorsunuz!", reply_markup=dugme(user))
             if len(kat['icerik']) == 0 and ozelkaynak['icerik'] == "arsiv":
                 bot.send_message(user, "Bu bir Arşiv Kaynak ama sizin hiç arşiv türünde kanalınız yok 😕")
                 return True
