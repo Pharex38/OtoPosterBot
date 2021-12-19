@@ -56,8 +56,15 @@ def deep(u_kod, user):
                     if not ktyo in kat['icerik']:
                         OzelCol.update_one({"_id":int(u_kod)}, {"$push": {"kaynak": ktyo}})
             if len(ozelkaynak['kanal']) == 6:
-                bot.send_message(OzelCol.find_one({"okaynak": kanal})['_id'], "<i>Özel Kaynağınız 5 kişiyi geçtiği için artık 20 linkte 1 olayı sizin için de geçerilidir.</i>")
-            bot.send_message(user, "🏋🏻 {} referansı ile geldiniz!".format(ref_kanal_ismi), reply_markup=dugme(user))
+                try:
+                    bot.send_message(OzelCol.find_one({"okaynak": kanal})['_id'], "<i>Özel Kaynağınız 5 kişiyi geçtiği için artık 20 linkte 1 olayı sizin için de geçerilidir.</i>")
+                except RetryAfter as ortf:
+                    sleep(ortf.retry_after+1)
+                    try:
+                        bot.send_message(OzelCol.find_one({"okaynak": kanal})['_id'], "<i>Özel Kaynağınız 5 kişiyi geçtiği için artık 20 linkte 1 olayı sizin için de geçerilidir.</i>")
+                    except:
+                        pass
+            bot.send_message(user, "🏋🏻 {} kaynağına bağlandınız!".format(ref_kanal_ismi), reply_markup=dugme(user))
             return True
     key = {"_id": user, "kanal": [], "sablon": "1", "kaynak": [], "site": "1", "altapi": "None", "altsite": "None", "sira": 0, "ozel": False, "pcount": 0, "time": 0, "vakit": 0, "begeni": [], "pin": [], "eski": [], "icerik": []}
     rkaynak = KaynakCol.find_one({"no": int(u_kod)})
