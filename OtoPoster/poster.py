@@ -568,11 +568,11 @@ def ozel_poster_job(context):
             except:
                 pass
             else:
-                if json['message'] != "" and json['message'] != "Invalid API token":
+                if ojson['message'] != "" and ojson['message'] != "Invalid API token":
                     logger.error(f"[ÖZEL] {oupdate.effective_message.chat.title} son postu hatalı olduğu için iptal edildi!")
                     try:
                         bot.send_message(sahip, f"{oupdate.effective_message.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{oupdate.effective_message.link}")
-                        bot.send_message(okaynak['_id'], f"{oupdate.effective_message.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{ojson['message']}\n\n{update.effective_message.link}\n\n{oupdate.effective_message.link}")
+                        bot.send_message(okaynak['_id'], f"{oupdate.effective_message.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{ojson['message']}\n\n{oupdate.effective_message.link}\n\n{oupdate.effective_message.link}")
                     except RetryAfter as ortfr:
                         sleep(ortfr.retry_after+1)
                         bot.send_message(sahip, f"{oupdate.effective_message.chat.title} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz kanallarda paylaşılamadı muhtemelen postun linki API ile kısaltılamayacak kadar uzun.\n\n{ojson['message']}\n\n{update.effective_message.link}\n\n{oupdate.effective_message.link}")
