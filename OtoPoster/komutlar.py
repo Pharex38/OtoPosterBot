@@ -320,9 +320,12 @@ def cpostsil(update, context):
     chat = update.message.chat.id
     if chat != sahip:
         return
-
-    hedef = "-100"+update.message.text.split("/")[-2] if len(update.message.text.split()) > 1 else None
-    mesid = int(update.message.text.split("/")[-1]) if len(update.message.text.split()) > 1 else None
+    mesajgovde = update.message.text.split()
+    hedef = "-100"+mesajgovde[1].split("/")[-2] if len(update.message.text.split()) > 1 else None
+    mesid = int(mesajgovde[1].split("/")[-1]) if len(update.message.text.split()) > 1 else None
+    duz = Fazl
+    if len(mesajgovde) > 2:
+        duz = True
     if hedef == None or mesid == None:
         return
     try:
@@ -336,13 +339,17 @@ def cpostsil(update, context):
         data = data['pids']
     for d in data:
         try:
-            bot.delete_message(d['chat'], d['pid'])
-            #bot.edit_message_media(d['chat'], d['pid'], media= InputMediaPhoto(media="https://www.pinclipart.com/picdir/big/532-5329134_computer-icons-x-mark-clip-art-red-cross.png", caption="Post Silindi!"))
+            if duz:
+                bot.edit_message_media(d['chat'], d['pid'], media= InputMediaPhoto(media="https://www.pinclipart.com/picdir/big/532-5329134_computer-icons-x-mark-clip-art-red-cross.png", caption="Post Silindi!"))
+            else:
+                bot.delete_message(d['chat'], d['pid'])
         except RetryAfter as pdr:
             time.sleep(pdr.retry_after+2)
             try:
-                bot.delete_message(d['chat'], d['pid'])
-                #bot.edit_message_media(d['chat'], d['pid'], media= InputMediaPhoto(media="https://www.pinclipart.com/picdir/big/532-5329134_computer-icons-x-mark-clip-art-red-cross.png", caption="Post Silindi!"))
+                if duz:
+                    bot.edit_message_media(d['chat'], d['pid'], media= InputMediaPhoto(media="https://www.pinclipart.com/picdir/big/532-5329134_computer-icons-x-mark-clip-art-red-cross.png", caption="Post Silindi!"))
+                else:
+                    bot.delete_message(d['chat'], d['pid'])
             except:
                 pass
         except Exception as e:
