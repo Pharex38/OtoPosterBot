@@ -323,7 +323,7 @@ def cpostsil(update, context):
     mesajgovde = update.message.text.split()
     hedef = "-100"+mesajgovde[1].split("/")[-2] if len(update.message.text.split()) > 1 else None
     mesid = int(mesajgovde[1].split("/")[-1]) if len(update.message.text.split()) > 1 else None
-    duz = Fazl
+    duz = False
     if len(mesajgovde) > 2:
         duz = True
     if hedef == None or mesid == None:
@@ -363,7 +363,10 @@ def cpostsil(update, context):
                 collection.update_one({"_id": kpsd['_id']}, {"$set": {"pcount": kpsd['pcount']-1}})
             except:
                 pass
-    psmg.edit_text(f"{spcount} Post Silindi.")
+    if duz:
+        psmg.edit_text(f"{spcount} Post Düzenlendi.")
+    else:
+        psmg.edit_text(f"{spcount} Post Silindi.")
 
 def viple(update, context):
     global postsirasi
