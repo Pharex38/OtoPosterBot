@@ -279,12 +279,12 @@ def poster_job(context):
                         logger.warning(f"Hatalı kanal: {kan}")
                         collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
                         try:
-                            bot.send_message(blog, kansillog.format(user, user, membersayi, str(kan)[3:], kan, str(kan)[1:], user), timeout=sendtimeout)
+                            bot.send_message(blog, kansillog.format(user=user, membersayi=membersayi, kan=str(kan)[3:]), timeout=sendtimeout)
                             bot.send_message(user, "Kanalda artık yetkili olmadığınız için kanalınız silindi.", timeout=sendtimeout)
                         except RetryAfter as rtfr:
                             logger.warning(f"Floodwait -  {rtfr.retry_after} Saniye uyutuluyor...")
                             sleep(rtfr.retry_after+1)
-                            bot.send_message(blog, F"#KANAL_SİLİNDİ\n_ID: <a href='tg://user?id={user}>{user}</a>\nÜYE: {membersayi}\nKANAL: <a href='tg://privatepost?channel={str(kan)[3:]}&post=9999999'>{kan}</a>\n#kan{str(kan)[1:]}\n#id{user}", timeout=sendtimeout)
+                            bot.send_message(blog, kansillog.format(user=user, membersayi=membersayi, kan=str(kan)[3:]), timeout=sendtimeout)
                             bot.send_message(user, "Kanalda artık yetkili olmadığınız için kanalınız silindi.", timeout=sendtimeout)
                         collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
                     except:
@@ -315,12 +315,12 @@ def poster_job(context):
                                     kanname = "Kanaldan Çıkarılmış."
                                 collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
                                 try:
-                                    bot.send_message(blog, F"#KANAL_SİLİNDİ\n_ID: <a href='tg://user?id={user}>{user}</a>\nÜYE: {kanname}\nKANAL: <a href='tg://privatepost?channel={str(kan)[3:]}&post=9999999'>{kan}</a>\n#kan{str(kan)[1:]}\n#id{user}", timeout=sendtimeout)
+                                    bot.send_message(blog, kansillog.format(user=user, membersayi=kanname, kan=str(kan)[3:]), timeout=sendtimeout)
                                     bot.send_message(user, "Botu kanalınızdan çıkardığınız için kanalınız silindi.", timeout=sendtimeout)
                                 except RetryAfter as rtfr:
                                     logger.warning(f"Floodwait -  {rtfr.retry_after} Saniye uyutuluyor...")
                                     sleep(rtfr.retry_after+1)
-                                    bot.send_message(blog, F"#KANAL_SİLİNDİ\n_ID: <a href='tg://user?id={user}>{user}</a>\nÜYE: {kanname}\nKANAL: <a href='tg://privatepost?channel={str(kan)[3:]}&post=9999999'>{kan}</a>\n#kan{str(kan)[1:]}\n#id{user}", timeout=sendtimeout)
+                                    bot.send_message(blog, kansillog.format(user=user, membersayi=kanname, kan=str(kan)[3:]), timeout=sendtimeout)
                                     bot.send_message(user, "Botu kanalınızdan çıkardığınız için kanalınız silindi.", timeout=sendtimeout)
                             except:
                                 pass   
@@ -371,12 +371,12 @@ def poster_job(context):
                                 kanname = "Kanaldan Çıkarılmış."
                             collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
                             try:
-                                bot.send_message(blog, F"#KANAL_SİLİNDİ\n_ID: <a href='tg://user?id={user}>{user}</a>\nÜYE: {kanname}\nKANAL: <a href='tg://privatepost?channel={str(kan)[3:]}&post=9999999'>{kan}</a>\n#kan{str(kan)[1:]}\n#id{user}", timeout=sendtimeout)
+                                bot.send_message(blog, kansillog.format(user=user, membersayi=kanname, kan=str(kan)[3:]), timeout=sendtimeout)
                                 bot.send_message(user, "Botu kanalınızdan çıkardığınız için kanalınız silindi.", timeout=sendtimeout)
                             except RetryAfter as rtfr:
                                 logger.warning(f"Floodwait -  {rtfr.retry_after} Saniye uyutuluyor...")
                                 sleep(rtfr.retry_after+1)
-                                bot.send_message(blog, F"#KANAL_SİLİNDİ\n_ID: <a href='tg://user?id={user}>{user}</a>\nÜYE: {kanname}\nKANAL: <a href='tg://privatepost?channel={str(kan)[3:]}&post=9999999'>{kan}</a>\n#kan{str(kan)[1:]}\n#id{user}", timeout=sendtimeout)
+                                bot.send_message(blog, kansillog.format(user=user, membersayi=kanname, kan=str(kan)[3:]), timeout=sendtimeout)
                                 bot.send_message(user, "Botu kanalınızdan çıkardığınız için kanalınız silindi.", timeout=sendtimeout)
                         except:
                             pass   
@@ -618,11 +618,11 @@ def ozel_poster_job(context):
                     try:
                         logger.warning(f"Hatalı kanal: {okan}")
                         try:
-                            bot.send_message(blog, F"#KANAL_SİLİNDİ\n_ID: {ouser}\nÜYE: {omembersayi}\nKANAL: <a href='tg://privatepost?channel={str(okan)[3:]}&post=9999999'>{okan}</a>\n#kan{str(okan)[1:]}\n#id{ouser}")
+                            bot.send_message(blog, kansillog.format(user=ouser, membersayi=omembersayi, okan=str(kan)[3:]))
                         except RetryAfter as ortfr:
                             sleep(ortfr.retry_after+1)
                             try:
-                                bot.send_message(blog, F"#KANAL_SİLİNDİ\n_ID: {ouser}\nÜYE: {omembersayi}\nKANAL: <a href='tg://privatepost?channel={str(okan)[3:]}&post=9999999'>{okan}</a>\n#kan{str(okan)[1:]}\n#id{ouser}")
+                                bot.send_message(blog, kansillog.format(user=ouser, membersayi=omembersayi, okan=str(kan)[3:]))
                             except:
                                 pass
                         collection.update_one({"_id": ouser}, {"$pull": {"kanal": okan}})
@@ -652,11 +652,11 @@ def ozel_poster_job(context):
                                 except:
                                     oukisim = "Kanala ulaşılamadı."
                                 try:
-                                    bot.send_message(blog, F"#KANAL_SİLİNDİ\n_ID: {ouser}\nÜYE: {oukisim}\nKANAL: <a href='tg://privatepost?channel={str(okan)[3:]}&post=9999999'>{okan}</a>\n#kan{str(okan)[1:]}\n#id{ouser}")
+                                    bot.send_message(blog, kansillog.format(user=ouser, membersayi=oukisim, okan=str(kan)[3:]))
                                     bot.send_message(ouser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
                                 except RetryAfter as ortfr:
                                     sleep(ortfr.retry_after+1)
-                                    bot.send_message(blog, F"#KANAL_SİLİNDİ\n_ID: {ouser}\nÜYE: {oukisim}\nKANAL: <a href='tg://privatepost?channel={str(okan)[3:]}&post=9999999'>{okan}</a>\n#kan{str(okan)[1:]}\n#id{ouser}")
+                                    bot.send_message(blog, kansillog.format(user=ouser, membersayi=oukisim, okan=str(kan)[3:]))
                                     bot.send_message(ouser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
                             except Exception as e: 
                                 logger.error(e)
@@ -677,11 +677,11 @@ def ozel_poster_job(context):
                             except:
                                 oukisim = "Kanala ulaşılamadı."
                             try:
-                                bot.send_message(blog, F"#KANAL_SİLİNDİ\n_ID: {ouser}\nÜYE: {oukisim}\nKANAL: <a href='tg://privatepost?channel={str(okan)[3:]}&post=9999999'>{okan}</a>\n#kan{str(okan)[1:]}\n#id{ouser}")
+                                bot.send_message(blog, kansillog.format(user=ouser, membersayi=oukisim, okan=str(kan)[3:]))
                                 bot.send_message(ouser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
                             except RetryAfter as ortfr:
                                 sleep(ortfr.retry_after+1)
-                                bot.send_message(blog, F"#KANAL_SİLİNDİ\n_ID: {ouser}\nÜYE: {oukisim}\nKANAL: <a href='tg://privatepost?channel={str(okan)[3:]}&post=9999999'>{okan}</a>\n#kan{str(okan)[1:]}\n#id{ouser}")
+                                bot.send_message(blog, kansillog.format(user=ouser, membersayi=oukisim, okan=str(kan)[3:]))
                                 bot.send_message(ouser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
                             except:
                                 pass
