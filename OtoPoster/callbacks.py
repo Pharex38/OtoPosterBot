@@ -160,7 +160,7 @@ def cekiliscall(call, context):
     for cekkan in cek_dat['kanal']:
         if cekkan in KaynakCol.find_one({"sahip": int(context.bot_data['sahip'])})['kanal']:
             try:
-                cekkanabone = bot.get_chat_members_count(cekkan)
+                cekkanabone = bot.get_chat_member_count(cekkan)
             except:
                 continue
             if cekkanabone > 1001:
@@ -362,7 +362,7 @@ def callback_query(call, context):
         collection.update_one({"_id": user}, {"$pull": {"kanal": kul['kanal'][s], "eski": kul['kanal'][s], "icerik": kul['kanal'][s]}})
         bot.edit_message_text("Kanalınız Silindi!", user, mesajid)
         call.callback_query.answer(call.callback_query.id, "Kanalınız Silindi!")
-        bot.send_message(blog, kansillog.format(user=user, kan=kul['kanal'][s][3:], membersayi=bot.get_chat_members_count(kul['kanal'][s])))
+        bot.send_message(blog, kansillog.format(user=user, kan=kul['kanal'][s][3:], membersayi=bot.get_chat_member_count(kul['kanal'][s])))
     """ Site Değiştir """
     if call.callback_query.data.startswith("site"):
         ss = str(call.callback_query.data.split("-")[1])
