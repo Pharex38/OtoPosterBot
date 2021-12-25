@@ -78,7 +78,7 @@ def stats(update, context):
                     sleep(0.5)
                     kanals += 1
                     try:
-                        uye = bot.get_chat_members_count(kul)
+                        uye = bot.get_chat_member_count(kul)
                         print(uye)
                     except RetryAfter as after:
                         sleep(after.retry_after)
@@ -98,7 +98,7 @@ def stats(update, context):
         for sl in kstat["kaynak"]:
             for slb in collection.find_one({"_id": sl})['kanal']:
                 try:
-                    amc = bot.get_chat_members_count(slb)
+                    amc = bot.get_chat_member_count(slb)
                 except RetryAfter as after:
                     sleep(after.retry_after)
                 except Exception as e:
@@ -169,7 +169,7 @@ def sonuclandir(update, context):
             continue
         for cekkan in cek_dat['kanal']:
             if cekkan in KaynakCol.find_one({"sahip": cek_k_no})['kanal']:
-                if bot.get_chat_members_count(cekkan) > 501:
+                if bot.get_chat_member_count(cekkan) > 501:
                     kazadi = bot.get_chat(kazananid)
                     kazananlar += '<a href="tg://user?id={}">{}</a>\n'.format(kazananid, "@"+str(kazadi.username) if kazadi.username else kazadi.first_name)
                     katilimcilar.remove(kazananid)
@@ -185,7 +185,7 @@ def sonuclandir(update, context):
             continue
         for cekkan in cek_dat['kanal']:
             if cekkan in KaynakCol.find_one({"sahip": cek_k_no})['kanal']:
-                if bot.get_chat_members_count(cekkan) > 501:
+                if bot.get_chat_member_count(cekkan) > 501:
                     kazadi = bot.get_chat(kazananid)
                     yedekler += '<a href="tg://user?id={}">{}</a>\n'.format(kazananid, "@"+str(kazadi.username) if kazadi.username else kazadi.first_name)
                     katilimcilar.remove(kazananid)
@@ -635,11 +635,11 @@ def kaynakpanel(update, context):
         for pankan in panelkaynak['kanal']:
             if not pankan in panco:
                 try:
-                    pankanmember += bot.get_chat_members_count(pankan)
+                    pankanmember += bot.get_chat_member_count(pankan)
                 except RetryAfter as panafter:
                     sleep(panafter.retry_after)
                     try:
-                        pankanmember += bot.get_chat_members_count(pankan)
+                        pankanmember += bot.get_chat_member_count(pankan)
                     except:
                         continue
                 except:
