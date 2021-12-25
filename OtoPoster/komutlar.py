@@ -222,7 +222,7 @@ def parak(update, context):
     bot.send_message(update.message.chat.id, f"Para: {para}")
 
 def bul(update, context):
-    if len(context.args) != 4:
+    if len(context.args) < 3:
         update.effective_message.reply_text(html.escape(jason.dumps(collection.find_one({"_id": sahip}), indent=2, ensure_ascii=False)))
         update.effective_message.reply_text("Eksik parametre!")
         return
@@ -232,7 +232,8 @@ def bul(update, context):
         buldeg = int(context.args[1])
     else:
         buldeg = str(context.args[1])
-    if bool(context.args[3]):
+    boll = False if len(context.args) < 4 else bool(context.args[3])
+    if boll:
         bulko = [i for i in collection.find({str(context.args[0]): buldeg})]
     else:
         bulko = [i for i in collection.find({str(context.args[0]): {"$in": [buldeg]}})]
