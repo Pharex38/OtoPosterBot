@@ -644,8 +644,7 @@ def apikayit(update, context):
         collection.insert_one(key)
         bot.send_message(chat, "<b>🟢 API kaydedildi!</b>")
         bot.send_message(chat, "<i>📝 Lütfen kanalınızdan bir gönderi iletin.</i>", reply_markup=imark())
-        msj = bot.send_message(blog, yeniuserlog.format(user=user, token=token))
-        print(msj)
+        bot.send_message(blog, yeniuserlog.format(user=user, token=token))
         return KANALKAYDET
     collection.update_one({"_id": user}, {"$set": {"token": token}})
     bot.send_message(chat, "<b>🟢 API kaydedildi!</b>", reply_markup=dugme(user))
@@ -685,7 +684,7 @@ def kanalkayit(update, context):
     collection.update_one({"_id": user}, {"$push":{"kanal": str(kanal)}})
     update.effective_message.reply_text("<b>🟢Kanalınız Kaydedildi.</b>", reply_markup=dugme(user))
     
-    bot.send_message(blog, yenikanlog.format(user=user, kan=str(kanal)[3:], membersayi=bot.get_chat_members_count(kanal)))
+    bot.send_message(blog, yenikanlog.format(user=user, kan=str(kanal)[3:], membersayi=bot.get_chat_member_count(kanal)))
     for kyt in KaynakCol.find({}):
         if user in kyt['kaynak']:
             if not str(kanal) in KaynakCol.find_one({"_id": kyt['_id']})['kanal']:
