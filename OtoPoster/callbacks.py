@@ -362,7 +362,7 @@ def callback_query(call, context):
         collection.update_one({"_id": user}, {"$pull": {"kanal": kul['kanal'][s], "eski": kul['kanal'][s], "icerik": kul['kanal'][s]}})
         bot.edit_message_text("Kanalınız Silindi!", user, mesajid)
         call.callback_query.answer(call.callback_query.id, "Kanalınız Silindi!")
-        bot.send_message(blog, f"""#KANAL_SİLİNDİ\n_ID: <a href='tg://user?id={user}'>{user}</a>\nKANAL: <a href='tg://privatepost?channel={kul['kanal'][s][3:]}&post=9999999'>{kul['kanal'][s][3:]}</a>\nÜYE: {bot.get_chat_members_count(kul['kanal'][s])}\n#id{user}\n#kan{kul['kanal'][s][1:]}""")
+        bot.send_message(blog, kansillog.format(user=user, kan=kul['kanal'][s][3:], membersayi=bot.get_chat_member_count(kul['kanal'][s])))
     """ Site Değiştir """
     if call.callback_query.data.startswith("site"):
         ss = str(call.callback_query.data.split("-")[1])
