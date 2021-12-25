@@ -77,7 +77,10 @@ ignorekaynak = []
 
 
 komutisimleri = []
-    
+
+kansillog = f"#KANAL_SİLİNDİ\n_ID: <a href='tg://user?id={user}>{user}</a>\nÜYE: {membersayi}\nKANAL: <a href='tg://privatepost?channel={str(kan)[3:]}&post=9999999'>{kan}</a>\n#kan10{str(kan)[3:]}\n#id{user}"
+yenikanlog =
+yeniuserlog = 
 SEND_MEDIA_TYPES = {"document": bot.send_document, "photo": bot.send_photo, "video": bot.send_video, "animation": bot.send_animation}
 POSTMENU, APIMENU, KANALMENU, EKSTRAMENU, TSBASLIK, TSPOST, BEGENI, APIDEGISTIR, KANALKAYDET, SABLONA, PANELZAMAN, PANELBUL, PATPOST, POSTZAMAN, PATZAMAN, CALLALT, ALTAPI, OZELBOTLOG, OZELKAYNAK= range(19)
 headerss = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
