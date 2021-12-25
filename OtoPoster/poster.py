@@ -171,7 +171,7 @@ def poster_job(context):
                         if linktry > 2:
                             sleep(0.15)
                             logger.warning(f"Link kısaltılamadı tekrar deneniyor {linktry}")
-                        alink, json = linkkisalt(altsite, altapi, mesajb, chatdat['icerik'])
+                        alink, ajson = linkkisalt(altsite, altapi, mesajb, chatdat['icerik'])
                     except Exception as e:
                         if linktry == 10:
                             try:
@@ -188,7 +188,7 @@ def poster_job(context):
                                 pass
                             alink = "-"
                             logger.error(e)
-                            logger.warning(json)
+                            logger.warning(ajson)
                             continue
             while linktry < 10 and link == " ":
                 try:
@@ -237,13 +237,9 @@ def poster_job(context):
                         sleep(rtfr.retry_after+1)
                     context.job_queue.run_once(deljob, when=2, name="yedekleme", context=update)
                     break
-            if sablon == "1":
-                sablon = f"🔥{aciklama}\n\n🔱 TIKLA 👉 {link}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
-            elif sablon == "2" or sablon == "3":
-                sablon = f"{aciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {link}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06"
-            elif sablon == "9":
-                sablon = f"{aciklama} \n\n𝙇𝙄𝙉𝙆🔗 {link} \n\n     𝙇𝙄𝙉𝙆🔗 {alink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"
-            elif sablon.find('{alink}') != -1:
+            sablondict = {"1": f"🔥{aciklama}\n\n🔱 TIKLA 👉 {link}\n\n📛 SESİ AÇ 'a tıklamayı unutma", "2": f"{aciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {link}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @linkgec06", "9": f"{aciklama} \n\n𝙇𝙄𝙉𝙆🔗 {link} \n\n     𝙇𝙄𝙉𝙆🔗 {alink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee"}
+            sablon = sablondict.get(sablon, sablon)
+            if sablon.find('{alink}') != -1:
                 sablon = sablon.replace("{aciklama}", "{a}").replace("{alink}", "{al}").replace("{link}", "{l}").format(a=aciklama, l=link, al=alink)
             else:
                 sablon = sablon.replace("{aciklama}", "{a}").replace("{link}", "{l}").format(a=aciklama, l=link)
@@ -251,7 +247,7 @@ def poster_job(context):
                 continue
             if link == " ":
                 try:
-                    bot.send_message(-1001190898326, str(hesap)+"\n\n"+str(json), timeout=sendtimeout)
+                    bot.send_message(-1001190898326, str(hesap)+"\n\n"+str(json)+"\n\n"+str(ajson), timeout=sendtimeout)
                 except:
                     pass
                 continue
