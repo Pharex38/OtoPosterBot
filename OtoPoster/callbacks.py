@@ -610,11 +610,12 @@ def callback_query(call, context):
                     except Exception as e:
                         logger.exception(e)
                         pass
-                    if len(patbegeni) > 0 and begstate:
-                        if ButonCol.find_one({"_id": kan}) == None:
-                            ButonCol.insert_one({"_id": kan, str(ppost.message_id): [], "begeni": patbegeni})
-                        else:
-                            ButonCol.update_one({"_id": kan}, {"$set": {str(ppost.message_id): [], "begeni": patbegeni}})
+                    else:
+                        if len(patbegeni) > 0 and begstate:
+                            if ButonCol.find_one({"_id": kan}) == None:
+                                ButonCol.insert_one({"_id": kan, str(ppost.message_id): [], "begeni": patbegeni})
+                            else:
+                                ButonCol.update_one({"_id": kan}, {"$set": {str(ppost.message_id): [], "begeni": patbegeni}})
                 bot.edit_message_text("✅<b>Postunuz Tüm Kanallarınıza Gönderildi!</b>", user, mesajid)
                 context.user_data.clear()
                 mstd = bot.send_message(chat, "Başka post paylaşacak mısınız?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Evet", callback_data="devam"), InlineKeyboardButton("Hayır", callback_data="del")]]))
@@ -703,7 +704,10 @@ def callback_query(call, context):
         
         context.user_data['tskan'].append(call.callback_query.data.split("+")[-1])
         call.callback_query.answer("Kanal belirlendi!")
-        call.callback_query.edit_message_reply_markup(tekrarlipostkan(user, context))
+        try:
+            call.callback_query.edit_message_reply_markup(tekrarlipostkan(user, context))
+        except:
+            pass
         return 
     if call.callback_query.data == "tekrarlisil":
         call.callback_query.edit_message_text("Silmek istediğiniz postu seçin.", reply_markup=tekrarlipostsilmark(user, context))
