@@ -279,7 +279,7 @@ def poster_job(context):
                         logger.warning(f"Hatalı kanal: {kan}")
                         collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
                         try:
-                            bot.send_message(blog, F"#KANAL_SİLİNDİ\n_ID: <a href='tg://user?id={user}>{user}</a>\nÜYE: {membersayi}\nKANAL: <a href='tg://privatepost?channel={str(kan)[3:]}&post=9999999'>{kan}</a>\n#kan{str(kan)[1:]}\n#id{user}", timeout=sendtimeout)
+                            bot.send_message(blog, kansillog.format(user, user, membersayi, str(kan)[3:], kan, str(kan)[1:], user), timeout=sendtimeout)
                             bot.send_message(user, "Kanalda artık yetkili olmadığınız için kanalınız silindi.", timeout=sendtimeout)
                         except RetryAfter as rtfr:
                             logger.warning(f"Floodwait -  {rtfr.retry_after} Saniye uyutuluyor...")
