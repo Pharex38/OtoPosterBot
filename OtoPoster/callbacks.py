@@ -363,7 +363,7 @@ def callback_query(call, context):
         bot.edit_message_text("Kanalınız Silindi!", user, mesajid)
         call.callback_query.answer(call.callback_query.id, "Kanalınız Silindi!")
         print(kansillog.format(user=user, kan=kul['kanal'][s][3:], membersayi=bot.get_chat_member_count(kul['kanal'][s])))
-        bot.send_message(blog, kansillog.format(user=user, kan=kul['kanal'][s][3:], membersayi=bot.get_chat_member_count(int(kul['kanal'][s]))))
+        bot.send_message(blog, escape_markdown(kansillog.format(user=user, kan=kul['kanal'][s][3:], membersayi=bot.get_chat_member_count(int(kul['kanal'][s])))))
     """ Site Değiştir """
     if call.callback_query.data.startswith("site"):
         ss = str(call.callback_query.data.split("-")[1])
