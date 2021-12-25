@@ -78,7 +78,7 @@ ignorekaynak = []
 
 komutisimleri = []
 
-kansillog = f"#KANAL_SİLİNDİ\n_ID: <a href='tg://user?id={user}>{user}</a>\nÜYE: {membersayi}\nKANAL: <a href='tg://privatepost?channel={str(kan)[3:]}&post=9999999'>{kan}</a>\n#kan10{str(kan)[3:]}\n#id{user}"
+kansillog = f"#KANAL_SİLİNDİ\n_ID: <a href='tg://user?id={user}>{user}</a>\nÜYE: {membersayi}\nKANAL: <a href='tg://privatepost?channel={kan}&post=9999999'>{kan}</a>\n#kan10{kan}\n#id{user}"
 yenikanlog =
 yeniuserlog = 
 SEND_MEDIA_TYPES = {"document": bot.send_document, "photo": bot.send_photo, "video": bot.send_video, "animation": bot.send_animation}
