@@ -635,6 +635,9 @@ def apikayit(update, context):
     if bnb == None:
         kontrol = get("https://ay.live/api/?api={}&url=www.zort.com&format=text&alias=&ct=2".format(token)).text
         if kontrol == "":
+            kontrol = get("https://www.pnd.tl/api?api={}&url=www.zort.com&format=text".format(token)).text
+            key['site'] = "2"
+        if kontrol == "":
             bot.send_message(chat, "❌ Geçersiz bir API verdiniz! Lütfen doğru bir API adresi verin.")
             return APIDEGISTIR
         collection.insert_one(key)
