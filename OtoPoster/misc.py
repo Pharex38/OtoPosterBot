@@ -149,7 +149,18 @@ def linkkisalt(site, token, text, icerik):
 def AdminCommandHandler(command, callback, *args, **kwargs):
     komutisimleri.append(command)
     return CommandHandler(command, callback, filters=Filters.user(sahip))
+
+def apiscraper(apitoken):
+    if "ouo" in apitoken:
+        apitoken = apitoken.split("/")
+        apitoken = apitoken[4][:apitoken[4].find("?")]
+    elif "pubiza" in apitoken:
+        apitoken = apitoken.split("=")
+        apitoken = apitoken[1][:apitoken[1].find("&url")]
     
+        
+    return apitoken
+
 def bildir(neyi='Boş Bildirim Testi !'):
     for i in adminlist:
         try:
