@@ -625,7 +625,7 @@ def apikayit(update, context):
     if update.effective_message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
-    if '"url=trlink" in token:
+    if "url=trlink" in token:
         mso = bot.send_message(chat, "❌ Geçersiz bir API verdiniz! Lütfen doğru bir API adresi verin.")
         return APIDEGISTIR
     key = {"_id": user, "token": token, "kanal": [], "sablon": "1", "kaynak": [], "site": "1", "altapi": "None", "altsite": "None", "sira": 0, "ozel": False, "pcount": 0, "time": 0, "vakit": 0, "eski": [], "begeni": [], "pin": [], "icerik": []}
