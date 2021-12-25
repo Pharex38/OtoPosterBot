@@ -549,6 +549,7 @@ def cancel(update, context):
 
 def altakayit(update, context):
     amesaj = html.escape(update.effective_message.text)
+    token = apiscraper(amesaj)
     user = update.effective_message.from_user.id
     chat = update.effective_message.chat.id
     if collection.find_one({"_id": user}) == None:
