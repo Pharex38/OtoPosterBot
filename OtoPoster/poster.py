@@ -272,7 +272,7 @@ def poster_job(context):
                     yetkililer = []
                 if not user in yetkililer:
                     try:
-                        membersayi = bot.get_chat_members_count(kan, timeout=sendtimeout)
+                        membersayi = bot.get_chat_member_count(kan, timeout=sendtimeout)
                     except:
                         membersayi = "Bot kanaldan çıkarılmış."
                     try:
@@ -310,7 +310,7 @@ def poster_job(context):
                             try:
                                 logger.warning(f"Hatalı kanal: {kan}")
                                 try:
-                                    kanname = bot.get_chat_members_count(kan, timeout=sendtimeout)
+                                    kanname = bot.get_chat_member_count(kan, timeout=sendtimeout)
                                 except:
                                     kanname = "Kanaldan Çıkarılmış."
                                 collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
@@ -366,7 +366,7 @@ def poster_job(context):
                         try:
                             logger.warning(f"Hatalı kanal: {kan}")
                             try:
-                                kanname = bot.get_chat_members_count(kan, timeout=sendtimeout)
+                                kanname = bot.get_chat_member_count(kan, timeout=sendtimeout)
                             except:
                                 kanname = "Kanaldan Çıkarılmış."
                             collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
@@ -612,7 +612,7 @@ def ozel_poster_job(context):
                     oyetkililer = []
                 if not ouser in oyetkililer:
                     try:
-                        omembersayi = bot.get_chat_members_count(okan)
+                        omembersayi = bot.get_chat_member_count(okan)
                     except:
                         omembersayi = "Bot kanaldan çıkarılmış."
                     try:
@@ -648,7 +648,7 @@ def ozel_poster_job(context):
                                 logger.warning(f"Hatalı kanal: {okan}")
                                 collection.update_one({"_id": ouser}, {"$pull": {"kanal": okan}})
                                 try:
-                                    oukisim = bot.get_chat_members_count(okan)
+                                    oukisim = bot.get_chat_member_count(okan)
                                 except:
                                     oukisim = "Kanala ulaşılamadı."
                                 try:
@@ -673,7 +673,7 @@ def ozel_poster_job(context):
                             logger.warning(f"Hatalı kanal: {okan}")
                             collection.update_one({"_id": ouser}, {"$pull": {"kanal": okan}})
                             try:
-                                oukisim = bot.get_chat_members_count(okan)
+                                oukisim = bot.get_chat_member_count(okan)
                             except:
                                 oukisim = "Kanala ulaşılamadı."
                             try:
