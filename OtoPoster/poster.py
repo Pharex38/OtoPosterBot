@@ -172,6 +172,20 @@ def poster_job(context):
                             sleep(0.15)
                             logger.warning(f"Link kısaltılamadı tekrar deneniyor {linktry}")
                         alink, ajson = linkkisalt(altsite, altapi, mesajb, chatdat['icerik'])
+                    except ReadTimeoutError:
+                        if linktry == 10:
+                            try:
+                                bot.send_message(user, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(site)}</code>", timeout=sendtimeout)
+                                bildir(e)
+                            except RetryAfter as rtfr:
+                                logger.warning(f"Floodwait -  {rtfr.retry_after} Saniye uyutuluyor...")
+                                sleep(rtfr.retry_after+1)
+                                try:
+                                    bot.send_message(user, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(site)}</code>", timeout=sendtimeout)
+                                except:
+                                    pass
+                            except:
+                                pass
                     except Exception as e:
                         if linktry == 10:
                             try:
