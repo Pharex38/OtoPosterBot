@@ -54,6 +54,9 @@ def poster_job(context):
     """  Açıklama tespit  """
     ason = mesaj.find("\n")
     aciklama = mesaj[:ason].strip()
+    """ Hata Tespit """
+    errinfo = ""
+    errsayim = {"0": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0}
     """  Veri Tabanı  """
     postdata = db[str(chat)]
     binb =  chatdat['kaynak']
@@ -199,6 +202,10 @@ def poster_job(context):
                                     pass
                             except:
                                 pass
+                            errsayim[altsite] = errsayim[altsite]+1
+                            if errsayim[altsite] > 15:
+                                collection.update_one({"_id": 0}, {"$push": {"site": altsite}})
+                                logger.warning(f"{site_isim(altsite)} - Kısıtlı mod açıldı!")
                             continue
             while linktry < 10 and link == " ":
                 try:
