@@ -127,7 +127,6 @@ def poster_job(context):
             link = " "
             alink = " "
             json = {"shortenedUrl": "", "message": "", "status": ""}
-            ajson = {"shortenedUrl": "", "message": "", "status": ""}
             linktry = 0
             if site in collection.find_one({"_id": 0})['site']:
                 logger.warning("Site yasaklı olduğu için atlandı!")
@@ -172,7 +171,7 @@ def poster_job(context):
                         if linktry > 2:
                             sleep(0.15)
                             logger.warning(f"Link kısaltılamadı tekrar deneniyor {linktry}")
-                        alink, ajson = linkkisalt(altsite, altapi, mesajb, chatdat['icerik'])
+                        alink, json = linkkisalt(altsite, altapi, mesajb, chatdat['icerik'])
                     except ReadTimeoutError:
                         if linktry == 10:
                             try:
@@ -200,9 +199,6 @@ def poster_job(context):
                                     pass
                             except:
                                 pass
-                            logger.error(e)
-                            logger.warning(alink)
-                            logger.warning(ajson)
                             continue
             while linktry < 10 and link == " ":
                 try:
