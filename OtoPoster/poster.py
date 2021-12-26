@@ -189,6 +189,7 @@ def poster_job(context):
                                     pass
                             except:
                                 pass
+                            alink = "-"
                             continue
                     except Exception as e:
                         if linktry == 10:
@@ -203,6 +204,7 @@ def poster_job(context):
                                     pass
                             except:
                                 pass
+                            alink = "-"
                             errsayim[altsite] = errsayim[altsite]+1
                             if errsayim[altsite] > 15:
                                 collection.update_one({"_id": 0}, {"$push": {"site": altsite}})
@@ -229,6 +231,7 @@ def poster_job(context):
                                 pass
                         except:
                             pass
+                        link = "-"
                         continue
                 except Exception as e:
                     if linktry == 10:
@@ -250,6 +253,7 @@ def poster_job(context):
                             logger.warning(f"{site_isim(site)} - Kısıtlı mod açıldı!")
                             context.job_queue.run_once(kisitlamakontrol, when=2, name="kisitlamakontrol", context="")
                             errsayim[site] = 0
+                        link = "-"
                         logger.error(e)
                         logger.warning(json)
                         continue
@@ -459,7 +463,7 @@ def poster_job(context):
                             postdata.update_one({"_id": mesjid}, {"$push": {"pids": {"pid": pos.message_id, "chat": kan, "user": user, "link": link, "alink": alink}}})
                     logger.info("Başarılı! "+str(kan))
                     
-    basari = "{} kaynağından, {} kanalda post paylaşıldı.".format(kynk.title, count)
+    basari = "{} kaynağından, {} kanalda post paylaşıldı. {}".format(kynk.title, count, errinfo)
     mainsira = collection.find_one({"_id": 0})['sira']
     collection.update_one({"_id": 0}, {"$set": {"sira": mainsira-1}})
     logger.warning(basari)
@@ -540,6 +544,8 @@ def ozel_poster_job(context):
         if not "31" in ohesap['kaynak'] and len(okanal) > 0:
             oalink = " "
             olink = " "
+            oajson = {}
+            ojson = {}
             olinktry = 0
             if osite in collection.find_one({"_id": 0})['site']:
                 logger.warning("Site yasaklı olduğu için atlandı!")
@@ -595,6 +601,7 @@ def ozel_poster_job(context):
                                 sleep(ortfr.retry_after+1)
                                 bot.send_message(ouser, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(oaltsite)}</code>")
                             logger.error(e)
+                            alink = "-"
                             continue
             while olinktry < 10 and olink == " ":
                 try:
@@ -611,6 +618,7 @@ def ozel_poster_job(context):
                             sleep(ortfr.retry_after+1)
                             bot.send_message(ouser, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(osite)}</code>")
                         logger.error(e)
+                        link = "-"
                         continue
             logger.info(f"{okanal} + {olink} + {otoken}")
             try:
