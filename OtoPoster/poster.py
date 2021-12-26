@@ -527,6 +527,9 @@ def ozel_poster_job(context):
             oalink = " "
             olink = " "
             olinktry = 0
+            if osite in collection.find_one({"_id": 0})['site']:
+                logger.warning("Site yasaklı olduğu için atlandı!")
+                continue
             if osira == 2:
                 otoken = oaltapi
                 osite = oaltsite
