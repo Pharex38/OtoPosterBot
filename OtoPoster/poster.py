@@ -566,10 +566,10 @@ def ozel_poster_job(context):
                 if not oaltapi == "None":
                     try:
                         olinktry += 1
-                        oalink, ojson = linkkisalt(oaltsite, oaltapi, omesajb, okaynak['icerik'])
                         sleep(0.3)
                         if olinktry > 1:
                             logger.warning(f"Tekrar deneniyor {olinktry}")
+                        oalink, ojson = linkkisalt(oaltsite, oaltapi, omesajb, okaynak['icerik'])
                     except Exception as e:
                         if olinktry == 10:
                             try:
@@ -582,10 +582,10 @@ def ozel_poster_job(context):
             while olinktry < 10 and olink == " ":
                 try:
                     olinktry += 1
-                    olink, ojson = linkkisalt(osite, otoken, omesajb, okaynak['icerik'])
                     sleep(0.4)
                     if olinktry > 1:
                         logger.warning(f"Tekrar deneniyor {olinktry}")
+                    olink, ojson = linkkisalt(osite, otoken, omesajb, okaynak['icerik'])
                 except Exception as e:
                     if olinktry >= 10:
                         try:
