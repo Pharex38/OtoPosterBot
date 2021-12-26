@@ -127,6 +127,7 @@ def poster_job(context):
             link = " "
             alink = " "
             json = {"shortenedUrl": "", "message": "", "status": ""}
+            ajson = {"shortenedUrl": "", "message": "", "status": ""}
             linktry = 0
             if site in collection.find_one({"_id": 0})['site']:
                 logger.warning("Site yasaklı olduğu için atlandı!")
@@ -190,7 +191,6 @@ def poster_job(context):
                         if linktry == 10:
                             try:
                                 bot.send_message(user, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(site)}</code>", timeout=sendtimeout)
-                                bildir(e)
                             except RetryAfter as rtfr:
                                 logger.warning(f"Floodwait -  {rtfr.retry_after} Saniye uyutuluyor...")
                                 sleep(rtfr.retry_after+1)
@@ -202,6 +202,8 @@ def poster_job(context):
                                 pass
                             alink = "-"
                             logger.error(e)
+                            logger.warning(alink)
+                            logger.warning(ajson)
                             continue
             while linktry < 10 and link == " ":
                 try:
