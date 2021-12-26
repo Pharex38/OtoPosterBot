@@ -200,7 +200,6 @@ def poster_job(context):
                                     pass
                             except:
                                 pass
-                            alink = "-"
                             logger.error(e)
                             logger.warning(alink)
                             logger.warning(ajson)
