@@ -203,7 +203,6 @@ def poster_job(context):
                                 pass
                             alink = "-"
                             logger.error(e)
-                            logger.warning(ajson)
                             continue
             while linktry < 10 and link == " ":
                 try:
