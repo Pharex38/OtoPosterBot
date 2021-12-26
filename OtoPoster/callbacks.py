@@ -194,7 +194,7 @@ def panelcall(call, context):
         bot.send_message(call.effective_chat.id, "Ayarlamak istediğiniz mesajı gönderin.", reply_markup=imark())
         return PANELZAMAN
     elif query.data.startswith("pau"):
-        kaynak_users = KaynakCol.find_one({"sahip": user})['kaynak'].remove(sahip) if sahip in KaynakCol.find_one({"sahip": user})['kaynak'] else None
+        kaynak_users = KaynakCol.find_one({"sahip": user})['kaynak'].remove(sahip) if sahip in KaynakCol.find_one({"sahip": user})['kaynak'] else KaynakCol.find_one({"sahip": user})['kaynak']
         panel_user_text = f"<b>Kaynağınızı Kullanan Kullanıcılar;</b>\n\n"
         que = int(query.data.split("-")[-1]) if query.data.split("-")[-1] != "bul" else None
         if que == None:
@@ -202,6 +202,8 @@ def panelcall(call, context):
             return PANELBUL
         for paucount in range(que-10,que):
             try:
+                if kaynak_users[paucount] == sahip:
+                    continue
                 panel_user_text += str(paucount) + ". " + mention_html(kaynak_users[paucount], bot.get_chat(kaynak_users[paucount]).first_name) + "\n"
             except IndexError:
                 paumark = [[InlineKeyboardButton("🔍 Kullanıcı Bul", callback_data="pau-bul")], [InlineKeyboardButton("⏪Önceki Sayfa ", callback_data="pau-{}".format(que-10))]]
