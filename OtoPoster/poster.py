@@ -619,7 +619,7 @@ def ozel_poster_job(context):
                             bot.send_message(ouser, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(osite)}</code>")
                         logger.error(e)
                         link = "-"
-                        continue
+                        break
             logger.info(f"{okanal} + {olink} + {otoken}")
             try:
                 ojson['message']
