@@ -461,7 +461,7 @@ def poster_job(context):
                                 bildir(e)
                         for pos in post:
                             postdata.update_one({"_id": mesjid}, {"$push": {"pids": {"pid": pos.message_id, "chat": kan, "user": user, "link": link, "alink": alink}}})
-                    logger.info("Başarılı! "+str(kan)+str(count))
+                    logger.info("Başarılı! "+str(kan)+" - "+str(count))
                     
     basari = "{} kaynağından, {} kanalda post paylaşıldı. {}".format(kynk.title, count, errinfo)
     mainsira = collection.find_one({"_id": 0})['sira']
