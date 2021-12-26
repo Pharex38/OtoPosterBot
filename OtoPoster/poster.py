@@ -168,10 +168,10 @@ def poster_job(context):
                 while linktry < 10 and alink == " ":
                     try:
                         linktry += 1
-                        alink, json = linkkisalt(altsite, altapi, mesajb, chatdat['icerik'])
                         if linktry > 2:
                             sleep(0.15)
                             logger.warning(f"Link kısaltılamadı tekrar deneniyor {linktry}")
+                        alink, json = linkkisalt(altsite, altapi, mesajb, chatdat['icerik'])
                     except ReadTimeoutError:
                         if linktry == 10:
                             try:
