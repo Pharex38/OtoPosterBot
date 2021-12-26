@@ -176,7 +176,6 @@ def poster_job(context):
                         if linktry == 10:
                             try:
                                 bot.send_message(user, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(site)}</code>", timeout=sendtimeout)
-                                bildir(e)
                             except RetryAfter as rtfr:
                                 logger.warning(f"Floodwait -  {rtfr.retry_after} Saniye uyutuluyor...")
                                 sleep(rtfr.retry_after+1)
@@ -215,7 +214,6 @@ def poster_job(context):
                     if linktry == 10:
                         try:
                             bot.send_message(user, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(site)}</code>", timeout=sendtimeout)
-                            bildir(e)
                         except RetryAfter as rtfr:
                             logger.warning(f"Floodwait -  {rtfr.retry_after} Saniye uyutuluyor...")
                             sleep(rtfr.retry_after+1)
