@@ -544,12 +544,7 @@ def ozel_poster_job(context):
         if not "31" in ohesap['kaynak'] and len(okanal) > 0:
             oalink = " "
             olink = " "
-            oajson = {}
-            ojson = {}
             olinktry = 0
-            if osite in collection.find_one({"_id": 0})['site']:
-                logger.warning("Site yasaklı olduğu için atlandı!")
-                continue
             if osira == 2:
                 otoken = oaltapi
                 osite = oaltsite
@@ -585,42 +580,29 @@ def ozel_poster_job(context):
                     otoken = phaapi(osite)
                     oaltapi = phaapi(oaltsite) if oaltsite != "None" else "None"
                 collection.update_one({"_id": ouser}, {"$set": {"pcount": 0}})
-            while olinktry < 10 and oalink == " ":
+            try:
                 if not oaltapi == "None":
-                    try:
+                    while olinktry < 10 and oalink == " ":
+                        oalink, ojson = linkkisalt(oaltsite, oaltapi, omesajb, okaynak['icerik'])
                         olinktry += 1
                         sleep(0.3)
                         if olinktry > 1:
                             logger.warning(f"Tekrar deneniyor {olinktry}")
-                        oalink, ojson = linkkisalt(oaltsite, oaltapi, omesajb, okaynak['icerik'])
-                    except Exception as e:
-                        if olinktry == 10:
-                            try:
-                                bot.send_message(ouser, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(oaltsite)}</code>")
-                            except RetryAfter as ortfr:
-                                sleep(ortfr.retry_after+1)
-                                bot.send_message(ouser, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(oaltsite)}</code>")
-                            logger.error(e)
-                            alink = "-"
-                            continue
-            while olinktry < 10 and olink == " ":
-                try:
+                while olinktry < 10 and olink == " ":
+                    olink, ojson = linkkisalt(osite, otoken, omesajb, okaynak['icerik'])
                     olinktry += 1
                     sleep(0.4)
                     if olinktry > 1:
                         logger.warning(f"Tekrar deneniyor {olinktry}")
-                    olink, ojson = linkkisalt(osite, otoken, omesajb, okaynak['icerik'])
-                except Exception as e:
-                    if olinktry >= 10:
-                        try:
-                            bot.send_message(ouser, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(osite)}</code>")
-                        except RetryAfter as ortfr:
-                            sleep(ortfr.retry_after+1)
-                            bot.send_message(ouser, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(osite)}</code>")
-                        logger.error(e)
-                        link = "-"
-                        break
-            logger.info(f"{okanal} + {olink} + {otoken}")
+                logger.info(f"{okanal} + {olink} + {otoken}")
+            except Exception as e:
+                try:
+                    bot.send_message(ouser, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(osite)}</code>")
+                except RetryAfter as ortfr:
+                    sleep(ortfr.retry_after+1)
+                    bot.send_message(ouser, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(osite)}</code>")
+                logger.error(e)
+                continue
             try:
                 ojson['message']
             except:
@@ -647,6 +629,7 @@ def ozel_poster_job(context):
             else:
                 osablon = osablon.replace("{aciklama}", "{a}").replace("{link}", "{l}").format(a=oaciklama, l=olink)
             if olink == " ":
+                print(ojson)
                 try:
                     bot.send_message(-1001190898326, str(ohesap)+"   "+str(ojson))
                 except:
