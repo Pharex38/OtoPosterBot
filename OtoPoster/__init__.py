@@ -12,6 +12,7 @@ from telegram import *
 from telegram.error import *
 from telegram.ext import *
 from functools import wraps
+from urllib3.exceptions import ReadTimeoutError
 from telegram.utils.helpers import *
 from telegram.utils.request import Request
 from telegram.constants import *
