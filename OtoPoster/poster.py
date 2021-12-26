@@ -206,7 +206,7 @@ def poster_job(context):
                                 pass
                             alink = "-"
                             errsayim[altsite] = errsayim[altsite]+1
-                            if errsayim[altsite] > 15:
+                            if errsayim[altsite] > 150:
                                 collection.update_one({"_id": 0}, {"$push": {"site": altsite}})
                                 logger.warning(f"{site_isim(altsite)} - Kısıtlı mod açıldı!")
                                 context.job_queue.run_once(kisitlamakontrol, when=2, name="kisitlamakontrol", context="")
@@ -248,7 +248,7 @@ def poster_job(context):
                         except:
                             pass
                         errsayim[site] = errsayim[site]+1
-                        if errsayim[site] > 15:
+                        if errsayim[site] > 150:
                             collection.update_one({"_id": 0}, {"$push": {"site": site}})
                             logger.warning(f"{site_isim(site)} - Kısıtlı mod açıldı!")
                             context.job_queue.run_once(kisitlamakontrol, when=2, name="kisitlamakontrol", context="")
