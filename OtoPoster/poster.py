@@ -186,6 +186,7 @@ def poster_job(context):
                                     pass
                             except:
                                 pass
+                            continue
                     except Exception as e:
                         if linktry == 10:
                             try:
