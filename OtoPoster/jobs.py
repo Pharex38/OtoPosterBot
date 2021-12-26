@@ -74,6 +74,33 @@ def tekrarlipostjob(context):
                 else:
                     tsgetjj.context['try'] = tsdict['try']+1
 
+def kisitlamakontrol(context):
+    kdat = collection.find_one({"_id": 0})
+    safelinks = {
+        "0": "https://urlcik.com/YJ6SWGv", 
+        "1": "https://ay.live/fj2n6", 
+        "2": "https://pnd.tl/t2iTQO", 
+        "3": "https://exe.io/Q1xhdKv", 
+        "4": "https://ouo.io/LVMLLyw", 
+        "5": "https://lnkload.com/2uHb6", 
+        "6": "https://gir.ist/J1j6l", 
+        "7": 0, 
+        "8": 0, 
+        "9": 0}
+    while True:
+        sleep(10)
+        for kond in kdat['site']:
+            sleep(3)
+            try:
+                test, testd = linkkisalt(kond, phaapi(kond), "www.google.com", '+18')
+            except:
+                continue
+            else:
+                if test == safelinks[kond]:
+                    collection.update_one({"_id": 0}, {"$pull": {"site": kond}})
+                    logger.warning(f"{site_isim(kond)} arındırıldı!")
+        
+
 def deljob(context):
     delcont = context.job.context
     hedef = str(delcont.effective_chat.id)
