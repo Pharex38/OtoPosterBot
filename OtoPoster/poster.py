@@ -292,8 +292,8 @@ def poster_job(context):
                 try:
                     yetkililer = [xy.user.id for xy in bot.get_chat_administrators(kan, timeout=sendtimeout)]
                 except:
-                    continue
                     yetkililer = []
+                    continue
                 if not user in yetkililer:
                     try:
                         membersayi = bot.get_chat_member_count(kan, timeout=sendtimeout)
@@ -570,14 +570,6 @@ def ozel_poster_job(context):
                         sleep(0.3)
                         if olinktry > 1:
                             logger.warning(f"Tekrar deneniyor {olinktry}")
-                    except ReadTimeoutError:
-                        if olinktry == 10:
-                            try:
-                                bot.send_message(ouser, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(oaltsite)}</code>")
-                            except RetryAfter as ortfr:
-                                sleep(ortfr.retry_after+1)
-                                bot.send_message(ouser, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(oaltsite)}</code>")
-                            continue
                     except Exception as e:
                         if olinktry == 10:
                             try:
@@ -594,16 +586,8 @@ def ozel_poster_job(context):
                     sleep(0.4)
                     if olinktry > 1:
                         logger.warning(f"Tekrar deneniyor {olinktry}")
-                except ReadTimeoutError:
-                    if olinktry == 10:
-                        try:
-                            bot.send_message(ouser, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(osite)}</code>")
-                        except RetryAfter as ortfr:
-                            sleep(ortfr.retry_after+1)
-                            bot.send_message(ouser, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(osite)}</code>")
-                        continue
                 except Exception as e:
-                    if olinktry == 10:
+                    if olinktry >= 10:
                         try:
                             bot.send_message(ouser, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(osite)}</code>")
                         except RetryAfter as ortfr:
