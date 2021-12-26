@@ -553,29 +553,56 @@ def ozel_poster_job(context):
                     otoken = phaapi(osite)
                     oaltapi = phaapi(oaltsite) if oaltsite != "None" else "None"
                 collection.update_one({"_id": ouser}, {"$set": {"pcount": 0}})
-            try:
+            while olinktry < 10 and oalink == " ":
                 if not oaltapi == "None":
-                    while olinktry < 10 and oalink == " ":
-                        oalink, ojson = linkkisalt(oaltsite, oaltapi, omesajb, okaynak['icerik'])
+                    try:
                         olinktry += 1
+                        oalink, ojson = linkkisalt(oaltsite, oaltapi, omesajb, okaynak['icerik'])
                         sleep(0.3)
                         if olinktry > 1:
                             logger.warning(f"Tekrar deneniyor {olinktry}")
-                while olinktry < 10 and olink == " ":
-                    olink, ojson = linkkisalt(osite, otoken, omesajb, okaynak['icerik'])
+                    except ReadTimeoutError:
+                        if olinktry == 10:
+                            try:
+                                bot.send_message(ouser, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(oaltsite)}</code>")
+                            except RetryAfter as ortfr:
+                                sleep(ortfr.retry_after+1)
+                                bot.send_message(ouser, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(oaltsite)}</code>")
+                            continue
+                    except Exception as e:
+                        if olinktry == 10:
+                            try:
+                                bot.send_message(ouser, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(oaltsite)}</code>")
+                            except RetryAfter as ortfr:
+                                sleep(ortfr.retry_after+1)
+                                bot.send_message(ouser, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(oaltsite)}</code>")
+                            logger.error(e)
+                            continue
+            while olinktry < 10 and olink == " ":
+                try:
                     olinktry += 1
+                    olink, ojson = linkkisalt(osite, otoken, omesajb, okaynak['icerik'])
                     sleep(0.4)
                     if olinktry > 1:
                         logger.warning(f"Tekrar deneniyor {olinktry}")
-                logger.info(f"{okanal} + {olink} + {otoken}")
-            except Exception as e:
-                try:
-                    bot.send_message(ouser, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(osite)}</code>")
-                except RetryAfter as ortfr:
-                    sleep(ortfr.retry_after+1)
-                    bot.send_message(ouser, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(osite)}</code>")
-                logger.error(e)
-                continue
+                except ReadTimeoutError:
+                    if olinktry == 10:
+                        try:
+                            bot.send_message(ouser, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(osite)}</code>")
+                        except RetryAfter as ortfr:
+                            sleep(ortfr.retry_after+1)
+                            bot.send_message(ouser, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(osite)}</code>")
+                        continue
+                except Exception as e:
+                    if olinktry == 10:
+                        try:
+                            bot.send_message(ouser, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(osite)}</code>")
+                        except RetryAfter as ortfr:
+                            sleep(ortfr.retry_after+1)
+                            bot.send_message(ouser, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(osite)}</code>")
+                        logger.error(e)
+                        continue
+            logger.info(f"{okanal} + {olink} + {otoken}")
             try:
                 ojson['message']
             except:
@@ -602,7 +629,6 @@ def ozel_poster_job(context):
             else:
                 osablon = osablon.replace("{aciklama}", "{a}").replace("{link}", "{l}").format(a=oaciklama, l=olink)
             if olink == " ":
-                print(ojson)
                 try:
                     bot.send_message(-1001190898326, str(ohesap)+"   "+str(ojson))
                 except:
