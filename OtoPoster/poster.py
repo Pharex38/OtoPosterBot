@@ -171,16 +171,16 @@ def poster_job(context):
                         if linktry > 2:
                             sleep(0.15)
                             logger.warning(f"Link kısaltılamadı tekrar deneniyor {linktry}")
-                        alink, json = linkkisalt(altsite, altapi, mesajb, chatdat['icerik'])
+                        alink, ajson = linkkisalt(altsite, altapi, mesajb, chatdat['icerik'])
                     except ReadTimeoutError:
                         if linktry == 10:
                             try:
-                                bot.send_message(user, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(site)}</code>", timeout=sendtimeout)
+                                bot.send_message(user, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(altsite)}</code>", timeout=sendtimeout)
                             except RetryAfter as rtfr:
                                 logger.warning(f"Floodwait -  {rtfr.retry_after} Saniye uyutuluyor...")
                                 sleep(rtfr.retry_after+1)
                                 try:
-                                    bot.send_message(user, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(site)}</code>", timeout=sendtimeout)
+                                    bot.send_message(user, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(altsite)}</code>", timeout=sendtimeout)
                                 except:
                                     pass
                             except:
@@ -189,21 +189,16 @@ def poster_job(context):
                     except Exception as e:
                         if linktry == 10:
                             try:
-                                bot.send_message(user, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(site)}</code>", timeout=sendtimeout)
+                                bot.send_message(user, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(altsite)}</code>", timeout=sendtimeout)
                             except RetryAfter as rtfr:
                                 logger.warning(f"Floodwait -  {rtfr.retry_after} Saniye uyutuluyor...")
                                 sleep(rtfr.retry_after+1)
                                 try:
-                                    bot.send_message(user, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(site)}</code>", timeout=sendtimeout)
+                                    bot.send_message(user, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(altsite)}</code>", timeout=sendtimeout)
                                 except:
                                     pass
                             except:
                                 pass
-                            print(altsite)
-                            print(altapi)
-                            print(json)
-                            print(alink)
-                            print(mesajb)
                             continue
             while linktry < 10 and link == " ":
                 try:
