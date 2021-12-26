@@ -125,6 +125,7 @@ def linkkisalt(site, token, text, icerik):
         json = get(f"https://ay.live/api/?", params={'api': token, 'url': text, 'ct': trlinkcat}, headers=headers, timeout=ptimeout).json()
         link = json['shortenedUrl']
     elif site == "2":
+        print(get(f"https://www.pnd.tl/api?", params={'api': token, 'url': text, 'category': pndcat}, headers=headers, timeout=ptimeout).text)
         json = get(f"https://www.pnd.tl/api?", params={'api': token, 'url': text, 'category': pndcat}, headers=headers, timeout=ptimeout).json()
         link = json['shortenedUrl']
     elif site == "3":
