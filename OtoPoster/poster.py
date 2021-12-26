@@ -132,6 +132,7 @@ def poster_job(context):
             json = {"shortenedUrl": "", "message": "", "status": ""}
             linktry = 0
             if site in collection.find_one({"_id": 0})['site']:
+                errinfo = "(Kısıtlı mod açık)"
                 logger.warning("Site yasaklı olduğu için atlandı!")
                 continue
             if sira == 2:
@@ -206,6 +207,7 @@ def poster_job(context):
                             if errsayim[altsite] > 15:
                                 collection.update_one({"_id": 0}, {"$push": {"site": altsite}})
                                 logger.warning(f"{site_isim(altsite)} - Kısıtlı mod açıldı!")
+                                context.job_queue.run_once(kisitlamakontrol, when=2, name="kisitlamakontrol", context="")
                             continue
             while linktry < 10 and link == " ":
                 try:
@@ -242,7 +244,12 @@ def poster_job(context):
                                 pass
                         except:
                             pass
-                        link = "-"
+                        errsayim[site] = errsayim[site]+1
+                        if errsayim[site] > 15:
+                            collection.update_one({"_id": 0}, {"$push": {"site": site}})
+                            logger.warning(f"{site_isim(site)} - Kısıtlı mod açıldı!")
+                            context.job_queue.run_once(kisitlamakontrol, when=2, name="kisitlamakontrol", context="")
+                            errsayim[site] = 0
                         logger.error(e)
                         logger.warning(json)
                         continue
