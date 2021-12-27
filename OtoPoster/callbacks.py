@@ -596,10 +596,13 @@ def callback_query(call, context):
         if context.user_data['zaman'] == "yok":
             if o == -1:
                 for kan in kanal:
+                    """
                     try:
                         pyetkililer = [pxy.user.id for pxy in bot.get_chat_administrators(kan)]
                     except:
                         continue
+                    """
+                    pyetkililer = [user]
                     if not user in pyetkililer:
                         bot.send_message(chat, f"{bot.get_chat(kan).title} Bu kanalda yetkili olmadığınız için post gönderilemedi ve kanal silindi.", reply_markup=dugme(user))
                         bot.delete_message(user, mesajid)
