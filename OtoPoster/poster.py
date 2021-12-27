@@ -307,11 +307,14 @@ def poster_job(context):
                     continue
                 post = update.effective_message
                 sleep(0.05)
+                """
                 try:
                     yetkililer = [xy.user.id for xy in bot.get_chat_administrators(kan, timeout=sendtimeout)]
                 except:
                     yetkililer = []
                     continue
+                """
+                yetkililer = [user]
                 if not user in yetkililer:
                     try:
                         membersayi = bot.get_chat_member_count(kan, timeout=sendtimeout)
