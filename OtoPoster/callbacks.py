@@ -596,13 +596,10 @@ def callback_query(call, context):
         if context.user_data['zaman'] == "yok":
             if o == -1:
                 for kan in kanal:
-                    """
                     try:
                         pyetkililer = [pxy.user.id for pxy in bot.get_chat_administrators(kan)]
                     except:
                         continue
-                    """
-                    pyetkililer = [user]
                     if not user in pyetkililer:
                         bot.send_message(chat, f"{bot.get_chat(kan).title} Bu kanalda yetkili olmadığınız için post gönderilemedi ve kanal silindi.", reply_markup=dugme(user))
                         bot.delete_message(user, mesajid)
@@ -623,13 +620,10 @@ def callback_query(call, context):
                 context.user_data.clear()
                 mstd = bot.send_message(chat, "Başka post paylaşacak mısınız?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Evet", callback_data="devam"), InlineKeyboardButton("Hayır", callback_data="del")]]))
                 return ConversationHandler.END
-            """
             try:
                 pyetkililer = [pxy.user.id for pxy in bot.get_chat_administrators(kanal[o])]
             except:
                 pyetkililer = []
-            """
-            pyetkililer = [user]
             if not user in pyetkililer:
                 bot.send_message(chat, f"{bot.get_chat(kanal[o]).title} Bu kanalda yetkili olmadığınız için post gönderilemedi ve kanal silindi.", reply_markup=dugme(user))
                 bot.delete_message(user, mesajid)
@@ -655,10 +649,7 @@ def callback_query(call, context):
             msg_dict = []
             if o == -1:
                 for kan in kanal:
-                    """
                     pyetkililer = [pxy.user.id for pxy in bot.get_chat_administrators(kan)]
-                    """
-                    pyetkililer = [user]
                     if not user in pyetkililer:
                         bot.send_message(chat, f"{bot.get_chat(kan).title} Bu kanalda yetkili olmadığınız için post gönderilemedi ve kanal silindi.", reply_markup=dugme(user))
                         bot.delete_message(user, mesajid)
@@ -672,8 +663,7 @@ def callback_query(call, context):
                 context.user_data.clear()
                 return ConversationHandler.END
 
-            #pyetkililer = [pxy.user.id for pxy in bot.get_chat_administrators(kanal[o])]
-            pyetkililer = [user]
+            pyetkililer = [pxy.user.id for pxy in bot.get_chat_administrators(kanal[o])]
             if not user in pyetkililer:
                 bot.send_message(chat, f"{bot.get_chat(kanal[o]).title} Bu kanalda yetkili olmadığınız için post gönderilemedi ve kanal silindi.", reply_markup=dugme(user))
                 collection.update_one({"_id": user}, {"$pull": {"kanal": kanal[o]}})
