@@ -254,12 +254,12 @@ def postmenu(update, context):
                     pst = poudat['sablon'].replace("{aciklama}", "{a}").replace("{link}", "{l}").replace("{alink}", "{al}").format(a=aciklama, l=link, al=alink)
                 else:
                     pst = poudat['sablon'].replace("{aciklama}", "{a}").replace("{link}", "{l}").format(a=aciklama, l=link)
-            except:
-                pst = "Şablonunuz hatalı olduğun için görüntülenemedi lütfen Varsayılana döndürün veya yeni şablon ayarlayın."
+            except Exception as e:
+                pst = f"Şablonunuz hatalı olduğun için görüntülenemedi lütfen Varsayılana döndürün veya yeni şablon ayarlayın.\n\n{str(e)}"
             try:
                 bot.send_message(chat, f"<b>Şablonunuz böyle gözükecek:</b>\n\n{pst}", reply_markup=sablonmark(user))
             except:
-                pst = "Şablonunuz hatalı olduğun için görüntülenemedi lütfen Varsayılana döndürün veya yeni şablon ayarlayın."
+                pst = f"Şablonunuz hatalı olduğun için görüntülenemedi lütfen Varsayılana döndürün veya yeni şablon ayarlayın.\n\n{str(e)}"
                 bot.send_message(chat, f"<b>Şablonunuz böyle gözükecek:</b>\n\n{pst}", reply_markup=sablonmark(user))
         return
     if mesaj == "🔧 Kaynak":
