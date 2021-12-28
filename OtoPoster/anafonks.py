@@ -238,6 +238,8 @@ def postmenu(update, context):
                 alink = "https://gir.ist/qcu9xub"
             if poudat['altsite'] == "7":
                 alink = "https://urlably.com/qcu9xub"
+            if poudat['altsite'] == "tpil":
+                alink = "https://www.alternatif.link/ifsa"
             if poudat['altsite'] == "0":
                 alink = "https://urlcik.com/bTdmM5F6"
         else:
