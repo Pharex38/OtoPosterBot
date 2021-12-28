@@ -250,7 +250,7 @@ def postmenu(update, context):
             bot.send_message(chat, "<b>Varsayılan Şablon:</b>\n\n{aciklama} \n\n𝙇𝙄𝙉𝙆🔗 {link} \n\n     𝙇𝙄𝙉𝙆🔗 {alink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @linkk_gecmee", reply_markup=sablonmark(user))
         else:
             try:
-                if poudat['sira'] == 1:
+                if poudat['sira'] == 1 or poudat['altsite'] == "tpil":
                     pst = poudat['sablon'].replace("{aciklama}", "{a}").replace("{link}", "{l}").replace("{alink}", "{al}").format(a=aciklama, l=link, al=alink)
                 else:
                     pst = poudat['sablon'].replace("{aciklama}", "{a}").replace("{link}", "{l}").format(a=aciklama, l=link)
