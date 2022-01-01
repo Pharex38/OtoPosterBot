@@ -576,7 +576,7 @@ def exece(update, context):
 def kaynakkontrol(update, context):
     user = update.effective_user.id
     chat = update.effective_chat.id
-    bot.send_message(chat, "Kaynak mı açmak istiyorsun?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Evet", callback_data="kontevet"), InlineKeyboardButton("Hayır", callback_data="aiptal")]]))
+    bot.send_message(chat, "Kaynak mı açmak istiyorsun?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Evet", callback_data="kont-evet"), InlineKeyboardButton("Hayır", callback_data="aiptal")]]))
 
 def yenikaynakkomutu(update, context):
     user = update.effective_user.id
