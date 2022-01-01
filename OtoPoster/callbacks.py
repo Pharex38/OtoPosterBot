@@ -193,6 +193,8 @@ def panelcall(call, context):
     if query.data == "panelzaman":
         bot.send_message(call.effective_chat.id, "Ayarlamak istediğiniz mesajı gönderin.", reply_markup=imark())
         return PANELZAMAN
+    elif query.data == "panelkural":
+        bot.send_message(chat, str(collection.find_one({"_id": 0})['kurallar']))
     elif query.data.startswith("pau"):
         kaynak_users = KaynakCol.find_one({"sahip": user})['kaynak'].remove(sahip) if sahip in KaynakCol.find_one({"sahip": user})['kaynak'] else KaynakCol.find_one({"sahip": user})['kaynak']
         panel_user_text = f"<b>Kaynağınızı Kullanan Kullanıcılar;</b>\n\n"
