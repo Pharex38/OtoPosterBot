@@ -144,13 +144,16 @@ def poster_job(context):
             elif sira >= 10 and altapi != "None":
                 altapilist = altapi
                 altsitelist = altsite
+                bildir(f"Sira - {sira} - #{user}")
                 if sira-10 > len(altapilist)-1:
-                    collection.update_one({"_id": user}, {"$set": {"sira": 10}})
+                    collection.update_one({"_id": user}, {"$set": {"sira": 11}})
+                    sira = 10
                 else:
                     collection.update_one({"_id": user}, {"$inc": {"sira": 1}}) 
                 try:
                     altsite, altapi = dict(altapilist[int(sira-10)])["site"], dict(altapilist[int(sira-10)])["api"]
                 except IndexError:
+                    bildir(f"İndex Error ALTAPI - {user}")
                     if len(altapilist) == 0:
                         collection.update_one({"_id": user}, {"$set": {"sira": 0}})
                         altapi = "None"

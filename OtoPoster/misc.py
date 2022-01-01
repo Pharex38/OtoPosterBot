@@ -165,6 +165,12 @@ def bildir(neyi='Boş Bildirim Testi !'):
     for i in adminlist:
         try:
             bot.send_message(i,neyi)
+        except RetryAfter as rtr:
+            sleep(rtr.retry_after+1)
+            try:
+                bot.send_message(i,neyi)
+            except:
+                pass
         except:
             pass
 
