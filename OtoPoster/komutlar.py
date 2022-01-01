@@ -582,6 +582,9 @@ def yenikaynakkomutu(update, context):
     user = update.effective_user.id
     if len(context.args) == 0:
         update.effective_message.reply_text("/kaynak sahip _id icerik")
+        yenikaynaklist = collection.find_one({"_id": 0})['kont']
+        for newkaynak in yenikaynaklist:
+            pass
         return
     if context.args[0].lower() == "sil":
         KaynakCol.delete_one({"no": int(context.args[1])})

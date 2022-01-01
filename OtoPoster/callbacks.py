@@ -51,12 +51,17 @@ def kaynakkontrolcall(call, context):
         if query.data.split("-")[2] == "+18":
             query.edit_message_text("Yerli/Yabanci ?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🇹🇷", callback_data="kont-devam3-tr")], [InlineKeyboardButton("🇬🇧", callback_data="kont-devam3-yb")], [InlineKeyboardButton("Vazgeçtim", callback_data="aiptal")]]))
         else:
+            context.user_data['kont-tur'] = None
             pass
     elif callkd == "devam3":
         context.user_data['kont-tur'] = query.data.split("-")[2]
-        query.edit_message_text("Kullanacağınız depolama servisi nedir?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Yandex-Cloud benzeri")]]))
+        query.edit_message_text("Kullanacağınız depolama servisi nedir?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Yandex, Cloud vs.", callback_data="kont-son-cloud")], [InlineKeyboardButton("Streamtape veya Streamtape benzeri", callback_data="kont-son-tape")]]))
     elif callkd == "son":
-        pass
+        if context.user_data['kont-icerik'] == "+18":
+            collection.update_one({"_id": 0}, {"$push": {"kont": {"user": user, "icerik": context.user_data['kont-icerik'], "tur": context.user_data['kont-tur']}}})
+        elif context.user_data['kont-icerik'] == "arsiv":
+            collection.update_one({"_id": 0}, {"$push": {"kont": {"user": user, "icerik": context.user_data['kont-icerik'], "tur": None}}})
+        bot.send_message(chat, "İsteğiniz gönderildi!")
 
 def begenicall(call, context):
     user = call.effective_user.id
