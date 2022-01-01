@@ -657,7 +657,7 @@ def kaynakpanel(update, context):
     tarihnow = datetime.datetime.now(pytz.timezone('Europe/Istanbul')) - datetime.timedelta(days = 6)
     tarihnowa = datetime.datetime.now(pytz.timezone('Europe/Istanbul'))
     ylab = []
-    aykaccekiyo = calendar.monthrange(tarihnowa.year, tarihnowa.month-1 if tarihnow.month != 1 else 12)[1] + 1
+    aykaccekiyo = calendar.monthrange(tarihnowa.year, tarihnowa.month if tarihnow.month != 1 else 12)[1] + 1
     buaykaccekiyo = calendar.monthrange(tarihnow.year, tarihnow.month if tarihnow.month != 1 else 12)[1]
     xlab = []
     for g in dict(panelkaynak['grafik']).keys():
