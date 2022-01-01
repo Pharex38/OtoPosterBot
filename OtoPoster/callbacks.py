@@ -36,7 +36,27 @@ def ayarlarcall(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
     
-    
+def kaynakkontrolcall(call, context):
+    chat = call.effective_chat.id
+    user = call.effective_user.id
+    query = call.callback_query
+    callkd = query.data.split("-")[1]
+    query.answer(".")
+    if callkd == "evet":
+        query.edit_message_text(f"<b>Aşağıdaki kurallaru onaylıyor musun?</b>\n\n{collection.find_one({'_id': 0})['kurallar']}\n\nBoşu boşuna istek gönderenleri bottan banlarım!", reply_markup=ReplyKeyboardMarkup([[InlineKeyboardButton("Okudum, onaylıyorum.", callback_data="kont-devam1")], [InlineKeyboardButton("Vazgeçtim", callback_data="aiptal")]]))
+    elif callkd == "devam1":
+        query.edit_message_text("İçeriğiniz nedir?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("+18", callback_data="kont-devam2-+18")], [InlineKeyboardButton("Arşiv", callback_data="kont-devam2-arsiv")], [InlineKeyboardButton("Vazgeçtim", callback_data="aiptal")]]))
+    elif callkd == "devam2":
+        context.user_data["kont-icerik"] = query.data.split("-")[2]
+        if query.data.split("-")[2] == "+18":
+            query.edit_message_text("Yerli/Yabanci ?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🇹🇷", callback_data="kont-devam3-tr")], [InlineKeyboardButton("🇬🇧", callback_data="kont-devam3-yb")], [InlineKeyboardButton("Vazgeçtim", callback_data="aiptal")]]))
+        else:
+            pass
+    elif callkd == "devam3":
+        context.user_data['kont-tur'] = query.data.split("-")[2]
+        query.edit_message_text("Kullanacağınız depolama servisi nedir?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Yandex-Cloud benzeri")]]))
+    elif callkd == "son":
+        pass
 
 def begenicall(call, context):
     user = call.effective_user.id

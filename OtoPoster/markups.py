@@ -403,6 +403,9 @@ def jobmark(user, context):
 def panelkaynakmark(user):
     return InlineKeyboardMarkup([[InlineKeyboardButton("🆕 Son Güncellemeler", callback_data="panelguncellemeler")], [InlineKeyboardButton("🌐 Kullanan Kanallar", callback_data="panelkanal".format(user))], [InlineKeyboardButton("👥 Kullanan Kişiler", callback_data="panelkullanici")], [InlineKeyboardButton("⌛ Zaman Butonunun Mesajını Değiştir", callback_data="panelzaman")], [InlineKeyboardButton("⛔️ Kaynak kuralları", callback_data="panelkural")]])
 
+def yenikaynakmark(user):
+    return InlineKeyboardMarkup([[InlineKeyboardButton("")]])
+
 def ayarlarmark():
     return InlineKeyboardMarkup([
         [InlineKeyboardButton("s", callback_data="panelguncellemeler")],
