@@ -144,12 +144,12 @@ def poster_job(context):
             elif sira >= 10 and altapi != "None":
                 altapilist = altapi
                 altsitelist = altsite
-                bildir(f"Sira - {sira} - #{user}")
                 if sira-10 > len(altapilist)-1:
                     collection.update_one({"_id": user}, {"$set": {"sira": 11}})
                     sira = 10
                 else:
                     collection.update_one({"_id": user}, {"$inc": {"sira": 1}}) 
+                bildir(f"Sira - {sira} - #{user}")
                 try:
                     altsite, altapi = dict(altapilist[int(sira-10)])["site"], dict(altapilist[int(sira-10)])["api"]
                 except IndexError:
@@ -558,7 +558,8 @@ def ozel_poster_job(context):
                 oaltapilist = oaltapi
                 oaltsitelist = oaltsite
                 if osira-10 > len(oaltapilist)-1:
-                    collection.update_one({"_id": ouser}, {"$set": {"sira": 10}})
+                    collection.update_one({"_id": ouser}, {"$set": {"sira": 11}})
+                    osira = 10
                 else:
                     collection.update_one({"_id": ouser}, {"$inc": {"sira": 1}}) 
                 try:
