@@ -121,6 +121,7 @@ def main() -> None:
     """ Callbacks """
     dispatcher.add_handler(CallbackQueryHandler(panelcall, pattern="^(pau(.*)|pak(.*)|pan(.*))", run_async=False))
     dispatcher.add_handler(CallbackQueryHandler(cekiliscall, pattern="^katil(.*)"))
+    dispatcher.add_handler(CallbackQueryHandler(kaynakkontrolcall, pattern="^kont(.*)"))
     dispatcher.add_handler(CallbackQueryHandler(kaynakcall, pattern="^kaynak(.*)"))
     dispatcher.add_handler(CallbackQueryHandler(begeniislemcall, pattern="^begeni-(.*)", run_async=False))
     dispatcher.add_handler(CallbackQueryHandler(advcall, pattern="^adv(.*)"))
