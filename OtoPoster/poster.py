@@ -34,7 +34,7 @@ def poster_job(context):
         try:
             kynk = bot.get_chat(chat)
         except RetryAfter as rtfr:
-            sleep(rtfr+1)
+            sleep(rtfr.retry_after+1)
         else:
             break
     mesaj = update.effective_message.caption
