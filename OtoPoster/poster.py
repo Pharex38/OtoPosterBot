@@ -469,6 +469,7 @@ def poster_job(context):
     basari = "{} kaynağından, {} kanalda post paylaşıldı. {}".format(kynk.title, count, errinfo)
     mainsira = collection.find_one({"_id": 0})['sira']
     collection.update_one({"_id": 0}, {"$set": {"sira": mainsira-1}})
+    KaynakCol.update_one({"_id": chatdat['_id']}, {"$inc": {"sayi": 1}})
     logger.warning(basari)
     try:
         bot.edit_message_text(basari, botlog, lmsg.message_id, timeout=sendtimeout)
