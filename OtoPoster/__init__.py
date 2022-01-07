@@ -39,6 +39,7 @@ collection = db["Kanallar"]
 KaynakCol = db["Kaynaklar"]
 OzelCol = db["Özel Kaynaklar"]
 ButonCol = db["Butonlar"]
+IstekCol = db["İstekler"]
 
 maindata = collection.find_one({"_id": 0})
 kara = maindata['kara']
