@@ -293,7 +293,7 @@ def gunluk(context):
                 try:
                     kulkanisim = bot.get_chat(kulkan).title
                 except:
-                    pass
+                    continue
             except:
                 continue
             bildirimtext += f"<i>Son 24 saatte {kulkanisim} kanalınızda {IstekCol.find_one({'_id': 0})['count']} istek onaylandı!</i>\n"
