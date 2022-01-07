@@ -298,6 +298,20 @@ def callback_query(call, context):
     chat = call.effective_chat.id
     mesajid = call.callback_query.message.message_id
     """ İstek """
+    if call.callback_query.data.startswith("allistek-"):
+        onaymsg = bot.send_message(chat, "<code>İşlem başlıyor...</code>")
+        istekkanno = int(call.callback_query.data.split("-")[-1])
+        istekkan = collection.find_one({"_id": user})['kanal'][istekkanno]
+        for isteka in IstekCol.find_one({"_id": 0})[str(istekkan)]['istekler']:
+            onaycount = 0
+            try:
+                bot.approve_chat_join_request(istekkan, isteka)
+            except:
+                pass
+            else:
+                onaycount += 1
+        onaymsg.edit(f"{onaycount} istek onaylandı!")
+        
     if call.callback_query.data.startswith("istek-"):
         istekno = int(call.callback_query.data.split("-")[-1])
         try:
