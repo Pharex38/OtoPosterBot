@@ -322,7 +322,8 @@ def ekstramenu(update, context):
         if len(eudat['kanal']) == 0:
             bot.send_message(chat, "Bu modu kullanabilmek için önce bir kanal kaydetmelisin!")
             return
-        bot.send_message(chat, "<b>Yeni atılan katılma isteklerinin anında onaylanmasını istiyorsan bu modu açabilirsin.</b>", reply_markup=istekmark(user))
+        istektext = ""
+        bot.send_message(chat, f"<b>Yeni atılan katılma isteklerinin anında onaylanmasını istiyorsan bu modu açabilirsin.</b>\n\n{istektext}", reply_markup=istekmark(user))
         return
     if mesaj == "🔁 Tekrarlı Post Paylaş":
         tekrarlipostlari = context.job_queue.get_jobs_by_name("ts"+str(user))
