@@ -305,6 +305,7 @@ def callback_query(call, context):
         isteklers = IstekCol.find_one({"_id": 0})[str(istekkan)]['istekler']
         if len(isteklers) < 1:
             onaymsg.edit_text("Hiç onaylanmamış istek göremiyorum. =(")
+            return
         for isteka in isteklers:
             onaycount = 0
             try:
@@ -314,6 +315,7 @@ def callback_query(call, context):
             else:
                 onaycount += 1
         onaymsg.edit_text(f"{onaycount} istek onaylandı!")
+        return
         
     if call.callback_query.data.startswith("istek-"):
         istekno = int(call.callback_query.data.split("-")[-1])
