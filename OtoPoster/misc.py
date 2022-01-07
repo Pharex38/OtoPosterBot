@@ -163,7 +163,7 @@ def apiscraper(apitoken):
 
 def istekonaylayici(update, context):
     wliste = collection.find_one({"_id": 0})['istek']
-    if update.effective_chat.id in wliste:
+    if str(update.effective_chat.id) in wliste:
         update.approve()
         
 
