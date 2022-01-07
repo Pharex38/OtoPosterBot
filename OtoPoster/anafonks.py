@@ -319,6 +319,9 @@ def ekstramenu(update, context):
         bot.send_message(chat, "<b>Paylaşılan postların otomatik olarak sabitlenmesini istersen bu modu açabilirsin.</b>", reply_markup=pinmark(user))
         return
     if mesaj == "📡 İstek Onaylayıcı":
+        if len(eudat['kanal']) == 0:
+            bot.send_message(chat, "Bu modu kullanabilmek için önce bir kanal kaydetmelisin!")
+            return
         bot.send_message(chat, "<b>Yeni atılan katılma isteklerinin anında onaylanmasını istiyorsan bu modu açabilirsin.</b>", reply_markup=istekmark(user))
         return
     if mesaj == "🔁 Tekrarlı Post Paylaş":
