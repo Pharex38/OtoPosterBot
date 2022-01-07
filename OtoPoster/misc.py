@@ -173,7 +173,6 @@ def istekonaylayici(update, context):
     else:
         IstekCol.update_one({"_id": 0}, {"$push": {f"{chat}.istekler": update.chat_join_request.from_user.id}})
             
-        
 
 def bildir(neyi='Boş Bildirim Testi !'):
     for i in adminlist:
