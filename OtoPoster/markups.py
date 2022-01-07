@@ -173,6 +173,7 @@ def istekmark(user):
                 isteksatir.append(InlineKeyboardButton("Açık", callback_data="istek-{}".format(istekbutno)))
             else:
                 isteksatir.append(InlineKeyboardButton("Kapalı", callback_data="istek-{}".format(istekbutno)))
+            isteksatir.append(InlineKeyboardButton(f"{IstekCol.find_one(len({'_id': 0})[istekkan]['istekler'])} - Tümünü Onayla"))
             istekkeyb.append(isteksatir)
             isteksatir = []
         istekbutno += 1
