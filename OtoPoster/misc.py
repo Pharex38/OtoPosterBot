@@ -163,8 +163,16 @@ def apiscraper(apitoken):
 
 def istekonaylayici(update, context):
     wliste = collection.find_one({"_id": 0})['istek']
-    if str(update.effective_chat.id) in wliste:
+    chat = str(update.effective_chat.id)
+    if chat in wliste:
         update.chat_join_request.approve()
+        if IstekCol.find_one({"_id": 0}).get(chat, None) != None:
+            IstekCol.update_one({"_id": 0}, {"$inc": {f"{chat}.count": 1}})
+        else:
+            IstekCol.update_one({"_id": 0}, {"$set": {f"{chat}": {"user": collection.find_one({"kanal": {"$in": [chat]}}).get('_id', sahip), "count": 1, "istekler": []}}})
+    else:
+        IstekCol.update_one({"_id": 0}, {"$push": {f"{chat}.istekler": update.chat_join_request.from_user.id}})
+            
         
 
 def bildir(neyi='Boş Bildirim Testi !'):
