@@ -100,7 +100,6 @@ def kisitlamakontrol(context):
                     collection.update_one({"_id": 0}, {"$pull": {"site": kond}})
                     logger.warning(f"{site_isim(kond)} arındırıldı!")
         
-
 def deljob(context):
     delcont = context.job.context
     hedef = str(delcont.effective_chat.id)
@@ -279,6 +278,27 @@ def gunluk(context):
     last_text = "\n<b>Her gün saat 22:00'da otomatik olarak güncel veriler paylaşılacak. </b>"
     bot.edit_message_text(stat_text+astat_text+last_text, botlog, msg.message_id)
     bot.pin_chat_message(botlog, msg.message_id)
+    
+    
+    kullanicilar = collection.find({})
+    for kullanici in kullanicilar:
+        bildirimtext = "<b>Bilgilendirme:</b>\n\n"
+        for kulkan in kullanici['kanal']:
+            if IstekCol.find_one({'_id': 0})['count'] < 3:
+                continue
+            try:
+                kulkanisim = bot.get_chat(kulkan).title
+            except RetryAfter as fdl:
+                sleep(fdl.retry_after+1)
+                try:
+                    kulkanisim = bot.get_chat(kulkan).title
+                except:
+                    pass
+            except:
+                continue
+            bildirimtext += f"<i>Son 24 saatte {kulkanisim} kanalınızda {IstekCol.find_one({'_id': 0})['count']} istek onaylandı!</i>\n"
+        if bildirimtext != "<b>Bilgilendirme:</b>\n\n":
+            bot.send_message(kullanici['_id'], bildirimtext)
 
 def panelcleaner(context):
     try:
