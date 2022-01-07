@@ -315,6 +315,7 @@ def callback_query(call, context):
                 logger.error(e)
             else:
                 onaycount += 1
+            IstekCol.update_one({"_id": 0}, {"$pull": {str(istekkan): isteka}})
         onaymsg.edit_text(f"{onaycount} istek onaylandı!")
         return
         
