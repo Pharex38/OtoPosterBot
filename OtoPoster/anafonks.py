@@ -322,7 +322,7 @@ def ekstramenu(update, context):
         if user != sahip:
             bot.send_message(chat, "<tg-spoiler>Yakında...</tg-spoiler>")
             return
-        bot.send_message(chat, "<b>Atılan isteklerin anında onaylanmasını istiyorsan bu modu açabilirsin.</b>", reply_markup=istekmark(user))
+        bot.send_message(chat, "<b>Atılan katılma isteklerinin anında onaylanmasını istiyorsan bu modu açabilirsin.</b>", reply_markup=istekmark(user))
         return
     if mesaj == "🔁 Tekrarlı Post Paylaş":
         tekrarlipostlari = context.job_queue.get_jobs_by_name("ts"+str(user))
