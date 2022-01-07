@@ -168,12 +168,12 @@ def istekmark(user):
             pass
         else:
             isteklink = "tg://privatepost?channel={}&post=9999999".format(istekkan[3:])
-            isteksatir.append(InlineKeyboardButton(istekname, url=isteklink))
+            istekkeyb.append(InlineKeyboardButton(istekname, url=isteklink))
             if istekkan in collection.find_one({"_id": 0})['istek']:
                 isteksatir.append(InlineKeyboardButton("Açık", callback_data="istek-{}".format(istekbutno)))
             else:
                 isteksatir.append(InlineKeyboardButton("Kapalı", callback_data="istek-{}".format(istekbutno)))
-            isteksatir.append(InlineKeyboardButton(f"{len(IstekCol.find_one({'_id': 0})[istekkan]['istekler'])} - Tümünü Onayla", callback_data="allistek-{}".format(istekbutno)))
+            isteksatir.append(InlineKeyboardButton(f"Tümünü Onayla", callback_data="allistek-{}".format(istekbutno)))
             istekkeyb.append(isteksatir)
             isteksatir = []
         istekbutno += 1
