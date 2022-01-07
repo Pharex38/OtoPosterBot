@@ -323,6 +323,8 @@ def ekstramenu(update, context):
             bot.send_message(chat, "Bu modu kullanabilmek için önce bir kanal kaydetmelisin!")
             return
         istektext = ""
+        for istekkan in eudat['kanal']:
+            istektext += f"{bot.get_chat(istekkan).title} - {len(IstekCol.find_one({'_id': 0})[istekkan]['istekler'])} bekleyen istek\n"
         bot.send_message(chat, f"<b>Yeni atılan katılma isteklerinin anında onaylanmasını istiyorsan bu modu açabilirsin.</b>\n\n{istektext}", reply_markup=istekmark(user))
         return
     if mesaj == "🔁 Tekrarlı Post Paylaş":
