@@ -302,7 +302,10 @@ def callback_query(call, context):
         onaymsg = bot.send_message(chat, "<code>İşlem başlıyor...</code>")
         istekkanno = int(call.callback_query.data.split("-")[-1])
         istekkan = collection.find_one({"_id": user})['kanal'][istekkanno]
-        for isteka in IstekCol.find_one({"_id": 0})[str(istekkan)]['istekler']:
+        isteklers = IstekCol.find_one({"_id": 0})[str(istekkan)]['istekler']
+        if len(isteklers) < 1:
+            onaymsg.edit_text("Hiç onaylanmamış istek göremiyorum. =(")
+        for isteka in isteklers:
             onaycount = 0
             try:
                 bot.approve_chat_join_request(istekkan, isteka)
