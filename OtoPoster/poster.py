@@ -149,7 +149,6 @@ def poster_job(context):
                     sira = 10
                 else:
                     collection.update_one({"_id": user}, {"$inc": {"sira": 1}}) 
-                bildir(f"Sira - {sira} - #id{user}")
                 try:
                     altsite, altapi = dict(altapilist[int(sira-10)])["site"], dict(altapilist[int(sira-10)])["api"]
                 except IndexError:
