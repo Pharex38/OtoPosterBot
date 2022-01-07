@@ -164,7 +164,7 @@ def apiscraper(apitoken):
 def istekonaylayici(update, context):
     wliste = collection.find_one({"_id": 0})['istek']
     if str(update.effective_chat.id) in wliste:
-        update.approve()
+        update.chat_join_request.approve()
         
 
 def bildir(neyi='Boş Bildirim Testi !'):
