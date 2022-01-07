@@ -319,9 +319,6 @@ def ekstramenu(update, context):
         bot.send_message(chat, "<b>Paylaşılan postların otomatik olarak sabitlenmesini istersen bu modu açabilirsin.</b>", reply_markup=pinmark(user))
         return
     if mesaj == "📡 İstek Onaylayıcı":
-        if user != sahip:
-            bot.send_message(chat, "<tg-spoiler>Yakında...</tg-spoiler>")
-            return
         bot.send_message(chat, "<b>Atılan katılma isteklerinin anında onaylanmasını istiyorsan bu modu açabilirsin.</b>", reply_markup=istekmark(user))
         return
     if mesaj == "🔁 Tekrarlı Post Paylaş":
