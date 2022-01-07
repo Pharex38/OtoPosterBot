@@ -310,8 +310,8 @@ def callback_query(call, context):
             onaycount = 0
             try:
                 bot.approve_chat_join_request(istekkan, isteka)
-            except:
-                pass
+            except Exception as e:
+                logger.error(e)
             else:
                 onaycount += 1
         onaymsg.edit_text(f"{onaycount} istek onaylandı!")
