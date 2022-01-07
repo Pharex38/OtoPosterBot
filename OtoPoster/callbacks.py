@@ -306,8 +306,9 @@ def callback_query(call, context):
         if len(isteklers) < 1:
             onaymsg.edit_text("Hiç onaylanmamış istek göremiyorum. =(")
             return
+        onaycount = 0
         for isteka in isteklers:
-            onaycount = 0
+            sleep(0.025)
             try:
                 bot.approve_chat_join_request(istekkan, isteka)
             except Exception as e:
