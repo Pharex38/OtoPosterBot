@@ -156,6 +156,28 @@ def pinmark(user):
         pinbutno += 1
     return InlineKeyboardMarkup(pinkeyb)
 
+def istekmark(user):
+    istek_dat = collection.find_one({"_id": user})
+    istekbutno = 0
+    istekkeyb = []
+    isteksatir = []
+    for istekkan in istek_dat['kanal']:
+        try:
+            istekname = bot.get_chat(istekkan).title
+        except:
+            pass
+        else:
+            isteklink = "tg://privatepost?channel={}&post=9999999".format(istekkan[3:])
+            isteksatir.append(InlineKeyboardButton(istekname, url=isteklink))
+            if istekkan in collection.find_one({"_id": 0})['istek']:
+                isteksatir.append(InlineKeyboardButton("Açık", callback_data="istek-{}".format(istekbutno)))
+            else:
+                isteksatir.append(InlineKeyboardButton("Kapalı", callback_data="istek-{}".format(istekbutno)))
+            istekkeyb.append(isteksatir)
+            isteksatir = []
+        istekbutno += 1
+    return InlineKeyboardMarkup(istekkeyb)
+
 def dagme():
     dagme = ReplyKeyboardMarkup(keyboard=[['📝 Kaydet']], row_width=2, one_time_keyboard=True, resize_keyboard=False, selective=True)
     return dagme
