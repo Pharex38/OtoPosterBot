@@ -44,7 +44,7 @@ def apimenumark():
     return ReplyKeyboardMarkup(keyboard=[['♻️ API değiştir', '🔗 Site değiştir'], ['🤖 Alternatif Link'], ['↩️ Ana Menü']], resize_keyboard=True, selective=True)
 
 def ekstralarmenumark():
-    return ReplyKeyboardMarkup(keyboard=[['❤️ Beğeni Butonları'], ['📌 Post Sabitleme', '🍎 iOS Ban Kontrol'], ['🔁 Tekrarlı Post Paylaş'], ['↩️ Ana Menü']], resize_keyboard=True, selective=True)
+    return ReplyKeyboardMarkup(keyboard=[['❤️ Beğeni Butonları', '🍎 iOS Ban Kontrol'], ['📌 Post Sabitleme', '📡 İstek Onaylayıcı'], ['🔁 Tekrarlı Post Paylaş'], ['↩️ Ana Menü']], resize_keyboard=True, selective=True)
 
 def imark():
     imark = ReplyKeyboardMarkup(keyboard=[['❌ İptal']], one_time_keyboard=True, resize_keyboard=True, selective=True)
