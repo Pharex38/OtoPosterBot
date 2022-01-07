@@ -310,7 +310,7 @@ def callback_query(call, context):
                 pass
             else:
                 onaycount += 1
-        onaymsg.edit(f"{onaycount} istek onaylandı!")
+        onaymsg.edit_text(f"{onaycount} istek onaylandı!")
         
     if call.callback_query.data.startswith("istek-"):
         istekno = int(call.callback_query.data.split("-")[-1])
