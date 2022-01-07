@@ -161,6 +161,12 @@ def apiscraper(apitoken):
         
     return apitoken
 
+def istekonaylayici(update, context):
+    wliste = collection.find_one({"_id": 0})['istek']
+    if update.effective_chat.id in wliste:
+        update.approve()
+        
+
 def bildir(neyi='Boş Bildirim Testi !'):
     for i in adminlist:
         try:
