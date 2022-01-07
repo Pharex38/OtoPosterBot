@@ -319,7 +319,7 @@ def ekstramenu(update, context):
         bot.send_message(chat, "<b>Paylaşılan postların otomatik olarak sabitlenmesini istersen bu modu açabilirsin.</b>", reply_markup=pinmark(user))
         return
     if mesaj == "📡 İstek Onaylayıcı":
-        bot.send_message(chat, "<b>Atılan katılma isteklerinin anında onaylanmasını istiyorsan bu modu açabilirsin.</b>", reply_markup=istekmark(user))
+        bot.send_message(chat, "<b>Yeni atılan katılma isteklerinin anında onaylanmasını istiyorsan bu modu açabilirsin.</b>", reply_markup=istekmark(user))
         return
     if mesaj == "🔁 Tekrarlı Post Paylaş":
         tekrarlipostlari = context.job_queue.get_jobs_by_name("ts"+str(user))
