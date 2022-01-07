@@ -297,6 +297,25 @@ def callback_query(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
     mesajid = call.callback_query.message.message_id
+    """ İstek """
+    if call.callback_query.data.startswith("istek-"):
+        istekno = int(call.callback_query.data.split("-")[-1])
+        try:
+            pushedistekkan = collection.find_one({"_id": user})['kanal'][istekno]
+        except:
+            call.callback_query.edit_message_text("Butonların kullanım süresi dolmuş lütfen menüden tekrar açın.")
+            return
+        if pushedistekkan in collection.find_one({"_id": 0})['istek']:
+            collection.update_one({"_id": 0}, {"$pull": {"istek": pushedistekkan}})
+            call.callback_query.answer("Kanalınız için istek modu kapatıldı.")
+        else:
+            collection.update_one({"_id": 0}, {"$push": {"istek": pushedistekkan}})
+            call.callback_query.answer("Kanalınız için istek modu açıldı.")
+        try:
+            call.callback_query.edit_message_reply_markup(istekmark(user))
+        except:
+            pass
+        return 
     """ PIN """
     if call.callback_query.data.startswith("pin-"):
         pinno = int(call.callback_query.data.split("-")[-1])
