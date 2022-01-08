@@ -284,7 +284,7 @@ def gunluk(context):
     for kullanici in kullanicilar:
         bildirimtext = "<b>Bilgilendirme:</b>\n\n"
         for kulkan in kullanici['kanal']:
-            if IstekCol.find_one({'_id': 0})['count'] < 3:
+            if IstekCol.find_one({'_id': 0})[kulkan]['count'] < 3:
                 continue
             try:
                 kulkanisim = bot.get_chat(kulkan).title
@@ -296,7 +296,8 @@ def gunluk(context):
                     continue
             except:
                 continue
-            bildirimtext += f"<i>Son 24 saatte {kulkanisim} kanalınızda {IstekCol.find_one({'_id': 0})['count']} istek onaylandı!</i>\n"
+            bildirimtext += f"<i>Son 24 saatte {kulkanisim} kanalınızda {IstekCol.find_one({'_id': 0})[kulkan]['count']} istek onaylandı!</i>\n"
+            IstekCol.update_one({"_id": 0}, {"$set": {kulkan: {"count": 0}}})
         if bildirimtext != "<b>Bilgilendirme:</b>\n\n":
             bot.send_message(kullanici['_id'], bildirimtext)
 
