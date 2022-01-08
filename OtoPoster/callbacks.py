@@ -350,6 +350,7 @@ def callback_query(call, context):
             onaymsg.edit_text("Hiç onaylanmamış istek göremiyorum. 😔")
             return
         onaycount = 0
+        logger.warning(f"İstekler Onaylanıyor - {istekcount}")
         for isteka in isteklers:
             sleep(0.025)
             try:
@@ -361,6 +362,9 @@ def callback_query(call, context):
             IstekCol.update_one({"_id": 0}, {"$pull": {f"{str(istekkan)}.istekler": isteka}})
             if onaycount >= istekcount:
                 break
+            if onaycount % 10 == 0:
+                logger.info(f"{onaycount} istek onaylandı...")
+        logger.warning(f"Onaylama işlemi bitti - {onaycount}")
         onaymsg.edit_text(f"{onaycount} istek onaylandı!")
         return
         
