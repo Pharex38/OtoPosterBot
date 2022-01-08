@@ -161,6 +161,7 @@ def istekmark(user):
     istekbutno = 0
     istekkeyb = []
     isteksatir = []
+    isteksatir2 = []
     for istekkan in istek_dat['kanal']:
         try:
             istekname = bot.get_chat(istekkan).title
@@ -168,14 +169,17 @@ def istekmark(user):
             pass
         else:
             isteklink = "tg://privatepost?channel={}&post=9999999".format(istekkan[3:])
-            istekkeyb.append([InlineKeyboardButton(istekname, url=isteklink)])
+            isteksatir.append([InlineKeyboardButton(istekname, url=isteklink)])
             if istekkan in collection.find_one({"_id": 0})['istek']:
-                isteksatir.append(InlineKeyboardButton("Açık", callback_data="istek-{}".format(istekbutno)))
+                isteksatir2.append(InlineKeyboardButton("Otomatik: Açık", callback_data="istek-{}".format(istekbutno)))
             else:
-                isteksatir.append(InlineKeyboardButton("Kapalı", callback_data="istek-{}".format(istekbutno)))
-            isteksatir.append(InlineKeyboardButton(f"Tümünü Onayla", callback_data="allistek-{}".format(istekbutno)))
-            istekkeyb.append(isteksatir)
-            isteksatir = []
+                isteksatir2.append(InlineKeyboardButton("Otomatik: Kapalı", callback_data="istek-{}".format(istekbutno)))
+            isteksatir2.append(InlineKeyboardButton(f"Tümünü Onayla", callback_data="allistek-{}".format(istekbutno)))
+            if len(isteksatir) == 2:
+                istekkeyb.append(isteksatir)
+                istekkeyb.append(isteksatir2)
+                isteksatir = []
+                isteksatir2 = []
         istekbutno += 1
     return InlineKeyboardMarkup(istekkeyb)
 
