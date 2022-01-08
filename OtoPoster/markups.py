@@ -169,7 +169,7 @@ def istekmark(user):
             pass
         else:
             isteklink = "tg://privatepost?channel={}&post=9999999".format(istekkan[3:])
-            isteksatir.append([InlineKeyboardButton(istekname, url=isteklink)])
+            isteksatir.append(InlineKeyboardButton(istekname, url=isteklink))
             if istekkan in collection.find_one({"_id": 0})['istek']:
                 isteksatir2.append(InlineKeyboardButton("Otomatik: Açık", callback_data="istek-{}".format(istekbutno)))
             else:
