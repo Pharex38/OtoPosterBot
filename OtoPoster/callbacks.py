@@ -310,15 +310,15 @@ def callback_query(call, context):
         if istekkan.invite_link == None:
             call.callback_query.edit_message_text("İstek onaylayabilmem için bota kanalınızda <b>Üye Ekleme</b> yetkisi vermelisiniz!")
             return
-        bot.send_message(chat, "Aşağıdaki butonlari kullanarak onaylanmasını istediğiniz istek miktarını girin.\n\n{} - {}".format(istekkan.title, istekcount), reply_markup=miktarliistekmark(istekkanno, istekcount))
+        bot.send_message(chat, "Aşağıdaki butonlari kullanarak onaylanmasını istediğiniz istek miktarını belirleyin.\n\n{} - {}".format(istekkan.title, istekcount), reply_markup=miktarliistekmark(istekkanno, istekcount))
         return
 
     if call.callback_query.data.startswith("miktari-"):
         
         istekkanno = int(call.callback_query.data.split("-")[1])
         istekcount = int(call.callback_query.data.split("-")[2])
-        call.callback_query.edit_message_reply_markup(miktarliistekmark(istekkanno, istekcount))
-        
+        call.callback_query.edit_message_reply_markup(call.callback_query.effective_message.text[:-2]+str(istekcount), reply_markup=miktarliistekmark(istekkanno, istekcount))
+        return
     if call.callback_query.data.startswith("allistek-"):
         call.callback_query.answer("ㅤ")
         try:
