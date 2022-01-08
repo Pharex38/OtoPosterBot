@@ -301,7 +301,7 @@ def callback_query(call, context):
     if call.callback_query.data.startswith("smiktari-"):
         call.callback_query.answer("ㅤ")
         istekkanno = int(call.callback_query.data.split("-")[1])
-        istekcount = int(call.callback_query.data.split("-")[2])
+        istekcount = 0
         try:
             istekkan = bot.get_chat(collection.find_one({"_id": user})['kanal'][istekkanno])
         except:
