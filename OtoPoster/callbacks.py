@@ -313,7 +313,7 @@ def callback_query(call, context):
             call.callback_query.edit_message_text("İstek onaylayabilmem için bota kanalınızda <b>Üye Ekleme</b> yetkisi vermelisiniz!")
             return
         if len(isteklers) < 1:
-            onaymsg.edit_text("Hiç onaylanmamış istek göremiyorum. =(")
+            onaymsg.edit_text("Hiç onaylanmamış istek göremiyorum. 😔")
             return
         onaycount = 0
         for isteka in isteklers:
