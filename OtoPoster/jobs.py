@@ -283,7 +283,7 @@ def gunluk(context):
     kullanicilar = collection.find({})
     for kullanici in kullanicilar:
         bildirimtext = "<b>Bilgilendirme:</b>\n\n"
-        for kulkan in kullanici['kanal']:
+        for kulkan in kullanici.get('kanal', []):
             if IstekCol.find_one({'_id': 0})[kulkan]['count'] < 3:
                 continue
             try:
