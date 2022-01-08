@@ -303,6 +303,15 @@ def callback_query(call, context):
         istekkanno = int(call.callback_query.data.split("-")[-1])
         istekkan = collection.find_one({"_id": user})['kanal'][istekkanno]
         isteklers = IstekCol.find_one({"_id": 0})[str(istekkan)]['istekler']
+        
+        try:
+            istekkanlink = bot.get_chat(istekkan)
+        except:
+            call.callback_query.edit_message_text("Butonların kullanım süresi dolmuş lütfen menüden tekrar açın.")
+            return
+        if istekkanlink.invite_link == None:
+            call.callback_query.edit_message_text("İstek onaylayabilmem için bota kanalınızda <b>Üye Ekleme</b> yetkisi vermelisiniz!")
+            return
         if len(isteklers) < 1:
             onaymsg.edit_text("Hiç onaylanmamış istek göremiyorum. =(")
             return
@@ -323,11 +332,11 @@ def callback_query(call, context):
         istekno = int(call.callback_query.data.split("-")[-1])
         try:
             pushedistekkan = collection.find_one({"_id": user})['kanal'][istekno]
+            istekkanlink = bot.get_chat(pushedistekkan)
         except:
             call.callback_query.edit_message_text("Butonların kullanım süresi dolmuş lütfen menüden tekrar açın.")
             return
-        if = bot.get_chat(ioskanal)
-        if ioskanlink.invite_link == None:
+        if istekkanlink.invite_link == None:
             call.callback_query.edit_message_text("İstek onaylayabilmem için bota kanalınızda <b>Üye Ekleme</b> yetkisi vermelisiniz!")
             return
         if pushedistekkan in collection.find_one({"_id": 0})['istek']:
