@@ -321,7 +321,7 @@ def callback_query(call, context):
             istekcount = int(call.callback_query.data.split("-")[2])
         except ValueError:
             return
-        plas = str(len(str(sayi)))
+        plas = str(len(str(istekcount)))
         try:
             call.callback_query.edit_message_text(call.effective_message.text[:int("-"+plas)]+str(istekcount), reply_markup=miktarliistekmark(istekkanno, istekcount))
         except:
