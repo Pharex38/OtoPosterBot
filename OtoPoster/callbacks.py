@@ -317,7 +317,7 @@ def callback_query(call, context):
         
         istekkanno = int(call.callback_query.data.split("-")[1])
         istekcount = int(call.callback_query.data.split("-")[2])
-        call.callback_query.edit_message_reply_markup(call.callback_query.effective_message.text[:-2]+str(istekcount), reply_markup=miktarliistekmark(istekkanno, istekcount))
+        call.callback_query.edit_message_reply_markup(call.effective_message.text[:-2]+str(istekcount), reply_markup=miktarliistekmark(istekkanno, istekcount))
         return
     if call.callback_query.data.startswith("allistek-"):
         call.callback_query.answer("ㅤ")
