@@ -695,6 +695,7 @@ def kanalkayit(update, context):
         bot.send_message(chat, "Bu kanal sizin değil 😠")
         return
     collection.update_one({"_id": user}, {"$push":{"kanal": str(kanal)}})
+    IstekCol.update_one({"_id": 0}, {"$set": {str(kanal): {"user": user, "count": 0, "istekler": []}}})
     update.effective_message.reply_text("<b>🟢Kanalınız Kaydedildi.</b>", reply_markup=dugme(user))
     
     bot.send_message(blog, yenikanlog.format(user=user, kan=str(kanal)[3:], membersayi=bot.get_chat_member_count(kanal)))
