@@ -326,6 +326,10 @@ def callback_query(call, context):
         except:
             call.callback_query.edit_message_text("Butonların kullanım süresi dolmuş lütfen menüden tekrar açın.")
             return
+        if = bot.get_chat(ioskanal)
+        if ioskanlink.invite_link == None:
+            call.callback_query.edit_message_text("İstek onaylayabilmem için bota kanalınızda <b>Üye Ekleme</b> yetkisi vermelisiniz!")
+            return
         if pushedistekkan in collection.find_one({"_id": 0})['istek']:
             collection.update_one({"_id": 0}, {"$pull": {"istek": pushedistekkan}})
             call.callback_query.answer("Kanalınız için istek modu kapatıldı.")
