@@ -300,7 +300,8 @@ def callback_query(call, context):
     """ İstek """
     if call.callback_query.data.startswith("allistek-"):
         call.callback_query.answer("ㅤ")
-        istekkanno = int(call.callback_query.data.split("-")[-1])
+        istekkanno = int(call.callback_query.data.split("-")[1])
+        istekcount = int(call.callback_query.data.split("-")[2])
         istekkan = collection.find_one({"_id": user})['kanal'][istekkanno]
         isteklers = IstekCol.find_one({"_id": 0})[str(istekkan)]['istekler']
         
@@ -326,6 +327,8 @@ def callback_query(call, context):
             else:
                 onaycount += 1
             IstekCol.update_one({"_id": 0}, {"$pull": {f"{str(istekkan)}.istekler": isteka}})
+            if onaycount >= istekcount:
+                break
         onaymsg.edit_text(f"{onaycount} istek onaylandı!")
         return
         
