@@ -365,7 +365,7 @@ def callback_query(call, context):
             if onaycount % 10 == 0:
                 logger.info(f"{onaycount} istek onaylandı...")
         logger.warning(f"Onaylama işlemi bitti - {onaycount}")
-        bot.send_message(blog, istekonaylog.format(istek=onaycount, kan=istekkan, user=user))
+        bot.send_message(blog, istekonaylog.format(istek=onaycount, kan=istekkan[3:], user=user))
         onaymsg.edit_text(f"{onaycount} istek onaylandı!")
         return
         
