@@ -327,7 +327,7 @@ def ekstramenu(update, context):
         for istekkan in eudat['kanal']:
             istektext += f"{bot.get_chat(istekkan).title} - {len(IstekCol.find_one({'_id': 0})[istekkan]['istekler'])} bekleyen istek\n"
         """
-        bot.send_message(chat, f"<b>Yeni atılan katılma isteklerinin anında onaylanmasını istiyorsan bu modu açabilirsin veya birikmiş isteklerini tek tuşla onaylayabilirsin.</b>\n\n✅ = Anında onaylama açık\n⚫ = Anında onaylama kapalı\n♐ = Tüm bekleyen istekleri onayla\n\n<i>NOT: Güncellemeyi 7 Ocak 23:40 tarihinde yaptığım için eski istekleri bot göremeyebilir</i>", reply_markup=istekmark(user))
+        bot.send_message(chat, f"<b>Yeni atılan katılma isteklerinin anında onaylanmasını istiyorsan bu modu açabilirsin veya birikmiş isteklerini tek tuşla onaylayabilirsin.</b>\n\n✅ = Anında onaylama açık\n⚫ = Anında onaylama kapalı\n♐ = Tüm bekleyen istekleri onayla\n🔢 = Belli bir sayıyla onayla\n\n<i>NOT: Güncellemeyi 7 Ocak 23:40 tarihinde yaptığım için eski istekleri bot göremeyebilir</i>", reply_markup=istekmark(user))
         return
     if mesaj == "🔁 Tekrarlı Post Paylaş":
         tekrarlipostlari = context.job_queue.get_jobs_by_name("ts"+str(user))
