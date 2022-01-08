@@ -310,7 +310,7 @@ def callback_query(call, context):
         if istekkan.invite_link == None:
             call.callback_query.edit_message_text("İstek onaylayabilmem için bota kanalınızda <b>Üye Ekleme</b> yetkisi vermelisiniz!")
             return
-        bot.send_message(chat, "Aşağıdaki butonlari kullanarak onaylanmasını istediğiniz istek miktarını girin.\n\n{} - {}".format(istekkan.title, istekcount), reply_markup=miktarliistekmark(collection.find_one({"_id": user})['kanal'][istekkanno], istekcount))
+        bot.send_message(chat, "Aşağıdaki butonlari kullanarak onaylanmasını istediğiniz istek miktarını girin.\n\n{} - {}".format(istekkan.title, istekcount), reply_markup=miktarliistekmark(istekkanno, istekcount))
         return
 
     if call.callback_query.data.startswith("miktari-"):
