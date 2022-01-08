@@ -171,9 +171,9 @@ def istekmark(user):
             isteklink = "tg://privatepost?channel={}&post=9999999".format(istekkan[3:])
             isteksatir.append(InlineKeyboardButton(istekname, url=isteklink))
             if istekkan in collection.find_one({"_id": 0})['istek']:
-                isteksatir2.append(InlineKeyboardButton("Oto: ⚫", callback_data="istek-{}".format(istekbutno)))
+                isteksatir2.append(InlineKeyboardButton("⚫", callback_data="istek-{}".format(istekbutno)))
             else:
-                isteksatir2.append(InlineKeyboardButton("Oto: ✅", callback_data="istek-{}".format(istekbutno)))
+                isteksatir2.append(InlineKeyboardButton("✅", callback_data="istek-{}".format(istekbutno)))
             isteksatir2.append(InlineKeyboardButton(f"♐", callback_data="allistek-{}-all".format(istekbutno)))
             isteksatir2.append(InlineKeyboardButton(f"🔢", callback_data="allistek-{}-sayili".format(istekbutno)))
             if len(isteksatir) == 2:
