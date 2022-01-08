@@ -682,15 +682,14 @@ def kanalkayit(update, context):
         return 
     try:
         kanalbilgi = bot.get_chat(kanal)
+        yetkiler = bot.get_chat_administrators(kanal)
     except:
         bot.send_message(chat, "Botu kanalınızda yönetici eklememişsiniz.")
         return 
-    try:
-        yetkiler = bot.get_chat_administrators(kanal)
-    except:
-        bot.send_message(chat, "Botu kanalınızda yönetici eklememişsiniz.")        
-        return 
-    ytliler = [y.user.id for y in yetkiler]
+    ytliler = []
+    for y in yetkiler:
+        if y.can_post_messages:
+            ytliler.append(y.user.id)
     if not user in ytliler:
         bot.send_message(chat, "Bu kanal sizin değil 😠")
         return
