@@ -299,6 +299,7 @@ def callback_query(call, context):
     mesajid = call.callback_query.message.message_id
     """ İstek """
     if call.callback_query.data.startswith("allistek-"):
+        call.callback_query.answer("ㅤ")
         istekkanno = int(call.callback_query.data.split("-")[-1])
         istekkan = collection.find_one({"_id": user})['kanal'][istekkanno]
         isteklers = IstekCol.find_one({"_id": 0})[str(istekkan)]['istekler']
