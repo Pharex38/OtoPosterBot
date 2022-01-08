@@ -298,6 +298,27 @@ def callback_query(call, context):
     chat = call.effective_chat.id
     mesajid = call.callback_query.message.message_id
     """ İstek """
+    if call.callback_query.data.startswith("smiktari-"):
+        call.callback_query.answer("ㅤ")
+        istekkanno = int(call.callback_query.data.split("-")[1])
+        istekcount = int(call.callback_query.data.split("-")[2])
+        try:
+            istekkan = bot.get_chat(collection.find_one({"_id": user})['kanal'][istekkanno])
+        except:
+            call.callback_query.edit_message_text("Butonların kullanım süresi dolmuş lütfen menüden tekrar açın.")
+            return
+        if istekkan.invite_link == None:
+            call.callback_query.edit_message_text("İstek onaylayabilmem için bota kanalınızda <b>Üye Ekleme</b> yetkisi vermelisiniz!")
+            return
+        bot.send_message(chat, "Aşağıdaki butonlari kullanarak onaylanmasını istediğiniz istek miktarını girin.\n\n{} - {}".format(istekkan.title, istekcount), reply_markup=miktarliistekmark(istekcount))
+        return
+
+    if call.callback_query.data.startswith("miktari-"):
+        
+        istekkanno = int(call.callback_query.data.split("-")[1])
+        istekcount = int(call.callback_query.data.split("-")[2])
+        call.callback_query.edit_message_reply_markup(miktarliistekmark(istekkanno, istekcount))
+        
     if call.callback_query.data.startswith("allistek-"):
         call.callback_query.answer("ㅤ")
         istekkanno = int(call.callback_query.data.split("-")[1])
