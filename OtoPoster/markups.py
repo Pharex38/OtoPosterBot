@@ -180,7 +180,11 @@ def istekmark(user):
                 istekkeyb.append(isteksatir2)
                 isteksatir = []
                 isteksatir2 = []
+            
         istekbutno += 1
+    if len(isteksatir) != 0:
+        istekkeyb.append(isteksatir)
+        istekkeyb.append(isteksatir2)
     return InlineKeyboardMarkup(istekkeyb)
 
 def dagme():
