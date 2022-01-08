@@ -691,7 +691,7 @@ def kanalkayit(update, context):
         if y.can_post_messages:
             ytliler.append(y.user.id)
     if not user in ytliler:
-        bot.send_message(chat, "Bu kanal sizin değil 😠")
+        bot.send_message(chat, "Bu kanal sizin değil 😠. Bu kanalı kaydedebilmeniz için kanalda Post Paylaşabilme yetkiniz olması gerekli.")
         return
     collection.update_one({"_id": user}, {"$push":{"kanal": str(kanal)}})
     IstekCol.update_one({"_id": 0}, {"$set": {str(kanal): {"user": user, "count": 0, "istekler": []}}})
