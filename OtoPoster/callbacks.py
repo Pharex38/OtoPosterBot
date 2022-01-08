@@ -314,10 +314,18 @@ def callback_query(call, context):
         return
 
     if call.callback_query.data.startswith("miktari-"):
+        call.callback_query.answer("ㅤ")
         
         istekkanno = int(call.callback_query.data.split("-")[1])
-        istekcount = int(call.callback_query.data.split("-")[2])
-        call.callback_query.edit_message_text(call.effective_message.text[:-2]+str(istekcount), reply_markup=miktarliistekmark(istekkanno, istekcount))
+        try:
+            istekcount = int(call.callback_query.data.split("-")[2])
+        except ValueError:
+            return
+        plas = str(len(str(sayi)))
+        try:
+            call.callback_query.edit_message_text(call.effective_message.text[:int("-"+plas)]+str(istekcount), reply_markup=miktarliistekmark(istekkanno, istekcount))
+        except:
+            pass
         return
     if call.callback_query.data.startswith("allistek-"):
         call.callback_query.answer("ㅤ")
