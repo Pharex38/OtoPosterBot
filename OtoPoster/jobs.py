@@ -50,7 +50,16 @@ def tekrarlipostjob(context):
             try:
                 bot.send_message(tsdict['tsuser'], f"{tsdict['baslik']} Tekrarli Postunuz gönderilemedi!")
             except:
-                pass
+                try:
+                    tsdict['try']
+                except:
+                    tsgetjj.context['try'] = 0
+                else:
+                    if tsdict['try'] >= 6:
+                        tsgetjj.schedule_removal()
+                    else:
+                        tsgetjj.context['try'] = tsdict['try']+1
+
         return
     try:
         if type(tsdict['tskan']) != list:
