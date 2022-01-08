@@ -321,6 +321,10 @@ def callback_query(call, context):
         
     if call.callback_query.data.startswith("allistek-"):
         call.callback_query.answer("ㅤ")
+        try:
+            call.callback_query.effective_message.delete()
+        except:
+            pass
         istekkanno = int(call.callback_query.data.split("-")[1])
         istekcount = int(call.callback_query.data.split("-")[2])
         istekkan = collection.find_one({"_id": user})['kanal'][istekkanno]
