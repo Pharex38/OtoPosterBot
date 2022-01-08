@@ -174,7 +174,8 @@ def istekmark(user):
                 isteksatir2.append(InlineKeyboardButton("Oto: ⚫", callback_data="istek-{}".format(istekbutno)))
             else:
                 isteksatir2.append(InlineKeyboardButton("Oto: ✅", callback_data="istek-{}".format(istekbutno)))
-            isteksatir2.append(InlineKeyboardButton(f"♐", callback_data="allistek-{}".format(istekbutno)))
+            isteksatir2.append(InlineKeyboardButton(f"♐", callback_data="allistek-{}-all".format(istekbutno)))
+            isteksatir2.append(InlineKeyboardButton(f"🔢", callback_data="allistek-{}-sayili".format(istekbutno)))
             if len(isteksatir) == 2:
                 istekkeyb.append(isteksatir)
                 istekkeyb.append(isteksatir2)
