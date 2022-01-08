@@ -165,7 +165,15 @@ def istekonaylayici(update, context):
     wliste = collection.find_one({"_id": 0})['istek']
     chat = str(update.effective_chat.id)
     if chat in wliste:
-        update.chat_join_request.approve()
+        try:
+            update.chat_join_request.approve()
+        except Exception as e:
+            if str(e).lower() in ["user_already_participant", "user is deactivated", "user_channels_too_much", "hide_requester_missing"]:
+                return
+            else:
+                logger.exception(e)
+                return
+            
         if IstekCol.find_one({"_id": 0}).get(chat, None) != None:
             IstekCol.update_one({"_id": 0}, {"$inc": {f"{chat}.count": 1}})
         else:
