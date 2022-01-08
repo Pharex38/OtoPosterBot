@@ -157,7 +157,7 @@ def pinmark(user):
     return InlineKeyboardMarkup(pinkeyb)
 
 def miktarliistekmark(miktarikan, sayi):
-    return InlineKeyboardMarkup([[InlineKeyboardButton("-100", callback_data="miktari-{}-{}".format(miktarikan, sayi-100)), InlineKeyboardButton("-10", callback_data="miktari-{}-{}".format(miktarikan, sayi-10)), InlineKeyboardButton("-1", callback_data="miktari-{}-{}".format(miktarikan, sayi-1)), InlineKeyboardButton(f"Onayla - {sayi}", callback_data="allistek-{}-{}".format(miktarikan, sayi)),  InlineKeyboardButton("+1", callback_data="miktari-{}-{}".format(miktarikan, sayi+1)), InlineKeyboardButton("+10", callback_data="miktari-{}-{}".format(miktarikan, sayi+10)), InlineKeyboardButton("+100", callback_data="miktari-{}-{}".format(miktarikan, sayi+100))]])
+    return InlineKeyboardMarkup([[InlineKeyboardButton("-100", callback_data="miktari-{}-{}".format(miktarikan, sayi-100)), InlineKeyboardButton("-10", callback_data="miktari-{}-{}".format(miktarikan, sayi-10)), InlineKeyboardButton(f"Onayla - {sayi}", callback_data="allistek-{}-{}".format(miktarikan, sayi)),  InlineKeyboardButton("+10", callback_data="miktari-{}-{}".format(miktarikan, sayi+10)), InlineKeyboardButton("+100", callback_data="miktari-{}-{}".format(miktarikan, sayi+100))]])
 
 def istekmark(user):
     istek_dat = collection.find_one({"_id": user})
