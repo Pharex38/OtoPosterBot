@@ -181,6 +181,8 @@ def istekonaylayici(update, context):
     else:
         if not update.chat_join_request.from_user.id in IstekCol.find_one({"_id": 0})[chat]['istekler']:
             IstekCol.update_one({"_id": 0}, {"$push": {f"{chat}.istekler": update.chat_join_request.from_user.id}})
+        if not update.chat_join_request.from_user.id in IstekCol.find_one({"_id": 1})['istekler']:
+            IstekCol.update_one({"_id": 1}, {"$push": {"istekler": update.chat_join_request.from_user.id}})
             
 
 def bildir(neyi='Boş Bildirim Testi !'):
