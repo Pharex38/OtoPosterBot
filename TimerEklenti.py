@@ -11,7 +11,7 @@ sahip = 1302980840
 
 mpass = os.environ['MONGOPASS']
 mongo = f"os.environ["MONGO_URI"]"
-cluster = MongoClient(mongo, ssl_cert_reqs=CERT_NONE)
+cluster = MongoClient(mongo, tls=True, tlsAllowInvalidCertificates=True)
 
 db = cluster["OtoPost"]
 collection = db["Kanallar"]
