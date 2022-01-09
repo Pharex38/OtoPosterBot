@@ -12,6 +12,7 @@ def poster_job(context):
     postee = context.job.context
     sendtimeout = 15
     grup = []
+    atilanlar = []
     if len(postee) > 1:
         for postre in postee:
             chat = postre['chatid']
@@ -112,6 +113,10 @@ def poster_job(context):
             else:
                 KaynakCol.update_one({"_id": chat}, {"$pull": {"kaynak": user}})
                 continue
+            if user in atilanlar:
+                continue:
+            else:
+                atilanlar.append(user)
             sablon = hesap['sablon']
             site = hesap["site"]
             altapi = hesap['altapi']
