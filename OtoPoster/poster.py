@@ -114,7 +114,7 @@ def poster_job(context):
                 KaynakCol.update_one({"_id": chat}, {"$pull": {"kaynak": user}})
                 continue
             if user in atilanlar:
-                continue:
+                continue
             else:
                 atilanlar.append(user)
             sablon = hesap['sablon']
@@ -490,6 +490,7 @@ def poster_job(context):
 def ozel_poster_job(context):
     opostee = context.job.context    
     ogrup = []
+    oatilanlar = []
     if len(opostee) == 0:
         return
     elif len(opostee) > 1:
@@ -543,7 +544,7 @@ def ozel_poster_job(context):
         osablon = ohesap['sablon']
         ouser = ohesap['_id']
         if ouser in oatilanlar:
-            continue:
+            continue
         else:
             oatilanlar.append(ouser)
         osite = ohesap["site"]
