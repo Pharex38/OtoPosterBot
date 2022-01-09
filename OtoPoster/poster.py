@@ -542,6 +542,10 @@ def ozel_poster_job(context):
             continue
         osablon = ohesap['sablon']
         ouser = ohesap['_id']
+        if ouser in oatilanlar:
+            continue:
+        else:
+            oatilanlar.append(ouser)
         osite = ohesap["site"]
         oaltapi = ohesap['altapi']
         oaltsite = ohesap['altsite']
