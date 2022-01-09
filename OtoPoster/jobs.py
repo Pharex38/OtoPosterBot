@@ -293,7 +293,7 @@ def gunluk(context):
     for kullanici in kullanicilar:
         bildirimtext = "<b>Bilgilendirme:</b>\n\n"
         for kulkan in kullanici.get('kanal', []):
-            if IstekCol.find_one({'_id': 0})[kulkan]['count'] < 3:
+            if IstekCol.find_one({'_id': 0}).get(kulkan, {"count": 0})['count'] < 3:
                 continue
             try:
                 kulkanisim = bot.get_chat(kulkan).title
