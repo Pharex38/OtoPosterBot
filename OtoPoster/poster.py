@@ -312,7 +312,7 @@ def poster_job(context):
                 try:
                     yetkililer = []
                     for xy in bot.get_chat_administrators(kan, timeout=sendtimeout):
-                        if xy.can_post_messages or xy.status == "creator:
+                        if xy.can_post_messages or xy.status == "creator":
                             yetkililer.append(xy.user.id)
                 except:
                     yetkililer = []
@@ -658,7 +658,7 @@ def ozel_poster_job(context):
                 try:
                     oyetkililer = []
                     for oxy in bot.get_chat_administrators(okan):
-                        if oxy.can_post_messages or oxy.status == "creator:
+                        if oxy.can_post_messages or oxy.status == "creator":
                             oyetkililer.append(oxy.user.id)
                 except:
                     oyetkililer = []
