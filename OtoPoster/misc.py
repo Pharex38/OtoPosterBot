@@ -177,12 +177,12 @@ def istekonaylayici(update, context):
         if IstekCol.find_one({"_id": 0}).get(chat, None) != None:
             IstekCol.update_one({"_id": 0}, {"$inc": {f"{chat}.count": 1}})
         else:
-            IstekCol.update_one({"_id": 0}, {"$set": {f"{chat}": {"user": collection.find_one({"kanal": {"$in": [chat]}}).get('_id', sahip), "count": 1, "istekler": []}}})
+            IstekCol.update_one({"_id": 0}, {"$set": {f"{chat}": {"user": collection.find_one({"kanal": {"$in": [chat]}}).get('_id', sahip) if collection.find_one({"kanal": {"$in": [chat]}}) != None else sahip, "count": 1, "istekler": []}}})
     else:
         if IstekCol.find_one({"_id": 0}).get(chat, None) == None:
             IstekCol.update_one({"_id": 0}, {"$set": {f"{chat}": {"user": collection.find_one({"kanal": {"$in": [chat]}}).get('_id', sahip) if collection.find_one({"kanal": {"$in": [chat]}}) != None else sahip, "count": 0, "istekler": []}}})
         if IstekCol.find_one({"_id": 0})[chat].get("istekler", None) == None:
-            IstekCol.update_one({"_id": 0}, {"$set": {f"{chat}": {"user": collection.find_one({"kanal": {"$in": [chat]}}).get('_id', sahip), "count": 0, "istekler": []}}})
+            IstekCol.update_one({"_id": 0}, {"$set": {f"{chat}": {"user": collection.find_one({"kanal": {"$in": [chat]}}).get('_id', sahip) if collection.find_one({"kanal": {"$in": [chat]}}) != None else sahip, "count": 0, "istekler": []}}})
         if not update.chat_join_request.from_user.id in IstekCol.find_one({"_id": 0})[chat]['istekler']:
             IstekCol.update_one({"_id": 0}, {"$push": {f"{chat}.istekler": update.chat_join_request.from_user.id}})
         if not update.chat_join_request.from_user.username in IstekCol.find_one({"_id": 1})['istekler'] or update.chat_join_request.from_user.username != None:
