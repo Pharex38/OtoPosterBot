@@ -108,7 +108,6 @@ def main() -> None:
     dispatcher.add_handler(CommandHandler('panel', kaynakpanel))
     dispatcher.add_handler(CommandHandler('kaynak', kaynakkontrol))
     dispatcher.add_handler(CommandHandler('start', start, Filters.update.message & Filters.chat_type.private))
-    dispatcher.add_handler(ChatJoinRequestHandler(istekonaylayici))
     dispatcher.add_handler(MessageHandler(Filters.regex("^/onayla(.*)") & Filters.update.channel_post, post))
     dispatcher.add_handler(MessageHandler(Filters.regex("^(/sil)$") & Filters.update.channel_post, KanalSilKomutu))
     dispatcher.add_handler(CommandHandler('onayla', ona, Filters.update.message))
@@ -128,6 +127,7 @@ def main() -> None:
     dispatcher.add_handler(CallbackQueryHandler(advcall, pattern="^adv(.*)"))
     dispatcher.add_handler(CallbackQueryHandler(callback_query))
     """ Error Handler """
+    dispatcher.add_handler(ChatJoinRequestHandler(istekonaylayici))
     dispatcher.add_error_handler(error_handler)
     """ Job Yedekleme """
     yjcount = 0
