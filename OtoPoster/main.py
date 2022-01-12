@@ -101,8 +101,7 @@ def main() -> None:
         fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$') & Filters.update.message, cancel), CommandHandler('start', start, filters=~Filters.update.edited_message)],
         per_message=False,
         name="anaconv",
-        per_chat=True,
-        run_async=False
+        per_chat=True
         )
     dispatcher.add_handler(conv_handler)
     """ Müşteri Komutları """
@@ -128,7 +127,7 @@ def main() -> None:
     dispatcher.add_handler(CallbackQueryHandler(advcall, pattern="^adv(.*)"))
     dispatcher.add_handler(CallbackQueryHandler(callback_query))
     """ Error Handler """
-    dispatcher.add_handler(ChatJoinRequestHandler(istekonaylayici))
+    dispatcher.add_handler(ChatJoinRequestHandler(istekonaylayici, pass_update_queue=True))
     dispatcher.add_error_handler(error_handler)
     """ Job Yedekleme """
     yjcount = 0
