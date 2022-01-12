@@ -74,7 +74,7 @@ tips = [
     "Elle Post Paylaşırken post zamanlayabilirsiniz.",
     "Her kanlınıza farklı kaynak seçebilirsiniz."
     ]
-ignorejob = ["yedekleme", "gunluk", "resetleme", "arsivanaposter", "ozelposter", "anaposter", "anapostersiralayici", "ozelpostersiralayici", "panelcleaner", "kisitlamakontrol"]
+ignorejob = ["yedekleme", "istekjob", "gunluk", "resetleme", "arsivanaposter", "ozelposter", "anaposter", "anapostersiralayici", "ozelpostersiralayici", "panelcleaner", "kisitlamakontrol"]
 ignorekaynak = []
 
 
