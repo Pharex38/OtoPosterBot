@@ -65,6 +65,7 @@ fixer = 1687646994
 adminlist = [sahip]
 postsirasi = []
 opostsirasi = []
+isteklistesi = []
 tips = [
     "En fazla 10 kanal ekleyebilirsiniz.",
     "Kaynak menüsünden kendinize özel kaynak oluşturabilirsiniz.",
