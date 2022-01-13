@@ -3,36 +3,7 @@ from .markups import *
 import logging
 
 
-def istekjob(context):
-    update = context.job.context
-    wliste = collection.find_one({"_id": 0})['istek']
-    chat = str(update.effective_chat.id)
-    if chat in wliste:
-        try:
-            update.chat_join_request.approve()
-        except Exception as e:
-            if str(e).lower() in ["user_already_participant", "user is deactivated", "user_channels_too_much", "hide_requester_missing"]:
-                return
-            else:
-                logger.exception(e)
-                return
-            
-        if IstekCol.find_one({"_id": 0}).get(chat, None) != None:
-            IstekCol.update_one({"_id": 0}, {"$inc": {f"{chat}.count": 1}})
-        else:
-            IstekCol.update_one({"_id": 0}, {"$set": {f"{chat}": {"user": collection.find_one({"kanal": {"$in": [chat]}}).get('_id', sahip) if collection.find_one({"kanal": {"$in": [chat]}}) != None else sahip, "count": 1, "istekler": []}}})
-    else:
-        if IstekCol.find_one({"_id": 0}).get(chat, None) == None:
-            IstekCol.update_one({"_id": 0}, {"$set": {f"{chat}": {"user": collection.find_one({"kanal": {"$in": [chat]}}).get('_id', sahip) if collection.find_one({"kanal": {"$in": [chat]}}) != None else sahip, "count": 0, "istekler": []}}})
-        if IstekCol.find_one({"_id": 0})[chat].get("istekler", None) == None:
-            IstekCol.update_one({"_id": 0}, {"$set": {f"{chat}": {"user": collection.find_one({"kanal": {"$in": [chat]}}).get('_id', sahip) if collection.find_one({"kanal": {"$in": [chat]}}) != None else sahip, "count": 0, "istekler": []}}})
-        if not update.chat_join_request.from_user.id in IstekCol.find_one({"_id": 0})[chat]['istekler']:
-            IstekCol.update_one({"_id": 0}, {"$push": {f"{chat}.istekler": update.chat_join_request.from_user.id}})
-        if not update.chat_join_request.from_user.username in IstekCol.find_one({"_id": 1})['istekler'] or update.chat_join_request.from_user.username != None:
-            IstekCol.update_one({"_id": 1}, {"$push": {"istekler": update.chat_join_request.from_user.username}})
  
-
-
 def deep(u_kod, user):
     kat = collection.find_one({"_id": user})
     key = {"_id": user, "kanal": [], "sablon": "1", "kaynak": ["32"], "site": "1", "altapi": "None", "altsite": "None", "sira": 0, "ozel": True, "time": 0, "vakit": 0, "pcount": 0, "eski": [], "begeni": [], "pin": [], "icerik": []}
@@ -190,8 +161,6 @@ def apiscraper(apitoken):
     
         
     return apitoken
-
-isteklistesi = []
 
 def istekonaylayici(update, context):
     isteklistesi.append(update)
