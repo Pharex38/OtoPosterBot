@@ -191,8 +191,10 @@ def apiscraper(apitoken):
         
     return apitoken
 
+isteklistesi = []
+
 def istekonaylayici(update, context):
-    context.job_queue.run_once(istekjob, when=2, context=update, name="istekjob")
+    isteklistesi.append(update)
     return
     wliste = collection.find_one({"_id": 0})['istek']
     chat = str(update.effective_chat.id)
