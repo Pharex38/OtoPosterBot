@@ -18,11 +18,16 @@ def main() -> None:
     dispatcher = updater.dispatcher
     upjob = updater.job_queue
     """ Repeating Jobs """
+
+    scheduler = BackgroundScheduler()
+    scheduler.configure(timezone=pytz.utc)
+    scheduler.add_job(istekjob, 'interval', seconds=60)
+    scheduler.start()
     upjob.run_daily(resetleme, time=datetime.datetime.strptime("21-06-30 23:58:00", '%y-%m-%d %H:%M:%S').time(), name="gunluk")
     upjob.run_daily(gunluk, time=datetime.datetime.strptime("21-06-30 21:55:00", '%y-%m-%d %H:%M:%S').time(), name="resetleme")
     upjob.run_repeating(jobyedekleme, interval=300, first=10, name="yedekleme")
     upjob.run_repeating(siraclean, interval=3600, first=10, name="yedekleme")
-    upjob.run_repeating(istekjob, interval=90, first=10, name="yedekleme")
+    #upjob.run_repeating(istekjob, interval=90, first=10, name="yedekleme")
     """ Misc """
     dispatcher.add_handler(MessageHandler(Filters.chat(-1001584743136), comment))
     dispatcher.add_handler(MessageHandler(Filters.chat(eklenti), eklentiiletisim))
