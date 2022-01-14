@@ -59,7 +59,6 @@ reqs = Request(con_pool_size=50, connect_timeout=30, read_timeout=30)
 bot = ExtBot(bottoken, request=reqs, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=20, disable_web_page_preview=True, allow_sending_without_reply=True, tzinfo=pytz.timezone('Turkey')))
 pyrobot = pyrogram.Client("pyrobot", bot_token=bottoken, api_id=***REMOVED-API-ID***, api_hash="***REMOVED-API-HASH***")
 pyrobot.start()
-
 eklenti = 1654723447
 blog = -1001391561285
 botlog = -1001352123979
@@ -81,6 +80,7 @@ tips = [
 ignorejob = ["yedekleme", "istekjob", "gunluk", "resetleme", "arsivanaposter", "ozelposter", "anaposter", "anapostersiralayici", "ozelpostersiralayici", "panelcleaner", "kisitlamakontrol"]
 ignorekaynak = []
 
+pyrobot.send_message(sahip, "Pyro Çalışıyor.")
 
 komutisimleri = []
 
