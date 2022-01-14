@@ -9,6 +9,7 @@ import threading, pytz, os, asyncio, logging
 from ssl import CERT_NONE
 from random import choice
 from telegram import *
+import pyrogram
 from telegram.error import *
 from telegram.ext import *
 from functools import wraps
@@ -56,6 +57,8 @@ mainsiralimit = maindata['mainsira']
 
 reqs = Request(con_pool_size=50, connect_timeout=30, read_timeout=30)
 bot = ExtBot(bottoken, request=reqs, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=20, disable_web_page_preview=True, allow_sending_without_reply=True, tzinfo=pytz.timezone('Turkey')))
+pyrobot = Client("pyrobot", bot_token=bottoken, api_id=***REMOVED-API-ID***, api_hash="***REMOVED-API-HASH***")
+pyrobot.start()
 
 eklenti = 1654723447
 blog = -1001391561285
