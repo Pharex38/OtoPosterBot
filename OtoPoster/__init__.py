@@ -20,6 +20,7 @@ from telegram.constants import *
 import json as jason
 import traceback, sys, html
 from matplotlib import pyplot
+from apscheduler.schedulers.background import BackgroundScheduler
 
 try:
     os.environ['HEROKU']
