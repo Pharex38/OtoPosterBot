@@ -21,7 +21,6 @@ import json as jason
 import traceback, sys, html
 from matplotlib import pyplot
 from apscheduler.schedulers.background import BackgroundScheduler
-from tzlocal import get_localzone
 
 try:
     os.environ['HEROKU']
