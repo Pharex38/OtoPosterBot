@@ -18,7 +18,8 @@ def main() -> None:
     dispatcher = updater.dispatcher
     upjob = updater.job_queue
     """ Repeating Jobs """
-
+    tz = get_localzone()
+    print(tz)
     scheduler = BackgroundScheduler()
     scheduler.configure(timezone=tz)
     scheduler.add_job(istekjob, 'interval', seconds=60)
