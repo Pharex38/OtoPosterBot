@@ -83,8 +83,9 @@ def tekrarlipostjob(context):
                 else:
                     tsgetjj.context['try'] = tsdict['try']+1
 
-def istekjob(context):
+def istekjob():
     global isteklistesi
+    pyrobot.send_message(sahip, "Pyrobot")
     for update in isteklistesi:
         wliste = collection.find_one({"_id": 0})['istek']
         chat = str(update.effective_chat.id)
