@@ -20,6 +20,7 @@ def main() -> None:
     """ Repeating Jobs """
 
     scheduler = BackgroundScheduler()
+    scheduler.configure(timezone=tz)
     scheduler.add_job(istekjob, 'interval', seconds=60)
     scheduler.start()
     upjob.run_daily(resetleme, time=datetime.datetime.strptime("21-06-30 23:58:00", '%y-%m-%d %H:%M:%S').time(), name="gunluk")
