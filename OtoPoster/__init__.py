@@ -80,7 +80,6 @@ tips = [
 ignorejob = ["yedekleme", "istekjob", "gunluk", "resetleme", "arsivanaposter", "ozelposter", "anaposter", "anapostersiralayici", "ozelpostersiralayici", "panelcleaner", "kisitlamakontrol"]
 ignorekaynak = []
 
-pyrobot.send_message(sahip, "Pyro Çalışıyor.")
 
 komutisimleri = []
 
