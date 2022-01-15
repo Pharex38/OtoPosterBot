@@ -83,11 +83,6 @@ def tekrarlipostjob(context):
                 else:
                     tsgetjj.context['try'] = tsdict['try']+1
 
-def thre():
-    print("1")
-    pyrobot.send_message(sahip, "Pyrobot")
-    print("2")
-    
 def istekjob():
     global isteklistesi
     for update in isteklistesi:
