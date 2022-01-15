@@ -275,7 +275,14 @@ def eklentiiletisim(update, context):
         bot.edit_message_text("<b>"+str(bot.get_chat(ileti[2]).title)+"</b> "+ileti[3], ileti[1], imsgid)
         return
     elif ileti[0] == "hash":
-        bot.send_message(eklenti, f"hash-{bot.get_chat(ileti[1]).invite_link}")
+        try:
+            haslink = bot.get_chat(ileti[1]).invite_link
+        except RetryAfter:
+            return
+        except:
+            collection.update_one({"_id":0}, {"$pull": {"istek": str(ileti[1])}})
+            
+        bot.send_message(eklenti, f"hash-{haslink}")
 
 def komutisimleristart():
     komutisimleris = []
