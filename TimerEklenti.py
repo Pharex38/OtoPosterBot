@@ -50,12 +50,12 @@ def islem(client, message):
             chato = app.resolve_peer(chato.id)
         except errors.FloodWait as fdd:
             time.sleep(fdd.x+1)
-            chato = app.join_chat(mesaj[1])
+            chatoo = app.join_chat(mesaj[1])
             chato = app.resolve_peer(chato.id)
         except Exception as e:
             print(e)
             return
-        IstekCol.update_one({"_id":0}, {"$set": {f"{chato.id}.hash": chato.access_hash}})
+        IstekCol.update_one({"_id":0}, {"$set": {f"{chatoo.id}.hash": chato.access_hash}})
         chato.leave()
 
 def thre():
