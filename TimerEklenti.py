@@ -44,7 +44,7 @@ def islem(client, message):
         return_text = f"ios+{mesaj[1]}+{chat.id}+{iosrespond}"
         message.reply(return_text)
         chat.leave()
-    else:
+    elif mesaj[0] == "hash":
         chato = pyrobot.join_chat(mesaj[1])
         IstekCol.update_one({"_id":0}, {"$set": {f"{chato.id}.hash": chato.access_hash}})
         chato.leave()
