@@ -41,7 +41,7 @@ def islem(client, message):
         else:
             for il in list(chat.restrictions):
                 iosrespond += f"Platform: {'iOS' if il['platform'] == 'ios' else il['platform']}\nSebep: {il['reason'].upper()}\nKısıtlama: <b>Var</b>"
-        return_text = f"{mesaj[1]}+{chat.id}+{iosrespond}+ios"
+        return_text = f"ios+{mesaj[1]}+{chat.id}+{iosrespond}"
         message.reply(return_text)
         chat.leave()
     else:
