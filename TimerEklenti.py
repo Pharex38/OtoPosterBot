@@ -53,7 +53,7 @@ def islem(client, message):
             chatoo = app.join_chat(mesaj[1])
             chato = app.resolve_peer(chato.id)
         except Exception as e:
-            app.
+            
             print(e)
             return
         print(chato.access_hash)
