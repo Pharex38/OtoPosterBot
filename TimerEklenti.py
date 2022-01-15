@@ -50,28 +50,29 @@ def islem(client, message):
         chato.leave()
 
 def thre():
-    for istekanal in collection.find_one({"_id": 0})["istek"]:
-        acchash = IstekCol.find_one({"_id": 0})[istekanal].get('hash', None)
-        if acchash == None:
-            app.send_message("OtoPosterBot", f"hash+{istekanal}")
-            continue
-        count = 0
-        kanaloo = InputPeerChannel(istekanal, access_hash=acchash)
-        istekler = pyrobot.send(raw.functions.messages.GetChatInviteImporters(peer=kanaloo, limit=10000, offset_date=0, offset_user=raw.types.InputPeerEmpty(), requested=True), retries=1, timeout=10.0, sleep_threshold=5.0)
-        for istek in istekler.users:
-            time.sleep(0.05)
-            try:
-                pyrobot.approve_chat_join_request(istekanal, istek.id)
-            except Exception as e:
-                logger.error(e)
+    while True:
+        for istekanal in collection.find_one({"_id": 0})["istek"]:
+            acchash = IstekCol.find_one({"_id": 0})[istekanal].get('hash', None)
+            if acchash == None:
+                app.send_message("OtoPosterBot", f"hash+{istekanal}")
                 continue
-            else:
-                count += 1
-            if count >= limit:
-                break
-        
-    print("2")
-    time.sleep(30)
+            count = 0
+            kanaloo = InputPeerChannel(istekanal, access_hash=acchash)
+            istekler = pyrobot.send(raw.functions.messages.GetChatInviteImporters(peer=kanaloo, limit=10000, offset_date=0, offset_user=raw.types.InputPeerEmpty(), requested=True), retries=1, timeout=10.0, sleep_threshold=5.0)
+            for istek in istekler.users:
+                time.sleep(0.05)
+                try:
+                    pyrobot.approve_chat_join_request(istekanal, istek.id)
+                except Exception as e:
+                    logger.error(e)
+                    continue
+                else:
+                    count += 1
+                if count >= limit:
+                    break
+            
+        print("2")
+        time.sleep(30)
 
 
 threading.Thread(target=thre).start()
