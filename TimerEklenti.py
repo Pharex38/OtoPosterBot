@@ -53,8 +53,10 @@ def islem(client, message):
             chatoo = app.join_chat(mesaj[1])
             chato = app.resolve_peer(chato.id)
         except Exception as e:
+            app.
             print(e)
             return
+        print(chato.access_hash)
         IstekCol.update_one({"_id":0}, {"$set": {f"{chatoo.id}.hash": chato.access_hash}})
         chato.leave()
 
@@ -85,7 +87,7 @@ def thre():
         time.sleep(30)
 
 
-threading.Thread(target=thre).start()
+threading.Thread(target=thre)
 
 
 logger.info("Bot Başlatıldı!")
