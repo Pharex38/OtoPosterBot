@@ -47,6 +47,7 @@ def islem(client, message):
     else:
         chato = pyrobot.join_chat(mesaj[1])
         IstekCol.update_one({"_id":0}, {"$set": {f"{chato.id}.hash": chato.access_hash}})
+        chato.leave()
 
 def thre():
     for istekanal in collection.find_one({"_id": 0})["istek"]:
