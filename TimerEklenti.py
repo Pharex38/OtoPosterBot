@@ -46,9 +46,24 @@ def islem(client, message):
 
 
 def thre():
-    print("1")
-    pyrobot.send_message(sahip, "Pyrobot")
+    for istekanal in collection.find_one({"_id": 0})["istek"]:
+        count = 0
+        kanaloo = pyrobot.resolve_peer(istekanal)
+        istekler = pyrobot.send(pyrogram.raw.functions.messages.GetChatInviteImporters(peer=kanaloo, limit=10000, offset_date=0, offset_user=pyrogram.raw.types.InputPeerEmpty(), requested=True), retries=1, timeout=10.0, sleep_threshold=5.0)
+        for istek in istekler.users:
+            time.sleep(0.05)
+            try:
+                pyrobot.approve_chat_join_request(istekanal, istek.id)
+            except Exception as e:
+                logger.error(e)
+                continue
+            else:
+                count += 1
+            if count >= limit:
+                break
+        
     print("2")
+    time.sleep(30)
 
 
 threading.Thread(target=thre).start()
