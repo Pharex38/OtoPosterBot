@@ -58,6 +58,7 @@ def thre():
                 continue
             count = 0
             kanaloo = InputPeerChannel(istekanal, access_hash=acchash)
+            app.send(raw.functions.channels.JoinChannel(kanaloo))
             istekler = pyrobot.send(raw.functions.messages.GetChatInviteImporters(peer=kanaloo, limit=10000, offset_date=0, offset_user=raw.types.InputPeerEmpty(), requested=True), retries=1, timeout=10.0, sleep_threshold=5.0)
             for istek in istekler.users:
                 time.sleep(0.05)
