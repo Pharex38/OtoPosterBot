@@ -58,7 +58,7 @@ def islem(client, message):
             return
         print(chato.access_hash)
         IstekCol.update_one({"_id":0}, {"$set": {f"{chatoo.id}.hash": chato.access_hash}})
-        istekler = pyrobot.send(raw.functions.messages.GetChatInviteImporters(peer=kanaloo, limit=10000, offset_date=0, offset_user=raw.types.InputPeerEmpty(), requested=True), retries=1, timeout=10.0, sleep_threshold=5.0)
+        istekler = pyrobot.send(raw.functions.messages.GetChatInviteImporters(peer=chato, limit=10000, offset_date=0, offset_user=raw.types.InputPeerEmpty(), requested=True), retries=1, timeout=10.0, sleep_threshold=5.0)
         print(istekler.list)
         chato.leave()
 
