@@ -20,6 +20,7 @@ maindata = collection.find_one({"_id": 0})
 api_id = maindata['aid']
 api_hash = maindata['hash']
 app_str = maindata['appstr']
+bottoken = maindata['bottoken']
 
 app = Client(app_str, api_id, api_hash)
 pyrobot = Client("pyrobot", bot_token=bottoken, api_id=***REMOVED-API-ID***, api_hash="***REMOVED-API-HASH***")
