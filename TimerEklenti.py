@@ -15,6 +15,7 @@ cluster = MongoClient(mongo, tls=True, tlsAllowInvalidCertificates=True)
 
 db = cluster["OtoPost"]
 collection = db["Kanallar"]
+IstekCol = db["İstekler"]
 
 maindata = collection.find_one({"_id": 0})
 api_id = maindata['aid']
@@ -29,27 +30,33 @@ pyrobot.start()
 @app.on_message(filters.bot)
 def islem(client, message):
     mesaj = message.text.split("*")
-    if ".me" in message.text:
+    if mesaj[0] == "ios":
         try:
-            chat = app.join_chat(mesaj[1].replace("+", "joinchat/"))
+            chat = app.join_chat(mesaj[2].replace("+", "joinchat/"))
         except:
-            chat = app.get_chat(mesaj[1].replace("+", "joinchat/"))
+            chat = app.get_chat(mesaj[2].replace("+", "joinchat/"))
         iosrespond = f"<b>Kanalınızdaki Kısıtlamalar;</b>\n\n"
         if not chat.is_restricted:
             iosrespond = f"<i>Kanalınızda herhangi bir kısıtlama bulunamadı.</i>"
         else:
             for il in list(chat.restrictions):
                 iosrespond += f"Platform: {'iOS' if il['platform'] == 'ios' else il['platform']}\nSebep: {il['reason'].upper()}\nKısıtlama: <b>Var</b>"
-        return_text = f"{mesaj[0]}+{chat.id}+{iosrespond}"
+        return_text = f"{mesaj[1]}+{chat.id}+{iosrespond}+ios"
         message.reply(return_text)
         chat.leave()
-
+    else:
+        chato = pyrobot.join_chat(mesaj[1])
+        IstekCol.update_one({"_id":0}, {"$set": {f"{chato.id}.hash": chato.access_hash}})
 
 def thre():
     for istekanal in collection.find_one({"_id": 0})["istek"]:
+        acchash = IstekCol.find_one({"_id": 0})[istekanal].get('hash', None)
+        if acchash == None:
+            app.send_message("OtoPosterBot", f"hash+{istekanal}")
+            continue
         count = 0
         try:
-            kanaloo = InputPeerChannel(istekanal, access_hash=0)
+            kanaloo = InputPeerChannel(istekanal, access_hash=acchash)
         istekler = pyrobot.send(pyrogram.raw.functions.messages.GetChatInviteImporters(peer=kanaloo, limit=10000, offset_date=0, offset_user=pyrogram.raw.types.InputPeerEmpty(), requested=True), retries=1, timeout=10.0, sleep_threshold=5.0)
         for istek in istekler.users:
             time.sleep(0.05)
