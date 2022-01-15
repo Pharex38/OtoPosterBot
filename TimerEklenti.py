@@ -47,11 +47,11 @@ def islem(client, message):
     elif mesaj[0] == "hash":
         try:
             chatoo = app.join_chat(mesaj[1])
-            chato = app.resolve_peer(chato.id)
+            chato = app.resolve_peer(chatoo.id)
         except errors.FloodWait as fdd:
             time.sleep(fdd.x+1)
             chatoo = app.join_chat(mesaj[1])
-            chato = app.resolve_peer(chato.id)
+            chato = app.resolve_peer(chatoo.id)
         except Exception as e:
             
             print(e)
