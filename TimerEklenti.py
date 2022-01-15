@@ -22,7 +22,7 @@ api_hash = maindata['hash']
 app_str = maindata['appstr']
 
 app = Client(app_str, api_id, api_hash)
-pyrobot = pyrogram.Client("pyrobot", bot_token=bottoken, api_id=***REMOVED-API-ID***, api_hash="***REMOVED-API-HASH***")
+pyrobot = Client("pyrobot", bot_token=bottoken, api_id=***REMOVED-API-ID***, api_hash="***REMOVED-API-HASH***")
 pyrobot.start()
 
 @app.on_message(filters.bot)
