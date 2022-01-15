@@ -85,7 +85,7 @@ def thre():
         time.sleep(30)
 
 
-threading.Thread(target=thre).start()
+threading.Thread(target=thre)
 
 
 logger.info("Bot Başlatıldı!")
