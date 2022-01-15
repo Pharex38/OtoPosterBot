@@ -22,6 +22,8 @@ api_hash = maindata['hash']
 app_str = maindata['appstr']
 
 app = Client(app_str, api_id, api_hash)
+pyrobot = pyrogram.Client("pyrobot", bot_token=bottoken, api_id=***REMOVED-API-ID***, api_hash="***REMOVED-API-HASH***")
+pyrobot.start()
 
 @app.on_message(filters.bot)
 def islem(client, message):
@@ -40,6 +42,15 @@ def islem(client, message):
         return_text = f"{mesaj[0]}+{chat.id}+{iosrespond}"
         message.reply(return_text)
         chat.leave()
+
+
+def thre():
+    print("1")
+    pyrobot.send_message(sahip, "Pyrobot")
+    print("2")
+
+
+threading.Thread(target=thre).start()
 
 
 logger.info("Bot Başlatıldı!")
