@@ -320,6 +320,8 @@ def ekstramenu(update, context):
         return
     if mesaj == "📡 İstek Onaylayıcı":
         if len(eudat['kanal']) == 0:
+        bot.send_message(chat, "Bu mod bakımda. 🦶😔")
+        return
             bot.send_message(chat, "Bu mod bakımda ve yarına kadar kullanılamayacktır. 🦶😔")
             return
         istektext = ""
