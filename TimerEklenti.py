@@ -45,7 +45,12 @@ def islem(client, message):
         message.reply(return_text)
         chat.leave()
     elif mesaj[0] == "hash":
-        chato = app.join_chat(mesaj[1])
+        try:
+            chato = app.join_chat(mesaj[1])
+        except errors.FloodWait as fdd:
+            time.sleep(fdd.x+1)
+        except:
+            pass
         chato = app.resolve_peer(chato.id)
         IstekCol.update_one({"_id":0}, {"$set": {f"{chato.id}.hash": chato.access_hash}})
         chato.leave()
