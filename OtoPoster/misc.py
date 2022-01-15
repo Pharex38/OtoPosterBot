@@ -269,11 +269,13 @@ def setup_logger():
 
 def eklentiiletisim(update, context):
     ileti = update.message.text_html_urled
-    if ileti.split("+")[0].isdigit():
-        ileti = ileti.split("+")
-        imsgid = context.dispatcher.user_data[int(ileti[0])]['iosmsgid']
-        bot.edit_message_text("<b>"+str(bot.get_chat(ileti[1]).title)+"</b> "+ileti[2], ileti[0], imsgid)
+    ileti = ileti.split("+")
+    if ileti[0] == "ios":
+        imsgid = context.dispatcher.user_data[int(ileti[1])]['iosmsgid']
+        bot.edit_message_text("<b>"+str(bot.get_chat(ileti[2]).title)+"</b> "+ileti[3], ileti[1], imsgid)
         return
+    elif ileti[0] == "hash":
+        bot.send_message(eklenti, f"hash-{bot.get_chat(ileti[1]).invite_link}")
 
 def komutisimleristart():
     komutisimleris = []
