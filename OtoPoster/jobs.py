@@ -85,7 +85,9 @@ def tekrarlipostjob(context):
 
 def istekjob():
     global isteklistesi
+    print("1")
     pyrobot.send_message(sahip, "Pyrobot")
+    print("2")
     for update in isteklistesi:
         wliste = collection.find_one({"_id": 0})['istek']
         chat = str(update.effective_chat.id)
