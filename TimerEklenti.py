@@ -49,7 +49,7 @@ def thre():
     for istekanal in collection.find_one({"_id": 0})["istek"]:
         count = 0
         try:
-            kanaloo = InputPeerChannel(istekanal, acces_hash=0)
+            kanaloo = InputPeerChannel(istekanal, access_hash=0)
         istekler = pyrobot.send(pyrogram.raw.functions.messages.GetChatInviteImporters(peer=kanaloo, limit=10000, offset_date=0, offset_user=pyrogram.raw.types.InputPeerEmpty(), requested=True), retries=1, timeout=10.0, sleep_threshold=5.0)
         for istek in istekler.users:
             time.sleep(0.05)
