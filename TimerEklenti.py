@@ -46,6 +46,7 @@ def islem(client, message):
         chat.leave()
     elif mesaj[0] == "hash":
         chato = app.join_chat(mesaj[1])
+        chato = app.resolve_peer(chato.id)
         IstekCol.update_one({"_id":0}, {"$set": {f"{chato.id}.hash": chato.access_hash}})
         chato.leave()
 
