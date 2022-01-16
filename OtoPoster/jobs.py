@@ -83,7 +83,7 @@ def tekrarlipostjob(context):
                 else:
                     tsgetjj.context['try'] = tsdict['try']+1
 
-def istekjob():
+def istekjob(context):
     global isteklistesi, isteklistesi2
     
     istekvakit = datetime.datetime.now().minute
