@@ -338,9 +338,12 @@ def callback_query(call, context):
             xrp = choice(IstekCol.find_one({"_id": 0})[istekkan]["istekler"])
             if type(xrp) == int:
                 continue
-            rpmup.append([InlineKeyboardButton(xrp['link'], callback_data=f"allistek-{istekkanno}-{xrp['link']}")])
+            rpbut = [InlineKeyboardButton(xrp['link'], callback_data=f"allistek-{istekkanno}-{xrp['link']}")]
+            if not rpbut in rpmup:
+                rpmup.append(rpbut)
         rpmup.append([InlineKeyboardButton("Hepsini Onayla", callback_data=f"allistek-{istekkanno}-99999-all")])
         call.callback_query.edit_message_text("<i>İsteklerin onaylanmasını istediğiniz linki seçin.</i>", reply_markup=InlineKeyboardMarkup(rpmup))
+        return
     if call.callback_query.data.startswith("allistek-"):
         call.callback_query.answer("ㅤ")
         try:
