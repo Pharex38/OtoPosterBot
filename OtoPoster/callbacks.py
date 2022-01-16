@@ -330,7 +330,7 @@ def callback_query(call, context):
         rpmup = []
         istekkanno = int(call.callback_query.data.split("-")[1])
         istekkan = collection.find_one({"_id": user})['kanal'][istekkanno]
-        for xrp in choice(IstekCol.find_one({"_id": 0})[istekkan]["istekler"])
+        for xrp in choice(IstekCol.find_one({"_id": 0})[istekkan]["istekler"]):
             rpmup.append([InlineKeyboardButton(xrp['link'], callback_data=f"allistek-{istekkanno}-{xrp['link']}")])
         rpmup.append([InlineKeyboardButton("Hepsini Onayla", callback_data=f"allistek-{istekkanno}-99999-all")])
         call.callback_query.edit_message_text("<i>İsteklerin onaylanmasını istediğiniz linki seçin.</i>", reply_markup=InlineKeyboardMarkup(rpmup))
