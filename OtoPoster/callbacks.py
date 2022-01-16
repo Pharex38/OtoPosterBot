@@ -330,8 +330,11 @@ def callback_query(call, context):
         rpmup = []
         istekkanno = int(call.callback_query.data.split("-")[1])
         istekkan = collection.find_one({"_id": user})['kanal'][istekkanno]
+        if len(IstekCol.find_one({"_id": 0})[istekkan]["istekler"]) == 0:
+            onaymsg.edit_text("Hiç onaylanmamış istek göremiyorum. 😔")
+            return
         for xrp in range(20):
-            xrp = IstekCol.find_one({"_id": 0})[istekkan]["istekler"][randint(0, len(IstekCol.find_one({"_id": 0})[istekkan]["istekler"]))]
+            xrp = choice(IstekCol.find_one({"_id": 0})[istekkan]["istekler"])
             rpmup.append([InlineKeyboardButton(xrp['link'], callback_data=f"allistek-{istekkanno}-{xrp['link']}")])
         rpmup.append([InlineKeyboardButton("Hepsini Onayla", callback_data=f"allistek-{istekkanno}-99999-all")])
         call.callback_query.edit_message_text("<i>İsteklerin onaylanmasını istediğiniz linki seçin.</i>", reply_markup=InlineKeyboardMarkup(rpmup))
