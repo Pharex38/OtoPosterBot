@@ -374,6 +374,7 @@ def callback_query(call, context):
             sleep(0.025)
             if type(isteka) != dict:
                 IstekCol.update_one({"_id": 0}, {"$pull": {f"{str(istekkan)}.istekler": isteka}})
+                continue
             try:
                 if isteka['link'] == pushlink or pushlink == "all":
                     bot.approve_chat_join_request(istekkan, isteka['user'])
