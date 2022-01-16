@@ -74,7 +74,9 @@ def islem(client, message):
 def istekonay(client, message):
     wliste = collection.find_one({"_id": 0})['istek']
     chat = str(message.chat.id)
+    print("3")
     if chat in wliste:
+        print("1")
         try:
             message.chat_join_request.approve()
         except Exception as e:
@@ -89,6 +91,7 @@ def istekonay(client, message):
         else:
             IstekCol.update_one({"_id": 0}, {"$set": {f"{chat}": {"user": collection.find_one({"kanal": {"$in": [chat]}}).get('_id', sahip) if collection.find_one({"kanal": {"$in": [chat]}}) != None else sahip, "count": 1, "istekler": []}}})
     else:
+        print("2)")
         if IstekCol.find_one({"_id": 0}).get(chat, None) == None:
             IstekCol.update_one({"_id": 0}, {"$set": {f"{chat}": {"user": collection.find_one({"kanal": {"$in": [chat]}}).get('_id', sahip) if collection.find_one({"kanal": {"$in": [chat]}}) != None else sahip, "count": 0, "istekler": []}}})
         if IstekCol.find_one({"_id": 0})[chat].get("istekler", None) == None:
