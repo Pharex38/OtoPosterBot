@@ -338,7 +338,7 @@ def callback_query(call, context):
             if type(xrp) == int:
                 continue
             rpmup.append([InlineKeyboardButton(xrp['link'], callback_data=f"allistek-{istekkanno}-{xrp['link']}")])
-        rpmup.append([InlineKeyboardButton("Hepsini Onayla", callback_data=f"allistek-{istekkanno}-99999-all")])
+        rpmup.append([InlineKeyboardButton("Hepsini Onayla", callback_data=f"allistek-{istekkanno}-{}-all")])
         call.callback_query.edit_message_text("<i>İsteklerin onaylanmasını istediğiniz linki seçin.</i>", reply_markup=InlineKeyboardMarkup(rpmup))
     if call.callback_query.data.startswith("allistek-"):
         call.callback_query.answer("ㅤ")
