@@ -118,7 +118,7 @@ def thre():
                 continue
             except Exception as e:
                 logger.exception(e)
-                return
+                continue
                 app.send_message("OtoPosterBot", f"link+{istekanal}")
                 continue
             for istek in istekler.users:
