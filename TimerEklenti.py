@@ -75,6 +75,7 @@ def islem(client, message):
 def istekonay(client, message):
     wliste = collection.find_one({"_id": 0})['istek']
     chat = str(message.chat.id)
+    print(chat)
     print("3")
     if chat in wliste:
         print("1")
@@ -138,7 +139,7 @@ def thre():
 
 
 threading.Thread(target=thre).start()
-app.add_handler(handlers.ChatJoinRequestHandler(istekonay))
+app.add_handler(handlers.ChatJoinRequestHandler(istekonay, filters.all))
 
 logger.info("Bot Başlatıldı!")
 app.run()
