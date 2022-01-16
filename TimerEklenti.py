@@ -24,8 +24,6 @@ app_str = maindata['appstr']
 bottoken = maindata['bottoken']
 
 app = Client(app_str, api_id, api_hash)
-#pyrobot = Client("pyrobot", bot_token=bottoken, api_id=***REMOVED-API-ID***, api_hash="***REMOVED-API-HASH***")
-#pyrobot.start()
 
 @app.on_message(filters.bot)
 def islem(client, message):
