@@ -327,11 +327,12 @@ def callback_query(call, context):
             pass
         return
     if call.callback_query.data.startswith("isteklink-"):
+        call.callback_query.edit_message_text("<code>Yükleniyor...</code>")
         rpmup = []
         istekkanno = int(call.callback_query.data.split("-")[1])
         istekkan = collection.find_one({"_id": user})['kanal'][istekkanno]
         if len(IstekCol.find_one({"_id": 0})[istekkan]["istekler"]) == 0:
-            onaymsg.edit_text("Hiç onaylanmamış istek göremiyorum. 😔")
+            call.callback_query.edit_message_text.edit_text("Hiç onaylanmamış istek göremiyorum. 😔")
             return
         for xrp in range(20):
             xrp = choice(IstekCol.find_one({"_id": 0})[istekkan]["istekler"])
