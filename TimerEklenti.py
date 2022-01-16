@@ -53,9 +53,9 @@ def islem(client, message):
             chatoo = app.join_chat(mesaj[1])
             chato = app.resolve_peer(chatoo.id)
         except Exception as e:
-            
             print(e)
             return
+        IstekCol.update_one({"_id": 0}, {"$set": {f"{chatoo.id}.hash": chato.access_hash}})
         chatoo.leave()
     elif mesaj[0] == "istek":
         try:
