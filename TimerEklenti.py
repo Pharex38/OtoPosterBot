@@ -116,7 +116,8 @@ def thre():
                 istekler = pyrobot.send(raw.functions.messages.GetChatInviteImporters(peer=kanaloo, limit=10000, offset_date=0, offset_user=raw.types.InputPeerEmpty(), requested=True), retries=1, timeout=10.0, sleep_threshold=5.0)
             except errors.FloodWait:
                 continue
-            except:
+            except Exception as e:
+                logger.error(e)
                 app.send_message("OtoPosterBot", f"link+{istekanal}")
                 continue
             for istek in istekler.users:
