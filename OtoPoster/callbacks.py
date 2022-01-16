@@ -380,10 +380,6 @@ def callback_query(call, context):
         if istekkanlink.invite_link == None:
             call.callback_query.edit_message_text("İstek onaylayabilmem için bota kanalınızda <b>Üye Ekleme</b> yetkisi vermelisiniz!")
             return
-        if IstekCol.find_one({"_id":0})[pushedistekkan].get('hash', None) == None:
-            bot.send_message(eklenti, f"hash*{istekkanlink.invite_link}")
-        if not eklenti in [adsmin.user.id for adsmin in bot.get_chat_administrators(pushedistekkan)]:
-            bot.send_message(eklenti, f"istek*{istekkanlink.invite_link}*{pushedistekkan}")
         if pushedistekkan in collection.find_one({"_id": 0})['istek']:
             collection.update_one({"_id": 0}, {"$pull": {"istek": pushedistekkan}})
             call.callback_query.answer("Kanalınız için istek modu kapatıldı.")
