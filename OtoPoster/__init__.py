@@ -7,7 +7,7 @@ from pymongo import MongoClient
 import time, datetime, calendar
 import threading, pytz, os, asyncio, logging
 from ssl import CERT_NONE
-from random import choice
+from random import choice, randint
 from telegram import *
 import pyrogram
 from telegram.error import *
