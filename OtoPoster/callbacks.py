@@ -338,7 +338,7 @@ def callback_query(call, context):
             if type(xrp) == int:
                 continue
             rpmup.append([InlineKeyboardButton(xrp['link'], callback_data=f"allistek-{istekkanno}-{xrp['link']}")])
-        rpmup.append([InlineKeyboardButton("Hepsini Onayla", callback_data=f"allistek-{istekkanno}-all-99999")])
+        rpmup.append([InlineKeyboardButton("Hepsini Onayla", callback_data=f"allistek-{istekkanno}-99999-all")])
         call.callback_query.edit_message_text("<i>İsteklerin onaylanmasını istediğiniz linki seçin.</i>", reply_markup=InlineKeyboardMarkup(rpmup))
     if call.callback_query.data.startswith("allistek-"):
         call.callback_query.answer("ㅤ")
@@ -348,7 +348,7 @@ def callback_query(call, context):
             pass
         istekkanno = int(call.callback_query.data.split("-")[1])
         istekcount = int(call.callback_query.data.split("-")[2])
-        pushlink = int(call.callback_query.data.split("-")[3])
+        pushlink = call.callback_query.data.split("-")[3]
         istekkan = collection.find_one({"_id": user})['kanal'][istekkanno]
         isteklers = IstekCol.find_one({"_id": 0})[str(istekkan)]['istekler']
         
