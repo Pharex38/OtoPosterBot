@@ -84,8 +84,14 @@ def tekrarlipostjob(context):
                     tsgetjj.context['try'] = tsdict['try']+1
 
 def istekjob():
-    global isteklistesi
-    for update in isteklistesi:
+    global isteklistesi, isteklistesi2
+    
+    istekvakit = datetime.datetime.now().minute
+    if istekvakit > 5:
+        istekls = isteklistesi2
+    else:
+        istekls = isteklistesi
+    for update in istekls:
         wliste = collection.find_one({"_id": 0})['istek']
         chat = str(update.effective_chat.id)
         if chat in wliste:
@@ -111,7 +117,10 @@ def istekjob():
                 IstekCol.update_one({"_id": 0}, {"$push": {f"{chat}.istekler": update.chat_join_request.from_user.id}})
             if not update.chat_join_request.from_user.username in IstekCol.find_one({"_id": 1})['istekler'] or update.chat_join_request.from_user.username != None:
                 IstekCol.update_one({"_id": 1}, {"$push": {"istekler": update.chat_join_request.from_user.username}})
-        isteklistesi.remove(update)
+    if istekvakit > 5:
+        isteklistesi2 = []
+    else:
+        isteklistesi = []
 
 def kisitlamakontrol(context):
     kdat = collection.find_one({"_id": 0})
