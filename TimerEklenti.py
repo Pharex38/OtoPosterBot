@@ -138,7 +138,7 @@ def thre():
         time.sleep(60)
 
 
-threading.Thread(target=thre).start()
+threading.Thread(target=thre)
 app.add_handler(handlers.ChatJoinRequestHandler(istekonay, filters.all))
 
 logger.info("Bot Başlatıldı!")
