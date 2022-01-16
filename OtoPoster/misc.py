@@ -297,7 +297,7 @@ def eklentiiletisim(update, context):
         except:
             collection.update_one({"_id":0}, {"$pull": {"istek": str(ileti[1])}})
             
-        bot.send_message(eklenti, f"istek*{haslink}")
+        bot.send_message(eklenti, f"istek*{haslink}*{ileti[1]}")
             
         
 
