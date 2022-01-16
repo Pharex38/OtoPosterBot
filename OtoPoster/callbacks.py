@@ -334,6 +334,7 @@ def callback_query(call, context):
             pass
         istekkanno = int(call.callback_query.data.split("-")[1])
         istekcount = int(call.callback_query.data.split("-")[2])
+        pushlink = int(call.callback_query.data.split("-")[3])
         istekkan = collection.find_one({"_id": user})['kanal'][istekkanno]
         isteklers = IstekCol.find_one({"_id": 0})[str(istekkan)]['istekler']
         
@@ -353,8 +354,13 @@ def callback_query(call, context):
         logger.warning(f"İstekler Onaylanıyor - {istekcount}")
         for isteka in isteklers:
             sleep(0.025)
+            if type(isteka) != dict:
+                IstekCol.update_one({"_id": 0}, {"$pull": {f"{str(istekkan)}.istekler": isteka}})
             try:
-                bot.approve_chat_join_request(istekkan, isteka)
+                if isteka['link'] == pushlink or pushlink == "all":
+                    bot.approve_chat_join_request(istekkan, isteka['user'])
+                else:
+                    continue
             except Exception as e:
                 logger.error(e)
             else:
