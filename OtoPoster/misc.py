@@ -163,6 +163,7 @@ def apiscraper(apitoken):
     return apitoken
 
 def istekonaylayici(update, context):
+    global isteklistesi, isteklistesi2
     wliste = collection.find_one({"_id": 0})['istek']
     chat = str(update.effective_chat.id)
     if chat in wliste:
