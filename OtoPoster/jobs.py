@@ -101,7 +101,7 @@ def istekjob(context):
     
     isteklistesi2 = []
 
-def istekjob(context):
+def istekjob2(context):
     global isteklistesi, isteklistesi2
     istekls = isteklistesi
     for update in istekls:
