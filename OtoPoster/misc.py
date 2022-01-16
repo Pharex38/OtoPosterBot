@@ -179,7 +179,12 @@ def istekonaylayici(update, context):
             IstekCol.update_one({"_id": 0}, {"$inc": {f"{chat}.count": 1}})
         else:
             IstekCol.update_one({"_id": 0}, {"$set": {f"{chat}": {"user": collection.find_one({"kanal": {"$in": [chat]}}).get('_id', sahip) if collection.find_one({"kanal": {"$in": [chat]}}) != None else sahip, "count": 1, "istekler": []}}})
-            
+    else:
+        istekvakit = datetime.datetime.now()
+        if istekvakit.minute > 5:
+            isteklistesi.append(update)
+        else:
+            isteklistesi2.append(update)
 
 def bildir(neyi='Boş Bildirim Testi !'):
     for i in adminlist:
