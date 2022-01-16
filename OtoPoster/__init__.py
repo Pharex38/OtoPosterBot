@@ -67,6 +67,7 @@ adminlist = [sahip]
 postsirasi = []
 opostsirasi = []
 isteklistesi = []
+isteklistesi2 = []
 tips = [
     "En fazla 10 kanal ekleyebilirsiniz.",
     "Kaynak menüsünden kendinize özel kaynak oluşturabilirsiniz.",
@@ -76,7 +77,7 @@ tips = [
     "Elle Post Paylaşırken post zamanlayabilirsiniz.",
     "Her kanlınıza farklı kaynak seçebilirsiniz."
     ]
-ignorejob = ["yedekleme", "istekjob", "gunluk", "resetleme", "arsivanaposter", "ozelposter", "anaposter", "anapostersiralayici", "ozelpostersiralayici", "panelcleaner", "kisitlamakontrol"]
+ignorejob = ["yedekleme", "istekjob", "gunluk", "resetleme", "arsivanaposter", "ozelposter", "anaposter", "anapostersiralayici", "ozelpostersiralayici", "panelcleaner", "kisitlamakontrol", "istekonaylayici"]
 ignorekaynak = []
 
 
