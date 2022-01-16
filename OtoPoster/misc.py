@@ -289,6 +289,15 @@ def eklentiiletisim(update, context):
         except RetryAfter as rf:
             sleep(rf.retry_after)
             bot.promote_chat_member(ileti[1], eklenti, can_invite_users=True)
+    elif ileti[0] == "link":
+        try:
+            haslink = bot.get_chat(ileti[1]).invite_link
+        except RetryAfter:
+            return
+        except:
+            collection.update_one({"_id":0}, {"$pull": {"istek": str(ileti[1])}})
+            
+        bot.send_message(eklenti, f"link*{haslink}")
             
         
 
