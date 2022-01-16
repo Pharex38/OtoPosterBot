@@ -285,10 +285,10 @@ def eklentiiletisim(update, context):
         bot.send_message(eklenti, f"hash*{haslink}")
     elif ileti[0] == "yetki":
         try:
-            bot.get_chat(ileti[1], eklenti, can_invite_users=True)
+            bot.promote_chat_member(ileti[1], eklenti, can_invite_users=True)
         except RetryAfter as rf:
             sleep(rf.retry_after)
-            bot.get_chat(ileti[1], eklenti, can_invite_users=True)
+            bot.promote_chat_member(ileti[1], eklenti, can_invite_users=True)
             
         
 
