@@ -57,6 +57,19 @@ def islem(client, message):
             print(e)
             return
         chato.leave()
+    elif mesaj[0] == "istek":
+        try:
+            app.join_chat(mesaj[1].replace("+", "joinchat/"))
+        except errors.FloodWait as fd:
+            time.sleep(fd.x)
+            try:
+                app.join_chat(mesaj[1].replace("+", "joinchat/"))
+            except:
+                pass
+        except:
+            pass
+        app.send_message("OtoPosterBot", f"yetki+{mesaj[2]}")
+            
 
 def thre():
     while True:
