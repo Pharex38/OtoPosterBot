@@ -117,7 +117,7 @@ def thre():
             except errors.FloodWait:
                 continue
             except Exception as e:
-                logger.error(e)
+                logger.exception(e)
                 app.send_message("OtoPosterBot", f"link+{istekanal}")
                 continue
             for istek in istekler.users:
