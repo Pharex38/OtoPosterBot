@@ -56,7 +56,7 @@ def islem(client, message):
             
             print(e)
             return
-        chato.leave()
+        chatoo.leave()
     elif mesaj[0] == "istek":
         try:
             app.join_chat(mesaj[1].replace("+", "joinchat/"))
