@@ -113,7 +113,7 @@ def thre():
             
             kanaloo = raw.types.InputPeerChannel(channel_id=int(istekanal), access_hash=acchash)
             try:
-                istekler = pyrobot.send(raw.functions.messages.GetChatInviteImporters(peer=kanaloo, limit=100, offset_date=0, offset_user=raw.types.InputPeerEmpty(), requested=True), retries=1, timeout=10.0, sleep_threshold=5.0)
+                istekler = app.send(raw.functions.messages.GetChatInviteImporters(peer=kanaloo, limit=100, offset_date=0, offset_user=raw.types.InputPeerEmpty(), requested=True), retries=1, timeout=10.0, sleep_threshold=5.0)
             except errors.FloodWait:
                 continue
             except Exception as e:
