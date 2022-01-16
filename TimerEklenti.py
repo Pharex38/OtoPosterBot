@@ -24,8 +24,8 @@ app_str = maindata['appstr']
 bottoken = maindata['bottoken']
 
 app = Client(app_str, api_id, api_hash)
-pyrobot = Client("pyrobot", bot_token=bottoken, api_id=***REMOVED-API-ID***, api_hash="***REMOVED-API-HASH***")
-pyrobot.start()
+#pyrobot = Client("pyrobot", bot_token=bottoken, api_id=***REMOVED-API-ID***, api_hash="***REMOVED-API-HASH***")
+#pyrobot.start()
 
 @app.on_message(filters.bot)
 def islem(client, message):
@@ -124,7 +124,7 @@ def thre():
             for istek in istekler.users:
                 time.sleep(0.05)
                 try:
-                    pyrobot.approve_chat_join_request(istekanal, istek.id)
+                    app.approve_chat_join_request(istekanal, istek.id)
                 except Exception as e:
                     logger.error(e)
                     continue
