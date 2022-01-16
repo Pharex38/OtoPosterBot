@@ -114,8 +114,8 @@ def thre():
             kanaloo = InputPeerChannel(istekanal, access_hash=acchash)
             try:
                 istekler = pyrobot.send(raw.functions.messages.GetChatInviteImporters(peer=kanaloo, limit=10000, offset_date=0, offset_user=raw.types.InputPeerEmpty(), requested=True), retries=1, timeout=10.0, sleep_threshold=5.0)
-           except FloodWait:
-               pass
+            except FloodWait:
+                pass
             except:
                 app.send_message("OtoPosterBot", f"link+{istekanal}")
                 continue
