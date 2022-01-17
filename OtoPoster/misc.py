@@ -181,11 +181,13 @@ def istekonaylayici(update, context):
         else:
             IstekCol.update_one({"_id": 0}, {"$set": {f"{chat}": {"user": collection.find_one({"kanal": {"$in": [chat]}}).get('_id', sahip) if collection.find_one({"kanal": {"$in": [chat]}}) != None else sahip, "count": 1, "istekler": []}}})
     else:
-        istekvakit = datetime.datetime.now()
-        if istekvakit.minute % 2 == 0:
-            isteklistesi.append(update)
-        else:
-            isteklistesi2.append(update)
+        obje = {"user": update.effective_user.id, "link": update.chat_join_request.invite_link.invite_link}
+        try:
+            if not update.chat_join_request.from_user.id in IstekCol.find_one({"_id": 0})[chat]['istekler']:
+                IstekCol.update_one({"_id": 0}, {"$push": {f"{chat}.istekler": update.chat_join_request.from_user.id}})
+        except:
+            IstekCol.update_one({"_id": 0}, {"$set": {f"{chat}": {"user": collection.find_one({"kanal": {"$in": [chat]}}).get('_id', sahip) if collection.find_one({"kanal": {"$in": [chat]}}) != None else sahip, "count": 0, "istekler": [obje]}}})
+    
 
 def bildir(neyi='Boş Bildirim Testi !'):
     for i in adminlist:
