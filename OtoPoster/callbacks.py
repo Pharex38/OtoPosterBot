@@ -335,8 +335,9 @@ def callback_query(call, context):
         if len(IstekCol.find_one({"_id": 0})[istekkan].get("istekler", 0)) == 0:
             call.callback_query.edit_message_text("Hiç onaylanmamış istek göremiyorum. 😔")
             return
-        for xrp in range(20):
-            xrp = choice(IstekCol.find_one({"_id": 0})[istekkan]["istekler"])
+        xrlist = IstekCol.find_one({"_id": 0})[istekkan]["istekler"]
+        shuffle(xrlist)
+        for xrp in xrlist[:20]:
             xrp = IstekCol.update_one({"_id": 0}, {"$pull": {f"{istekkan}.istekler": xrp}})
             if type(xrp) != dict:
                 continue
