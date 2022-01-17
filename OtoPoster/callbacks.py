@@ -337,6 +337,7 @@ def callback_query(call, context):
             return
         for xrp in range(20):
             xrp = choice(IstekCol.find_one({"_id": 0})[istekkan]["istekler"])
+            xrp = IstekCol.update_one({"_id": 0}, {"$pull": {f"{istekkan}.istekler": xrp}})
             if type(xrp) != dict:
                 continue
             rpbut = [InlineKeyboardButton(xrp['link'], callback_data=f"allistek-{istekkanno}-{istekcount}-{xrp['link']}")]
