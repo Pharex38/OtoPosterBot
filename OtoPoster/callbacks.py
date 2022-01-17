@@ -338,8 +338,8 @@ def callback_query(call, context):
         xrlist = IstekCol.find_one({"_id": 0})[istekkan]["istekler"]
         shuffle(xrlist)
         for xrp in xrlist[:20]:
-            xrp = IstekCol.update_one({"_id": 0}, {"$pull": {f"{istekkan}.istekler": xrp}})
             if type(xrp) != dict:
+                IstekCol.update_one({"_id": 0}, {"$pull": {f"{istekkan}.istekler": xrp}})
                 continue
             rpbut = [InlineKeyboardButton(xrp['link'], callback_data=f"allistek-{istekkanno}-{istekcount}-{xrp['link']}")]
             if not rpbut in rpmup:
