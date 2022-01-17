@@ -336,7 +336,7 @@ def callback_query(call, context):
             return
         for xrp in range(20):
             xrp = choice(IstekCol.find_one({"_id": 0})[istekkan]["istekler"])
-            if type(xrp) == int:
+            if type(xrp) != dict:
                 continue
             rpbut = [InlineKeyboardButton(xrp['link'], callback_data=f"allistek-{istekkanno}-{xrp['link']}")]
             if not rpbut in rpmup:
