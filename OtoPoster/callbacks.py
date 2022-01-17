@@ -330,6 +330,7 @@ def callback_query(call, context):
         call.callback_query.edit_message_text("<code>Yükleniyor...</code>")
         rpmup = []
         istekkanno = int(call.callback_query.data.split("-")[1])
+        istekcount = int(call.callback_query.data.split("-")[2])
         istekkan = collection.find_one({"_id": user})['kanal'][istekkanno]
         if len(IstekCol.find_one({"_id": 0})[istekkan].get("istekler", 0)) == 0:
             call.callback_query.edit_message_text("Hiç onaylanmamış istek göremiyorum. 😔")
@@ -338,7 +339,7 @@ def callback_query(call, context):
             xrp = choice(IstekCol.find_one({"_id": 0})[istekkan]["istekler"])
             if type(xrp) != dict:
                 continue
-            rpbut = [InlineKeyboardButton(xrp['link'], callback_data=f"allistek-{istekkanno}-{xrp['link']}")]
+            rpbut = [InlineKeyboardButton(xrp['link'], callback_data=f"allistek-{istekkanno}-{istekcount}-{xrp['link']}")]
             if not rpbut in rpmup:
                 rpmup.append(rpbut)
         rpmup.append([InlineKeyboardButton("Hepsini Onayla", callback_data=f"allistek-{istekkanno}-99999-all")])
