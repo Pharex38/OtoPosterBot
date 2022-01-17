@@ -90,14 +90,12 @@ def istekjob(context):
         wliste = collection.find_one({"_id": 0})['istek']
         chat = str(update.effective_chat.id)
         obje = {"user": update.effective_user.id, "link": update.chat_join_request.invite_link.invite_link}
-        if IstekCol.find_one({"_id": 0}).get(chat, None) == None:
-            IstekCol.update_one({"_id": 0}, {"$set": {f"{chat}": {"user": collection.find_one({"kanal": {"$in": [chat]}}).get('_id', sahip) if collection.find_one({"kanal": {"$in": [chat]}}) != None else sahip, "count": 0, "istekler": []}}})
-        if IstekCol.find_one({"_id": 0})[chat].get("istekler", None) == None:
+        try:
+            IstekCol.find_one({"_id": 0})[chat]
+        except:
             IstekCol.update_one({"_id": 0}, {"$set": {f"{chat}": {"user": collection.find_one({"kanal": {"$in": [chat]}}).get('_id', sahip) if collection.find_one({"kanal": {"$in": [chat]}}) != None else sahip, "count": 0, "istekler": []}}})
         if not update.chat_join_request.from_user.id in IstekCol.find_one({"_id": 0})[chat]['istekler']:
             IstekCol.update_one({"_id": 0}, {"$push": {f"{chat}.istekler": update.chat_join_request.from_user.id}})
-        if not update.chat_join_request.from_user.username in IstekCol.find_one({"_id": 1})['istekler'] or update.chat_join_request.from_user.username != None:
-            IstekCol.update_one({"_id": 1}, {"$push": {"istekler": update.chat_join_request.from_user.username}})
     
     isteklistesi2 = []
 
@@ -108,11 +106,11 @@ def istekjob2(context):
         wliste = collection.find_one({"_id": 0})['istek']
         chat = str(update.effective_chat.id)
         obje = {"user": update.effective_user.id, "link": update.chat_join_request.invite_link.invite_link}
-        if IstekCol.find_one({"_id": 0}).get(chat, None) == None:
+        try:
+            IstekCol.find_one({"_id": 0})[chat]
+        except:
             IstekCol.update_one({"_id": 0}, {"$set": {f"{chat}": {"user": collection.find_one({"kanal": {"$in": [chat]}}).get('_id', sahip) if collection.find_one({"kanal": {"$in": [chat]}}) != None else sahip, "count": 0, "istekler": []}}})
-        if IstekCol.find_one({"_id": 0})[chat].get("istekler", None) == None:
-            IstekCol.update_one({"_id": 0}, {"$set": {f"{chat}": {"user": collection.find_one({"kanal": {"$in": [chat]}}).get('_id', sahip) if collection.find_one({"kanal": {"$in": [chat]}}) != None else sahip, "count": 0, "istekler": []}}})
-        if not obje in IstekCol.find_one({"_id": 0})[chat]['istekler']:
+        if not update.chat_join_request.from_user.id in IstekCol.find_one({"_id": 0})[chat]['istekler']:
             IstekCol.update_one({"_id": 0}, {"$push": {f"{chat}.istekler": update.chat_join_request.from_user.id}})
     
     isteklistesi = []
