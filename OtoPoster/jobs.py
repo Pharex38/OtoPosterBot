@@ -87,7 +87,7 @@ def istekjob(context):
     global isteklistesi, isteklistesi2
     istekls = isteklistesi2
     for update in istekls:
-        logger.warning("İstek Kaydedildi2")
+        logger.warning(f"İstek Kaydedildi2 - {update.effective_user.id}")
         wliste = collection.find_one({"_id": 0})['istek']
         chat = str(update.effective_chat.id)
         obje = {"user": update.effective_user.id, "link": update.chat_join_request.invite_link.invite_link}
@@ -103,7 +103,7 @@ def istekjob2(context):
     global isteklistesi, isteklistesi2
     istekls = isteklistesi
     for update in istekls:
-        logger.warning("İstek Kaydedildi1")
+        logger.warning(f"İstek Kaydedildi1 - {update.effective_user.id}")
         wliste = collection.find_one({"_id": 0})['istek']
         chat = str(update.effective_chat.id)
         obje = {"user": update.effective_user.id, "link": update.chat_join_request.invite_link.invite_link}
