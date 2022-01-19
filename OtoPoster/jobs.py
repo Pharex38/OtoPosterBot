@@ -322,26 +322,25 @@ def gunluk(context):
     
     
     kullanicilar = collection.find_one({"_id": 0})['istek']
-    for kullanici in kullanicilar:
-        kullanici = collection.find_one({"kanal": {"$in": [kullanici]}})
+    for kulkan in kullanicilar:
+        kullanici = collection.find_one({"kanal": {"$in": [kulkan]}})
         if kullanici == None:
             continue
         bildirimtext = "<b>Bilgilendirme:</b>\n\n"
-        for kulkan in kullanici.get('kanal', []):
-            if IstekCol.find_one({'_id': 0}).get(kulkan, {"count": 0})['count'] < 3:
-                continue
+        if IstekCol.find_one({'_id': 0}).get(kulkan, {"count": 0})['count'] < 3:
+            continue
+        try:
+            kulkanisim = bot.get_chat(kulkan).title
+        except RetryAfter as fdl:
+            sleep(fdl.retry_after+1)
             try:
                 kulkanisim = bot.get_chat(kulkan).title
-            except RetryAfter as fdl:
-                sleep(fdl.retry_after+1)
-                try:
-                    kulkanisim = bot.get_chat(kulkan).title
-                except:
-                    continue
             except:
                 continue
-            bildirimtext += f"<i>Son 24 saatte {kulkanisim} kanalınızda {IstekCol.find_one({'_id': 0})[kulkan]['count']} istek onaylandı!</i>\n"
-            IstekCol.update_one({"_id": 0}, {"$set": {kulkan: {"count": 0}}})
+        except:
+            continue
+        bildirimtext += f"<i>Son 24 saatte {kulkanisim} kanalınızda {IstekCol.find_one({'_id': 0})[kulkan]['count']} istek onaylandı!</i>\n"
+        IstekCol.update_one({"_id": 0}, {"$set": {kulkan: {"count": 0}}})
         if bildirimtext != "<b>Bilgilendirme:</b>\n\n":
             bot.send_message(kullanici['_id'], bildirimtext)
 
