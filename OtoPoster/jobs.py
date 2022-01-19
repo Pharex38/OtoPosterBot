@@ -321,8 +321,11 @@ def gunluk(context):
     bot.pin_chat_message(botlog, msg.message_id)
     
     
-    kullanicilar = collection.find({})
+    kullanicilar = collection.find_one({"_id": 0})['istek']
     for kullanici in kullanicilar:
+        kullanici = collection.find_one({"kanal": {"$in": [kullanici]}})
+        if kullanici == None:
+            continue
         bildirimtext = "<b>Bilgilendirme:</b>\n\n"
         for kulkan in kullanici.get('kanal', []):
             if IstekCol.find_one({'_id': 0}).get(kulkan, {"count": 0})['count'] < 3:
