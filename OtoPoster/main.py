@@ -12,6 +12,7 @@ from .misc import *
 bildir('Bot Başladı 🍕')
 
 def main() -> None:
+    global updater, dispatcher, persistence, upjob
 
     persistence = PicklePersistence(filename='OtoPosterPersistence', store_user_data=True, store_chat_data=True, single_file=True, store_callback_data=True)
     updater = Updater(bot=bot, workers=40, persistence=persistence)
@@ -21,8 +22,6 @@ def main() -> None:
     upjob.run_daily(gunluk, time=datetime.datetime.strptime("21-06-30 21:55:00", '%y-%m-%d %H:%M:%S').time(), name="resetleme")
     upjob.run_repeating(jobyedekleme, interval=300, first=10, name="yedekleme")
     upjob.run_repeating(siraclean, interval=3600, first=10, name="yedekleme")
-    #upjob.run_repeating(istekjob, interval=120, first=60, name="istekonaylayici")
-    #upjob.run_repeating(istekjob2, interval=120, first=120, name="istekonaylayici2")
     """ Misc """
     dispatcher.add_handler(MessageHandler(Filters.chat(-1001584743136), comment))
     dispatcher.add_handler(MessageHandler(Filters.chat(eklenti), eklentiiletisim))
@@ -128,7 +127,7 @@ def main() -> None:
     dispatcher.add_handler(CallbackQueryHandler(advcall, pattern="^adv(.*)"))
     dispatcher.add_handler(CallbackQueryHandler(callback_query))
     """ Error Handler """
-    dispatcher.add_handler(ChatJoinRequestHandler(istekonaylayici))
+    #cjrhandler = dispatcher.add_handler(ChatJoinRequestHandler(istekonaylayici))
     dispatcher.add_error_handler(error_handler)
     """ Job Yedekleme """
     yjcount = 0
