@@ -332,7 +332,7 @@ def callback_query(call, context):
         istekkanno = int(call.callback_query.data.split("-")[1])
         istekcount = int(call.callback_query.data.split("-")[2])
         istekkan = collection.find_one({"_id": user})['kanal'][istekkanno]
-        if len(IstekCol.find_one({"_id": 0})[istekkan].get("istekler", 0)) == 0:
+        if len(IstekCol.find_one({"_id": 0})[istekkan].get("istekler", [])) == 0:
             call.callback_query.edit_message_text("Hiç onaylanmamış istek göremiyorum. 😔")
             return
         xrlist = IstekCol.find_one({"_id": 0})[istekkan]["istekler"]
