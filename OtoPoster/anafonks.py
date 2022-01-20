@@ -320,6 +320,7 @@ def ekstramenu(update, context):
         return
     if mesaj == "📡 İstek Onaylayıcı":
         bot.send_message("Özellik iptal hafta sonu bu özellik için ayrı bot yapıcam @IstekOnaylayiciBot ")
+        return
         if len(eudat['kanal']) == 0:
             bot.send_message(chat, "Bu modu kullanabilmek için önce bir kanal kaydetmelisin!")
             return
