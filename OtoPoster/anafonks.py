@@ -319,7 +319,7 @@ def ekstramenu(update, context):
         bot.send_message(chat, "<b>Paylaşılan postların otomatik olarak sabitlenmesini istersen bu modu açabilirsin.</b>", reply_markup=pinmark(user))
         return
     if mesaj == "📡 İstek Onaylayıcı":
-        bot.send_message("Özellik iptal hafta sonu bu özellik için ayrı bot yapıcam @IstekOnaylayiciBot ")
+        bot.send_message(chat, "Özellik iptal hafta sonu bu özellik için ayrı bot yapıcam @IstekOnaylayiciBot ")
         return
         if len(eudat['kanal']) == 0:
             bot.send_message(chat, "Bu modu kullanabilmek için önce bir kanal kaydetmelisin!")
