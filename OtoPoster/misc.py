@@ -132,7 +132,7 @@ def linkkisalt(site, token, text, icerik):
         json = get(f"https://exe.io/api?", params={'api': token, 'url': text}, headers=headers, timeout=ptimeout).json()
         link = json['shortenedUrl']
     elif site == "4":
-        link = get(f"http://ouo.io/api/{token}?", params={'s': text}, headers=headers, timeout=ptimeout).text
+        link = get(f"http://ouo.io/api/{token}?", params={'s': text}, headers=headerss, timeout=ptimeout).text
     elif site == "5":
         link = get(f"http://pubiza.com/api.php?", params={'token': token, 'url': text, 'ads_type': pubizacat}, headers=headerss, timeout=ptimeout).text
     elif site == "6":
