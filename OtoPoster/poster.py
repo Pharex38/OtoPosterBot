@@ -522,7 +522,11 @@ def ozel_poster_job(context):
     if osol == -1 or osol != osolx:
         return
     osag = omesaj.find("\n", osol)
-    okynk = bot.get_chat(ochat)
+    try:
+        okynk = bot.get_chat(ochat)
+    except RetryAfter as ortf:
+        sleep(ortf.retry_after+1)
+        okynk = bot.get_chat(ochat)
     omesajb = omesaj[osol:osag].strip()
     if omesaj.find("\n", osol) == -1:
         omesajb = omesaj[osol:].strip()
