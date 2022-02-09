@@ -83,38 +83,6 @@ def tekrarlipostjob(context):
                 else:
                     tsgetjj.context['try'] = tsdict['try']+1
 
-def istekjob(context):
-    global isteklistesi, isteklistesi2
-    istekls = isteklistesi2
-    for update in istekls:
-        logger.warning(f"İstek Kaydedildi2 - {update.effective_user.id}")
-        wliste = collection.find_one({"_id": 0})['istek']
-        chat = str(update.effective_chat.id)
-        obje = {"user": update.effective_user.id, "link": update.chat_join_request.invite_link.invite_link}
-        try:
-            if not update.chat_join_request.from_user.id in IstekCol.find_one({"_id": 0})[chat]['istekler']:
-                IstekCol.update_one({"_id": 0}, {"$push": {f"{chat}.istekler": update.chat_join_request.from_user.id}})
-        except:
-            IstekCol.update_one({"_id": 0}, {"$set": {f"{chat}": {"user": collection.find_one({"kanal": {"$in": [chat]}}).get('_id', sahip) if collection.find_one({"kanal": {"$in": [chat]}}) != None else sahip, "count": 0, "istekler": [obje]}}})
-    
-    isteklistesi2 = []
-
-def istekjob2(context):
-    global isteklistesi, isteklistesi2
-    istekls = isteklistesi
-    for update in istekls:
-        logger.warning(f"İstek Kaydedildi1 - {update.effective_user.id}")
-        wliste = collection.find_one({"_id": 0})['istek']
-        chat = str(update.effective_chat.id)
-        obje = {"user": update.effective_user.id, "link": update.chat_join_request.invite_link.invite_link}
-        try:
-            if not update.chat_join_request.from_user.id in IstekCol.find_one({"_id": 0})[chat]['istekler']:
-                IstekCol.update_one({"_id": 0}, {"$push": {f"{chat}.istekler": update.chat_join_request.from_user.id}})
-        except:
-            IstekCol.update_one({"_id": 0}, {"$set": {f"{chat}": {"user": collection.find_one({"kanal": {"$in": [chat]}}).get('_id', sahip) if collection.find_one({"kanal": {"$in": [chat]}}) != None else sahip, "count": 0, "istekler": [obje]}}})
-    
-    isteklistesi = []
-
 def kisitlamakontrol(context):
     kdat = collection.find_one({"_id": 0})
     safelinks = {
