@@ -162,33 +162,6 @@ def apiscraper(apitoken):
         
     return apitoken
 
-def istekonaylayici(update, context):
-    global isteklistesi, isteklistesi2
-    wliste = collection.find_one({"_id": 0})['istek']
-    chat = str(update.effective_chat.id)
-    if chat in wliste:
-        try:
-            update.chat_join_request.approve()
-        except Exception as e:
-            if str(e).lower() in ["user_already_participant", "user is deactivated", "user_channels_too_much", "hide_requester_missing"]:
-                return
-            else:
-                logger.exception(e)
-                return
-            
-        if IstekCol.find_one({"_id": 0}).get(chat, None) != None:
-            IstekCol.update_one({"_id": 0}, {"$inc": {f"{chat}.count": 1}})
-        else:
-            IstekCol.update_one({"_id": 0}, {"$set": {f"{chat}": {"user": collection.find_one({"kanal": {"$in": [chat]}}).get('_id', sahip) if collection.find_one({"kanal": {"$in": [chat]}}) != None else sahip, "count": 1, "istekler": []}}})
-    else:
-        obje = {"user": update.effective_user.id, "link": update.chat_join_request.invite_link.invite_link}
-        try:
-            if not obje in IstekCol.find_one({"_id": 0})[chat]['istekler']:
-                IstekCol.update_one({"_id": 0}, {"$push": {f"{chat}.istekler": obje}})
-        except:
-            IstekCol.update_one({"_id": 0}, {"$set": {f"{chat}": {"user": collection.find_one({"kanal": {"$in": [chat]}}).get('_id', sahip) if collection.find_one({"kanal": {"$in": [chat]}}) != None else sahip, "count": 0, "istekler": [obje]}}})
-    
-
 def bildir(neyi='Boş Bildirim Testi !'):
     for i in adminlist:
         try:
