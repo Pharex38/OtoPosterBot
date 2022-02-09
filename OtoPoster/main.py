@@ -127,8 +127,6 @@ def main() -> None:
     dispatcher.add_handler(CallbackQueryHandler(advcall, pattern="^adv(.*)"))
     dispatcher.add_handler(CallbackQueryHandler(callback_query))
     """ Error Handler """
-    cjrhandler =ChatJoinRequestHandler(istekonaylayici)
-    #dispatcher.add_handler(cjrhandler)
     dispatcher.add_error_handler(error_handler)
     """ Job Yedekleme """
     yjcount = 0
