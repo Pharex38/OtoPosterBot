@@ -180,7 +180,7 @@ def poster_job(context):
                     try:
                         linktry += 1
                         if linktry > 2:
-                            sleep(0.10)
+                            sleep(0.15)
                             logger.warning(f"Link kısaltılamadı tekrar deneniyor {linktry}")
                         alink, ajson = linkkisalt(altsite, altapi, mesajb, chatdat['icerik'])
                     except ReadTimeoutError:
@@ -222,7 +222,7 @@ def poster_job(context):
                 try:
                     linktry += 1
                     if linktry > 2:
-                        sleep(0.10)
+                        sleep(0.15)
                         logger.warning(f"Tekrar deneniyor {linktry}")
                     link, json = linkkisalt(site, token, mesajb, chatdat['icerik'])
                 except ReadTimeoutError:
@@ -316,7 +316,7 @@ def poster_job(context):
                 if not kan in chatdat['kanal'] or kan in eski or chatdat['icerik'] == "arsiv" and not kan in icerik or chatdat['icerik'] == "+18" and kan in icerik:
                     continue
                 post = update.effective_message
-                sleep(0.025)
+                sleep(0.05)
                 try:
                     yetkililer = []
                     for xy in bot.get_chat_administrators(kan, timeout=sendtimeout):
