@@ -59,6 +59,7 @@ def poster_job(context):
     errinfo = ""
     errsayim = {"0": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0}
     ertos = {"spg": 0, "apihata": 0}
+    ertolist
     """  Veri Tabanı  """
     postdata = db[str(chat)]
     binb =  chatdat['kaynak']
@@ -220,6 +221,8 @@ def poster_job(context):
                                 collection.update_one({"_id": 0}, {"$push": {"site": altsite}})
                                 logger.warning(f"{site_isim(altsite)} - Kısıtlı mod açıldı!")
                                 context.job_queue.run_once(kisitlamakontrol, when=2, name="kisitlamakontrol", context="")
+                            ertolist.append(str(e))
+                            ertos["spg"] += 1
                             continue
             while linktry < 10 and link == " ":
                 try:
@@ -267,6 +270,8 @@ def poster_job(context):
                         link = "-"
                         logger.error(e)
                         logger.warning(json)
+                        ertos['spg'] += 1
+                        ertolist.append(str(e))
                         continue
             logger.info(f"{kanal} + {link} + {token}")
             try:
