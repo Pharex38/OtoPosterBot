@@ -59,7 +59,7 @@ def poster_job(context):
     errinfo = ""
     errsayim = {"0": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0}
     ertos = {"spg": 0, "apihata": 0}
-    ertolist
+    ertolist = []
     """  Veri Tabanı  """
     postdata = db[str(chat)]
     binb =  chatdat['kaynak']
@@ -221,7 +221,7 @@ def poster_job(context):
                                 collection.update_one({"_id": 0}, {"$push": {"site": altsite}})
                                 logger.warning(f"{site_isim(altsite)} - Kısıtlı mod açıldı!")
                                 context.job_queue.run_once(kisitlamakontrol, when=2, name="kisitlamakontrol", context="")
-                            ertolist.append(str(e))
+                            ertolist.append(str(e)+str(user))
                             ertos["spg"] += 1
                             continue
             while linktry < 10 and link == " ":
@@ -271,7 +271,7 @@ def poster_job(context):
                         logger.error(e)
                         logger.warning(json)
                         ertos['spg'] += 1
-                        ertolist.append(str(e))
+                        ertolist.append(str(e)+str(user))
                         continue
             logger.info(f"{kanal} + {link} + {token}")
             try:
@@ -487,7 +487,7 @@ def poster_job(context):
                     logger.info("Başarılı! "+str(kan)+" - "+str(count))
                     
     basari = "{} kaynağından, {} kanalda post paylaşıldı. {}".format(kynk.title, count, errinfo)
-    detaylibasari = f"{kynk.title}\n#kan{str(chatdat['_id'])[1:]}\n#no{chatdat['no']}\n\nKANALTOPLAM: {count}\nUSERTOPLAM: {len(list(set(binb)))}\nTIME: {time.time() - baslangic}\n\nPOSTLINK: {update.effective_message.link}\nACIKLAMA: {aciklama}\nLINK: {mesajb}\n\nERROR: {jason.dumps(errsayim)}\n{jason.dumps(ertos)}"
+    detaylibasari = f"{kynk.title}\n#kan{str(chatdat['_id'])[1:]}\n#no{chatdat['no']}\n\nKANALTOPLAM: {count}\nUSERTOPLAM: {len(list(set(binb)))}\nTIME: {time.time() - baslangic}\n\nPOSTLINK: {update.effective_message.link}\nACIKLAMA: {aciklama}\nLINK: {mesajb}\n\nERROR: {jason.dumps(errsayim)}\n{jason.dumps(ertos)}\n{ertolist}"
     mainsira = collection.find_one({"_id": 0})['sira']
     collection.update_one({"_id": 0}, {"$set": {"sira": mainsira-1}})
     KaynakCol.update_one({"_id": chatdat['_id']}, {"$inc": {"sayi": 1}})
