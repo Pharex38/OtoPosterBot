@@ -477,6 +477,7 @@ def poster_job(context):
                     logger.info("Başarılı! "+str(kan)+" - "+str(count))
                     
     basari = "{} kaynağından, {} kanalda post paylaşıldı. {}".format(kynk.title, count, errinfo)
+    detaylibasari = f"{kynk.title}\n#kan{str(chatdat['_id'])[1:]}\n#no{chatdat['no']}\n\nKANALTOPLAM: {count}\nUSERTOPLAM: {len(list(set(binb)))}\n\nPOSTLINK: {update.effective_message.link}\nACIKLAMA: {aciklama}\nLINK: {mesajb}\n\nERROR: {jason.dumps(errsayim)}"
     mainsira = collection.find_one({"_id": 0})['sira']
     collection.update_one({"_id": 0}, {"$set": {"sira": mainsira-1}})
     KaynakCol.update_one({"_id": chatdat['_id']}, {"$inc": {"sayi": 1}})
