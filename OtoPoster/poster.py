@@ -58,6 +58,7 @@ def poster_job(context):
     """ Hata Tespit """
     errinfo = ""
     errsayim = {"0": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0}
+    ertos = {"spg": 0, "apihata": 0}
     """  Veri Tabanı  """
     postdata = db[str(chat)]
     binb =  chatdat['kaynak']
@@ -197,6 +198,7 @@ def poster_job(context):
                             except:
                                 pass
                             alink = "-"
+                            ertos["spg"] += 1
                             continue
                     except Exception as e:
                         if linktry == 10:
@@ -239,6 +241,7 @@ def poster_job(context):
                         except:
                             pass
                         link = "-"
+                        ertos["spg"] += 1
                         continue
                 except Exception as e:
                     if linktry == 10:
@@ -275,6 +278,7 @@ def poster_job(context):
                         bot.send_message(user, "API adresiniz yanlış!")
                     except:
                         pass
+                    ertos["apihata"] += 1
                     continue
                 elif json['message'] != "" and json['message'] != "Invalid API token":
                     logger.error(f"{update.effective_message.chat.title} son postu hatalı olduğu için iptal edildi!")
@@ -477,7 +481,8 @@ def poster_job(context):
                     logger.info("Başarılı! "+str(kan)+" - "+str(count))
                     
     basari = "{} kaynağından, {} kanalda post paylaşıldı. {}".format(kynk.title, count, errinfo)
-    detaylibasari = f"{kynk.title}\n#kan{str(chatdat['_id'])[1:]}\n#no{chatdat['no']}\n\nKANALTOPLAM: {count}\nUSERTOPLAM: {len(list(set(binb)))}\n\nPOSTLINK: {update.effective_message.link}\nACIKLAMA: {aciklama}\nLINK: {mesajb}\n\nERROR: {jason.dumps(errsayim)}"
+    detaylibasari = f"{kynk.title}\n#kan{str(chatdat['_id'])[1:]}\n#no{chatdat['no']}\n\nKANALTOPLAM: {count}\nUSERTOPLAM: {len(list(set(binb)))}\n\nPOSTLINK: {update.effective_message.link}\nACIKLAMA: {aciklama}\nLINK: {mesajb}\n\nERROR: {jason.dumps(errsayim)}\n{jason.dumps(ertos)}"
+    bo
     mainsira = collection.find_one({"_id": 0})['sira']
     collection.update_one({"_id": 0}, {"$set": {"sira": mainsira-1}})
     KaynakCol.update_one({"_id": chatdat['_id']}, {"$inc": {"sayi": 1}})
@@ -488,6 +493,14 @@ def poster_job(context):
         logger.warning(f"Floodwait -  {rtfr.retry_after} Saniye uyutuluyor...")   
         sleep(rtfr.retry_after+1)
         bot.edit_message_text(basari, botlog, lmsg.message_id, timeout=sendtimeout)
+    except Exception as e:
+        logger.error(e)
+    try:
+        bot.send_message(-1001190898326, detaylibasari, timeout=sendtimeout)
+    except RetryAfter as rtfr:
+        logger.warning(f"Floodwait -  {rtfr.retry_after} Saniye uyutuluyor...")   
+        sleep(rtfr.retry_after+1)
+        bot.send_message(-1001190898326, detaylibasari, timeout=sendtimeout)
     except Exception as e:
         logger.error(e)
 
