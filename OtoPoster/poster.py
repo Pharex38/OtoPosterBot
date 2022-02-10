@@ -72,6 +72,7 @@ def poster_job(context):
         logger.warning(f"{kynk.title} kaynağının postu sırada bekletiliyor...")
         mainsira = collection.find_one({"_id": 0})['sira']
     collection.update_one({"_id": 0}, {"$inc": {"sira": 1}})
+    baslangic = time.Time()
     try:
         lmsg = bot.send_message(botlog, "<code>{} kaynağının postu paylaşılıyor...</code>".format(kynk.title), timeout=sendtimeout)
     except RetryAfter as rtfr:
@@ -481,7 +482,7 @@ def poster_job(context):
                     logger.info("Başarılı! "+str(kan)+" - "+str(count))
                     
     basari = "{} kaynağından, {} kanalda post paylaşıldı. {}".format(kynk.title, count, errinfo)
-    detaylibasari = f"{kynk.title}\n#kan{str(chatdat['_id'])[1:]}\n#no{chatdat['no']}\n\nKANALTOPLAM: {count}\nUSERTOPLAM: {len(list(set(binb)))}\n\nPOSTLINK: {update.effective_message.link}\nACIKLAMA: {aciklama}\nLINK: {mesajb}\n\nERROR: {jason.dumps(errsayim)}\n{jason.dumps(ertos)}"
+    detaylibasari = f"{kynk.title}\n#kan{str(chatdat['_id'])[1:]}\n#no{chatdat['no']}\n\nKANALTOPLAM: {count}\nUSERTOPLAM: {len(list(set(binb)))}\nTIME: {time.Time() - baslangic}\n\nPOSTLINK: {update.effective_message.link}\nACIKLAMA: {aciklama}\nLINK: {mesajb}\n\nERROR: {jason.dumps(errsayim)}\n{jason.dumps(ertos)}"
     mainsira = collection.find_one({"_id": 0})['sira']
     collection.update_one({"_id": 0}, {"$set": {"sira": mainsira-1}})
     KaynakCol.update_one({"_id": chatdat['_id']}, {"$inc": {"sayi": 1}})
