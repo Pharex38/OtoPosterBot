@@ -354,9 +354,11 @@ def poster_job(context):
                             ButonCol.update_one({"_id": kan}, {"$set": {str(post.message_id): [], "begeni": begeni}})
                     if len(postee) == 1:
                         if kan in pins:
-                            
-                            FloodControl(bot.pin_chat_message, *[kan, post.message_id])
+                            try:
+                                FloodControl(bot.pin_chat_message, *[kan, post.message_id])
                         postdata.update_one({"_id": mesjid}, {"$push": {"pids": {"pid": post.message_id, "chat": kan, "user": user, "link": link, "alink": alink}}})
+                            except:
+                                pass
                     else:
                         if kan in pins:
                             try:
