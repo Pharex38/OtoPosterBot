@@ -195,7 +195,15 @@ def phaapi(sit):
         return "***REMOVED-SHORTENER-KEY***"
     if sit == "7":
         return "***REMOVED-KEY***"
-    
+
+def FloodControl(komand, *argos):
+    try:
+        return komand(*argos)
+    except RetryAfter as trf:
+        logger.warning(f"FloodWait - {trf.retry_after}")
+        sleep(trf.retry_after+1)
+        return komand(*argos)
+
 def site_isim(no):
     if no == "0":
         return "URLcik"
