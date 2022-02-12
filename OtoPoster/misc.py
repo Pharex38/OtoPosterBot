@@ -200,7 +200,7 @@ def FloodControl(komand, *argos, **kwargos):
     try:
         return komand(*argos, **kwargos)
     except RetryAfter as trf:
-        logger.warning(f"FloodWait - {trf.retry_after}")
+        logger.warning(f"FloodWait - {trf.retry_after} - Line: {sys._getframe().f_back.f_lineno}")
         sleep(trf.retry_after+1)
         return komand(*argos, **kwargos)
 
