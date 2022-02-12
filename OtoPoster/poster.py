@@ -344,6 +344,7 @@ def poster_job(context):
                         logger.error(e)
                 else:
                     count = count + 1
+                    postdata.update_one({"_id": mesjid}, {"$push": {"pids": {"pid": post.message_id, "chat": kan, "user": user, "link": link, "alink": alink}}})
                     if len(begeni) > 0 and len(postee) == 1:
                         if ButonCol.find_one({"_id": kan}) == None:
                             try:
@@ -356,7 +357,6 @@ def poster_job(context):
                         if kan in pins:
                             try:
                                 FloodControl(bot.pin_chat_message, *[kan, post.message_id])
-                        postdata.update_one({"_id": mesjid}, {"$push": {"pids": {"pid": post.message_id, "chat": kan, "user": user, "link": link, "alink": alink}}})
                             except:
                                 pass
                     else:
