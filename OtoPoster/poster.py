@@ -6,13 +6,13 @@ from .jobs import *
 MEDIA_GROUP_TYPES = {"audio": InputMediaAudio, "document": InputMediaDocument, "photo": InputMediaPhoto, "animation": InputMediaAnimation, "video": InputMediaVideo}
 posterrtext = "{} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz hata sebebiyle kanallarda paylaşılamadı!\n\nAlınan hata: {}\n\nHatalı post: {}"
 
-def FloodControl(komand, argos):
+def FloodControl(komand, *argos):
     try:
-        return komand(argos)
+        return komand(*argos)
     except RetryAfter as trf:
         logger.warning(f"FloodWait - {trf.retry_after}")
         sleep(trf.retry_after+1)
-        return komand(fc for fc in argos)
+        return komand(*argos)
         
         
 
