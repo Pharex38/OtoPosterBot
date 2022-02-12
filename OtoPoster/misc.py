@@ -196,13 +196,13 @@ def phaapi(sit):
     if sit == "7":
         return "***REMOVED-KEY***"
 
-def FloodControl(komand, *argos):
+def FloodControl(komand, *argos, **kwargos):
     try:
-        return komand(*argos)
+        return komand(*argos, **kwargos)
     except RetryAfter as trf:
         logger.warning(f"FloodWait - {trf.retry_after}")
         sleep(trf.retry_after+1)
-        return komand(*argos)
+        return komand(*argos, **kwargos)
 
 def site_isim(no):
     if no == "0":
