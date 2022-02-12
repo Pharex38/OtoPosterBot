@@ -31,12 +31,7 @@ def poster_job(context):
     kynk = None
     mainsira = collection.find_one({"_id": 0})['sira']
     while kynk == None:
-        try:
-            kynk = bot.get_chat(chat)
-        except RetryAfter as rtfr:
-            sleep(rtfr.retry_after+1)
-        else:
-            break
+        kynk = FloodControl(bot.get_chat, *[chat])
     mesaj = update.effective_message.caption
     if mesaj == None:
         return
@@ -74,11 +69,7 @@ def poster_job(context):
     collection.update_one({"_id": 0}, {"$inc": {"sira": 1}})
     baslangic = time.time()
     try:
-        lmsg = bot.send_message(botlog, "<code>{} kaynağının postu paylaşılıyor...</code>".format(kynk.title), timeout=sendtimeout)
-    except RetryAfter as rtfr:
-        logger.warning(f"Floodwait -  {rtfr.retry_after} Saniye uyutuluyor...")
-        sleep(rtfr.retry_after+1)
-        lmsg = bot.send_message(botlog, "<code>{} kaynağının postu paylaşılıyor...</code>".format(kynk.title), timeout=sendtimeout)
+        lmsg = FloodControl(bot.send_message, *[botlog, "<code>{} kaynağının postu paylaşılıyor...</code>".format(kynk.title)])
     except Exception as e:
         logger.error(e)
         bot.send_message(sahip, str(e))
@@ -188,14 +179,7 @@ def poster_job(context):
                     except ReadTimeoutError:
                         if linktry == 10:
                             try:
-                                bot.send_message(user, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(altsite)}</code>", timeout=sendtimeout)
-                            except RetryAfter as rtfr:
-                                logger.warning(f"Floodwait -  {rtfr.retry_after} Saniye uyutuluyor...")
-                                sleep(rtfr.retry_after+1)
-                                try:
-                                    bot.send_message(user, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(altsite)}</code>", timeout=sendtimeout)
-                                except:
-                                    pass
+                                FloodControl(bot.send_message, *[user, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(altsite)}</code>"])
                             except:
                                 pass
                             alink = "-"
@@ -204,14 +188,7 @@ def poster_job(context):
                     except Exception as e:
                         if linktry == 10:
                             try:
-                                bot.send_message(user, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(altsite)}</code>", timeout=sendtimeout)
-                            except RetryAfter as rtfr:
-                                logger.warning(f"Floodwait -  {rtfr.retry_after} Saniye uyutuluyor...")
-                                sleep(rtfr.retry_after+1)
-                                try:
-                                    bot.send_message(user, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(altsite)}</code>", timeout=sendtimeout)
-                                except:
-                                    pass
+                                FloodControl(bot.send_message, *[user, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(altsite)}</code>"])
                             except:
                                 pass
                             alink = "-"
@@ -233,14 +210,7 @@ def poster_job(context):
                 except ReadTimeoutError:
                     if linktry == 10:
                         try:
-                            bot.send_message(user, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(site)}</code>", timeout=sendtimeout)
-                        except RetryAfter as rtfr:
-                            logger.warning(f"Floodwait -  {rtfr.retry_after} Saniye uyutuluyor...")
-                            sleep(rtfr.retry_after+1)
-                            try:
-                                bot.send_message(user, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(site)}</code>", timeout=sendtimeout)
-                            except:
-                                pass
+                            FloodControl(bot.send_message, *[user, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(site)}</code>"])
                         except:
                             pass
                         link = "-"
@@ -249,15 +219,8 @@ def poster_job(context):
                 except Exception as e:
                     if linktry == 10:
                         try:
-                            bot.send_message(user, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(site)}</code>", timeout=sendtimeout)
+                            FloodControl(bot.send_message, *[user, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(site)}</code>"])
                             bildir(e)
-                        except RetryAfter as rtfr:
-                            logger.warning(f"Floodwait -  {rtfr.retry_after} Saniye uyutuluyor...")
-                            sleep(rtfr.retry_after+1)
-                            try:
-                                bot.send_message(user, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(site)}</code>", timeout=sendtimeout)
-                            except:
-                                pass
                         except:
                             pass
                         errsayim[site] = errsayim[site]+1
@@ -287,11 +250,8 @@ def poster_job(context):
                     continue
                 elif json['message'] != "" and json['message'] != "Invalid API token":
                     logger.error(f"{update.effective_message.chat.title} son postu hatalı olduğu için iptal edildi!")
-                    try:
-                        bot.send_message(sahip, posterrtext.format(update.effective_message.chat.title, json['message'], update.effective_message.link), timeout=sendtimeout)
-                        bot.send_message(chatdat['sahip'], posterrtext.format(update.effective_message.chat.title, json['message'], update.effective_message.link), timeout=sendtimeout)
-                    except RetryAfter as rtfr:
-                        logger.warning(f"Floodwait -  {rtfr.retry_after} Saniye uyutuluyor...")
+                    FloodControl(bot.send_message, *[sahip, posterrtext.format(update.effective_message.chat.title, json['message'], update.effective_message.link)])
+                    FloodControl(bot.send_message, *[chatdat['sahip'], posterrtext.format(update.effective_message.chat.title, json['message'], update.effective_message.link)])
                         sleep(rtfr.retry_after+1)
                     context.job_queue.run_once(deljob, when=2, name="yedekleme", context=update)
                     break
@@ -328,7 +288,7 @@ def poster_job(context):
                 sleep(0.05)
                 try:
                     yetkililer = []
-                    for xy in bot.get_chat_administrators(kan, timeout=sendtimeout):
+                    for xy in FloodControl(bot.get_chat_administrators, *[kan]):
                         if xy.can_post_messages or xy.status == "creator":
                             yetkililer.append(xy.user.id)
                 except:
@@ -336,20 +296,14 @@ def poster_job(context):
                     continue
                 if not user in yetkililer:
                     try:
-                        membersayi = bot.get_chat_member_count(kan, timeout=sendtimeout)
+                        membersayi = FloodControl(bot.get_chat_member_count, *[kan])
                     except:
                         membersayi = "Bot kanaldan çıkarılmış."
                     try:
                         logger.warning(f"Hatalı kanal: {kan}")
                         collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
-                        try:
-                            bot.send_message(blog, kansillog.format(user=user, membersayi=membersayi, kan=str(kan)[3:]), timeout=sendtimeout)
-                            bot.send_message(user, "Kanalda artık yetkili olmadığınız için kanalınız silindi.", timeout=sendtimeout)
-                        except RetryAfter as rtfr:
-                            logger.warning(f"Floodwait -  {rtfr.retry_after} Saniye uyutuluyor...")
-                            sleep(rtfr.retry_after+1)
-                            bot.send_message(blog, kansillog.format(user=user, membersayi=membersayi, kan=str(kan)[3:]), timeout=sendtimeout)
-                            bot.send_message(user, "Kanalda artık yetkili olmadığınız için kanalınız silindi.", timeout=sendtimeout)
+                        FloodControl(bot.send_message, *[blog, kansillog.format(user=user, membersayi=membersayi, kan=str(kan)[3:])])
+                        FloodControl(bot.send_message, *[user, "Kanalda artık yetkili olmadığınız için kanalınız silindi."])
                         collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
                     except:
                         pass
@@ -358,90 +312,20 @@ def poster_job(context):
                     continue
                 try:
                     if len(postee) == 1:
-                        post = update.effective_message.copy(kan, caption=sablon, reply_markup=postermarkup, timeout=sendtimeout)
+                        post = FloodControl(update.effective_message.copy, **{"chat_id": kan, "caption": sablon, "reply_markup": postermarkup})
                     else:
-                        post = bot.send_media_group(kan, media=grup+[MEDIA_GROUP_TYPES[effective_message_type(update)](media=update.effective_message.photo[-1].file_id if update.effective_message.photo else update.effective_message.effective_attachment.file_id, caption=sablon)], timeout=sendtimeout)
-                except RetryAfter as rtfr:
-                    logger.warning(f"Floodwait -  {rtfr.retry_after} Saniye uyutuluyor...")
-                    sleep(rtfr.retry_after+1)
-                    try:
-                        if len(postee) == 1:
-                            post = update.effective_message.copy(kan, caption=sablon, reply_markup=postermarkup)
-                        else:
-                            post = bot.send_media_group(kan, media=grup+[MEDIA_GROUP_TYPES[effective_message_type(update)](media=update.effective_message.photo[-1].file_id if update.effective_message.photo else update.effective_message.effective_attachment.file_id, caption=sablon)], timeout=sendtimeout)
-                    except Exception as e:
-                        if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1 or str(e).find("Chat_restricted") != -1:
-                            try:
-                                logger.warning(f"Hatalı kanal: {kan}")
-                                try:
-                                    kanname = bot.get_chat_member_count(kan, timeout=sendtimeout)
-                                except:
-                                    kanname = "Kanaldan Çıkarılmış."
-                                collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
-                                try:
-                                    bot.send_message(blog, kansillog.format(user=user, membersayi=kanname, kan=str(kan)[3:]), timeout=sendtimeout)
-                                    bot.send_message(user, "Botu kanalınızdan çıkardığınız için kanalınız silindi.", timeout=sendtimeout)
-                                except RetryAfter as rtfr:
-                                    logger.warning(f"Floodwait -  {rtfr.retry_after} Saniye uyutuluyor...")
-                                    sleep(rtfr.retry_after+1)
-                                    bot.send_message(blog, kansillog.format(user=user, membersayi=kanname, kan=str(kan)[3:]), timeout=sendtimeout)
-                                    bot.send_message(user, "Botu kanalınızdan çıkardığınız için kanalınız silindi.", timeout=sendtimeout)
-                            except:
-                                pass   
-                            else:
-                                logger.warning(f"{kan} kayıtlardan silindi.")
-                        if "copy not found" in str(e).lower():
-                            collection.update_one({"_id": 0}, {"$inc": {"sira": 1}})
-                            collection.update_one({"_id": 0}, {"$pull": {"iptal": str(chat)}})
-                            logger.warning("{} kaynağının postu iptal edildi.".format(kynk.title))
-                            context.job_queue.run_once(deljob, when=2, name="yedekleme", context=update)
-                            try:
-                                lmsg.edit_text("{} kaynağının postu iptal edildi. Post kanallardan siliniyor...".format(kynk.title))
-                            except:
-                                pass
-                            return
-                        else:
-                            logger.error(e)
-                    else:
-                        count = count + 1
-                        if len(begeni) > 0 and len(postee) == 1:
-                            if ButonCol.find_one({"_id": kan}) == None:
-                                ButonCol.insert_one({"_id": kan, str(post.message_id): [], "begeni": begeni})
-                            else:
-                                ButonCol.update_one({"_id": kan}, {"$set": {str(post.message_id): [], "begeni": begeni}})
-                        if len(postee) == 1:
-                            if kan in pins:
-                                try:
-                                    bot.pin_chat_message(kan, post.message_id, timeout=sendtimeout)
-                                except Exception as e:
-                                    bildir(e)
-                            postdata.update_one({"_id": mesjid}, {"$push": {"pids": {"pid": post.message_id, "chat": kan, "user": user, "link": link, "alink": alink}}})
-                        else:
-                            if kan in pins:
-                                try:
-                                    bot.pin_chat_message(kan, post[-1].message_id, timeout=sendtimeout)
-                                except Exception as e:
-                                    bildir(e)
-                            for pos in post:
-                                postdata.update_one({"_id": mesjid}, {"$push": {"pids": {"pid": pos.message_id, "chat": kan, "user": user, "link": link, "alink": alink}}})
-                        logger.info("Başarılı! "+str(kan))
+                        post = FloodControl(bot.send_media_group, **{"chat_id": kan, "media": grup+[MEDIA_GROUP_TYPES[effective_message_type(update)](media=update.effective_message.photo[-1].file_id if update.effective_message.photo else update.effective_message.effective_attachment.file_id, caption=sablon)]})
                 except Exception as e:
                     if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1 or str(e).find("Chat_restricted") != -1:
                         try:
                             logger.warning(f"Hatalı kanal: {kan}")
-                            try:
-                                kanname = bot.get_chat_member_count(kan, timeout=sendtimeout)
-                            except:
-                                kanname = "Kanaldan Çıkarılmış."
                             collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
                             try:
-                                bot.send_message(blog, kansillog.format(user=user, membersayi=kanname, kan=str(kan)[3:]), timeout=sendtimeout)
-                                bot.send_message(user, "Botu kanalınızdan çıkardığınız için kanalınız silindi.", timeout=sendtimeout)
-                            except RetryAfter as rtfr:
-                                logger.warning(f"Floodwait -  {rtfr.retry_after} Saniye uyutuluyor...")
-                                sleep(rtfr.retry_after+1)
-                                bot.send_message(blog, kansillog.format(user=user, membersayi=kanname, kan=str(kan)[3:]), timeout=sendtimeout)
-                                bot.send_message(user, "Botu kanalınızdan çıkardığınız için kanalınız silindi.", timeout=sendtimeout)
+                                kanname = FloodControl(bot.get_chat_member_count, *[kan])
+                            except:
+                                kanname = "Kanaldan Çıkarılmış."
+                            FloodControl(bot.send_message, *[blog, kansillog.format(user=user, membersayi=kanname, kan=str(kan)[3:])])
+                            FloodControl(bot.send_message, [user, "Botu kanalınızdan çıkardığınız için kanalınız silindi."])
                         except:
                             pass   
                         else:
@@ -471,14 +355,12 @@ def poster_job(context):
                     if len(postee) == 1:
                         if kan in pins:
                             try:
-                                bot.pin_chat_message(kan, post.message_id, timeout=sendtimeout)
-                            except Exception as e:
-                                bildir(e)
+                                FloodControl(bot.pin_chat_message, *[kan, post.message_id])
                         postdata.update_one({"_id": mesjid}, {"$push": {"pids": {"pid": post.message_id, "chat": kan, "user": user, "link": link, "alink": alink}}})
                     else:
                         if kan in pins:
                             try:
-                                bot.pin_chat_message(kan, post[-1].message_id, timeout=sendtimeout)
+                                FloodControl(bot.pin_chat_message, *[kan, post[-1].message_id])
                             except Exception as e:
                                 bildir(e)
                         for pos in post:
@@ -492,19 +374,11 @@ def poster_job(context):
     KaynakCol.update_one({"_id": chatdat['_id']}, {"$inc": {"sayi": 1}})
     logger.warning(basari)
     try:
-        bot.edit_message_text(basari, botlog, lmsg.message_id, timeout=sendtimeout)
-    except RetryAfter as rtfr:
-        logger.warning(f"Floodwait -  {rtfr.retry_after} Saniye uyutuluyor...")   
-        sleep(rtfr.retry_after+1)
-        bot.edit_message_text(basari, botlog, lmsg.message_id, timeout=sendtimeout)
+        FloodControl(bot.edit_message_text, *[basari, botlog, lmsg.message_id])
     except Exception as e:
         logger.error(e)
     try:
-        bot.send_message(-1001190898326, detaylibasari, timeout=sendtimeout)
-    except RetryAfter as rtfr:
-        logger.warning(f"Floodwait -  {rtfr.retry_after} Saniye uyutuluyor...")   
-        sleep(rtfr.retry_after+1)
-        bot.send_message(-1001190898326, detaylibasari, timeout=sendtimeout)
+        FloodControl(bot.send_message, *[-1001190898326, detaylibasari])
     except Exception as e:
         logger.error(e)
 
