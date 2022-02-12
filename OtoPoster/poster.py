@@ -6,16 +6,6 @@ from .jobs import *
 MEDIA_GROUP_TYPES = {"audio": InputMediaAudio, "document": InputMediaDocument, "photo": InputMediaPhoto, "animation": InputMediaAnimation, "video": InputMediaVideo}
 posterrtext = "{} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz hata sebebiyle kanallarda paylaşılamadı!\n\nAlınan hata: {}\n\nHatalı post: {}"
 
-def FloodControl(komand, *argos):
-    try:
-        return komand(*argos)
-    except RetryAfter as trf:
-        logger.warning(f"FloodWait - {trf.retry_after}")
-        sleep(trf.retry_after+1)
-        return komand(*argos)
-        
-        
-
 def poster_job(context):
     vipler = collection.find_one({"_id": 0})['vipuye']
     postee = context.job.context
