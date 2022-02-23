@@ -685,6 +685,8 @@ def ozel_poster_job(context):
                 bot.send_message(okaynak["log"], obasari[7:])
             except:
                 pass
+        except:
+            pass
     logger.warning(obasari)
 
 def poster_edit(update, context):
