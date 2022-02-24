@@ -312,10 +312,12 @@ def poster_job(context):
                     continue
                 if 5183123826 in yetkililer:
                     try:
-                        FloodControl(bot.send_message, *[user, "Kanalınızda farklı Poster Bot tespit edildi. Kanalınızdan çıkartmazsanız Oto Poster Bot'u kullanamazsınız."])
+                        FloodControl(bot.get_chat_member, [kan, 5183123826])
                     except:
                         pass
-                    continue
+                    else:
+                        FloodControl(bot.send_message, *[user, "Kanalınızda farklı Poster Bot tespit edildi. Kanalınızdan çıkartmazsanız Oto Poster Bot'u kullanamazsınız."])
+                        continue
                 try:
                     if len(postee) == 1:
                         post = FloodControl(update.effective_message.copy, **{"chat_id": kan, "caption": sablon, "reply_markup": postermarkup})
