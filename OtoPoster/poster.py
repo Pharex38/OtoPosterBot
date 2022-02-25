@@ -315,7 +315,10 @@ def poster_job(context):
                 except:
                     pass
                 else:
-                    FloodControl(bot.send_message, *[user, "Kanalınızda farklı Poster Bot tespit edildi. Kanalınızdan çıkartmazsanız Oto Poster Bot'u kullanamazsınız."])
+                    try:
+                        FloodControl(bot.send_message, *[user, "Kanalınızda farklı Poster Bot tespit edildi. Kanalınızdan çıkartmazsanız Oto Poster Bot'u kullanamazsınız."])
+                    except:
+                        pass
                     continue
                 try:
                     if len(postee) == 1:
