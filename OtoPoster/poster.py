@@ -311,7 +311,7 @@ def poster_job(context):
                         logger.warning(f"{kan} kayıtlardan silindi.")
                     continue
                 try:
-                    FloodControl(bot.get_chat_member, [kan, 5183123826])
+                    FloodControl(bot.get_chat_member, *[kan, 5183123826])
                 except:
                     pass
                 else:
