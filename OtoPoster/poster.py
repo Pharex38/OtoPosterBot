@@ -310,14 +310,13 @@ def poster_job(context):
                     else:
                         logger.warning(f"{kan} kayıtlardan silindi.")
                     continue
-                if 5183123826 in yetkililer:
-                    try:
-                        FloodControl(bot.get_chat_member, [kan, 5183123826])
-                    except:
-                        pass
-                    else:
-                        FloodControl(bot.send_message, *[user, "Kanalınızda farklı Poster Bot tespit edildi. Kanalınızdan çıkartmazsanız Oto Poster Bot'u kullanamazsınız."])
-                        continue
+                try:
+                    FloodControl(bot.get_chat_member, [kan, 5183123826])
+                except:
+                    pass
+                else:
+                    FloodControl(bot.send_message, *[user, "Kanalınızda farklı Poster Bot tespit edildi. Kanalınızdan çıkartmazsanız Oto Poster Bot'u kullanamazsınız."])
+                    continue
                 try:
                     if len(postee) == 1:
                         post = FloodControl(update.effective_message.copy, **{"chat_id": kan, "caption": sablon, "reply_markup": postermarkup})
