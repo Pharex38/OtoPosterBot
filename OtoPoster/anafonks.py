@@ -632,8 +632,14 @@ def apikayit(update, context):
     except:
         return
     token = apiscraper(token)
+
     user = update.effective_message.from_user.id
     chat = update.effective_message.chat.id
+    
+
+    if user in kara:
+        bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
+        return
     bnb = collection.find_one({"_id": user})
     if update.effective_message.text == None:
         msg = bot.send_message(chat, "Lütfen geçerli bir API verin.")
