@@ -248,6 +248,12 @@ def poster_job(context):
                         pass
                     ertos["apihata"] += 1
                     continue
+                elif json['message'] == "You must upgrade your plan so you can use this tool.":
+                    try:
+                        bot.send_message(user, "Kısaltma servisiniz ile ilgili bir sorun oluştu!\n\nHata: <code> You must upgrade your plan so you can use this tool.</code>")
+                    except:
+                        pass
+                    continue
                 elif json['message'] != "" and json['message'] != "Invalid API token":
                     logger.error(f"{update.effective_message.chat.title} son postu hatalı olduğu için iptal edildi!")
                     FloodControl(bot.send_message, *[sahip, posterrtext.format(update.effective_message.chat.title, json['message'], update.effective_message.link)])
