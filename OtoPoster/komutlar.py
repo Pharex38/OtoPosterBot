@@ -589,9 +589,10 @@ def yenikaynakkomutu(update, context):
     if context.args[0].lower() == "sil":
         KaynakCol.delete_one({"no": int(context.args[1])})
         return
-    kaynak_degisken = KaynakCol.find_one({"sahip": user})
+    kaynak_degisken = KaynakCol.find_one({"no": 1})
     kaynak_degisken['kaynak'] = []
     kaynak_degisken['kanal'] = []
+    kaynak_degisken['sayi'] = 0
     kaynak_degisken['zaman'] = "Henüz ayarlanmamış."
     kaynak_degisken['sahip'] = int(context.args[0])
     kaynak_degisken['_id'] = int(context.args[1])
