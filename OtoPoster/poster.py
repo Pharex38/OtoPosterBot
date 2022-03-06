@@ -342,7 +342,7 @@ def poster_job(context):
                             except:
                                 kanname = "Kanaldan Çıkarılmış."
                             FloodControl(bot.send_message, *[blog, kansillog.format(user=user, membersayi=kanname, kan=str(kan)[3:])])
-                            FloodControl(bot.send_message, [user, "Botu kanalınızdan çıkardığınız için kanalınız silindi."])
+                            FloodControl(bot.send_message, *[user, "Botu kanalınızdan çıkardığınız için kanalınız silindi."])
                         except:
                             pass   
                         else:
