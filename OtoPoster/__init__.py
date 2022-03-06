@@ -78,7 +78,7 @@ tips = [
     "Her kanlınıza farklı kaynak seçebilirsiniz."
     ]
 ignorejob = ["yedekleme", "istekjob", "gunluk", "resetleme", "arsivanaposter", "ozelposter", "anaposter", "anapostersiralayici", "ozelpostersiralayici", "panelcleaner", "kisitlamakontrol", "istekonaylayici"]
-ignorekaynak = []
+ignorekaynak = [4]
 
 
 komutisimleri = []
