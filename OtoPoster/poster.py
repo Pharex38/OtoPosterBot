@@ -291,11 +291,11 @@ def poster_job(context):
                 if not kan in chatdat['kanal'] or kan in eski or chatdat['icerik'] == "arsiv" and not kan in icerik or chatdat['icerik'] == "+18" and kan in icerik:
                     continue
                 post = update.effective_message
-                sleep(0.05)
                 try:
                     yetkililer = [xy.user.id for xy in FloodControl(bot.get_chat_administrators, *[kan]) if xy.can_post_messages or xy.status = "creator"]
                 except:
                     continue
+                sleep(0.05)
                 if not user in yetkililer:
                     try:
                         membersayi = FloodControl(bot.get_chat_member_count, *[kan])
