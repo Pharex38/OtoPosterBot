@@ -293,12 +293,8 @@ def poster_job(context):
                 post = update.effective_message
                 sleep(0.05)
                 try:
-                    yetkililer = []
-                    for xy in FloodControl(bot.get_chat_administrators, *[kan]):
-                        if xy.can_post_messages or xy.status == "creator":
-                            yetkililer.append(xy.user.id)
+                    yetkililer = [xy.user.id for xy in FloodControl(bot.get_chat_administrators, *[kan]) if xy.can_post_messages or xy.status = "creator"]
                 except:
-                    yetkililer = []
                     continue
                 if not user in yetkililer:
                     try:
