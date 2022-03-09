@@ -546,7 +546,7 @@ def callback_query(call, context):
         if refsahip == "yok":
             collection.update_one({"_id": user}, {"$set": {"ozel": False}})
             collection.update_one({"_id": user}, {"$pull": {"kaynak": "32"}})
-            kaynakmsg.effective_message.edit_text("Özel kaynağınız silinmiş!")
+            kaynakmsg.edit_text("Özel kaynağınız silinmiş!")
             return
         ref_link = create_deep_linked_url(context.bot.username, str(refsahip))
         try:
