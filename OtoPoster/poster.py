@@ -317,7 +317,7 @@ def poster_job(context):
                 except:
                     pass
                 else:
-                    if oevladı.can_post_messages:
+                    if oevladı.status == "administrator":
                         try:
                             FloodControl(bot.send_message, *[user, "Kanalınızda farklı Poster Bot tespit edildi. Kanalınızdan çıkartmazsanız Oto Poster Bot'u kullanamazsınız."])
                         except:
