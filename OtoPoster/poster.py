@@ -292,7 +292,10 @@ def poster_job(context):
                     continue
                 post = update.effective_message
                 try:
-                    yetkililer = [xy.user.id for xy in FloodControl(bot.get_chat_administrators, *[kan]) if xy.can_post_messages or xy.status = "creator"]
+                    yetkililer = []
+                    for xy in FloodControl(bot.get_chat_administrators, *[kan]):
+                        if xy.can_post_messages or xy.status = "creator":
+                            yetkililer.append(xy.user.id)
                 except:
                     continue
                 sleep(0.05)
