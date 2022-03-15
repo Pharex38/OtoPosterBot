@@ -227,6 +227,10 @@ def gunluk(context):
                     print(uye)
                 except RetryAfter as after:
                     sleep(after.retry_after)
+                    try:
+                        uye = bot.get_chat_members_count(kul)
+                    except:
+                        pass
                 except Exception as e:
                     logger.error(e)
                     if str(e).find("not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
@@ -248,6 +252,12 @@ def gunluk(context):
             continue
         try:
             getskaynak = bot.get_chat(kstat['_id'])
+        except RetryAfter as after:
+            sleep(after.retry_after)
+            try:
+                getskaynak = bot.get_chat(kstat['_id'])
+            except:
+                gktitle = "Kaynağa ulaşılamıyor..."
         except:
             gktitle = "Kaynağa ulaşılamıyor..."
         else:
@@ -270,6 +280,12 @@ def gunluk(context):
             continue
         try:
             getskaynak = bot.get_chat(kstat['_id'])
+        except RetryAfter as after:
+            sleep(after.retry_after)
+            try:
+                getskaynak = bot.get_chat(kstat['_id'])
+            except:
+                gktitle = "Kaynağa ulaşılamıyor..."
         except:
             gktitle = "Kaynağa ulaşılamıyor..."
         else:
