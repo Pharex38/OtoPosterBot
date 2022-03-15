@@ -258,6 +258,8 @@ def gunluk(context):
                 getskaynak = bot.get_chat(kstat['_id'])
             except:
                 gktitle = "Kaynağa ulaşılamıyor..."
+            else:
+                gktitle = getskaynak.title
         except:
             gktitle = "Kaynağa ulaşılamıyor..."
         else:
@@ -286,6 +288,8 @@ def gunluk(context):
                 getskaynak = bot.get_chat(kstat['_id'])
             except:
                 gktitle = "Kaynağa ulaşılamıyor..."
+            else:
+                gktitle = getskaynak.title
         except:
             gktitle = "Kaynağa ulaşılamıyor..."
         else:
