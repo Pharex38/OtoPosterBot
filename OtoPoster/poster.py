@@ -230,7 +230,7 @@ def poster_job(context):
                             context.job_queue.run_once(kisitlamakontrol, when=2, name="kisitlamakontrol", context="")
                             errsayim[site] = 0
                         link = "-"
-                        logger.error(e)
+                        logger.error(str(e))
                         logger.warning(json)
                         ertos['spg'] += 1
                         ertolist.append(str(e)+str(user))
