@@ -54,6 +54,7 @@ def poster_job(context):
     errsayim = {"0": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0}
     ertos = {"spg": 0, "apihata": 0}
     ertolist = []
+    aftertext = []
     """  Veri Tabanı  """
     postdata = db[str(chat)]
     binb =  chatdat['kaynak']
