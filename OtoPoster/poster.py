@@ -211,8 +211,6 @@ def poster_job(context):
                 except Exception as e:
                     if linktry == 10:
                         aftertext.append((user, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(site)}</code>"))
-                        except:
-                            pass
                         errsayim[site] = errsayim[site]+1
                         if errsayim[site] > 150:
                             collection.update_one({"_id": 0}, {"$push": {"site": site}})
@@ -236,10 +234,7 @@ def poster_job(context):
                     ertos["apihata"] += 1
                     continue
                 elif json['message'] == "You must upgrade your plan so you can use this tool.":
-                    try:
-                        aftertext.append((user, "Kısaltma servisiniz ile ilgili bir sorun oluştu!\n\nHata: <code> You must upgrade your plan so you can use this tool.</code>"))
-                    except:
-                        pass
+                    aftertext.append((user, "Kısaltma servisiniz ile ilgili bir sorun oluştu!\n\nHata: <code> You must upgrade your plan so you can use this tool.</code>"))
                     continue
                 elif json['message'] != "" and json['message'] != "Invalid API token":
                     logger.error(f"{update.effective_message.chat.title} son postu hatalı olduğu için iptal edildi!")
