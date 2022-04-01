@@ -178,19 +178,13 @@ def poster_job(context):
                         alink, ajson = linkkisalt(altsite, altapi, mesajb, chatdat['icerik'])
                     except ReadTimeoutError:
                         if linktry == 10:
-                            try:
-                                FloodControl(bot.send_message, *[user, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(altsite)}</code>"])
-                            except:
-                                pass
+                            aftertext.append((user, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(altsite)}</code>"))
                             alink = "-"
                             ertos["spg"] += 1
                             continue
                     except Exception as e:
                         if linktry == 10:
-                            try:
-                                FloodControl(bot.send_message, *[user, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(altsite)}</code>"])
-                            except:
-                                pass
+                            aftertext.append((user, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(altsite)}</code>"))
                             alink = "-"
                             errsayim[altsite] = errsayim[altsite]+1
                             if errsayim[altsite] > 150:
@@ -209,8 +203,7 @@ def poster_job(context):
                     link, json = linkkisalt(site, token, mesajb, chatdat['icerik'])
                 except ReadTimeoutError:
                     if linktry == 10:
-                        try:
-                            FloodControl(bot.send_message, *[user, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(site)}</code>"])
+                        aftertext.append((user, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(site)}</code>"))
                         except:
                             pass
                         link = "-"
@@ -218,9 +211,7 @@ def poster_job(context):
                         continue
                 except Exception as e:
                     if linktry == 10:
-                        try:
-                            FloodControl(bot.send_message, *[user, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(site)}</code>"])
-                            bildir(e)
+                        aftertext.append((user, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(site)}</code>"))
                         except:
                             pass
                         errsayim[site] = errsayim[site]+1
@@ -242,15 +233,12 @@ def poster_job(context):
                 pass
             else:
                 if json['message'] == "Invalid API token":
-                    try:
-                        bot.send_message(user, "API adresiniz yanlış!")
-                    except:
-                        pass
+                    aftertext.append((user, "API adresiniz yanlış!"))
                     ertos["apihata"] += 1
                     continue
                 elif json['message'] == "You must upgrade your plan so you can use this tool.":
                     try:
-                        bot.send_message(user, "Kısaltma servisiniz ile ilgili bir sorun oluştu!\n\nHata: <code> You must upgrade your plan so you can use this tool.</code>")
+                        aftertext.append((user, "Kısaltma servisiniz ile ilgili bir sorun oluştu!\n\nHata: <code> You must upgrade your plan so you can use this tool.</code>"))
                     except:
                         pass
                     continue
@@ -400,6 +388,11 @@ def poster_job(context):
         FloodControl(bot.send_message, *[-1001190898326, detaylibasari])
     except Exception as e:
         logger.error(e)
+    for xc, yc in aftertext:
+        try:
+            FloodControl(bot.send_message, *[xc, yc])
+        except Exception as e:
+            logger.exception(e)
 
 def ozel_poster_job(context):
     opostee = context.job.context    
