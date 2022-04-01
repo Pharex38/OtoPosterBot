@@ -205,8 +205,6 @@ def poster_job(context):
                 except ReadTimeoutError:
                     if linktry == 10:
                         aftertext.append((user, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(site)}</code>"))
-                        except:
-                            pass
                         link = "-"
                         ertos["spg"] += 1
                         continue
