@@ -42,6 +42,8 @@ OzelCol = db["Özel Kaynaklar"]
 ButonCol = db["Butonlar"]
 IstekCol = db["İstekler"]
 
+speeds = speedtest.Speedtest()
+
 maindata = collection.find_one({"_id": 0})
 kara = maindata['kara']
 apikara = maindata['apikara']
