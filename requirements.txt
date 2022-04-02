@@ -7,3 +7,4 @@ pyrogram
 TgCrypto
 matplotlib
 telethon
+speedtest-cli
