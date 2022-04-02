@@ -4,7 +4,7 @@ from requests import get, Session
 from requests.exceptions import *
 from time import sleep
 from pymongo import MongoClient
-import time, datetime, calendar
+import time, datetime, calendar, speedtest
 import threading, pytz, os, asyncio, logging
 from ssl import CERT_NONE
 from random import choice, randint, shuffle
