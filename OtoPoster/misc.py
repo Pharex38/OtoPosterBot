@@ -135,7 +135,7 @@ def linkkisalt(site, token, text, icerik):
     elif site == "4":
         link = get(f"http://ouo.io/api/{token}?", params={'s': text}, headers=headerss, timeout=ptimeout).text
     elif site == "5":
-        link = cscraper.get(f"http://pubiza.com/api.php?token={token}&url={text}&ads_type={pubizacat}")
+        link = cscraper.get(f"http://pubiza.com/api.php?token={token}&url={text}&ads_type={pubizacat}").text
         #link = get(f"http://pubiza.com/api.php?", params={'token': token, 'url': text, 'ads_type': pubizacat}, headers=headerss, timeout=ptimeout).text
     elif site == "6":
         json = get("http://gir.ist/api?", params={"api": token, "url": text}, headers=headerss, timeout=ptimeout).json()
