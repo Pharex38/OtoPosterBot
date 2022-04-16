@@ -112,7 +112,7 @@ def send_typing_action(func):
     return command_func
 
 def linkkisalt(site, token, text, icerik):
-    cscraper = cloudscraper.create_scraper()
+    cscraper = cfscrape.create_scraper()
     json = {"shortenedUrl": "", "message": "", "status": ""}
     link = " "
     if icerik == "arsiv":
