@@ -115,7 +115,7 @@ def linkkisalt(site, token, text, icerik):
     #cscraper = cfscrape.create_scraper()
     json = {"shortenedUrl": "", "message": "", "status": ""}
     link = " "
-    sesi = Session()
+    sesi = HTMLSession()
     sesi.headers['user-agent'] = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36'
     if icerik == "arsiv":
         trlinkcat = 3
