@@ -112,9 +112,15 @@ def send_typing_action(func):
     return command_func
 
 def linkkisalt(site, token, text, icerik):
-    cscraper = cfscrape.create_scraper()
+    #cscraper = cfscrape.create_scraper()
     json = {"shortenedUrl": "", "message": "", "status": ""}
     link = " "
+    sesi = Session()
+    headers = OrderedDict({
+    'Accept-Encoding': 'gzip, deflate, br',
+    'Host': "grimaldis.myguestaccount.com",
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:77.0) Gecko/20100101 Firefox/77.0'})
+    s.headers = headers
     if icerik == "arsiv":
         trlinkcat = 3
         pndcat = 7
@@ -135,8 +141,8 @@ def linkkisalt(site, token, text, icerik):
     elif site == "4":
         link = get(f"http://ouo.io/api/{token}?", params={'s': text}, headers=headerss, timeout=ptimeout).text
     elif site == "5":
-        link = cscraper.get(f"http://pubiza.com/api.php?token={token}&url={text}&ads_type={pubizacat}").text
-        #link = get(f"http://pubiza.com/api.php?", params={'token': token, 'url': text, 'ads_type': pubizacat}, headers=headerss, timeout=ptimeout).text
+        #link = cscraper.get(f"http://pubiza.com/api.php?token={token}&url={text}&ads_type={pubizacat}").text
+        link = sesi.get(f"http://pubiza.com/api.php?", params={'token': token, 'url': text, 'ads_type': pubizacat}, headers=headerss, timeout=ptimeout).text
     elif site == "6":
         json = get("http://gir.ist/api?", params={"api": token, "url": text}, headers=headerss, timeout=ptimeout).json()
         link = json['shortenedUrl']
