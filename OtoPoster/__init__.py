@@ -1,6 +1,8 @@
 
 
-from requests import get, HTMLSession
+from requests import get, Session
+from requests_html import HTMLSession
+
 from requests.exceptions import *
 from time import sleep
 from pymongo import MongoClient
