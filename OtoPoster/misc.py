@@ -116,7 +116,7 @@ def linkkisalt(site, token, text, icerik):
     json = {"shortenedUrl": "", "message": "", "status": ""}
     link = " "
     sesi = Session()
-    headers = OrderedDict({
+    headersa = OrderedDict({
     'Accept-Encoding': 'gzip, deflate, br',
     'Host': "grimaldis.myguestaccount.com",
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:77.0) Gecko/20100101 Firefox/77.0'})
