@@ -34,6 +34,7 @@ pid.write(str(os.getpid()))
 pid.close()
 print(os.getpid())
 
+bottoken = maindata['BOTTOKEN']
 mpass = os.environ['MONGOPASS']
 mongo = f"os.environ["MONGO_URI"]"
 
@@ -50,7 +51,6 @@ speeds = speedtest.Speedtest()
 maindata = collection.find_one({"_id": 0})
 kara = maindata['kara']
 apikara = maindata['apikara']
-bottoken = maindata['bottoken']
 para = maindata['para']
 appstr = maindata['appstr']
 aid = maindata['aid']
