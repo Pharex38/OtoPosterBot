@@ -34,7 +34,7 @@ pid.write(str(os.getpid()))
 pid.close()
 print(os.getpid())
 
-bottoken = maindata['BOTTOKEN']
+bottoken = os.environ['BOTTOKEN']
 mpass = os.environ['MONGOPASS']
 mongo = f"os.environ["MONGO_URI"]"
 
