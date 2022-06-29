@@ -105,9 +105,9 @@ def deep(u_kod, user):
 def send_typing_action(func):
 
     @wraps(func)
-    def command_func(update, context, *args, **kwargs):
+    async def command_func(update, context, *args, **kwargs):
         context.bot.send_chat_action(chat_id=update.effective_message.chat_id, action=ChatAction.TYPING)
-        return func(update, context,  *args, **kwargs)
+        return await func(update, context,  *args, **kwargs)
 
     return command_func
 
@@ -115,8 +115,6 @@ def linkkisalt(site, token, text, icerik):
     #cscraper = cfscrape.create_scraper()
     json = {"shortenedUrl": "", "message": "", "status": ""}
     link = " "
-    sesi = HTMLSession()
-    sesi.headers['user-agent'] = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36'
     if icerik == "arsiv":
         trlinkcat = 3
         pndcat = 7
@@ -166,14 +164,14 @@ def apiscraper(apitoken):
         
     return apitoken
 
-def bildir(neyi='Boş Bildirim Testi !'):
+async def bildir(neyi='Boş Bildirim Testi !'):
     for i in adminlist:
         try:
-            bot.send_message(i,neyi)
+            await bot.send_message(i,neyi)
         except RetryAfter as rtr:
             sleep(rtr.retry_after+1)
             try:
-                bot.send_message(i,neyi)
+                await bot.send_message(i,neyi)
             except:
                 pass
         except:
@@ -200,13 +198,13 @@ def phaapi(sit):
     if sit == "7":
         return "***REMOVED-KEY***"
 
-def FloodControl(komand, *argos, **kwargos):
+async def FloodControl(komand, *argos, **kwargos):
     try:
-        return komand(*argos, **kwargos)
+        return await komand(*argos, **kwargos)
     except RetryAfter as trf:
         logger.warning(f"FloodWait - {trf.retry_after} - Line: {sys._getframe().f_back.f_lineno}")
         sleep(trf.retry_after+1)
-        return komand(*argos, **kwargos)
+        return await komand(*argos, **kwargos)
 
 def site_isim(no):
     if no == "0":
@@ -227,13 +225,13 @@ def site_isim(no):
         return "URLAbly"
     return "Bulunamadı"
 
-def kan_mention_html(kanid):
+async def kan_mention_html(kanid):
     try:
-        kanmh = bot.get_chat(kanid)
+        kanmh = await bot.get_chat(kanid)
     except RetryAfter as mhafter:
         sleep(mhafter.retry_after)
         try:
-            kanmh = bot.get_chat(kanid)
+            kanmh = await bot.get_chat(kanid)
         except:
             return f"<a href='tg://privatepost?channel={str(kanid)[3:]}&post=9999999'>'Kanala Ulaşılamadı.'</a>"
     except:
@@ -249,55 +247,55 @@ def setup_logger():
     logging.basicConfig(format="%(asctime)s - %(levelname)s - %(message)s", handlers=[logging.FileHandler(f'Loglar/{logd}.txt', 'w', 'utf-8'), logging.StreamHandler()], level=logging.INFO)
     logger = logging.getLogger("OtoPosterBot")
 
-def eklentiiletisim(update, context):
+async def eklentiiletisim(update, context):
     ileti = update.message.text_html_urled
     ileti = ileti.split("+")
     if ileti[0] == "ios":
         imsgid = context.dispatcher.user_data[int(ileti[1])]['iosmsgid']
-        bot.edit_message_text("<b>"+str(bot.get_chat(ileti[2]).title)+"</b> "+ileti[3], ileti[1], imsgid)
+        await bot.edit_message_text("<b>"+str(bot.get_chat(ileti[2]).title)+"</b> "+ileti[3], ileti[1], imsgid)
         return
     elif ileti[0] == "hash":
         try:
-            haslink = bot.get_chat(ileti[1]).invite_link
+            haslink = await bot.get_chat(ileti[1]).invite_link
         except RetryAfter:
             return
         except:
             collection.update_one({"_id":0}, {"$pull": {"istek": str(ileti[1])}})
             
-        bot.send_message(eklenti, f"hash*{haslink}")
+        await bot.send_message(eklenti, f"hash*{haslink}")
     elif ileti[0] == "yetki":
         try:
-            bot.promote_chat_member(ileti[1], eklenti, can_invite_users=True)
+            await bot.promote_chat_member(ileti[1], eklenti, can_invite_users=True)
         except RetryAfter as rf:
             sleep(rf.retry_after)
-            bot.promote_chat_member(ileti[1], eklenti, can_invite_users=True)
+            await bot.promote_chat_member(ileti[1], eklenti, can_invite_users=True)
     elif ileti[0] == "link":
         try:
-            haslink = bot.get_chat(ileti[1]).invite_link
+            haslink = await bot.get_chat(ileti[1]).invite_link
         except RetryAfter:
             return
         except:
             collection.update_one({"_id":0}, {"$pull": {"istek": str(ileti[1])}})
             
-        bot.send_message(eklenti, f"istek*{haslink}*{ileti[1]}")
+        await bot.send_message(eklenti, f"istek*{haslink}*{ileti[1]}")
             
         
 
-def komutisimleristart():
+async def komutisimleristart():
     komutisimleris = []
     for komi in komutisimleri:
         komutisimleris.append(BotCommand(komi, komi.capitalize()))
-    bot.set_my_commands(commands=komutisimleris, scope=BotCommandScopeChat(sahip))
-    bot.set_my_commands(commands=komutisimleris, scope=BotCommandScopeChatAdministrators(blog))
+    await bot.set_my_commands(commands=komutisimleris, scope=BotCommandScopeChat(sahip))
+    await bot.set_my_commands(commands=komutisimleris, scope=BotCommandScopeChatAdministrators(blog))
 
-def comment(update, context):
+async def comment(update, context):
     if update.edited_message or update.effective_message.text == None:
         return
     if update.message.text.find("kanalda post paylaşıldı.") == -1 and update.message.text.find("paylaşılıyor") == -1:
         return
-    bot.delete_message(update.message.chat.id, update.effective_message.message_id)
+    await bot.delete_message(update.message.chat.id, update.effective_message.message_id)
 
-def error_handler(update: object, context: CallbackContext) -> None:
+async def error_handler(update: object, context: CallbackContext) -> None:
     try:
         global postsirasi, opostsirasi
         logger.error(msg="Bir Hata oluştu:", exc_info=context.error)
@@ -327,15 +325,15 @@ def error_handler(update: object, context: CallbackContext) -> None:
         )
 
         try:
-            context.bot.send_message(chat_id=sahip, text=message1, parse_mode=ParseMode.HTML)
+            await context.bot.send_message(chat_id=sahip, text=message1, parse_mode=ParseMode.HTML)
         except:
             pass
         try:
-            context.bot.send_message(chat_id=sahip, text=message2, parse_mode=ParseMode.HTML)
+            await context.bot.send_message(chat_id=sahip, text=message2, parse_mode=ParseMode.HTML)
         except:
             pass
         try:
-            context.bot.send_message(chat_id=sahip, text=message3, parse_mode=ParseMode.HTML)
+            await context.bot.send_message(chat_id=sahip, text=message3, parse_mode=ParseMode.HTML)
         except:
             pass
     except Exception as es:

@@ -4,24 +4,24 @@ from .anafonks import *
 from .misc import *
 from .komutlar import *
 
-def sabloncall(call, context):
+async def sabloncall(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
     mesajid = call.effective_message.message_id
     try:
-        bot.delete_message(chat, mesajid)
+        await bot.delete_message(chat, mesajid)
     except:
         pass
     if collection.find_one({"_id": user}) == None:
         call.callback_query.edit_message_text(text="<b>Önce bir API kaydedin!</b>")
         return
     if collection.find_one({"_id": user})['sira'] == 1 or collection.find_one({"_id": user})['altsite'] == "tpil":
-        msz = bot.send_message(chat, "<i>Oluşturduğunuz şablonda</i> <b>{aciklama}, {alink}</b> ve <b>{link}</b> <i>kelimelerinin bulunduğundan emin olun yoksa şablon çalışmaz</i>", reply_markup=imark())
+        msz = await bot.send_message(chat, "<i>Oluşturduğunuz şablonda</i> <b>{aciklama}, {alink}</b> ve <b>{link}</b> <i>kelimelerinin bulunduğundan emin olun yoksa şablon çalışmaz</i>", reply_markup=imark())
     else:
-        msz = bot.send_message(chat, "<i>Oluşturduğunuz şablonda</i> <b>{aciklama}</b> ve <b>{link}</b> <i>kelimelerinin bulunduğundan emin olun yoksa şablon çalışmaz</i>", reply_markup=imark())
+        msz = await bot.send_message(chat, "<i>Oluşturduğunuz şablonda</i> <b>{aciklama}</b> ve <b>{link}</b> <i>kelimelerinin bulunduğundan emin olun yoksa şablon çalışmaz</i>", reply_markup=imark())
     return SABLONA
 
-def altcall(call, context):
+async def altcall(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
     mesajid = call.effective_message.message_id
@@ -29,14 +29,14 @@ def altcall(call, context):
     context.user_data['asite'] = smesaj
     call.callback_query.answer(call.callback_query.id, "✅ Site Kaydedildi!")
     bot.edit_message_text("✅ Alternatif site kaydedildi.", user, mesajid)
-    bot.send_message(chat, "📝 Alternatif API adresinizi gönderin.", reply_markup=imark())
+    await bot.send_message(chat, "📝 Alternatif API adresinizi gönderin.", reply_markup=imark())
     return ALTAPI
 
-def ayarlarcall(call, context):
+async def ayarlarcall(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
     
-def kaynakkontrolcall(call, context):
+async def kaynakkontrolcall(call, context):
     chat = call.effective_chat.id
     user = call.effective_user.id
     query = call.callback_query
@@ -61,18 +61,18 @@ def kaynakkontrolcall(call, context):
             collection.update_one({"_id": 0}, {"$push": {"kont": {"user": user, "icerik": context.user_data['kont-icerik'], "tur": context.user_data['kont-tur']}}})
         elif context.user_data['kont-icerik'] == "arsiv":
             collection.update_one({"_id": 0}, {"$push": {"kont": {"user": user, "icerik": context.user_data['kont-icerik'], "tur": None}}})
-        bot.send_message(chat, "İsteğiniz gönderildi!")
+        await bot.send_message(chat, "İsteğiniz gönderildi!")
 
-def begenicall(call, context):
+async def begenicall(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
     if len(collection.find_one({"_id": user})['kanal']) == 0:
-        bot.send_message(chat, "Beğeni butonu ayarlayabilmek için önce bir kanal kaydetmelisiniz!")
+        await bot.send_message(chat, "Beğeni butonu ayarlayabilmek için önce bir kanal kaydetmelisiniz!")
         return
-    bot.send_message(chat, "Ayarlamak istediğin buton emojilerini örnekteki gibi gönderin.\n\nÖrnek;\n<code>❤️/⛔️/🥰</code>", reply_markup=imark())
+    await bot.send_message(chat, "Ayarlamak istediğin buton emojilerini örnekteki gibi gönderin.\n\nÖrnek;\n<code>❤️/⛔️/🥰</code>", reply_markup=imark())
     return BEGENI
 
-def kaynakcall(call, context):
+async def kaynakcall(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
     kys = int(call.callback_query.data.split("-")[1])
@@ -97,7 +97,7 @@ def kaynakcall(call, context):
         except KeyError:
             durak = False
         if durak and user in collection.find_one({"_id": 0})['cekilis'] and kys == int(context.bot_data['sahip']):
-            bot.send_message(chat, "Çekiliş kaynağını kullanmayı bıraktığınız için çekilişten atıldınız!")
+            await bot.send_message(chat, "Çekiliş kaynağını kullanmayı bıraktığınız için çekilişten atıldınız!")
             collection.update_one({"_id": 0}, {"$pull": {"cekilis": user}})
         for kop in kkul['kanal']:
             if kop in callkaynak['kanal']:
@@ -116,15 +116,15 @@ def kaynakcall(call, context):
     except:
         pass
 
-def ozellogcall(call, context):
+async def ozellogcall(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
     mesajid = call.effective_message.message_id
-    bot.delete_message(chat, mesajid)
-    bot.send_message(chat, "📝 Oluşturduğunuz Log kanalından bir gönderi iletin.", reply_markup=imark())
+    await bot.delete_message(chat, mesajid)
+    await bot.send_message(chat, "📝 Oluşturduğunuz Log kanalından bir gönderi iletin.", reply_markup=imark())
     return OZELBOTLOG
 
-def ozelkaynakcall(call, context):
+async def ozelkaynakcall(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
     mesajid = call.effective_message.message_id
@@ -132,32 +132,32 @@ def ozelkaynakcall(call, context):
         call.callback_query.edit_message_text(text="<b>Önce bir API kaydedin!</b>")
         return
     if "31" in collection.find_one({"_id": user})['kaynak']:
-        bot.send_message(user, "<b>Önce Sfs Modunu Kapatın!</b>")
+        await bot.send_message(user, "<b>Önce Sfs Modunu Kapatın!</b>")
         return ConversationHandler.END
     try:
-        bot.delete_message(chat, mesajid)
+        await bot.delete_message(chat, mesajid)
     except:
         pass
-    bot.send_message(chat, """<b>Yapmanız Gerekenler</b>
+    await bot.send_message(chat, """<b>Yapmanız Gerekenler</b>
 <i>
 1 - Kaynak yapacağınız kanal oluşturun.
 2 - Oluşturduğunuz kanaldan bota bir mesaj iletin.</i>""", reply_markup=imark())
     return OZELKAYNAK
 
-def patzamancall(call, context):
+async def patzamancall(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
     mesajid = call.callback_query.message.message_id
 
-def postzamancall(call, context):
+async def postzamancall(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
     mesajid = call.callback_query.message.message_id
-    bot.delete_message(chat, mesajid)
-    bot.send_message(chat, "Postlarınız 00:00'dan başlayarak sırasıyla hangi saatlerde gönderilmesini istediğiniz saatleri altalta yazın ve gönderin.\n\nÖrnek;\n00:00\n01:00\n02:00\n03:00\n...", reply_markup=imark())
+    await bot.delete_message(chat, mesajid)
+    await bot.send_message(chat, "Postlarınız 00:00'dan başlayarak sırasıyla hangi saatlerde gönderilmesini istediğiniz saatleri altalta yazın ve gönderin.\n\nÖrnek;\n00:00\n01:00\n02:00\n03:00\n...", reply_markup=imark())
     return POSTZAMAN
 
-def cekiliscall(call, context):
+async def cekiliscall(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
     mesajid = call.callback_query.message.message_id
@@ -201,31 +201,31 @@ def cekiliscall(call, context):
                     return
     call.callback_query.answer(show_alert=True, text=f"En az 1000 abone olan bir kanalınız {cek_k_isim} kaynağını kullanmak zorunda.")
 
-def devampatcall(call, context):
+async def devampatcall(call, context):
     chat = call.effective_chat.id
     try:
         call.effective_message.delete()
     except:
         pass
-    bot.send_message(chat, "Paylaşmamı istediğin hazır postu ilet.", reply_markup=imark())
+    await bot.send_message(chat, "Paylaşmamı istediğin hazır postu ilet.", reply_markup=imark())
     return PATPOST
 
-def panelcall(call, context):
+async def panelcall(call, context):
     query = call.callback_query
     chat = call.effective_chat.id
     user = call.effective_user.id
     query.answer("Lütfen bekleyin...")
     if query.data == "panelzaman":
-        bot.send_message(call.effective_chat.id, "Ayarlamak istediğiniz mesajı gönderin.", reply_markup=imark())
+        await bot.send_message(call.effective_chat.id, "Ayarlamak istediğiniz mesajı gönderin.", reply_markup=imark())
         return PANELZAMAN
     elif query.data == "panelkural":
-        bot.send_message(chat, str(collection.find_one({"_id": 0})['kurallar']))
+        await bot.send_message(chat, str(collection.find_one({"_id": 0})['kurallar']))
     elif query.data.startswith("pau"):
         kaynak_users = KaynakCol.find_one({"sahip": user})['kaynak'].remove(sahip) if sahip in KaynakCol.find_one({"sahip": user})['kaynak'] else KaynakCol.find_one({"sahip": user})['kaynak']
         panel_user_text = f"<b>Kaynağınızı Kullanan Kullanıcılar;</b>\n\n"
         que = int(query.data.split("-")[-1]) if query.data.split("-")[-1] != "bul" else None
         if que == None:
-            bot.send_message(chat, "Bulmak istediğiniz kullanıcının ID'sini veya kullanıcıdan herhangi bir mesaj iletin.", reply_markup=imark())
+            await bot.send_message(chat, "Bulmak istediğiniz kullanıcının ID'sini veya kullanıcıdan herhangi bir mesaj iletin.", reply_markup=imark())
             return PANELBUL
         for paucount in range(que-10,que):
             try:
@@ -253,13 +253,13 @@ def panelcall(call, context):
                 break
         else:
             paumark = [[InlineKeyboardButton("🔍 Kullanıcı Bul", callback_data="pau-bul")], [InlineKeyboardButton("Sonraki Sayfa ⏩", callback_data="pau-20")] if len(kaynak_users) > 10 else []]
-        bot.send_message(chat, panel_user_text, reply_markup=InlineKeyboardMarkup(paumark))
+        await bot.send_message(chat, panel_user_text, reply_markup=InlineKeyboardMarkup(paumark))
     elif query.data.startswith("pak-"):
         kaynak_users = KaynakCol.find_one({"sahip": user})['kanal']
         panel_user_text = f"<b>Kaynağınızı Kullanan Kanallar;</b>\n\n"
         que = int(query.data.split("-")[-1]) if query.data.split("-")[-1] != "bul" else None
         if que == None:
-            bot.send_message(chat, "Bulmak istediğiniz Kanalın ID'sini veya Kanaldan herhangi bir mesaj iletin.", reply_markup=imark())
+            await bot.send_message(chat, "Bulmak istediğiniz Kanalın ID'sini veya Kanaldan herhangi bir mesaj iletin.", reply_markup=imark())
             return PANELBUL
         for pakcount in range(que-10,que):
             try:
@@ -285,15 +285,15 @@ def panelcall(call, context):
                 break
         else:
             pakmark = [[InlineKeyboardButton("🔍 Kanal Bul", callback_data="pak-bul")], [InlineKeyboardButton("Sonraki Sayfa ⏩", callback_data="pak-20")] if len(kaynak_users) > 10 else []]
-        bot.send_message(chat, panel_user_text, reply_markup=InlineKeyboardMarkup(pakmark))
+        await bot.send_message(chat, panel_user_text, reply_markup=InlineKeyboardMarkup(pakmark))
     elif query.data == "panelguncellemeler":
         gunc_text = "<b>Bottaki Son Güncellemeler;</b>\n\n<i>• "
         gunc_text += "\n• ".join(collection.find_one({"_id": 0})['guncelleme'][::-1][:5])
-        bot.send_message(chat, gunc_text+"</i>")
+        await bot.send_message(chat, gunc_text+"</i>")
     else:
         query.answer("Yanıt bulunamadı!")
 
-def callback_query(call, context):
+async def callback_query(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
     mesajid = call.callback_query.message.message_id
@@ -310,7 +310,7 @@ def callback_query(call, context):
         if istekkan.invite_link == None:
             call.callback_query.edit_message_text("İstek onaylayabilmem için bota kanalınızda <b>Üye Ekleme</b> yetkisi vermelisiniz!")
             return
-        bot.send_message(chat, "Aşağıdaki butonlari kullanarak onaylanmasını istediğiniz istek miktarını belirleyin.\n\n>>> {}".format(istekkan.title), reply_markup=miktarliistekmark(istekkanno, istekcount))
+        await bot.send_message(chat, "Aşağıdaki butonlari kullanarak onaylanmasını istediğiniz istek miktarını belirleyin.\n\n>>> {}".format(istekkan.title), reply_markup=miktarliistekmark(istekkanno, istekcount))
         return
 
     if call.callback_query.data.startswith("miktari-"):
@@ -366,7 +366,7 @@ def callback_query(call, context):
         if istekkanlink.invite_link == None:
             call.callback_query.edit_message_text("İstek onaylayabilmem için bota kanalınızda <b>Üye Ekleme</b> yetkisi vermelisiniz!")
             return
-        onaymsg = bot.send_message(chat, "<code>İşlem başlıyor...</code>")
+        onaymsg = await bot.send_message(chat, "<code>İşlem başlıyor...</code>")
         isteklers = IstekCol.find_one({"_id": 0})[str(istekkan)]['istekler']
         if len(isteklers) < 1:
             onaymsg.edit_text("Hiç onaylanmamış istek göremiyorum. 😔")
@@ -393,7 +393,7 @@ def callback_query(call, context):
             if onaycount % 10 == 0:
                 logger.info(f"{onaycount} istek onaylandı...")
         logger.warning(f"Onaylama işlemi bitti - {onaycount}")
-        bot.send_message(blog, istekonaylog.format(istek=onaycount, kan=istekkan[3:], user=user))
+        await bot.send_message(blog, istekonaylog.format(istek=onaycount, kan=istekkan[3:], user=user))
         onaymsg.edit_text(f"{onaycount} istek onaylandı!")
         return
         
@@ -493,7 +493,7 @@ def callback_query(call, context):
             call.callback_query.edit_message_text("💔")
         except:
             pass
-        bot.send_message(chat, "Tüm bilgileriniz silindi.", reply_markup=dagme())
+        await bot.send_message(chat, "Tüm bilgileriniz silindi.", reply_markup=dagme())
     if call.callback_query.data == "akaldır":
         collection.update_one({"_id": user}, {"$set": {"altsite": "None", "altapi": "None", "sira": 0, "sablon": "1"}})
         bot.edit_message_text("⛔ Alternatif Kaldırıldı.", user, mesajid)
@@ -511,7 +511,7 @@ def callback_query(call, context):
         collection.update_one({"_id": user}, {"$pull": {"kanal": kul['kanal'][s], "eski": kul['kanal'][s], "icerik": kul['kanal'][s]}})
         bot.edit_message_text("Kanalınız Silindi!", user, mesajid)
         call.callback_query.answer(call.callback_query.id, "Kanalınız Silindi!")
-        bot.send_message(blog, kansillog.format(user=user, kan=kul['kanal'][s][3:], membersayi=bot.get_chat_member_count(int(kul['kanal'][s]))))
+        await bot.send_message(blog, kansillog.format(user=user, kan=kul['kanal'][s][3:], membersayi=bot.get_chat_member_count(int(kul['kanal'][s]))))
     """ Site Değiştir """
     if call.callback_query.data.startswith("site"):
         ss = str(call.callback_query.data.split("-")[1])
@@ -589,7 +589,7 @@ def callback_query(call, context):
         call.callback_query.edit_message_text("Botlog Kaldırıldı.")
         return
     if call.callback_query.data == "okaykanal":
-        bot.send_message(chat, "Özel kaynağınızda kullanmak istediğiniz kanalları seçin.", reply_markup=okaykanalmark(user))
+        await bot.send_message(chat, "Özel kaynağınızda kullanmak istediğiniz kanalları seçin.", reply_markup=okaykanalmark(user))
         return
     if call.callback_query.data.startswith("okayk-"):
         okid = None if OzelCol.find_one({"kanal": {"$in": [user]}}) == None else OzelCol.find_one({"kanal": {"$in": [user]}})["_id"]
@@ -616,7 +616,7 @@ def callback_query(call, context):
         for xk in kayna_k['kanal']:
             if user != xk:
                 try:
-                    FloodControl(bot.send_message, *[xk, "Özel kaynağınız sahibi tarafından <b>yok edildi!</b> Bence başka kaynak aramaya başlamalısın."])
+                    FloodControl(await bot.send_message, *[xk, "Özel kaynağınız sahibi tarafından <b>yok edildi!</b> Bence başka kaynak aramaya başlamalısın."])
                 except:
                     pass
         OzelCol.delete_one({"_id": user})
@@ -678,7 +678,7 @@ def callback_query(call, context):
         return PATZAMAN
     if call.callback_query.data == "simdi": 
         try:
-            bot.delete_message(user, mesajid)
+            await bot.delete_message(user, mesajid)
         except:
             pass
         patbegeni = collection.find_one({"_id": user})['begeni']
@@ -704,19 +704,19 @@ def callback_query(call, context):
                 ppost = SEND_MEDIA_TYPES[ptip](pukanallar[0], fid, caption=psablon, reply_markup=patmarkup)
             except Exception as e:
                 logger.error(e)
-                bot.send_message(user, "Postunuz gönderilemedi, botu kanaldan çıkarmış olabilirsiniz.", reply_markup=dugme(user))
+                await bot.send_message(user, "Postunuz gönderilemedi, botu kanaldan çıkarmış olabilirsiniz.", reply_markup=dugme(user))
                 return ConversationHandler.END
             if len(patbegeni) > 0 and begstate:
                 if ButonCol.find_one({"_id": pukanallar[0]}) == None:
                     ButonCol.insert_one({"_id": pukanallar[0], str(ppost.message_id): [], "begeni": patbegeni})
                 else:
                     ButonCol.update_one({"_id": pukanallar[0]}, {"$set": {str(ppost.message_id): [], "begeni": patbegeni}})
-            bot.send_message(user, "Postunuz gönderildi.", reply_markup=dugme(user))
-            bot.send_message(chat, "Başka post paylaşacak mısınız?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Evet", callback_data="devam"), InlineKeyboardButton("Hayır", callback_data="del")]]))
+            await bot.send_message(user, "Postunuz gönderildi.", reply_markup=dugme(user))
+            await bot.send_message(chat, "Başka post paylaşacak mısınız?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Evet", callback_data="devam"), InlineKeyboardButton("Hayır", callback_data="del")]]))
             return ConversationHandler.END
         context.user_data['zaman'] = "yok"
-        bot.send_message(user, "Post Hazırlandı!", reply_markup=dugme(user))
-        bot.send_message(user, "<i>Postun gönderilmesini istediğin kanalı seç.</i>", reply_markup=patmark(user))
+        await bot.send_message(user, "Post Hazırlandı!", reply_markup=dugme(user))
+        await bot.send_message(user, "<i>Postun gönderilmesini istediğin kanalı seç.</i>", reply_markup=patmark(user))
         return ConversationHandler.END
     if call.callback_query.data.startswith("pat"):
         back = call.callback_query.data.split("-")
@@ -747,8 +747,8 @@ def callback_query(call, context):
                     except:
                         continue
                     if not user in pyetkililer:
-                        bot.send_message(chat, f"{bot.get_chat(kan).title} Bu kanalda yetkili olmadığınız için post gönderilemedi ve kanal silindi.", reply_markup=dugme(user))
-                        bot.delete_message(user, mesajid)
+                        await bot.send_message(chat, f"{bot.get_chat(kan).title} Bu kanalda yetkili olmadığınız için post gönderilemedi ve kanal silindi.", reply_markup=dugme(user))
+                        await bot.delete_message(user, mesajid)
                         collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
                         continue 
                     try:
@@ -764,15 +764,15 @@ def callback_query(call, context):
                                 ButonCol.update_one({"_id": kan}, {"$set": {str(ppost.message_id): [], "begeni": patbegeni}})
                 bot.edit_message_text("✅<b>Postunuz Tüm Kanallarınıza Gönderildi!</b>", user, mesajid)
                 context.user_data.clear()
-                mstd = bot.send_message(chat, "Başka post paylaşacak mısınız?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Evet", callback_data="devam"), InlineKeyboardButton("Hayır", callback_data="del")]]))
+                mstd = await bot.send_message(chat, "Başka post paylaşacak mısınız?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Evet", callback_data="devam"), InlineKeyboardButton("Hayır", callback_data="del")]]))
                 return ConversationHandler.END
             try:
                 pyetkililer = [pxy.user.id for pxy in bot.get_chat_administrators(kanal[o])]
             except:
                 pyetkililer = []
             if not user in pyetkililer:
-                bot.send_message(chat, f"{bot.get_chat(kanal[o]).title} Bu kanalda yetkili olmadığınız için post gönderilemedi ve kanal silindi.", reply_markup=dugme(user))
-                bot.delete_message(user, mesajid)
+                await bot.send_message(chat, f"{bot.get_chat(kanal[o]).title} Bu kanalda yetkili olmadığınız için post gönderilemedi ve kanal silindi.", reply_markup=dugme(user))
+                await bot.delete_message(user, mesajid)
                 collection.update_one({"_id": user}, {"$pull": {"kanal": kanal[o]}})
                 return ConversationHandler.END
             try:
@@ -788,7 +788,7 @@ def callback_query(call, context):
                     ButonCol.update_one({"_id": kanal[o]}, {"$set": {str(ppost.message_id): [], "begeni": patbegeni}})
             bot.edit_message_text("✅<b>Postunuz Kanalınıza Gönderildi!</b>", user, mesajid)
             context.user_data.clear()
-            mstd = bot.send_message(chat, "Başka post paylaşacak mısınız?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Evet", callback_data="devam"), InlineKeyboardButton("Hayır", callback_data="del")]]))
+            mstd = await bot.send_message(chat, "Başka post paylaşacak mısınız?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Evet", callback_data="devam"), InlineKeyboardButton("Hayır", callback_data="del")]]))
             return ConversationHandler.END
         else:
             zamani = context.user_data['zaman']
@@ -797,31 +797,31 @@ def callback_query(call, context):
                 for kan in kanal:
                     pyetkililer = [pxy.user.id for pxy in bot.get_chat_administrators(kan)]
                     if not user in pyetkililer:
-                        bot.send_message(chat, f"{bot.get_chat(kan).title} Bu kanalda yetkili olmadığınız için post gönderilemedi ve kanal silindi.", reply_markup=dugme(user))
-                        bot.delete_message(user, mesajid)
+                        await bot.send_message(chat, f"{bot.get_chat(kan).title} Bu kanalda yetkili olmadığınız için post gönderilemedi ve kanal silindi.", reply_markup=dugme(user))
+                        await bot.delete_message(user, mesajid)
                         collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
                         continue
                     msg_dict.append({"pkan": kan, "psablon": psablon, "ptip": ptip, "fid": fid, "user": user})
-                bot.delete_message(user, mesajid)
-                bot.send_message(user, "⏱ Postunuz zamanlandı.", reply_markup=dugme(user))
-                mstd = bot.send_message(chat, "Başka post paylaşacak mısınız?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Evet", callback_data="devam"), InlineKeyboardButton("Hayır", callback_data="del")]]))
+                await bot.delete_message(user, mesajid)
+                await bot.send_message(user, "⏱ Postunuz zamanlandı.", reply_markup=dugme(user))
+                mstd = await bot.send_message(chat, "Başka post paylaşacak mısınız?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Evet", callback_data="devam"), InlineKeyboardButton("Hayır", callback_data="del")]]))
                 context.job_queue.run_once(callback=zamanjob, when=zamani, context=msg_dict, name=str(user))
                 context.user_data.clear()
                 return ConversationHandler.END
 
             pyetkililer = [pxy.user.id for pxy in bot.get_chat_administrators(kanal[o])]
             if not user in pyetkililer:
-                bot.send_message(chat, f"{bot.get_chat(kanal[o]).title} Bu kanalda yetkili olmadığınız için post gönderilemedi ve kanal silindi.", reply_markup=dugme(user))
+                await bot.send_message(chat, f"{bot.get_chat(kanal[o]).title} Bu kanalda yetkili olmadığınız için post gönderilemedi ve kanal silindi.", reply_markup=dugme(user))
                 collection.update_one({"_id": user}, {"$pull": {"kanal": kanal[o]}})
-                bot.delete_message(user, mesajid)
+                await bot.delete_message(user, mesajid)
                 context.user_data.clear()
                 return ConversationHandler.END
             msg_dict.append({"pkan": kanal[o], "psablon": psablon, "ptip": ptip, "fid": fid, "user": user})
-            bot.delete_message(user, mesajid)
-            bot.send_message(user, "⏱ Postunuz zamanlandı.", reply_markup=dugme(user))
+            await bot.delete_message(user, mesajid)
+            await bot.send_message(user, "⏱ Postunuz zamanlandı.", reply_markup=dugme(user))
             context.job_queue.run_once(callback=zamanjob, when=zamani, context=msg_dict, name=str(user))
             context.user_data.clear()
-            mstd = bot.send_message(chat, "Başka post paylaşacak mısınız?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Evet", callback_data="devam"), InlineKeyboardButton("Hayır", callback_data="del")]]))
+            mstd = await bot.send_message(chat, "Başka post paylaşacak mısınız?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Evet", callback_data="devam"), InlineKeyboardButton("Hayır", callback_data="del")]]))
             return ConversationHandler.END
         return
     """ Şablon """
@@ -886,22 +886,22 @@ def callback_query(call, context):
         if ioskanlink.invite_link == None:
             call.callback_query.edit_message_text("iOS Ban kontrol edebilmem için bota kanalınızda <b>Üye Ekleme</b> yetkisi vermelisiniz!")
             return
-        bot.send_message(eklenti, f'ios*{user}*{ioskanlink.invite_link}')
+        await bot.send_message(eklenti, f'ios*{user}*{ioskanlink.invite_link}')
         context.user_data['iosmsgid'] = mesajid
         return
     call.callback_query.answer(f"Yanıt yok - {call.callback_query.data}")
 
-def tekrarlisaatayarlacall(call, context):
+async def tekrarlisaatayarlacall(call, context):
     context.user_data['tsaat'] = int(call.callback_query.data.split("-")[-1])
     try:
         call.effective_message.delete()
     except:
         pass
-    bot.send_message(call.effective_chat.id, "Tekrarlı postunuza bir başlık verin.\n\nÖrnek;\nJigolo afiş, IVR afiş", reply_markup=imark())
+    await bot.send_message(call.effective_chat.id, "Tekrarlı postunuza bir başlık verin.\n\nÖrnek;\nJigolo afiş, IVR afiş", reply_markup=imark())
     call.callback_query.answer("Saat belirlendi!")
     return TSBASLIK
 
-def tsmodcall(call, context):
+async def tsmodcall(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
     query = call.callback_query
@@ -916,11 +916,11 @@ def tsmodcall(call, context):
     firstmod = 3600*int(context.user_data["tsaat"])-3600 if int(context.user_data["tsaat"]) != 1 else 3600
     context.job_queue.run_repeating(tekrarlipostjob, first=firstmod, interval=3600*int(context.user_data['tsaat']), name=f"ts{user}", context=context.user_data["tspostdict"])
     context.user_data.clear()
-    bot.send_message(chat, "Postlarınız başarıyla ayarlandı!", reply_markup=dugme(user))
+    await bot.send_message(chat, "Postlarınız başarıyla ayarlandı!", reply_markup=dugme(user))
     return ConversationHandler.END
 
 
-def advcall(call, context):
+async def advcall(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
     advdat = collection.find_one({"_id": user})
@@ -936,7 +936,7 @@ def advcall(call, context):
     elif query.data == "advekle":
         query.answer("Site seçin.")
         context.user_data["sss"] = "ekle"
-        bot.send_message(chat, "Yeni eklemem istediğiniz siteyi seçin.", reply_markup=altsitemarkup("asite"))
+        await bot.send_message(chat, "Yeni eklemem istediğiniz siteyi seçin.", reply_markup=altsitemarkup("asite"))
     elif query.data.startswith("advapi-"):
         query.answer(f"API Adresiniz:\n {advdat['altapi'][int(query.data.split('-')[-1])]['api']}", show_alert=True)
     elif query.data.startswith("advsil-"):
@@ -947,7 +947,7 @@ def advcall(call, context):
         query.answer("Sıralı:\nKaydettiğiniz tüm apileri sırayla kullanır.\n\nTek Post İki Link:\nKaydettiğiniz tüm apileri birincil apiniz ile birlikte tek postta iki link olarak sırayla paylaşır.", show_alert=True)
     
 
-def begeniislemcall(call, context):
+async def begeniislemcall(call, context):
     user = call.effective_user.id
     chat = call.effective_chat.id
     mesajid = call.effective_message.message_id    

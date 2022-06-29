@@ -8,3 +8,4 @@ TgCrypto
 matplotlib
 telethon
 speedtest-cli
+speedtest
