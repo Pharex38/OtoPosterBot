@@ -59,7 +59,7 @@ begstate = maindata['beg']
 mainsiralimit = maindata['mainsira']
 
 
-bot = ExtBot(bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, timeout=20, disable_web_page_preview=True, allow_sending_without_reply=True, tzinfo=pytz.timezone('Turkey')))
+bot = ExtBot(bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, disable_web_page_preview=True, allow_sending_without_reply=True, tzinfo=pytz.timezone('Turkey')))
 
 eklenti = 1654723447
 blog = -1001391561285
