@@ -116,13 +116,13 @@ def main() -> None:
     application.add_handler(CommandHandler('iptal', IptalPoster))
     application.add_handler(CommandHandler('zaman', zaman, filters.update.message & filters.chat_type.private))
     """ Poster """
-    application.add_handler(MessageHandler(filters.photo & filters.update.channel_post | filters.video & filters.update.channel_post | filters.animation & filters.update.channel_post, poster, run_async=False))
+    application.add_handler(MessageHandler(filters.photo & filters.update.channel_post | filters.video & filters.update.channel_post | filters.animation & filters.update.channel_post, poster))
     """ Callbacks """
-    application.add_handler(CallbackQueryHandler(panelcall, pattern="^(pau(.*)|pak(.*)|pan(.*))", run_async=False))
+    application.add_handler(CallbackQueryHandler(panelcall, pattern="^(pau(.*)|pak(.*)|pan(.*))"))
     application.add_handler(CallbackQueryHandler(cekiliscall, pattern="^katil(.*)"))
     application.add_handler(CallbackQueryHandler(kaynakkontrolcall, pattern="^kont(.*)"))
     application.add_handler(CallbackQueryHandler(kaynakcall, pattern="^kaynak(.*)"))
-    application.add_handler(CallbackQueryHandler(begeniislemcall, pattern="^begeni-(.*)", run_async=False))
+    application.add_handler(CallbackQueryHandler(begeniislemcall, pattern="^begeni-(.*)"))
     application.add_handler(CallbackQueryHandler(advcall, pattern="^adv(.*)"))
     application.add_handler(CallbackQueryHandler(callback_query))
     """ Error Handler """
