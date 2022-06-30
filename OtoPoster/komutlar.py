@@ -676,7 +676,7 @@ async def kaynakpanel(update, context):
         panel_text = "<b>{} Kaynak Paneli;</b>\n\n👥Toplam Kullanıcı: {}\n📢Toplam Kanal: {}\n💿Şimdiye Kadar Paylaştığınız Post Sayısı: {}\n🙋Toplam Kitle: {}\n\n🔗Referans Linkiniz: {}".format(panelkaynakkanalisim, len(panelkaynak['kaynak']), len(panco), panelkaynak['sayi'], str(round(pankanmember / 1000, 1))+"K", "https://telegram.me/OtoPosterBot?start=Kaynak"+str(panelkaynak['no']))
         context.user_data['panel_text'] = panel_text
     for cleanjob in context.job_queue.get_jobs_by_name("panelcleaner"):
-        if cleanjob.context == user:
+        if cleanjob.data == user:
             break
     else:
         context.job_queue.run_once(panelcleaner, when=3600, name="panelcleaner", data=user)
