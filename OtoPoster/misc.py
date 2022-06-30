@@ -105,15 +105,18 @@ def deep(u_kod, user):
 def send_typing_action(func):
 
     @wraps(func)
-    async def command_func(update, context, *args, **kwargs):
-        await context.bot.send_chat_action(chat_id=update.effective_message.chat_id, action=ChatAction.TYPING)
-        return await func(update, context,  *args, **kwargs)
+    def command_func(update, context, *args, **kwargs):
+        context.bot.send_chat_action(chat_id=update.effective_message.chat_id, action=ChatAction.TYPING)
+        return func(update, context,  *args, **kwargs)
 
     return command_func
 
 def linkkisalt(site, token, text, icerik):
+    #cscraper = cfscrape.create_scraper()
     json = {"shortenedUrl": "", "message": "", "status": ""}
     link = " "
+    sesi = HTMLSession()
+    sesi.headers['user-agent'] = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36'
     if icerik == "arsiv":
         trlinkcat = 3
         pndcat = 7
@@ -142,10 +145,6 @@ def linkkisalt(site, token, text, icerik):
     elif site == "7":
         json = get("https://urlably.com/api?", params={"api": token, "url": text}, headers=headerss, timeout=ptimeout).json()
         link = json['shortenedUrl']
-    elif site == "8":
-        json = get("https://api.cuty.io/quick?", params={"token": token, "url": text}, headers=headerss, timeout=ptimeout).json()
-        link = json['short_url']
-        json['message'] = ""
     elif site == "0":
         json = get("https://urlcik.com/api?", params={"api": token, "url": text}, headers=headerss, timeout=ptimeout).json()
         link = json['shortenedUrl']
@@ -154,7 +153,7 @@ def linkkisalt(site, token, text, icerik):
 
 def AdminCommandHandler(command, callback, *args, **kwargs):
     komutisimleri.append(command)
-    return CommandHandler(command, callback, filters=filters.User(sahip))
+    return CommandHandler(command, callback, filters=Filters.user(sahip))
 
 def apiscraper(apitoken):
     if "ouo" in apitoken:
@@ -167,14 +166,14 @@ def apiscraper(apitoken):
         
     return apitoken
 
-async def bildir(neyi='Boş Bildirim Testi !'):
+def bildir(neyi='Boş Bildirim Testi !'):
     for i in adminlist:
         try:
-            await bot.send_message(i,neyi)
+            bot.send_message(i,neyi)
         except RetryAfter as rtr:
             sleep(rtr.retry_after+1)
             try:
-                await bot.send_message(i,neyi)
+                bot.send_message(i,neyi)
             except:
                 pass
         except:
@@ -201,43 +200,40 @@ def phaapi(sit):
     if sit == "7":
         return "***REMOVED-KEY***"
 
-async def FloodControl(komand, *argos, **kwargos):
+def FloodControl(komand, *argos, **kwargos):
     try:
-        return await komand(*argos, **kwargos)
+        return komand(*argos, **kwargos)
     except RetryAfter as trf:
         logger.warning(f"FloodWait - {trf.retry_after} - Line: {sys._getframe().f_back.f_lineno}")
         sleep(trf.retry_after+1)
-        return await komand(*argos, **kwargos)
+        return komand(*argos, **kwargos)
 
 def site_isim(no):
     if no == "0":
         return "URLcik"
-    elif no == "1":
+    if no == "1":
         return "TRLink"
-    elif no == "2":
+    if no == "2":
         return "PND.TL"
-    elif no == "3":
+    if no == "3":
         return "Exe.io"
-    elif no == "4":
+    if no == "4":
         return "Ouo.io"
-    elif no == "5":
+    if no == "5":
         return "Pubiza"
-    elif no == "6":
+    if no == "6":
         return "Gir.ist"
-    elif no == "7":
+    if no == "7":
         return "URLAbly"
-    elif no == "8":
-        return "Cuty.io"
-    else:
-        return "Bulunamadı"
+    return "Bulunamadı"
 
-async def kan_mention_html(kanid):
+def kan_mention_html(kanid):
     try:
-        kanmh = await bot.get_chat(kanid)
+        kanmh = bot.get_chat(kanid)
     except RetryAfter as mhafter:
         sleep(mhafter.retry_after)
         try:
-            kanmh = await bot.get_chat(kanid)
+            kanmh = bot.get_chat(kanid)
         except:
             return f"<a href='tg://privatepost?channel={str(kanid)[3:]}&post=9999999'>'Kanala Ulaşılamadı.'</a>"
     except:
@@ -253,55 +249,55 @@ def setup_logger():
     logging.basicConfig(format="%(asctime)s - %(levelname)s - %(message)s", handlers=[logging.FileHandler(f'Loglar/{logd}.txt', 'w', 'utf-8'), logging.StreamHandler()], level=logging.INFO)
     logger = logging.getLogger("OtoPosterBot")
 
-async def eklentiiletisim(update, context):
+def eklentiiletisim(update, context):
     ileti = update.message.text_html_urled
     ileti = ileti.split("+")
     if ileti[0] == "ios":
         imsgid = context.dispatcher.user_data[int(ileti[1])]['iosmsgid']
-        await bot.edit_message_text("<b>"+str(bot.get_chat(ileti[2]).title)+"</b> "+ileti[3], ileti[1], imsgid)
+        bot.edit_message_text("<b>"+str(bot.get_chat(ileti[2]).title)+"</b> "+ileti[3], ileti[1], imsgid)
         return
     elif ileti[0] == "hash":
         try:
-            haslink = await bot.get_chat(ileti[1]).invite_link
+            haslink = bot.get_chat(ileti[1]).invite_link
         except RetryAfter:
             return
         except:
             collection.update_one({"_id":0}, {"$pull": {"istek": str(ileti[1])}})
             
-        await bot.send_message(eklenti, f"hash*{haslink}")
+        bot.send_message(eklenti, f"hash*{haslink}")
     elif ileti[0] == "yetki":
         try:
-            await bot.promote_chat_member(ileti[1], eklenti, can_invite_users=True)
+            bot.promote_chat_member(ileti[1], eklenti, can_invite_users=True)
         except RetryAfter as rf:
             sleep(rf.retry_after)
-            await bot.promote_chat_member(ileti[1], eklenti, can_invite_users=True)
+            bot.promote_chat_member(ileti[1], eklenti, can_invite_users=True)
     elif ileti[0] == "link":
         try:
-            haslink = await bot.get_chat(ileti[1]).invite_link
+            haslink = bot.get_chat(ileti[1]).invite_link
         except RetryAfter:
             return
         except:
             collection.update_one({"_id":0}, {"$pull": {"istek": str(ileti[1])}})
             
-        await bot.send_message(eklenti, f"istek*{haslink}*{ileti[1]}")
+        bot.send_message(eklenti, f"istek*{haslink}*{ileti[1]}")
             
         
 
-async def komutisimleristart(_):
+def komutisimleristart():
     komutisimleris = []
     for komi in komutisimleri:
         komutisimleris.append(BotCommand(komi, komi.capitalize()))
-    await bot.set_my_commands(commands=komutisimleris, scope=BotCommandScopeChat(sahip))
-    await bot.set_my_commands(commands=komutisimleris, scope=BotCommandScopeChatAdministrators(blog))
+    bot.set_my_commands(commands=komutisimleris, scope=BotCommandScopeChat(sahip))
+    bot.set_my_commands(commands=komutisimleris, scope=BotCommandScopeChatAdministrators(blog))
 
-async def comment(update, context):
+def comment(update, context):
     if update.edited_message or update.effective_message.text == None:
         return
     if update.message.text.find("kanalda post paylaşıldı.") == -1 and update.message.text.find("paylaşılıyor") == -1:
         return
-    await bot.delete_message(update.message.chat.id, update.effective_message.message_id)
+    bot.delete_message(update.message.chat.id, update.effective_message.message_id)
 
-async def error_handler(update: object, context: CallbackContext) -> None:
+def error_handler(update: object, context: CallbackContext) -> None:
     try:
         global postsirasi, opostsirasi
         logger.error(msg="Bir Hata oluştu:", exc_info=context.error)
@@ -312,6 +308,13 @@ async def error_handler(update: object, context: CallbackContext) -> None:
         else:
             updateerr = None
         update_str = update.to_dict() if isinstance(update, Update) else str(update)
+        try:
+            context.job.context[0]["chatid"]
+        except:
+            pass
+        else:
+            if KaynakCol.find_one({"_id": int(context.job.context[0]["chatid"])}):
+                collection.update_one({"_id": 0}, {"$set": {"sira": collection.find_one({"_id": 0})['sira']-1}})
         message1 = (
         f'BİR HATA OLUŞTU!\n'
         f'<pre>update = {html.escape(jason.dumps(update_str, indent=2, ensure_ascii=False))}</pre>')
@@ -324,15 +327,15 @@ async def error_handler(update: object, context: CallbackContext) -> None:
         )
 
         try:
-            await context.bot.send_message(chat_id=sahip, text=message1, parse_mode=ParseMode.HTML)
+            context.bot.send_message(chat_id=sahip, text=message1, parse_mode=ParseMode.HTML)
         except:
             pass
         try:
-            await context.bot.send_message(chat_id=sahip, text=message2, parse_mode=ParseMode.HTML)
+            context.bot.send_message(chat_id=sahip, text=message2, parse_mode=ParseMode.HTML)
         except:
             pass
         try:
-            await context.bot.send_message(chat_id=sahip, text=message3, parse_mode=ParseMode.HTML)
+            context.bot.send_message(chat_id=sahip, text=message3, parse_mode=ParseMode.HTML)
         except:
             pass
     except Exception as es:
