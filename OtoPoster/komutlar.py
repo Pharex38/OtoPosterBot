@@ -448,17 +448,9 @@ async def posterkomut2(update, context):
         logger.warning(f"{update.effective_message.chat.title} Postu sıraya eklendi.")
         postdict = {"chatid": pochat, "update": update, "groupid": update.effective_message.media_group_id, "poster": True}
         ind = len(context.job_queue.get_jobs_by_name("anaposter"))
-        whn = 130 if 2 <= ind < 4 else 10
-        if 5 >= ind > 3:
-            whn = 230
-        if 7 >= ind > 5:
-            whn = 330
-        if 9 >= ind > 7:
-            whn = 430
-        if ind > 9:
-            whn = 530
+        whn = 15
         for poj in context.job_queue.get_jobs_by_name("anaposter"):
-            if poj.context[0]['groupid'] == update.effective_message.media_group_id and poj.context[0]['chatid'] == pochat:
+            if poj.data[0]['groupid'] == update.effective_message.media_group_id and poj.data[0]['chatid'] == pochat:
                 poj.context.append(postdict)
                 return
         context.job_queue.run_once(poster_job, when=whn, name="anaposter", data=[postdict]) 
@@ -467,15 +459,7 @@ async def posterkomut2(update, context):
         logger.warning(f"[ÖZEL] {update.effective_message.chat.title} Postu sıraya eklendi.")
         opostdict = {"chatid": pochat, "update": update, "groupid": update.effective_message.media_group_id, "poster": True}
         oind = len(context.job_queue.get_jobs_by_name("ozelposter"))
-        owhn = 20 if 2 <= oind < 4 else 10
-        if 5 >= oind > 3:
-            owhn = 30
-        if 7 >= oind > 5:
-            owhn = 40
-        if 9 >= oind > 7:
-            owhn = 50
-        if oind > 9:
-            owhn = 60
+        owhn = 20 
         for opoj in context.job_queue.get_jobs_by_name("ozelposter"):
             if opoj.context[0]['groupid'] == update.effective_message.media_group_id and opoj.context[0]['chatid'] == pochat:
                 opoj.context.append(opostdict)

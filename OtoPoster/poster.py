@@ -389,7 +389,7 @@ async def poster_job(context):
         try:
             await FloodControl(bot.send_message, *[xc, yc])
         except Exception as e:
-            logger.exception(e)
+            pass
 
 
 async def ozel_poster_job(context):
