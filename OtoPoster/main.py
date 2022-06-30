@@ -9,23 +9,33 @@ from .misc import *
 
 
 
-bildir('Bot Başladı 🍕')
+#asyncio.run(bildir('Bot Başladı 🍕'))
+
 
 def main() -> None:
     global application, persistence, upjob, cjrhandler
 
-    persistence = PicklePersistence(filename='OtoPosterPersistence', store_user_data=True, store_chat_data=True, single_file=True, store_callback_data=True)
-    application = Application.builder().bot(bot).persistence(persistence)
+    persistence = PicklePersistence(filepath='OtoPosterPersistence', single_file=True)
+    builder = Application.builder()
+    builder.token(bottoken)
+    builder.persistence(persistence)
+    builder.defaults(Defaults(parse_mode=ParseMode.HTML, disable_web_page_preview=True, allow_sending_without_reply=True, tzinfo=pytz.timezone('Turkey')))
+    builder.post_init(komutisimleristart)
+    builder.connection_pool_size(50000)
+    builder.get_updates_connection_pool_size(50000)
+    builder.pool_timeout(100)
+    builder.get_updates_pool_timeout(100)
+    application = builder.build()
     upjob = application.job_queue
     """ Repeating Jobs """
     upjob.run_daily(gunluk, time=datetime.datetime.strptime("21-06-30 21:55:00", '%y-%m-%d %H:%M:%S').time(), name="resetleme")
     upjob.run_repeating(jobyedekleme, interval=300, first=10, name="yedekleme")
     upjob.run_repeating(siraclean, interval=3600, first=10, name="yedekleme")
     """ Misc """
-    application.add_handler(MessageHandler(filters.chat(-1001584743136), comment))
-    application.add_handler(MessageHandler(filters.chat(eklenti), eklentiiletisim))
-    application.add_handler(MessageHandler(filters.chat(-1001572618573), posterkomut2)) 
-    #application.add_handler(MessageHandler(filters.photo & filters.update.edited_channel_post | filters.video & filters.update.edited_channel_post | filters.animation & filters.update.edited_channel_post, poster_edit))
+    application.add_handler(MessageHandler(filters.Chat(-1001584743136), comment))
+    application.add_handler(MessageHandler(filters.Chat(eklenti), eklentiiletisim))
+    application.add_handler(MessageHandler(filters.Chat(-1001572618573), posterkomut2)) 
+    #application.add_handler(MessageHandler(filters.PHOTO & filters.update.edited_channel_post | filters.VIDEO & filters.update.edited_channel_post | filters.ANIMATION & filters.update.edited_channel_post, poster_edit))
     """ Admin Komutları """
     application.add_handler(AdminCommandHandler('bul', bul))
     application.add_handler(AdminCommandHandler('duyuru', duy))
@@ -52,8 +62,8 @@ def main() -> None:
     """ Menü """
     conv_handler = ConversationHandler(
         entry_points=[
-        MessageHandler(filters.update.message & ~filters.command & filters.chat_type.private, menu), 
-        CommandHandler('start', start, filters.chat_type.private),
+        MessageHandler(~filters.COMMAND & filters.ChatType.PRIVATE, menu), 
+        CommandHandler('start', start, filters.ChatType.PRIVATE),
         CallbackQueryHandler(sabloncall, pattern="^(sablon)$"),
         CallbackQueryHandler(ozelkaynakcall, pattern="^okayt(.*)"),
         CallbackQueryHandler(ozellogcall, pattern="^logokay(.*)"),
@@ -66,38 +76,38 @@ def main() -> None:
         CallbackQueryHandler(panelcall, pattern="^(panelzaman|pau-bul|pak-bul)$")
         ],
         states={ 
-            KANALMENU: [MessageHandler(~filters.command & filters.update.message, kanalmenu), 
+            KANALMENU: [MessageHandler(~filters.COMMAND, kanalmenu), 
             CallbackQueryHandler(panelcall, pattern="^(panelzaman|pau-bul|pak-bul)$")],
-            APIMENU: [MessageHandler(~filters.command & filters.update.message, apimenu),  
+            APIMENU: [MessageHandler(~filters.COMMAND, apimenu),  
             CallbackQueryHandler(altcall, pattern="^asite(.*)"),
             CallbackQueryHandler(panelcall, pattern="^(panelzaman|pau-bul|pak-bul)$")],
-            POSTMENU: [MessageHandler(~filters.command & filters.update.message, postmenu),
+            POSTMENU: [MessageHandler(~filters.COMMAND, postmenu),
             CallbackQueryHandler(sabloncall, pattern="^(sablon)$"),
             CallbackQueryHandler(panelcall, pattern="^(panelzaman|pau-bul|pak-bul)$"),
             CallbackQueryHandler(ozelkaynakcall, pattern="^okayt(.*)"),
             CallbackQueryHandler(ozellogcall, pattern="^logokay(.*)"), 
             CallbackQueryHandler(postzamancall, pattern="^(pzayarla)$"),
             CallbackQueryHandler(callback_query, pattern="^pzamanla(.*)")], 
-            EKSTRAMENU: [MessageHandler(~filters.command & filters.update.message, ekstramenu),
+            EKSTRAMENU: [MessageHandler(~filters.COMMAND, ekstramenu),
             CallbackQueryHandler(begenicall, pattern="^(begeniolustur)$"),
             CallbackQueryHandler(panelcall, pattern="^(panelzaman|pau-bul|pak-bul)$"),
             CallbackQueryHandler(tekrarlisaatayarlacall, pattern="^ts-(.*)")],
-            TSPOST: [MessageHandler(~filters.command, tekrarlipostayarla), CallbackQueryHandler(tsmodcall, pattern="^(tsmod-rastgele|tsmod-sirali)$")],
-            PANELZAMAN: [MessageHandler(~filters.command & filters.text, zaman)],
-            PANELBUL: [MessageHandler(~filters.command & filters.forwarded | filters.text & ~filters.command, panelbul)],
-            TSBASLIK: [MessageHandler(~filters.command & filters.text, tekrarlipostbaslikayarla)],
-            BEGENI: [MessageHandler(~filters.command & filters.text, begenidegistir)],
-            APIDEGISTIR: [MessageHandler(~filters.command & filters.update.message, apikayit)],
-            KANALKAYDET: [MessageHandler(~filters.command & filters.update.message, kanalkayit)],
-            SABLONA: [MessageHandler(~filters.command & filters.update.message, sabloniki)],
-            PATPOST: [MessageHandler(~filters.command & filters.update.message, pat)],
-            PATZAMAN: [MessageHandler(~filters.command & filters.update.message, patzamansaat)],
-            ALTAPI: [MessageHandler(~filters.command & filters.update.message, altakayit)],
-            OZELBOTLOG: [MessageHandler(~filters.command & filters.update.message, ozellog)],
-            OZELKAYNAK: [MessageHandler(~filters.command & filters.update.message, ozelk)],
-            POSTZAMAN: [MessageHandler(~filters.command & filters.update.message, postzaman)]
+            TSPOST: [MessageHandler(~filters.COMMAND, tekrarlipostayarla), CallbackQueryHandler(tsmodcall, pattern="^(tsmod-rastgele|tsmod-sirali)$")],
+            PANELZAMAN: [MessageHandler(~filters.COMMAND & filters.TEXT, zaman)],
+            PANELBUL: [MessageHandler(~filters.COMMAND & filters.FORWARDED | filters.TEXT & ~filters.COMMAND, panelbul)],
+            TSBASLIK: [MessageHandler(~filters.COMMAND & filters.TEXT, tekrarlipostbaslikayarla)],
+            BEGENI: [MessageHandler(~filters.COMMAND & filters.TEXT, begenidegistir)],
+            APIDEGISTIR: [MessageHandler(~filters.COMMAND, apikayit)],
+            KANALKAYDET: [MessageHandler(~filters.COMMAND, kanalkayit)],
+            SABLONA: [MessageHandler(~filters.COMMAND, sabloniki)],
+            PATPOST: [MessageHandler(~filters.COMMAND, pat)],
+            PATZAMAN: [MessageHandler(~filters.COMMAND, patzamansaat)],
+            ALTAPI: [MessageHandler(~filters.COMMAND, altakayit)],
+            OZELBOTLOG: [MessageHandler(~filters.COMMAND, ozellog)],
+            OZELKAYNAK: [MessageHandler(~filters.COMMAND, ozelk)],
+            POSTZAMAN: [MessageHandler(~filters.COMMAND, postzaman)]
             },
-        fallbacks=[MessageHandler(filters.regex('^(↩️ Ana Menü)$') & filters.update.message, cancel), CommandHandler('start', start, filters=~filters.update.edited_message)],
+        fallbacks=[MessageHandler(filters.Regex('^(↩️ Ana Menü)$'), cancel), CommandHandler('start', start, filters=filters.ALL)],
         per_message=False,
         name="anaconv",
         per_chat=True
@@ -106,17 +116,17 @@ def main() -> None:
     """ Müşteri Komutları """
     application.add_handler(CommandHandler('panel', kaynakpanel))
     #application.add_handler(CommandHandler('kaynak', kaynakkontrol))
-    application.add_handler(CommandHandler('start', start, filters.update.message & filters.chat_type.private))
-    application.add_handler(MessageHandler(filters.regex("^/onayla(.*)") & filters.update.channel_post, post))
-    application.add_handler(MessageHandler(filters.regex("^(/sil)$") & filters.update.channel_post, KanalSilKomutu))
-    application.add_handler(CommandHandler('onayla', ona, filters.update.message))
-    application.add_handler(CommandHandler('sil', durdur, filters.update.message & filters.chat_type.private))
+    application.add_handler(CommandHandler('start', start, filters.ChatType.PRIVATE))
+    application.add_handler(MessageHandler(filters.Regex("^/onayla(.*)") & filters.ChatType.CHANNEL, post))
+    application.add_handler(MessageHandler(filters.Regex("^(/sil)$") & filters.ChatType.CHANNEL, KanalSilKomutu))
+    application.add_handler(CommandHandler('onayla', ona, filters.ALL))
+    application.add_handler(CommandHandler('sil', durdur, filters.ALL & filters.ChatType.PRIVATE))
     """ Kaynak Komutları """
-    application.add_handler(MessageHandler(filters.regex("^/postsil(.*)") & filters.update.channel_post, kpostsil))
+    application.add_handler(MessageHandler(filters.Regex("^/postsil(.*)") & filters.ChatType.CHANNEL, kpostsil))
     application.add_handler(CommandHandler('iptal', IptalPoster))
-    application.add_handler(CommandHandler('zaman', zaman, filters.update.message & filters.chat_type.private))
+    application.add_handler(CommandHandler('zaman', zaman, filters.ALL & filters.ChatType.PRIVATE))
     """ Poster """
-    application.add_handler(MessageHandler(filters.photo & filters.update.channel_post | filters.video & filters.update.channel_post | filters.animation & filters.update.channel_post, poster))
+    application.add_handler(MessageHandler(filters.PHOTO & filters.ChatType.CHANNEL | filters.VIDEO & filters.ChatType.CHANNEL | filters.ANIMATION & filters.ChatType.CHANNEL, poster))
     """ Callbacks """
     application.add_handler(CallbackQueryHandler(panelcall, pattern="^(pau(.*)|pak(.*)|pan(.*))"))
     application.add_handler(CallbackQueryHandler(cekiliscall, pattern="^katil(.*)"))
@@ -137,16 +147,16 @@ def main() -> None:
             firtime = datetime.datetime.strptime(uh['msgdict']["tetik"], "%Y-%m-%d %H:%M:%S").replace(tzinfo=pytz.timezone('Europe/Istanbul'))
             vakit = datetime.datetime.now(pytz.timezone('Europe/Istanbul'))
             firt = firtime - vakit
-            upjob.run_repeating(tekrarlipostjob, first=firt.total_seconds(), interval=3600*int(uh['msgdict']['tsaat']), name=uh['name'], context=uh['msgdict'])
+            upjob.run_repeating(tekrarlipostjob, first=firt.total_seconds(), interval=3600*int(uh['msgdict']['tsaat']), name=uh['name'], data=uh['msgdict'])
             ytjcount += 1
             continue
         yjcount += 1
         uhzamani = datetime.datetime.strptime(uh['when'], '%y-%m-%d %H:%M:%S')
-        upjob.run_once(zamanjob, name=str(uh['name']), context=uh['msgdict'], when=uhzamani)
+        upjob.run_once(zamanjob, name=str(uh['name']), data=uh['msgdict'], when=uhzamani)
     logger.warning(str(yjcount)+" Adet Tekil, "+str(ytjcount)+" Adet Tekrarlı Job Yüklendi!")
     """ Polling """
-    komutisimleristart()
-    application.start_polling()
+    
+    application.run_polling(write_timeout=90, connect_timeout=90, pool_timeout=90)
 
 
 

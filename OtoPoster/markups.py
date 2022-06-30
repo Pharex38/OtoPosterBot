@@ -7,13 +7,13 @@ markup = ForceReply(selective=False)
 def site_isim(no):
     if no == "0":
         return "URLcik"
-    if no == "1":
+    elif no == "1":
         return "TRLink"
-    if no == "2":
+    elif no == "2":
         return "PND.TL"
-    if no == "3":
+    elif no == "3":
         return "Exe.io"
-    if no == "4":
+    elif no == "4":
         return "Ouo.io"
     elif no == "5":
         return "Pubiza"
@@ -21,7 +21,9 @@ def site_isim(no):
         return "Gir.ist"
     elif no == "7":
         return "URLAbly"
-    return "Bulunamadı"
+    
+    else:
+        return "Bulunamadı"
 
 
 def dugme(user):
@@ -50,12 +52,12 @@ def imark():
     imark = ReplyKeyboardMarkup(keyboard=[['❌ İptal']], one_time_keyboard=True, resize_keyboard=True, selective=True)
     return imark
 
-def ioskontrolmark(user):
+async def ioskontrolmark(user):
     iosk = []
     iosc = 0
     for ikan in collection.find_one({"_id": user})['kanal']:
         try:
-            ioski = bot.get_chat(ikan).title
+            ioski = await bot.get_chat(ikan).title
         except:
             continue
         iosk.append([InlineKeyboardButton(ioski, callback_data=f"iosk-{iosc}")])
@@ -85,11 +87,11 @@ def tekrarlipostsilmark(user, context):
     siltp.append([InlineKeyboardButton("❌ İptal ❌", callback_data="iptal")])
     return InlineKeyboardMarkup(siltp)
 
-def tekrarlipostkan(user, context):
+async def tekrarlipostkan(user, context):
     tpk = []
     for tkan in collection.find_one({"_id": user})['kanal']:
         try:
-            tkanisim = bot.get_chat(tkan).title
+            tkanisim = await bot.get_chat(tkan).title
         except:
             continue
         if tkan in context.user_data['tskan']:
@@ -112,14 +114,14 @@ def tekrarlisaatmark():
     tsmk.append([InlineKeyboardButton("❌ İptal ❌", callback_data="iptal")])
     return InlineKeyboardMarkup(tsmk)
 
-def sfsmark(user):
+async def sfsmark(user):
     sfs_dat = collection.find_one({"_id": user})
     sfsbutno = 0
     sfskeyb = []
     sfssatir = []
     for sfskan in sfs_dat['kanal']:
         try:
-            sfsname = bot.get_chat(sfskan).title
+            sfsname = await bot.get_chat(sfskan).title
         except:
             pass
         else:
@@ -134,14 +136,14 @@ def sfsmark(user):
         sfsbutno += 1
     return InlineKeyboardMarkup(sfskeyb)
 
-def pinmark(user):
+async def pinmark(user):
     pin_dat = collection.find_one({"_id": user})
     pinbutno = 0
     pinkeyb = []
     pinsatir = []
     for pinkan in pin_dat['kanal']:
         try:
-            pinname = bot.get_chat(pinkan).title
+            pinname = await bot.get_chat(pinkan).title
         except:
             pass
         else:
@@ -159,7 +161,7 @@ def pinmark(user):
 def miktarliistekmark(miktarikan, sayi):
     return InlineKeyboardMarkup([[InlineKeyboardButton(f"Onayla ⏩⏩ {sayi}", callback_data="isteklink-{}-{}-all".format(miktarikan, sayi))], [InlineKeyboardButton("-100", callback_data="miktari-{}-{}".format(miktarikan, sayi-100)), InlineKeyboardButton("-10", callback_data="miktari-{}-{}".format(miktarikan, sayi-10)),  InlineKeyboardButton("+10", callback_data="miktari-{}-{}".format(miktarikan, sayi+10)), InlineKeyboardButton("+100", callback_data="miktari-{}-{}".format(miktarikan, sayi+100))]])
 
-def istekmark(user):
+async def istekmark(user):
     istek_dat = collection.find_one({"_id": user})
     istekbutno = 0
     istekkeyb = []
@@ -167,7 +169,7 @@ def istekmark(user):
     isteksatir2 = []
     for istekkan in istek_dat['kanal']:
         try:
-            istekname = bot.get_chat(istekkan).title
+            istekname = await bot.get_chat(istekkan).title
         except:
             pass
         else:
@@ -220,14 +222,14 @@ def ozelmark():
     omark = InlineKeyboardMarkup([[InlineKeyboardButton("➕ Oluştur ➕", callback_data="okayt")], [InlineKeyboardButton("❌ İptal ❌", callback_data="aiptal")]])
     return omark
 
-def icerikmark(user):
+async def icerikmark(user):
     icerik_dat = collection.find_one({"_id": user})
     icerikbutno = 0
     icerikkeyb = []
     iceriksatir = []
     for icerikkan in icerik_dat['kanal']:
         try:
-            icerikname = bot.get_chat(icerikkan).title
+            icerikname = await bot.get_chat(icerikkan).title
         except:
             pass
         else:
@@ -242,7 +244,7 @@ def icerikmark(user):
         icerikbutno += 1
     return InlineKeyboardMarkup(icerikkeyb)
 
-def okaykanalmark(user):
+async def okaykanalmark(user):
     okayk_dat = collection.find_one({"_id": user})
     for okz in OzelCol.find():
         if user in okz['kanal']:
@@ -253,7 +255,7 @@ def okaykanalmark(user):
     okayksatir = []
     for okaykkan in okayk_dat['kanal']:
         try:
-            okaykname = bot.get_chat(okaykkan).title
+            okaykname = await bot.get_chat(okaykkan).title
         except:
             pass
         else:
@@ -285,7 +287,7 @@ def ozelkaynakmark(user, kanil):
     return kmark 
     
 
-def kaynakmark(user, kanil):
+async def kaynakmark(user, kanil):
     u = collection.find_one({"_id": user})
     linkkaynakkeyb = []
     butonkaynakkeyb = []
@@ -299,7 +301,7 @@ def kaynakmark(user, kanil):
         if kaynak['icerik'] != "arsiv" and u['kanal'][int(kanil)] in u['icerik']:
             continue
         try:
-            getkaynak = bot.get_chat(kaynak["_id"])
+            getkaynak = await bot.get_chat(kaynak["_id"])
         except:
             k_title = "𝙺𝚊𝚢𝚗𝚊ğ𝚊 𝚞𝚕𝚊şı𝚕𝚊𝚖ı𝚢𝚘𝚛."
             k_link = "https://t.me/otoposterbotlog"
@@ -377,14 +379,14 @@ def sablonmark(user):
         samark = InlineKeyboardMarkup(inline_keyboard=[[buts], [buts2], [buts3]], row_width=2)
         return samark
 
-def patmark(user):
+async def patmark(user):
     zero = 0
     pkeyb = [[InlineKeyboardButton("💎Hepsine Gönder💎", callback_data="pat-0")]]
     pkul = collection.find_one({"_id": user})
 
     for k in pkul['kanal']:
         try:
-            kn = bot.get_chat(k)
+            kn = await bot.get_chat(k)
             kis = kn.title
         except:
             kis = "Kanala ulaşılamadı."
@@ -395,13 +397,13 @@ def patmark(user):
     pmark = InlineKeyboardMarkup(pkeyb)
     return pmark
     
-def gen_markup(user):
+async def gen_markup(user):
     keyb = []
     kayd = collection.find_one({"_id": user})
     butonno = 0
     for k in kayd['kanal']:
         try:
-            ismi = bot.get_chat(k)
+            ismi = await bot.get_chat(k)
         except:
             collection.update_one({"_id": user}, {"$pull": {"kanal": k}})
         else:

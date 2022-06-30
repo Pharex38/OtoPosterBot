@@ -106,13 +106,13 @@ async def kanalmenu(update, context):
         if len(kudat['kanal']) < 1:
             await bot.send_message(chat, "Henüz bir kanal kaydetmemişsiniz!", reply_markup=kanalmenumark())
             return 
-        await bot.send_message(chat, "Silmek istediğiniz kanalı seçin.", reply_markup=gen_markup(user))
+        await bot.send_message(chat, "Silmek istediğiniz kanalı seçin.", reply_markup=(await gen_markup(user)))
         return 
     if mesaj == "💠 Tür Değiştir":
         if len(kudat['kanal']) < 1:
             await bot.send_message(chat, "Henüz bir kanal kaydetmemişsiniz!", reply_markup=kanalmenumark())
             return 
-        await bot.send_message(chat, "Türünü değiştirmek istediğiniz kanalı seçin.", reply_markup=icerikmark(user))
+        await bot.send_message(chat, "Türünü değiştirmek istediğiniz kanalı seçin.", reply_markup=(await icerikmark(user)))
         return
     if mesaj == "🔶 Yeni Kanal Ekle":
         vip_uyeler = collection.find_one({"_id": 0})['vipuye']
@@ -125,7 +125,7 @@ async def kanalmenu(update, context):
         if len(kudat['kanal']) < 1:
             await bot.send_message(chat, "SFS moduna alabilmek için henüz bir kanal kaydetmemişsiniz!", reply_markup=kanalmenumark())
             return
-        await bot.send_message(chat, "<i>SFS moduna almak istediğiniz kanalı seçin. SFS moduna aldığınız kanala modu kapatana kadar post atılmaz!</i>\n\n", reply_markup=sfsmark(user))    
+        await bot.send_message(chat, "<i>SFS moduna almak istediğiniz kanalı seçin. SFS moduna aldığınız kanala modu kapatana kadar post atılmaz!</i>\n\n", reply_markup=(await sfsmark(user)))    
         return
     if mesaj == "↩️ Ana Menü" or mesaj == "❌ İptal":
         await bot.send_message(chat, "<b>Biliyor muydunuz? -></b> "+"<i>"+choice(tips)+"</i>")
@@ -274,7 +274,7 @@ async def postmenu(update, context):
             kcisim = bot.get_chat(kynskm).title
         except:
             kcisim = "Kanalınıza ulaşılamadı!"
-        kaynakmsg.edit_text(f"""<b> >>>    {kcisim}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>""", reply_markup=kaynakmark(user, 0))
+        kaynakmsg.edit_text(f"""<b> >>>    {kcisim}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>""", reply_markup=(await kaynakmark(user, 0)))
         return
     if mesaj == "⏱ Zamanladıklarım":
         zjobs = context.job_queue.get_jobs_by_name(str(user))
@@ -316,7 +316,7 @@ async def ekstramenu(update, context):
         if len(eudat['kanal']) == 0:
             await bot.send_message(chat, "Bu modu kullanabilmek için önce bir kanal kaydetmelisin!")
             return
-        await bot.send_message(chat, "<b>Paylaşılan postların otomatik olarak sabitlenmesini istersen bu modu açabilirsin.</b>", reply_markup=pinmark(user))
+        await bot.send_message(chat, "<b>Paylaşılan postların otomatik olarak sabitlenmesini istersen bu modu açabilirsin.</b>", reply_markup=(await pinmark(user)))
         return
     if mesaj == "📡 İstek Onaylayıcı":
         await bot.send_message(chat, "Özellik iptal hafta sonu bu özellik için ayrı bot yapıcam @IstekOnaylayiciBot ")
@@ -366,7 +366,7 @@ async def ekstramenu(update, context):
         if len(eudat['kanal']) == 0:
             await bot.send_message(chat, "Kontrol edebilmem için önce bir kanal kaydetmelisin!")
             return
-        await bot.send_message(chat, "Kontrol etmek istediğiniz kanalı seçin.", reply_markup=ioskontrolmark(user))
+        await bot.send_message(chat, "Kontrol etmek istediğiniz kanalı seçin.", reply_markup=(await ioskontrolmark(user)))
         return
     if mesaj == "↩️ Ana Menü" or mesaj == "❌ İptal":
         await bot.send_message(chat, "<b>Biliyor muydunuz? -></b> "+"<i>"+choice(tips)+"</i>")
@@ -407,10 +407,10 @@ async def panelbul(update, context):
             continue
         try:
             if bulunanuser['kanal'].index(bulkan) == len(bulunanuser['kanal'])-1:
-                bultext += "└" + kan_mention_html(bulkan) + "\n"
+                bultext += "└" + (await kan_mention_html(bulkan)) + "\n"
                 break
             else:
-                bultext += "├" + kan_mention_html(bulkan) + "\n"
+                bultext += "├" + (await kan_mention_html(bulkan)) + "\n"
         except:
             pass
     else:
@@ -730,7 +730,7 @@ async def patzamansaat(update, context):
     context.user_data['zaman'] = zamanii
     satkat = collection.find_one({"_id": user})
     if len(satkat['kanal']) < 2:
-        pyetkililer = [pxy.user.id for pxy in await bot.get_chat_administrators(satkat['kanal'][0])]
+        pyetkililer = [pxy.user.id for pxy in (await bot.get_chat_administrators(satkat['kanal'][0]))]
         if not user in pyetkililer:
             await bot.send_message(chat, f"{bot.get_chat(satkat['kanal'][0]).title} Bu kanalda yetkili olmadığınız için kanal silindi", reply_markup=dugme(user))
             collection.update_one({"_id": user}, {"$pull": {"kanal": satkat['kanal'][0]}})
@@ -741,7 +741,7 @@ async def patzamansaat(update, context):
         mstd = await bot.send_message(chat, "Başka post paylaşacak mısınız?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Evet", callback_data="devam"), InlineKeyboardButton("Hayır", callback_data="del")]]))
         return ConversationHandler.END
 
-    await bot.send_message(update.effective_message.chat.id, "Hangi kanalınıza gönderilecek.", reply_markup=patmark(update.effective_message.from_user.id))
+    await bot.send_message(update.effective_message.chat.id, "Hangi kanalınıza gönderilecek.", reply_markup=(await patmark(update.effective_message.from_user.id)))
     return ConversationHandler.END
 
 async def pat(update, context):

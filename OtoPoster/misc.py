@@ -106,13 +106,12 @@ def send_typing_action(func):
 
     @wraps(func)
     async def command_func(update, context, *args, **kwargs):
-        context.bot.send_chat_action(chat_id=update.effective_message.chat_id, action=ChatAction.TYPING)
+        await context.bot.send_chat_action(chat_id=update.effective_message.chat_id, action=ChatAction.TYPING)
         return await func(update, context,  *args, **kwargs)
 
     return command_func
 
 def linkkisalt(site, token, text, icerik):
-    #cscraper = cfscrape.create_scraper()
     json = {"shortenedUrl": "", "message": "", "status": ""}
     link = " "
     if icerik == "arsiv":
@@ -143,6 +142,9 @@ def linkkisalt(site, token, text, icerik):
     elif site == "7":
         json = get("https://urlably.com/api?", params={"api": token, "url": text}, headers=headerss, timeout=ptimeout).json()
         link = json['shortenedUrl']
+    elif site == "8":
+        json = ReqPost("https://api.cuty.io/full", {"token": token, "url": text}).json()
+        link = json['short_url']
     elif site == "0":
         json = get("https://urlcik.com/api?", params={"api": token, "url": text}, headers=headerss, timeout=ptimeout).json()
         link = json['shortenedUrl']
@@ -151,7 +153,7 @@ def linkkisalt(site, token, text, icerik):
 
 def AdminCommandHandler(command, callback, *args, **kwargs):
     komutisimleri.append(command)
-    return CommandHandler(command, callback, filters=Filters.user(sahip))
+    return CommandHandler(command, callback, filters=filters.User(sahip))
 
 def apiscraper(apitoken):
     if "ouo" in apitoken:
@@ -209,21 +211,24 @@ async def FloodControl(komand, *argos, **kwargos):
 def site_isim(no):
     if no == "0":
         return "URLcik"
-    if no == "1":
+    elif no == "1":
         return "TRLink"
-    if no == "2":
+    elif no == "2":
         return "PND.TL"
-    if no == "3":
+    elif no == "3":
         return "Exe.io"
-    if no == "4":
+    elif no == "4":
         return "Ouo.io"
-    if no == "5":
+    elif no == "5":
         return "Pubiza"
-    if no == "6":
+    elif no == "6":
         return "Gir.ist"
-    if no == "7":
+    elif no == "7":
         return "URLAbly"
-    return "Bulunamadı"
+    elif no == "8":
+        return "Cuty.io"
+    else:
+        return "Bulunamadı"
 
 async def kan_mention_html(kanid):
     try:
@@ -281,7 +286,7 @@ async def eklentiiletisim(update, context):
             
         
 
-async def komutisimleristart():
+async def komutisimleristart(_):
     komutisimleris = []
     for komi in komutisimleri:
         komutisimleris.append(BotCommand(komi, komi.capitalize()))
@@ -306,13 +311,6 @@ async def error_handler(update: object, context: CallbackContext) -> None:
         else:
             updateerr = None
         update_str = update.to_dict() if isinstance(update, Update) else str(update)
-        try:
-            context.job.context[0]["chatid"]
-        except:
-            pass
-        else:
-            if KaynakCol.find_one({"_id": int(context.job.context[0]["chatid"])}):
-                collection.update_one({"_id": 0}, {"$set": {"sira": collection.find_one({"_id": 0})['sira']-1}})
         message1 = (
         f'BİR HATA OLUŞTU!\n'
         f'<pre>update = {html.escape(jason.dumps(update_str, indent=2, ensure_ascii=False))}</pre>')
