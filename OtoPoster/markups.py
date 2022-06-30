@@ -122,7 +122,7 @@ async def sfsmark(user):
     sfssatir = []
     for sfskan in sfs_dat['kanal']:
         try:
-            sfsname = await bot.get_chat(sfskan).title
+            sfsname = (await bot.get_chat(sfskan)).title
         except:
             pass
         else:
@@ -144,7 +144,7 @@ async def pinmark(user):
     pinsatir = []
     for pinkan in pin_dat['kanal']:
         try:
-            pinname = await bot.get_chat(pinkan).title
+            pinname = (await bot.get_chat(pinkan)).title
         except:
             pass
         else:
@@ -170,7 +170,7 @@ async def istekmark(user):
     isteksatir2 = []
     for istekkan in istek_dat['kanal']:
         try:
-            istekname = await bot.get_chat(istekkan).title
+            istekname = (await bot.get_chat(istekkan)).title
         except:
             pass
         else:
