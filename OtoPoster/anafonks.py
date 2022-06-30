@@ -275,7 +275,7 @@ async def postmenu(update, context):
         kaynakmsg = await bot.send_message(chat, "<code>Yükleniyor...</code>")
         kynskm = poudat['kanal'][0]
         try:
-            kcisim = (await bot.get_chat(kynskm))title
+            kcisim = (await bot.get_chat(kynskm)).title
         except:
             kcisim = "Kanalınıza ulaşılamadı!"
         kaynakmsg.edit_text(f"""<b> >>>    {kcisim}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>""", reply_markup=(await kaynakmark(user, 0)))
