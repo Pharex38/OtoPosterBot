@@ -647,7 +647,7 @@ async def kaynakpanel(update, context):
     panelkaynak = KaynakCol.find_one({"sahip": user})
     if panelkaynak == None:
         return
-    panelmessage = bot.send_animation(user, animation="https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif",  caption="<code>Yükleniyor</code>")
+    panelmessage = await bot.send_animation(user, animation="https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif",  caption="<code>Yükleniyor</code>")
     try:
         panelkaynakkanal = await bot.get_chat(panelkaynak['_id'])
     except:
