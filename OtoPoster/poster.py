@@ -7,6 +7,8 @@ MEDIA_GROUP_TYPES = {"audio": InputMediaAudio, "document": InputMediaDocument, "
 posterrtext = "{} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz hata sebebiyle kanallarda paylaşılamadı!\n\nAlınan hata: {}\n\nHatalı post: {}"
 
 async def poster_job(context):
+    bot = context.bot
+    
     vipler = collection.find_one({"_id": 0})['vipuye']
     postee = context.job.data
     sendtimeout = 15
@@ -389,7 +391,9 @@ async def poster_job(context):
         except Exception as e:
             logger.exception(e)
 
+
 async def ozel_poster_job(context):
+    bot = context.bot
     opostee = context.job.data    
     ogrup = []
     oatilanlar = []
@@ -695,6 +699,7 @@ async def ozel_poster_job(context):
     logger.warning(obasari)
 
 async def poster_edit(update, context):
+    bot = context.bot
     chat = update.effective_chat.id
     if KaynakCol.find_one({"_id": chat}) == None:
         return
@@ -820,14 +825,16 @@ async def poster_edit(update, context):
         logger.warning(f"{update.effective_chat.title} kaynağının {edcount} postu düzenlendi")
 
 async def postersira(update, context):
+    bot = context.bot
     if len(context.args) == 0:
         collection.update_one({"_id": 0}, {"$set": {"sira": 1}})
     else:
         collection.update_one({"_id": 0}, {"$set": {"sira": 0}})
         
-    update.effective_message.reply_text("Sıra düşürüldü")
+    await update.effective_message.reply_text("Sıra düşürüldü")
 
 async def poster(update, context):
+    bot = context.bot
     global postsirasi, opostsirasi
     pochat = update.effective_message.chat.id
     # Ana Kaynaklar
