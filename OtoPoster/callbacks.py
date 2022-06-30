@@ -526,7 +526,7 @@ async def callback_query(call, context):
             logger.error(e)
             return
         try:
-            sgyisim = await bot.get_chat(sgynknl).title
+            sgyisim = (await bot.get_chat(sgynknl)).title
         except:
             sgyisim = "Kanalınıza ulaşılamadı!"
         await call.callback_query.answer(sgyisim)
@@ -544,7 +544,7 @@ async def callback_query(call, context):
             logger.error(e)
             return
         try:
-            sgyisim = await bot.get_chat(sgynknl).title
+            sgyisim = (await bot.get_chat(sgynknl)).title
         except:
             sgyisim = "Kanalınıza ulaşılamadı!"
         await call.callback_query.answer(sgyisim)
