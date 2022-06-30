@@ -7,7 +7,7 @@ from time import sleep
 from pymongo import MongoClient
 import time, datetime, calendar, speedtest
 from collections import OrderedDict
-import threading, pytz, os, asyncio, logging, cfscrape
+import threading, pytz, os, asyncio, logging
 from ssl import CERT_NONE
 from random import choice, randint, shuffle
 from telegram import *
