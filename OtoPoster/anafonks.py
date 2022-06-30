@@ -37,11 +37,11 @@ async def menu(update, context):
         menu_mesaj = "<b>🖥Kayıtlı Kanalınız;</b>\n"
         for chan in mj['kanal']:
             try:
-                kbilgi = bot.get_chat(chan)
+                kbilgi = await bot.get_chat(chan)
             except RetryAfter as krt:
                 time.sleep(krt.retry_after+1)
                 try:
-                    kbilgi = bot.get_chat(chan)
+                    kbilgi = await bot.get_chat(chan)
                 except:
                     pass
             except Exception as e:
@@ -275,7 +275,7 @@ async def postmenu(update, context):
         kaynakmsg = await bot.send_message(chat, "<code>Yükleniyor...</code>")
         kynskm = poudat['kanal'][0]
         try:
-            kcisim = bot.get_chat(kynskm).title
+            kcisim = await bot.get_chat(kynskm).title
         except:
             kcisim = "Kanalınıza ulaşılamadı!"
         kaynakmsg.edit_text(f"""<b> >>>    {kcisim}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>""", reply_markup=(await kaynakmark(user, 0)))
@@ -351,7 +351,7 @@ async def ekstramenu(update, context):
             if type(tpost.context['tskan']) == list:
                 for tspostk in tpost.context['tskan']:
                     try:
-                        tskanisim += bot.get_chat(tspostk).title + ", " if not tpost.context['tskan'].index(tspostk) in [len(tpost.context['tskan'])-1] and len(tpost.context['tskan']) != 1 else bot.get_chat(tspostk).title
+                        tskanisim += (await bot.get_chat(tspostk)).title + ", " if not tpost.context['tskan'].index(tspostk) in [len(tpost.context['tskan'])-1] and len(tpost.context['tskan']) != 1 else bot.get_chat(tspostk).title
                     except:
                         tskanerrorcount += 1
                 if tskanerrorcount != 0:
@@ -361,7 +361,7 @@ async def ekstramenu(update, context):
                         tskanisim += "Kanalınıza ulaşılamadı!"
             else:
                 try:
-                    tskanisim = bot.get_chat(tpost.context['tskan']).title
+                    tskanisim = (await bot.get_chat(tpost.context['tskan'])).title
                 except:
                     tskanisim = "Kanalınıza ulaşılamadı."
             text_tekrarli += "<b>Sonraki tetiklenme tarihi:</b> {}\n<b>Paylaşılma aralığı:</b> {}\n<b>Başlık:</b> {}\n<b>Kanal(lar):</b> {}\n<b>Post Sayısı: {}</b>\n\n".format(tpoststr[tpp+8:tpp+27], tpoststr[tapp+4:tapp+13], tpost.context['baslik'], tskanisim, len(tpost.context["tspost"]))
@@ -706,7 +706,7 @@ async def kanalkayit(update, context):
         await bot.send_message(chat, "Bu kanalı zaten kaydetmişsiniz")
         return 
     try:
-        kanalbilgi = bot.get_chat(kanal)
+        kanalbilgi = await bot.get_chat(kanal)
         yetkiler = await bot.get_chat_administrators(kanal)
     except:
         await bot.send_message(chat, "Botu kanalınızda yönetici eklememişsiniz.")
