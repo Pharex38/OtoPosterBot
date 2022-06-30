@@ -2,7 +2,7 @@ from . import *
 from .misc import *
 
 
-async def jobyedekleme(context):
+def jobyedekleme(context):
     global ptimeout
     collection.update_one({"_id": 0}, {"$set": {"jobs": []}})
     ptimeout = collection.find_one({"_id": 0})['timeout']
@@ -18,7 +18,7 @@ async def jobyedekleme(context):
                 yjcount += 1
     logger.warning(str(yjcount)+" Adet Job Yedeklendi!")
 
-async def tekrarlipostjob(context):
+def tekrarlipostjob(context):
     tsdict = context.job.context
     tspostsira = int(tsdict["mod"].split("-")[-1])
     try:
@@ -41,14 +41,14 @@ async def tekrarlipostjob(context):
     if tspostdict['text'] != None:
         try:
             if type(tsdict['tskan']) != list:
-                await bot.send_message(tsdict['tskan'], tspostdict['text'])
+                bot.send_message(tsdict['tskan'], tspostdict['text'])
             else:
                 for tskand in tsdict['tskan']:
-                    await bot.send_message(tskand, tspostdict['text'])
+                    bot.send_message(tskand, tspostdict['text'])
         except Exception as e:
             logger.exception(e)
             try:
-                await bot.send_message(tsdict['tsuser'], f"{tsdict['baslik']} Tekrarli Postunuz gönderilemedi!")
+                bot.send_message(tsdict['tsuser'], f"{tsdict['baslik']} Tekrarli Postunuz gönderilemedi!")
             except:
                 try:
                     tsdict['try']
@@ -71,7 +71,7 @@ async def tekrarlipostjob(context):
     except Exception as e:
         logger.exception(e)
         try:
-            await bot.send_message(tsdict['tsuser'], f"{tsdict['baslik']} Tekrarli Postunuz gönderilemedi!")
+            bot.send_message(tsdict['tsuser'], f"{tsdict['baslik']} Tekrarli Postunuz gönderilemedi!")
         except:
             try:
                 tsdict['try']
@@ -83,7 +83,7 @@ async def tekrarlipostjob(context):
                 else:
                     tsgetjj.context['try'] = tsdict['try']+1
 
-async def kisitlamakontrol(context):
+def kisitlamakontrol(context):
     kdat = collection.find_one({"_id": 0})
     safelinks = {
         "0": "https://urlcik.com/YJ6SWGv", 
@@ -109,7 +109,7 @@ async def kisitlamakontrol(context):
                     collection.update_one({"_id": 0}, {"$pull": {"site": kond}})
                     logger.warning(f"{site_isim(kond)} arındırıldı!")
         
-async def deljob(context):
+def deljob(context):
     delcont = context.job.context
     hedef = str(delcont.effective_chat.id)
     mesid = int(delcont.effective_message.message_id)
@@ -129,14 +129,14 @@ async def deljob(context):
         data = data['pids']
     for d in data:
         try:
-            await bot.delete_message(d['chat'], d['pid'])
+            bot.delete_message(d['chat'], d['pid'])
         except Exception as e:
             logger.error(e)
         else:
             spcount += 1
     logger.warning(f"{spcount} post silindi.")
 
-async def zamanjob(context):
+def zamanjob(context):
     cont = context.job.context
     patbegeni = collection.find_one({"_id": cont[0]['user']})['begeni']
     if len(patbegeni) == 0:
@@ -154,7 +154,7 @@ async def zamanjob(context):
         except Exception as e:
             logger.error(e)
             try:
-                await bot.send_message(msgd['user'], "Zamanlı Postunuz gönderilemedi.")
+                bot.send_message(msgd['user'], "Zamanlı Postunuz gönderilemedi.")
             except:
                 pass
         else:            
@@ -164,14 +164,14 @@ async def zamanjob(context):
                 else:
                     ButonCol.update_one({"_id": msgd['pkan']}, {"$set": {str(ppost.message_id): [], "begeni": patbegeni}})
 
-async def delonejob(context):
+def delonejob(context):
     delh = context.job.context
-    await bot.delete_message(delh['chat'], delh['mid'])
+    bot.delete_message(delh['chat'], delh['mid'])
 
-async def gunluk(context):
+def gunluk(context):
     ozel_kaynak_kullanan_sayisi = 0
     exe_kullanan_sayisi, pubiza_kullanan_sayisi, ouo_kullanan_sayisi, urlably_kullanan_sayisi, trlink_kullanan_sayisi, pnd_kullanan_sayisi, girist, urlcik_kullanan_sayisi = 0, 0, 0, 0, 0, 0, 0, 0
-    msg = await bot.send_message(botlog, "<code>Günlük veriler hesaplanıyor...</code>")
+    msg = bot.send_message(botlog, "<code>Günlük veriler hesaplanıyor...</code>")
     toplam = 0
     kum = []
     kanals = 0
@@ -223,12 +223,12 @@ async def gunluk(context):
                 kum.append(kul)
                 time.sleep(0.5)
                 try:
-                    uye = await bot.get_chat_members_count(kul)
+                    uye = bot.get_chat_members_count(kul)
                     print(uye)
                 except RetryAfter as after:
                     sleep(after.retry_after)
                     try:
-                        uye = await bot.get_chat_members_count(kul)
+                        uye = bot.get_chat_members_count(kul)
                     except:
                         pass
                 except Exception as e:
@@ -330,23 +330,23 @@ async def gunluk(context):
         bildirimtext += f"<i>Son 24 saatte {kulkanisim} kanalınızda {IstekCol.find_one({'_id': 0})[kulkan]['count']} istek onaylandı!</i>\n"
         IstekCol.update_one({"_id": 0}, {"$set": {kulkan: {"count": 0}}})
         if bildirimtext != "<b>Bilgilendirme:</b>\n\n":
-            await bot.send_message(kullanici['_id'], bildirimtext)
+            bot.send_message(kullanici['_id'], bildirimtext)
 
-async def panelcleaner(context):
+def panelcleaner(context):
     try:
         context.dispatcher.user_data[context.job.context].pop("panel_text")
     except:
         pass
 
-async def siraclean(context):
+def siraclean(context):
     if len(context.job_queue.get_jobs_by_name("anaposter")) != 20:
         collection.update_one({"_id": 0}, {"$set": {"sira": 0}})
 
-async def resetleme(context):
+def resetleme(context):
     try:
         for rest in collection.find({}):
             collection.update_one({"_id": rest['_id']}, {"$set": {"time": 0}})
     except Exception as e:
-        await bot.send_message(sahip, str(e))
+        bot.send_message(sahip, str(e))
     else:
-        await bot.send_message(sahip, "Time Sıfırlandı")
+        bot.send_message(sahip, "Time Sıfırlandı")
