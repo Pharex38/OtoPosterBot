@@ -1,13 +1,14 @@
 
 
 from requests import get, Session
-from requests import post as ReqPost
+from requests_html import HTMLSession
+
 from requests.exceptions import *
 from time import sleep
 from pymongo import MongoClient
 import time, datetime, calendar, speedtest
 from collections import OrderedDict
-import threading, pytz, os, asyncio, logging
+import threading, pytz, os, asyncio, logging, cfscrape
 from ssl import CERT_NONE
 from random import choice, randint, shuffle
 from telegram import *
@@ -16,8 +17,8 @@ from telegram.error import *
 from telegram.ext import *
 from functools import wraps
 from urllib3.exceptions import ReadTimeoutError
-from telegram.helpers import *
-from telegram.request import BaseRequest
+from telegram.utils.helpers import *
+from telegram.utils.request import Request
 from telegram.constants import *
 import json as jason
 import traceback, sys, html
@@ -33,7 +34,6 @@ pid.write(str(os.getpid()))
 pid.close()
 print(os.getpid())
 
-bottoken = os.environ['BOTTOKEN']
 mpass = os.environ['MONGOPASS']
 mongo = f"os.environ["MONGO_URI"]"
 
@@ -50,6 +50,7 @@ speeds = speedtest.Speedtest()
 maindata = collection.find_one({"_id": 0})
 kara = maindata['kara']
 apikara = maindata['apikara']
+bottoken = maindata['bottoken']
 para = maindata['para']
 appstr = maindata['appstr']
 aid = maindata['aid']
@@ -59,7 +60,8 @@ begstate = maindata['beg']
 mainsiralimit = maindata['mainsira']
 
 
-bot = ExtBot(bottoken, defaults=Defaults(parse_mode=ParseMode.HTML, disable_web_page_preview=True, allow_sending_without_reply=True, tzinfo=pytz.timezone('Turkey')))
+reqs = Request(con_pool_size=50, connect_timeout=30, read_timeout=30)
+bot = ExtBot(bottoken, request=reqs, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=20, disable_web_page_preview=True, allow_sending_without_reply=True, tzinfo=pytz.timezone('Turkey')))
 
 eklenti = 1654723447
 blog = -1001391561285
