@@ -450,7 +450,7 @@ async def callback_query(call, context):
         kaynakmsg = call.effective_message
         kynskm = collection.find_one({"_id": user})['kanal'][0]
         try:
-            kcisim = await bot.get_chat(kynskm).title
+            kcisim = (await bot.get_chat(kynskm)).title
         except:
             kcisim = "Kanalınıza ulaşılamadı!"
         kaynakmsg.edit_text(f"""<b> >>>    {kcisim}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>""", reply_markup=kaynakmark(user, 0))
