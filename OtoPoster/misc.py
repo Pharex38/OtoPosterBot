@@ -145,6 +145,10 @@ def linkkisalt(site, token, text, icerik):
     elif site == "7":
         json = get("https://urlably.com/api?", params={"api": token, "url": text}, headers=headerss, timeout=ptimeout).json()
         link = json['shortenedUrl']
+    elif site == "8":
+         json = get("https://api.cuty.io/quick?", params={"token": token, "url": text}, headers=headerss, timeout=ptimeout).json()
+         link = json['short_url']
+         json['message'] = ""
     elif site == "0":
         json = get("https://urlcik.com/api?", params={"api": token, "url": text}, headers=headerss, timeout=ptimeout).json()
         link = json['shortenedUrl']
