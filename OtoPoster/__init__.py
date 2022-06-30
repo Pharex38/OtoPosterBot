@@ -1,7 +1,6 @@
 
 
 from requests import get, Session
-from requests_html import HTMLSession
 
 from requests.exceptions import *
 from time import sleep
@@ -50,7 +49,7 @@ speeds = speedtest.Speedtest()
 maindata = collection.find_one({"_id": 0})
 kara = maindata['kara']
 apikara = maindata['apikara']
-bottoken = maindata['bottoken']
+bottoken = os.environ['BOTTOKEN']
 para = maindata['para']
 appstr = maindata['appstr']
 aid = maindata['aid']
