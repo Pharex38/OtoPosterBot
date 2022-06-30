@@ -557,7 +557,10 @@ async def evale(update, context):
     user = update.effective_user.id
     chat = update.effective_chat.id
     try:
-        evol =  eval(update.effective_message.text.replace("/eval ", "") if len(update.effective_message.text.split()) > 1 else update.effective_message.reply_to_message.text.replace("/eval ", ""))
+        if "await" in update.effective_message.text:
+            evol =  await eval(update.effective_message.text.replace("/eval ", "") if len(update.effective_message.text.split()) > 1 else update.effective_message.reply_to_message.text.replace("/eval ", ""))
+        else:
+            evol =  eval(update.effective_message.text.replace("/eval ", "") if len(update.effective_message.text.split()) > 1 else update.effective_message.reply_to_message.text.replace("/eval ", ""))
     except Exception as ev:
         await update.effective_message.reply_text(html.escape(str(ev)))
     else:
