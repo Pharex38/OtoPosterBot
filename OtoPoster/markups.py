@@ -58,7 +58,7 @@ async def ioskontrolmark(user):
     iosc = 0
     for ikan in collection.find_one({"_id": user})['kanal']:
         try:
-            ioski = await bot.get_chat(ikan).title
+            ioski = (await bot.get_chat(ikan)).title
         except:
             continue
         iosk.append([InlineKeyboardButton(ioski, callback_data=f"iosk-{iosc}")])
