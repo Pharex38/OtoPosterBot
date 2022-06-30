@@ -579,7 +579,7 @@ async def callback_query(call, context):
         pukanallar = collection.find_one({"_id": user})['kanal']
         if len(pukanallar) < 2:
             try:
-                ppost = SEND_MEDIA_TYPES[ptip](pukanallar[0], fid, caption=psablon, reply_markup=patmarkup)
+                ppost = await SEND_MEDIA_TYPES[ptip](pukanallar[0], fid, caption=psablon, reply_markup=patmarkup)
             except Exception as e:
                 logger.error(e)
                 await bot.send_message(user, "Postunuz gönderilemedi, botu kanaldan çıkarmış olabilirsiniz.", reply_markup=dugme(user))
@@ -630,7 +630,7 @@ async def callback_query(call, context):
                         collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
                         continue 
                     try:
-                        ppost = SEND_MEDIA_TYPES[ptip](kan, fid, caption=psablon, reply_markup=patmarkup)
+                        ppost = await SEND_MEDIA_TYPES[ptip](kan, fid, caption=psablon, reply_markup=patmarkup)
                     except Exception as e:
                         logger.exception(e)
                         pass
@@ -654,7 +654,7 @@ async def callback_query(call, context):
                 collection.update_one({"_id": user}, {"$pull": {"kanal": kanal[o]}})
                 return ConversationHandler.END
             try:
-                ppost = SEND_MEDIA_TYPES[ptip](kanal[o], fid, caption=psablon, reply_markup=patmarkup)
+                ppost = await SEND_MEDIA_TYPES[ptip](kanal[o], fid, caption=psablon, reply_markup=patmarkup)
             except Exception as e:
                 await bot.edit_message_text(f"Postunuz gönderilemedi \n\n{e}", user, mesajid)
                 context.user_data.clear()
