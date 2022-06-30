@@ -143,7 +143,7 @@ def linkkisalt(site, token, text, icerik):
         json = get("https://urlably.com/api?", params={"api": token, "url": text}, headers=headerss, timeout=ptimeout).json()
         link = json['shortenedUrl']
     elif site == "8":
-        json = ReqPost("https://api.cuty.io/full", {"token": token, "url": text}).json()
+        json = get("https://api.cuty.io/quick?", params={"token": token, "url": text}, headers=headerss, timeout=ptimeout).json()
         link = json['short_url']
     elif site == "0":
         json = get("https://urlcik.com/api?", params={"api": token, "url": text}, headers=headerss, timeout=ptimeout).json()
