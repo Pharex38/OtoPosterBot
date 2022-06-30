@@ -531,7 +531,7 @@ async def callback_query(call, context):
             sgyisim = "Kanalınıza ulaşılamadı!"
         await call.callback_query.answer(sgyisim)
         try:
-            await call.callback_query.edit_message_text(f"<b> >>>    {sgyisim}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>", reply_markup=kaynakmark(user, int(call.callback_query.data.split("-")[-1])+1))
+            await call.callback_query.edit_message_text(f"<b> >>>    {sgyisim}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>", reply_markup=(await kaynakmark(user, int(call.callback_query.data.split("-")[-1])+1)))
         except Exception as e:
             logger.error(e)
             pass
@@ -549,7 +549,7 @@ async def callback_query(call, context):
             sgyisim = "Kanalınıza ulaşılamadı!"
         await call.callback_query.answer(sgyisim)
         try:
-            await call.callback_query.edit_message_text(f"<b> >>>    {sgyisim}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>", reply_markup=kaynakmark(user, int(call.callback_query.data.split("-")[-1])-1))
+            await call.callback_query.edit_message_text(f"<b> >>>    {sgyisim}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>", reply_markup=(await kaynakmark(user, int(call.callback_query.data.split("-")[-1])-1)))
         except Exception as e:
             logger.error(e)
             pass
