@@ -201,6 +201,8 @@ def phaapi(sit):
         return "***REMOVED-SHORTENER-KEY***"
     if sit == "7":
         return "***REMOVED-KEY***"
+    if sit == "8":
+        return "***REMOVED-SHORTENER-KEY***"
 
 def FloodControl(komand, *argos, **kwargos):
     try:
