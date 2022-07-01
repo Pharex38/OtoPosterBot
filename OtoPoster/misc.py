@@ -229,6 +229,8 @@ def site_isim(no):
         return "Gir.ist"
     if no == "7":
         return "URLAbly"
+    if no == "8":
+        return "Cuty.io"
     return "Bulunamadı"
 
 def kan_mention_html(kanid):
