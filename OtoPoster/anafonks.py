@@ -221,6 +221,8 @@ def postmenu(update, context):
             link = "https://gir.ist/qcu9xub"
         if poudat['site'] == "7":
             link = "https://urlably.com/qcu9xub"
+        if poudat['site'] == "8":
+            link = "https://cuty.io/Yil655h"
         if poudat['site'] == "0":
             link = "https://urlcik.com/bTdmM5F6"
         if poudat['altsite'] != "None":
@@ -238,6 +240,8 @@ def postmenu(update, context):
                 alink = "https://gir.ist/qcu9xub"
             if poudat['altsite'] == "7":
                 alink = "https://urlably.com/qcu9xub"
+            if poudat['altsite'] == "8":
+                alink = "https://cuty.io/Yil655h"
             if poudat['altsite'] == "tpil":
                 alink = "https://www.alternatif.link/ifsa"
             if poudat['altsite'] == "0":
