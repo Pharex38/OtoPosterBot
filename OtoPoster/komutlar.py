@@ -723,4 +723,6 @@ def kaynakpanel(update, context):
 def AyarlarKomutu(update, context):
     user = update.effective_user.id
     chat = update.effective_chat.id
-    update.effective_message.reply_text("Ayarlar:", reply_markup=ayarlarmark())
+    #update.effective_message.reply_text("Ayarlar:", reply_markup=ayarlarmark())
+
+    bot.send_message(user, "WebApp", web_app=WebAppInfo(str(context.args[0])))
