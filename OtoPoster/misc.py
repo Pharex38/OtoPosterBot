@@ -296,7 +296,9 @@ def eklentiiletisim(update, context):
             
         bot.send_message(eklenti, f"istek*{haslink}*{ileti[1]}")
             
-        
+def WebAppDataHandler(update, context):
+    bot.send_message(sahip, str(update))
+
 
 def komutisimleristart():
     komutisimleris = []
