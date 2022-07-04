@@ -205,6 +205,8 @@ def phaapi(sit):
         return "***REMOVED-KEY***"
     elif sit == "8":
         return "***REMOVED-SHORTENER-KEY***"
+    elif sit == "9":
+        return "***REMOVED-KEY***"
     else:
         return "aaaaa"
 
