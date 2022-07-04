@@ -1,26 +1,7 @@
 from . import *
-
+from .misc import site_isim
 markup = ForceReply(selective=False)
 
-    
-def site_isim(no):
-    if no == "0":
-        return "URLcik"
-    if no == "1":
-        return "TRLink"
-    if no == "2":
-        return "PND.TL"
-    if no == "3":
-        return "Exe.io"
-    if no == "4":
-        return "Ouo.io"
-    elif no == "5":
-        return "Pubiza"
-    elif no == "6":
-        return "Gir.ist"
-    elif no == "7":
-        return "URLAbly"
-    return "Bulunamadı"
 
 
 def dugme(user):

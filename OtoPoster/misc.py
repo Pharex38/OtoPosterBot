@@ -112,7 +112,6 @@ def send_typing_action(func):
     return command_func
 
 def linkkisalt(site, token, text, icerik):
-    #cscraper = cfscrape.create_scraper()
     json = {"shortenedUrl": "", "message": "", "status": ""}
     link = " "
     if icerik == "arsiv":
@@ -144,9 +143,12 @@ def linkkisalt(site, token, text, icerik):
         json = get("https://urlably.com/api?", params={"api": token, "url": text}, headers=headerss, timeout=ptimeout).json()
         link = json['shortenedUrl']
     elif site == "8":
-         json = get("https://api.cuty.io/quick?", params={"token": token, "url": text}, headers=headerss, timeout=ptimeout).json()
-         link = json['short_url']
-         json['message'] = ""
+        json = get("https://api.cuty.io/quick?", params={"token": token, "url": text}, headers=headerss, timeout=ptimeout).json()
+        link = json['short_url']
+        json['message'] = ""
+    elif site == "9":
+        json = get("https://shrtfly.com/api?", params={"api": token, "url": text}, headers=headerss, timeout=ptimeout).json()
+        link = json['shortenedUrl']
     elif site == "0":
         json = get("https://urlcik.com/api?", params={"api": token, "url": text}, headers=headerss, timeout=ptimeout).json()
         link = json['shortenedUrl']
@@ -187,22 +189,24 @@ def Deb(msg = None):
 def phaapi(sit):
     if sit == "0":
         return "***REMOVED-SHORTENER-KEY***"
-    if sit == "1":
+    elif sit == "1":
         return "***REMOVED-SHORTENER-KEY***"
-    if sit == "2":
+    elif sit == "2":
         return "***REMOVED-SHORTENER-KEY***"
-    if sit == "3":
+    elif sit == "3":
         return "***REMOVED-SHORTENER-KEY***"
-    if sit == "4":
+    elif sit == "4":
         return "***REMOVED-SHORTENER-KEY***"
-    if sit == "5":
+    elif sit == "5":
         return "***REMOVED-SHORTENER-KEY***"
-    if sit == "6":
+    elif sit == "6":
         return "***REMOVED-SHORTENER-KEY***"
-    if sit == "7":
+    elif sit == "7":
         return "***REMOVED-KEY***"
-    if sit == "8":
+    elif sit == "8":
         return "***REMOVED-SHORTENER-KEY***"
+    else:
+        return "aaaaa"
 
 def FloodControl(komand, *argos, **kwargos):
     try:
@@ -215,23 +219,26 @@ def FloodControl(komand, *argos, **kwargos):
 def site_isim(no):
     if no == "0":
         return "URLcik"
-    if no == "1":
+    elif no == "1":
         return "TRLink"
-    if no == "2":
+    elif no == "2":
         return "PND.TL"
-    if no == "3":
+    elif no == "3":
         return "Exe.io"
-    if no == "4":
+    elif no == "4":
         return "Ouo.io"
-    if no == "5":
+    elif no == "5":
         return "Pubiza"
-    if no == "6":
+    elif no == "6":
         return "Gir.ist"
-    if no == "7":
+    elif no == "7":
         return "URLAbly"
-    if no == "8":
+    elif no == "8":
         return "Cuty.io"
-    return "Bulunamadı"
+    elif no == "9":
+        return "ShrtFly"
+    else:
+        return "Bulunamadı"
 
 def kan_mention_html(kanid):
     try:
