@@ -1,5 +1,29 @@
 from . import *
 
+def site_isim(no):
+    if no == "0":
+        return "URLcik"
+    elif no == "1":
+        return "TRLink"
+    elif no == "2":
+        return "PND.TL"
+    elif no == "3":
+        return "Exe.io"
+    elif no == "4":
+        return "Ouo.io"
+    elif no == "5":
+        return "Pubiza"
+    elif no == "6":
+        return "Gir.ist"
+    elif no == "7":
+        return "URLAbly"
+    elif no == "8":
+        return "Cuty.io"
+    elif no == "9":
+        return "ShrtFly"
+    else:
+        return "Bulunamadı"
+
 markup = ForceReply(selective=False)
 
 
