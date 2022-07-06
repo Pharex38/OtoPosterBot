@@ -297,6 +297,7 @@ def eklentiiletisim(update, context):
         bot.send_message(eklenti, f"istek*{haslink}*{ileti[1]}")
             
 def WebAppDataHandler(update, context):
+    logger.warning("WebAppData geldi!")
     bot.send_message(sahip, str(update))
 
 
