@@ -373,6 +373,7 @@ def poster_job(context):
     mainsira = collection.find_one({"_id": 0})['sira']
     collection.update_one({"_id": 0}, {"$set": {"sira": mainsira-1}})
     KaynakCol.update_one({"_id": chatdat['_id']}, {"$inc": {"sayi": 1}})
+    KaynakCol.update_one({"_id": chatdat['_id']}, {"$set": {"title": kynk.title, "link": kynk.invite_link}})
     logger.warning(basari)
     try:
         FloodControl(bot.edit_message_text, *[basari, botlog, lmsg.message_id])

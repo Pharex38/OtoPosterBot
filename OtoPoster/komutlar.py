@@ -587,9 +587,11 @@ def yenikaynakkomutu(update, context):
             pass
         return
     if context.args[0].lower() == "sil":
+        bot.send_message(user, str(KaynakCol.find_one({"no": int(context.args[1])})))
         KaynakCol.delete_one({"no": int(context.args[1])})
         return
     kaynak_degisken = KaynakCol.find_one({"no": 1})
+    kaynakget = bot.get_chat(int(context.args[1]))
     kaynak_degisken['kaynak'] = []
     kaynak_degisken['kanal'] = []
     kaynak_degisken['sayi'] = 0
@@ -597,6 +599,8 @@ def yenikaynakkomutu(update, context):
     kaynak_degisken['sahip'] = int(context.args[0])
     kaynak_degisken['_id'] = int(context.args[1])
     kaynak_degisken['icerik'] = str(context.args[2])
+    kaynak_degisken['title'] = kaynakget.title
+    kaynak_degisken['link'] = kaynakget.invite_link
     graff = {}
     for gg in range(1, 32):
         graff[str(gg)] = {"user": 0, "kanal": 0}
