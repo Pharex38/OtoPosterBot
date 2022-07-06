@@ -5,7 +5,7 @@ from requests import post as ReqPost
 from requests.exceptions import *
 from time import sleep
 from pymongo import MongoClient
-import time, datetime, calendar, speedtest
+import time, datetime, calendar
 from collections import OrderedDict
 import threading, pytz, os, asyncio, logging
 from ssl import CERT_NONE
@@ -43,8 +43,6 @@ KaynakCol = db["Kaynaklar"]
 OzelCol = db["Özel Kaynaklar"]
 ButonCol = db["Butonlar"]
 IstekCol = db["İstekler"]
-
-speeds = speedtest.Speedtest()
 
 maindata = collection.find_one({"_id": 0})
 kara = maindata['kara']
