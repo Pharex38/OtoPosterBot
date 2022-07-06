@@ -72,7 +72,7 @@ def webappmark(user):
             kobj['zaman'] = kaynak['zaman']
             kobj['no'] = kaynak['no']
             kaynaklistesi.append(kobj)
-        wappmark.append(InlineKeyboardButton(bot.get_chat(int(wpam)).title, web_app=WebAppInfo(f"https://pharex.dev/otoposter/kaynakmenu/?kanal={wpam[1:]}&user={user}")))
+        wappmark.append([InlineKeyboardButton(bot.get_chat(int(wpam)).title, web_app=WebAppInfo(f"https://pharex.dev/otoposter/kaynakmenu/?kanal={wpam[1:]}&user={user}"))])
     ReqPost("https://pharex.dev/otoposter/kaynakmenu/", {"data": kaynaklistesi})    
     return ReplyKeyboardMarkup(wappmark, resize_keyboard=True)
 
