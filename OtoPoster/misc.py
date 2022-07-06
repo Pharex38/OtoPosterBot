@@ -297,8 +297,13 @@ def eklentiiletisim(update, context):
         bot.send_message(eklenti, f"istek*{haslink}*{ileti[1]}")
             
 def WebAppDataHandler(update, context):
-    logger.warning("WebAppData geldi!")
-    bot.send_message(sahip, str(update))
+    wadata = update.effective_message.web_app_data
+    if wadata.button_text == "🔧 Kaynak":
+        for wdkey in wadata.data:
+            if wada.data[wdkey]:
+                collection
+            else:
+                pass
 
 
 def komutisimleristart():
