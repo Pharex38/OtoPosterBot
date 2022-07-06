@@ -56,14 +56,14 @@ def imark():
 
 def webappmark(user):
     wappmark = []
-    user_data = collection.find_one({"_id": user_id})
+    user_data = collection.find_one({"_id": user})
     for wpam in user_data['kanal']:
         
         kaynaklistesi = []
         for kaynak in KaynakCol.find({}):
             kobj = {'kaynak': False, "isim": "Kaynağa Ulaşılamadı!", "link": "t.me/otoposterbotlog", "zaman": "Henüz ayarlanmamış", "no": "0"}
-            if kaynak['icerik'] == "+18" and kanal_id not in user_data['icerik'] or kaynak['icerik'] == "arsiv" and kanal_id in user_data['icerik']:
-                if user_id in kaynak['kaynak'] and kanal_id in kaynak['kanal']:
+            if kaynak['icerik'] == "+18" and wpam not in user_data['icerik'] or kaynak['icerik'] == "arsiv" and wpam in user_data['icerik']:
+                if user in kaynak['kaynak'] and wpam in kaynak['kanal']:
                     kobj['kaynak'] = True
             else:        
                 continue
