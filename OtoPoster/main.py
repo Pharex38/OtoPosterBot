@@ -26,7 +26,7 @@ def main() -> None:
     dispatcher.add_handler(MessageHandler(Filters.chat(-1001584743136), comment))
     dispatcher.add_handler(MessageHandler(Filters.chat(eklenti), eklentiiletisim))
     dispatcher.add_handler(MessageHandler(Filters.chat(-1001572618573), posterkomut2)) 
-    dispatcher.add_handler(MessageHandler(Filters.status_update.web_app_data, WebAppDataHandler))
+    dispatcher.add_handler(MessageHandler(Filters.status_update, WebAppDataHandler))
     #dispatcher.add_handler(MessageHandler(Filters.photo & Filters.update.edited_channel_post | Filters.video & Filters.update.edited_channel_post | Filters.animation & Filters.update.edited_channel_post, poster_edit))
     """ Admin Komutları """
     dispatcher.add_handler(AdminCommandHandler('bul', bul))
