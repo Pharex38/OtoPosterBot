@@ -54,6 +54,28 @@ def imark():
     imark = ReplyKeyboardMarkup(keyboard=[['❌ İptal']], one_time_keyboard=True, resize_keyboard=True, selective=True)
     return imark
 
+def webappmark(user):
+    wappmark = []
+    user_data = collection.find_one({"_id": user_id})
+    for wpam in user_data['kanal']:
+        
+        kaynaklistesi = []
+        for kaynak in KaynakCol.find({}):
+            kobj = {'kaynak': False, "isim": "Kaynağa Ulaşılamadı!", "link": "t.me/otoposterbotlog", "zaman": "Henüz ayarlanmamış", "no": "0"}
+            if kaynak['icerik'] == "+18" and kanal_id not in user_data['icerik'] or kaynak['icerik'] == "arsiv" and kanal_id in user_data['icerik']:
+                if user_id in kaynak['kaynak'] and kanal_id in kaynak['kanal']:
+                    kobj['kaynak'] = True
+            else:        
+                continue
+            kobj['isim'] = kaynak.get('title', "yok")
+            kobj['link'] = kaynak.get('link', "yok")
+            kobj['zaman'] = kaynak['zaman']
+            kobj['no'] = kaynak['no']
+            kaynaklistesi.append(kobj)
+        wappmark.append(InlineKeyboardButton(bot.get_chat(int(wpam)).title, web_app=WebAppInfo(f"https://pharex.dev/otoposter/kaynakmenu/?kanal={wpam[1:]}&user={user}")))
+    ReqPost("https://pharex.dev/otoposter/kaynakmenu/", {"data": kaynaklistesi})    
+    return ReplyKeyboardMarkup(wappmark, resize_keyboard=True)
+
 def ioskontrolmark(user):
     iosk = []
     iosc = 0

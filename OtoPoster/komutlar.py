@@ -729,4 +729,4 @@ def AyarlarKomutu(update, context):
     chat = update.effective_chat.id
     #update.effective_message.reply_text("Ayarlar:", reply_markup=ayarlarmark())
 
-    bot.send_message(user, "WebApp", web_app=WebAppInfo(str(context.args[0])))
+    bot.send_message(user, "WebApp", reply_markup=webappmark(user))
