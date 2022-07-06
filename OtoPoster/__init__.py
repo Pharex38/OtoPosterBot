@@ -1,6 +1,6 @@
 
 
-from requests import get, Session,
+from requests import get, Session
 from requests import post as ReqPost
 from requests.exceptions import *
 from time import sleep
