@@ -72,7 +72,12 @@ def webappmark(user):
             kobj['zaman'] = kaynak['zaman']
             kobj['no'] = kaynak['no']
             kaynaklistesi.append(kobj)
-        wappmark.append([KeyboardButton(text=bot.get_chat(int(wpam)).title, web_app=WebAppInfo(f"https://pharex.dev/otoposter/kaynakmenu/?kanal={wpam[1:]}&user={user}"))])
+        try:
+            wappmark.append([KeyboardButton(text=bot.get_chat(int(wpam)).title, web_app=WebAppInfo(f"https://pharex.dev/otoposter/kaynakmenu/?kanal={wpam[1:]}&user={user}"))])
+        except RetryAfter as trf:
+            logger.warning(f"FloodWait - {trf.retry_after} - Line: {sys._getframe().f_back.f_lineno}")
+            sleep(trf.retry_after+1)
+            wappmark.append([KeyboardButton(text=bot.get_chat(int(wpam)).title, web_app=WebAppInfo(f"https://pharex.dev/otoposter/kaynakmenu/?kanal={wpam[1:]}&user={user}"))])
     cevap = ReqPost("https://pharex.dev/otoposter/kaynakmenu", {"data": kaynaklistesi, "user_id": user, "kanal_id": wpam}, headers=headerss).text
     print(str(cevap))
     return ReplyKeyboardMarkup(wappmark, resize_keyboard=True)
