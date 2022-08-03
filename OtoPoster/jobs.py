@@ -308,29 +308,7 @@ def gunluk(context):
     bot.edit_message_text(stat_text+astat_text+last_text, botlog, msg.message_id)
     bot.pin_chat_message(botlog, msg.message_id)
     
-    
-    kullanicilar = collection.find_one({"_id": 0})['istek']
-    for kulkan in kullanicilar:
-        kullanici = collection.find_one({"kanal": {"$in": [kulkan]}})
-        if kullanici == None:
-            continue
-        bildirimtext = "<b>Bilgilendirme:</b>\n\n"
-        if IstekCol.find_one({'_id': 0}).get(kulkan, {"count": 0})['count'] < 3:
-            continue
-        try:
-            kulkanisim = bot.get_chat(kulkan).title
-        except RetryAfter as fdl:
-            sleep(fdl.retry_after+1)
-            try:
-                kulkanisim = bot.get_chat(kulkan).title
-            except:
-                continue
-        except:
-            continue
-        bildirimtext += f"<i>Son 24 saatte {kulkanisim} kanalınızda {IstekCol.find_one({'_id': 0})[kulkan]['count']} istek onaylandı!</i>\n"
-        IstekCol.update_one({"_id": 0}, {"$set": {kulkan: {"count": 0}}})
-        if bildirimtext != "<b>Bilgilendirme:</b>\n\n":
-            bot.send_message(kullanici['_id'], bildirimtext)
+   
 
 def panelcleaner(context):
     try:
