@@ -23,7 +23,7 @@ api_hash = maindata['hash']
 app_str = maindata['appstr']
 bottoken = maindata['bottoken']
 
-app = Client(app_str, api_id, api_hash)
+app = Client(session_string=app_str, api_id=api_id, api_hash=api_hash, "name"="app31", in_memory=True)
 
 @app.on_message(filters.bot)
 def islem(client, message):
@@ -47,7 +47,7 @@ def islem(client, message):
             chatoo = app.join_chat(mesaj[1])
             chato = app.resolve_peer(chatoo.id)
         except errors.FloodWait as fdd:
-            time.sleep(fdd.x+1)
+            time.sleep(fdd.value+1)
             chatoo = app.join_chat(mesaj[1])
             chato = app.resolve_peer(chatoo.id)
         except Exception as e:
@@ -59,7 +59,7 @@ def islem(client, message):
         try:
             app.join_chat(mesaj[1].replace("+", "joinchat/"))
         except errors.FloodWait as fd:
-            time.sleep(fd.x)
+            time.sleep(fd.value)
             try:
                 app.join_chat(mesaj[1].replace("+", "joinchat/"))
             except:
