@@ -23,7 +23,7 @@ api_hash = maindata['hash']
 app_str = maindata['appstr']
 bottoken = maindata['bottoken']
 
-app = Client(session_string=app_str, api_id=api_id, api_hash=api_hash, "name"="app31", in_memory=True)
+app = Client(session_string=app_str, api_id=api_id, api_hash=api_hash, name="app31", in_memory=True)
 
 @app.on_message(filters.bot)
 def islem(client, message):
