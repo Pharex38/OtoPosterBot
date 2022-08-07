@@ -166,6 +166,9 @@ def apiscraper(apitoken):
     elif "pubiza" in apitoken:
         apitoken = apitoken.split("=")
         apitoken = apitoken[1][:apitoken[1].find("&url")]
+    elif "script" in apitoken:
+        apitoken = apitoken.split("'")
+        apitoken = apitoken[1]
     
         
     return apitoken
