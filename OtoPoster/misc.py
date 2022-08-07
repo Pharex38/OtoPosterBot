@@ -167,7 +167,7 @@ def apiscraper(apitoken):
         apitoken = apitoken.split("=")
         apitoken = apitoken[1][:apitoken[1].find("&url")]
     elif "script" in apitoken:
-        apitoken = apitoken.split("'")
+        apitoken = apitoken.replace(" ", "").split("'")
         apitoken = apitoken[1]
     
         
