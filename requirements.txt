@@ -6,6 +6,3 @@ python-telegram-bot
 pyrogram
 TgCrypto
 matplotlib
-telethon
-speedtest-cli
-speedtest
