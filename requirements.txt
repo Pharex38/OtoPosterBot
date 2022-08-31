@@ -4,3 +4,5 @@ requests
 APScheduler
 python-telegram-bot
 matplotlib
+pyrogram
+TgCrypto

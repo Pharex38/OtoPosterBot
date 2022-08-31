@@ -265,7 +265,7 @@ async def okaykanalmark(user):
         okaykbutno += 1
     return InlineKeyboardMarkup(okaykkeyb)
 
-def ozelkaynakmark(user, kanil):
+async def ozelkaynakmark(user, kanil):
     y = OzelCol.find_one({"kanal": {"$in": [user]}})
     y = y['_id'] if y else "yok"
     if user == y:

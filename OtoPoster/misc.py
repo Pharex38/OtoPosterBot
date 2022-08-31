@@ -106,7 +106,7 @@ def send_typing_action(func):
 
     @wraps(func)
     async def command_func(update, context, *args, **kwargs):
-        context.bot.send_chat_action(chat_id=update.effective_message.chat_id, action=ChatAction.TYPING)
+        await context.bot.send_chat_action(chat_id=update.effective_message.chat_id, action=ChatAction.TYPING)
         return await func(update, context,  *args, **kwargs)
 
     return command_func
@@ -353,15 +353,15 @@ async def error_handler(update: object, context: CallbackContext) -> None:
         )
 
         try:
-            context.bot.send_message(chat_id=sahip, text=message1, parse_mode=ParseMode.HTML)
+            await context.bot.send_message(chat_id=sahip, text=message1, parse_mode=ParseMode.HTML)
         except:
             pass
         try:
-            context.bot.send_message(chat_id=sahip, text=message2, parse_mode=ParseMode.HTML)
+            await context.bot.send_message(chat_id=sahip, text=message2, parse_mode=ParseMode.HTML)
         except:
             pass
         try:
-            context.bot.send_message(chat_id=sahip, text=message3, parse_mode=ParseMode.HTML)
+            await context.bot.send_message(chat_id=sahip, text=message3, parse_mode=ParseMode.HTML)
         except:
             pass
     except Exception as es:

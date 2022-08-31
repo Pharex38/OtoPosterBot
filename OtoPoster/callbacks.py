@@ -112,7 +112,7 @@ async def kaynakcall(call, context):
             KaynakCol.update_one({"sahip": kys}, {"$push": {"kaynak": user}})
         await call.callback_query.answer(text="✅ Kaynak Eklendi")
     try:
-        await call.callback_query.edit_message_reply_markup(kaynakmark(user, kkanil))
+        await call.callback_query.edit_message_reply_markup((await kaynakmark(user, kkanil)))
     except:
         pass
 
@@ -312,7 +312,7 @@ async def callback_query(call, context):
             collection.update_one({"_id": user}, {"$push": {"pin": pushedpinkan}})
             await call.callback_query.answer("Kanalınız için Pin modu açıldı.")
         try:
-            await call.callback_query.edit_message_reply_markup(pinmark(user))
+            await call.callback_query.edit_message_reply_markup((await pinmark(user)))
         except:
             pass
         return 
@@ -331,7 +331,7 @@ async def callback_query(call, context):
             collection.update_one({"_id": user}, {"$push": {"eski": pushedsfskan}})
             await call.callback_query.answer("Kanalınız SFS moduna alındı.")
         try:
-            await call.callback_query.edit_message_reply_markup(sfsmark(user))
+            await call.callback_query.edit_message_reply_markup((await sfsmark(user)))
         except:
             pass
     """ İcerik """
@@ -345,9 +345,9 @@ async def callback_query(call, context):
         await call.callback_query.answer("Kanalınızın içeriği değiştirildi.")
         try:
             if call.callback_query.data.split("-")[-1] == "k":
-                await call.callback_query.edit_message_reply_markup(kaynakmark(user, icerikno))
+                await call.callback_query.edit_message_reply_markup((await kaynakmark(user, icerikno)))
             else:
-                await call.callback_query.edit_message_reply_markup(icerikmark(user))
+                await call.callback_query.edit_message_reply_markup((await icerikmark(user)))
         except:
             pass
     if call.callback_query.data.startswith("ozicerik-"):
@@ -356,7 +356,7 @@ async def callback_query(call, context):
         else:
             icc = "arsiv"
         OzelCol.update_one({"_id": user}, {"$set": {"icerik": icc}})
-        await bot.edit_message_reply_markup(chat_id=chat, message_id=mesajid, reply_markup=ozelkaynakmark(user, 0))
+        await bot.edit_message_reply_markup(chat_id=chat, message_id=mesajid, reply_markup=(await ozelkaynakmark(user, 0)))
         await call.callback_query.answer("Tür değiştirildi")
     """ İptal """
     if call.callback_query.data == "del":
@@ -412,7 +412,7 @@ async def callback_query(call, context):
                 try:
                     ozel_kaynak_bilgi = await bot.get_chat(m['okaynak'])
                 except:
-                    kaynakmsg.edit_text("Botu kaynak kanalınızdan çıkarttığınız için post atılmayacak.", reply_markup=ozelkaynakmark(user, 0))
+                    kaynakmsg.edit_text("Botu kaynak kanalınızdan çıkarttığınız için post atılmayacak.", reply_markup=(await ozelkaynakmark(user, 0)))
                     return
                 kullanan_sayisi = len(m['kanal'])
                 break
@@ -428,7 +428,7 @@ async def callback_query(call, context):
             return
         ref_link = create_deep_linked_url(context.bot.username, str(refsahip))
         try:
-            kaynakmsg.edit_text("""<b>Sadece bir tane Özel Kaynak kullanabilirsiniz.</b>\n\n      <i>Özel Kaynağınız:</i><b> <a href="{}">{}</a>\n</b>      <i>Bu Kaynağı Toplam </i><code>{}</code> <i>Kişi Kullanıyor.</i>\n\n<b>Kaynak Referans Linki;</b>\n<code>{}</code>\n<i>Bu link ile botu başlatan herkes otomatik olarak sizin kaynağınıza bağlanacak.</i>""".format(ozel_kaynak_bilgi.invite_link, ozel_kaynak_bilgi.title, kullanan_sayisi, ref_link), reply_markup=ozelkaynakmark(user, 0))
+            kaynakmsg.edit_text("""<b>Sadece bir tane Özel Kaynak kullanabilirsiniz.</b>\n\n      <i>Özel Kaynağınız:</i><b> <a href="{}">{}</a>\n</b>      <i>Bu Kaynağı Toplam </i><code>{}</code> <i>Kişi Kullanıyor.</i>\n\n<b>Kaynak Referans Linki;</b>\n<code>{}</code>\n<i>Bu link ile botu başlatan herkes otomatik olarak sizin kaynağınıza bağlanacak.</i>""".format(ozel_kaynak_bilgi.invite_link, ozel_kaynak_bilgi.title, kullanan_sayisi, ref_link), reply_markup=(await ozelkaynakmark(user, 0)))
         except:
             pass
         return
@@ -439,7 +439,7 @@ async def callback_query(call, context):
             kcisim = await bot.get_chat(kynskm).title
         except:
             kcisim = "Kanalınıza ulaşılamadı!"
-        kaynakmsg.edit_text(f"""<b> >>>    {kcisim}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>""", reply_markup=kaynakmark(user, 0))
+        kaynakmsg.edit_text(f"""<b> >>>    {kcisim}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>""", reply_markup=(await kaynakmark(user, 0)))
         return
     if call.callback_query.data.startswith("zaman"):
         dgr = int(call.callback_query.data.split("-")[1])
@@ -467,7 +467,7 @@ async def callback_query(call, context):
         await call.callback_query.edit_message_text("Botlog Kaldırıldı.")
         return
     if call.callback_query.data == "okaykanal":
-        await bot.send_message(chat, "Özel kaynağınızda kullanmak istediğiniz kanalları seçin.", reply_markup=okaykanalmark(user))
+        await bot.send_message(chat, "Özel kaynağınızda kullanmak istediğiniz kanalları seçin.", reply_markup=(await okaykanalmark(user)))
         return
     if call.callback_query.data.startswith("okayk-"):
         okid = None if OzelCol.find_one({"kanal": {"$in": [user]}}) == None else OzelCol.find_one({"kanal": {"$in": [user]}})["_id"]
@@ -487,7 +487,7 @@ async def callback_query(call, context):
         else:
             OzelCol.update_one({"_id": okid}, {"$push": {"kaynak": pushedokaykkan}})
             await call.callback_query.answer("Kanalınız için Özel Kaynak açıldı.")
-        await call.callback_query.edit_message_reply_markup(okaykanalmark(user))
+        await call.callback_query.edit_message_reply_markup((await okaykanalmark(user)))
         return
     if call.callback_query.data == "yoket":
         kayna_k = OzelCol.find_one({"_id": user})
@@ -517,7 +517,7 @@ async def callback_query(call, context):
             sgyisim = "Kanalınıza ulaşılamadı!"
         await call.callback_query.answer(sgyisim)
         try:
-            await call.callback_query.edit_message_text(f"<b> >>>    {sgyisim}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>", reply_markup=kaynakmark(user, int(call.callback_query.data.split("-")[-1])+1))
+            await call.callback_query.edit_message_text(f"<b> >>>    {sgyisim}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>", reply_markup=(await kaynakmark(user, int(call.callback_query.data.split("-")[-1])+1)))
         except Exception as e:
             logger.error(e)
             pass
@@ -535,7 +535,7 @@ async def callback_query(call, context):
             sgyisim = "Kanalınıza ulaşılamadı!"
         await call.callback_query.answer(sgyisim)
         try:
-            await call.callback_query.edit_message_text(f"<b> >>>    {sgyisim}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>", reply_markup=kaynakmark(user, int(call.callback_query.data.split("-")[-1])-1))
+            await call.callback_query.edit_message_text(f"<b> >>>    {sgyisim}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>", reply_markup=(await kaynakmark(user, int(call.callback_query.data.split("-")[-1])-1)))
         except Exception as e:
             logger.error(e)
             pass
@@ -594,7 +594,7 @@ async def callback_query(call, context):
             return ConversationHandler.END
         context.user_data['zaman'] = "yok"
         await bot.send_message(user, "Post Hazırlandı!", reply_markup=dugme(user))
-        await bot.send_message(user, "<i>Postun gönderilmesini istediğin kanalı seç.</i>", reply_markup=patmark(user))
+        await bot.send_message(user, "<i>Postun gönderilmesini istediğin kanalı seç.</i>", reply_markup=(await patmark(user)))
         return ConversationHandler.END
     if call.callback_query.data.startswith("pat"):
         back = call.callback_query.data.split("-")
@@ -729,7 +729,7 @@ async def callback_query(call, context):
         context.user_data['tskan'].append(call.callback_query.data.split("+")[-1])
         await call.callback_query.answer("Kanal belirlendi!")
         try:
-            await call.callback_query.edit_message_reply_markup(tekrarlipostkan(user, context))
+            await call.callback_query.edit_message_reply_markup((await tekrarlipostkan(user, context)))
         except:
             pass
         return 
@@ -742,7 +742,7 @@ async def callback_query(call, context):
             return
         elif len(collection.find_one({"_id": user})['kanal']) > 1:
             context.user_data['tskan'] = []
-            await call.callback_query.edit_message_text("Tekrarli Post ayarlamak istediğiniz kanalları seçin.", reply_markup=tekrarlipostkan(user, context))
+            await call.callback_query.edit_message_text("Tekrarli Post ayarlamak istediğiniz kanalları seçin.", reply_markup=(await tekrarlipostkan(user, context)))
         else:
             context.user_data["tskan"] = collection.find_one({"_id": user})['kanal'][0]
             await call.callback_query.edit_message_text("Tekrarli Postunuzun kaç saatte bir gönderilmesini istediğiniz saati seçin", reply_markup=tekrarlisaatmark())
