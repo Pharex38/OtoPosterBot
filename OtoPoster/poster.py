@@ -84,7 +84,7 @@ async def poster_job(context):
             logger.warning("{} kaynağının postu iptal edildi.".format(kynk.title))
             context.job_queue.run_once(deljob, when=2, name="yedekleme", data=update)
             try:
-                lmsg.edit_text("{} kaynağının postu iptal edildi. Post kanallardan siliniyor...".format(kynk.title))
+                await lmsg.edit_text("{} kaynağının postu iptal edildi. Post kanallardan siliniyor...".format(kynk.title))
             except:
                 pass
             return
@@ -240,7 +240,7 @@ async def poster_job(context):
                     logger.error(f"{update.effective_message.chat.title} son postu hatalı olduğu için iptal edildi!")
                     await FloodControl(bot.send_message, *[sahip, posterrtext.format(update.effective_message.chat.title, json['message'], update.effective_message.link)])
                     await FloodControl(bot.send_message, *[chatdat['sahip'], posterrtext.format(update.effective_message.chat.title, json['message'], update.effective_message.link)])
-                      
+
                     context.job_queue.run_once(deljob, when=2, name="yedekleme", data=update)
                     break
             sablondict = {"1": f"🔥{aciklama}\n\n🔱 TIKLA 👉 {link}\n\n📛 SESİ AÇ 'a tıklamayı unutma", "2": f"{aciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {link}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @TRPNDLinkGecmee", "9": f"{aciklama} \n\n𝙇𝙄𝙉𝙆🔗 {link} \n\n     𝙇𝙄𝙉𝙆🔗 {alink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @TRPNDLinkGecmee"}
@@ -276,9 +276,11 @@ async def poster_job(context):
                 try:
                     yetkililer = []
                     for xy in (await FloodControl(bot.get_chat_administrators, *[kan])):
-                        if xy.can_post_messages or xy.status == "creator":
+                        if xy.status == "creator":
                             yetkililer.append(xy.user.id)
-                except:
+                        elif xy.can_post_messages:
+                            yetkililer.append(xy.user.id)
+                except Exception :
                     continue
                 sleep(0.05)
                 if not user in yetkililer:
@@ -334,7 +336,7 @@ async def poster_job(context):
                         logger.warning("{} kaynağının postu iptal edildi.".format(kynk.title))
                         context.job_queue.run_once(deljob, when=2, name="yedekleme", data=update)
                         try:
-                            lmsg.edit_text("{} kaynağının postu iptal edildi. Post kanallardan siliniyor...".format(kynk.title))
+                            await lmsg.edit_text("{} kaynağının postu iptal edildi. Post kanallardan siliniyor...".format(kynk.title))
                         except:
                             pass
                         return
@@ -574,7 +576,9 @@ async def ozel_poster_job(context):
                 try:
                     oyetkililer = []
                     for oxy in (await bot.get_chat_administrators(okan)):
-                        if oxy.can_post_messages or oxy.status == "creator":
+                        if oxy.status == "creator":
+                            oyetkililer.append(oxy.user.id)
+                        elif oxy.can_post_messages:
                             oyetkililer.append(oxy.user.id)
                 except:
                     oyetkililer = []
