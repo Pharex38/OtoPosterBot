@@ -441,7 +441,7 @@ async def posterkomut2(update, context):
             if poj.context[0]['groupid'] == update.effective_message.media_group_id and poj.context[0]['chatid'] == pochat:
                 poj.context.append(postdict)
                 return
-        context.job_queue.run_once(poster_job, when=whn, name="anaposter", context=[postdict]) 
+        context.job_queue.run_once(poster_job, when=whn, name="anaposter", data=[postdict]) 
     # Özel Kaynaklar
     elif OzelCol.find_one({"okaynak": pochat}) != None:
         logger.warning(f"[ÖZEL] {update.effective_message.chat.title} Postu sıraya eklendi.")
@@ -460,7 +460,7 @@ async def posterkomut2(update, context):
             if opoj.context[0]['groupid'] == update.effective_message.media_group_id and opoj.context[0]['chatid'] == pochat:
                 opoj.context.append(opostdict)
                 return
-        context.job_queue.run_once(ozel_poster_job, when=owhn, name="ozelposter", context=[opostdict])
+        context.job_queue.run_once(ozel_poster_job, when=owhn, name="ozelposter", data=[opostdict])
 
 async def duy(update, context):
     chat = update.message.chat.id
@@ -665,7 +665,7 @@ async def kaynakpanel(update, context):
         if cleanjob.context == user:
             break
     else:
-        context.job_queue.run_once(panelcleaner, when=3600, name="panelcleaner", context=user)
+        context.job_queue.run_once(panelcleaner, when=3600, name="panelcleaner", data=user)
         
     tarihnow = datetime.datetime.now(pytz.timezone('Europe/Istanbul')) - datetime.timedelta(days = 6)
     tarihnowa = datetime.datetime.now(pytz.timezone('Europe/Istanbul'))
