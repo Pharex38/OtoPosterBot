@@ -272,7 +272,7 @@ async def eklentiiletisim(update, context):
     ileti = ileti.split("+")
     if ileti[0] == "ios":
         imsgid = context.application.user_data[int(ileti[1])]['iosmsgid']
-        await bot.edit_message_text("<b>"+str(bot.get_chat(ileti[2]).title)+"</b> "+ileti[3], ileti[1], imsgid)
+        await bot.edit_message_text("<b>"+str((await bot.get_chat(ileti[2])).title)+"</b> "+ileti[3], ileti[1], imsgid)
         return
     elif ileti[0] == "hash":
         try:
