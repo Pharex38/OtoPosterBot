@@ -111,7 +111,7 @@ async def kisitlamakontrol(context):
         
 async def deljob(context):
     delcont = context.job.data
-    heasync def = str(delcont.effective_chat.id)
+    hedef = str(delcont.effective_chat.id)
     mesid = int(delcont.effective_message.message_id)
     try:
         data = db[str(hedef)].find_one({"_id": mesid})
