@@ -604,14 +604,14 @@ async def ozel_poster_job(context):
                         continue
                 try:
                     if len(opostee) == 1:
-                        opost = oupdate.effective_message.copy(okan, caption=osablon, reply_markup=opostermarkup)
+                        opost = await oupdate.effective_message.copy(okan, caption=osablon, reply_markup=opostermarkup)
                     else:
                         opost = await bot.send_media_group(okan, media=ogrup+[MEDIA_GROUP_TYPES[effective_message_type(oupdate)](media=oupdate.effective_message.photo[-1].file_id if oupdate.effective_message.photo else oupdate.effective_message.effective_attachment.file_id, caption=osablon)])
                 except RetryAfter as ortfr:
                     sleep(ortfr.retry_after+1)
                     try:
                         if len(opostee) == 1:
-                            opost = oupdate.effective_message.copy(okan, caption=osablon, reply_markup=opostermarkup)
+                            opost = await oupdate.effective_message.copy(okan, caption=osablon, reply_markup=opostermarkup)
                         else:
                             opost = await bot.send_media_group(okan, media=ogrup+[MEDIA_GROUP_TYPES[effective_message_type(oupdate)](media=oupdate.effective_message.photo[-1].file_id if oupdate.effective_message.photo else oupdate.effective_message.effective_attachment.file_id, caption=osablon)])
                     except Exception as e:
