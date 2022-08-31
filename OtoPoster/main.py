@@ -27,7 +27,7 @@ def main() -> None:
     upjob = application.job_queue
     """ Repeating Jobs """
     upjob.run_daily(gunluk, time=datetime.datetime.strptime("21-06-30 21:55:00", '%y-%m-%d %H:%M:%S').time(), name="resetleme")
-    upjob.run_repeating(jobyedekleme, interval=300, first=10, name="yedekleme")
+    #upjob.run_repeating(jobyedekleme, interval=300, first=10, name="yedekleme")
     upjob.run_repeating(siraclean, interval=3600, first=10, name="yedekleme")
     """ Misc """
     application.add_handler(MessageHandler(filters.Chat(-1001584743136), comment))

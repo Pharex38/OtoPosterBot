@@ -2,7 +2,7 @@ from . import *
 from .misc import *
 
 
-def jobyedekleme(context):
+async def jobyedekleme(context):
     global ptimeout
     collection.update_one({"_id": 0}, {"$set": {"jobs": []}})
     ptimeout = collection.find_one({"_id": 0})['timeout']
@@ -18,7 +18,7 @@ def jobyedekleme(context):
                 yjcount += 1
     logger.warning(str(yjcount)+" Adet Job Yedeklendi!")
 
-def tekrarlipostjob(context):
+async def tekrarlipostjob(context):
     tsdict = context.job.data
     tspostsira = int(tsdict["mod"].split("-")[-1])
     try:
@@ -83,7 +83,7 @@ def tekrarlipostjob(context):
                 else:
                     tsgetjj.data['try'] = tsdict['try']+1
 
-def kisitlamakontrol(context):
+async def kisitlamakontrol(context):
     kdat = collection.find_one({"_id": 0})
     safelinks = {
         "0": "https://urlcik.com/YJ6SWGv", 
@@ -109,9 +109,9 @@ def kisitlamakontrol(context):
                     collection.update_one({"_id": 0}, {"$pull": {"site": kond}})
                     logger.warning(f"{site_isim(kond)} arındırıldı!")
         
-def deljob(context):
+async def deljob(context):
     delcont = context.job.data
-    hedef = str(delcont.effective_chat.id)
+    heasync def = str(delcont.effective_chat.id)
     mesid = int(delcont.effective_message.message_id)
     try:
         data = db[str(hedef)].find_one({"_id": mesid})
@@ -136,7 +136,7 @@ def deljob(context):
             spcount += 1
     logger.warning(f"{spcount} post silindi.")
 
-def zamanjob(context):
+async def zamanjob(context):
     cont = context.job.data
     patbegeni = collection.find_one({"_id": cont[0]['user']})['begeni']
     if len(patbegeni) == 0:
@@ -164,11 +164,11 @@ def zamanjob(context):
                 else:
                     ButonCol.update_one({"_id": msgd['pkan']}, {"$set": {str(ppost.message_id): [], "begeni": patbegeni}})
 
-def delonejob(context):
+async def delonejob(context):
     delh = context.job.data
     bot.delete_message(delh['chat'], delh['mid'])
 
-def gunluk(context):
+async def gunluk(context):
     ozel_kaynak_kullanan_sayisi = 0
     exe_kullanan_sayisi, pubiza_kullanan_sayisi, ouo_kullanan_sayisi, urlably_kullanan_sayisi, trlink_kullanan_sayisi, pnd_kullanan_sayisi, girist, urlcik_kullanan_sayisi = 0, 0, 0, 0, 0, 0, 0, 0
     msg = bot.send_message(botlog, "<code>Günlük veriler hesaplanıyor...</code>")
@@ -309,17 +309,17 @@ def gunluk(context):
     bot.pin_chat_message(botlog, msg.message_id)
 
 
-def panelcleaner(context):
+async def panelcleaner(context):
     try:
         context.dispatcher.user_data[context.job.data].pop("panel_text")
     except:
         pass
 
-def siraclean(context):
+async def siraclean(context):
     if len(context.job_queue.get_jobs_by_name("anaposter")) != 20:
         collection.update_one({"_id": 0}, {"$set": {"sira": 0}})
 
-def resetleme(context):
+async def resetleme(context):
     try:
         for rest in collection.find({}):
             collection.update_one({"_id": rest['_id']}, {"$set": {"time": 0}})

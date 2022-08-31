@@ -361,9 +361,10 @@ async def callback_query(call, context):
     """ İptal """
     if call.callback_query.data == "del":
         try:
-            call.effective_message.delete()
+            await call.effective_message.delete()
         except:
             pass
+        return
     if call.callback_query.data == "dsil":
         collection.delete_one({"_id": user})
         try:
