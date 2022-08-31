@@ -13,7 +13,7 @@ from random import choice, randint, shuffle
 from telegram import *
 from telegram.error import *
 from telegram.ext import *
-from telegram.request import HTTPXRequest
+from telegram.request import *
 from functools import wraps
 from urllib3.exceptions import ReadTimeoutError
 from telegram.helpers import *
@@ -56,7 +56,6 @@ begstate = maindata['beg']
 mainsiralimit = maindata['mainsira']
 
 reqx = HTTPXRequest(connection_pool_size=1000, read_timeout=90, write_timeout=90, connect_timeout=90, pool_timeout=90)
-reqx.initialize()
 bot = ExtBot(bottoken, request=reqx, defaults=Defaults(parse_mode=ParseMode.HTML, disable_web_page_preview=True, allow_sending_without_reply=True, tzinfo=pytz.timezone('Turkey')))
 
 eklenti = 1654723447
