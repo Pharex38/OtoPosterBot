@@ -31,7 +31,7 @@ async def poster_job(context):
     kynk = None
     mainsira = collection.find_one({"_id": 0})['sira']
     while kynk == None:
-        kynk = FloodControl(bot.get_chat, *[chat])
+        kynk = await FloodControl(bot.get_chat, *[chat])
     mesaj = update.effective_message.caption
     if mesaj == None:
         return
@@ -70,7 +70,7 @@ async def poster_job(context):
     collection.update_one({"_id": 0}, {"$inc": {"sira": 1}})
     baslangic = time.time()
     try:
-        lmsg = FloodControl(bot.send_message, *[botlog, "<code>{} kaynağının postu paylaşılıyor...</code>".format(kynk.title)])
+        lmsg = await FloodControl(bot.send_message, *[botlog, "<code>{} kaynağının postu paylaşılıyor...</code>".format(kynk.title)])
     except Exception as e:
         logger.error(e)
         await bot.send_message(sahip, str(e))
@@ -238,8 +238,8 @@ async def poster_job(context):
                     continue
                 elif json['message'] != "" and json['message'] != "Invalid API token":
                     logger.error(f"{update.effective_message.chat.title} son postu hatalı olduğu için iptal edildi!")
-                    FloodControl(bot.send_message, *[sahip, posterrtext.format(update.effective_message.chat.title, json['message'], update.effective_message.link)])
-                    FloodControl(bot.send_message, *[chatdat['sahip'], posterrtext.format(update.effective_message.chat.title, json['message'], update.effective_message.link)])
+                    await FloodControl(bot.send_message, *[sahip, posterrtext.format(update.effective_message.chat.title, json['message'], update.effective_message.link)])
+                    await FloodControl(bot.send_message, *[chatdat['sahip'], posterrtext.format(update.effective_message.chat.title, json['message'], update.effective_message.link)])
                       
                     context.job_queue.run_once(deljob, when=2, name="yedekleme", data=update)
                     break
@@ -275,7 +275,7 @@ async def poster_job(context):
                 post = update.effective_message
                 try:
                     yetkililer = []
-                    for xy in FloodControl(bot.get_chat_administrators, *[kan]):
+                    for xy in await FloodControl(bot.get_chat_administrators, *[kan]):
                         if xy.can_post_messages or xy.status == "creator":
                             yetkililer.append(xy.user.id)
                 except:
@@ -283,14 +283,14 @@ async def poster_job(context):
                 sleep(0.05)
                 if not user in yetkililer:
                     try:
-                        membersayi = FloodControl(bot.get_chat_member_count, *[kan])
+                        membersayi = await FloodControl(bot.get_chat_member_count, *[kan])
                     except:
                         membersayi = "Bot kanaldan çıkarılmış."
                     try:
                         logger.warning(f"Hatalı kanal: {kan}")
                         collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
-                        FloodControl(bot.send_message, *[blog, kansillog.format(user=user, membersayi=membersayi, kan=str(kan)[3:])])
-                        FloodControl(bot.send_message, *[user, "Kanalda artık yetkili olmadığınız için kanalınız silindi."])
+                        await FloodControl(bot.send_message, *[blog, kansillog.format(user=user, membersayi=membersayi, kan=str(kan)[3:])])
+                        await FloodControl(bot.send_message, *[user, "Kanalda artık yetkili olmadığınız için kanalınız silindi."])
                         collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
                     except:
                         pass
@@ -298,32 +298,32 @@ async def poster_job(context):
                         logger.warning(f"{kan} kayıtlardan silindi.")
                     continue
                 try:
-                    oevladı = FloodControl(bot.get_chat_member, *[kan, 5183123826])
+                    oevladı = await FloodControl(bot.get_chat_member, *[kan, 5183123826])
                 except:
                     pass
                 else:
                     if oevladı.status == "administrator":
                         try:
-                            FloodControl(bot.send_message, *[user, "Kanalınızda farklı Poster Bot tespit edildi. Kanalınızdan çıkartmazsanız Oto Poster Bot'u kullanamazsınız."])
+                            await FloodControl(bot.send_message, *[user, "Kanalınızda farklı Poster Bot tespit edildi. Kanalınızdan çıkartmazsanız Oto Poster Bot'u kullanamazsınız."])
                         except:
                             pass
                         continue
                 try:
                     if len(postee) == 1:
-                        post = FloodControl(update.effective_message.copy, **{"chat_id": kan, "caption": sablon, "reply_markup": postermarkup})
+                        post = await FloodControl(update.effective_message.copy, **{"chat_id": kan, "caption": sablon, "reply_markup": postermarkup})
                     else:
-                        post = FloodControl(bot.send_media_group, **{"chat_id": kan, "media": grup+[MEDIA_GROUP_TYPES[effective_message_type(update)](media=update.effective_message.photo[-1].file_id if update.effective_message.photo else update.effective_message.effective_attachment.file_id, caption=sablon)]})
+                        post = await FloodControl(bot.send_media_group, **{"chat_id": kan, "media": grup+[MEDIA_GROUP_TYPES[effective_message_type(update)](media=update.effective_message.photo[-1].file_id if update.effective_message.photo else update.effective_message.effective_attachment.file_id, caption=sablon)]})
                 except Exception as e:
                     if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1 or str(e).find("Chat_restricted") != -1:
                         try:
                             logger.warning(f"Hatalı kanal: {kan}")
                             collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
                             try:
-                                kanname = FloodControl(bot.get_chat_member_count, *[kan])
+                                kanname = await FloodControl(bot.get_chat_member_count, *[kan])
                             except:
                                 kanname = "Kanaldan Çıkarılmış."
-                            FloodControl(bot.send_message, *[blog, kansillog.format(user=user, membersayi=kanname, kan=str(kan)[3:])])
-                            FloodControl(bot.send_message, *[user, "Botu kanalınızdan çıkardığınız için kanalınız silindi."])
+                            await FloodControl(bot.send_message, *[blog, kansillog.format(user=user, membersayi=kanname, kan=str(kan)[3:])])
+                            await FloodControl(bot.send_message, *[user, "Botu kanalınızdan çıkardığınız için kanalınız silindi."])
                         except:
                             pass   
                         else:
@@ -355,13 +355,13 @@ async def poster_job(context):
                         postdata.update_one({"_id": mesjid}, {"$push": {"pids": {"pid": post.message_id, "chat": kan, "user": user, "link": link, "alink": alink}}})
                         if kan in pins:
                             try:
-                                FloodControl(bot.pin_chat_message, *[kan, post.message_id])
+                                await FloodControl(bot.pin_chat_message, *[kan, post.message_id])
                             except:
                                 pass
                     else:
                         if kan in pins:
                             try:
-                                FloodControl(bot.pin_chat_message, *[kan, post[-1].message_id])
+                                await FloodControl(bot.pin_chat_message, *[kan, post[-1].message_id])
                             except Exception as e:
                                 bildir(e)
                         for pos in post:
@@ -376,16 +376,16 @@ async def poster_job(context):
     KaynakCol.update_one({"_id": chatdat['_id']}, {"$set": {"title": kynk.title, "link": kynk.invite_link}})
     logger.warning(basari)
     try:
-        FloodControl(bot.edit_message_text, *[basari, botlog, lmsg.message_id])
+        await FloodControl(bot.edit_message_text, *[basari, botlog, lmsg.message_id])
     except Exception as e:
         logger.error(e)
     try:
-        FloodControl(bot.send_message, *[-1001190898326, detaylibasari])
+        await FloodControl(bot.send_message, *[-1001190898326, detaylibasari])
     except Exception as e:
         logger.error(e)
     for xc, yc in aftertext:
         try:
-            FloodControl(bot.send_message, *[xc, yc])
+            await FloodControl(bot.send_message, *[xc, yc])
         except Exception as e:
             logger.exception(e)
 
