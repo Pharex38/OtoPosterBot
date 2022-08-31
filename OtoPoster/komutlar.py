@@ -4,11 +4,11 @@ from .jobs import *
 from .markups import *
 from .poster import poster_job, ozel_poster_job
 
-def start(update, context):
+async def start(update, context):
     user = update.message.from_user.id
     chat = update.message.chat.id
     if user in kara:
-        bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
+        await bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
     
     if len(context.args) > 0:
@@ -19,7 +19,7 @@ def start(update, context):
         return APIDEGISTIR
     
     mention = "@"+update.message.from_user.username if update.message.from_user.username else update.message.from_user.first_name
-    bot.send_message(chat, """
+    await bot.send_message(chat, """
 ✨ <b>Merhaba {}!</b>
 
 ❔<b>Ne İşe Yarıyor? </b>
@@ -41,7 +41,7 @@ def start(update, context):
 """.format(mention), disable_web_page_preview=True, reply_markup=dugme(user))
     return ConversationHandler.END
 
-def stats(update, context):
+async def stats(update, context):
     kanals = 0
     users = 0
     toplam = 0
@@ -50,7 +50,7 @@ def stats(update, context):
     kum = []
     kulkum = []
     exe_kullanan_sayisi, ozel_kaynak_kullanan_sayisi, pubiza_kullanan_sayisi, ouo_kullanan_sayisi, trlink_kullanan_sayisi, pnd_kullanan_sayisi, girist = 0, 0, 0, 0, 0, 0, 0
-    msg = bot.send_message(chat, "<code> Veriler toplanıyor...</code>")
+    msg = await bot.send_message(chat, "<code> Veriler toplanıyor...</code>")
     kullanicilar = [x for x in collection.find({})]
     for kullanici in kullanicilar:
         try:
@@ -78,7 +78,7 @@ def stats(update, context):
                     sleep(0.5)
                     kanals += 1
                     try:
-                        uye = bot.get_chat_member_count(kul)
+                        uye = await bot.get_chat_member_count(kul)
                         print(uye)
                     except RetryAfter as after:
                         sleep(after.retry_after)
@@ -93,12 +93,12 @@ def stats(update, context):
     stat_text = f"Toplam Kullanıcı Sayısı: {users}\nToplam Kayıtlı Kanal Sayısı: {kanals}\nToplam Kitle: {toplam}\n\n<b>Sitelerin Toplam Kullanıcı Sayısı;</b>\nTRLink: {trlink_kullanan_sayisi}\nPND.TL: {pnd_kullanan_sayisi}\nExe.io: {exe_kullanan_sayisi}\nOuo.io: {ouo_kullanan_sayisi}\nPubiza: {pubiza_kullanan_sayisi}\n\n<b>Kaynakların toplam Kullanıcı Sayıları:</b>\n"
     statscount = 0
     for kstat in KaynakCol.find({}):
-        getskaynak = bot.get_chat(kstat['_id'])
+        getskaynak = await bot.get_chat(kstat['_id'])
         kkitle = 0
         for sl in kstat["kaynak"]:
             for slb in collection.find_one({"_id": sl})['kanal']:
                 try:
-                    amc = bot.get_chat_member_count(slb)
+                    amc = await bot.get_chat_member_count(slb)
                 except RetryAfter as after:
                     sleep(after.retry_after)
                 except Exception as e:
@@ -109,9 +109,9 @@ def stats(update, context):
         stat_text += "{} -> {}\nKitle: {}".format(getskaynak.title, len(kstat['kaynak']), round(kkitle / 1000, 1))
     ozel_text = f"Özel kullanan: {ozel_kaynak_kullanan_sayisi}"
           
-    bot.edit_message_text(stat_text+ozel_text, chat, msg.message_id)
+    await bot.edit_message_text(stat_text+ozel_text, chat, msg.message_id)
 
-def IptalPoster(update, context):
+async def IptalPoster(update, context):
     user = update.effective_user.id
     try:
         ipt = KaynakCol.find_one({"sahip": user})['_id']
@@ -121,25 +121,25 @@ def IptalPoster(update, context):
         else:
             return
     collection.update_one({"_id": 0}, {"$push": {"iptal": str(ipt)}})
-    update.effective_message.reply_text("Postunuz İptal Edildi!")
+    await update.effective_message.reply_text("Postunuz İptal Edildi!")
 
-def cekilis(update, context):
+async def cekilis(update, context):
     user = update.effective_user.id
     try:
         cekilis_text = update.effective_message.reply_to_message.text_html_urled
     except:
-        update.effective_message.reply_text("Bir çekiliş mesajı vermelisiniz.")
+        await update.effective_message.reply_text("Bir çekiliş mesajı vermelisiniz.")
         return
     collection.update_one({"_id": 0}, {"$set": {"cekilis": []}})
     context.bot_data['cekilis'] = cekilis_text
-    bot.send_message(user, "Çekiliş başladı")
-    cek_ = bot.send_message(botlog, cekilis_text.format("0"), reply_markup=cekilismark())
+    await bot.send_message(user, "Çekiliş başladı")
+    cek_ = await bot.send_message(botlog, cekilis_text.format("0"), reply_markup=cekilismark())
     context.bot_data['cekilis_chat'] = botlog
     context.bot_data['cekilis_mid'] = cek_.message_id
     context.bot_data['durak'] = False
     context.bot_data['sahip'] = int(context.args[0])
 
-def duraklat(update, context):
+async def duraklat(update, context):
     try:
         durak = context.bot_data['durak']
     except:
@@ -149,9 +149,9 @@ def duraklat(update, context):
         context.bot_data['durak'] = False
     else:
         context.bot_data['durak'] = True
-    update.effective_message.reply_text(f"{context.bot_data['durak']}")
+    await update.effective_message.reply_text(f"{context.bot_data['durak']}")
 
-def sonuclandir(update, context):
+async def sonuclandir(update, context):
     katilimcilar = list(collection.find_one({"_id": 0})['cekilis'])
     sonuc_text = update.effective_message.reply_to_message.text_html_urled
     kazcount = 0
@@ -169,8 +169,8 @@ def sonuclandir(update, context):
             continue
         for cekkan in cek_dat['kanal']:
             if cekkan in KaynakCol.find_one({"sahip": cek_k_no})['kanal']:
-                if bot.get_chat_member_count(cekkan) > 501:
-                    kazadi = bot.get_chat(kazananid)
+                if await bot.get_chat_member_count(cekkan) > 501:
+                    kazadi = await bot.get_chat(kazananid)
                     kazananlar += '<a href="tg://user?id={}">{}</a>\n'.format(kazananid, "@"+str(kazadi.username) if kazadi.username else kazadi.first_name)
                     katilimcilar.remove(kazananid)
                     kazcount += 1
@@ -185,46 +185,46 @@ def sonuclandir(update, context):
             continue
         for cekkan in cek_dat['kanal']:
             if cekkan in KaynakCol.find_one({"sahip": cek_k_no})['kanal']:
-                if bot.get_chat_member_count(cekkan) > 501:
-                    kazadi = bot.get_chat(kazananid)
+                if await bot.get_chat_member_count(cekkan) > 501:
+                    kazadi = await bot.get_chat(kazananid)
                     yedekler += '<a href="tg://user?id={}">{}</a>\n'.format(kazananid, "@"+str(kazadi.username) if kazadi.username else kazadi.first_name)
                     katilimcilar.remove(kazananid)
                     kazcount += 1
                     break
     if kazananlar == "":
-        update.effective_message.reply_text("Uygun şartlarda kazanan bulunamadı!")
+        await update.effective_message.reply_text("Uygun şartlarda kazanan bulunamadı!")
         return
     if yedekler == "":
-        update.effective_message.reply_text("Uygun şartlarda yedek bulunamadı!")
+        await update.effective_message.reply_text("Uygun şartlarda yedek bulunamadı!")
         return
     try:
-        bot.send_message(sahip, sonuc_text.format(k=kazananlar,  y=yedekler))
+        await bot.send_message(sahip, sonuc_text.format(k=kazananlar,  y=yedekler))
     except Exception as e:
-        update.effective_message.reply_text(str(e))
+        await update.effective_message.reply_text(str(e))
     else:
-        update.effective_message.reply_text("Çekiliş sonuçlandırıldı.")
+        await update.effective_message.reply_text("Çekiliş sonuçlandırıldı.")
     
-def joblist(update, context):
+async def joblist(update, context):
     jobs = context.job_queue.jobs()
     context.job_queue.run_once(jobyedekleme, when=1, name="yedekleme")
     for jok in jobs:
         if True:
         #if not str(jok.name) in ignorejob:
-            bot.send_message(update.message.chat.id, str(jok.context)+"\n\n\n"+str(jok.name)+"\n\n\n"+str(jok.job))
+            await bot.send_message(update.message.chat.id, str(jok.context)+"\n\n\n"+str(jok.name)+"\n\n\n"+str(jok.job))
 
-def parak(update, context):
+async def parak(update, context):
     global para
     if collection.find_one({"_id": 0})['para']:
         collection.update_one({"_id": 0}, {"$set": {"para": False}})
     else:
         collection.update_one({"_id": 0}, {"$set": {"para": True}})
     para = collection.find_one({"_id": 0})['para']
-    bot.send_message(update.message.chat.id, f"Para: {para}")
+    await bot.send_message(update.message.chat.id, f"Para: {para}")
 
-def bul(update, context):
+async def bul(update, context):
     if len(context.args) < 3:
-        update.effective_message.reply_text(html.escape(jason.dumps(collection.find_one({"_id": sahip}), indent=2, ensure_ascii=False)))
-        update.effective_message.reply_text("Eksik parametre!")
+        await update.effective_message.reply_text(html.escape(jason.dumps(collection.find_one({"_id": sahip}), indent=2, ensure_ascii=False)))
+        await update.effective_message.reply_text("Eksik parametre!")
         return
     if context.args[2] == "list":
         buldeg = list(context.args[1])
@@ -241,23 +241,23 @@ def bul(update, context):
         for bulk in bulko:
             mesb = jason.dumps(bulk, indent=2, ensure_ascii=False)
             if len(mesb) > 4000:
-                update.effective_message.reply_text(html.escape(mesb[:4000]))
-                update.effective_message.reply_text(html.escape(mesb[4000:]))
+                await update.effective_message.reply_text(html.escape(mesb[:4000]))
+                await update.effective_message.reply_text(html.escape(mesb[4000:]))
             else:
-                update.effective_message.reply_text(html.escape(mesb))
+                await update.effective_message.reply_text(html.escape(mesb))
     else:
-        update.effective_message.reply_text("Kriterlerinize uygun sonuç bulunamadı!")
+        await update.effective_message.reply_text("Kriterlerinize uygun sonuç bulunamadı!")
 
-def ona(m, context):
+async def ona(m, context):
     cid = m.message.chat.id
-    msj = bot.send_message(cid, "Bu komutu kanalınızda kullanmalısınız.")
+    msj = await bot.send_message(cid, "Bu komutu kanalınızda kullanmalısınız.")
 
-def durdur(update, context):
+async def durdur(update, context):
     chat = update.message.chat.id
     user = update.message.from_user.id
     kimi = int(update.message.text.split()[1]) if len(update.message.text.split()) > 1 and user in adminlist else update.message.from_user.id
     if collection.find_one({"_id": kimi}) == None:
-        bot.send_message(chat, "Henüz bir bilgi kaydetmemişsin.", reply_markup=dagme())
+        await bot.send_message(chat, "Henüz bir bilgi kaydetmemişsin.", reply_markup=dagme())
         return
     if collection.find_one({"_id": kimi})['ozel']:
         for oc in OzelCol.find({}):
@@ -268,18 +268,18 @@ def durdur(update, context):
         if user in kkkkk['kaynak']:
             KaynakCol.update_one({"_id": kkkkk['_id']}, {"$pull": {"kaynak": user}})
     collection.delete_one({"_id": kimi})
-    bot.send_message(chat, "<b>Bilgileriniz Silindi!</b>", reply_markup=dugme(user))
+    await bot.send_message(chat, "<b>Bilgileriniz Silindi!</b>", reply_markup=dugme(user))
 
-def kpostsil(update, context):
+async def kpostsil(update, context):
     chat = update.effective_chat.id
     if KaynakCol.find_one({"_id": chat}) == None:
         return
     mesid = update.effective_message.reply_to_message.message_id if update.effective_message.reply_to_message else None
     if mesid == None:
-        bot.send_message(chat, "Silmek istediğiniz postu yanıtlayın.")
+        await bot.send_message(chat, "Silmek istediğiniz postu yanıtlayın.")
         return
     collection.update_one({"_id": 0}, {"$push": {"iptal": str(chat)}})
-    psmg = bot.send_message(chat, "<code>Siliniyor...</code>")
+    psmg = await bot.send_message(chat, "<code>Siliniyor...</code>")
     try:
         data = dict(db[str(chat)].find_one({"_id": mesid}))
         data['pids']
@@ -290,7 +290,7 @@ def kpostsil(update, context):
         data = data['pids']
     for d in data:
         try:
-            bot.delete_message(d['chat'], d['pid'])
+            await bot.delete_message(d['chat'], d['pid'])
         except Exception as e:
             logger.error(e)
         else:
@@ -307,17 +307,17 @@ def kpostsil(update, context):
         psmg.edit_text(f"{spcount} Post Silindi.")
     collection.update_one({"_id": 0}, {"$pull": {"iptal": str(chat)}})
 
-def KanalSilKomutu(update, context):
+async def KanalSilKomutu(update, context):
     try:
         update.effective_message.delete()
         update.effective_message.reply_to_message.delete()
     except:
         try:
-            bot.send_message(update.effective_chat.id, "Post silinemedi, sebebi mesaj silme yetkim olmayabilir.")
+            await bot.send_message(update.effective_chat.id, "Post silinemedi, sebebi mesaj silme yetkim olmayabilir.")
         except:
             pass
 
-def cpostsil(update, context):
+async def cpostsil(update, context):
     chat = update.message.chat.id
     if chat != sahip:
         return
@@ -334,23 +334,23 @@ def cpostsil(update, context):
         data['pids']
     except:
         data = db[str(hedef)].find({"mesih": mesid})
-    psmg = bot.send_message(chat, "<code>Siliniyor...</code>")
+    psmg = await bot.send_message(chat, "<code>Siliniyor...</code>")
     spcount = 0
     if type(data) == dict:
         data = data['pids']
     for d in data:
         try:
             if duz:
-                bot.edit_message_media(d['chat'], d['pid'], media= InputMediaPhoto(media="https://www.pinclipart.com/picdir/big/532-5329134_computer-icons-x-mark-clip-art-red-cross.png", caption="Post Silindi!"))
+                await bot.edit_message_media(d['chat'], d['pid'], media= InputMediaPhoto(media="https://www.pinclipart.com/picdir/big/532-5329134_computer-icons-x-mark-clip-art-red-cross.png", caption="Post Silindi!"))
             else:
-                bot.delete_message(d['chat'], d['pid'])
+                await bot.delete_message(d['chat'], d['pid'])
         except RetryAfter as pdr:
             time.sleep(pdr.retry_after+2)
             try:
                 if duz:
-                    bot.edit_message_media(d['chat'], d['pid'], media= InputMediaPhoto(media="https://www.pinclipart.com/picdir/big/532-5329134_computer-icons-x-mark-clip-art-red-cross.png", caption="Post Silindi!"))
+                    await bot.edit_message_media(d['chat'], d['pid'], media= InputMediaPhoto(media="https://www.pinclipart.com/picdir/big/532-5329134_computer-icons-x-mark-clip-art-red-cross.png", caption="Post Silindi!"))
                 else:
-                    bot.delete_message(d['chat'], d['pid'])
+                    await bot.delete_message(d['chat'], d['pid'])
             except:
                 pass
         except Exception as e:
@@ -369,58 +369,58 @@ def cpostsil(update, context):
     else:
         psmg.edit_text(f"{spcount} Post Silindi.")
 
-def viple(update, context):
+async def viple(update, context):
     global postsirasi
     chat = update.message.chat.id
     if len(context.args) < 1:
         context.job_queue.run_once(gunluk, name="gunluk", when=3)
         return
-    bot.send_message(context.args[0], "Hesabınız Artık VIP!")
+    await bot.send_message(context.args[0], "Hesabınız Artık VIP!")
     try:
         collection.update_one({"_id": 0}, {"$push": {"vipuye": int(context.args[0])}})
     except Exception as e:
-        bot.send_message(chat, e)
+        await bot.send_message(chat, e)
     else:
-        bot.send_message(chat, "Kullanıcı artık VIP!")
+        await bot.send_message(chat, "Kullanıcı artık VIP!")
 
-def apibanla(update, context):
+async def apibanla(update, context):
     global apikara
     chat = update.message.chat.id
     try:
         collection.update_one({"_id": 0}, {"$push": {"apikara": str(context.args[0])}})
     except Exception as e:
-        bot.send_message(chat, e)
+        await bot.send_message(chat, e)
     else:
-        bot.send_message(chat, "API yasaklandı!")
+        await bot.send_message(chat, "API yasaklandı!")
     apikara = collection.find_one({"_id": 0})['apikara']
 
-def banla(update, context):
+async def banla(update, context):
     global kara
     chat = update.message.chat.id
     try:
         collection.update_one({"_id": 0}, {"$push": {"kara": int(context.args[0])}})
     except Exception as e:
-        bot.send_message(chat, e)
+        await bot.send_message(chat, e)
     else:
-        bot.send_message(chat, "Kullanıcı yasaklandı!")
+        await bot.send_message(chat, "Kullanıcı yasaklandı!")
     kara = collection.find_one({"_id": 0})['kara']
 
-def unbanla(update, context):
+async def unbanla(update, context):
     global kara
     chat = update.message.chat.id
     try:
         collection.update_one({"_id": 0}, {"$pull": {"kara": int(context.args[0])}})
     except Exception as e:
-        bot.send_message(chat, e)
+        await bot.send_message(chat, e)
     else:
-        bot.send_message(chat, "Kullanıcının yasağı kaldırıldı!")
+        await bot.send_message(chat, "Kullanıcının yasağı kaldırıldı!")
     kara = collection.find_one({"_id": 0})['kara']
 
-def posterkomut(update, context):
+async def posterkomut(update, context):
     context.bot_data['pochat'] = int(context.args[0])
-    update.effective_message.reply_text("Ayarlandı")
+    await update.effective_message.reply_text("Ayarlandı")
 
-def posterkomut2(update, context):
+async def posterkomut2(update, context):
     global postsirasi, opostsirasi
     pochat = update.effective_message.forward_from_chat.id if update.effective_message.forward_from_chat else context.bot_data['pochat']
     # Ana Kaynaklar
@@ -462,7 +462,7 @@ def posterkomut2(update, context):
                 return
         context.job_queue.run_once(ozel_poster_job, when=owhn, name="ozelposter", context=[opostdict])
 
-def duy(update, context):
+async def duy(update, context):
     chat = update.message.chat.id
     if chat != sahip:
         return
@@ -483,9 +483,9 @@ def duy(update, context):
                     else:
                         db[str(chat)].update_one({"_id": kullanici['_id']}, {"$set": {"mid": dmsg.message_id}})
                     
-        bot.send_message(chat, "{} Kişiye Duyuru Mesajı Gönderildi!".format(duyurus))
+        await bot.send_message(chat, "{} Kişiye Duyuru Mesajı Gönderildi!".format(duyurus))
 
-def dsil(m, context):
+async def dsil(m, context):
     chat = m.message.chat.id
     if chat != sahip:
         return
@@ -493,105 +493,105 @@ def dsil(m, context):
     tumks = db[str(chat)].find({})
     for ts in tumks:
         try:
-            bot.delete_message(ts['_id'], ts['mid'])
+            await bot.delete_message(ts['_id'], ts['mid'])
         except Exception as e:
             logger.error(e)
         else:
             sd += 1
             db[str(chat)].delete_one({"_id": ts['_id']})
-    bot.send_message(chat, "{} Duyuru Mesajı Silindi!".format(sd))
+    await bot.send_message(chat, "{} Duyuru Mesajı Silindi!".format(sd))
         
-def post(update, context):
+async def post(update, context):
     chat = update.effective_message.chat.id
     mid = update.effective_message.message_id
-    msj = update.effective_message.reply_text("Tamamdır!")
+    msj = await update.effective_message.reply_text("Tamamdır!")
     sleep(1.5)
     mids = msj.message_id
     try:
-        bot.delete_message(chat, mid)
-        bot.delete_message(chat, mids)
+        await bot.delete_message(chat, mid)
+        await bot.delete_message(chat, mids)
     except:
         pass
 
-def zaman(update, context):
+async def zaman(update, context):
     chat = update.message.chat.id
     user = update.message.from_user.id
     msj = update.message.reply_to_message.text if update.message.reply_to_message and "/zaman" in update.effective_message.text else update.message.text.replace("/zaman ", "")
     if update.effective_message.text == "❌ İptal":
-        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
+        await bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
     if len(msj) >= 200:
-        bot.send_message(chat, "Mesajınız çok uzun.")
+        await bot.send_message(chat, "Mesajınız çok uzun.")
         return
     try:
         KaynakCol.update_one({"sahip": user}, {"$set": {"zaman": msj}})
     except:
-        bot.send_message(user, "Kaynağınız bulunmuyor.")
+        await bot.send_message(user, "Kaynağınız bulunmuyor.")
         return
     else:
-        bot.send_message(chat, "Kaydedildi.")
+        await bot.send_message(chat, "Kaydedildi.")
 
-def Loot(update, context):
+async def Loot(update, context):
     user = update.effective_user.id
     for lot in collection.find({}):
         try:
-            getcloot = bot.get_chat(lot["_id"])
+            getcloot = await bot.get_chat(lot["_id"])
         except RetryAfter as lrtry:
             time.sleep(lrtry.retry_after+1)
-            getcloot = bot.get_chat(lot["_id"])
+            getcloot = await bot.get_chat(lot["_id"])
         except:
             try:
                 lot['kanal']
             except KeyError:
                 continue
             if len(lot['kanal']) != 0:
-                update.effective_message.reply_text("Get Chat Error:\n\n "+str(lot))
+                await update.effective_message.reply_text("Get Chat Error:\n\n "+str(lot))
                 continue
         if getcloot.first_name == "" and len(lot['kanal']) != 0:
             lootkanal = ""
             for lkan in lot['kanal']:
                 lootkanal += f"\nhttps://t.me/c/{lkan[4:]}/999999"
-            update.effective_message.reply_text(f"ID: {lot['_id']}\n\nKanalları:\n{lootkanal}")
+            await update.effective_message.reply_text(f"ID: {lot['_id']}\n\nKanalları:\n{lootkanal}")
 
-def evale(update, context):
+async def evale(update, context):
     user = update.effective_user.id
     chat = update.effective_chat.id
     try:
         evol =  eval(update.effective_message.text.replace("/eval ", "") if len(update.effective_message.text.split()) > 1 else update.effective_message.reply_to_message.text.replace("/eval ", ""))
     except Exception as ev:
-        update.effective_message.reply_text(html.escape(str(ev)))
+        await update.effective_message.reply_text(html.escape(str(ev)))
     else:
-        update.effective_message.reply_text("Emir:\n"+str(update.effective_message.reply_to_message.text.replace("/eval ", "") if update.effective_message.reply_to_message else update.effective_message.text.replace("/eval ", ""))+"\n\nEval: \n\n"+str(evol))
+        await update.effective_message.reply_text("Emir:\n"+str(update.effective_message.reply_to_message.text.replace("/eval ", "") if update.effective_message.reply_to_message else update.effective_message.text.replace("/eval ", ""))+"\n\nEval: \n\n"+str(evol))
 
-def exece(update, context):
+async def exece(update, context):
     user = update.effective_user.id
     chat = update.effective_chat.id
     try:
         evol =  exec(update.effective_message.text.replace("/exec ", "") if len(update.effective_message.text.split()) > 1 else update.effective_message.reply_to_message.text.replace("/exec ", ""))
     except Exception as ev:
-        update.effective_message.reply_text(html.escape(str(ev)))
+        await update.effective_message.reply_text(html.escape(str(ev)))
     else:
-        update.effective_message.reply_text("Emir:\n"+str(update.effective_message.reply_to_message.text.replace("/exec ", "") if update.effective_message.reply_to_message else update.effective_message.text.replace("/exec ", ""))+"\n\nExec: \n\n"+str(evol))
+        await update.effective_message.reply_text("Emir:\n"+str(update.effective_message.reply_to_message.text.replace("/exec ", "") if update.effective_message.reply_to_message else update.effective_message.text.replace("/exec ", ""))+"\n\nExec: \n\n"+str(evol))
 
-def kaynakkontrol(update, context):
+async def kaynakkontrol(update, context):
     user = update.effective_user.id
     chat = update.effective_chat.id
-    bot.send_message(chat, "Kaynak mı açmak istiyorsun?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Evet", callback_data="kont-evet"), InlineKeyboardButton("Hayır", callback_data="aiptal")]]))
+    await bot.send_message(chat, "Kaynak mı açmak istiyorsun?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Evet", callback_data="kont-evet"), InlineKeyboardButton("Hayır", callback_data="aiptal")]]))
 
-def yenikaynakkomutu(update, context):
+async def yenikaynakkomutu(update, context):
     user = update.effective_user.id
     if len(context.args) == 0:
-        update.effective_message.reply_text("/kaynak sahip _id icerik")
+        await update.effective_message.reply_text("/kaynak sahip _id icerik")
         yenikaynaklist = collection.find_one({"_id": 0})['kont']
         for newkaynak in yenikaynaklist:
             pass
         return
     if context.args[0].lower() == "sil":
-        bot.send_message(user, str(KaynakCol.find_one({"no": int(context.args[1])})))
+        await bot.send_message(user, str(KaynakCol.find_one({"no": int(context.args[1])})))
         KaynakCol.delete_one({"no": int(context.args[1])})
         return
     kaynak_degisken = KaynakCol.find_one({"no": 1})
-    kaynakget = bot.get_chat(int(context.args[1]))
+    kaynakget = await bot.get_chat(int(context.args[1]))
     kaynak_degisken['kaynak'] = []
     kaynak_degisken['kanal'] = []
     kaynak_degisken['sayi'] = 0
@@ -610,11 +610,11 @@ def yenikaynakkomutu(update, context):
             kaynak_degisken['no'] = zorp
             break
     KaynakCol.insert_one(kaynak_degisken)
-    bot.send_message(user, str(jason.dumps(kaynak_degisken, indent=2, ensure_ascii=False)))
+    await bot.send_message(user, str(jason.dumps(kaynak_degisken, indent=2, ensure_ascii=False)))
 
-def SetKomutu(update, context):
+async def SetKomutu(update, context):
     if len(context.args) != 4:
-        update.effective_message.reply_text("Eksik parametre!")
+        await update.effective_message.reply_text("Eksik parametre!")
         return
     deger = update.effective_message.reply_to_message.text_html_urled
     if context.args[3] == "dict":
@@ -628,14 +628,14 @@ def SetKomutu(update, context):
     collection.update_one({"_id": int(context.args[0])}, {"$"+str(context.args[1]): {str(context.args[2]): deger}})
     update.effective_message.reply_to_message.reply_text("Set!")
 
-def kaynakpanel(update, context):
+async def kaynakpanel(update, context):
     user = update.effective_user.id
     panelkaynak = KaynakCol.find_one({"sahip": user})
     if panelkaynak == None:
         return
-    panelmessage = bot.send_animation(user, animation="https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif",  caption="<code>Yükleniyor</code>")
+    panelmessage = await bot.send_animation(user, animation="https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif",  caption="<code>Yükleniyor</code>")
     try:
-        panelkaynakkanal = bot.get_chat(panelkaynak['_id'])
+        panelkaynakkanal = await bot.get_chat(panelkaynak['_id'])
     except:
         panelkaynakkanalisim = "Kaynağa ulaşılamıyor."
     else:
@@ -648,11 +648,11 @@ def kaynakpanel(update, context):
         for pankan in panelkaynak['kanal']:
             if not pankan in panco:
                 try:
-                    pankanmember += bot.get_chat_member_count(pankan)
+                    pankanmember += await bot.get_chat_member_count(pankan)
                 except RetryAfter as panafter:
                     sleep(panafter.retry_after)
                     try:
-                        pankanmember += bot.get_chat_member_count(pankan)
+                        pankanmember += await bot.get_chat_member_count(pankan)
                     except:
                         continue
                 except:
@@ -724,9 +724,9 @@ def kaynakpanel(update, context):
     panelmessage.edit_caption(panel_text, reply_markup=panelkaynakmark(user))
    
  
-def AyarlarKomutu(update, context):
+async def AyarlarKomutu(update, context):
     user = update.effective_user.id
     chat = update.effective_chat.id
-    #update.effective_message.reply_text("Ayarlar:", reply_markup=ayarlarmark())
+    #await update.effective_message.reply_text("Ayarlar:", reply_markup=ayarlarmark())
 
-    bot.send_message(user, "WebApp", reply_markup=webappmark(user))
+    await bot.send_message(user, "WebApp", reply_markup=webappmark(user))

@@ -3,20 +3,20 @@ from .markups import *
 import logging
 
 
- 
-def deep(u_kod, user):
+
+async def deep(u_kod, user):
     kat = collection.find_one({"_id": user})
     key = {"_id": user, "kanal": [], "sablon": "1", "kaynak": ["32"], "site": "1", "altapi": "None", "altsite": "None", "sira": 0, "ozel": True, "time": 0, "vakit": 0, "pcount": 0, "eski": [], "begeni": [], "pin": [], "icerik": []}
     if int(u_kod) > 100:
         ozelkaynak = OzelCol.find_one({"_id": int(u_kod)})
         kanal = ozelkaynak['okaynak']
         try:
-            ref_kanal_ismi = bot.get_chat(kanal).title
+            ref_kanal_ismi = await bot.get_chat(kanal).title
         except:
             ref_kanal_ismi = "Kanala ulaşılamıyor."
         if kat == None:
             if ozelkaynak == None:
-                bot.send_message(user, "Kaynak silinmiş veya bulunamadı!")
+                await bot.send_message(user, "Kaynak silinmiş veya bulunamadı!")
                 return False
             for koy in KaynakCol.find({}):
                 if user in koy['kaynak']:
@@ -26,28 +26,28 @@ def deep(u_kod, user):
             collection.insert_one(key)
             if len(OzelCol.find_one({"okaynak": kanal})['kanal']) == 6:
                 try:
-                    bot.send_message(OzelCol.find_one({"okaynak": kanal})['_id'], "<i>Özel Kaynağınız 5 kişiyi geçtiği için artık 20 linkte 1 olayı sizin için de geçerilidir.</i>")
+                    await bot.send_message(OzelCol.find_one({"okaynak": kanal})['_id'], "<i>Özel Kaynağınız 5 kişiyi geçtiği için artık 20 linkte 1 olayı sizin için de geçerilidir.</i>")
                 except RetryAfter as rtry:
                     sleep(rtry.retry_after+1)
                     try:
-                        bot.send_message(OzelCol.find_one({"okaynak": kanal})['_id'], "<i>Özel Kaynağınız 5 kişiyi geçtiği için artık 20 linkte 1 olayı sizin için de geçerilidir.</i>")
+                        await bot.send_message(OzelCol.find_one({"okaynak": kanal})['_id'], "<i>Özel Kaynağınız 5 kişiyi geçtiği için artık 20 linkte 1 olayı sizin için de geçerilidir.</i>")
                     except:
                         pass
-            bot.send_message(user, "🏋🏻 {} referansı ile geldiniz!".format(ref_kanal_ismi))
-            bot.send_message(user, "📝 API adresinizi gönderin.", reply_markup=imark())
+            await bot.send_message(user, "🏋🏻 {} referansı ile geldiniz!".format(ref_kanal_ismi))
+            await bot.send_message(user, "📝 API adresinizi gönderin.", reply_markup=imark())
             return False
         else:
             if ozelkaynak == None:
-                bot.send_message(user, "Kaynak silinmiş veya bulunamadı!")
+                await bot.send_message(user, "Kaynak silinmiş veya bulunamadı!")
                 return True
             if user in ozelkaynak['kanal']:
-                bot.send_message(user, "Zaten Bu Kaynağı Kullanıyorsunuz!", reply_markup=dugme(user))
+                await bot.send_message(user, "Zaten Bu Kaynağı Kullanıyorsunuz!", reply_markup=dugme(user))
                 return True
             if OzelCol.find_one({"kanal": {"$in": [user]}}) != None:
-                bot.send_message(user, "Zaten bir özel kaynak kullanıyorsunuz!", reply_markup=dugme(user))
+                await bot.send_message(user, "Zaten bir özel kaynak kullanıyorsunuz!", reply_markup=dugme(user))
                 return True
             if len(kat['icerik']) == 0 and ozelkaynak['icerik'] == "arsiv":
-                bot.send_message(user, "Bu bir Arşiv Kaynak ama sizin hiç arşiv türünde kanalınız yok 😕")
+                await bot.send_message(user, "Bu bir Arşiv Kaynak ama sizin hiç arşiv türünde kanalınız yok 😕")
                 return True
             collection.update_one({"_id": user}, {"$set": {"ozel": True, "kaynak": ["32"]}})
             if not user in ozelkaynak['kanal']:
@@ -61,34 +61,34 @@ def deep(u_kod, user):
                         OzelCol.update_one({"_id":int(u_kod)}, {"$push": {"kaynak": ktyo}})
             if len(ozelkaynak['kanal']) == 6:
                 try:
-                    bot.send_message(OzelCol.find_one({"okaynak": kanal})['_id'], "<i>Özel Kaynağınız 5 kişiyi geçtiği için artık 20 linkte 1 olayı sizin için de geçerilidir.</i>")
+                    await bot.send_message(OzelCol.find_one({"okaynak": kanal})['_id'], "<i>Özel Kaynağınız 5 kişiyi geçtiği için artık 20 linkte 1 olayı sizin için de geçerilidir.</i>")
                 except RetryAfter as ortf:
                     sleep(ortf.retry_after+1)
                     try:
-                        bot.send_message(OzelCol.find_one({"okaynak": kanal})['_id'], "<i>Özel Kaynağınız 5 kişiyi geçtiği için artık 20 linkte 1 olayı sizin için de geçerilidir.</i>")
+                        await bot.send_message(OzelCol.find_one({"okaynak": kanal})['_id'], "<i>Özel Kaynağınız 5 kişiyi geçtiği için artık 20 linkte 1 olayı sizin için de geçerilidir.</i>")
                     except:
                         pass
-            bot.send_message(user, "🏋🏻 {} kaynağına bağlandınız!".format(ref_kanal_ismi), reply_markup=dugme(user))
+            await bot.send_message(user, "🏋🏻 {} kaynağına bağlandınız!".format(ref_kanal_ismi), reply_markup=dugme(user))
             return True
     key = {"_id": user, "kanal": [], "sablon": "1", "kaynak": [], "site": "1", "altapi": "None", "altsite": "None", "sira": 0, "ozel": False, "pcount": 0, "time": 0, "vakit": 0, "begeni": [], "pin": [], "eski": [], "icerik": []}
     rkaynak = KaynakCol.find_one({"no": int(u_kod)})
     if kat == None:
         if rkaynak == None:
-            bot.send_message(user, "Kaynak silinmiş veya bulunamadı!")
+            await bot.send_message(user, "Kaynak silinmiş veya bulunamadı!")
             return False
-        ref_kanal_ismi = bot.get_chat(rkaynak['_id']).title
+        ref_kanal_ismi = await bot.get_chat(rkaynak['_id']).title
         if not user in rkaynak['kaynak']:
             KaynakCol.update_one({"no": int(u_kod)}, {"$push": {"kaynak": int(user)}})
-        bot.send_message(user, "🏋🏻 {} referansı ile geldiniz!".format(ref_kanal_ismi))
-        bot.send_message(user, "📝 API adresinizi gönderin.", reply_markup=imark())
+        await bot.send_message(user, "🏋🏻 {} referansı ile geldiniz!".format(ref_kanal_ismi))
+        await bot.send_message(user, "📝 API adresinizi gönderin.", reply_markup=imark())
         return False
     else:
         if rkaynak == None:
-            bot.send_message(user, "Kaynak silinmiş veya bulunamadı!")
+            await bot.send_message(user, "Kaynak silinmiş veya bulunamadı!")
             return True
-        ref_kanal_ismi = bot.get_chat(rkaynak['_id']).title
+        ref_kanal_ismi = await bot.get_chat(rkaynak['_id']).title
         if len(kat['icerik']) == 0 and rkaynak['icerik'] == "arsiv":
-            bot.send_message(user, "Bu bir Arşiv Kaynak ama sizin hiç arşiv türünde kanalınız yok 😕")
+            await bot.send_message(user, "Bu bir Arşiv Kaynak ama sizin hiç arşiv türünde kanalınız yok 😕")
             return True
         if not user in rkaynak['kaynak']:
             KaynakCol.update_one({"no": int(u_kod)}, {"$push": {"kaynak": int(user)}})
@@ -99,15 +99,15 @@ def deep(u_kod, user):
             else:    
                 if not ktyo in kat['icerik']:
                     KaynakCol.update_one({"no":int(u_kod)}, {"$push": {"kanal": ktyo}})
-        bot.send_message(user, "Kaynağınız Eklendi!")
+        await bot.send_message(user, "Kaynağınız Eklendi!")
         return True
 
 def send_typing_action(func):
 
     @wraps(func)
-    def command_func(update, context, *args, **kwargs):
+    async def command_func(update, context, *args, **kwargs):
         context.bot.send_chat_action(chat_id=update.effective_message.chat_id, action=ChatAction.TYPING)
-        return func(update, context,  *args, **kwargs)
+        return await func(update, context,  *args, **kwargs)
 
     return command_func
 
@@ -157,7 +157,7 @@ def linkkisalt(site, token, text, icerik):
 
 def AdminCommandHandler(command, callback, *args, **kwargs):
     komutisimleri.append(command)
-    return CommandHandler(command, callback, filters=Filters.user(sahip))
+    return CommandHandler(command, callback, filters=filters.User(sahip))
 
 def apiscraper(apitoken):
     if "ouo" in apitoken:
@@ -173,14 +173,14 @@ def apiscraper(apitoken):
         
     return apitoken
 
-def bildir(neyi='Boş Bildirim Testi !'):
+async def bildir(neyi='Boş Bildirim Testi !'):
     for i in adminlist:
         try:
-            bot.send_message(i,neyi)
+            await bot.send_message(i,neyi)
         except RetryAfter as rtr:
             sleep(rtr.retry_after+1)
             try:
-                bot.send_message(i,neyi)
+                await bot.send_message(i,neyi)
             except:
                 pass
         except:
@@ -213,13 +213,13 @@ def phaapi(sit):
     else:
         return "aaaaa"
 
-def FloodControl(komand, *argos, **kwargos):
+async def FloodControl(komand, *argos, **kwargos):
     try:
-        return komand(*argos, **kwargos)
+        return await komand(*argos, **kwargos)
     except RetryAfter as trf:
         logger.warning(f"FloodWait - {trf.retry_after} - Line: {sys._getframe().f_back.f_lineno}")
         sleep(trf.retry_after+1)
-        return komand(*argos, **kwargos)
+        return await komand(*argos, **kwargos)
 
 def site_isim(no):
     if no == "0":
@@ -245,13 +245,13 @@ def site_isim(no):
     else:
         return "Bulunamadı"
 
-def kan_mention_html(kanid):
+async def kan_mention_html(kanid):
     try:
-        kanmh = bot.get_chat(kanid)
+        kanmh = await bot.get_chat(kanid)
     except RetryAfter as mhafter:
         sleep(mhafter.retry_after)
         try:
-            kanmh = bot.get_chat(kanid)
+            kanmh = await bot.get_chat(kanid)
         except:
             return f"<a href='tg://privatepost?channel={str(kanid)[3:]}&post=9999999'>'Kanala Ulaşılamadı.'</a>"
     except:
@@ -267,63 +267,63 @@ def setup_logger():
     logging.basicConfig(format="%(asctime)s - %(levelname)s - %(message)s", handlers=[logging.FileHandler(f'Loglar/{logd}.txt', 'w', 'utf-8'), logging.StreamHandler()], level=logging.INFO)
     logger = logging.getLogger("OtoPosterBot")
 
-def eklentiiletisim(update, context):
+async def eklentiiletisim(update, context):
     ileti = update.message.text_html_urled
     ileti = ileti.split("+")
     if ileti[0] == "ios":
         imsgid = context.dispatcher.user_data[int(ileti[1])]['iosmsgid']
-        bot.edit_message_text("<b>"+str(bot.get_chat(ileti[2]).title)+"</b> "+ileti[3], ileti[1], imsgid)
+        await bot.edit_message_text("<b>"+str(bot.get_chat(ileti[2]).title)+"</b> "+ileti[3], ileti[1], imsgid)
         return
     elif ileti[0] == "hash":
         try:
-            haslink = bot.get_chat(ileti[1]).invite_link
+            haslink = await bot.get_chat(ileti[1]).invite_link
         except RetryAfter:
             return
         except:
             collection.update_one({"_id":0}, {"$pull": {"istek": str(ileti[1])}})
             
-        bot.send_message(eklenti, f"hash*{haslink}")
+        await bot.send_message(eklenti, f"hash*{haslink}")
     elif ileti[0] == "yetki":
         try:
-            bot.promote_chat_member(ileti[1], eklenti, can_invite_users=True)
+            await bot.promote_chat_member(ileti[1], eklenti, can_invite_users=True)
         except RetryAfter as rf:
             sleep(rf.retry_after)
-            bot.promote_chat_member(ileti[1], eklenti, can_invite_users=True)
+            await bot.promote_chat_member(ileti[1], eklenti, can_invite_users=True)
     elif ileti[0] == "link":
         try:
-            haslink = bot.get_chat(ileti[1]).invite_link
+            haslink = await bot.get_chat(ileti[1]).invite_link
         except RetryAfter:
             return
         except:
             collection.update_one({"_id":0}, {"$pull": {"istek": str(ileti[1])}})
             
-        bot.send_message(eklenti, f"istek*{haslink}*{ileti[1]}")
+        await bot.send_message(eklenti, f"istek*{haslink}*{ileti[1]}")
             
-def WebAppDataHandler(update, context):
+async def WebAppDataHandler(update, context):
     wadata = update.effective_message.web_app_data
     if wadata.button_text == "🔧 Kaynak":
         for wdkey in wadata.data:
-            if wada.data[wdkey]:
+            if wadata.data[wdkey]:
                 collection
             else:
                 pass
 
 
-def komutisimleristart():
+async def komutisimleristart(context):
     komutisimleris = []
     for komi in komutisimleri:
         komutisimleris.append(BotCommand(komi, komi.capitalize()))
-    bot.set_my_commands(commands=komutisimleris, scope=BotCommandScopeChat(sahip))
-    bot.set_my_commands(commands=komutisimleris, scope=BotCommandScopeChatAdministrators(blog))
+    await bot.set_my_commands(commands=komutisimleris, scope=BotCommandScopeChat(sahip))
+    await bot.set_my_commands(commands=komutisimleris, scope=BotCommandScopeChatAdministrators(blog))
 
-def comment(update, context):
+async def comment(update, context):
     if update.edited_message or update.effective_message.text == None:
         return
     if update.message.text.find("kanalda post paylaşıldı.") == -1 and update.message.text.find("paylaşılıyor") == -1:
         return
-    bot.delete_message(update.message.chat.id, update.effective_message.message_id)
+    await bot.delete_message(update.message.chat.id, update.effective_message.message_id)
 
-def error_handler(update: object, context: CallbackContext) -> None:
+async def error_handler(update: object, context: CallbackContext) -> None:
     try:
         global postsirasi, opostsirasi
         logger.error(msg="Bir Hata oluştu:", exc_info=context.error)

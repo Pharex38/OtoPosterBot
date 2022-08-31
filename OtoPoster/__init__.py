@@ -14,10 +14,10 @@ from telegram import *
 import pyrogram
 from telegram.error import *
 from telegram.ext import *
+from telegram.request import HTTPXRequest
 from functools import wraps
 from urllib3.exceptions import ReadTimeoutError
-from telegram.utils.helpers import *
-from telegram.utils.request import Request
+from telegram.helpers import *
 from telegram.constants import *
 import json as jason
 import traceback, sys, html
@@ -56,9 +56,9 @@ ptimeout = maindata['timeout']
 begstate = maindata['beg']
 mainsiralimit = maindata['mainsira']
 
-
-reqs = Request(con_pool_size=50, connect_timeout=30, read_timeout=30)
-bot = ExtBot(bottoken, request=reqs, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=20, disable_web_page_preview=True, allow_sending_without_reply=True, tzinfo=pytz.timezone('Turkey')))
+reqx = HTTPXRequest(connection_pool_size=1000, read_timeout=90, write_timeout=90, connect_timeout=90, pool_timeout=90)
+reqx.initialize()
+bot = ExtBot(bottoken, request=reqx, defaults=Defaults(parse_mode=ParseMode.HTML, disable_web_page_preview=True, allow_sending_without_reply=True, tzinfo=pytz.timezone('Turkey')))
 
 eklenti = 1654723447
 blog = -1001391561285

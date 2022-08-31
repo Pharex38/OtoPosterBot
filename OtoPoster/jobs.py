@@ -13,13 +13,13 @@ def jobyedekleme(context):
             jnam = jobstr.find("date[")
             jname = jobstr[jnam+7:jnam+24]
             if jname[:2].isdigit():
-                kapdct = {'msgdict': kap.context, 'name': kap.name, 'when': jname}
+                kapdct = {'msgdict': kap.data, 'name': kap.name, 'when': jname}
                 collection.update_one({"_id": 0}, {"$push": {"jobs": kapdct}})
                 yjcount += 1
     logger.warning(str(yjcount)+" Adet Job Yedeklendi!")
 
 def tekrarlipostjob(context):
-    tsdict = context.job.context
+    tsdict = context.job.data
     tspostsira = int(tsdict["mod"].split("-")[-1])
     try:
         tspostdict = choice(tsdict["tspost"]) if tsdict["mod"].startswith("rastgele") else tsdict["tspost"][tspostsira]
@@ -29,15 +29,15 @@ def tekrarlipostjob(context):
     if tspostsira == len(tsdict["tspost"])-1:
         tspostsira = -1
     for tsgetj in context.job_queue.get_jobs_by_name(f"ts{tsdict['tsuser']}"):
-        if tsgetj.context["tspost"][0]['fid'] == tsdict["tspost"][0]['fid'] and tsgetj.context["tspost"][0]['tscaption'] == tsdict["tspost"][0]['tscaption'] and tsgetj.context["tspost"][0]['text'] == tsdict["tspost"][0]['text']:
+        if tsgetj.data["tspost"][0]['fid'] == tsdict["tspost"][0]['fid'] and tsgetj.data["tspost"][0]['tscaption'] == tsdict["tspost"][0]['tscaption'] and tsgetj.data["tspost"][0]['text'] == tsdict["tspost"][0]['text']:
             tsgetjj = tsgetj
             break
     tsjtext = str(tsgetjj.job)
     jstnam = tsjtext.find("next run at: ")+13
     jsttime = datetime.datetime.strptime(tsjtext[jstnam:jstnam+19], "%Y-%m-%d %H:%M:%S") + datetime.timedelta(hours = int(tsdict["tsaat"]-3))
     jsttimestr = jsttime.strftime("%Y-%m-%d %H:%M:%S")
-    tsgetjj.context["tetik"] = jsttimestr
-    tsgetjj.context["mod"] = str(tsdict["mod"].split("-")[0]) + "-" + str(tspostsira+1)
+    tsgetjj.data["tetik"] = jsttimestr
+    tsgetjj.data["mod"] = str(tsdict["mod"].split("-")[0]) + "-" + str(tspostsira+1)
     if tspostdict['text'] != None:
         try:
             if type(tsdict['tskan']) != list:
@@ -53,12 +53,12 @@ def tekrarlipostjob(context):
                 try:
                     tsdict['try']
                 except:
-                    tsgetjj.context['try'] = 0
+                    tsgetjj.data['try'] = 0
                 else:
                     if tsdict['try'] >= 6:
                         tsgetjj.schedule_removal()
                     else:
-                        tsgetjj.context['try'] = tsdict['try']+1
+                        tsgetjj.data['try'] = tsdict['try']+1
 
         return
     try:
@@ -76,12 +76,12 @@ def tekrarlipostjob(context):
             try:
                 tsdict['try']
             except:
-                tsgetjj.context['try'] = 0
+                tsgetjj.data['try'] = 0
             else:
                 if tsdict['try'] >= 6:
                     tsgetjj.schedule_removal()
                 else:
-                    tsgetjj.context['try'] = tsdict['try']+1
+                    tsgetjj.data['try'] = tsdict['try']+1
 
 def kisitlamakontrol(context):
     kdat = collection.find_one({"_id": 0})
@@ -110,7 +110,7 @@ def kisitlamakontrol(context):
                     logger.warning(f"{site_isim(kond)} arındırıldı!")
         
 def deljob(context):
-    delcont = context.job.context
+    delcont = context.job.data
     hedef = str(delcont.effective_chat.id)
     mesid = int(delcont.effective_message.message_id)
     try:
@@ -137,7 +137,7 @@ def deljob(context):
     logger.warning(f"{spcount} post silindi.")
 
 def zamanjob(context):
-    cont = context.job.context
+    cont = context.job.data
     patbegeni = collection.find_one({"_id": cont[0]['user']})['begeni']
     if len(patbegeni) == 0:
         patmarkup = InlineKeyboardMarkup([[]])
@@ -165,7 +165,7 @@ def zamanjob(context):
                     ButonCol.update_one({"_id": msgd['pkan']}, {"$set": {str(ppost.message_id): [], "begeni": patbegeni}})
 
 def delonejob(context):
-    delh = context.job.context
+    delh = context.job.data
     bot.delete_message(delh['chat'], delh['mid'])
 
 def gunluk(context):
@@ -307,12 +307,11 @@ def gunluk(context):
     last_text = "\n<b>Her gün saat 22:00'da otomatik olarak güncel veriler paylaşılacak. </b>"
     bot.edit_message_text(stat_text+astat_text+last_text, botlog, msg.message_id)
     bot.pin_chat_message(botlog, msg.message_id)
-    
-   
+
 
 def panelcleaner(context):
     try:
-        context.dispatcher.user_data[context.job.context].pop("panel_text")
+        context.dispatcher.user_data[context.job.data].pop("panel_text")
     except:
         pass
 
