@@ -8,7 +8,7 @@ posterrtext = "{} kaynağının sahibi siz olduğunuz için bu mesaj sadece size
 
 async def poster_job(context):
     vipler = collection.find_one({"_id": 0})['vipuye']
-    postee = context.job.context
+    postee = context.job.data
     sendtimeout = 15
     grup = []
     atilanlar = []
@@ -82,7 +82,7 @@ async def poster_job(context):
             collection.update_one({"_id": 0}, {"$inc": {"sira": 1}})
             collection.update_one({"_id": 0}, {"$pull": {"iptal": str(chat)}})
             logger.warning("{} kaynağının postu iptal edildi.".format(kynk.title))
-            context.job_queue.run_once(deljob, when=2, name="yedekleme", context=update)
+            context.job_queue.run_once(deljob, when=2, name="yedekleme", data=update)
             try:
                 lmsg.edit_text("{} kaynağının postu iptal edildi. Post kanallardan siliniyor...".format(kynk.title))
             except:
@@ -191,7 +191,7 @@ async def poster_job(context):
                             if errsayim[altsite] > 150:
                                 collection.update_one({"_id": 0}, {"$push": {"site": altsite}})
                                 logger.warning(f"{site_isim(altsite)} - Kısıtlı mod açıldı!")
-                                context.job_queue.run_once(kisitlamakontrol, when=2, name="kisitlamakontrol", context="")
+                                context.job_queue.run_once(kisitlamakontrol, when=2, name="kisitlamakontrol", data="")
                             ertolist.append(str(e)+str(user))
                             ertos["spg"] += 1
                             continue
@@ -215,7 +215,7 @@ async def poster_job(context):
                         if errsayim[site] > 150:
                             collection.update_one({"_id": 0}, {"$push": {"site": site}})
                             logger.warning(f"{site_isim(site)} - Kısıtlı mod açıldı!")
-                            context.job_queue.run_once(kisitlamakontrol, when=2, name="kisitlamakontrol", context="")
+                            context.job_queue.run_once(kisitlamakontrol, when=2, name="kisitlamakontrol", data="")
                             errsayim[site] = 0
                         link = "-"
                         logger.error(str(e))
@@ -241,7 +241,7 @@ async def poster_job(context):
                     FloodControl(bot.send_message, *[sahip, posterrtext.format(update.effective_message.chat.title, json['message'], update.effective_message.link)])
                     FloodControl(bot.send_message, *[chatdat['sahip'], posterrtext.format(update.effective_message.chat.title, json['message'], update.effective_message.link)])
                       
-                    context.job_queue.run_once(deljob, when=2, name="yedekleme", context=update)
+                    context.job_queue.run_once(deljob, when=2, name="yedekleme", data=update)
                     break
             sablondict = {"1": f"🔥{aciklama}\n\n🔱 TIKLA 👉 {link}\n\n📛 SESİ AÇ 'a tıklamayı unutma", "2": f"{aciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {link}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @TRPNDLinkGecmee", "9": f"{aciklama} \n\n𝙇𝙄𝙉𝙆🔗 {link} \n\n     𝙇𝙄𝙉𝙆🔗 {alink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @TRPNDLinkGecmee"}
             sablon = sablondict.get(sablon, sablon)
@@ -332,7 +332,7 @@ async def poster_job(context):
                         collection.update_one({"_id": 0}, {"$inc": {"sira": 1}})
                         collection.update_one({"_id": 0}, {"$pull": {"iptal": str(chat)}})
                         logger.warning("{} kaynağının postu iptal edildi.".format(kynk.title))
-                        context.job_queue.run_once(deljob, when=2, name="yedekleme", context=update)
+                        context.job_queue.run_once(deljob, when=2, name="yedekleme", data=update)
                         try:
                             lmsg.edit_text("{} kaynağının postu iptal edildi. Post kanallardan siliniyor...".format(kynk.title))
                         except:
@@ -390,7 +390,7 @@ async def poster_job(context):
             logger.exception(e)
 
 async def ozel_poster_job(context):
-    opostee = context.job.context    
+    opostee = context.job.data    
     ogrup = []
     oatilanlar = []
     if len(opostee) == 0:
@@ -848,17 +848,17 @@ async def poster(update, context):
         if KaynakCol.find_one({"_id": pochat})['icerik'] == "arsiv":
             whn = 5
         for poj in context.job_queue.get_jobs_by_name("anaposter"):
-            if poj.context[0]['groupid'] == update.effective_message.media_group_id and poj.context[0]['chatid'] == pochat and update.effective_message.media_group_id != None:
-                poj.context.append(postdict)
+            if poj.data[0]['groupid'] == update.effective_message.media_group_id and poj.data[0]['chatid'] == pochat and update.effective_message.media_group_id != None:
+                poj.data.append(postdict)
                 return
-        context.job_queue.run_once(poster_job, when=whn, name="anaposter" if whn != 5 else "arsivanaposter", context=[postdict]) 
+        context.job_queue.run_once(poster_job, when=whn, name="anaposter" if whn != 5 else "arsivanaposter", data=[postdict]) 
 
     # Özel Kaynaklar
     elif OzelCol.find_one({"okaynak": pochat}) != None:
         logger.warning(f"[ÖZEL] {update.effective_message.chat.title} Postu sıraya eklendi.")
         opostdict = {"chatid": pochat, "update": update, "groupid": update.effective_message.media_group_id, "poster": False}
         for opoj in context.job_queue.get_jobs_by_name("ozelposter"):
-            if opoj.context[0]['groupid'] == update.effective_message.media_group_id and opoj.context[0]['chatid'] == pochat and update.effective_message.media_group_id != None:
-                opoj.context.append(opostdict)
+            if opoj.data[0]['groupid'] == update.effective_message.media_group_id and opoj.data[0]['chatid'] == pochat and update.effective_message.media_group_id != None:
+                opoj.data.append(opostdict)
                 return
-        context.job_queue.run_once(ozel_poster_job, when=5, name="ozelposter", context=[opostdict])
+        context.job_queue.run_once(ozel_poster_job, when=5, name="ozelposter", data=[opostdict])
