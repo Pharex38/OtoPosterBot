@@ -275,7 +275,7 @@ async def poster_job(context):
                 post = update.effective_message
                 try:
                     yetkililer = []
-                    for xy in await FloodControl(bot.get_chat_administrators, *[kan]):
+                    for xy in (await FloodControl(bot.get_chat_administrators, *[kan])):
                         if xy.can_post_messages or xy.status == "creator":
                             yetkililer.append(xy.user.id)
                 except:
@@ -573,7 +573,7 @@ async def ozel_poster_job(context):
                 sleep(0.1)
                 try:
                     oyetkililer = []
-                    for oxy in await bot.get_chat_administrators(okan):
+                    for oxy in (await bot.get_chat_administrators(okan)):
                         if oxy.can_post_messages or oxy.status == "creator":
                             oyetkililer.append(oxy.user.id)
                 except:
