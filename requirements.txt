@@ -3,6 +3,4 @@ dnspython
 requests
 APScheduler
 python-telegram-bot
-pyrogram
-TgCrypto
 matplotlib
