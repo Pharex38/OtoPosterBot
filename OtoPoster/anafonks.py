@@ -275,7 +275,7 @@ async def postmenu(update, context):
         kaynakmsg = await bot.send_message(chat, "<code>Yükleniyor...</code>")
         kynskm = poudat['kanal'][0]
         try:
-            kcisim = await bot.get_chat(kynskm).title
+            kcisim = (await bot.get_chat(kynskm)).title
         except:
             kcisim = "Kanalınıza ulaşılamadı!"
         await kaynakmsg.edit_text(f"""<b> >>>    {kcisim}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>""", reply_markup=(await kaynakmark(user, 0)))
@@ -337,7 +337,7 @@ async def ekstramenu(update, context):
             if type(tpost.context['tskan']) == list:
                 for tspostk in tpost.context['tskan']:
                     try:
-                        tskanisim += await bot.get_chat(tspostk).title + ", " if not tpost.context['tskan'].index(tspostk) in [len(tpost.context['tskan'])-1] and len(tpost.context['tskan']) != 1 else await bot.get_chat(tspostk).title
+                        tskanisim += (await bot.get_chat(tspostk)).title + ", " if not tpost.context['tskan'].index(tspostk) in [len(tpost.context['tskan'])-1] and len(tpost.context['tskan']) != 1 else (await bot.get_chat(tspostk)).title
                     except:
                         tskanerrorcount += 1
                 if tskanerrorcount != 0:
@@ -347,7 +347,7 @@ async def ekstramenu(update, context):
                         tskanisim += "Kanalınıza ulaşılamadı!"
             else:
                 try:
-                    tskanisim = await bot.get_chat(tpost.context['tskan']).title
+                    tskanisim = (await bot.get_chat(tpost.context['tskan'])).title
                 except:
                     tskanisim = "Kanalınıza ulaşılamadı."
             text_tekrarli += "<b>Sonraki tetiklenme tarihi:</b> {}\n<b>Paylaşılma aralığı:</b> {}\n<b>Başlık:</b> {}\n<b>Kanal(lar):</b> {}\n<b>Post Sayısı: {}</b>\n\n".format(tpoststr[tpp+8:tpp+27], tpoststr[tapp+4:tapp+13], tpost.context['baslik'], tskanisim, len(tpost.context["tspost"]))
@@ -723,7 +723,7 @@ async def patzamansaat(update, context):
     if len(satkat['kanal']) < 2:
         pyetkililer = [pxy.user.id for pxy in await bot.get_chat_administrators(satkat['kanal'][0])]
         if not user in pyetkililer:
-            await bot.send_message(chat, f"{bot.get_chat(satkat['kanal'][0]).title} Bu kanalda yetkili olmadığınız için kanal silindi", reply_markup=dugme(user))
+            await bot.send_message(chat, f"{(await bot.get_chat(satkat['kanal'][0])).title} Bu kanalda yetkili olmadığınız için kanal silindi", reply_markup=dugme(user))
             collection.update_one({"_id": user}, {"$pull": {"kanal": satkat['kanal'][0]}})
             return ConversationHandler.END
         msg_dict = {"pkan": satkat['kanal'][0], "psablon": context.user_data['psablon'], "ptip": context.user_data['ptip'], "fid": context.user_data['fid'], "user": user}
