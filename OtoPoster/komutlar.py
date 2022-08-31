@@ -210,7 +210,7 @@ async def joblist(update, context):
     for jok in jobs:
         if True:
         #if not str(jok.name) in ignorejob:
-            await bot.send_message(update.message.chat.id, str(jok.context)+"\n\n\n"+str(jok.name)+"\n\n\n"+str(jok.job))
+            await bot.send_message(update.message.chat.id, str(jok.data)+"\n\n\n"+str(jok.name)+"\n\n\n"+str(jok.job))
 
 async def parak(update, context):
     global para
@@ -438,8 +438,8 @@ async def posterkomut2(update, context):
         if ind > 9:
             whn = 530
         for poj in context.job_queue.get_jobs_by_name("anaposter"):
-            if poj.context[0]['groupid'] == update.effective_message.media_group_id and poj.context[0]['chatid'] == pochat:
-                poj.context.append(postdict)
+            if poj.data[0]['groupid'] == update.effective_message.media_group_id and poj.data[0]['chatid'] == pochat:
+                poj.data.append(postdict)
                 return
         context.job_queue.run_once(poster_job, when=whn, name="anaposter", data=[postdict]) 
     # Özel Kaynaklar
@@ -457,8 +457,8 @@ async def posterkomut2(update, context):
         if oind > 9:
             owhn = 60
         for opoj in context.job_queue.get_jobs_by_name("ozelposter"):
-            if opoj.context[0]['groupid'] == update.effective_message.media_group_id and opoj.context[0]['chatid'] == pochat:
-                opoj.context.append(opostdict)
+            if opoj.data[0]['groupid'] == update.effective_message.media_group_id and opoj.data[0]['chatid'] == pochat:
+                opoj.data.append(opostdict)
                 return
         context.job_queue.run_once(ozel_poster_job, when=owhn, name="ozelposter", data=[opostdict])
 
@@ -662,7 +662,7 @@ async def kaynakpanel(update, context):
         panel_text = "<b>{} Kaynak Paneli;</b>\n\n👥Toplam Kullanıcı: {}\n📢Toplam Kanal: {}\n💿Şimdiye Kadar Paylaştığınız Post Sayısı: {}\n🙋Toplam Kitle: {}\n\n🔗Referans Linkiniz: {}".format(panelkaynakkanalisim, len(panelkaynak['kaynak']), len(panco), panelkaynak['sayi'], str(round(pankanmember / 1000, 1))+"K", "https://telegram.me/OtoPosterBot?start=Kaynak"+str(panelkaynak['no']))
         context.user_data['panel_text'] = panel_text
     for cleanjob in context.job_queue.get_jobs_by_name("panelcleaner"):
-        if cleanjob.context == user:
+        if cleanjob.data == user:
             break
     else:
         context.job_queue.run_once(panelcleaner, when=3600, name="panelcleaner", data=user)
