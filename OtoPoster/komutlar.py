@@ -296,7 +296,7 @@ async def kpostsil(update, context):
         else:
             spcount += 1
     if spcount == 0:
-        psmg.edit_text(f"Post silinemedi!")
+        await psmg.edit_text(f"Post silinemedi!")
     else:
         for kpsd in KaynakCol.find_one({"_id": chat})['kaynak']:
             try:
@@ -304,7 +304,7 @@ async def kpostsil(update, context):
                 collection.update_one({"_id": kpsd['_id']}, {"$set": {"pcount": kpsd['pcount']-1}})
             except:
                 pass
-        psmg.edit_text(f"{spcount} Post Silindi.")
+        await psmg.edit_text(f"{spcount} Post Silindi.")
     collection.update_one({"_id": 0}, {"$pull": {"iptal": str(chat)}})
 
 async def KanalSilKomutu(update, context):
@@ -365,9 +365,9 @@ async def cpostsil(update, context):
             except:
                 pass
     if duz:
-        psmg.edit_text(f"{spcount} Post Düzenlendi.")
+        await psmg.edit_text(f"{spcount} Post Düzenlendi.")
     else:
-        psmg.edit_text(f"{spcount} Post Silindi.")
+        await psmg.edit_text(f"{spcount} Post Silindi.")
 
 async def viple(update, context):
     global postsirasi

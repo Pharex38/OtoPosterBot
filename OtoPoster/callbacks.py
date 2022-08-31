@@ -413,7 +413,7 @@ async def callback_query(call, context):
                 try:
                     ozel_kaynak_bilgi = await bot.get_chat(m['okaynak'])
                 except:
-                    kaynakmsg.edit_text("Botu kaynak kanalınızdan çıkarttığınız için post atılmayacak.", reply_markup=(await ozelkaynakmark(user, 0)))
+                    await kaynakmsg.edit_text("Botu kaynak kanalınızdan çıkarttığınız için post atılmayacak.", reply_markup=(await ozelkaynakmark(user, 0)))
                     return
                 kullanan_sayisi = len(m['kanal'])
                 break
@@ -425,11 +425,11 @@ async def callback_query(call, context):
         if refsahip == "yok":
             collection.update_one({"_id": user}, {"$set": {"ozel": False}})
             collection.update_one({"_id": user}, {"$pull": {"kaynak": "32"}})
-            kaynakmsg.edit_text("Özel kaynağınız silinmiş!")
+            await kaynakmsg.edit_text("Özel kaynağınız silinmiş!")
             return
         ref_link = create_deep_linked_url(context.bot.username, str(refsahip))
         try:
-            kaynakmsg.edit_text("""<b>Sadece bir tane Özel Kaynak kullanabilirsiniz.</b>\n\n      <i>Özel Kaynağınız:</i><b> <a href="{}">{}</a>\n</b>      <i>Bu Kaynağı Toplam </i><code>{}</code> <i>Kişi Kullanıyor.</i>\n\n<b>Kaynak Referans Linki;</b>\n<code>{}</code>\n<i>Bu link ile botu başlatan herkes otomatik olarak sizin kaynağınıza bağlanacak.</i>""".format(ozel_kaynak_bilgi.invite_link, ozel_kaynak_bilgi.title, kullanan_sayisi, ref_link), reply_markup=(await ozelkaynakmark(user, 0)))
+            await kaynakmsg.edit_text("""<b>Sadece bir tane Özel Kaynak kullanabilirsiniz.</b>\n\n      <i>Özel Kaynağınız:</i><b> <a href="{}">{}</a>\n</b>      <i>Bu Kaynağı Toplam </i><code>{}</code> <i>Kişi Kullanıyor.</i>\n\n<b>Kaynak Referans Linki;</b>\n<code>{}</code>\n<i>Bu link ile botu başlatan herkes otomatik olarak sizin kaynağınıza bağlanacak.</i>""".format(ozel_kaynak_bilgi.invite_link, ozel_kaynak_bilgi.title, kullanan_sayisi, ref_link), reply_markup=(await ozelkaynakmark(user, 0)))
         except:
             pass
         return
@@ -440,7 +440,7 @@ async def callback_query(call, context):
             kcisim = await bot.get_chat(kynskm).title
         except:
             kcisim = "Kanalınıza ulaşılamadı!"
-        kaynakmsg.edit_text(f"""<b> >>>    {kcisim}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>""", reply_markup=(await kaynakmark(user, 0)))
+        await kaynakmsg.edit_text(f"""<b> >>>    {kcisim}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>""", reply_markup=(await kaynakmark(user, 0)))
         return
     if call.callback_query.data.startswith("zaman"):
         dgr = int(call.callback_query.data.split("-")[1])
