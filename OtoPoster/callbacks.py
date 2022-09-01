@@ -178,7 +178,7 @@ async def cekiliscall(call, context):
     if len(cek_dat['kanal']) == 0:
         await call.callback_query.answer(show_alert=True, text="Çekilişe katılabilmek için en az bir kanalınız olmalı!")
         return
-    cek_k_isim = await bot.get_chat(KaynakCol.find_one({'sahip': int(context.bot_data['sahip'])})['_id']).title
+    cek_k_isim = (await bot.get_chat(KaynakCol.find_one({'sahip': int(context.bot_data['sahip'])})['_id'])).title
     if not user in KaynakCol.find_one({"sahip": int(context.bot_data['sahip'])})['kaynak']:
         await call.callback_query.answer(show_alert=True, text=f"Çekilişe katılabilmek için en az bir kanalınız {cek_k_isim} kaynağını kullanıyor olmalı.")
         return
@@ -437,7 +437,7 @@ async def callback_query(call, context):
         kaynakmsg = call.effective_message
         kynskm = collection.find_one({"_id": user})['kanal'][0]
         try:
-            kcisim = await bot.get_chat(kynskm).title
+            kcisim = (await bot.get_chat(kynskm)).title
         except:
             kcisim = "Kanalınıza ulaşılamadı!"
         await kaynakmsg.edit_text(f"""<b> >>>    {kcisim}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>""", reply_markup=(await kaynakmark(user, 0)))
@@ -513,7 +513,7 @@ async def callback_query(call, context):
             logger.error(e)
             return
         try:
-            sgyisim = await bot.get_chat(sgynknl).title
+            sgyisim = (await bot.get_chat(sgynknl)).title
         except:
             sgyisim = "Kanalınıza ulaşılamadı!"
         await call.callback_query.answer(sgyisim)
@@ -531,7 +531,7 @@ async def callback_query(call, context):
             logger.error(e)
             return
         try:
-            sgyisim = await bot.get_chat(sgynknl).title
+            sgyisim = (await bot.get_chat(sgynknl)).title
         except:
             sgyisim = "Kanalınıza ulaşılamadı!"
         await call.callback_query.answer(sgyisim)
@@ -626,7 +626,7 @@ async def callback_query(call, context):
                     except:
                         continue
                     if not user in pyetkililer:
-                        await bot.send_message(chat, f"{bot.get_chat(kan).title} Bu kanalda yetkili olmadığınız için post gönderilemedi ve kanal silindi.", reply_markup=dugme(user))
+                        await bot.send_message(chat, f"{(await bot.get_chat(kan)).title} Bu kanalda yetkili olmadığınız için post gönderilemedi ve kanal silindi.", reply_markup=dugme(user))
                         await bot.delete_message(user, mesajid)
                         collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
                         continue 
@@ -650,7 +650,7 @@ async def callback_query(call, context):
             except:
                 pyetkililer = []
             if not user in pyetkililer:
-                await bot.send_message(chat, f"{bot.get_chat(kanal[o]).title} Bu kanalda yetkili olmadığınız için post gönderilemedi ve kanal silindi.", reply_markup=dugme(user))
+                await bot.send_message(chat, f"{(await bot.get_chat(kanal[o])).title} Bu kanalda yetkili olmadığınız için post gönderilemedi ve kanal silindi.", reply_markup=dugme(user))
                 await bot.delete_message(user, mesajid)
                 collection.update_one({"_id": user}, {"$pull": {"kanal": kanal[o]}})
                 return ConversationHandler.END
@@ -676,7 +676,7 @@ async def callback_query(call, context):
                 for kan in kanal:
                     pyetkililer = [pxy.user.id for pxy in await bot.get_chat_administrators(kan)]
                     if not user in pyetkililer:
-                        await bot.send_message(chat, f"{bot.get_chat(kan).title} Bu kanalda yetkili olmadığınız için post gönderilemedi ve kanal silindi.", reply_markup=dugme(user))
+                        await bot.send_message(chat, f"{(await bot.get_chat(kan)).title} Bu kanalda yetkili olmadığınız için post gönderilemedi ve kanal silindi.", reply_markup=dugme(user))
                         await bot.delete_message(user, mesajid)
                         collection.update_one({"_id": user}, {"$pull": {"kanal": kan}})
                         continue
@@ -690,7 +690,7 @@ async def callback_query(call, context):
 
             pyetkililer = [pxy.user.id for pxy in await bot.get_chat_administrators(kanal[o])]
             if not user in pyetkililer:
-                await bot.send_message(chat, f"{bot.get_chat(kanal[o]).title} Bu kanalda yetkili olmadığınız için post gönderilemedi ve kanal silindi.", reply_markup=dugme(user))
+                await bot.send_message(chat, f"{(await bot.get_chat(kanal[o])).title} Bu kanalda yetkili olmadığınız için post gönderilemedi ve kanal silindi.", reply_markup=dugme(user))
                 collection.update_one({"_id": user}, {"$pull": {"kanal": kanal[o]}})
                 await bot.delete_message(user, mesajid)
                 context.user_data.clear()
