@@ -97,9 +97,9 @@ async def kisitlamakontrol(context):
         "8": 0, 
         "9": 0}
     while True:
-       await sleep(10)
+        await sleep(10)
         for kond in kdat['site']:
-           await sleep(3)
+            await sleep(3)
             try:
                 test, testd = linkkisalt(kond, phaapi(kond), "www.google.com", '+18')
             except:
@@ -221,12 +221,12 @@ async def gunluk(context):
         for kul in kullanici['kanal']:
             if not kul in kum:
                 kum.append(kul)
-               await sleep(0.5)
+                await sleep(0.5)
                 try:
                     uye = bot.get_chat_members_count(kul)
                     print(uye)
                 except RetryAfter as after:
-                   await sleep(after.retry_after)
+                    await sleep(after.retry_after)
                     try:
                         uye = bot.get_chat_members_count(kul)
                     except:
@@ -234,9 +234,9 @@ async def gunluk(context):
                 except Exception as e:
                     logger.error(e)
                     if str(e).find("not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
-                       await sleep(1)
+                        await sleep(1)
                     else:
-                       await sleep(30)
+                        await sleep(30)
                 else:
                     toplam += uye
                     kanals += 1
@@ -253,7 +253,7 @@ async def gunluk(context):
         try:
             getskaynak = bot.get_chat(kstat['_id'])
         except RetryAfter as after:
-           await sleep(after.retry_after)
+            await sleep(after.retry_after)
             try:
                 getskaynak = bot.get_chat(kstat['_id'])
             except:
@@ -283,7 +283,7 @@ async def gunluk(context):
         try:
             getskaynak = bot.get_chat(kstat['_id'])
         except RetryAfter as after:
-           await sleep(after.retry_after)
+            await sleep(after.retry_after)
             try:
                 getskaynak = bot.get_chat(kstat['_id'])
             except:

@@ -39,7 +39,7 @@ async def menu(update, context):
             try:
                 kbilgi = await bot.get_chat(chan)
             except RetryAfter as krt:
-               await sleep(krt.retry_after+1)
+                await sleep(krt.retry_after+1)
                 try:
                     kbilgi = await bot.get_chat(chan)
                 except:
@@ -691,6 +691,7 @@ async def kanalkayit(update, context):
             ytliler.append(y.user.id)
         elif y.can_post_messages:
             ytliler.append(y.user.id)
+
     if not user in ytliler:
         await bot.send_message(chat, "Bu kanal sizin değil 😠. Bu kanalı kaydedebilmeniz için kanalda Post Paylaşabilme yetkiniz olması gerekli.")
         return
@@ -805,11 +806,11 @@ async def pat(update, context):
             while ptry < 10 and palink == " ":
                 ptry += 1
                 palink, pjson = linkkisalt(paltsite, paltapi, kplink, "+18")
-               await sleep(0.2)
+                await sleep(0.2)
         while ptry < 10 and plink == " ":
             ptry += 1
             plink, pjson = linkkisalt(psite, ptoken, kplink, "+18")
-           await sleep(0.2)
+            await sleep(0.2)
         if plink == " ":
             await bot.send_message(chat, "İşlem başarısız oldu lütfen tekrar deneyin.")
             return

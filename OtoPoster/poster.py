@@ -64,7 +64,7 @@ async def poster_job(context):
     except:
         postdata.update_one({"_id": mesjid}, {"$set": {"pids": [], "aciklama": aciklama, "link": mesajb, "user": 0}})
     while mainsira > mainsiralimit:
-       await sleep(10)
+        await sleep(10)
         logger.warning(f"{kynk.title} kaynağının postu sırada bekletiliyor...")
         mainsira = collection.find_one({"_id": 0})['sira']
     collection.update_one({"_id": 0}, {"$inc": {"sira": 1}})
@@ -174,7 +174,7 @@ async def poster_job(context):
                     try:
                         linktry += 1
                         if linktry > 2:
-                           await sleep(0.15)
+                            await sleep(0.15)
                             logger.warning(f"Link kısaltılamadı tekrar deneniyor {linktry}")
                         alink, ajson = linkkisalt(altsite, altapi, mesajb, chatdat['icerik'])
                     except ReadTimeoutError:
@@ -199,7 +199,7 @@ async def poster_job(context):
                 try:
                     linktry += 1
                     if linktry > 2:
-                       await sleep(0.15)
+                        await sleep(0.15)
                         logger.warning(f"Tekrar deneniyor {linktry}")
                     link, json = linkkisalt(site, token, mesajb, chatdat['icerik'])
                 except ReadTimeoutError:
@@ -282,7 +282,7 @@ async def poster_job(context):
                             yetkililer.append(xy.user.id)
                 except Exception :
                     continue
-               await sleep(0.05)
+                await sleep(0.05)
                 if not user in yetkililer:
                     try:
                         membersayi = await FloodControl(bot.get_chat_member_count, *[kan])
@@ -426,7 +426,7 @@ async def ozel_poster_job(context):
     try:
         okynk = await bot.get_chat(ochat)
     except RetryAfter as ortf:
-       await sleep(ortf.retry_after+1)
+        await sleep(ortf.retry_after+1)
         okynk = await bot.get_chat(ochat)
     omesajb = omesaj[osol:osag].strip()
     if omesaj.find("\n", osol) == -1:
@@ -510,13 +510,13 @@ async def ozel_poster_job(context):
                     while olinktry < 10 and oalink == " ":
                         oalink, ojson = linkkisalt(oaltsite, oaltapi, omesajb, okaynak['icerik'])
                         olinktry += 1
-                       await sleep(0.3)
+                        await sleep(0.3)
                         if olinktry > 1:
                             logger.warning(f"Tekrar deneniyor {olinktry}")
                 while olinktry < 10 and olink == " ":
                     olink, ojson = linkkisalt(osite, otoken, omesajb, okaynak['icerik'])
                     olinktry += 1
-                   await sleep(0.4)
+                    await sleep(0.4)
                     if olinktry > 1:
                         logger.warning(f"Tekrar deneniyor {olinktry}")
                 logger.info(f"{okanal} + {olink} + {otoken}")
@@ -524,7 +524,7 @@ async def ozel_poster_job(context):
                 try:
                     await bot.send_message(ouser, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(osite)}</code>")
                 except RetryAfter as ortfr:
-                   await sleep(ortfr.retry_after+1)
+                    await sleep(ortfr.retry_after+1)
                     await bot.send_message(ouser, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(osite)}</code>")
                 logger.error(e)
                 continue
@@ -539,7 +539,7 @@ async def ozel_poster_job(context):
                         await bot.send_message(sahip, posterrtext.format(oupdate.effective_message.chat.title, ojson['message'], oupdate.effective_message.link))
                         await bot.send_message(okaynak['_id'], posterrtext.format(oupdate.effective_message.chat.title, ojson['message'], oupdate.effective_message.link))
                     except RetryAfter as ortfr:
-                       await sleep(ortfr.retry_after+1)
+                        await sleep(ortfr.retry_after+1)
                         await bot.send_message(sahip, posterrtext.format(oupdate.effective_message.chat.title, ojson['message'], oupdate.effective_message.link))
                         await bot.send_message(okaynak['_id'], posterrtext.format(oupdate.effective_message.chat.title, ojson['message'], oupdate.effective_message.link))
                     break
@@ -572,7 +572,7 @@ async def ozel_poster_job(context):
             for okan in okanal:
                 if not okan in okaynak['kaynak'] or okan in oeski or okaynak['icerik'] == "arsiv" and not okan in oicerik or okaynak['icerik'] == "+18" and okan in oicerik:
                     continue
-               await sleep(0.1)
+                await sleep(0.1)
                 try:
                     oyetkililer = []
                     for oxy in (await bot.get_chat_administrators(okan)):
@@ -592,7 +592,7 @@ async def ozel_poster_job(context):
                         try:
                             await bot.send_message(blog, kansillog.format(user=ouser, membersayi=omembersayi, okan=str(okan)[3:]))
                         except RetryAfter as ortfr:
-                           await sleep(ortfr.retry_after+1)
+                            await sleep(ortfr.retry_after+1)
                             try:
                                 await bot.send_message(blog, kansillog.format(user=ouser, membersayi=omembersayi, okan=str(okan)[3:]))
                             except:
@@ -608,7 +608,7 @@ async def ozel_poster_job(context):
                     else:
                         opost = await bot.send_media_group(okan, media=ogrup+[MEDIA_GROUP_TYPES[effective_message_type(oupdate)](media=oupdate.effective_message.photo[-1].file_id if oupdate.effective_message.photo else oupdate.effective_message.effective_attachment.file_id, caption=osablon)])
                 except RetryAfter as ortfr:
-                   await sleep(ortfr.retry_after+1)
+                    await sleep(ortfr.retry_after+1)
                     try:
                         if len(opostee) == 1:
                             opost = await oupdate.effective_message.copy(okan, caption=osablon, reply_markup=opostermarkup)
@@ -627,7 +627,7 @@ async def ozel_poster_job(context):
                                     await bot.send_message(blog, kansillog.format(user=ouser, membersayi=oukisim, okan=str(okan)[3:]))
                                     await bot.send_message(ouser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
                                 except RetryAfter as ortfr:
-                                   await sleep(ortfr.retry_after+1)
+                                    await sleep(ortfr.retry_after+1)
                                     await bot.send_message(blog, kansillog.format(user=ouser, membersayi=oukisim, okan=str(okan)[3:]))
                                     await bot.send_message(ouser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
                             except Exception as e: 
@@ -652,7 +652,7 @@ async def ozel_poster_job(context):
                                 await bot.send_message(blog, kansillog.format(user=ouser, membersayi=oukisim, okan=str(okan)[3:]))
                                 await bot.send_message(ouser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
                             except RetryAfter as ortfr:
-                               await sleep(ortfr.retry_after+1)
+                                await sleep(ortfr.retry_after+1)
                                 await bot.send_message(blog, kansillog.format(user=ouser, membersayi=oukisim, okan=str(okan)[3:]))
                                 await bot.send_message(ouser, "Botu kanalınızdan çıkardığınız için kanalınız silindi.")
                             except:
@@ -678,7 +678,7 @@ async def ozel_poster_job(context):
                             try:
                                 await bot.pin_chat_message(okan, opost.message_id)
                             except RetryAfter as orpf:
-                               await sleep(orpf.retry_after+1)
+                                await sleep(orpf.retry_after+1)
                                 await bot.pin_chat_message(okan, opost.message_id)
                             except Exception as e:
                                 bildir(e)
@@ -688,7 +688,7 @@ async def ozel_poster_job(context):
         try:
             await bot.send_message(okaynak["log"], obasari[7:])
         except RetryAfter as ortfr:
-           await sleep(ortfr.retry_after+1)
+            await sleep(ortfr.retry_after+1)
             try:
                 await bot.send_message(okaynak["log"], obasari[7:])
             except:
@@ -704,7 +704,7 @@ async def poster_edit(update, context):
     editkaynak = KaynakCol.find_one({"_id": chat})
     indt = context.job_queue.get_jobs_by_name("anaposter")
     while len(indt) != 0:
-       await sleep(1)
+        await sleep(1)
         indt = context.job_queue.get_jobs_by_name("anaposter")
     emid = update.effective_message.message_id
     edited_m = update.effective_message.caption
@@ -747,13 +747,13 @@ async def poster_edit(update, context):
                     while linktry < 10 and alink == " ":
                         linktry += 1
                         alink, json = linkkisalt(altsite, altapi, edited_l, editkaynak['icerik'])
-                       await sleep(0.3)
+                        await sleep(0.3)
                         if linktry > 2:
                             logger.warning(f"Link kısaltılamadı tekrar deneniyor {linktry}")
                 while linktry < 10 and link == " ":
                     linktry += 1
                     link, json = linkkisalt(site, token, edited_l, editkaynak['icerik'])
-                   await sleep(0.4)
+                    await sleep(0.4)
                     if linktry > 1:
                         logger.warning(f"Tekrar deneniyor {linktry}")
                 logger.info(f"{kanal} + {link} + {token}")
@@ -810,7 +810,7 @@ async def poster_edit(update, context):
             try:
                 await bot.edit_message_caption(caption=newedim, chat_id=edi['chat'], message_id=edi['pid'])
             except RetryAfter as ertf:
-               await sleep(ertf.retry_after+1)
+                await sleep(ertf.retry_after+1)
                 try:
                     await bot.edit_message_caption(caption=newedim, chat_id=edi['chat'], message_id=edi['pid'])
                 except Exception as e:
