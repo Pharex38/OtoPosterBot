@@ -25,7 +25,7 @@ def main() -> None:
     application = builder.build()
     upjob = application.job_queue
     """ Repeating Jobs """
-    upjob.run_daily(gunluk, days=tuple(range(7)) time=datetime.datetime.strptime("21:55:00", '%H:%M:%S').time(), name="resetleme")
+    upjob.run_daily(gunluk, days=tuple(range(7)), time=datetime.datetime.strptime("21:55:00", '%H:%M:%S').time(), name="resetleme")
     #upjob.run_repeating(jobyedekleme, interval=300, first=10, name="yedekleme")
     upjob.run_repeating(siraclean, interval=3600, first=10, name="yedekleme")
     """ Misc """
