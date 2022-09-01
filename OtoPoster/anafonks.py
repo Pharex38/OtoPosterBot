@@ -732,7 +732,7 @@ async def patzamansaat(update, context):
         mstd = await bot.send_message(chat, "Başka post paylaşacak mısınız?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Evet", callback_data="devam"), InlineKeyboardButton("Hayır", callback_data="del")]]))
         return ConversationHandler.END
 
-    await bot.send_message(update.effective_message.chat.id, "Hangi kanalınıza gönderilecek.", reply_markup=patmark(update.effective_message.from_user.id))
+    await bot.send_message(update.effective_message.chat.id, "Hangi kanalınıza gönderilecek.", reply_markup=(await patmark(update.effective_message.from_user.id)))
     return ConversationHandler.END
 
 async def pat(update, context):
