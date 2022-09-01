@@ -684,7 +684,7 @@ async def callback_query(call, context):
                 await bot.delete_message(user, mesajid)
                 await bot.send_message(user, "⏱ Postunuz zamanlandı.", reply_markup=dugme(user))
                 mstd = await bot.send_message(chat, "Başka post paylaşacak mısınız?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Evet", callback_data="devam"), InlineKeyboardButton("Hayır", callback_data="del")]]))
-                context.job_queue.run_once(callback=zamanjob, when=zamani, context=msg_dict, name=str(user))
+                context.job_queue.run_once(callback=zamanjob, when=zamani, data=msg_dict, name=str(user))
                 context.user_data.clear()
                 return ConversationHandler.END
 
@@ -698,7 +698,7 @@ async def callback_query(call, context):
             msg_dict.append({"pkan": kanal[o], "psablon": psablon, "ptip": ptip, "fid": fid, "user": user})
             await bot.delete_message(user, mesajid)
             await bot.send_message(user, "⏱ Postunuz zamanlandı.", reply_markup=dugme(user))
-            context.job_queue.run_once(callback=zamanjob, when=zamani, context=msg_dict, name=str(user))
+            context.job_queue.run_once(callback=zamanjob, when=zamani, data=msg_dict, name=str(user))
             context.user_data.clear()
             mstd = await bot.send_message(chat, "Başka post paylaşacak mısınız?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Evet", callback_data="devam"), InlineKeyboardButton("Hayır", callback_data="del")]]))
             return ConversationHandler.END
@@ -793,7 +793,7 @@ async def tsmodcall(call, context):
     tetik = datetime.datetime.now(pytz.timezone('Europe/Istanbul')) + datetime.timedelta(hours = int(context.user_data['tsaat']))
     context.user_data["tspostdict"]["tetik"] = tetik.strftime("%Y-%m-%d %H:%M:%S")
     firstmod = 3600*int(context.user_data["tsaat"])-3600 if int(context.user_data["tsaat"]) != 1 else 3600
-    context.job_queue.run_repeating(tekrarlipostjob, first=firstmod, interval=3600*int(context.user_data['tsaat']), name=f"ts{user}", context=context.user_data["tspostdict"])
+    context.job_queue.run_repeating(tekrarlipostjob, first=firstmod, interval=3600*int(context.user_data['tsaat']), name=f"ts{user}", data=context.user_data["tspostdict"])
     context.user_data.clear()
     await bot.send_message(chat, "Postlarınız başarıyla ayarlandı!", reply_markup=dugme(user))
     return ConversationHandler.END

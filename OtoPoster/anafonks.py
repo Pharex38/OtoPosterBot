@@ -426,7 +426,7 @@ async def tekrarlipostayarla(update, context):
         await bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
     try:
-        bot.delete_message(chat, context.user_data['lastts'])
+        await bot.delete_message(chat, context.user_data['lastts'])
     except:
         pass
     tfid = None
