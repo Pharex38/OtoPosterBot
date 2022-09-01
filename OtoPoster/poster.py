@@ -70,7 +70,7 @@ async def poster_job(context):
     collection.update_one({"_id": 0}, {"$inc": {"sira": 1}})
     baslangic = time.time()
     try:
-        lmsg = await FloodControl(bot.send_message, *[botlog, "<code>{} kaynağının <a href='{}'>postu</a> paylaşılıyor...</code>".format(kynk.title, update.effective_message.link)])
+        lmsg = await FloodControl(bot.send_message, *[botlog, "<code>{} kaynağının</code> <a href='{}'>postu</a><code> paylaşılıyor...</code>".format(kynk.title, update.effective_message.link)])
     except Exception as e:
         logger.error(e)
         await bot.send_message(sahip, str(e))
@@ -855,7 +855,7 @@ async def poster(update, context):
             if poj.data[0]['groupid'] == update.effective_message.media_group_id and poj.data[0]['chatid'] == pochat and update.effective_message.media_group_id != None:
                 poj.data.append(postdict)
                 return
-        context.job_queue.run_once(poster_job, when=whn, name="anaposter" if whn != 5 else "arsivanaposter", data=[postdict]) 
+        context.job_queue.run_once(poster_job, when=whn, name=f"anaposter{pochat}" if whn != 5 else f"arsivanaposter{pochat}", data=[postdict]) 
 
     # Özel Kaynaklar
     elif OzelCol.find_one({"okaynak": pochat}) != None:
