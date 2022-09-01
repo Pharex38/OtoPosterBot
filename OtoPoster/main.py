@@ -9,7 +9,6 @@ from .misc import *
 
 
 
-bot.send_message(sahip, 'Bot Başladı 🍕')
 
 def main() -> None:
     global updater, application, persistence, upjob, cjrhandler
