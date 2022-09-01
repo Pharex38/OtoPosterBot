@@ -70,7 +70,7 @@ async def poster_job(context):
     collection.update_one({"_id": 0}, {"$inc": {"sira": 1}})
     baslangic = time.time()
     try:
-        lmsg = await FloodControl(bot.send_message, *[botlog, "<code>{} kaynağının postu paylaşılıyor...</code>".format(kynk.title)])
+        lmsg = await FloodControl(bot.send_message, *[botlog, "<code>{} kaynağının <a href='{}'>postu</a> paylaşılıyor...</code>".format(kynk.title, update.effective_message.link)])
     except Exception as e:
         logger.error(e)
         await bot.send_message(sahip, str(e))
@@ -251,7 +251,7 @@ async def poster_job(context):
                 else:
                     sablon = sablon.replace("{aciklama}", "{a}").replace("{link}", "{l}").format(a=aciklama, l=link)
             except Exception as e:
-                bildir(f'Şablon hatası: {user}\n\n{e}')
+                await bildir(f'Şablon hatası: {user}\n\n{e}')
             if link == "-" or alink == "-":
                 continue
             if link == " ":
@@ -370,7 +370,7 @@ async def poster_job(context):
                             postdata.update_one({"_id": mesjid}, {"$push": {"pids": {"pid": pos.message_id, "chat": kan, "user": user, "link": link, "alink": alink}}})
                     logger.info("Başarılı! "+str(kan)+" - "+str(count))
                     
-    basari = "{} kaynağından, {} kanalda post paylaşıldı. {}".format(kynk.title, count, errinfo)
+    basari = "{} kaynağından, {} kanalda <a href='{}'>post</a> paylaşıldı. {}".format(kynk.title, count, update.effective_message.link, errinfo)
     detaylibasari = f"{kynk.title}\n#kan{str(chatdat['_id'])[1:]}\n#no{chatdat['no']}\n\nKANALTOPLAM: {count}\nUSERTOPLAM: {len(list(set(binb)))}\nTIME: {time.time() - baslangic}\n\nPOSTLINK: {update.effective_message.link}\nACIKLAMA: {aciklama}\nLINK: {mesajb}\n\nERROR: {jason.dumps(errsayim)}\n{jason.dumps(ertos)}\n{ertolist}"
     mainsira = collection.find_one({"_id": 0})['sira']
     collection.update_one({"_id": 0}, {"$set": {"sira": mainsira-1}})

@@ -204,7 +204,7 @@ async def cekiliscall(call, context):
 async def devampatcall(call, context):
     chat = call.effective_chat.id
     try:
-        call.effective_message.delete()
+        await call.effective_message.delete()
     except:
         pass
     await bot.send_message(chat, "Paylaşmamı istediğin hazır postu ilet.", reply_markup=imark())
@@ -773,7 +773,7 @@ async def callback_query(call, context):
 async def tekrarlisaatayarlacall(call, context):
     context.user_data['tsaat'] = int(call.callback_query.data.split("-")[-1])
     try:
-        call.effective_message.delete()
+        await call.effective_message.delete()
     except:
         pass
     await bot.send_message(call.effective_chat.id, "Tekrarlı postunuza bir başlık verin.\n\nÖrnek;\nJigolo afiş, IVR afiş", reply_markup=imark())
@@ -785,7 +785,7 @@ async def tsmodcall(call, context):
     chat = call.effective_chat.id
     query = call.callback_query
     try:
-        call.effective_message.delete()
+        await call.effective_message.delete()
     except:
         pass
     mod = query.data.split("-")[1] + "-0"
