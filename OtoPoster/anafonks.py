@@ -687,7 +687,9 @@ async def kanalkayit(update, context):
         return 
     ytliler = []
     for y in yetkiler:
-        if y.can_post_messages or y.status == "creator":
+        if y.status == "creator":
+            ytliler.append(y.user.id)
+        elif y.can_post_messages:
             ytliler.append(y.user.id)
     if not user in ytliler:
         await bot.send_message(chat, "Bu kanal sizin değil 😠. Bu kanalı kaydedebilmeniz için kanalda Post Paylaşabilme yetkiniz olması gerekli.")
