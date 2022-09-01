@@ -47,7 +47,7 @@ def islem(client, message):
             chatoo = app.join_chat(mesaj[1])
             chato = app.resolve_peer(chatoo.id)
         except errors.FloodWait as fdd:
-            time.sleep(fdd.value+1)
+           await sleep(fdd.value+1)
             chatoo = app.join_chat(mesaj[1])
             chato = app.resolve_peer(chatoo.id)
         except Exception as e:
@@ -59,7 +59,7 @@ def islem(client, message):
         try:
             app.join_chat(mesaj[1].replace("+", "joinchat/"))
         except errors.FloodWait as fd:
-            time.sleep(fd.value)
+           await sleep(fd.value)
             try:
                 app.join_chat(mesaj[1].replace("+", "joinchat/"))
             except:

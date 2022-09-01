@@ -28,7 +28,7 @@ async def deep(u_kod, user):
                 try:
                     await bot.send_message(OzelCol.find_one({"okaynak": kanal})['_id'], "<i>Özel Kaynağınız 5 kişiyi geçtiği için artık 20 linkte 1 olayı sizin için de geçerilidir.</i>")
                 except RetryAfter as rtry:
-                    sleep(rtry.retry_after+1)
+                   await sleep(rtry.retry_after+1)
                     try:
                         await bot.send_message(OzelCol.find_one({"okaynak": kanal})['_id'], "<i>Özel Kaynağınız 5 kişiyi geçtiği için artık 20 linkte 1 olayı sizin için de geçerilidir.</i>")
                     except:
@@ -63,7 +63,7 @@ async def deep(u_kod, user):
                 try:
                     await bot.send_message(OzelCol.find_one({"okaynak": kanal})['_id'], "<i>Özel Kaynağınız 5 kişiyi geçtiği için artık 20 linkte 1 olayı sizin için de geçerilidir.</i>")
                 except RetryAfter as ortf:
-                    sleep(ortf.retry_after+1)
+                   await sleep(ortf.retry_after+1)
                     try:
                         await bot.send_message(OzelCol.find_one({"okaynak": kanal})['_id'], "<i>Özel Kaynağınız 5 kişiyi geçtiği için artık 20 linkte 1 olayı sizin için de geçerilidir.</i>")
                     except:
@@ -178,7 +178,7 @@ async def bildir(neyi='Boş Bildirim Testi !'):
         try:
             await bot.send_message(i,neyi)
         except RetryAfter as rtr:
-            sleep(rtr.retry_after+1)
+           await sleep(rtr.retry_after+1)
             try:
                 await bot.send_message(i,neyi)
             except:
@@ -218,7 +218,7 @@ async def FloodControl(komand, *argos, **kwargos):
         return await komand(*argos, **kwargos)
     except RetryAfter as trf:
         logger.warning(f"FloodWait - {trf.retry_after} - Line: {sys._getframe().f_back.f_lineno}")
-        sleep(trf.retry_after+1)
+       await sleep(trf.retry_after+1)
         return await komand(*argos, **kwargos)
 
 def site_isim(no):
@@ -249,7 +249,7 @@ async def kan_mention_html(kanid):
     try:
         kanmh = await bot.get_chat(kanid)
     except RetryAfter as mhafter:
-        sleep(mhafter.retry_after)
+       await sleep(mhafter.retry_after)
         try:
             kanmh = await bot.get_chat(kanid)
         except:
@@ -287,7 +287,7 @@ async def eklentiiletisim(update, context):
         try:
             await bot.promote_chat_member(ileti[1], eklenti, can_invite_users=True)
         except RetryAfter as rf:
-            sleep(rf.retry_after)
+           await sleep(rf.retry_after)
             await bot.promote_chat_member(ileti[1], eklenti, can_invite_users=True)
     elif ileti[0] == "link":
         try:

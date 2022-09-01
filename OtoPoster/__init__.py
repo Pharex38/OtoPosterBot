@@ -3,7 +3,7 @@
 from requests import get, Session
 from requests import post as ReqPost
 from requests.exceptions import *
-from time import sleep
+from asyncio import sleep
 from pymongo import MongoClient
 import time, datetime, calendar
 from collections import OrderedDict

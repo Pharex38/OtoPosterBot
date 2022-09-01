@@ -39,7 +39,7 @@ async def menu(update, context):
             try:
                 kbilgi = await bot.get_chat(chan)
             except RetryAfter as krt:
-                time.sleep(krt.retry_after+1)
+               await sleep(krt.retry_after+1)
                 try:
                     kbilgi = await bot.get_chat(chan)
                 except:
@@ -805,11 +805,11 @@ async def pat(update, context):
             while ptry < 10 and palink == " ":
                 ptry += 1
                 palink, pjson = linkkisalt(paltsite, paltapi, kplink, "+18")
-                time.sleep(0.2)
+               await sleep(0.2)
         while ptry < 10 and plink == " ":
             ptry += 1
             plink, pjson = linkkisalt(psite, ptoken, kplink, "+18")
-            time.sleep(0.2)
+           await sleep(0.2)
         if plink == " ":
             await bot.send_message(chat, "İşlem başarısız oldu lütfen tekrar deneyin.")
             return

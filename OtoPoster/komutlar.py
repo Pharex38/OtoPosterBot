@@ -75,17 +75,17 @@ async def stats(update, context):
             for kul in kullanici['kanal']:
                 if not kul in kum:
                     kum.append(kul)
-                    sleep(0.5)
+                   await sleep(0.5)
                     kanals += 1
                     try:
                         uye = await bot.get_chat_member_count(kul)
                         print(uye)
                     except RetryAfter as after:
-                        sleep(after.retry_after)
+                       await sleep(after.retry_after)
                     except Exception as e:
                         logger.error(e)
                         if str(e).find("Chat is not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
-                            sleep(1)
+                           await sleep(1)
                     else:
                         toplam += uye
     toplam = toplam / 1000
@@ -100,12 +100,12 @@ async def stats(update, context):
                 try:
                     amc = await bot.get_chat_member_count(slb)
                 except RetryAfter as after:
-                    sleep(after.retry_after)
+                   await sleep(after.retry_after)
                 except Exception as e:
                     logger.error(e)
                 else:
                     kkitle += amc
-                    sleep(1)
+                   await sleep(1)
         stat_text += "{} -> {}\nKitle: {}".format(getskaynak.title, len(kstat['kaynak']), round(kkitle / 1000, 1))
     ozel_text = f"Özel kullanan: {ozel_kaynak_kullanan_sayisi}"
           
@@ -345,7 +345,7 @@ async def cpostsil(update, context):
             else:
                 await bot.delete_message(d['chat'], d['pid'])
         except RetryAfter as pdr:
-            time.sleep(pdr.retry_after+2)
+           await sleep(pdr.retry_after+2)
             try:
                 if duz:
                     await bot.edit_message_media(d['chat'], d['pid'], media= InputMediaPhoto(media="https://www.pinclipart.com/picdir/big/532-5329134_computer-icons-x-mark-clip-art-red-cross.png", caption="Post Silindi!"))
@@ -505,7 +505,7 @@ async def post(update, context):
     chat = update.effective_message.chat.id
     mid = update.effective_message.message_id
     msj = await update.effective_message.reply_text("Tamamdır!")
-    sleep(1.5)
+   await sleep(1.5)
     mids = msj.message_id
     try:
         await bot.delete_message(chat, mid)
@@ -537,7 +537,7 @@ async def Loot(update, context):
         try:
             getcloot = await bot.get_chat(lot["_id"])
         except RetryAfter as lrtry:
-            time.sleep(lrtry.retry_after+1)
+           await sleep(lrtry.retry_after+1)
             getcloot = await bot.get_chat(lot["_id"])
         except:
             try:
@@ -650,7 +650,7 @@ async def kaynakpanel(update, context):
                 try:
                     pankanmember += await bot.get_chat_member_count(pankan)
                 except RetryAfter as panafter:
-                    sleep(panafter.retry_after)
+                   await sleep(panafter.retry_after)
                     try:
                         pankanmember += await bot.get_chat_member_count(pankan)
                     except:
