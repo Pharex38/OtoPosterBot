@@ -157,13 +157,13 @@ def main() -> None:
     logger.warning(str(yjcount)+" Adet Tekil, "+str(ytjcount)+" Adet Tekrarlı Job Yüklendi!")
     """
     
-    """ Polling """
 
-    bot = application.bot
-    application.run_polling(write_timeout=90, connect_timeout=90, pool_timeout=90)
 
     #upjob.run_once(jobyedekleme, when=1, name="yedekleme")
 
 logger.info("Bot Çalışıyor...")
 main()
+
+bot = application.bot
+application.run_polling(write_timeout=90, connect_timeout=90, pool_timeout=90)
 bildir("Bot kapandı!")

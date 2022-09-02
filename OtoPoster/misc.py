@@ -313,9 +313,9 @@ async def komutisimleristart(context):
     komutisimleris = []
     for komi in komutisimleri:
         komutisimleris.append(BotCommand(komi, komi.capitalize()))
-    await bot.set_my_commands(commands=komutisimleris, scope=BotCommandScopeChat(sahip))
-    await bot.send_message(sahip, 'Bot Başladı 🍕')
-    await bot.set_my_commands(commands=komutisimleris, scope=BotCommandScopeChatAdministrators(blog))
+    await context.bot.set_my_commands(commands=komutisimleris, scope=BotCommandScopeChat(sahip))
+    await context.bot.send_message(sahip, 'Bot Başladı 🍕')
+    await context.bot.set_my_commands(commands=komutisimleris, scope=BotCommandScopeChatAdministrators(blog))
 
 async def comment(update, context):
     if update.edited_message or update.effective_message.text == None:

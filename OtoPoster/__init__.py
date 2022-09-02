@@ -56,8 +56,6 @@ ptimeout = maindata['timeout']
 begstate = maindata['beg']
 mainsiralimit = maindata['mainsira']
 
-bot = ExtBot(bottoken)
-
 eklenti = 1654723447
 blog = -1001391561285
 botlog = -1001352123979
