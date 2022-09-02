@@ -339,23 +339,23 @@ async def ekstramenu(update, context):
             tapp = tpoststr.find("rval[")
             tskanisim = ""
             tskanerrorcount = 0
-            if type(tpost.context['tskan']) == list:
-                for tspostk in tpost.context['tskan']:
+            if type(tpost.data['tskan']) == list:
+                for tspostk in tpost.data['tskan']:
                     try:
-                        tskanisim += (await bot.get_chat(tspostk)).title + ", " if not tpost.context['tskan'].index(tspostk) in [len(tpost.context['tskan'])-1] and len(tpost.context['tskan']) != 1 else (await bot.get_chat(tspostk)).title
+                        tskanisim += (await bot.get_chat(tspostk)).title + ", " if not tpost.data['tskan'].index(tspostk) in [len(tpost.data['tskan'])-1] and len(tpost.data['tskan']) != 1 else (await bot.get_chat(tspostk)).title
                     except:
                         tskanerrorcount += 1
                 if tskanerrorcount != 0:
-                    if len(tpost.context['tskan']) != 1:
+                    if len(tpost.data['tskan']) != 1:
                         tskanisim += " ve {} ulaşılamayan kanal.".format(tskanerrorcount)
                     else:
                         tskanisim += "Kanalınıza ulaşılamadı!"
             else:
                 try:
-                    tskanisim = (await bot.get_chat(tpost.context['tskan'])).title
+                    tskanisim = (await bot.get_chat(tpost.data['tskan'])).title
                 except:
                     tskanisim = "Kanalınıza ulaşılamadı."
-            text_tekrarli += "<b>Sonraki tetiklenme tarihi:</b> {}\n<b>Paylaşılma aralığı:</b> {}\n<b>Başlık:</b> {}\n<b>Kanal(lar):</b> {}\n<b>Post Sayısı: {}</b>\n\n".format(tpoststr[tpp+8:tpp+27], tpoststr[tapp+4:tapp+13], tpost.context['baslik'], tskanisim, len(tpost.context["tspost"]))
+            text_tekrarli += "<b>Sonraki tetiklenme tarihi:</b> {}\n<b>Paylaşılma aralığı:</b> {}\n<b>Başlık:</b> {}\n<b>Kanal(lar):</b> {}\n<b>Post Sayısı: {}</b>\n\n".format(tpoststr[tpp+8:tpp+27], tpoststr[tapp+4:tapp+13], tpost.data['baslik'], tskanisim, len(tpost.data["tspost"]))
         await bot.send_message(chat, text_tekrarli, reply_markup=tekrarlipostmark(user, context))
         return
     if mesaj == "🍎 iOS Ban Kontrol":
