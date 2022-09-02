@@ -342,11 +342,11 @@ async def error_handler(update: object, context: CallbackContext) -> None:
             updateerr = None
         update_str = update.to_dict() if isinstance(update, Update) else str(update)
         try:
-            context.job.context[0]["chatid"]
+            context.job.data[0]["chatid"]
         except:
             pass
         else:
-            if KaynakCol.find_one({"_id": int(context.job.context[0]["chatid"])}):
+            if KaynakCol.find_one({"_id": int(context.job.data[0]["chatid"])}):
                 collection.update_one({"_id": 0}, {"$set": {"sira": collection.find_one({"_id": 0})['sira']-1}})
         message1 = (
         f'BİR HATA OLUŞTU!\n'

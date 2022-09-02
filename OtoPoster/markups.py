@@ -110,7 +110,7 @@ def tekrarlipostsilmark(user, context):
     tsjobs = context.job_queue.get_jobs_by_name(f"ts{user}")
     tsc = 0
     for stkan in tsjobs:
-        siltp.append([InlineKeyboardButton(stkan.context['baslik'], callback_data="tssil-{}".format(tsc))])
+        siltp.append([InlineKeyboardButton(stkan.data['baslik'], callback_data="tssil-{}".format(tsc))])
         tsc += 1
     if len(tsjobs) == 0:
         siltp.append([InlineKeyboardButton("Hiç tekrarli post oluşturmamışsınız!", callback_data="iptal")])        
