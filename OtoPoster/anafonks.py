@@ -6,43 +6,42 @@ from .callbacks import *
 
 
 @send_typing_action
-async def menu(update, context):
-    bot = context.bot
+def menu(update, context):
     chat = update.effective_message.chat.id
     user = update.effective_message.from_user.id
     mesaj = update.effective_message.text
     bot = context.bot
     mj = collection.find_one({"_id": user})
     if user in kara:
-        await bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
+        bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
     if mesaj == "❌ İptal":
-        await bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))    
+        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))    
         return
     if mesaj == "🥰   Bağış":
-        await bot.send_message(chat, "🥰Madem bu kadar çok istiyorsun. \n\n🏧Papara: <code>1666982412</code> \n🏦İninal: <code>4003140030544</code>")
+        bot.send_message(chat, "🥰Madem bu kadar çok istiyorsun. \n\n🏧Papara: <code>1666982412</code> \n🏦İninal: <code>4003140030544</code>")
         return
     if mesaj == "📝 Kaydet":
-        await bot.send_message(chat, """📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark())
+        bot.send_message(chat, """📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark())
         return APIDEGISTIR
     if mesaj == "↩️ Ana Menü":
-        await bot.send_message(chat, "Ana Menü.", reply_markup=dugme(user))
+        bot.send_message(chat, "Ana Menü.", reply_markup=dugme(user))
         return
     if mesaj == "🖥 Kanal Menü":
         try:
             tokenn = mj['token']
         except:
-            await bot.send_message(chat, """⛔ Bu menüyü görebilmek içim önce bir API kaydetmelisiniz!\n\n📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark())
+            bot.send_message(chat, """⛔ Bu menüyü görebilmek içim önce bir API kaydetmelisiniz!\n\n📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark())
             return APIDEGISTIR
         kayitli = 0
         menu_mesaj = "<b>🖥Kayıtlı Kanalınız;</b>\n"
         for chan in mj['kanal']:
             try:
-                kbilgi = await bot.get_chat(chan)
+                kbilgi = bot.get_chat(chan)
             except RetryAfter as krt:
-                await sleep(krt.retry_after+1)
+                time.sleep(krt.retry_after+1)
                 try:
-                    kbilgi = await bot.get_chat(chan)
+                    kbilgi = bot.get_chat(chan)
                 except:
                     pass
             except Exception as e:
@@ -56,143 +55,140 @@ async def menu(update, context):
                 else:
                     menu_mesaj += """├<a href="{}">{}</a>\n""".format("tg://privatepost?channel={}&post=9999999".format(chan[3:]), kbilgi.title)
         menu_mesaj += f"\n\nToplam {kayitli} Kanalınız Bulunuyor."
-        await bot.send_message(chat, menu_mesaj, reply_markup=kanalmenumark())
+        bot.send_message(chat, menu_mesaj, reply_markup=kanalmenumark())
         return KANALMENU
     if mesaj == "🛠 Ekstralar":
         try:
             tokenn = mj['token']
         except:
-            await bot.send_message(chat, """⛔ Bu menüyü görebilmek içim önce bir API kaydetmelisiniz!\n\n📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark())
+            bot.send_message(chat, """⛔ Bu menüyü görebilmek içim önce bir API kaydetmelisiniz!\n\n📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark())
             return APIDEGISTIR
-        await bot.send_message(chat, "Ekstralar Menüsü", reply_markup=ekstralarmenumark())
+        bot.send_message(chat, "Ekstralar Menüsü", reply_markup=ekstralarmenumark())
         return EKSTRAMENU
     if mesaj == "🎛 Post Menü":
         try:
             tokenn = mj['token']
         except:
-            await bot.send_message(chat, """⛔ Bu menüyü görebilmek içim önce bir API kaydetmelisiniz!\n\n📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark())
+            bot.send_message(chat, """⛔ Bu menüyü görebilmek içim önce bir API kaydetmelisiniz!\n\n📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark())
             return APIDEGISTIR
-        await bot.send_message(chat, "Post menüsü.", reply_markup=postmenumark())
+        bot.send_message(chat, "Post menüsü.", reply_markup=postmenumark())
         return POSTMENU
     if mesaj == "🔗 API Menü":
         try:
             tokenn = mj['token']
         except:
-            await bot.send_message(chat, """⛔ Bu menüyü görebilmek içim önce bir API kaydetmelisiniz!\n\n📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark())
+            bot.send_message(chat, """⛔ Bu menüyü görebilmek içim önce bir API kaydetmelisiniz!\n\n📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark())
             return APIDEGISTIR
         if mj['altsite'] == "None" or mj['sira'] not in [2, 3, 1]:
             apimenu_mesaj = "<i>♦️Kayıtlı API: {}\nSite: {}</i>".format(mj['token'], site_isim(mj['site']))
         else:
             apimenu_mesaj = "<i>♦️Birincil API: {}\n  Birincil Site: {}\n  Alternatif API: {}\n  Alternatif Site: {}</i>".format(mj['token'], site_isim(mj['site']), mj['altapi'], site_isim(mj['altsite']))
-        await bot.send_message(chat, apimenu_mesaj, reply_markup=apimenumark())
+        bot.send_message(chat, apimenu_mesaj, reply_markup=apimenumark())
         return APIMENU
             
-    await bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=dugme(user))
+    bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=dugme(user))
 
 @send_typing_action
-async def kanalmenu(update, context):
-    bot = context.bot
+def kanalmenu(update, context):
     user = update.effective_user.id
     chat = update.effective_chat.id
     kudat = collection.find_one({"_id": user})
     mesaj = update.effective_message.text
     if user in kara:
-        await bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
+        bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
     try:
         tokenn = kudat['token']
     except:
-        msg = await bot.send_message(chat, """⛔ Bu menüyü görebilmek içim önce bir API kaydetmelisiniz!\n\n📝 <i></i> <a href="https://tr.link/member/tools/quick">buraya tıklayarak</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark())            
+        msg = bot.send_message(chat, """⛔ Bu menüyü görebilmek içim önce bir API kaydetmelisiniz!\n\n📝 <i></i> <a href="https://tr.link/member/tools/quick">buraya tıklayarak</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark())            
         return APIDEGISTIR
 
     if mesaj == "🗑️ Kanal Sil":
         if len(kudat['kanal']) < 1:
-            await bot.send_message(chat, "Henüz bir kanal kaydetmemişsiniz!", reply_markup=kanalmenumark())
+            bot.send_message(chat, "Henüz bir kanal kaydetmemişsiniz!", reply_markup=kanalmenumark())
             return 
-        await bot.send_message(chat, "Silmek istediğiniz kanalı seçin.", reply_markup=(await gen_markup(user, context)))
+        bot.send_message(chat, "Silmek istediğiniz kanalı seçin.", reply_markup=gen_markup(user))
         return 
     if mesaj == "💠 Tür Değiştir":
         if len(kudat['kanal']) < 1:
-            await bot.send_message(chat, "Henüz bir kanal kaydetmemişsiniz!", reply_markup=kanalmenumark())
+            bot.send_message(chat, "Henüz bir kanal kaydetmemişsiniz!", reply_markup=kanalmenumark())
             return 
-        await bot.send_message(chat, "Türünü değiştirmek istediğiniz kanalı seçin.", reply_markup=(await icerikmark(user)))
+        bot.send_message(chat, "Türünü değiştirmek istediğiniz kanalı seçin.", reply_markup=icerikmark(user))
         return
     if mesaj == "🔶 Yeni Kanal Ekle":
         vip_uyeler = collection.find_one({"_id": 0})['vipuye']
         if len(kudat['kanal']) > 49 and not user in vip_uyeler:
-            await bot.send_message(chat, "<i>Üzgünüm en fazla 50 kanal kaydedebilirsiniz.</i>")
+            bot.send_message(chat, "<i>Üzgünüm en fazla 50 kanal kaydedebilirsiniz.</i>")
             return 
-        await bot.send_message(chat, """📝 <i>Lütfen kanalınızdan bir gönderi iletin.</i>""", reply_markup=imark())
+        bot.send_message(chat, """📝 <i>Lütfen kanalınızdan bir gönderi iletin.</i>""", reply_markup=imark())
         return KANALKAYDET
     if mesaj == "▶️ SFS Modu":
         if len(kudat['kanal']) < 1:
-            await bot.send_message(chat, "SFS moduna alabilmek için henüz bir kanal kaydetmemişsiniz!", reply_markup=kanalmenumark())
+            bot.send_message(chat, "SFS moduna alabilmek için henüz bir kanal kaydetmemişsiniz!", reply_markup=kanalmenumark())
             return
-        await bot.send_message(chat, "<i>SFS moduna almak istediğiniz kanalı seçin. SFS moduna aldığınız kanala modu kapatana kadar post atılmaz!</i>\n\n", reply_markup=(await sfsmark(user, context)))    
+        bot.send_message(chat, "<i>SFS moduna almak istediğiniz kanalı seçin. SFS moduna aldığınız kanala modu kapatana kadar post atılmaz!</i>\n\n", reply_markup=sfsmark(user))    
         return
     if mesaj == "↩️ Ana Menü" or mesaj == "❌ İptal":
-        await bot.send_message(chat, "<b>Biliyor muydunuz? -></b> "+"<i>"+choice(tips)+"</i>")
-        await bot.send_message(chat, "Ana Menü.", reply_markup=dugme(user))
+        bot.send_message(chat, "<b>Biliyor muydunuz? -></b> "+"<i>"+choice(tips)+"</i>")
+        bot.send_message(chat, "Ana Menü.", reply_markup=dugme(user))
         return ConversationHandler.END
 
-    await bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=kanalmenumark())
+    bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=kanalmenumark())
 
 @send_typing_action
-async def apimenu(update, context):
-    bot = context.bot
+def apimenu(update, context):
     user = update.effective_user.id
     chat = update.effective_chat.id
     audat = collection.find_one({"_id": user})
     mesaj = update.effective_message.text
     if user in kara:
-        await bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
+        bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
     try:
         tokenn = audat['token']
     except:
-        await bot.send_message(chat, "⛔ Bu menüyü görebilmek içim önce bir API kaydetmelisiniz!\n\n📝 <i></i> <a href='https://tr.link/member/tools/quick'>buraya tıklayarak</a> <i>aldığınız API adresinizi gönderin</i>", reply_markup=imark())
+        bot.send_message(chat, "⛔ Bu menüyü görebilmek içim önce bir API kaydetmelisiniz!\n\n📝 <i></i> <a href='https://tr.link/member/tools/quick'>buraya tıklayarak</a> <i>aldığınız API adresinizi gönderin</i>", reply_markup=imark())
         return APIDEGISTIR
     if mesaj == "♻️ API değiştir":
-        await bot.send_message(chat, "Yeni API adresinizi girin.", reply_markup=imark())
+        bot.send_message(chat, "Yeni API adresinizi girin.", reply_markup=imark())
         return APIDEGISTIR
     if mesaj == "🔗 Site değiştir":
-        await bot.send_message(chat, "<i>Kullanmak istediğiniz siteyi seçin</i>", reply_markup=sitemarkup())
+        bot.send_message(chat, "<i>Kullanmak istediğiniz siteyi seçin</i>", reply_markup=sitemarkup())
         return
     if mesaj == "🤖 Alternatif Link":
         if type(audat["altapi"]) == list:
-            await bot.send_message(chat, "<b> Gelişmiş Alternatif Menüsü</b>", reply_markup=advaltmark(user))
+            bot.send_message(chat, "<b> Gelişmiş Alternatif Menüsü</b>", reply_markup=advaltmark(user))
         else:
-            await bot.send_message(chat, "<b>Alternatif Nasıl Kullanılsın.\n\n Tek Post İki Link</b>\n <i>Aynı post iki link</i> \n\n<b>Sıralı</b>\n <i>Bir post birinci servis, bir post alternatif servis.</i>\n\n<b>Kullanmak istediğiniz sistemi seçin.</b>", reply_markup=altmarkup(user))
+            bot.send_message(chat, "<b>Alternatif Nasıl Kullanılsın.\n\n Tek Post İki Link</b>\n <i>Aynı post iki link</i> \n\n<b>Sıralı</b>\n <i>Bir post birinci servis, bir post alternatif servis.</i>\n\n<b>Kullanmak istediğiniz sistemi seçin.</b>", reply_markup=altmarkup(user))
         return
     if mesaj == "↩️ Ana Menü" or mesaj == "❌ İptal":
-        await bot.send_message(chat, "<b>Biliyor muydunuz? -></b> "+"<i>"+choice(tips)+"</i>")
-        await bot.send_message(chat, "Ana Menü.", reply_markup=dugme(user))
+        bot.send_message(chat, "<b>Biliyor muydunuz? -></b> "+"<i>"+choice(tips)+"</i>")
+        bot.send_message(chat, "Ana Menü.", reply_markup=dugme(user))
         return ConversationHandler.END
 
-    await bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=apimenumark())
+    bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=apimenumark())
     
 @send_typing_action
-async def postmenu(update, context):
-    bot = context.bot
+def postmenu(update, context):
     user = update.effective_user.id
     chat = update.effective_chat.id
     poudat = collection.find_one({"_id": user})
     mesaj = update.effective_message.text
     if user in kara:
-        await bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
+        bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
     try:
         tokenn = poudat['token']
     except:
-        await bot.send_message(chat, """⛔ Bu menüyü görebilmek içim önce bir API kaydetmelisiniz!\n\n📝 <i></i> <a href="https://tr.link/member/tools/quick">buraya tıklayarak</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark())            
+        bot.send_message(chat, """⛔ Bu menüyü görebilmek içim önce bir API kaydetmelisiniz!\n\n📝 <i></i> <a href="https://tr.link/member/tools/quick">buraya tıklayarak</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark())            
         return APIDEGISTIR
     if mesaj == "⏱ Post Zamanları":
         if not user == sahip:
-            await bot.send_message(chat, "<code> Bu özellik henüz test aşamasında.</code> ")
+            bot.send_message(chat, "<code> Bu özellik henüz test aşamasında.</code> ")
             return
         for kca in poudat['kanal']:
-            if not eklenti in [r.user.id for r in await bot.get_chat_administrators(kca)]:
-                await bot.send_message(chat, "Botun post zamanlayabilmesi için eklentiye ihtiyacı var, eklenti kurulsun mu?\n\n<i>Butona basmadan önce bota kanallarınızda resimdeki yetkileri vermeniz gerekiyor</i> <a href='https://telegra.ph/file/d8802d6ca2fe807639a06.png'>ㅤ</a>", reply_markup=ekmark())
+            if not eklenti in [r.user.id for r in bot.get_chat_administrators(kca)]:
+                bot.send_message(chat, "Botun post zamanlayabilmesi için eklentiye ihtiyacı var, eklenti kurulsun mu?\n\n<i>Butona basmadan önce bota kanallarınızda resimdeki yetkileri vermeniz gerekiyor</i> <a href='https://telegra.ph/file/d8802d6ca2fe807639a06.png'>ㅤ</a>", reply_markup=ekmark())
                 return
         zaman_menu = "<b>Eklenti:</b> ✅\n\n"
         if poudat['vakit'] == 0:
@@ -207,7 +203,7 @@ async def postmenu(update, context):
                 zaman_menu += f"\n\nBugün post sınırınıza ulaştınız"
             else:
                 zaman_menu += f"\n\nBir sonraki postunuz günün <code>{poudat['time']}</code>. postu olacak."
-        await bot.send_message(chat, zaman_menu, reply_markup=zamanmenumark(user))
+        bot.send_message(chat, zaman_menu, reply_markup=zamanmenumark(user))
         return
     if mesaj == "📏 Şablon":
         aciklama = "Pharex, lord adminin karısını sikerken lord adminn basıyor."
@@ -253,11 +249,11 @@ async def postmenu(update, context):
         else:
             alink = "https://lnkload.com/2v5vy"
         if poudat['sablon'] == "1":
-            await bot.send_message(chat, "<b>Varsayılan Şablon:</b>\n\n🔥{aciklama} \n\n🔱 TIKLA 👉 {link} \n\n📛 SESİ AÇ 'a tıklamayı unutma", reply_markup=sablonmark(user))
+            bot.send_message(chat, "<b>Varsayılan Şablon:</b>\n\n🔥{aciklama} \n\n🔱 TIKLA 👉 {link} \n\n📛 SESİ AÇ 'a tıklamayı unutma", reply_markup=sablonmark(user))
         elif poudat['sablon'] == "2":
-            await bot.send_message(chat, "<b>Varsayılan Şablon:</b>\n\n{aciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {link}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @TRPNDLinkGecmee", reply_markup=sablonmark(user))
+            bot.send_message(chat, "<b>Varsayılan Şablon:</b>\n\n{aciklama} \n\n         𝙇𝙄𝙉𝙆🔗 {link}\n\n🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n📌 Link Nasıl Açılır Bilmiyorsanız\n\n👉 @TRPNDLinkGecmee", reply_markup=sablonmark(user))
         elif poudat['sablon'] == "9":
-            await bot.send_message(chat, "<b>Varsayılan Şablon:</b>\n\n{aciklama} \n\n𝙇𝙄𝙉𝙆🔗 {link} \n\n     𝙇𝙄𝙉𝙆🔗 {alink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @TRPNDLinkGecmee", reply_markup=sablonmark(user))
+            bot.send_message(chat, "<b>Varsayılan Şablon:</b>\n\n{aciklama} \n\n𝙇𝙄𝙉𝙆🔗 {link} \n\n     𝙇𝙄𝙉𝙆🔗 {alink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @TRPNDLinkGecmee", reply_markup=sablonmark(user))
         else:
             try:
                 if poudat['sira'] == 1 or poudat['altsite'] == "tpil":
@@ -267,65 +263,77 @@ async def postmenu(update, context):
             except Exception as e:
                 pst = f"Şablonunuz hatalı olduğun için görüntülenemedi lütfen Varsayılana döndürün veya yeni şablon ayarlayın.\n\n{str(e)}"
             try:
-                await bot.send_message(chat, f"<b>Şablonunuz böyle gözükecek:</b>\n\n{pst}", reply_markup=sablonmark(user))
+                bot.send_message(chat, f"<b>Şablonunuz böyle gözükecek:</b>\n\n{pst}", reply_markup=sablonmark(user))
             except:
                 pst = f"Şablonunuz hatalı olduğun için görüntülenemedi lütfen Varsayılana döndürün veya yeni şablon ayarlayın.\n\n{str(e)}"
-                await bot.send_message(chat, f"<b>Şablonunuz böyle gözükecek:</b>\n\n{pst}", reply_markup=sablonmark(user))
+                bot.send_message(chat, f"<b>Şablonunuz böyle gözükecek:</b>\n\n{pst}", reply_markup=sablonmark(user))
         return
     if mesaj == "🔧 Kaynak":
         if len(poudat['kanal']) < 1:
-            await bot.send_message(chat, "Henüz bir kanal kaydetmemişsiniz.", reply_markup=postmenumark())
+            bot.send_message(chat, "Henüz bir kanal kaydetmemişsiniz.", reply_markup=postmenumark())
             return
-        kaynakmsg = await bot.send_message(chat, "<code>Yükleniyor...</code>")
+        kaynakmsg = bot.send_message(chat, "<code>Yükleniyor...</code>")
         kynskm = poudat['kanal'][0]
         try:
-            kcisim = (await bot.get_chat(kynskm)).title
+            kcisim = bot.get_chat(kynskm).title
         except:
             kcisim = "Kanalınıza ulaşılamadı!"
-        await kaynakmsg.edit_text(f"""<b> >>>    {kcisim}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>""", reply_markup=(await kaynakmark(user, 0)))
+        kaynakmsg.edit_text(f"""<b> >>>    {kcisim}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>""", reply_markup=kaynakmark(user, 0))
         return
     if mesaj == "⏱ Zamanladıklarım":
         zjobs = context.job_queue.get_jobs_by_name(str(user))
         if len(zjobs) < 1:
-            await bot.send_message(chat, "Henüz bir post zamanlamamışsınız.", reply_markup=postmenumark())
+            bot.send_message(chat, "Henüz bir post zamanlamamışsınız.", reply_markup=postmenumark())
             return 
-        await bot.send_message(chat, "Silmek istediğiniz postu seçin.", reply_markup=jobmark(user, context))
+        bot.send_message(chat, "Silmek istediğiniz postu seçin.", reply_markup=jobmark(user, context))
         return 
     if mesaj == "⛓️ Elle Post Paylaş":
         if len(poudat['kanal']) < 1:
-            await bot.send_message(chat, "Lütfen önce bir kanal kaydedin.", reply_markup=postmenumark())
+            bot.send_message(chat, "Lütfen önce bir kanal kaydedin.", reply_markup=postmenumark())
             return
-        await bot.send_message(chat, "Paylaşmamı istediğin hazır postu ilet.", reply_markup=imark())
+        bot.send_message(chat, "Paylaşmamı istediğin hazır postu ilet.", reply_markup=imark())
         return PATPOST
     if mesaj == "↩️ Ana Menü" or mesaj == "❌ İptal":
-        await bot.send_message(chat, "<b>Biliyor muydunuz? -></b> "+"<i>"+choice(tips)+"</i>")
-        await bot.send_message(chat, "Ana Menü.", reply_markup=dugme(user))
+        bot.send_message(chat, "<b>Biliyor muydunuz? -></b> "+"<i>"+choice(tips)+"</i>")
+        bot.send_message(chat, "Ana Menü.", reply_markup=dugme(user))
         return ConversationHandler.END
 
-    await bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=postmenumark())
+    bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=postmenumark())
 
 @send_typing_action
-async def ekstramenu(update, context):
-    bot = context.bot
+def ekstramenu(update, context):
     user = update.effective_user.id
     chat = update.effective_chat.id
     eudat = collection.find_one({"_id": user})
     mesaj = update.effective_message.text
     if user in kara:
-        await bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
+        bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
     if mesaj == "❤️ Beğeni Butonları":
         butonlari = eudat['begeni']
         if not begstate:
-            await bot.send_message(chat, "Bu özellik geçici olarak devredışı bırakılmıştır. 😔")
+            bot.send_message(chat, "Bu özellik geçici olarak devredışı bırakılmıştır. 😔")
             return
-        await bot.send_message(chat, "<b>Paylaşılan her postun altına buton ayarlayabilirsiniz.</b>\n\n{}".format(butonlari if len(butonlari) > 0 else "Henüz buton ayarlamamışsınız"), reply_markup=begenimark(eudat))
+        bot.send_message(chat, "<b>Paylaşılan her postun altına buton ayarlayabilirsiniz.</b>\n\n{}".format(butonlari if len(butonlari) > 0 else "Henüz buton ayarlamamışsınız"), reply_markup=begenimark(eudat))
         return
     if mesaj == "📌 Post Sabitleme":
         if len(eudat['kanal']) == 0:
-            await bot.send_message(chat, "Bu modu kullanabilmek için önce bir kanal kaydetmelisin!")
+            bot.send_message(chat, "Bu modu kullanabilmek için önce bir kanal kaydetmelisin!")
             return
-        await bot.send_message(chat, "<b>Paylaşılan postların otomatik olarak sabitlenmesini istersen bu modu açabilirsin.</b>", reply_markup=(await pinmark(user, context)))
+        bot.send_message(chat, "<b>Paylaşılan postların otomatik olarak sabitlenmesini istersen bu modu açabilirsin.</b>", reply_markup=pinmark(user))
+        return
+    if mesaj == "📡 İstek Onaylayıcı":
+        bot.send_message(chat, "Özellik iptal hafta sonu bu özellik için ayrı bot yapıcam @IstekOnaylayiciBot ")
+        return
+        if len(eudat['kanal']) == 0:
+            bot.send_message(chat, "Bu modu kullanabilmek için önce bir kanal kaydetmelisin!")
+            return
+        istektext = ""
+        """
+        for istekkan in eudat['kanal']:
+            istektext += f"{bot.get_chat(istekkan).title} - {len(IstekCol.find_one({'_id': 0})[istekkan]['istekler'])} bekleyen istek\n"
+        """
+        bot.send_message(chat, f"<b>Yeni atılan katılma isteklerinin anında onaylanmasını istiyorsan bu modu açabilirsin veya birikmiş isteklerini tek tuşla onaylayabilirsin.</b>\n\n✅ = Anında onaylama açık\n⚫ = Anında onaylama kapalı\n♐ = Tüm bekleyen istekleri onayla\n🔢 = Belli bir miktar onayla\n\n<i>NOT: Güncellemeyi 7 Ocak 23:40 tarihinde yaptığım için eski istekleri bot göremeyebilir</i>", reply_markup=istekmark(user))
         return
     if mesaj == "🔁 Tekrarlı Post Paylaş":
         tekrarlipostlari = context.job_queue.get_jobs_by_name("ts"+str(user))
@@ -339,44 +347,43 @@ async def ekstramenu(update, context):
             tapp = tpoststr.find("rval[")
             tskanisim = ""
             tskanerrorcount = 0
-            if type(tpost.data['tskan']) == list:
-                for tspostk in tpost.data['tskan']:
+            if type(tpost.context['tskan']) == list:
+                for tspostk in tpost.context['tskan']:
                     try:
-                        tskanisim += (await bot.get_chat(tspostk)).title + ", " if not tpost.data['tskan'].index(tspostk) in [len(tpost.data['tskan'])-1] and len(tpost.data['tskan']) != 1 else (await bot.get_chat(tspostk)).title
+                        tskanisim += bot.get_chat(tspostk).title + ", " if not tpost.context['tskan'].index(tspostk) in [len(tpost.context['tskan'])-1] and len(tpost.context['tskan']) != 1 else bot.get_chat(tspostk).title
                     except:
                         tskanerrorcount += 1
                 if tskanerrorcount != 0:
-                    if len(tpost.data['tskan']) != 1:
+                    if len(tpost.context['tskan']) != 1:
                         tskanisim += " ve {} ulaşılamayan kanal.".format(tskanerrorcount)
                     else:
                         tskanisim += "Kanalınıza ulaşılamadı!"
             else:
                 try:
-                    tskanisim = (await bot.get_chat(tpost.data['tskan'])).title
+                    tskanisim = bot.get_chat(tpost.context['tskan']).title
                 except:
                     tskanisim = "Kanalınıza ulaşılamadı."
-            text_tekrarli += "<b>Sonraki tetiklenme tarihi:</b> {}\n<b>Paylaşılma aralığı:</b> {}\n<b>Başlık:</b> {}\n<b>Kanal(lar):</b> {}\n<b>Post Sayısı: {}</b>\n\n".format(tpoststr[tpp+8:tpp+27], tpoststr[tapp+4:tapp+13], tpost.data['baslik'], tskanisim, len(tpost.data["tspost"]))
-        await bot.send_message(chat, text_tekrarli, reply_markup=tekrarlipostmark(user, context))
+            text_tekrarli += "<b>Sonraki tetiklenme tarihi:</b> {}\n<b>Paylaşılma aralığı:</b> {}\n<b>Başlık:</b> {}\n<b>Kanal(lar):</b> {}\n<b>Post Sayısı: {}</b>\n\n".format(tpoststr[tpp+8:tpp+27], tpoststr[tapp+4:tapp+13], tpost.context['baslik'], tskanisim, len(tpost.context["tspost"]))
+        bot.send_message(chat, text_tekrarli, reply_markup=tekrarlipostmark(user, context))
         return
     if mesaj == "🍎 iOS Ban Kontrol":
         if len(eudat['kanal']) == 0:
-            await bot.send_message(chat, "Kontrol edebilmem için önce bir kanal kaydetmelisin!")
+            bot.send_message(chat, "Kontrol edebilmem için önce bir kanal kaydetmelisin!")
             return
-        await bot.send_message(chat, "Kontrol etmek istediğiniz kanalı seçin.", reply_markup=(await ioskontrolmark(user, context)))
+        bot.send_message(chat, "Kontrol etmek istediğiniz kanalı seçin.", reply_markup=ioskontrolmark(user))
         return
     if mesaj == "↩️ Ana Menü" or mesaj == "❌ İptal":
-        await bot.send_message(chat, "<b>Biliyor muydunuz? -></b> "+"<i>"+choice(tips)+"</i>")
-        await bot.send_message(chat, "Ana Menü.", reply_markup=dugme(user))
+        bot.send_message(chat, "<b>Biliyor muydunuz? -></b> "+"<i>"+choice(tips)+"</i>")
+        bot.send_message(chat, "Ana Menü.", reply_markup=dugme(user))
         return ConversationHandler.END
     
-    await bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=ekstralarmenumark())
+    bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=ekstralarmenumark())
 
-async def panelbul(update, context):
-    bot = context.bot
+def panelbul(update, context):
     chat = update.effective_message.chat.id
     user = update.effective_message.from_user.id
     if update.effective_message.text == "❌ İptal":
-        await bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
+        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
     kaynak_user_dat = KaynakCol.find_one({"sahip": user})['kaynak']
     kaynak_kanal_dat = KaynakCol.find_one({"sahip": user})['kanal']
@@ -388,17 +395,17 @@ async def panelbul(update, context):
         try:
             bul_user = int(update.effective_message.text)
         except:
-            await update.effective_message.reply_text("Geçersiz bir ID gönderdiniz!")
+            update.effective_message.reply_text("Geçersiz bir ID gönderdiniz!")
             return ConversationHandler.END
     if not str(bul_user) in kaynak_kanal_dat and bul_user < 0:
-        await update.effective_message.reply_text("Bu kanal sizin kaynağınıza bağlı değil.")
+        update.effective_message.reply_text("Bu kanal sizin kaynağınıza bağlı değil.")
         return ConversationHandler.END
     if not bul_user in kaynak_user_dat and bul_user > 0:
-        await update.effective_message.reply_text("Bu kullanıcı sizin kaynağınızı kullanmıyor.")
+        update.effective_message.reply_text("Bu kullanıcı sizin kaynağınızı kullanmıyor.")
         return ConversationHandler.END
     bulunanuser = collection.find_one({"kanal": {"$in": [str(bul_user)]}}) if bul_user < 0 else collection.find_one({"_id": bul_user})
     
-    bultext = "<b>🔢 ID:</b> {}\n🏷 <b>İsim:</b> {}\n🖥 <b>Kaynağınıza Bağlı Kanalları:</b> \n".format(bulunanuser['_id'], await bot.get_chat(bulunanuser['_id']).full_name)
+    bultext = "<b>🔢 ID:</b> {}\n🏷 <b>İsim:</b> {}\n🖥 <b>Kaynağınıza Bağlı Kanalları:</b> \n".format(bulunanuser['_id'], bot.get_chat(bulunanuser['_id']).full_name)
     for bulkan in bulunanuser['kanal']:
         if not bulkan in KaynakCol.find_one({"sahip": user})['kanal']:
             continue
@@ -412,29 +419,27 @@ async def panelbul(update, context):
             pass
     else:
         bultext += "Kaynığınıza bağlı hiç kanalı bulunmuyor."
-    await bot.send_message(chat, bultext)
+    bot.send_message(chat, bultext)
     return ConversationHandler.END
 
-async def tekrarlipostbaslikayarla(update, context):
-    bot = context.bot
+def tekrarlipostbaslikayarla(update, context):
     user = update.effective_user.id
     chat = update.effective_chat.id
     if update.effective_message.text == "❌ İptal":
-        await bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
+        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
     context.user_data['tsbaslik'] = update.effective_message.text
-    await bot.send_message(chat, "Başlık ayarlandı, son olarak paylaşılmasını istediğiniz postu gönderin.", reply_markup=imark())
+    bot.send_message(chat, "Başlık ayarlandı, son olarak paylaşılmasını istediğiniz postu gönderin.", reply_markup=imark())
     return TSPOST
 
-async def tekrarlipostayarla(update, context):
-    bot = context.bot
+def tekrarlipostayarla(update, context):
     user = update.effective_user.id
     chat = update.effective_chat.id
     if update.effective_message.text == "❌ İptal":
-        await bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
+        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
     try:
-        await bot.delete_message(chat, context.user_data['lastts'])
+        bot.delete_message(chat, context.user_data['lastts'])
     except:
         pass
     tfid = None
@@ -444,28 +449,27 @@ async def tekrarlipostayarla(update, context):
         context.user_data["tspostdict"] = {"baslik": context.user_data['tsbaslik'], "tsaat": context.user_data['tsaat'], "tskan": context.user_data['tskan'], "tspost": [{"tscaption": update.effective_message.caption_html_urled, "fid": tfid, "ptip": effective_message_type(update), "text": update.effective_message.text_html_urled}], "tsuser": user, "mod": None}
     else:
         context.user_data["tspostdict"]["tspost"].append({"tscaption": update.effective_message.caption_html_urled, "fid": tfid, "ptip": effective_message_type(update), "text": update.effective_message.text_html_urled})
-    msz = await bot.send_message(chat, "Postunuz eklendi!\n\nPost eklemeye devam etmek isterseniz iletmeye devam edin. Bu kadar yeterli ise alttaki butonlardan mod seçin.", reply_markup=tspostmod(user))
+    msz = bot.send_message(chat, "Postunuz eklendi!\n\nPost eklemeye devam etmek isterseniz iletmeye devam edin. Bu kadar yeterli ise alttaki butonlardan mod seçin.", reply_markup=tspostmod(user))
     context.user_data["lastts"] = msz.message_id
     return
 
-async def ozelk(update, context):
-    bot = context.bot
+def ozelk(update, context):
     user = update.effective_message.from_user.id
     chat = update.effective_message.chat.id
     if update.effective_message.text == "❌ İptal":
-        await bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
+        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
     if not update.effective_message.forward_from_chat:
-        msz = await bot.send_message(update.effective_message.chat.id, "Lütfen bana oluşturduğun kanaldan bir mesaj ilet.")
+        msz = bot.send_message(update.effective_message.chat.id, "Lütfen bana oluşturduğun kanaldan bir mesaj ilet.")
         return OZELKAYNAK
     kanal = update.effective_message.forward_from_chat.id
     if KaynakCol.find_one({"_id": kanal}):
-        mst = await bot.send_message(chat, "Kaynak kanalını nasıl kaydedebilirim ki?")
+        mst = bot.send_message(chat, "Kaynak kanalını nasıl kaydedebilirim ki?")
         return OZELKAYNAK
     try:
-        yetkiler = await bot.get_chat_administrators(kanal)
+        yetkiler = bot.get_chat_administrators(kanal)
     except:
-        msg = await bot.send_message(chat, "Botu kanalınızda yönetici eklememişsiniz.")
+        msg = bot.send_message(chat, "Botu kanalınızda yönetici eklememişsiniz.")
         return OZELKAYNAK
     if OzelCol.find_one({"okaynak": kanal}) != None:
         for koy in KaynakCol.find({}):
@@ -475,8 +479,8 @@ async def ozelk(update, context):
         if not user in OzelCol.find_one({"okaynak": kanal})['kanal']:
             OzelCol.update_one({"okaynak": kanal}, {"$push": {"kanal": user}})
         if len(OzelCol.find_one({"okaynak": kanal})['kanal']) == 6:
-            await bot.send_message(OzelCol.find_one({"okaynak": kanal})['_id'], "<i>Özel Kaynağınız 5 kişiyi geçtiği için artık postlarınızın 1/20'si benim API adresim ile kısaltılacaktır.</i>")
-        await bot.send_message(update.effective_message.chat.id, "<b>Özel Kaynak Kaydedildi!</b>", reply_markup=dugme(user))
+            bot.send_message(OzelCol.find_one({"okaynak": kanal})['_id'], "<i>Özel Kaynağınız 5 kişiyi geçtiği için artık postlarınızın 1/20'si benim API adresim ile kısaltılacaktır.</i>")
+        bot.send_message(update.effective_message.chat.id, "<b>Özel Kaynak Kaydedildi!</b>", reply_markup=dugme(user))
         return ConversationHandler.END
     else:
         for koy in KaynakCol.find({}):
@@ -486,97 +490,92 @@ async def ozelk(update, context):
             OzelCol.insert_one({"_id": user, "okaynak": 546421354, "log": "yok", "kaynak": [], "icerik": "+18"}) 
         OzelCol.update_one({"_id": user}, {"$set": {"okaynak": kanal, "kanal": [user]}})
         collection.update_one({"_id": user}, {"$set": {"ozel": True, "kaynak": ["32"]}})
-        await bot.send_message(update.effective_message.chat.id, "<b>Özel Kaynak Oluşturuldu!\n\nKaynak butonuna basarak ayarlarını görebilirsin.</b>", reply_markup=dugme(user))
+        bot.send_message(update.effective_message.chat.id, "<b>Özel Kaynak Oluşturuldu!\n\nKaynak butonuna basarak ayarlarını görebilirsin.</b>", reply_markup=dugme(user))
         return ConversationHandler.END
 
-async def ozellog(update, context):
-    bot = context.bot
+def ozellog(update, context):
     user = update.effective_message.from_user.id
     chat = update.effective_message.chat.id
     if update.effective_message.text == "❌ İptal":
-        await bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
+        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
     if not update.effective_message.forward_from_chat:
-        msz = await bot.send_message(update.effective_message.chat.id, "Lütfen bana oluşturduğun kanaldan bir mesaj ilet.")
+        msz = bot.send_message(update.effective_message.chat.id, "Lütfen bana oluşturduğun kanaldan bir mesaj ilet.")
         return OZELBOTLOG
     kanal = update.effective_message.forward_from_chat.id
     if KaynakCol.find_one({"_id": kanal}):
-        mst = await bot.send_message(chat, "Kaynak kanalını nasıl kaydedebilirim ki?")
+        mst = bot.send_message(chat, "Kaynak kanalını nasıl kaydedebilirim ki?")
         return OZELBOTLOG
     try:
-        yetkiler = await bot.get_chat_administrators(kanal)
+        yetkiler = bot.get_chat_administrators(kanal)
     except:
-        msg = await bot.send_message(chat, "Botu kanalınızda yönetici eklememişsiniz.")
+        msg = bot.send_message(chat, "Botu kanalınızda yönetici eklememişsiniz.")
         return OZELBOTLOG
     OzelCol.update_one({"_id": user}, {"$set": {"log": kanal}})
-    await bot.send_message(update.effective_message.chat.id, "<b>Özel Botlog Kaydedildi!</b>", reply_markup=dugme(user))
+    bot.send_message(update.effective_message.chat.id, "<b>Özel Botlog Kaydedildi!</b>", reply_markup=dugme(user))
     return ConversationHandler.END
 
-async def begenidegistir(update, context):
-    bot = context.bot
+def begenidegistir(update, context):
     mesaj = update.effective_message.text
     chat = update.effective_message.chat.id
     user = update.effective_message.from_user.id
     if mesaj == "❌ İptal":
-        await bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
+        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
     if len(mesaj.split("/")) < 1 or " " in mesaj or "//" in mesaj:
-        await update.effective_message.reply_text("Hatalı biçim! Lütfen örnekteki gibi gönderin.\n\nÖrnek;\n<code>❤️/⛔️/🥰</code>")
+        update.effective_message.reply_text("Hatalı biçim! Lütfen örnekteki gibi gönderin.\n\nÖrnek;\n<code>❤️/⛔️/🥰</code>")
         return 
     collection.update_one({"_id": user}, {"$set": {"begeni": update.effective_message.text.split("/")}})
-    await update.effective_message.reply_text("Butonlarınız kaydedildi!", reply_markup=dugme(user))
+    update.effective_message.reply_text("Butonlarınız kaydedildi!", reply_markup=dugme(user))
     return ConversationHandler.END
     
-async def sabloniki(update, context):
-    bot = context.bot
+def sabloniki(update, context):
     mesaj = update.effective_message.text_html_urled
     chat = update.effective_message.chat.id
     user = update.effective_message.from_user.id
     bnb = collection.find_one({"_id": user})
     if bnb == None:
-        await bot.send_message(chat, "Lütfen şablon kaydetmeden önce Kaydet butonu ile bilgilerinizi girin!", reply_markup=dugme(user))
+        bot.send_message(chat, "Lütfen şablon kaydetmeden önce Kaydet butonu ile bilgilerinizi girin!", reply_markup=dugme(user))
     if update.effective_message.text == None:
-        msg = await bot.send_message(chat, """ ❌<i> Lütfen mesajınızda "{link}" ve "{aciklama}" bulunduğudan emin olun.</i> """)
+        msg = bot.send_message(chat, """ ❌<i> Lütfen mesajınızda "{link}" ve "{aciklama}" bulunduğudan emin olun.</i> """)
 
         return SABLONA
     if update.effective_message.text == "❌ İptal":
-        await bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
+        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
     if bnb['sira'] == 1:
         if mesaj.find("{link}") == -1 or mesaj.find("{aciklama}") == -1 or mesaj.find("{alink}") == -1:
-            msg = await bot.send_message(chat, """ ❌<i> Lütfen mesajınızda "{link}", "{alink}" ve "{aciklama}" bulunduğudan emin olun.</i> """)
+            msg = bot.send_message(chat, """ ❌<i> Lütfen mesajınızda "{link}", "{alink}" ve "{aciklama}" bulunduğudan emin olun.</i> """)
             return SABLONA
     else:
         if mesaj.find("{link}") == -1 or mesaj.find("{aciklama}") == -1:
-            msg = await bot.send_message(chat, """ ❌<i> Lütfen mesajınızda "{link}" ve "{aciklama}" bulunduğudan emin olun.</i> """)
+            msg = bot.send_message(chat, """ ❌<i> Lütfen mesajınızda "{link}" ve "{aciklama}" bulunduğudan emin olun.</i> """)
             return SABLONA
         if mesaj.find("{link}") != mesaj.rfind("{link}"):
-            msg = await bot.send_message(chat, """ ❌<i> Lütfen mesajınızda bir tane "{link}" bulunduğudan emin olun.</i> """)
+            msg = bot.send_message(chat, """ ❌<i> Lütfen mesajınızda bir tane "{link}" bulunduğudan emin olun.</i> """)
             return SABLONA
         if mesaj.find("{aciklama}") != mesaj.rfind("{aciklama}"):
-            msg = await bot.send_message(chat, """ ❌<i> Lütfen mesajınızda bir tane "{aciklama}" bulunduğudan emin olun.</i> """)
+            msg = bot.send_message(chat, """ ❌<i> Lütfen mesajınızda bir tane "{aciklama}" bulunduğudan emin olun.</i> """)
             return SABLONA
     collection.update_one({"_id": user}, {"$set":{"sablon": mesaj}})
-    await bot.send_message(chat, "Şablon kaydedildi!", reply_markup=dugme(user))
+    bot.send_message(chat, "Şablon kaydedildi!", reply_markup=dugme(user))
     return ConversationHandler.END
 
-async def cancel(update, context):
-    bot = context.bot
+def cancel(update, context):
     chat = update.effective_message.chat.id
-    await bot.send_message(chat, "Ana Menü", reply_markup=dugme(chat))
+    bot.send_message(chat, "Ana Menü", reply_markup=dugme(chat))
     return ConversationHandler.END
 
-async def altakayit(update, context):
-    bot = context.bot
+def altakayit(update, context):
     amesaj = html.escape(update.effective_message.text)
     token = apiscraper(amesaj)
     user = update.effective_message.from_user.id
     chat = update.effective_message.chat.id
     if collection.find_one({"_id": user}) == None:
-        await bot.send_message(chat, "<b>Önce bir API kaydedin!</b>")
+        bot.send_message(chat, "<b>Önce bir API kaydedin!</b>")
         return
     if update.effective_message.text == "❌ İptal" or update.effective_message.text == None:
-        await bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
+        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
     smesaj = context.user_data['asite']
     sss = context.user_data['sss']
@@ -589,7 +588,7 @@ async def altakayit(update, context):
         sss = 10
     if sss == "ekle":
         if amesaj in [m["api"] for m in collection.find_one({"_id": user})["altapi"]]:
-            await bot.send_message(chat, "Bu apiyi zaten kaydetmişsin!", reply_markup=imark())
+            bot.send_message(chat, "Bu apiyi zaten kaydetmişsin!", reply_markup=imark())
             return
         amesaj = {"api": amesaj, "site": smesaj}
         collection.update_one({"_id": user}, {"$push": {"altapi": amesaj}})
@@ -607,33 +606,31 @@ async def altakayit(update, context):
                 collection.update_one({"_id": user}, {"$set": {"sablon": "9"}})
             
     if sss == 10:
-        await bot.send_message(chat, "İlk Gelişmiş Alternatifiniz kaydedildi.\n\nAyarlarını görmek için <code>🤖 Alternatif Link</code> butonuna basabilirsin.", reply_markup=apimenumark())
+        bot.send_message(chat, "İlk Gelişmiş Alternatifiniz kaydedildi.\n\nAyarlarını görmek için <code>🤖 Alternatif Link</code> butonuna basabilirsin.", reply_markup=apimenumark())
         return APIMENU
     else:
-        await bot.send_message(chat, "✅ Alternatif API kaydedildi", reply_markup=dugme(user))
+        bot.send_message(chat, "✅ Alternatif API kaydedildi", reply_markup=dugme(user))
     return ConversationHandler.END
 
-async def postzaman(update, context):
-    bot = context.bot
+def postzaman(update, context):
     chat = update.effective_message.chat.id
     user = update.effective_message.from_user.id
     post_zaman_text = update.effective_message.text
     if post_zaman_text == None:
-        await bot.send_message(chat, "Gönderdiğiniz saatlerden biri veya birden fazlası yanlış.\n\nÖrnek;\n00:00\n01:00\n02:00\n03:00\n...", reply_markup=imark()) 
+        bot.send_message(chat, "Gönderdiğiniz saatlerden biri veya birden fazlası yanlış.\n\nÖrnek;\n00:00\n01:00\n02:00\n03:00\n...", reply_markup=imark()) 
         return    
     if update.effective_message.text == "❌ İptal":
-        await bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
+        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
     for px in post_zaman_text.split("\n"):
         if not len(px) == 5 or px.find(":") == -1:
-            await bot.send_message(chat, "Gönderdiğiniz saatlerden biri veya birden fazlası yanlış.\n\nÖrnek;\n00:00\n01:00\n02:00\n03:00\n...", reply_markup=imark()) 
+            bot.send_message(chat, "Gönderdiğiniz saatlerden biri veya birden fazlası yanlış.\n\nÖrnek;\n00:00\n01:00\n02:00\n03:00\n...", reply_markup=imark()) 
             return
     collection.update_one({"_id": user}, {"$set": {"vakit": post_zaman_text.split("\n")}})
-    await bot.send_message(chat, "Post Saatleriniz Değiştirildi!", reply_markup=dugme(user))
+    bot.send_message(chat, "Post Saatleriniz Değiştirildi!", reply_markup=dugme(user))
     return ConversationHandler.END
 
-async def apikayit(update, context):
-    bot = context.bot
+def apikayit(update, context):
     try:
         token = html.escape(update.effective_message.text)
     except:
@@ -645,21 +642,21 @@ async def apikayit(update, context):
     
 
     if user in kara:
-        await bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
+        bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
         return
     bnb = collection.find_one({"_id": user})
     if update.effective_message.text == None:
-        msg = await bot.send_message(chat, "Lütfen geçerli bir API verin.")
+        msg = bot.send_message(chat, "Lütfen geçerli bir API verin.")
         return
     if update.effective_message.text == "❌ İptal":
-        await bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
+        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
     if "url=trlink" in token or "script" in token:
-        mso = await bot.send_message(chat, "❌ Geçersiz bir API verdiniz! Lütfen doğru bir API adresi verin.")
+        mso = bot.send_message(chat, "❌ Geçersiz bir API verdiniz! Lütfen doğru bir API adresi verin.")
         return APIDEGISTIR
     key = {"_id": user, "token": token, "kanal": [], "sablon": "1", "kaynak": [], "site": "1", "altapi": "None", "altsite": "None", "sira": 0, "ozel": False, "pcount": 0, "time": 0, "vakit": 0, "eski": [], "begeni": [], "pin": [], "icerik": []}
     if token in apikara:
-            blmsg = await bot.send_message(blog, f"_ID: <a href='tg://user?id={user}'>{user}</a>\nYasaklı API tespit edildi -> {token}\n#id{user}\n#api{token}")
+            blmsg = bot.send_message(blog, f"_ID: <a href='tg://user?id={user}'>{user}</a>\nYasaklı API tespit edildi -> {token}\n#id{user}\n#api{token}")
             bot.pin_chat_message(blog, blmsg.message_id)
     if bnb == None:
         kontrol = get("https://ay.live/api/?api={}&url=www.zort.com&format=text&alias=&ct=2".format(token)).text
@@ -667,114 +664,108 @@ async def apikayit(update, context):
             kontrol = get("https://www.pnd.tl/api?api={}&url=www.zort.com&format=text".format(token)).text
             key['site'] = "2"
         if kontrol == "":
-            await bot.send_message(chat, "❌ Geçersiz bir API verdiniz! Lütfen doğru bir API adresi verin.")
+            bot.send_message(chat, "❌ Geçersiz bir API verdiniz! Lütfen doğru bir API adresi verin.")
             return APIDEGISTIR
         collection.insert_one(key)
-        await bot.send_message(chat, "<b>🟢 API kaydedildi!</b>")
-        await bot.send_message(chat, "<i>📝 Lütfen kanalınızdan bir gönderi iletin.</i>", reply_markup=imark())
-        await bot.send_message(blog, yeniuserlog.format(user=user, token=token))
+        bot.send_message(chat, "<b>🟢 API kaydedildi!</b>")
+        bot.send_message(chat, "<i>📝 Lütfen kanalınızdan bir gönderi iletin.</i>", reply_markup=imark())
+        bot.send_message(blog, yeniuserlog.format(user=user, token=token))
         return KANALKAYDET
     collection.update_one({"_id": user}, {"$set": {"token": token}})
-    await bot.send_message(chat, "<b>🟢 API kaydedildi!</b>", reply_markup=dugme(user))
+    bot.send_message(chat, "<b>🟢 API kaydedildi!</b>", reply_markup=dugme(user))
     return ConversationHandler.END
 
-async def kanalkayit(update, context):
-    bot = context.bot
+def kanalkayit(update, context):
     chat = update.effective_message.chat.id
     user = update.effective_message.from_user.id
     y = collection.find_one({"_id": user})
     if update.effective_message.text == "❌ İptal":
-        await bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
+        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
     if not update.effective_message.forward_from_chat:
-        await bot.send_message(chat, "↪️ Bunun ne olduğu hakkında bir fikrim yok! Lütfen kanaldan herhangi bir gönderi iletin.", reply_markup=imark())
+        bot.send_message(chat, "↪️ Bunun ne olduğu hakkında bir fikrim yok! Lütfen kanaldan herhangi bir gönderi iletin.", reply_markup=imark())
         return 
     kanal = update.effective_message.forward_from_chat.id
     if KaynakCol.find_one({"_id": kanal}):
-        await bot.send_message(chat, "Kaynak kanalını nasıl kaydedebilirim ki?", reply_markup=imark())
+        bot.send_message(chat, "Kaynak kanalını nasıl kaydedebilirim ki?", reply_markup=imark())
         return 
     if str(kanal) in y['kanal']:
-        await bot.send_message(chat, "Bu kanalı zaten kaydetmişsiniz")
+        bot.send_message(chat, "Bu kanalı zaten kaydetmişsiniz")
         return 
     try:
-        kanalbilgi = await bot.get_chat(kanal)
-        yetkiler = await bot.get_chat_administrators(kanal)
+        kanalbilgi = bot.get_chat(kanal)
+        yetkiler = bot.get_chat_administrators(kanal)
     except:
-        await bot.send_message(chat, "Botu kanalınızda yönetici eklememişsiniz.")
+        bot.send_message(chat, "Botu kanalınızda yönetici eklememişsiniz.")
         return 
     ytliler = []
     for y in yetkiler:
-        if y.status == "creator":
+        if y.can_post_messages or y.status == "creator":
             ytliler.append(y.user.id)
-        elif y.can_post_messages:
-            ytliler.append(y.user.id)
-
     if not user in ytliler:
-        await bot.send_message(chat, "Bu kanal sizin değil 😠. Bu kanalı kaydedebilmeniz için kanalda Post Paylaşabilme yetkiniz olması gerekli.")
+        bot.send_message(chat, "Bu kanal sizin değil 😠. Bu kanalı kaydedebilmeniz için kanalda Post Paylaşabilme yetkiniz olması gerekli.")
         return
     collection.update_one({"_id": user}, {"$push":{"kanal": str(kanal)}})
     IstekCol.update_one({"_id": 0}, {"$set": {str(kanal): {"user": user, "count": 0, "istekler": []}}})
-    await update.effective_message.reply_text("<b>🟢Kanalınız Kaydedildi.</b>", reply_markup=dugme(user))
+    update.effective_message.reply_text("<b>🟢Kanalınız Kaydedildi.</b>", reply_markup=dugme(user))
     
-    await bot.send_message(blog, yenikanlog.format(user=user, kan=str(kanal)[3:], membersayi=bot.get_chat_member_count(kanal)))
+    bot.send_message(blog, yenikanlog.format(user=user, kan=str(kanal)[3:], membersayi=bot.get_chat_member_count(kanal)))
     for kyt in KaynakCol.find({}):
         if user in kyt['kaynak']:
             if not str(kanal) in KaynakCol.find_one({"_id": kyt['_id']})['kanal']:
                 KaynakCol.update_one({"_id": kyt['_id']}, {"$push": {"kanal": str(kanal)}})
     return ConversationHandler.END
 
-async def patzamansaat(update, context):
-    bot = context.bot
+def patzamansaat(update, context):
     verilen_saat = update.effective_message.text
     user = update.effective_message.from_user.id
     chat = update.effective_message.chat.id
     if verilen_saat == "❌ İptal":
-        await bot.send_message(chat, "İptal edildi.")
+        bot.send_message(chat, "İptal edildi.")
         return ConversationHandler.END
     if verilen_saat.find(":") == -1 or len(verilen_saat) != 17:
-        await bot.send_message(chat, "Yanlış bir biçim gönderdiniz!\n\n<b>Örnek biçim;</b>\n<code>30/03/21 14:31:00</code>", reply_markup=imark())
+        bot.send_message(chat, "Yanlış bir biçim gönderdiniz!\n\n<b>Örnek biçim;</b>\n<code>30/03/21 14:31:00</code>", reply_markup=imark())
         return
     try:
         zamanii = datetime.datetime.strptime(verilen_saat, '%d/%m/%y %H:%M:%S')
     except:
-        await bot.send_message(chat, "Yanlış bir biçim gönderdiniz!\n\n<b>Örnek biçim;</b>\n<code>30/06/21 14:31:00</code>", reply_markup=imark())
+        bot.send_message(chat, "Yanlış bir biçim gönderdiniz!\n\n<b>Örnek biçim;</b>\n<code>30/06/21 14:31:00</code>", reply_markup=imark())
         return
     context.user_data['zaman'] = zamanii
     satkat = collection.find_one({"_id": user})
     if len(satkat['kanal']) < 2:
-        pyetkililer = [pxy.user.id for pxy in await bot.get_chat_administrators(satkat['kanal'][0])]
+        pyetkililer = [pxy.user.id for pxy in bot.get_chat_administrators(satkat['kanal'][0])]
         if not user in pyetkililer:
-            await bot.send_message(chat, f"{(await bot.get_chat(satkat['kanal'][0])).title} Bu kanalda yetkili olmadığınız için kanal silindi", reply_markup=dugme(user))
+            bot.send_message(chat, f"{bot.get_chat(satkat['kanal'][0]).title} Bu kanalda yetkili olmadığınız için kanal silindi", reply_markup=dugme(user))
             collection.update_one({"_id": user}, {"$pull": {"kanal": satkat['kanal'][0]}})
             return ConversationHandler.END
         msg_dict = {"pkan": satkat['kanal'][0], "psablon": context.user_data['psablon'], "ptip": context.user_data['ptip'], "fid": context.user_data['fid'], "user": user}
         context.job_queue.run_once(callback=zamanjob, when=zamanii, context=[msg_dict], name=str(user))
-        await bot.send_message(chat, "⏱ Postunuz zamanlandı", reply_markup=dugme(user))
-        mstd = await bot.send_message(chat, "Başka post paylaşacak mısınız?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Evet", callback_data="devam"), InlineKeyboardButton("Hayır", callback_data="del")]]))
+        bot.send_message(chat, "⏱ Postunuz zamanlandı", reply_markup=dugme(user))
+        mstd = bot.send_message(chat, "Başka post paylaşacak mısınız?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Evet", callback_data="devam"), InlineKeyboardButton("Hayır", callback_data="del")]]))
         return ConversationHandler.END
 
-    await bot.send_message(update.effective_message.chat.id, "Hangi kanalınıza gönderilecek.", reply_markup=(await patmark(update.effective_message.from_user.id, context)))
+    bot.send_message(update.effective_message.chat.id, "Hangi kanalınıza gönderilecek.", reply_markup=patmark(update.effective_message.from_user.id))
     return ConversationHandler.END
 
-async def pat(update, context):
-    bot = context.bot
+def pat(update, context):
     chat = update.effective_message.chat.id
     user = update.effective_message.from_user.id
     if update.effective_message.text == "❌ İptal":
-        await bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
+        bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
     if update.effective_message.text == "⏱ Zamanladığım Postlar":
         zjobs = context.job_queue.get_jobs_by_name(str(user))
         if len(zjobs) < 1:
-            await bot.send_message(chat, "Henüz bir post zamanlamamışsınız.", reply_markup=ReplyKeyboardMarkup(keyboard=[['❌ İptal'], ['⏱ Zamanladığım Postlar']], one_time_keyboard=True, resize_keyboard=True, selective=True))
+            bot.send_message(chat, "Henüz bir post zamanlamamışsınız.", reply_markup=ReplyKeyboardMarkup(keyboard=[['❌ İptal'], ['⏱ Zamanladığım Postlar']], one_time_keyboard=True, resize_keyboard=True, selective=True))
             return 
-        await bot.send_message(chat, "Silmek istediğiniz postu seçin.", reply_markup=jobmark(user, context))
+        bot.send_message(chat, "Silmek istediğiniz postu seçin.", reply_markup=jobmark(user, context))
         return 
     if update.effective_message.text:
-        msg = await bot.send_message(chat, "Lütfen paylaşmamı istediğin postu at")
+        msg = bot.send_message(chat, "Lütfen paylaşmamı istediğin postu at")
         return PATPOST
     if update.effective_message.caption == None:
-        msg = await bot.send_message(chat, "Lütfen paylaşmamı istediğin postu at")
+        msg = bot.send_message(chat, "Lütfen paylaşmamı istediğin postu at")
         return PATPOST
     mesaj = update.effective_message.caption
     fid = update.effective_message.photo[0].file_id if update.effective_message.photo else update.effective_message.effective_attachment.file_id
@@ -785,7 +776,7 @@ async def pat(update, context):
     elif update.effective_message.animation:
         ptip = "animation"
     else:
-        await bot.send_message(chat, "Üzgünüm bu dosya türü desteklenmiyor. Video, Fotoğraf veya Gif ile deneyin.")
+        bot.send_message(chat, "Üzgünüm bu dosya türü desteklenmiyor. Video, Fotoğraf veya Gif ile deneyin.")
         return
     """Açıklama Tespit"""
     pson = mesaj.find("\n")
@@ -796,7 +787,7 @@ async def pat(update, context):
     psag = mesaj.find("\n", psol)
     kplink = mesaj[psol:psag].strip()
     if kplink.startswith("https://ay") or kplink.startswith("https://pgg") or kplink.startswith("https://pnd") or kplink.startswith("https://ouo") or kplink.startswith("https://exe") or kplink.startswith("https://lnk"):
-        await bot.send_message(chat, "Oops sanırım zaten kısaltılmış bir linki kısaltmaya çalışıyorsun. Üzgünüm bu bot linkleri kendisi geçemez.", reply_markup=imark())
+        bot.send_message(chat, "Oops sanırım zaten kısaltılmış bir linki kısaltmaya çalışıyorsun. Üzgünüm bu bot linkleri kendisi geçemez.", reply_markup=imark())
         return 
     if mesaj.find("\n", psol) == -1:
         kplink = mesaj[psol:].strip()
@@ -804,7 +795,7 @@ async def pat(update, context):
     try:
         ptoken = pathesap['token']
     except:
-        await bot.send_message(chat, "API adresinizi yeniden kaydedin.")
+        bot.send_message(chat, "API adresinizi yeniden kaydedin.")
         return
     psablon = pathesap['sablon']
     psite = pathesap['site']
@@ -825,13 +816,13 @@ async def pat(update, context):
             while ptry < 10 and palink == " ":
                 ptry += 1
                 palink, pjson = linkkisalt(paltsite, paltapi, kplink, "+18")
-                await sleep(0.2)
+                time.sleep(0.2)
         while ptry < 10 and plink == " ":
             ptry += 1
             plink, pjson = linkkisalt(psite, ptoken, kplink, "+18")
-            await sleep(0.2)
+            time.sleep(0.2)
         if plink == " ":
-            await bot.send_message(chat, "İşlem başarısız oldu lütfen tekrar deneyin.")
+            bot.send_message(chat, "İşlem başarısız oldu lütfen tekrar deneyin.")
             return
         if psablon == "1":
             psablon = f"🔥{paciklama}\n\n🔱 TIKLA 👉 {plink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
@@ -845,14 +836,14 @@ async def pat(update, context):
             psablon = psablon.replace("{aciklama}", "{}").replace("{link}", "{}").format(paciklama, plink)
         pkanallar = pathesap['kanal']
     except Timeout:
-        await bot.send_message(chat, "Kullandığınız link kısaltma servisine ulaşılamıyor.", reply_markup=dugme(user))
+        bot.send_message(chat, "Kullandığınız link kısaltma servisine ulaşılamıyor.", reply_markup=dugme(user))
         return ConversationHandler.END
     except Exception as e:
-        await bot.send_message(chat, f"Bir sorun oluştu: \n\n{html.escape(str(e))}")
+        bot.send_message(chat, f"Bir sorun oluştu: \n\n{html.escape(str(e))}")
         logger.error(e)
         return
     context.user_data['psablon'] = psablon
     context.user_data['ptip'] = ptip
     context.user_data['fid'] = fid
-    await bot.send_message(chat, "Zamanlamak ister misiniz?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Şimdi Gönder", callback_data="simdi")], [InlineKeyboardButton("Zamanla", callback_data="pzamanla")]]))
+    bot.send_message(chat, "Zamanlamak ister misiniz?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Şimdi Gönder", callback_data="simdi")], [InlineKeyboardButton("Zamanla", callback_data="pzamanla")]]))
     return ConversationHandler.END

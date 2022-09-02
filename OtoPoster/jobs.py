@@ -2,8 +2,7 @@ from . import *
 from .misc import *
 
 
-async def jobyedekleme(context): 
-    bot = context.bot
+def jobyedekleme(context):
     global ptimeout
     collection.update_one({"_id": 0}, {"$set": {"jobs": []}})
     ptimeout = collection.find_one({"_id": 0})['timeout']
@@ -14,15 +13,13 @@ async def jobyedekleme(context):
             jnam = jobstr.find("date[")
             jname = jobstr[jnam+7:jnam+24]
             if jname[:2].isdigit():
-                kapdct = {'msgdict': kap.data, 'name': kap.name, 'when': jname}
+                kapdct = {'msgdict': kap.context, 'name': kap.name, 'when': jname}
                 collection.update_one({"_id": 0}, {"$push": {"jobs": kapdct}})
                 yjcount += 1
     logger.warning(str(yjcount)+" Adet Job Yedeklendi!")
 
-async def tekrarlipostjob(context): 
-    bot = context.bot
-    tsdict = context.job.data
-    SEND_MEDIA_TYPES = {"document": bot.send_document, "photo": bot.send_photo, "video": bot.send_video, "animation": bot.send_animation}
+def tekrarlipostjob(context):
+    tsdict = context.job.context
     tspostsira = int(tsdict["mod"].split("-")[-1])
     try:
         tspostdict = choice(tsdict["tspost"]) if tsdict["mod"].startswith("rastgele") else tsdict["tspost"][tspostsira]
@@ -32,15 +29,15 @@ async def tekrarlipostjob(context):
     if tspostsira == len(tsdict["tspost"])-1:
         tspostsira = -1
     for tsgetj in context.job_queue.get_jobs_by_name(f"ts{tsdict['tsuser']}"):
-        if tsgetj.data["tspost"][0]['fid'] == tsdict["tspost"][0]['fid'] and tsgetj.data["tspost"][0]['tscaption'] == tsdict["tspost"][0]['tscaption'] and tsgetj.data["tspost"][0]['text'] == tsdict["tspost"][0]['text']:
+        if tsgetj.context["tspost"][0]['fid'] == tsdict["tspost"][0]['fid'] and tsgetj.context["tspost"][0]['tscaption'] == tsdict["tspost"][0]['tscaption'] and tsgetj.context["tspost"][0]['text'] == tsdict["tspost"][0]['text']:
             tsgetjj = tsgetj
             break
     tsjtext = str(tsgetjj.job)
     jstnam = tsjtext.find("next run at: ")+13
     jsttime = datetime.datetime.strptime(tsjtext[jstnam:jstnam+19], "%Y-%m-%d %H:%M:%S") + datetime.timedelta(hours = int(tsdict["tsaat"]-3))
     jsttimestr = jsttime.strftime("%Y-%m-%d %H:%M:%S")
-    tsgetjj.data["tetik"] = jsttimestr
-    tsgetjj.data["mod"] = str(tsdict["mod"].split("-")[0]) + "-" + str(tspostsira+1)
+    tsgetjj.context["tetik"] = jsttimestr
+    tsgetjj.context["mod"] = str(tsdict["mod"].split("-")[0]) + "-" + str(tspostsira+1)
     if tspostdict['text'] != None:
         try:
             if type(tsdict['tskan']) != list:
@@ -56,12 +53,12 @@ async def tekrarlipostjob(context):
                 try:
                     tsdict['try']
                 except:
-                    tsgetjj.data['try'] = 0
+                    tsgetjj.context['try'] = 0
                 else:
                     if tsdict['try'] >= 6:
                         tsgetjj.schedule_removal()
                     else:
-                        tsgetjj.data['try'] = tsdict['try']+1
+                        tsgetjj.context['try'] = tsdict['try']+1
 
         return
     try:
@@ -79,15 +76,14 @@ async def tekrarlipostjob(context):
             try:
                 tsdict['try']
             except:
-                tsgetjj.data['try'] = 0
+                tsgetjj.context['try'] = 0
             else:
                 if tsdict['try'] >= 6:
                     tsgetjj.schedule_removal()
                 else:
-                    tsgetjj.data['try'] = tsdict['try']+1
+                    tsgetjj.context['try'] = tsdict['try']+1
 
-async def kisitlamakontrol(context): 
-    bot = context.bot
+def kisitlamakontrol(context):
     kdat = collection.find_one({"_id": 0})
     safelinks = {
         "0": "https://urlcik.com/YJ6SWGv", 
@@ -101,9 +97,9 @@ async def kisitlamakontrol(context):
         "8": 0, 
         "9": 0}
     while True:
-        await sleep(10)
+        sleep(10)
         for kond in kdat['site']:
-            await sleep(3)
+            sleep(3)
             try:
                 test, testd = linkkisalt(kond, phaapi(kond), "www.google.com", '+18')
             except:
@@ -113,9 +109,8 @@ async def kisitlamakontrol(context):
                     collection.update_one({"_id": 0}, {"$pull": {"site": kond}})
                     logger.warning(f"{site_isim(kond)} arındırıldı!")
         
-async def deljob(context): 
-    bot = context.bot
-    delcont = context.job.data
+def deljob(context):
+    delcont = context.job.context
     hedef = str(delcont.effective_chat.id)
     mesid = int(delcont.effective_message.message_id)
     try:
@@ -141,10 +136,8 @@ async def deljob(context):
             spcount += 1
     logger.warning(f"{spcount} post silindi.")
 
-async def zamanjob(context): 
-    bot = context.bot
-    SEND_MEDIA_TYPES = {"document": bot.send_document, "photo": bot.send_photo, "video": bot.send_video, "animation": bot.send_animation}
-    cont = context.job.data
+def zamanjob(context):
+    cont = context.job.context
     patbegeni = collection.find_one({"_id": cont[0]['user']})['begeni']
     if len(patbegeni) == 0:
         patmarkup = InlineKeyboardMarkup([[]])
@@ -171,13 +164,11 @@ async def zamanjob(context):
                 else:
                     ButonCol.update_one({"_id": msgd['pkan']}, {"$set": {str(ppost.message_id): [], "begeni": patbegeni}})
 
-async def delonejob(context): 
-    bot = context.bot
-    delh = context.job.data
+def delonejob(context):
+    delh = context.job.context
     bot.delete_message(delh['chat'], delh['mid'])
 
-async def gunluk(context): 
-    bot = context.bot
+def gunluk(context):
     ozel_kaynak_kullanan_sayisi = 0
     exe_kullanan_sayisi, pubiza_kullanan_sayisi, ouo_kullanan_sayisi, urlably_kullanan_sayisi, trlink_kullanan_sayisi, pnd_kullanan_sayisi, girist, urlcik_kullanan_sayisi = 0, 0, 0, 0, 0, 0, 0, 0
     msg = bot.send_message(botlog, "<code>Günlük veriler hesaplanıyor...</code>")
@@ -230,12 +221,12 @@ async def gunluk(context):
         for kul in kullanici['kanal']:
             if not kul in kum:
                 kum.append(kul)
-                await sleep(0.5)
+                time.sleep(0.5)
                 try:
                     uye = bot.get_chat_members_count(kul)
                     print(uye)
                 except RetryAfter as after:
-                    await sleep(after.retry_after)
+                    sleep(after.retry_after)
                     try:
                         uye = bot.get_chat_members_count(kul)
                     except:
@@ -243,9 +234,9 @@ async def gunluk(context):
                 except Exception as e:
                     logger.error(e)
                     if str(e).find("not found") != -1 or str(e).find("Need administrator") != -1 or str(e).find("bot is not") != -1:
-                        await sleep(1)
+                        sleep(1)
                     else:
-                        await sleep(30)
+                        time.sleep(30)
                 else:
                     toplam += uye
                     kanals += 1
@@ -262,7 +253,7 @@ async def gunluk(context):
         try:
             getskaynak = bot.get_chat(kstat['_id'])
         except RetryAfter as after:
-            await sleep(after.retry_after)
+            sleep(after.retry_after)
             try:
                 getskaynak = bot.get_chat(kstat['_id'])
             except:
@@ -292,7 +283,7 @@ async def gunluk(context):
         try:
             getskaynak = bot.get_chat(kstat['_id'])
         except RetryAfter as after:
-            await sleep(after.retry_after)
+            sleep(after.retry_after)
             try:
                 getskaynak = bot.get_chat(kstat['_id'])
             except:
@@ -316,22 +307,20 @@ async def gunluk(context):
     last_text = "\n<b>Her gün saat 22:00'da otomatik olarak güncel veriler paylaşılacak. </b>"
     bot.edit_message_text(stat_text+astat_text+last_text, botlog, msg.message_id)
     bot.pin_chat_message(botlog, msg.message_id)
+    
+   
 
-
-async def panelcleaner(context): 
-    bot = context.bot
+def panelcleaner(context):
     try:
-        context.dispatcher.user_data[context.job.data].pop("panel_text")
+        context.dispatcher.user_data[context.job.context].pop("panel_text")
     except:
         pass
 
-async def siraclean(context): 
-    bot = context.bot
+def siraclean(context):
     if len(context.job_queue.get_jobs_by_name("anaposter")) != 20:
         collection.update_one({"_id": 0}, {"$set": {"sira": 0}})
 
-async def resetleme(context): 
-    bot = context.bot
+def resetleme(context):
     try:
         for rest in collection.find({}):
             collection.update_one({"_id": rest['_id']}, {"$set": {"time": 0}})

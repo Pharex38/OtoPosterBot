@@ -3,7 +3,7 @@
 from requests import get, Session
 from requests import post as ReqPost
 from requests.exceptions import *
-from asyncio import sleep
+from time import sleep
 from pymongo import MongoClient
 import time, datetime, calendar
 from collections import OrderedDict
@@ -11,12 +11,13 @@ import threading, pytz, os, asyncio, logging
 from ssl import CERT_NONE
 from random import choice, randint, shuffle
 from telegram import *
+import pyrogram
 from telegram.error import *
 from telegram.ext import *
-from telegram.request import *
 from functools import wraps
 from urllib3.exceptions import ReadTimeoutError
-from telegram.helpers import *
+from telegram.utils.helpers import *
+from telegram.utils.request import Request
 from telegram.constants import *
 import json as jason
 import traceback, sys, html
@@ -34,7 +35,6 @@ print(os.getpid())
 
 mpass = os.environ['MONGOPASS']
 mongo = f"os.environ["MONGO_URI"]"
-
 
 cluster = MongoClient(mongo, tls=True, tlsAllowInvalidCertificates=True)
 db = cluster["OtoPost"]
@@ -55,6 +55,10 @@ hash = maindata['hash']
 ptimeout = maindata['timeout']
 begstate = maindata['beg']
 mainsiralimit = maindata['mainsira']
+
+
+reqs = Request(con_pool_size=50, connect_timeout=30, read_timeout=30)
+bot = ExtBot(bottoken, request=reqs, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=20, disable_web_page_preview=True, allow_sending_without_reply=True, tzinfo=pytz.timezone('Turkey')))
 
 eklenti = 1654723447
 blog = -1001391561285
@@ -85,6 +89,7 @@ kansillog = "#KANAL_SİLİNDİ\n_ID: <a href='tg://user?id={user}'>{user}</a>\n�
 yenikanlog ="#YENİ_KANAL\n_ID: <a href='tg://user?id={user}'>{user}</a>\nÜYE: {membersayi}\nKANAL: <a href='tg://privatepost?channel={kan}&post=9999999'>{kan}</a>\n#id{user}\n#kan10{kan}"
 yeniuserlog = "#YENİ_KULLANİCİ\n_ID: <a href='tg://user?id={user}'>{user}</a>\nAPI: {token}\n#id{user}\n#api{token}"
 istekonaylog = "#İSTEK_ONAYLANDİ\n_ID: <a href='tg://user?id={user}'>{user}</a>\nİSTEK: {istek}\nKANAL: <a href='tg://privatepost?channel={kan}&post=9999999'>{kan}</a>\n#id{user}\n#kan10{kan}"
+SEND_MEDIA_TYPES = {"document": bot.send_document, "photo": bot.send_photo, "video": bot.send_video, "animation": bot.send_animation}
 POSTMENU, APIMENU, KANALMENU, EKSTRAMENU, TSBASLIK, TSPOST, BEGENI, APIDEGISTIR, KANALKAYDET, SABLONA, PANELZAMAN, PANELBUL, PATPOST, POSTZAMAN, PATZAMAN, CALLALT, ALTAPI, OZELBOTLOG, OZELKAYNAK= range(19)
 headerss = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
 headers = {
