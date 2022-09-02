@@ -5,6 +5,7 @@ from .markups import *
 from .poster import poster_job, ozel_poster_job
 
 async def start(update, context):
+    bot = context.bot
     user = update.message.from_user.id
     chat = update.message.chat.id
     if user in kara:
@@ -42,6 +43,7 @@ async def start(update, context):
     return ConversationHandler.END
 
 async def stats(update, context):
+    bot = context.bot
     kanals = 0
     users = 0
     toplam = 0
@@ -112,6 +114,7 @@ async def stats(update, context):
     await bot.edit_message_text(stat_text+ozel_text, chat, msg.message_id)
 
 async def IptalPoster(update, context):
+    bot = context.bot
     user = update.effective_user.id
     try:
         ipt = KaynakCol.find_one({"sahip": user})['_id']
@@ -124,6 +127,7 @@ async def IptalPoster(update, context):
     await update.effective_message.reply_text("Postunuz İptal Edildi!")
 
 async def cekilis(update, context):
+    bot = context.bot
     user = update.effective_user.id
     try:
         cekilis_text = update.effective_message.reply_to_message.text_html_urled
@@ -140,6 +144,7 @@ async def cekilis(update, context):
     context.bot_data['sahip'] = int(context.args[0])
 
 async def duraklat(update, context):
+    bot = context.bot
     try:
         durak = context.bot_data['durak']
     except:
@@ -152,6 +157,7 @@ async def duraklat(update, context):
     await update.effective_message.reply_text(f"{context.bot_data['durak']}")
 
 async def sonuclandir(update, context):
+    bot = context.bot
     katilimcilar = list(collection.find_one({"_id": 0})['cekilis'])
     sonuc_text = update.effective_message.reply_to_message.text_html_urled
     kazcount = 0
@@ -205,6 +211,7 @@ async def sonuclandir(update, context):
         await update.effective_message.reply_text("Çekiliş sonuçlandırıldı.")
     
 async def joblist(update, context):
+    bot = context.bot
     jobs = context.job_queue.jobs()
     context.job_queue.run_once(jobyedekleme, when=1, name="yedekleme")
     for jok in jobs:
@@ -213,6 +220,7 @@ async def joblist(update, context):
             await bot.send_message(update.message.chat.id, str(jok.data)+"\n\n\n"+str(jok.name)+"\n\n\n"+str(jok.job))
 
 async def parak(update, context):
+    bot = context.bot
     global para
     if collection.find_one({"_id": 0})['para']:
         collection.update_one({"_id": 0}, {"$set": {"para": False}})
@@ -222,6 +230,7 @@ async def parak(update, context):
     await bot.send_message(update.message.chat.id, f"Para: {para}")
 
 async def bul(update, context):
+    bot = context.bot
     if len(context.args) < 3:
         await update.effective_message.reply_text(html.escape(jason.dumps(collection.find_one({"_id": sahip}), indent=2, ensure_ascii=False)))
         await update.effective_message.reply_text("Eksik parametre!")
@@ -253,6 +262,7 @@ async def ona(m, context):
     msj = await bot.send_message(cid, "Bu komutu kanalınızda kullanmalısınız.")
 
 async def durdur(update, context):
+    bot = context.bot
     chat = update.message.chat.id
     user = update.message.from_user.id
     kimi = int(update.message.text.split()[1]) if len(update.message.text.split()) > 1 and user in adminlist else update.message.from_user.id
@@ -271,6 +281,7 @@ async def durdur(update, context):
     await bot.send_message(chat, "<b>Bilgileriniz Silindi!</b>", reply_markup=dugme(user))
 
 async def kpostsil(update, context):
+    bot = context.bot
     chat = update.effective_chat.id
     if KaynakCol.find_one({"_id": chat}) == None:
         return
@@ -308,6 +319,7 @@ async def kpostsil(update, context):
     collection.update_one({"_id": 0}, {"$pull": {"iptal": str(chat)}})
 
 async def KanalSilKomutu(update, context):
+    bot = context.bot
     try:
         update.effective_message.delete()
         update.effective_message.reply_to_message.delete()
@@ -318,6 +330,7 @@ async def KanalSilKomutu(update, context):
             pass
 
 async def cpostsil(update, context):
+    bot = context.bot
     chat = update.message.chat.id
     if chat != sahip:
         return
@@ -370,6 +383,7 @@ async def cpostsil(update, context):
         await psmg.edit_text(f"{spcount} Post Silindi.")
 
 async def viple(update, context):
+    bot = context.bot
     global postsirasi
     chat = update.message.chat.id
     if len(context.args) < 1:
@@ -384,6 +398,7 @@ async def viple(update, context):
         await bot.send_message(chat, "Kullanıcı artık VIP!")
 
 async def apibanla(update, context):
+    bot = context.bot
     global apikara
     chat = update.message.chat.id
     try:
@@ -395,6 +410,7 @@ async def apibanla(update, context):
     apikara = collection.find_one({"_id": 0})['apikara']
 
 async def banla(update, context):
+    bot = context.bot
     global kara
     chat = update.message.chat.id
     try:
@@ -406,6 +422,7 @@ async def banla(update, context):
     kara = collection.find_one({"_id": 0})['kara']
 
 async def unbanla(update, context):
+    bot = context.bot
     global kara
     chat = update.message.chat.id
     try:
@@ -417,10 +434,12 @@ async def unbanla(update, context):
     kara = collection.find_one({"_id": 0})['kara']
 
 async def posterkomut(update, context):
+    bot = context.bot
     context.bot_data['pochat'] = int(context.args[0])
     await update.effective_message.reply_text("Ayarlandı")
 
 async def posterkomut2(update, context):
+    bot = context.bot
     global postsirasi, opostsirasi
     pochat = update.effective_message.forward_from_chat.id if update.effective_message.forward_from_chat else context.bot_data['pochat']
     # Ana Kaynaklar
@@ -463,6 +482,7 @@ async def posterkomut2(update, context):
         context.job_queue.run_once(ozel_poster_job, when=owhn, name="ozelposter", data=[opostdict])
 
 async def duy(update, context):
+    bot = context.bot
     chat = update.message.chat.id
     if chat != sahip:
         return
@@ -502,6 +522,7 @@ async def dsil(m, context):
     await bot.send_message(chat, "{} Duyuru Mesajı Silindi!".format(sd))
         
 async def post(update, context):
+    bot = context.bot
     chat = update.effective_message.chat.id
     mid = update.effective_message.message_id
     msj = await update.effective_message.reply_text("Tamamdır!")
@@ -514,6 +535,7 @@ async def post(update, context):
         pass
 
 async def zaman(update, context):
+    bot = context.bot
     chat = update.message.chat.id
     user = update.message.from_user.id
     msj = update.message.reply_to_message.text if update.message.reply_to_message and "/zaman" in update.effective_message.text else update.message.text.replace("/zaman ", "")
@@ -532,6 +554,7 @@ async def zaman(update, context):
         await bot.send_message(chat, "Kaydedildi.")
 
 async def Loot(update, context):
+    bot = context.bot
     user = update.effective_user.id
     for lot in collection.find({}):
         try:
@@ -554,6 +577,7 @@ async def Loot(update, context):
             await update.effective_message.reply_text(f"ID: {lot['_id']}\n\nKanalları:\n{lootkanal}")
 
 async def evale(update, context):
+    bot = context.bot
     user = update.effective_user.id
     chat = update.effective_chat.id
     try:
@@ -564,6 +588,7 @@ async def evale(update, context):
         await update.effective_message.reply_text("Emir:\n"+str(update.effective_message.reply_to_message.text.replace("/eval ", "") if update.effective_message.reply_to_message else update.effective_message.text.replace("/eval ", ""))+"\n\nEval: \n\n"+str(evol))
 
 async def exece(update, context):
+    bot = context.bot
     user = update.effective_user.id
     chat = update.effective_chat.id
     try:
@@ -574,11 +599,13 @@ async def exece(update, context):
         await update.effective_message.reply_text("Emir:\n"+str(update.effective_message.reply_to_message.text.replace("/exec ", "") if update.effective_message.reply_to_message else update.effective_message.text.replace("/exec ", ""))+"\n\nExec: \n\n"+str(evol))
 
 async def kaynakkontrol(update, context):
+    bot = context.bot
     user = update.effective_user.id
     chat = update.effective_chat.id
     await bot.send_message(chat, "Kaynak mı açmak istiyorsun?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Evet", callback_data="kont-evet"), InlineKeyboardButton("Hayır", callback_data="aiptal")]]))
 
 async def yenikaynakkomutu(update, context):
+    bot = context.bot
     user = update.effective_user.id
     if len(context.args) == 0:
         await update.effective_message.reply_text("/kaynak sahip _id icerik")
@@ -613,6 +640,7 @@ async def yenikaynakkomutu(update, context):
     await bot.send_message(user, str(jason.dumps(kaynak_degisken, indent=2, ensure_ascii=False)))
 
 async def SetKomutu(update, context):
+    bot = context.bot
     if len(context.args) != 4:
         await update.effective_message.reply_text("Eksik parametre!")
         return
@@ -629,6 +657,7 @@ async def SetKomutu(update, context):
     update.effective_message.reply_to_message.reply_text("Set!")
 
 async def kaynakpanel(update, context):
+    bot = context.bot
     user = update.effective_user.id
     panelkaynak = KaynakCol.find_one({"sahip": user})
     if panelkaynak == None:
@@ -725,6 +754,7 @@ async def kaynakpanel(update, context):
    
  
 async def AyarlarKomutu(update, context):
+    bot = context.bot
     user = update.effective_user.id
     chat = update.effective_chat.id
     #await update.effective_message.reply_text("Ayarlar:", reply_markup=ayarlarmark())

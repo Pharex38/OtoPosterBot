@@ -7,6 +7,7 @@ from .callbacks import *
 
 @send_typing_action
 async def menu(update, context):
+    bot = context.bot
     chat = update.effective_message.chat.id
     user = update.effective_message.from_user.id
     mesaj = update.effective_message.text
@@ -90,6 +91,7 @@ async def menu(update, context):
 
 @send_typing_action
 async def kanalmenu(update, context):
+    bot = context.bot
     user = update.effective_user.id
     chat = update.effective_chat.id
     kudat = collection.find_one({"_id": user})
@@ -137,6 +139,7 @@ async def kanalmenu(update, context):
 
 @send_typing_action
 async def apimenu(update, context):
+    bot = context.bot
     user = update.effective_user.id
     chat = update.effective_chat.id
     audat = collection.find_one({"_id": user})
@@ -170,6 +173,7 @@ async def apimenu(update, context):
     
 @send_typing_action
 async def postmenu(update, context):
+    bot = context.bot
     user = update.effective_user.id
     chat = update.effective_chat.id
     poudat = collection.find_one({"_id": user})
@@ -302,6 +306,7 @@ async def postmenu(update, context):
 
 @send_typing_action
 async def ekstramenu(update, context):
+    bot = context.bot
     user = update.effective_user.id
     chat = update.effective_chat.id
     eudat = collection.find_one({"_id": user})
@@ -367,6 +372,7 @@ async def ekstramenu(update, context):
     await bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=ekstralarmenumark())
 
 async def panelbul(update, context):
+    bot = context.bot
     chat = update.effective_message.chat.id
     user = update.effective_message.from_user.id
     if update.effective_message.text == "❌ İptal":
@@ -410,6 +416,7 @@ async def panelbul(update, context):
     return ConversationHandler.END
 
 async def tekrarlipostbaslikayarla(update, context):
+    bot = context.bot
     user = update.effective_user.id
     chat = update.effective_chat.id
     if update.effective_message.text == "❌ İptal":
@@ -420,6 +427,7 @@ async def tekrarlipostbaslikayarla(update, context):
     return TSPOST
 
 async def tekrarlipostayarla(update, context):
+    bot = context.bot
     user = update.effective_user.id
     chat = update.effective_chat.id
     if update.effective_message.text == "❌ İptal":
@@ -441,6 +449,7 @@ async def tekrarlipostayarla(update, context):
     return
 
 async def ozelk(update, context):
+    bot = context.bot
     user = update.effective_message.from_user.id
     chat = update.effective_message.chat.id
     if update.effective_message.text == "❌ İptal":
@@ -481,6 +490,7 @@ async def ozelk(update, context):
         return ConversationHandler.END
 
 async def ozellog(update, context):
+    bot = context.bot
     user = update.effective_message.from_user.id
     chat = update.effective_message.chat.id
     if update.effective_message.text == "❌ İptal":
@@ -503,6 +513,7 @@ async def ozellog(update, context):
     return ConversationHandler.END
 
 async def begenidegistir(update, context):
+    bot = context.bot
     mesaj = update.effective_message.text
     chat = update.effective_message.chat.id
     user = update.effective_message.from_user.id
@@ -517,6 +528,7 @@ async def begenidegistir(update, context):
     return ConversationHandler.END
     
 async def sabloniki(update, context):
+    bot = context.bot
     mesaj = update.effective_message.text_html_urled
     chat = update.effective_message.chat.id
     user = update.effective_message.from_user.id
@@ -549,11 +561,13 @@ async def sabloniki(update, context):
     return ConversationHandler.END
 
 async def cancel(update, context):
+    bot = context.bot
     chat = update.effective_message.chat.id
     await bot.send_message(chat, "Ana Menü", reply_markup=dugme(chat))
     return ConversationHandler.END
 
 async def altakayit(update, context):
+    bot = context.bot
     amesaj = html.escape(update.effective_message.text)
     token = apiscraper(amesaj)
     user = update.effective_message.from_user.id
@@ -600,6 +614,7 @@ async def altakayit(update, context):
     return ConversationHandler.END
 
 async def postzaman(update, context):
+    bot = context.bot
     chat = update.effective_message.chat.id
     user = update.effective_message.from_user.id
     post_zaman_text = update.effective_message.text
@@ -618,6 +633,7 @@ async def postzaman(update, context):
     return ConversationHandler.END
 
 async def apikayit(update, context):
+    bot = context.bot
     try:
         token = html.escape(update.effective_message.text)
     except:
@@ -663,6 +679,7 @@ async def apikayit(update, context):
     return ConversationHandler.END
 
 async def kanalkayit(update, context):
+    bot = context.bot
     chat = update.effective_message.chat.id
     user = update.effective_message.from_user.id
     y = collection.find_one({"_id": user})
@@ -707,6 +724,7 @@ async def kanalkayit(update, context):
     return ConversationHandler.END
 
 async def patzamansaat(update, context):
+    bot = context.bot
     verilen_saat = update.effective_message.text
     user = update.effective_message.from_user.id
     chat = update.effective_message.chat.id
@@ -739,6 +757,7 @@ async def patzamansaat(update, context):
     return ConversationHandler.END
 
 async def pat(update, context):
+    bot = context.bot
     chat = update.effective_message.chat.id
     user = update.effective_message.from_user.id
     if update.effective_message.text == "❌ İptal":

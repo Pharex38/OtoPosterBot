@@ -268,6 +268,7 @@ def setup_logger():
     logger = logging.getLogger("OtoPosterBot")
 
 async def eklentiiletisim(update, context):
+    bot = context.bot
     ileti = update.message.text_html_urled
     ileti = ileti.split("+")
     if ileti[0] == "ios":
@@ -300,6 +301,7 @@ async def eklentiiletisim(update, context):
         await bot.send_message(eklenti, f"istek*{haslink}*{ileti[1]}")
             
 async def WebAppDataHandler(update, context):
+    bot = context.bot
     wadata = update.effective_message.web_app_data
     if wadata.button_text == "🔧 Kaynak":
         for wdkey in wadata.data:
@@ -318,6 +320,7 @@ async def komutisimleristart(context):
     await context.bot.set_my_commands(commands=komutisimleris, scope=BotCommandScopeChatAdministrators(blog))
 
 async def comment(update, context):
+    bot = context.bot
     if update.edited_message or update.effective_message.text == None:
         return
     if update.message.text.find("kanalda post paylaşıldı.") == -1 and update.message.text.find("paylaşılıyor") == -1:

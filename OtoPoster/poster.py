@@ -700,6 +700,7 @@ async def ozel_poster_job(context):
     logger.warning(obasari)
 
 async def poster_edit(update, context):
+    bot = context.bot
     chat = update.effective_chat.id
     if KaynakCol.find_one({"_id": chat}) == None:
         return
@@ -825,6 +826,7 @@ async def poster_edit(update, context):
         logger.warning(f"{update.effective_chat.title} kaynağının {edcount} postu düzenlendi")
 
 async def postersira(update, context):
+    bot = context.bot
     if len(context.args) == 0:
         collection.update_one({"_id": 0}, {"$set": {"sira": 1}})
     else:
@@ -833,6 +835,7 @@ async def postersira(update, context):
     await update.effective_message.reply_text("Sıra düşürüldü")
 
 async def poster(update, context):
+    bot = context.bot
     global postsirasi, opostsirasi
     bot = context.bot
     pochat = update.effective_message.chat.id
