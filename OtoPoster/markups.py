@@ -296,13 +296,11 @@ async def kaynakmark(user, kanil):
         if kaynak['icerik'] != "arsiv" and u['kanal'][int(kanil)] in u['icerik']:
             continue
         try:
-            getkaynak = await bot.get_chat(kaynak["_id"])
+            k_title = kaynak['title']
+            k_link = kaynak['link']
         except:
             k_title = "𝙺𝚊𝚢𝚗𝚊ğ𝚊 𝚞𝚕𝚊şı𝚕𝚊𝚖ı𝚢𝚘𝚛."
             k_link = "https://t.me/otoposterbotlog"
-        else:
-            k_title = getkaynak.title
-            k_link = getkaynak.invite_link
         if k_link == None:
             k_link = "tg://privatepost?channel={}&post=9999999".format(str(kaynak['_id'])[3:])
         saatbut = InlineKeyboardButton("⏳", callback_data="zaman-{}".format(kaynak['sahip']))
