@@ -611,7 +611,7 @@ async def callback_query(call, context):
             return ConversationHandler.END
         context.user_data['zaman'] = "yok"
         await bot.send_message(user, "Post Hazırlandı!", reply_markup=dugme(user))
-        await bot.send_message(user, "<i>Postun gönderilmesini istediğin kanalı seç.</i>", reply_markup=(await patmark(user)))
+        await bot.send_message(user, "<i>Postun gönderilmesini istediğin kanalı seç.</i>", reply_markup=(await patmark(user, context)))
         return ConversationHandler.END
     if call.callback_query.data.startswith("pat"):
         back = call.callback_query.data.split("-")
