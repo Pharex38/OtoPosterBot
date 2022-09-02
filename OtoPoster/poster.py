@@ -7,6 +7,7 @@ MEDIA_GROUP_TYPES = {"audio": InputMediaAudio, "document": InputMediaDocument, "
 posterrtext = "{} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz hata sebebiyle kanallarda paylaşılamadı!\n\nAlınan hata: {}\n\nHatalı post: {}"
 
 async def poster_job(context):
+    bot = context.bot
     vipler = collection.find_one({"_id": 0})['vipuye']
     postee = context.job.data
     sendtimeout = 15
@@ -393,6 +394,7 @@ async def poster_job(context):
 
 async def ozel_poster_job(context):
     opostee = context.job.data    
+    bot = context.bot
     ogrup = []
     oatilanlar = []
     if len(opostee) == 0:
@@ -832,6 +834,7 @@ async def postersira(update, context):
 
 async def poster(update, context):
     global postsirasi, opostsirasi
+    bot = context.bot
     pochat = update.effective_message.chat.id
     # Ana Kaynaklar
     if KaynakCol.find_one({"_id": pochat}) != None:
