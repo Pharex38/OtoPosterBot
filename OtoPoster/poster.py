@@ -863,6 +863,10 @@ async def poster(update, context):
             if poj.data[0]['groupid'] == update.effective_message.media_group_id and poj.data[0]['chatid'] == pochat and update.effective_message.media_group_id != None:
                 poj.data.append(postdict)
                 return
+        
+        while len(context.job_queue.get_jobs_by_name("anaposter")) >= 3:
+            logger.warning(f"{update.effective_chat.title} kaynağının postu sırada bekletiliyor...")
+            sleep(10)
         context.job_queue.run_once(poster_job, when=whn, name=f"anaposter{pochat}" if whn != 5 else f"arsivanaposter{pochat}", data=[postdict]) 
 
     # Özel Kaynaklar
