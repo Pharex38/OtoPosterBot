@@ -599,6 +599,7 @@ async def callback_query(call, context):
         return ConversationHandler.END
     if call.callback_query.data.startswith("pat"):
         back = call.callback_query.data.split("-")
+        SEND_MEDIA_TYPES = {"document": bot.send_document, "photo": bot.send_photo, "video": bot.send_video, "animation": bot.send_animation}
         o = int(back[1]) - 1
         try:
             ptip = context.user_data['ptip']

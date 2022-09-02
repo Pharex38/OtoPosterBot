@@ -35,6 +35,7 @@ print(os.getpid())
 mpass = os.environ['MONGOPASS']
 mongo = f"os.environ["MONGO_URI"]"
 
+
 cluster = MongoClient(mongo, tls=True, tlsAllowInvalidCertificates=True)
 db = cluster["OtoPost"]
 collection = db["Kanallar"]
@@ -55,6 +56,7 @@ ptimeout = maindata['timeout']
 begstate = maindata['beg']
 mainsiralimit = maindata['mainsira']
 
+bot = ExtBot(bottoken)
 
 eklenti = 1654723447
 blog = -1001391561285
@@ -85,7 +87,6 @@ kansillog = "#KANAL_SİLİNDİ\n_ID: <a href='tg://user?id={user}'>{user}</a>\n�
 yenikanlog ="#YENİ_KANAL\n_ID: <a href='tg://user?id={user}'>{user}</a>\nÜYE: {membersayi}\nKANAL: <a href='tg://privatepost?channel={kan}&post=9999999'>{kan}</a>\n#id{user}\n#kan10{kan}"
 yeniuserlog = "#YENİ_KULLANİCİ\n_ID: <a href='tg://user?id={user}'>{user}</a>\nAPI: {token}\n#id{user}\n#api{token}"
 istekonaylog = "#İSTEK_ONAYLANDİ\n_ID: <a href='tg://user?id={user}'>{user}</a>\nİSTEK: {istek}\nKANAL: <a href='tg://privatepost?channel={kan}&post=9999999'>{kan}</a>\n#id{user}\n#kan10{kan}"
-SEND_MEDIA_TYPES = {"document": bot.send_document, "photo": bot.send_photo, "video": bot.send_video, "animation": bot.send_animation}
 POSTMENU, APIMENU, KANALMENU, EKSTRAMENU, TSBASLIK, TSPOST, BEGENI, APIDEGISTIR, KANALKAYDET, SABLONA, PANELZAMAN, PANELBUL, PATPOST, POSTZAMAN, PATZAMAN, CALLALT, ALTAPI, OZELBOTLOG, OZELKAYNAK= range(19)
 headerss = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
 headers = {

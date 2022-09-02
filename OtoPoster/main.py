@@ -18,11 +18,12 @@ def main() -> None:
     builder.token(bottoken)
     builder.defaults(Defaults(parse_mode=ParseMode.HTML, block=False, disable_web_page_preview=True, allow_sending_without_reply=True, tzinfo=pytz.timezone('Turkey')))
     builder.persistence(persistence)
-    builder.post_init(komutisimleristart)
     builder.connection_pool_size(50000)
     builder.get_updates_connection_pool_size(50000)
     builder.pool_timeout(100)
     builder.get_updates_pool_timeout(100)
+    bot = builder.bot
+    builder.post_init(komutisimleristart)
     application = builder.build()
     upjob = application.job_queue
     """ Repeating Jobs """

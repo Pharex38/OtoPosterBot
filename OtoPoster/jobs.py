@@ -20,6 +20,7 @@ async def jobyedekleme(context):
 
 async def tekrarlipostjob(context):
     tsdict = context.job.data
+    SEND_MEDIA_TYPES = {"document": bot.send_document, "photo": bot.send_photo, "video": bot.send_video, "animation": bot.send_animation}
     tspostsira = int(tsdict["mod"].split("-")[-1])
     try:
         tspostdict = choice(tsdict["tspost"]) if tsdict["mod"].startswith("rastgele") else tsdict["tspost"][tspostsira]
@@ -137,6 +138,7 @@ async def deljob(context):
     logger.warning(f"{spcount} post silindi.")
 
 async def zamanjob(context):
+    SEND_MEDIA_TYPES = {"document": bot.send_document, "photo": bot.send_photo, "video": bot.send_video, "animation": bot.send_animation}
     cont = context.job.data
     patbegeni = collection.find_one({"_id": cont[0]['user']})['begeni']
     if len(patbegeni) == 0:
