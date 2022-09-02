@@ -70,7 +70,7 @@ def poster_job(context):
     collection.update_one({"_id": 0}, {"$inc": {"sira": 1}})
     baslangic = time.time()
     try:
-        lmsg = FloodControl(bot.send_message, *[botlog, "<code>{} kaynağının postu paylaşılıyor...</code>".format(kynk.title)])
+        lmsg = FloodControl(bot.send_message, *[botlog, "<code>{} kaynağının <a href='{}'>postu</a> paylaşılıyor...</code>".format(kynk.title, update.effective_message.link)])
     except Exception as e:
         logger.error(e)
         bot.send_message(sahip, str(e))
@@ -368,7 +368,7 @@ def poster_job(context):
                             postdata.update_one({"_id": mesjid}, {"$push": {"pids": {"pid": pos.message_id, "chat": kan, "user": user, "link": link, "alink": alink}}})
                     logger.info("Başarılı! "+str(kan)+" - "+str(count))
                     
-    basari = "{} kaynağından, {} kanalda post paylaşıldı. {}".format(kynk.title, count, errinfo)
+    basari = "{} kaynağından, {} kanalda <a href='{}'>post</a> paylaşıldı. {}".format(kynk.title, count, update.effective_message.link, errinfo)
     detaylibasari = f"{kynk.title}\n#kan{str(chatdat['_id'])[1:]}\n#no{chatdat['no']}\n\nKANALTOPLAM: {count}\nUSERTOPLAM: {len(list(set(binb)))}\nTIME: {time.time() - baslangic}\n\nPOSTLINK: {update.effective_message.link}\nACIKLAMA: {aciklama}\nLINK: {mesajb}\n\nERROR: {jason.dumps(errsayim)}\n{jason.dumps(ertos)}\n{ertolist}"
     mainsira = collection.find_one({"_id": 0})['sira']
     collection.update_one({"_id": 0}, {"$set": {"sira": mainsira-1}})
@@ -387,7 +387,7 @@ def poster_job(context):
         try:
             FloodControl(bot.send_message, *[xc, yc])
         except Exception as e:
-            logger.exception(e)
+            logger.error(e)
 
 def ozel_poster_job(context):
     opostee = context.job.context    
