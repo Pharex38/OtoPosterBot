@@ -55,8 +55,6 @@ ptimeout = maindata['timeout']
 begstate = maindata['beg']
 mainsiralimit = maindata['mainsira']
 
-reqx = HTTPXRequest(connection_pool_size=1000, read_timeout=90, write_timeout=90, connect_timeout=90, pool_timeout=90)
-bot = ExtBot(bottoken, request=reqx, defaults=Defaults(parse_mode=ParseMode.HTML, block=False, disable_web_page_preview=True, allow_sending_without_reply=True, tzinfo=pytz.timezone('Turkey')))
 
 eklenti = 1654723447
 blog = -1001391561285
