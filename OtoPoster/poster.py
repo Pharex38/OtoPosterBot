@@ -6,7 +6,8 @@ from .jobs import *
 MEDIA_GROUP_TYPES = {"audio": InputMediaAudio, "document": InputMediaDocument, "photo": InputMediaPhoto, "animation": InputMediaAnimation, "video": InputMediaVideo}
 posterrtext = "{} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz hata sebebiyle kanallarda paylaşılamadı!\n\nAlınan hata: {}\n\nHatalı post: {}"
 
-async def poster_job(context):
+async def poster_job(context): 
+    bot = context.bot
     bot = context.bot
     vipler = collection.find_one({"_id": 0})['vipuye']
     postee = context.job.data
@@ -152,7 +153,7 @@ async def poster_job(context):
                 try:
                     altsite, altapi = dict(altapilist[int(sira-10)])["site"], dict(altapilist[int(sira-10)])["api"]
                 except IndexError:
-                    bildir(f"İndex Error ALTAPI - {user}")
+                    await bildir(f"İndex Error ALTAPI - {user}", context)
                     if len(altapilist) == 0:
                         collection.update_one({"_id": user}, {"$set": {"sira": 0}})
                         altapi = "None"
@@ -164,7 +165,7 @@ async def poster_job(context):
                             collection.update_one({"_id": user}, {"$set": {"sira": 11}})
                             altsite, altapi = altapilist[0]["site"], altapilist[0]["api"]
                 except Exception as e:
-                    bildir("Altapi Error: "+"\n\n"+str(e)+"\n\n"+str(altapilist)+"\n\n"+str(altapilist[sira-10])+"\n\n"+str(hesap))
+                    await bildir("Altapi Error: "+"\n\n"+str(e)+"\n\n"+str(altapilist)+"\n\n"+str(altapilist[sira-10])+"\n\n"+str(hesap), context)
                     continue
                 if altsitelist == "sirali" and len(altapilist) != 0:
                     token = altapi
@@ -252,7 +253,7 @@ async def poster_job(context):
                 else:
                     sablon = sablon.replace("{aciklama}", "{a}").replace("{link}", "{l}").format(a=aciklama, l=link)
             except Exception as e:
-                await bildir(f'Şablon hatası: {user}\n\n{e}')
+                await bildir(f'Şablon hatası: {user}\n\n{e}', context)
             if link == "-" or alink == "-":
                 continue
             if link == " ":
@@ -366,7 +367,7 @@ async def poster_job(context):
                             try:
                                 await FloodControl(bot.pin_chat_message, *[kan, post[-1].message_id])
                             except Exception as e:
-                                bildir(e)
+                                await bildir(e, context)
                         for pos in post:
                             postdata.update_one({"_id": mesjid}, {"$push": {"pids": {"pid": pos.message_id, "chat": kan, "user": user, "link": link, "alink": alink}}})
                     logger.info("Başarılı! "+str(kan)+" - "+str(count))
@@ -392,7 +393,8 @@ async def poster_job(context):
         except Exception as e:
             pass
 
-async def ozel_poster_job(context):
+async def ozel_poster_job(context): 
+    bot = context.bot
     opostee = context.job.data    
     bot = context.bot
     ogrup = []
@@ -683,7 +685,7 @@ async def ozel_poster_job(context):
                                 await sleep(orpf.retry_after+1)
                                 await bot.pin_chat_message(okan, opost.message_id)
                             except Exception as e:
-                                bildir(e)
+                                await bildir(e, context)
                     logger.info("Başarılı! "+str(okan))
     obasari = "[ÖZEL] {} kaynağından {} kanalda post paylaşıldı.".format(okynk.title, ocount)
     if okaynak["log"] != "yok":

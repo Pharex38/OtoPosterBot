@@ -4,7 +4,8 @@ import logging
 
 
 
-async def deep(u_kod, user):
+async def deep(u_kod, user, context):
+    bot = context.bot
     kat = collection.find_one({"_id": user})
     key = {"_id": user, "kanal": [], "sablon": "1", "kaynak": ["32"], "site": "1", "altapi": "None", "altsite": "None", "sira": 0, "ozel": True, "time": 0, "vakit": 0, "pcount": 0, "eski": [], "begeni": [], "pin": [], "icerik": []}
     if int(u_kod) > 100:
@@ -173,7 +174,8 @@ def apiscraper(apitoken):
         
     return apitoken
 
-async def bildir(neyi='Boş Bildirim Testi !'):
+async def bildir(neyi='Boş Bildirim Testi !', context=None):
+    bot = context.bot
     for i in adminlist:
         try:
             await bot.send_message(i,neyi)
@@ -245,13 +247,13 @@ def site_isim(no):
     else:
         return "Bulunamadı"
 
-async def kan_mention_html(kanid):
+async def kan_mention_html(kanid, context):
     try:
-        kanmh = await bot.get_chat(kanid)
+        kanmh = await context.bot.get_chat(kanid)
     except RetryAfter as mhafter:
         await sleep(mhafter.retry_after)
         try:
-            kanmh = await bot.get_chat(kanid)
+            kanmh = await context.bot.get_chat(kanid)
         except:
             return f"<a href='tg://privatepost?channel={str(kanid)[3:]}&post=9999999'>'Kanala Ulaşılamadı.'</a>"
     except:
@@ -311,7 +313,8 @@ async def WebAppDataHandler(update, context):
                 pass
 
 
-async def komutisimleristart(context):
+async def komutisimleristart(context): 
+    bot = context.bot
     komutisimleris = []
     for komi in komutisimleri:
         komutisimleris.append(BotCommand(komi, komi.capitalize()))

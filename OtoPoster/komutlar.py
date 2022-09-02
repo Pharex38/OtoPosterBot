@@ -15,7 +15,7 @@ async def start(update, context):
     if len(context.args) > 0:
         ref = context.args[0]
         kyn = str(ref.split('k')[-1]) if len(update.message.text.split()) > 1 else None
-        if deep(kyn, user):
+        if deep(kyn, user, context):
             return
         return APIDEGISTIR
     
@@ -258,6 +258,7 @@ async def bul(update, context):
         await update.effective_message.reply_text("Kriterlerinize uygun sonuç bulunamadı!")
 
 async def ona(m, context):
+    bot = context.bot
     cid = m.message.chat.id
     msj = await bot.send_message(cid, "Bu komutu kanalınızda kullanmalısınız.")
 
@@ -506,6 +507,7 @@ async def duy(update, context):
         await bot.send_message(chat, "{} Kişiye Duyuru Mesajı Gönderildi!".format(duyurus))
 
 async def dsil(m, context):
+    bot = context.bot
     chat = m.message.chat.id
     if chat != sahip:
         return

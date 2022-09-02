@@ -5,6 +5,7 @@ from .misc import *
 from .komutlar import *
 
 async def sabloncall(call, context):
+    bot = context.bot
     user = call.effective_user.id
     chat = call.effective_chat.id
     mesajid = call.effective_message.message_id
@@ -22,6 +23,7 @@ async def sabloncall(call, context):
     return SABLONA
 
 async def altcall(call, context):
+    bot = context.bot
     user = call.effective_user.id
     chat = call.effective_chat.id
     mesajid = call.effective_message.message_id
@@ -33,10 +35,12 @@ async def altcall(call, context):
     return ALTAPI
 
 async def ayarlarcall(call, context):
+    bot = context.bot
     user = call.effective_user.id
     chat = call.effective_chat.id
     
 async def kaynakkontrolcall(call, context):
+    bot = context.bot
     chat = call.effective_chat.id
     user = call.effective_user.id
     query = call.callback_query
@@ -64,6 +68,7 @@ async def kaynakkontrolcall(call, context):
         await bot.send_message(chat, "İsteğiniz gönderildi!")
 
 async def begenicall(call, context):
+    bot = context.bot
     user = call.effective_user.id
     chat = call.effective_chat.id
     if len(collection.find_one({"_id": user})['kanal']) == 0:
@@ -73,6 +78,7 @@ async def begenicall(call, context):
     return BEGENI
 
 async def kaynakcall(call, context):
+    bot = context.bot
     user = call.effective_user.id
     chat = call.effective_chat.id
     kys = int(call.callback_query.data.split("-")[1])
@@ -117,6 +123,7 @@ async def kaynakcall(call, context):
         pass
 
 async def ozellogcall(call, context):
+    bot = context.bot
     user = call.effective_user.id
     chat = call.effective_chat.id
     mesajid = call.effective_message.message_id
@@ -125,6 +132,7 @@ async def ozellogcall(call, context):
     return OZELBOTLOG
 
 async def ozelkaynakcall(call, context):
+    bot = context.bot
     user = call.effective_user.id
     chat = call.effective_chat.id
     mesajid = call.effective_message.message_id
@@ -145,11 +153,13 @@ async def ozelkaynakcall(call, context):
     return OZELKAYNAK
 
 async def patzamancall(call, context):
+    bot = context.bot
     user = call.effective_user.id
     chat = call.effective_chat.id
     mesajid = call.callback_query.message.message_id
 
 async def postzamancall(call, context):
+    bot = context.bot
     user = call.effective_user.id
     chat = call.effective_chat.id
     mesajid = call.callback_query.message.message_id
@@ -158,6 +168,7 @@ async def postzamancall(call, context):
     return POSTZAMAN
 
 async def cekiliscall(call, context):
+    bot = context.bot
     user = call.effective_user.id
     chat = call.effective_chat.id
     mesajid = call.callback_query.message.message_id
@@ -202,6 +213,7 @@ async def cekiliscall(call, context):
     await call.callback_query.answer(show_alert=True, text=f"En az 1000 abone olan bir kanalınız {cek_k_isim} kaynağını kullanmak zorunda.")
 
 async def devampatcall(call, context):
+    bot = context.bot
     chat = call.effective_chat.id
     try:
         await call.effective_message.delete()
@@ -211,6 +223,7 @@ async def devampatcall(call, context):
     return PATPOST
 
 async def panelcall(call, context):
+    bot = context.bot
     query = call.callback_query
     chat = call.effective_chat.id
     user = call.effective_user.id
@@ -294,6 +307,8 @@ async def panelcall(call, context):
         query.answer("Yanıt bulunamadı!")
 
 async def callback_query(call, context):
+    bot = context.bot
+    bot = context.bot
     user = call.effective_user.id
     chat = call.effective_chat.id
     mesajid = call.callback_query.message.message_id
@@ -312,7 +327,7 @@ async def callback_query(call, context):
             collection.update_one({"_id": user}, {"$push": {"pin": pushedpinkan}})
             await call.callback_query.answer("Kanalınız için Pin modu açıldı.")
         try:
-            await call.callback_query.edit_message_reply_markup((await pinmark(user)))
+            await call.callback_query.edit_message_reply_markup((await pinmark(user, context)))
         except:
             pass
         return 
@@ -331,7 +346,7 @@ async def callback_query(call, context):
             collection.update_one({"_id": user}, {"$push": {"eski": pushedsfskan}})
             await call.callback_query.answer("Kanalınız SFS moduna alındı.")
         try:
-            await call.callback_query.edit_message_reply_markup((await sfsmark(user)))
+            await call.callback_query.edit_message_reply_markup((await sfsmark(user, context)))
         except:
             pass
     """ İcerik """
@@ -772,6 +787,7 @@ async def callback_query(call, context):
     await call.callback_query.answer(f"Yanıt yok - {call.callback_query.data}")
 
 async def tekrarlisaatayarlacall(call, context):
+    bot = context.bot
     context.user_data['tsaat'] = int(call.callback_query.data.split("-")[-1])
     try:
         await call.effective_message.delete()
@@ -782,6 +798,7 @@ async def tekrarlisaatayarlacall(call, context):
     return TSBASLIK
 
 async def tsmodcall(call, context):
+    bot = context.bot
     user = call.effective_user.id
     chat = call.effective_chat.id
     query = call.callback_query
@@ -801,6 +818,7 @@ async def tsmodcall(call, context):
 
 
 async def advcall(call, context):
+    bot = context.bot
     user = call.effective_user.id
     chat = call.effective_chat.id
     advdat = collection.find_one({"_id": user})
@@ -828,6 +846,7 @@ async def advcall(call, context):
     
 
 async def begeniislemcall(call, context):
+    bot = context.bot
     user = call.effective_user.id
     chat = call.effective_chat.id
     mesajid = call.effective_message.message_id    

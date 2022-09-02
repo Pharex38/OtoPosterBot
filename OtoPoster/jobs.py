@@ -2,7 +2,8 @@ from . import *
 from .misc import *
 
 
-async def jobyedekleme(context):
+async def jobyedekleme(context): 
+    bot = context.bot
     global ptimeout
     collection.update_one({"_id": 0}, {"$set": {"jobs": []}})
     ptimeout = collection.find_one({"_id": 0})['timeout']
@@ -18,7 +19,8 @@ async def jobyedekleme(context):
                 yjcount += 1
     logger.warning(str(yjcount)+" Adet Job Yedeklendi!")
 
-async def tekrarlipostjob(context):
+async def tekrarlipostjob(context): 
+    bot = context.bot
     tsdict = context.job.data
     SEND_MEDIA_TYPES = {"document": bot.send_document, "photo": bot.send_photo, "video": bot.send_video, "animation": bot.send_animation}
     tspostsira = int(tsdict["mod"].split("-")[-1])
@@ -84,7 +86,8 @@ async def tekrarlipostjob(context):
                 else:
                     tsgetjj.data['try'] = tsdict['try']+1
 
-async def kisitlamakontrol(context):
+async def kisitlamakontrol(context): 
+    bot = context.bot
     kdat = collection.find_one({"_id": 0})
     safelinks = {
         "0": "https://urlcik.com/YJ6SWGv", 
@@ -110,7 +113,8 @@ async def kisitlamakontrol(context):
                     collection.update_one({"_id": 0}, {"$pull": {"site": kond}})
                     logger.warning(f"{site_isim(kond)} arındırıldı!")
         
-async def deljob(context):
+async def deljob(context): 
+    bot = context.bot
     delcont = context.job.data
     hedef = str(delcont.effective_chat.id)
     mesid = int(delcont.effective_message.message_id)
@@ -137,7 +141,8 @@ async def deljob(context):
             spcount += 1
     logger.warning(f"{spcount} post silindi.")
 
-async def zamanjob(context):
+async def zamanjob(context): 
+    bot = context.bot
     SEND_MEDIA_TYPES = {"document": bot.send_document, "photo": bot.send_photo, "video": bot.send_video, "animation": bot.send_animation}
     cont = context.job.data
     patbegeni = collection.find_one({"_id": cont[0]['user']})['begeni']
@@ -166,11 +171,13 @@ async def zamanjob(context):
                 else:
                     ButonCol.update_one({"_id": msgd['pkan']}, {"$set": {str(ppost.message_id): [], "begeni": patbegeni}})
 
-async def delonejob(context):
+async def delonejob(context): 
+    bot = context.bot
     delh = context.job.data
     bot.delete_message(delh['chat'], delh['mid'])
 
-async def gunluk(context):
+async def gunluk(context): 
+    bot = context.bot
     ozel_kaynak_kullanan_sayisi = 0
     exe_kullanan_sayisi, pubiza_kullanan_sayisi, ouo_kullanan_sayisi, urlably_kullanan_sayisi, trlink_kullanan_sayisi, pnd_kullanan_sayisi, girist, urlcik_kullanan_sayisi = 0, 0, 0, 0, 0, 0, 0, 0
     msg = bot.send_message(botlog, "<code>Günlük veriler hesaplanıyor...</code>")
@@ -311,17 +318,20 @@ async def gunluk(context):
     bot.pin_chat_message(botlog, msg.message_id)
 
 
-async def panelcleaner(context):
+async def panelcleaner(context): 
+    bot = context.bot
     try:
         context.dispatcher.user_data[context.job.data].pop("panel_text")
     except:
         pass
 
-async def siraclean(context):
+async def siraclean(context): 
+    bot = context.bot
     if len(context.job_queue.get_jobs_by_name("anaposter")) != 20:
         collection.update_one({"_id": 0}, {"$set": {"sira": 0}})
 
-async def resetleme(context):
+async def resetleme(context): 
+    bot = context.bot
     try:
         for rest in collection.find({}):
             collection.update_one({"_id": rest['_id']}, {"$set": {"time": 0}})

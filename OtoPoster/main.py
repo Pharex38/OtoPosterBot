@@ -166,4 +166,4 @@ main()
 
 bot = application.bot
 application.run_polling(write_timeout=90, connect_timeout=90, pool_timeout=90)
-bildir("Bot kapandı!")
+

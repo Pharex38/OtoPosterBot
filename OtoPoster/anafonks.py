@@ -109,7 +109,7 @@ async def kanalmenu(update, context):
         if len(kudat['kanal']) < 1:
             await bot.send_message(chat, "Henüz bir kanal kaydetmemişsiniz!", reply_markup=kanalmenumark())
             return 
-        await bot.send_message(chat, "Silmek istediğiniz kanalı seçin.", reply_markup=(await gen_markup(user)))
+        await bot.send_message(chat, "Silmek istediğiniz kanalı seçin.", reply_markup=(await gen_markup(user, context)))
         return 
     if mesaj == "💠 Tür Değiştir":
         if len(kudat['kanal']) < 1:
@@ -128,7 +128,7 @@ async def kanalmenu(update, context):
         if len(kudat['kanal']) < 1:
             await bot.send_message(chat, "SFS moduna alabilmek için henüz bir kanal kaydetmemişsiniz!", reply_markup=kanalmenumark())
             return
-        await bot.send_message(chat, "<i>SFS moduna almak istediğiniz kanalı seçin. SFS moduna aldığınız kanala modu kapatana kadar post atılmaz!</i>\n\n", reply_markup=(await sfsmark(user)))    
+        await bot.send_message(chat, "<i>SFS moduna almak istediğiniz kanalı seçin. SFS moduna aldığınız kanala modu kapatana kadar post atılmaz!</i>\n\n", reply_markup=(await sfsmark(user, context)))    
         return
     if mesaj == "↩️ Ana Menü" or mesaj == "❌ İptal":
         await bot.send_message(chat, "<b>Biliyor muydunuz? -></b> "+"<i>"+choice(tips)+"</i>")
@@ -325,7 +325,7 @@ async def ekstramenu(update, context):
         if len(eudat['kanal']) == 0:
             await bot.send_message(chat, "Bu modu kullanabilmek için önce bir kanal kaydetmelisin!")
             return
-        await bot.send_message(chat, "<b>Paylaşılan postların otomatik olarak sabitlenmesini istersen bu modu açabilirsin.</b>", reply_markup=(await pinmark(user)))
+        await bot.send_message(chat, "<b>Paylaşılan postların otomatik olarak sabitlenmesini istersen bu modu açabilirsin.</b>", reply_markup=(await pinmark(user, context)))
         return
     if mesaj == "🔁 Tekrarlı Post Paylaş":
         tekrarlipostlari = context.job_queue.get_jobs_by_name("ts"+str(user))
@@ -362,7 +362,7 @@ async def ekstramenu(update, context):
         if len(eudat['kanal']) == 0:
             await bot.send_message(chat, "Kontrol edebilmem için önce bir kanal kaydetmelisin!")
             return
-        await bot.send_message(chat, "Kontrol etmek istediğiniz kanalı seçin.", reply_markup=(await ioskontrolmark(user)))
+        await bot.send_message(chat, "Kontrol etmek istediğiniz kanalı seçin.", reply_markup=(await ioskontrolmark(user, context)))
         return
     if mesaj == "↩️ Ana Menü" or mesaj == "❌ İptal":
         await bot.send_message(chat, "<b>Biliyor muydunuz? -></b> "+"<i>"+choice(tips)+"</i>")
@@ -753,7 +753,7 @@ async def patzamansaat(update, context):
         mstd = await bot.send_message(chat, "Başka post paylaşacak mısınız?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Evet", callback_data="devam"), InlineKeyboardButton("Hayır", callback_data="del")]]))
         return ConversationHandler.END
 
-    await bot.send_message(update.effective_message.chat.id, "Hangi kanalınıza gönderilecek.", reply_markup=(await patmark(update.effective_message.from_user.id)))
+    await bot.send_message(update.effective_message.chat.id, "Hangi kanalınıza gönderilecek.", reply_markup=(await patmark(update.effective_message.from_user.id, context)))
     return ConversationHandler.END
 
 async def pat(update, context):
