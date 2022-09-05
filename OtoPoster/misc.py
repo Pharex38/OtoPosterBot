@@ -308,12 +308,13 @@ def eklentiiletisim(update, context):
 
 def WebAppDataHandler(update, context):
     wadata = update.effective_message.web_app_data
+    wadatadict = jason.loads(wadata.data)
     bildir(wadata.data)
-    for webxd in wadata.data['changes'].keys():
-        if wadata.data[webxd]:
-            KaynakCol.update_one({"no": int(webxd)}, {"$push": {"kanal": str(wadata.data['kanal_id']), "kaynak": int(wadata.data['user_id'])}})
+    for webxd in wadatadict['changes'].keys():
+        if wadatadict[webxd]:
+            KaynakCol.update_one({"no": int(webxd)}, {"$push": {"kanal": str(wadatadict['kanal_id']), "kaynak": int(wadatadict['user_id'])}})
         else:
-            KaynakCol.update_one({"no": int(webxd)}, {"$pull": {"kanal": str(wadata.data['kanal_id'])}})
+            KaynakCol.update_one({"no": int(webxd)}, {"$pull": {"kanal": str(wadatadict['kanal_id'])}})
     bot.send_message(update.effective_user.id, "Kaynak değişiklikleriniz kaydedildi!", reply_markup=dugme(update.effective_user.id))
     return ConversationHandler.END
 
