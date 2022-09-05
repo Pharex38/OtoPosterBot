@@ -305,11 +305,17 @@ def eklentiiletisim(update, context):
             collection.update_one({"_id":0}, {"$pull": {"istek": str(ileti[1])}})
             
         bot.send_message(eklenti, f"istek*{haslink}*{ileti[1]}")
-            
+
 def WebAppDataHandler(update, context):
     wadata = update.effective_message.web_app_data
     bildir(wadata.data)
-
+    for webxd in dict(wadata.data)['changes'].keys():
+        if wadata.data[webxd]:
+            KaynakCol.update_one({"no": int(webxd)}, {"$push": {"kanal": str(wadata.data['kanal_id']), "kaynak": int(wadata.data['user_id'])}})
+        else:
+            KaynakCol.update_one({"no": int(webxd)}, {"$pull": {"kanal": str(wadata.data['kanal_id'])}})
+    bot.send_message(update.effective_user.id, "Kaynak değişiklikleriniz kaydedildi!", reply_markup=dugme(update.effective_user.id))
+    return ConversationHandler.END
 
 def komutisimleristart():
     komutisimleris = []
