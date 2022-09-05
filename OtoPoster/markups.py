@@ -81,7 +81,7 @@ def webappmark(user):
             sleep(trf.retry_after+1)
             wappmark.append([KeyboardButton(text=bot.get_chat(int(wpam)).title, web_app=WebAppInfo(f"https://pharex.dev/otoposter/kaynakmenu/?kanal={wpam[1:]}&user={user}"))])
         cevap = ReqPost("https://pharex.dev/otoposter/kaynakmenu/", json={"data": kaynaklistesi, "user_id": user, "kanal_id": wpam}, headers=headerss).text
-    print(str(cevap.text))
+    print(str(cevap))
     return ReplyKeyboardMarkup(wappmark, resize_keyboard=True)
 
 def ioskontrolmark(user):
