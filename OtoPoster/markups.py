@@ -1,5 +1,4 @@
 from . import *
-from .misc import *
 
 def site_isim(no):
     if no == "0":
@@ -78,11 +77,11 @@ def webappmark(user):
         try:
             wappmark.append([KeyboardButton(text=bot.get_chat(int(wpam)).title, web_app=WebAppInfo(f"https://pharex.dev/otoposter/kaynakmenu/?kanal={wpam[1:]}&user={user}"))])
         except RetryAfter as trf:
-            logger.warning(f"FloodWait - {trf.retry_after} - Line: {sys._getframe().f_back.f_lineno}")
+            print(f"FloodWait - {trf.retry_after} - Line: {sys._getframe().f_back.f_lineno}")
             sleep(trf.retry_after+1)
             wappmark.append([KeyboardButton(text=bot.get_chat(int(wpam)).title, web_app=WebAppInfo(f"https://pharex.dev/otoposter/kaynakmenu/?kanal={wpam[1:]}&user={user}"))])
         cevap = ReqPost("https://pharex.dev/otoposter/kaynakmenu/", json={"data": kaynaklistesi, "user_id": user, "kanal_id": wpam}, headers=headerss).text
-    logger.info(str(cevap.text))
+    print(str(cevap.text))
     return ReplyKeyboardMarkup(wappmark, resize_keyboard=True)
 
 def ioskontrolmark(user):
