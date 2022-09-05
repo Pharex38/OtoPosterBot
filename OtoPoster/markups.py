@@ -1,4 +1,5 @@
 from . import *
+from .misc import *
 
 def site_isim(no):
     if no == "0":
