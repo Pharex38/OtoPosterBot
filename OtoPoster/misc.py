@@ -310,7 +310,7 @@ def WebAppDataHandler(update, context):
     wadata = update.effective_message.web_app_data
     wadatadict = jason.loads(wadata.data)
     bildir(wadata.data)
-    for webxd in wadatadict['changes'].keys():
+    for webxd in wadatadict['change'].keys():
         if wadatadict[webxd]:
             KaynakCol.update_one({"no": int(webxd)}, {"$push": {"kanal": str(wadatadict['kanal_id']), "kaynak": int(wadatadict['user_id'])}})
         else:
