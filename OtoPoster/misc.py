@@ -149,6 +149,9 @@ def linkkisalt(site, token, text, icerik):
     elif site == "9":
         json = get("https://shrtfly.com/api?", params={"api": token, "url": text}, headers=headerss, timeout=ptimeout).json()
         link = json['shortenedUrl']
+    elif site == "10":
+        json = get("https://za.gl/api?", params={"api": token, "url": text}, headers=headerss, timeout=ptimeout).json()
+        link = json['shortenedUrl']
     elif site == "0":
         json = get("https://urlcik.com/api?", params={"api": token, "url": text}, headers=headerss, timeout=ptimeout).json()
         link = json['shortenedUrl']
@@ -210,6 +213,8 @@ def phaapi(sit):
         return "***REMOVED-SHORTENER-KEY***"
     elif sit == "9":
         return "***REMOVED-KEY***"
+    elif sit == "10":
+        return "***REMOVED-SHORTENER-KEY***"
     else:
         return "aaaaa"
 
@@ -242,6 +247,8 @@ def site_isim(no):
         return "Cuty.io"
     elif no == "9":
         return "ShrtFly"
+    elif no == "10":
+        return "Za.gl"
     else:
         return "Bulunamadı"
 
