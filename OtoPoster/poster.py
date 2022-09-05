@@ -51,7 +51,7 @@ def poster_job(context):
     aciklama = mesaj[:ason].strip()
     """ Hata Tespit """
     errinfo = ""
-    errsayim = {"0": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0}
+    errsayim = {"0": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0, "10": 0, "11": 0}
     ertos = {"spg": 0, "apihata": 0}
     ertolist = []
     aftertext = []
