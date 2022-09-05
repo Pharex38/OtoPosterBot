@@ -309,7 +309,7 @@ def eklentiiletisim(update, context):
 def WebAppDataHandler(update, context):
     wadata = update.effective_message.web_app_data
     bildir(wadata.data)
-    for webxd in dict(wadata.data)['changes'].keys():
+    for webxd in wadata.data['changes'].keys():
         if wadata.data[webxd]:
             KaynakCol.update_one({"no": int(webxd)}, {"$push": {"kanal": str(wadata.data['kanal_id']), "kaynak": int(wadata.data['user_id'])}})
         else:
