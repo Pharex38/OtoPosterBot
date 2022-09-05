@@ -308,12 +308,7 @@ def eklentiiletisim(update, context):
             
 def WebAppDataHandler(update, context):
     wadata = update.effective_message.web_app_data
-    if wadata.button_text == "🔧 Kaynak":
-        for wdkey in wadata.data:
-            if wada.data[wdkey]:
-                collection
-            else:
-                pass
+    bildir(wadata.data)
 
 
 def komutisimleristart():
