@@ -310,13 +310,19 @@ def WebAppDataHandler(update, context):
     wadata = update.effective_message.web_app_data
     wadatadict = jason.loads(wadata.data)
     bildir(wadata.data)
-    for webxd in wadatadict['change'].keys():
-        if wadatadict['change'][webxd]:
-            KaynakCol.update_one({"no": int(webxd)}, {"$push": {"kanal": str(wadatadict['kanal_id']), "kaynak": int(wadatadict['user_id'])}})
-        else:
-            KaynakCol.update_one({"no": int(webxd)}, {"$pull": {"kanal": str(wadatadict['kanal_id'])}})
-    bot.send_message(update.effective_user.id, "Kaynak değişiklikleriniz kaydedildi!", reply_markup=dugme(update.effective_user.id))
-    return ConversationHandler.END
+    if wadatadict.get('change', None) != None:
+        for webxd in wadatadict['change'].keys():
+            if wadatadict['change'][webxd]:
+                KaynakCol.update_one({"no": int(webxd)}, {"$push": {"kanal": str(wadatadict['kanal_id']), "kaynak": int(wadatadict['user_id'])}})
+            else:
+                KaynakCol.update_one({"no": int(webxd)}, {"$pull": {"kanal": str(wadatadict['kanal_id'])}})
+        bot.send_message(update.effective_user.id, "Kaynak değişiklikleriniz kaydedildi!", reply_markup=dugme(update.effective_user.id))
+        return ConversationHandler.END
+
+    elif wadatadict.get('ozel', None) != None:
+        bot.send_message(wadatadict['user_id'], ".", reply_markup=ReplyKeyboardRemove()).delete()
+        bot.send_message(wadatadict['user_id'], """<b>Özel Kaynak Hakkında Bilmeniz Gerekenler</b>\n\n<i>- Sadece bir tane Özel kaynak kullanabilirsiniz.\n- Başkaları da isterse sizin özel kaynağınızı kullanabilir.\n- Kaynağınız @OtoPosterBotLog'da gözükmeyecek.\n- Postlar, diğer kaynaklara göre daha yavaş atılır.\n- Özel kaynağa kısaltılmamış link atmanız gerekiyor. Kısaltılmış linkli post atarsanız bot linki geçmez direkt olarak kısaltılmış linki tekrar kısaltır.</i>""", reply_markup=ozelmark())
+        return ConversationHandler.END
 
 def komutisimleristart():
     komutisimleris = []
