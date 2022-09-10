@@ -61,6 +61,7 @@ def imark():
 
 def webappmark(user):
     wappmark = []
+    webappsatir = []
     user_data = collection.find_one({"_id": user})
     for wpam in user_data['kanal']:
         kanal_ismi = bot.get_chat(int(wpam)).title
@@ -78,14 +79,19 @@ def webappmark(user):
             kobj['no'] = kaynak['no']
             kaynaklistesi.append(kobj)
         try:
-            wappmark.append([KeyboardButton(text=kanal_ismi, web_app=WebAppInfo(f"https://pharex.dev/otoposter/kaynakmenu?kanal={wpam[1:]}&user={user}"))])
+            wappmark.append(KeyboardButton(text=kanal_ismi, web_app=WebAppInfo(f"https://pharex.dev/otoposter/kaynakmenu?kanal={wpam[1:]}&user={user}")))
         except RetryAfter as trf:
             print(f"FloodWait - {trf.retry_after} - Line: {sys._getframe().f_back.f_lineno}")
             sleep(trf.retry_after+1)
-            wappmark.append([KeyboardButton(text=kanal_ismi, web_app=WebAppInfo(f"https://pharex.dev/otoposter/kaynakmenu?kanal={wpam[1:]}&user={user}"))])
+            wappmark.append(KeyboardButton(text=kanal_ismi, web_app=WebAppInfo(f"https://pharex.dev/otoposter/kaynakmenu?kanal={wpam[1:]}&user={user}")))
+        if len(webappmark) == 2:
+            webappsatir.append(wappmark)
+            wappmark = []
         cevap = ReqPost("https://pharex.dev/otoposter/kaynakmenu", json={"data": kaynaklistesi, "user_id": user, "kanal_id": wpam, "kanal_ismi": kanal_ismi}, headers=headerss).text
+    
+    webappsatir.append(wappmark)
     print(str(cevap))
-    return ReplyKeyboardMarkup(wappmark, resize_keyboard=True)
+    return ReplyKeyboardMarkup(webappsatir, resize_keyboard=True)
 
 def ioskontrolmark(user):
     iosk = []
