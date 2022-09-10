@@ -273,8 +273,8 @@ def postmenu(update, context):
             bot.send_message(chat, "Henüz bir kanal kaydetmemişsiniz.", reply_markup=postmenumark())
             return
         kaynakmsg = bot.send_message(chat, "<code>Yükleniyor...</code>")
-        kaynakmsg.delete()
         bot.send_message(user, "Aşağıdaki menüden bir kanal seçin.", reply_markup=webappmark(user))
+        kaynakmsg.delete()
         return
         """
         kynskm = poudat['kanal'][0]
