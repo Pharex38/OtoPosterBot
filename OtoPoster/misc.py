@@ -321,7 +321,6 @@ def WebAppDataHandler(update, context):
 
     elif wadatadict.get('ozel', None) != None:
         bot.send_message(wadatadict['user_id'], ".", reply_markup=ReplyKeyboardRemove()).delete()
-        bot.send_message(wadatadict['user_id'], """<b>Özel Kaynak Hakkında Bilmeniz Gerekenler</b>\n\n<i>- Sadece bir tane Özel kaynak kullanabilirsiniz.\n- Başkaları da isterse sizin özel kaynağınızı kullanabilir.\n- Kaynağınız @OtoPosterBotLog'da gözükmeyecek.\n- Postlar, diğer kaynaklara göre daha yavaş atılır.\n- Özel kaynağa kısaltılmamış link atmanız gerekiyor. Kısaltılmış linkli post atarsanız bot linki geçmez direkt olarak kısaltılmış linki tekrar kısaltır.</i>""", reply_markup=ozelmark())
         return ConversationHandler.END
 
 def komutisimleristart():

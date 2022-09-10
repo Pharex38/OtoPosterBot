@@ -280,6 +280,39 @@ def postmenu(update, context):
             kcisim = "Kanalınıza ulaşılamadı!"
         kaynakmsg.edit_text(f"""<b> >>>    {kcisim}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>""", reply_markup=kaynakmark(user, 0))
         return
+
+    if mesaj == "♋️ Özel Kaynak Oluştur ♋️":
+        bot.send_message(user, """<b>Özel Kaynak Hakkında Bilmeniz Gerekenler</b>\n\n<i>- Sadece bir tane Özel kaynak kullanabilirsiniz.\n- Başkaları da isterse sizin özel kaynağınızı kullanabilir.\n- Kaynağınız @OtoPosterBotLog'da gözükmeyecek.\n- Postlar, diğer kaynaklara göre daha yavaş atılır.\n- Özel kaynağa kısaltılmamış link atmanız gerekiyor. Kısaltılmış linkli post atarsanız bot linki geçmez direkt olarak kısaltılmış linki tekrar kısaltır.</i>""", reply_markup=ozelmark())
+        return
+    if mesaj == "♋️ Özel Kaynak Ayarları 🛠":
+        kaynakmsg = bot.send_message(user, "<code>Yükleniyor...</code>")
+        kynskm = collection.find_one({"_id": user})['kanal'][0]
+        
+        for m in OzelCol.find({}):
+            if user in m['kanal']:
+                try:
+                    ozel_kaynak_bilgi = bot.get_chat(m['okaynak'])
+                except:
+                    kaynakmsg.edit_text("Bot kaynak kanalından çıkartıldığı için Özel Kaynak kullanılamıyor!", reply_markup=ozelkaynakmark(user, 0))
+                    return
+                kullanan_sayisi = len(m['kanal'])
+                break
+        refsahip = "yok"
+        for ox in OzelCol.find({}):
+            if user in ox['kanal']:
+                refsahip = ox["_id"]
+                break
+        if refsahip == "yok":
+            collection.update_one({"_id": user}, {"$set": {"ozel": False}})
+            collection.update_one({"_id": user}, {"$pull": {"kaynak": "32"}})
+            kaynakmsg.edit_text("Özel kaynağınız silinmiş!")
+            return
+        ref_link = create_deep_linked_url(context.bot.username, str(refsahip))
+        try:
+            kaynakmsg.edit_text("""<b>Sadece bir tane Özel Kaynak kullanabilirsiniz.</b>\n\n      <i>Özel Kaynağınız:</i><b> <a href="{}">{}</a>\n</b>      <i>Bu Kaynağı Toplam </i><code>{}</code> <i>Kişi Kullanıyor.</i>\n\n<b>Kaynak Referans Linki;</b>\n<code>{}</code>\n<i>Bu link ile botu başlatan herkes otomatik olarak sizin kaynağınıza bağlanacak.</i>""".format(ozel_kaynak_bilgi.invite_link, ozel_kaynak_bilgi.title, kullanan_sayisi, ref_link), reply_markup=ozelkaynakmark(user, 0))
+        except:
+            pass
+        return
     if mesaj == "⏱ Zamanladıklarım":
         zjobs = context.job_queue.get_jobs_by_name(str(user))
         if len(zjobs) < 1:

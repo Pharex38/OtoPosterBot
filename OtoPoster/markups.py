@@ -43,8 +43,11 @@ def dugme(user):
 def kanalmenumark():
     return ReplyKeyboardMarkup(keyboard=[['🔶 Yeni Kanal Ekle', '🗑️ Kanal Sil'], ['▶️ SFS Modu', '💠 Tür Değiştir'], ['↩️ Ana Menü']], resize_keyboard=True, selective=True)
 
-def postmenumark():
-    return ReplyKeyboardMarkup(keyboard=[['⛓️ Elle Post Paylaş', '⏱ Zamanladıklarım'], ['🔧 Kaynak', '📏 Şablon'], ['↩️ Ana Menü']], resize_keyboard=True, selective=True)
+def postmenumark(degi):
+    if degi:
+        return ReplyKeyboardMarkup(keyboard=[['⛓️ Elle Post Paylaş', '⏱ Zamanladıklarım'], ['🔧 Kaynak', '♋️ Özel Kaynak Ayarları 🛠'], ['📏 Şablon'], ['↩️ Ana Menü']], resize_keyboard=True, selective=True)
+    else:
+        return ReplyKeyboardMarkup(keyboard=[['⛓️ Elle Post Paylaş', '⏱ Zamanladıklarım'], ['🔧 Kaynak', '♋️ Özel Kaynak Oluştur ♋️'], ['📏 Şablon'], ['↩️ Ana Menü']], resize_keyboard=True, selective=True)
 
 def apimenumark():
     return ReplyKeyboardMarkup(keyboard=[['♻️ API değiştir', '🔗 Site değiştir'], ['🤖 Alternatif Link'], ['↩️ Ana Menü']], resize_keyboard=True, selective=True)
@@ -60,7 +63,7 @@ def webappmark(user):
     wappmark = []
     user_data = collection.find_one({"_id": user})
     for wpam in user_data['kanal']:
-        
+        kanal_ismi = bot.get_chat(int(wpam)).title
         kaynaklistesi = []
         for kaynak in KaynakCol.find({}):
             kobj = {'kaynak': False, "isim": "Kaynağa Ulaşılamadı!", "link": "t.me/otoposterbotlog", "zaman": "Henüz ayarlanmamış", "no": "0"}
@@ -75,12 +78,12 @@ def webappmark(user):
             kobj['no'] = kaynak['no']
             kaynaklistesi.append(kobj)
         try:
-            wappmark.append([KeyboardButton(text=bot.get_chat(int(wpam)).title, web_app=WebAppInfo(f"https://pharex.dev/otoposter/kaynakmenu?kanal={wpam[1:]}&user={user}"))])
+            wappmark.append([KeyboardButton(text=kanal_ismi, web_app=WebAppInfo(f"https://pharex.dev/otoposter/kaynakmenu?kanal={wpam[1:]}&user={user}"))])
         except RetryAfter as trf:
             print(f"FloodWait - {trf.retry_after} - Line: {sys._getframe().f_back.f_lineno}")
             sleep(trf.retry_after+1)
-            wappmark.append([KeyboardButton(text=bot.get_chat(int(wpam)).title, web_app=WebAppInfo(f"https://pharex.dev/otoposter/kaynakmenu?kanal={wpam[1:]}&user={user}"))])
-        cevap = ReqPost("https://pharex.dev/otoposter/kaynakmenu", json={"data": kaynaklistesi, "user_id": user, "kanal_id": wpam}, headers=headerss).text
+            wappmark.append([KeyboardButton(text=kanal_ismi, web_app=WebAppInfo(f"https://pharex.dev/otoposter/kaynakmenu?kanal={wpam[1:]}&user={user}"))])
+        cevap = ReqPost("https://pharex.dev/otoposter/kaynakmenu", json={"data": kaynaklistesi, "user_id": user, "kanal_id": wpam, "kanal_ismi": kanal_ismi}, headers=headerss).text
     print(str(cevap))
     return ReplyKeyboardMarkup(wappmark, resize_keyboard=True)
 
