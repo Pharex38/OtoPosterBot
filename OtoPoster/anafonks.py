@@ -270,7 +270,7 @@ def postmenu(update, context):
         return
     if mesaj == "🔧 Kaynak":
         if len(poudat['kanal']) < 1:
-            bot.send_message(chat, "Henüz bir kanal kaydetmemişsiniz.", reply_markup=postmenumark())
+            bot.send_message(chat, "Henüz bir kanal kaydetmemişsiniz.", reply_markup=postmenumark(poudat['ozel']))
             return
         kaynakmsg = bot.send_message(chat, "<code>Yükleniyor...</code>")
         bot.send_message(user, "Aşağıdaki menüden bir kanal seçin.", reply_markup=webappmark(user))
@@ -321,13 +321,13 @@ def postmenu(update, context):
     if mesaj == "⏱ Zamanladıklarım":
         zjobs = context.job_queue.get_jobs_by_name(str(user))
         if len(zjobs) < 1:
-            bot.send_message(chat, "Henüz bir post zamanlamamışsınız.", reply_markup=postmenumark())
+            bot.send_message(chat, "Henüz bir post zamanlamamışsınız.", reply_markup=postmenumark(poudat['ozel']))
             return 
         bot.send_message(chat, "Silmek istediğiniz postu seçin.", reply_markup=jobmark(user, context))
         return 
     if mesaj == "⛓️ Elle Post Paylaş":
         if len(poudat['kanal']) < 1:
-            bot.send_message(chat, "Lütfen önce bir kanal kaydedin.", reply_markup=postmenumark())
+            bot.send_message(chat, "Lütfen önce bir kanal kaydedin.", reply_markup=postmenumark(poudat['ozel']))
             return
         bot.send_message(chat, "Paylaşmamı istediğin hazır postu ilet.", reply_markup=imark())
         return PATPOST
@@ -336,7 +336,7 @@ def postmenu(update, context):
         bot.send_message(chat, "Ana Menü.", reply_markup=dugme(user))
         return ConversationHandler.END
 
-    bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=postmenumark())
+    bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=postmenumark(poudat['ozel']))
 
 @send_typing_action
 def ekstramenu(update, context):
