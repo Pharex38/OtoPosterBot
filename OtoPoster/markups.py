@@ -87,6 +87,7 @@ def webappmark(user):
         if len(wappmark) == 2:
             webappsatir.append(wappmark)
             wappmark = []
+        webappsatir.append([KeyboardButton("❌ İptal")])
         cevap = ReqPost("https://pharex.dev/otoposter/kaynakmenu", json={"data": kaynaklistesi, "user_id": user, "kanal_id": wpam, "kanal_ismi": kanal_ismi}, headers=headerss).text
     
     webappsatir.append(wappmark)
