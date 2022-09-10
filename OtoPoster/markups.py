@@ -45,9 +45,9 @@ def kanalmenumark():
 
 def postmenumark(degi):
     if degi:
-        return ReplyKeyboardMarkup(keyboard=[['⛓️ Elle Post Paylaş', '⏱ Zamanladıklarım'], ['🔧 Kaynak', '♋️ Özel Kaynak Ayarları 🛠'], ['📏 Şablon'], ['↩️ Ana Menü']], resize_keyboard=True, selective=True)
+        return ReplyKeyboardMarkup(keyboard=[['⛓️ Elle Post Paylaş', '⏱ Zamanladıklarım'], ['🔧 Kaynak', '♋️ Özel Kaynak Ayarları'], ['📏 Şablon'], ['↩️ Ana Menü']], resize_keyboard=True, selective=True)
     else:
-        return ReplyKeyboardMarkup(keyboard=[['⛓️ Elle Post Paylaş', '⏱ Zamanladıklarım'], ['🔧 Kaynak', '♋️ Özel Kaynak Oluştur ♋️'], ['📏 Şablon'], ['↩️ Ana Menü']], resize_keyboard=True, selective=True)
+        return ReplyKeyboardMarkup(keyboard=[['⛓️ Elle Post Paylaş', '⏱ Zamanladıklarım'], ['🔧 Kaynak', '♋️ Özel Kaynak Oluştur'], ['📏 Şablon'], ['↩️ Ana Menü']], resize_keyboard=True, selective=True)
 
 def apimenumark():
     return ReplyKeyboardMarkup(keyboard=[['♻️ API değiştir', '🔗 Site değiştir'], ['🤖 Alternatif Link'], ['↩️ Ana Menü']], resize_keyboard=True, selective=True)
