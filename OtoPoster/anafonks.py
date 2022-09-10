@@ -273,12 +273,17 @@ def postmenu(update, context):
             bot.send_message(chat, "Henüz bir kanal kaydetmemişsiniz.", reply_markup=postmenumark())
             return
         kaynakmsg = bot.send_message(chat, "<code>Yükleniyor...</code>")
+        kaynakmsg.delete()
+        bot.send_message(user, "Aşağıdaki menüden bir kanal seçin.", reply_markup=webappmark(user))
+        return
+        """
         kynskm = poudat['kanal'][0]
         try:
             kcisim = bot.get_chat(kynskm).title
         except:
             kcisim = "Kanalınıza ulaşılamadı!"
-        kaynakmsg.edit_text(f"""<b> >>>    {kcisim}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>""", reply_markup=kaynakmark(user, 0))
+        kaynakmsg.edit_text(f"<b> >>>    {kcisim}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>", reply_markup=kaynakmark(user, 0))
+        """
         return
 
     if mesaj == "♋️ Özel Kaynak Oluştur ♋️":
