@@ -59,11 +59,15 @@ def imark():
     imark = ReplyKeyboardMarkup(keyboard=[['❌ İptal']], one_time_keyboard=True, resize_keyboard=True, selective=True)
     return imark
 
-def webappmark(user):
+def webappmark(user, chose):
     wappmark = []
     webappsatir = []
     user_data = collection.find_one({"_id": user})
-    for wpam in user_data['kanal']:
+    if chose == -1:
+        kanal_listesi = user_data['kanal']
+    else:
+        kanal_listesi = [user_data['kanal'][chose]]
+    for wpam in kanal_listesi:
         try:
             kanal_ismi = bot.get_chat(int(wpam)).title
         except:
