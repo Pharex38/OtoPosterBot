@@ -64,7 +64,10 @@ def webappmark(user):
     webappsatir = []
     user_data = collection.find_one({"_id": user})
     for wpam in user_data['kanal']:
-        kanal_ismi = bot.get_chat(int(wpam)).title
+        try:
+            kanal_ismi = bot.get_chat(int(wpam)).title
+        except:
+            continue
         kaynaklistesi = []
         for kaynak in KaynakCol.find({}):
             kobj = {'kaynak': False, "isim": "Kaynağa Ulaşılamadı!", "link": "t.me/otoposterbotlog", "zaman": "Henüz ayarlanmamış", "no": "0"}
@@ -90,7 +93,7 @@ def webappmark(user):
         cevap = ReqPost("https://pharex.dev/otoposter/kaynakmenu", json={"data": kaynaklistesi, "user_id": user, "kanal_id": wpam, "kanal_ismi": kanal_ismi}, headers=headerss).text
     
     webappsatir.append(wappmark)
-    webappsatir.append([KeyboardButton("❌ İptal")])
+    webappsatir.append([KeyboardButton("↩️ Ana Menü")])
     print(str(cevap))
     return ReplyKeyboardMarkup(webappsatir, resize_keyboard=True)
 

@@ -316,7 +316,7 @@ def WebAppDataHandler(update, context):
                 KaynakCol.update_one({"no": int(webxd)}, {"$push": {"kanal": str(wadatadict['kanal_id']), "kaynak": int(wadatadict['user_id'])}})
             else:
                 KaynakCol.update_one({"no": int(webxd)}, {"$pull": {"kanal": str(wadatadict['kanal_id'])}})
-        bot.send_message(update.effective_user.id, "Kaynak değişiklikleriniz kaydedildi!", reply_markup=dugme(update.effective_user.id))
+        bot.send_message(update.effective_user.id, "Kaynak değişiklikleriniz kaydedildi!", reply_markup=webappmark(update.effective_user.id))
         return ConversationHandler.END
 
     elif wadatadict.get('ozel', None) != None:
