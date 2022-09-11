@@ -218,6 +218,8 @@ def phaapi(sit):
         return "***REMOVED-KEY***"
     elif sit == "10":
         return "***REMOVED-SHORTENER-KEY***"
+    elif sit == "11":
+        return "***REMOVED-SHORTENER-KEY***"
     else:
         return "aaaaa"
 
@@ -252,6 +254,8 @@ def site_isim(no):
         return "ShrtFly"
     elif no == "10":
         return "Za.gl"
+    elif no == "11":
+        return "Link Perisi"
     else:
         return "Bulunamadı"
 
