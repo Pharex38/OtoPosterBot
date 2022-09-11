@@ -99,7 +99,11 @@ def webappmark(user, chose):
     webappsatir.append(wappmark)
     webappsatir.append([KeyboardButton("↩️ Ana Menü")])
     print(str(cevap))
-    return ReplyKeyboardMarkup(webappsatir, resize_keyboard=True)
+    if chose == -1:
+        return ReplyKeyboardMarkup(webappsatir, resize_keyboard=True)
+    else:
+        return ReplyKeyboardMarkup([[]])
+
 
 def ioskontrolmark(user):
     iosk = []
