@@ -236,7 +236,7 @@ def poster_job(context):
                 elif json['message'] == "You must upgrade your plan so you can use this tool.":
                     aftertext.append((user, "Kısaltma servisiniz ile ilgili bir sorun oluştu!\n\nHata: <code> You must upgrade your plan so you can use this tool.</code>"))
                     continue
-                elif json['message'] != "" and json['message'] != "Invalid API token":
+                elif json['message'] != "" and json['message'] != "Invalid API token" and json['message'] != "Link basariyla kisaltildi.":
                     logger.error(f"{update.effective_message.chat.title} son postu hatalı olduğu için iptal edildi!")
                     FloodControl(bot.send_message, *[sahip, posterrtext.format(update.effective_message.chat.title, json['message'], update.effective_message.link)])
                     FloodControl(bot.send_message, *[chatdat['sahip'], posterrtext.format(update.effective_message.chat.title, json['message'], update.effective_message.link)])
