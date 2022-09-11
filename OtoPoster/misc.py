@@ -152,6 +152,9 @@ def linkkisalt(site, token, text, icerik):
     elif site == "10":
         json = get("https://za.gl/api?", params={"api": token, "url": text}, headers=headerss, timeout=ptimeout).json()
         link = json['shortenedUrl']
+    elif site == "11":
+        json = get("https://linkperisi.com/api?" ,{"token": token, "network": "1", "link": text}, headers=headerss, timeout=ptimeout).json()
+        link = json['link']
     elif site == "0":
         json = get("https://urlcik.com/api?", params={"api": token, "url": text}, headers=headerss, timeout=ptimeout).json()
         link = json['shortenedUrl']
