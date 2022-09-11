@@ -323,7 +323,7 @@ def WebAppDataHandler(update, context):
                 KaynakCol.update_one({"no": int(webxd)}, {"$push": {"kanal": str(wadatadict['kanal_id']), "kaynak": int(wadatadict['user_id'])}})
             else:
                 KaynakCol.update_one({"no": int(webxd)}, {"$pull": {"kanal": str(wadatadict['kanal_id'])}})
-        indexi = collection.find_one({"_id": wadatadict['user_id']})['kanal'].index(wadatadict['kanal_id'])
+        indexi = collection.find_one({"_id": wadatadict['user_id']})['kanal'].index(str(wadatadict['kanal_id']))
         bot.send_message(update.effective_user.id, "Kaynak değişiklikleriniz kaydedildi!", reply_markup=webappmark(update.effective_user.id, indexi))
         return ConversationHandler.END
 
