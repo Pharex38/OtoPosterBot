@@ -183,9 +183,9 @@ def sfsmark(user):
         sfsobje['no'] = sfskan
         sfskeyb.append(sfsobje)
 
-    ReqPost("https://pharex.dev/otoposterbot/kaynak-menu", json={"data": sfskeyb, "user_id": user}, headers=headerss).text
+    ReqPost("https://pharex.dev/otoposterbot/sfs-menu", json={"data": sfskeyb, "user_id": user}, headers=headerss).text
 
-    return KeyboardButton("▶️ SFS Modu", web_app=WebAppInfo(f"https://pharex.dev/otoposterbot/kaynak-menu?user={user}"))
+    return KeyboardButton("▶️ SFS Modu", web_app=WebAppInfo(f"https://pharex.dev/otoposterbot/sfs-menu?user={user}"))
 
 def pinmark(user):
     pin_dat = collection.find_one({"_id": user})
