@@ -40,8 +40,8 @@ def dugme(user):
         return ReplyKeyboardMarkup(keyboard=[['🖥 Kanal Menü'], ['🎛 Post Menü', '🔗 API Menü'], ['🛠 Ekstralar']], input_field_placeholder="Merhaba!", resize_keyboard=True)
 
 
-def kanalmenumark():
-    return ReplyKeyboardMarkup(keyboard=[['🔶 Yeni Kanal Ekle', '🗑️ Kanal Sil'], ['▶️ SFS Modu', '💠 Tür Değiştir'], ['↩️ Ana Menü']], resize_keyboard=True, selective=True)
+def kanalmenumark(user):
+    return ReplyKeyboardMarkup(keyboard=[['🔶 Yeni Kanal Ekle', '🗑️ Kanal Sil'], [sfsmark(user), icerikmark(user)], ['↩️ Ana Menü']], resize_keyboard=True, selective=True)
 
 def postmenumark(degi):
     if degi:
@@ -53,7 +53,7 @@ def apimenumark():
     return ReplyKeyboardMarkup(keyboard=[['♻️ API değiştir', '🔗 Site değiştir'], ['🤖 Alternatif Link'], ['↩️ Ana Menü']], resize_keyboard=True, selective=True)
 
 def ekstralarmenumark():
-    return ReplyKeyboardMarkup(keyboard=[['❤️ Beğeni Butonları', '🍎 iOS Ban Kontrol'], ['📌 Post Sabitleme'], ['🔁 Tekrarlı Post Paylaş'], ['↩️ Ana Menü']], resize_keyboard=True, selective=True)
+    return ReplyKeyboardMarkup(keyboard=[['🍎 iOS Ban Kontrol'], ['📌 Post Sabitleme'], ['🔁 Tekrarlı Post Paylaş'], ['↩️ Ana Menü']], resize_keyboard=True, selective=True)
 
 def imark():
     imark = ReplyKeyboardMarkup(keyboard=[['❌ İptal']], one_time_keyboard=True, resize_keyboard=True, selective=True)
@@ -86,15 +86,15 @@ def webappmark(user, chose):
             kobj['no'] = kaynak['no']
             kaynaklistesi.append(kobj)
         try:
-            wappmark.append(KeyboardButton(text=kanal_ismi, web_app=WebAppInfo(f"https://pharex.dev/otoposter/kaynakmenu?kanal={wpam[1:]}&user={user}")))
+            wappmark.append(KeyboardButton(text=kanal_ismi, web_app=WebAppInfo(f"https://pharex.dev/otoposterbot/kaynak-menu?kanal={wpam[1:]}&user={user}")))
         except RetryAfter as trf:
             print(f"FloodWait - {trf.retry_after} - Line: {sys._getframe().f_back.f_lineno}")
             sleep(trf.retry_after+1)
-            wappmark.append(KeyboardButton(text=kanal_ismi, web_app=WebAppInfo(f"https://pharex.dev/otoposter/kaynakmenu?kanal={wpam[1:]}&user={user}")))
+            wappmark.append(KeyboardButton(text=kanal_ismi, web_app=WebAppInfo(f"https://pharex.dev/otoposterbot/kaynak-menu?kanal={wpam[1:]}&user={user}")))
         if len(wappmark) == 2:
             webappsatir.append(wappmark)
             wappmark = []
-        cevap = ReqPost("https://pharex.dev/otoposter/kaynakmenu", json={"data": kaynaklistesi, "user_id": user, "kanal_id": wpam, "kanal_ismi": kanal_ismi}, headers=headerss).text
+        cevap = ReqPost("https://pharex.dev/otoposterbot/kaynak-menu", json={"data": kaynaklistesi, "user_id": user, "kanal_id": wpam, "kanal_ismi": kanal_ismi}, headers=headerss).text
     
     webappsatir.append(wappmark)
     webappsatir.append([KeyboardButton("↩️ Ana Menü")])
@@ -171,23 +171,21 @@ def sfsmark(user):
     sfs_dat = collection.find_one({"_id": user})
     sfsbutno = 0
     sfskeyb = []
-    sfssatir = []
-    for sfskan in sfs_dat['kanal']:
+    for inde, sfskan in enumerate(sfs_dat['kanal']):
+        sfsobje = {}
         try:
-            sfsname = bot.get_chat(sfskan).title
+            sfschatg = bot.get_chat(sfskan)
         except:
-            pass
-        else:
-            sfslink = "tg://privatepost?channel={}&post=9999999".format(sfskan[3:])
-            sfssatir.append(InlineKeyboardButton(sfsname, url=sfslink))
-            if sfskan in sfs_dat['eski']:
-                sfssatir.append(InlineKeyboardButton("Açık", callback_data="sfs-{}".format(sfsbutno)))
-            else:
-                sfssatir.append(InlineKeyboardButton("Kapalı", callback_data="sfs-{}".format(sfsbutno)))
-            sfskeyb.append(sfssatir)
-            sfssatir = []
-        sfsbutno += 1
-    return InlineKeyboardMarkup(sfskeyb)
+            continue
+        sfsobje['sfs'] = True if sfskan in sfs_dat['eski'] else False
+        sfsobje['link'] = sfschatg.invite_link
+        sfsobje['isim'] = sfschatg.title
+        sfsobje['no'] = inde
+        sfskeyb.append(sfsobje)
+
+    ReqPost("https://pharex.dev/otoposterbot/kaynak-menu", json={"data": sfskeyb, "user_id": user}, headers=headerss).text
+
+    return InlineKeyboardButton("▶️ SFS Modu", web_app=WebAppInfo(f"https://pharex.dev/otoposterbot/kaynak-menu?user={user}"))
 
 def pinmark(user):
     pin_dat = collection.find_one({"_id": user})
@@ -210,41 +208,6 @@ def pinmark(user):
             pinsatir = []
         pinbutno += 1
     return InlineKeyboardMarkup(pinkeyb)
-
-def miktarliistekmark(miktarikan, sayi):
-    return InlineKeyboardMarkup([[InlineKeyboardButton(f"Onayla ⏩⏩ {sayi}", callback_data="isteklink-{}-{}-all".format(miktarikan, sayi))], [InlineKeyboardButton("-100", callback_data="miktari-{}-{}".format(miktarikan, sayi-100)), InlineKeyboardButton("-10", callback_data="miktari-{}-{}".format(miktarikan, sayi-10)),  InlineKeyboardButton("+10", callback_data="miktari-{}-{}".format(miktarikan, sayi+10)), InlineKeyboardButton("+100", callback_data="miktari-{}-{}".format(miktarikan, sayi+100))]])
-
-def istekmark(user):
-    istek_dat = collection.find_one({"_id": user})
-    istekbutno = 0
-    istekkeyb = []
-    isteksatir = []
-    isteksatir2 = []
-    for istekkan in istek_dat['kanal']:
-        try:
-            istekname = bot.get_chat(istekkan).title
-        except:
-            pass
-        else:
-            isteklink = "tg://privatepost?channel={}&post=9999999".format(istekkan[3:])
-            isteksatir.append(InlineKeyboardButton(istekname, url=isteklink))
-            if istekkan in collection.find_one({"_id": 0})['istek']:
-                isteksatir2.append(InlineKeyboardButton("✅", callback_data="istek-{}".format(istekbutno)))
-            else:
-                isteksatir2.append(InlineKeyboardButton("⚫", callback_data="istek-{}".format(istekbutno)))
-            isteksatir2.append(InlineKeyboardButton(f"♐", callback_data="isteklink-{}-99999".format(istekbutno)))
-            isteksatir2.append(InlineKeyboardButton(f"🔢", callback_data="smiktari-{}".format(istekbutno)))
-            if len(isteksatir) == 2:
-                istekkeyb.append(isteksatir)
-                istekkeyb.append(isteksatir2)
-                isteksatir = []
-                isteksatir2 = []
-            
-        istekbutno += 1
-    if len(isteksatir) != 0:
-        istekkeyb.append(isteksatir)
-        istekkeyb.append(isteksatir2)
-    return InlineKeyboardMarkup(istekkeyb)
 
 def dagme():
     dagme = ReplyKeyboardMarkup(keyboard=[['📝 Kaydet']], row_width=2, one_time_keyboard=True, resize_keyboard=False, selective=True)
@@ -295,7 +258,7 @@ def icerikmark(user):
             icerikkeyb.append(iceriksatir)
             iceriksatir = []
         icerikbutno += 1
-    return InlineKeyboardMarkup(icerikkeyb)
+    return InlineKeyboardButton('💠 Tür Değiştir', web_app=WebAppInfo(f"https://pharex.dev/otoposterbot/icerik-menu?user={user}"))
 
 def okaykanalmark(user):
     okayk_dat = collection.find_one({"_id": user})
@@ -340,63 +303,6 @@ def ozelkaynakmark(user, kanil):
     return kmark 
     
 
-def kaynakmark(user, kanil):
-    u = collection.find_one({"_id": user})
-    linkkaynakkeyb = []
-    butonkaynakkeyb = []
-    anakaynakkeyb = []
-    for kaynak in KaynakCol.find({}):
-        if kaynak['no'] in ignorekaynak:
-            continue
-        if kaynak['icerik'] == "arsiv" and not u['kanal'][int(kanil)] in u['icerik']:
-            continue
-        
-        if kaynak['icerik'] != "arsiv" and u['kanal'][int(kanil)] in u['icerik']:
-            continue
-        try:
-            k_title = kaynak['title']
-            k_link = kaynak['link']
-        except:
-            k_title = "𝙺𝚊𝚢𝚗𝚊ğ𝚊 𝚞𝚕𝚊şı𝚕𝚊𝚖ı𝚢𝚘𝚛."
-            k_link = "https://t.me/otoposterbotlog"
-        if k_link == None:
-            k_link = "tg://privatepost?channel={}&post=9999999".format(str(kaynak['_id'])[3:])
-        saatbut = InlineKeyboardButton("⏳", callback_data="zaman-{}".format(kaynak['sahip']))
-        if user in kaynak['kaynak'] and u['kanal'][int(kanil)] in kaynak['kanal']:
-            kb1 = InlineKeyboardButton("✅", callback_data="kaynak-{}-{}".format(kaynak['sahip'], kanil))
-        else:
-            kb1 = InlineKeyboardButton("⚫", callback_data="kaynak-{}-{}".format(kaynak['sahip'], kanil))
-        butonkaynakkeyb.append(kb1)
-        butonkaynakkeyb.append(saatbut)
-        linkkaynakkeyb.append(InlineKeyboardButton("{}".format(k_title), url="{}".format(k_link)))
-        if len(linkkaynakkeyb) == 2:
-            anakaynakkeyb.append(linkkaynakkeyb)
-            anakaynakkeyb.append(butonkaynakkeyb)
-            linkkaynakkeyb = []
-            butonkaynakkeyb = []
-    if not len(linkkaynakkeyb) == 0:
-        anakaynakkeyb.append(linkkaynakkeyb)
-        anakaynakkeyb.append(butonkaynakkeyb)
-    if len(u['kanal']) == 1:
-        pass
-    elif kanil == len(u['kanal'])-1:
-        anakaynakkeyb.append([InlineKeyboardButton("⏪Önceki Kanal⏪", callback_data="solyan-{}".format(kanil))])
-    elif kanil == 0:
-        anakaynakkeyb.append([InlineKeyboardButton("⏩Sonraki Kanal⏩", callback_data="sagyan-{}".format(kanil))])
-    else:
-        anakaynakkeyb.append([InlineKeyboardButton("⏪Önceki Kanal⏪", callback_data="solyan-{}".format(kanil)), InlineKeyboardButton("⏩Sonraki Kanal⏩", callback_data="sagyan-{}".format(kanil))])
-    if u['kanal'][int(kanil)] in u['icerik']:
-        turtext = "Arşiv"
-    else:
-        turtext = "+18"
-    anakaynakkeyb.append([InlineKeyboardButton("💠 Tür Değiştir: "+turtext, callback_data="icerik-{}-k".format(kanil))])
-    if u['ozel']:
-        anakaynakkeyb.append([InlineKeyboardButton("♋️ Özel Kaynak Ayarları 🛠", callback_data="ozayar")])
-    else:
-        anakaynakkeyb.append([InlineKeyboardButton("♋️ Özel Kaynak Oluştur ♋️", callback_data="okay")])
-    anakaynakkeyb.append([InlineKeyboardButton("❌ Menüyü Kapat ❌", callback_data="aiptal")])
-    kmark = InlineKeyboardMarkup(inline_keyboard=anakaynakkeyb)
-    return kmark
 
 def ekmark():
     ekkeyb = [[InlineKeyboardButton("Kur", callback_data="ekkur")], [InlineKeyboardButton("❌ İptal ❌", callback_data="iptal")]]
@@ -465,12 +371,6 @@ def gen_markup(user):
     
     return silkey
 
-def begenimark(eudat):
-    if len(eudat['begeni']) < 1:
-        bmark = InlineKeyboardMarkup([[InlineKeyboardButton('Beğeni Butonları Oluştur.', callback_data="begeniolustur")], [InlineKeyboardButton('İptal.', callback_data="iptal")]])
-    else:
-        bmark = InlineKeyboardMarkup([[InlineKeyboardButton('Butonları değiştir.', callback_data="begeniolustur")], [InlineKeyboardButton('Butonları kaldır', callback_data="begenikaldir")], [InlineKeyboardButton('İptal.', callback_data="iptal")]])
-    return bmark
 
 def jobmark(user, context):
     jobs = context.job_queue.get_jobs_by_name(str(user))

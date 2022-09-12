@@ -74,47 +74,8 @@ def begenicall(call, context):
 
 def kaynakcall(call, context):
     user = call.effective_user.id
-    chat = call.effective_chat.id
-    kys = int(call.callback_query.data.split("-")[1])
-    kkanil = int(call.callback_query.data.split("-")[2])
-    kkul = collection.find_one({"_id": user})
-    if kkul == None:
-        call.callback_query.edit_message_text(text="<b>Önce bir API kaydedin!</b>")
-        return
-    callkaynak = KaynakCol.find_one({"sahip": kys})
-    try:
-        kkul['kanal'][kkanil]
-    except:
-        call.callback_query.edit_message_text("Menü eski kaldığı için kapatıldı.")
-        return
-    if callkaynak == None:
-        call.callback_query.edit_message_text("Menü eski kaldığı için kapatıldı.")
-        return
-    if user in callkaynak['kaynak'] and kkul['kanal'][kkanil] in callkaynak['kanal']:
-        KaynakCol.update_one({"sahip": kys}, {"$pull": {"kanal": kkul['kanal'][kkanil]}})
-        try:
-            durak = context.bot_data['durak']
-        except KeyError:
-            durak = False
-        if durak and user in collection.find_one({"_id": 0})['cekilis'] and kys == int(context.bot_data['sahip']):
-            bot.send_message(chat, "Çekiliş kaynağını kullanmayı bıraktığınız için çekilişten atıldınız!")
-            collection.update_one({"_id": 0}, {"$pull": {"cekilis": user}})
-        for kop in kkul['kanal']:
-            if kop in callkaynak['kanal']:
-                call.callback_query.answer(text="❌ Kaynak Kaldırıldı")
-                return
-        KaynakCol.update_one({"sahip": kys}, {"$pull": {"kaynak": user}})
-        call.callback_query.answer(text="❌ Kaynak Kaldırıldı")
-    else:
-        if not kkul['kanal'][kkanil] in callkaynak['kanal']:
-            KaynakCol.update_one({"sahip": kys}, {"$push": {"kanal": kkul['kanal'][kkanil]}})
-        if not user in callkaynak['kaynak']:
-            KaynakCol.update_one({"sahip": kys}, {"$push": {"kaynak": user}})
-        call.callback_query.answer(text="✅ Kaynak Eklendi")
-    try:
-        call.callback_query.edit_message_reply_markup(kaynakmark(user, kkanil))
-    except:
-        pass
+    call.callback_query.edit_message_text("Menü eski kaldığı için kapatıldı.")
+    return
 
 def ozellogcall(call, context):
     user = call.effective_user.id

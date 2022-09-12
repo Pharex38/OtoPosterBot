@@ -120,7 +120,6 @@ def poster_job(context):
             altsite = hesap['altsite']
             sira = hesap['sira']
             pcount = hesap['pcount']
-            begeni = hesap['begeni']
             pins = hesap['pin']
             if pcount < 19:
                 collection.update_one({"_id": user}, {"$inc": {"pcount": 1}})
@@ -263,15 +262,6 @@ def poster_job(context):
                 except:
                     pass
                 continue
-            if len(begeni) > 0 and begstate:
-                posterkeyb = []
-                mrkpc = 0
-                for beg in begeni:
-                    posterkeyb.append(InlineKeyboardButton(str(beg)+" "+str("0"), callback_data="begeni-{}".format(mrkpc)))
-                    mrkpc += 1
-                postermarkup = InlineKeyboardMarkup([posterkeyb])
-            else:
-                postermarkup = InlineKeyboardMarkup([[]])
             for kan in kanal:
                 if not kan in chatdat['kanal'] or kan in eski or chatdat['icerik'] == "arsiv" and not kan in icerik or chatdat['icerik'] == "+18" and kan in icerik:
                     continue
@@ -313,7 +303,7 @@ def poster_job(context):
                         continue
                 try:
                     if len(postee) == 1:
-                        post = FloodControl(update.effective_message.copy, **{"chat_id": kan, "caption": sablon, "reply_markup": postermarkup})
+                        post = FloodControl(update.effective_message.copy, **{"chat_id": kan, "caption": sablon})
                     else:
                         post = FloodControl(bot.send_media_group, **{"chat_id": kan, "media": grup+[MEDIA_GROUP_TYPES[effective_message_type(update)](media=update.effective_message.photo[-1].file_id if update.effective_message.photo else update.effective_message.effective_attachment.file_id, caption=sablon)]})
                 except Exception as e:
@@ -345,15 +335,6 @@ def poster_job(context):
                         logger.error(e)
                 else:
                     count = count + 1
-                    if len(begeni) > 0 and len(postee) == 1:
-                        if ButonCol.find_one({"_id": kan}) == None:
-                            try:
-                                ButonCol.insert_one({"_id": kan, str(post.message_id): [], "begeni": begeni})
-                            except:
-                                ButonCol.update_one({"_id": kan}, {"$set": {str(post.message_id): [], "begeni": begeni}})
-                        else:
-                            ButonCol.update_one({"_id": kan}, {"$set": {str(post.message_id): [], "begeni": begeni}})
-                            
                     if len(postee) == 1:
                         postdata.update_one({"_id": mesjid}, {"$push": {"pids": {"pid": post.message_id, "chat": kan, "user": user, "link": link, "alink": alink}}})
                         if kan in pins:
@@ -461,7 +442,6 @@ def ozel_poster_job(context):
         oaltsite = ohesap['altsite']
         osira = ohesap['sira']
         opcount = ohesap['pcount']
-        obegeni = ohesap['begeni']
         opins = ohesap['pin']
         oeski = ohesap['eski']
         oicerik = ohesap['icerik']
@@ -561,15 +541,6 @@ def ozel_poster_job(context):
                 except:
                     pass
                 continue
-            if len(obegeni) > 0 and begstate:
-                oposterkeyb = []
-                omrkpc = 0
-                for obeg in obegeni:
-                    oposterkeyb.append(InlineKeyboardButton(str(obeg)+" "+str("0"), callback_data="begeni-{}".format(omrkpc)))
-                    omrkpc += 1
-                opostermarkup = InlineKeyboardMarkup([oposterkeyb])
-            else:
-                opostermarkup = InlineKeyboardMarkup([[]])
             for okan in okanal:
                 if not okan in okaynak['kaynak'] or okan in oeski or okaynak['icerik'] == "arsiv" and not okan in oicerik or okaynak['icerik'] == "+18" and okan in oicerik:
                     continue
@@ -603,14 +574,14 @@ def ozel_poster_job(context):
                         continue
                 try:
                     if len(opostee) == 1:
-                        opost = oupdate.effective_message.copy(okan, caption=osablon, reply_markup=opostermarkup)
+                        opost = oupdate.effective_message.copy(okan, caption=osablon)
                     else:
                         opost = bot.send_media_group(okan, media=ogrup+[MEDIA_GROUP_TYPES[effective_message_type(oupdate)](media=oupdate.effective_message.photo[-1].file_id if oupdate.effective_message.photo else oupdate.effective_message.effective_attachment.file_id, caption=osablon)])
                 except RetryAfter as ortfr:
                     sleep(ortfr.retry_after+1)
                     try:
                         if len(opostee) == 1:
-                            opost = oupdate.effective_message.copy(okan, caption=osablon, reply_markup=opostermarkup)
+                            opost = oupdate.effective_message.copy(okan, caption=osablon)
                         else:
                             opost = bot.send_media_group(okan, media=ogrup+[MEDIA_GROUP_TYPES[effective_message_type(oupdate)](media=oupdate.effective_message.photo[-1].file_id if oupdate.effective_message.photo else oupdate.effective_message.effective_attachment.file_id, caption=osablon)])
                     except Exception as e:
@@ -664,14 +635,6 @@ def ozel_poster_job(context):
                         logger.error(e)
                 else:
                     ocount += 1
-                    if len(obegeni) > 0 and len(opostee) == 1:
-                        if ButonCol.find_one({"_id": okan}) == None:
-                            try:
-                                ButonCol.insert_one({"_id": okan, str(opost.message_id): [], "begeni": obegeni})
-                            except:
-                                ButonCol.update_one({"_id": okan}, {"$set": {str(opost.message_id): [], "begeni": obegeni}})
-                        else:
-                            ButonCol.update_one({"_id": okan}, {"$set": {str(opost.message_id): [], "begeni": obegeni}})
                     if len(opostee) == 1:
                         if okan in opins:
                             try:
@@ -730,13 +693,12 @@ def poster_edit(update, context):
                 continue
             edi_dat = collection.find_one({"_id": edil['user']})
             sira = edi_dat['sira']
-            site = edi_dat['site'] 
+            site = edi_dat['site']
             altsite = edi_dat['altsite'] 
             altapi = edi_dat['altapi'] 
             kanal = edi_dat['kanal']
             token = edi_dat['token'] 
             sablon = edi_dat['sablon']
-            begeni = edi_dat['begeni']
             chatdat = KaynakCol.find_one({"_id": chat})
             try:
                 if sira == 2:
@@ -772,18 +734,8 @@ def poster_edit(update, context):
             elif sablon == "9":
                 sablon = "{aciklama} \n\n𝙇𝙄𝙉𝙆🔗 {link} \n\n     𝙇𝙄𝙉𝙆🔗 {alink}\n\n 🔔ʙɪʟᴅɪʀɪᴍʟᴇʀɪ ᴀçᴍᴀʏı ᴜɴᴜᴛᴍᴀʏıɴ.\n\n 📌 Link Nasıl Açılır Bilmiyorsanız\n👉 @TRPNDLinkGecmee"
             newedim_l = sablon.format(aciklama=edited_a, link=link, alink=alink)
-            if len(begeni) > 0 and begstate:
-                begkeyb = []
-                mrkpc = 0
-                for beg in ButonCol.find_one({"_id": str(chat)})['begeni']:
-                    butsayi = 0
-                    begkeyb.append(InlineKeyboardButton(str(beg)+" "+str(butsayi), callback_data="begeni-{}".format(mrkpc)))
-                    mrkpc += 1
-                epostermarkup = InlineKeyboardMarkup([begkeyb])
-            else:
-                epostermarkup = InlineKeyboardMarkup([[]])
             try:
-                bot.edit_message_caption(caption=newedim_l, chat_id=edil['chat'], message_id=edil['pid'], reply_markup=epostermarkup)
+                bot.edit_message_caption(caption=newedim_l, chat_id=edil['chat'], message_id=edil['pid'])
             except Exception as e:
                 logger.error(e)
                 pass

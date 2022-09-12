@@ -55,7 +55,7 @@ def menu(update, context):
                 else:
                     menu_mesaj += """├<a href="{}">{}</a>\n""".format("tg://privatepost?channel={}&post=9999999".format(chan[3:]), kbilgi.title)
         menu_mesaj += f"\n\nToplam {kayitli} Kanalınız Bulunuyor."
-        bot.send_message(chat, menu_mesaj, reply_markup=kanalmenumark())
+        bot.send_message(chat, menu_mesaj, reply_markup=kanalmenumark(user))
         return KANALMENU
     if mesaj == "🛠 Ekstralar":
         try:
@@ -105,13 +105,13 @@ def kanalmenu(update, context):
 
     if mesaj == "🗑️ Kanal Sil":
         if len(kudat['kanal']) < 1:
-            bot.send_message(chat, "Henüz bir kanal kaydetmemişsiniz!", reply_markup=kanalmenumark())
+            bot.send_message(chat, "Henüz bir kanal kaydetmemişsiniz!", reply_markup=kanalmenumark(user))
             return 
         bot.send_message(chat, "Silmek istediğiniz kanalı seçin.", reply_markup=gen_markup(user))
         return 
     if mesaj == "💠 Tür Değiştir":
         if len(kudat['kanal']) < 1:
-            bot.send_message(chat, "Henüz bir kanal kaydetmemişsiniz!", reply_markup=kanalmenumark())
+            bot.send_message(chat, "Henüz bir kanal kaydetmemişsiniz!", reply_markup=kanalmenumark(user))
             return 
         bot.send_message(chat, "Türünü değiştirmek istediğiniz kanalı seçin.", reply_markup=icerikmark(user))
         return
@@ -124,7 +124,7 @@ def kanalmenu(update, context):
         return KANALKAYDET
     if mesaj == "▶️ SFS Modu":
         if len(kudat['kanal']) < 1:
-            bot.send_message(chat, "SFS moduna alabilmek için henüz bir kanal kaydetmemişsiniz!", reply_markup=kanalmenumark())
+            bot.send_message(chat, "SFS moduna alabilmek için henüz bir kanal kaydetmemişsiniz!", reply_markup=kanalmenumark(user))
             return
         bot.send_message(chat, "<i>SFS moduna almak istediğiniz kanalı seçin. SFS moduna aldığınız kanala modu kapatana kadar post atılmaz!</i>\n\n", reply_markup=sfsmark(user))    
         return
@@ -133,7 +133,7 @@ def kanalmenu(update, context):
         bot.send_message(chat, "Ana Menü.", reply_markup=dugme(user))
         return ConversationHandler.END
 
-    bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=kanalmenumark())
+    bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=kanalmenumark(user))
 
 @send_typing_action
 def apimenu(update, context):
@@ -346,13 +346,6 @@ def ekstramenu(update, context):
     mesaj = update.effective_message.text
     if user in kara:
         bot.send_message(chat, "🤓 Üzgünüm senin gibi aptal birisi için çalışmıyorum")
-        return
-    if mesaj == "❤️ Beğeni Butonları":
-        butonlari = eudat['begeni']
-        if not begstate:
-            bot.send_message(chat, "Bu özellik geçici olarak devredışı bırakılmıştır. 😔")
-            return
-        bot.send_message(chat, "<b>Paylaşılan her postun altına buton ayarlayabilirsiniz.</b>\n\n{}".format(butonlari if len(butonlari) > 0 else "Henüz buton ayarlamamışsınız"), reply_markup=begenimark(eudat))
         return
     if mesaj == "📌 Post Sabitleme":
         if len(eudat['kanal']) == 0:
