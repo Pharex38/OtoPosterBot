@@ -332,7 +332,7 @@ def WebAppDataHandler(update, context):
                 collection.update_one({"_id": int(wadatadict['user_id'])}, {"$push": {"eski": webxd}})
             else:
                 collection.update_one({"_id": int(wadatadict['user_id'])}, {"$pull": {"eski": webxd}})
-        bot.send_message(update.effective_user.id, "Değişiklikleriniz kaydedildi!")
+        bot.send_message(update.effective_user.id, "Değişiklikleriniz kaydedildi!", reply_markup=kanalmenumark(update.effective_user.id))
         return 
 
     elif wadatadict.get('ozel', None) != None:
