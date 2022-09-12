@@ -171,7 +171,7 @@ def sfsmark(user):
     sfs_dat = collection.find_one({"_id": user})
     sfsbutno = 0
     sfskeyb = []
-    for inde, sfskan in enumerate(sfs_dat['kanal']):
+    for sfskan in sfs_dat['kanal']:
         sfsobje = {}
         try:
             sfschatg = bot.get_chat(sfskan)
@@ -180,7 +180,7 @@ def sfsmark(user):
         sfsobje['sfs'] = True if sfskan in sfs_dat['eski'] else False
         sfsobje['link'] = sfschatg.invite_link
         sfsobje['isim'] = sfschatg.title
-        sfsobje['no'] = inde
+        sfsobje['no'] = sfskan
         sfskeyb.append(sfsobje)
 
     ReqPost("https://pharex.dev/otoposterbot/kaynak-menu", json={"data": sfskeyb, "user_id": user}, headers=headerss).text
