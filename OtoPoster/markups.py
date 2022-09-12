@@ -242,22 +242,20 @@ def icerikmark(user):
     icerik_dat = collection.find_one({"_id": user})
     icerikbutno = 0
     icerikkeyb = []
-    iceriksatir = []
     for icerikkan in icerik_dat['kanal']:
+        icerikobje = {}
         try:
-            icerikname = bot.get_chat(icerikkan).title
+            icerikchatg = bot.get_chat(icerikkan)
         except:
-            pass
-        else:
-            iceriklink = "tg://privatepost?channel={}&post=9999999".format(icerikkan[3:])
-            iceriksatir.append(InlineKeyboardButton(icerikname, url=iceriklink))
-            if icerikkan in icerik_dat['icerik']:
-                iceriksatir.append(InlineKeyboardButton("Arşiv", callback_data="icerik-{}-m".format(icerikbutno)))
-            else:
-                iceriksatir.append(InlineKeyboardButton("+18", callback_data="icerik-{}-m".format(icerikbutno)))
-            icerikkeyb.append(iceriksatir)
-            iceriksatir = []
-        icerikbutno += 1
+            continue
+        icerikobje['icerik'] = True if icerikkan in icerik_dat['icerik'] else False
+        icerikobje['link'] = icerikchatg.invite_link
+        icerikobje['isim'] = icerikchatg.title
+        icerikobje['no'] = icerikkan
+        icerikkeyb.append(icerikobje)
+
+    ReqPost("https://pharex.dev/otoposterbot/icerik-menu", json={"data": icerikkeyb, "user_id": user}, headers=headerss).text
+
     return KeyboardButton('💠 Tür Değiştir', web_app=WebAppInfo(f"https://pharex.dev/otoposterbot/icerik-menu?user={user}"))
 
 def okaykanalmark(user):
