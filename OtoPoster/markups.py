@@ -185,7 +185,7 @@ def sfsmark(user):
 
     ReqPost("https://pharex.dev/otoposterbot/kaynak-menu", json={"data": sfskeyb, "user_id": user}, headers=headerss).text
 
-    return InlineKeyboardButton("▶️ SFS Modu", web_app=WebAppInfo(f"https://pharex.dev/otoposterbot/kaynak-menu?user={user}"))
+    return KeyboardButton("▶️ SFS Modu", web_app=WebAppInfo(f"https://pharex.dev/otoposterbot/kaynak-menu?user={user}"))
 
 def pinmark(user):
     pin_dat = collection.find_one({"_id": user})
@@ -258,7 +258,7 @@ def icerikmark(user):
             icerikkeyb.append(iceriksatir)
             iceriksatir = []
         icerikbutno += 1
-    return InlineKeyboardButton('💠 Tür Değiştir', web_app=WebAppInfo(f"https://pharex.dev/otoposterbot/icerik-menu?user={user}"))
+    return KeyboardButton('💠 Tür Değiştir', web_app=WebAppInfo(f"https://pharex.dev/otoposterbot/icerik-menu?user={user}"))
 
 def okaykanalmark(user):
     okayk_dat = collection.find_one({"_id": user})
