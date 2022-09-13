@@ -52,8 +52,8 @@ def postmenumark(degi):
 def apimenumark():
     return ReplyKeyboardMarkup(keyboard=[['♻️ API değiştir', '🔗 Site değiştir'], ['🤖 Alternatif Link'], ['↩️ Ana Menü']], resize_keyboard=True, selective=True)
 
-def ekstralarmenumark():
-    return ReplyKeyboardMarkup(keyboard=[['🍎 iOS Ban Kontrol'], ['📌 Post Sabitleme'], ['🔁 Tekrarlı Post Paylaş'], ['↩️ Ana Menü']], resize_keyboard=True, selective=True)
+def ekstralarmenumark(user):
+    return ReplyKeyboardMarkup(keyboard=[['🍎 iOS Ban Kontrol'], [pinmark(user)], ['🔁 Tekrarlı Post Paylaş'], ['↩️ Ana Menü']], resize_keyboard=True, selective=True)
 
 def imark():
     imark = ReplyKeyboardMarkup(keyboard=[['❌ İptal']], one_time_keyboard=True, resize_keyboard=True, selective=True)

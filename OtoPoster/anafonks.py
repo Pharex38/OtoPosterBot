@@ -63,7 +63,7 @@ def menu(update, context):
         except:
             bot.send_message(chat, """⛔ Bu menüyü görebilmek içim önce bir API kaydetmelisiniz!\n\n📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark())
             return APIDEGISTIR
-        bot.send_message(chat, "Ekstralar Menüsü", reply_markup=ekstralarmenumark())
+        bot.send_message(chat, "Ekstralar Menüsü", reply_markup=ekstralarmenumark(user))
         return EKSTRAMENU
     if mesaj == "🎛 Post Menü":
         try:
@@ -408,7 +408,7 @@ def ekstramenu(update, context):
         bot.send_message(chat, "Ana Menü.", reply_markup=dugme(user))
         return ConversationHandler.END
     
-    bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=ekstralarmenumark())
+    bot.send_message(chat, "<i>Lütfen alttaki butonları kullan</i>", reply_markup=ekstralarmenumark(user))
 
 def panelbul(update, context):
     chat = update.effective_message.chat.id
