@@ -189,25 +189,22 @@ def sfsmark(user):
 
 def pinmark(user):
     pin_dat = collection.find_one({"_id": user})
-    pinbutno = 0
     pinkeyb = []
-    pinsatir = []
     for pinkan in pin_dat['kanal']:
+        pinobje = {}
         try:
-            pinname = bot.get_chat(pinkan).title
+            pinchatg = bot.get_chat(pinkan)
         except:
-            pass
-        else:
-            pinlink = "tg://privatepost?channel={}&post=9999999".format(pinkan[3:])
-            pinsatir.append(InlineKeyboardButton(pinname, url=pinlink))
-            if pinkan in pin_dat['pin']:
-                pinsatir.append(InlineKeyboardButton("Açık", callback_data="pin-{}".format(pinbutno)))
-            else:
-                pinsatir.append(InlineKeyboardButton("Kapalı", callback_data="pin-{}".format(pinbutno)))
-            pinkeyb.append(pinsatir)
-            pinsatir = []
-        pinbutno += 1
-    return InlineKeyboardMarkup(pinkeyb)
+            continue
+        pinobje['pin'] = True if pinkan in pin_dat['pin'] else False
+        pinobje['link'] = pinchatg.invite_link
+        pinobje['isim'] = pinchatg.title
+        pinobje['no'] = pinkan
+        pinkeyb.append(pinobje)
+
+    ReqPost("https://pharex.dev/otoposterbot/pin-menu", json={"data": pinkeyb, "user_id": user}, headers=headerss).text
+
+    return KeyboardButton("📌 Post Sabitleme", web_app=WebAppInfo(f"https://pharex.dev/otoposterbot/sfs-menu?user={user}"))
 
 def dagme():
     dagme = ReplyKeyboardMarkup(keyboard=[['📝 Kaydet']], row_width=2, one_time_keyboard=True, resize_keyboard=False, selective=True)
