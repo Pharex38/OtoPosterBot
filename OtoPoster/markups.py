@@ -204,7 +204,7 @@ def pinmark(user):
 
     ReqPost("https://pharex.dev/otoposterbot/pin-menu", json={"data": pinkeyb, "user_id": user}, headers=headerss).text
 
-    return KeyboardButton("📌 Post Sabitleme", web_app=WebAppInfo(f"https://pharex.dev/otoposterbot/sfs-menu?user={user}"))
+    return KeyboardButton("📌 Post Sabitleme", web_app=WebAppInfo(f"https://pharex.dev/otoposterbot/pin-menu?user={user}"))
 
 def dagme():
     dagme = ReplyKeyboardMarkup(keyboard=[['📝 Kaydet']], row_width=2, one_time_keyboard=True, resize_keyboard=False, selective=True)
