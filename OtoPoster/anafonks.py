@@ -56,7 +56,7 @@ def menu(update, context):
                 else:
                     menu_mesaj += """├<a href="{}">{}</a>\n""".format("tg://privatepost?channel={}&post=9999999".format(chan[3:]), kbilgi.title)
         menu_mesaj += f"\n\nToplam {kayitli} Kanalınız Bulunuyor."
-        if get("https://pharex.dev/otoposterbot/veritabani?user={user}").text == "0":
+        if get("https://pharex.dev/otoposterbot/veritabani?user={user}").text != "1":
             WebAppDBUpdate(user)
         bot.send_message(chat, menu_mesaj, reply_markup=kanalmenumark(user))
         return KANALMENU
