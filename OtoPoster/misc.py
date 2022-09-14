@@ -333,6 +333,7 @@ def WebAppDataHandler(update, context):
             else:
                 collection.update_one({"_id": int(wadatadict['user_id'])}, {"$pull": {"eski": webxd}})
         bot.send_message(update.effective_user.id, "Değişiklikleriniz kaydedildi!", reply_markup=kanalmenumark(update.effective_user.id))
+        WebAppDBUpdate(int(wadatadict['user_id']))
         return 
     elif wadatadict.get('icerik') != None:
         for webxd in wadatadict['icerik'].keys():
@@ -341,6 +342,7 @@ def WebAppDataHandler(update, context):
             else:
                 collection.update_one({"_id": int(wadatadict['user_id'])}, {"$pull": {"icerik": webxd}})
         bot.send_message(update.effective_user.id, "Değişiklikleriniz kaydedildi!", reply_markup=kanalmenumark(update.effective_user.id))
+        WebAppDBUpdate(int(wadatadict['user_id']))
         return
     elif wadatadict.get('pin') != None:
         for webxd in wadatadict['pin'].keys():
@@ -349,10 +351,35 @@ def WebAppDataHandler(update, context):
             else:
                 collection.update_one({"_id": int(wadatadict['user_id'])}, {"$pull": {"pin": webxd}})
         bot.send_message(update.effective_user.id, "Değişiklikleriniz kaydedildi!", reply_markup=kanalmenumark(update.effective_user.id))
+        WebAppDBUpdate(int(wadatadict['user_id']))
         return
     elif wadatadict.get('ozel', None) != None:
         bot.send_message(wadatadict['user_id'], ".", reply_markup=ReplyKeyboardRemove()).delete()
         return ConversationHandler.END
+
+def WebAppDBUpdate(user, datalar=None, data_type="user_data", kanal_id=None, kontrol=False):
+    if data_type == "user_data":
+        dataobjesi = {"user_id": user, "data": collection.find_one({"_id": user}), "data_type": data_type}
+    elif data_type == "kanal_data_ready":
+        dataobjesi = {"user_id": user, "data": {"isim": datalar.title, "link": datalar.invite_link}, "kanal_id": kanal_id, "data_type": "kanal_data"}
+    elif data_type == "kanal_data":
+        chat_dat = bot.get_chat(datalar)
+        dataobjesi = {"user_id": user, "data": {"isim": chat_dat.title, "link": chat_dat.invite_link}, "kanal_id": kanal_id, "data_type": data_type}
+    elif data_type == "kanal_datas":
+        if kontrol:
+            if int(get("https://pharex.dev/otoposterbot/veritabani", params={"user": user, "count": "get"}, headers=headerss).text) == len(datalar):
+                return
+        datalars = {}
+        for dat in datalar:
+            try:
+                chat_dat = bot.get_chat(dat)
+            except:
+                continue
+            datalars[str(dat)] = {"isim": chat_dat.title, "link": (chat_dat.invite_link if chat_dat.invite_link else f"tg://privatepost?channel={str(dat)[3:]}&post=9999999")}
+        
+        dataobjesi = {"user_id": user, "data": datalars, "data_type": data_type}
+    
+    ReqPost("https://pharex.dev/otoposterbot/veritabani", json=dataobjesi, headers=headerss)
 
 def komutisimleristart():
     komutisimleris = []

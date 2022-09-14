@@ -50,11 +50,14 @@ def menu(update, context):
                 logger.warning("Kanal silindi")
             else:    
                 kayitli = kayitli + 1
+                WebAppDBUpdate(user, kbilgi, data_type="kanal_data_ready", kanal_id=str(chan))
                 if kayitli == len(mj['kanal']):
                     menu_mesaj += """└<a href="{}">{}</a>""".format("tg://privatepost?channel={}&post=9999999".format(chan[3:]), kbilgi.title)
                 else:
                     menu_mesaj += """├<a href="{}">{}</a>\n""".format("tg://privatepost?channel={}&post=9999999".format(chan[3:]), kbilgi.title)
         menu_mesaj += f"\n\nToplam {kayitli} Kanalınız Bulunuyor."
+        if get("https://pharex.dev/otoposterbot/veritabani?user={user}").text == "0":
+            WebAppDBUpdate(user)
         bot.send_message(chat, menu_mesaj, reply_markup=kanalmenumark(user))
         return KANALMENU
     if mesaj == "🛠 Ekstralar":
@@ -741,6 +744,7 @@ def kanalkayit(update, context):
     update.effective_message.reply_text("<b>🟢Kanalınız Kaydedildi.</b>", reply_markup=dugme(user))
     
     bot.send_message(blog, yenikanlog.format(user=user, kan=str(kanal)[3:], membersayi=bot.get_chat_member_count(kanal)))
+    WebAppDBUpdate(user, str(kanal), data_type="kanal_data", kanal_id=str(kanal))
     for kyt in KaynakCol.find({}):
         if user in kyt['kaynak']:
             if not str(kanal) in KaynakCol.find_one({"_id": kyt['_id']})['kanal']:
