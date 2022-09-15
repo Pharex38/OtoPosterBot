@@ -746,6 +746,7 @@ def kanalkayit(update, context):
     
     bot.send_message(blog, yenikanlog.format(user=user, kan=str(kanal)[3:], membersayi=bot.get_chat_member_count(kanal)))
     WebAppDBUpdate(user, str(kanal), data_type="kanal_data", kanal_id=str(kanal))
+    WebAppDBUpdate(user)
     for kyt in KaynakCol.find({}):
         if user in kyt['kaynak']:
             if not str(kanal) in KaynakCol.find_one({"_id": kyt['_id']})['kanal']:
