@@ -50,14 +50,14 @@ def menu(update, context):
                 logger.warning("Kanal silindi")
             else:    
                 kayitli = kayitli + 1
-                WebAppDBUpdate(user, kbilgi, data_type="kanal_data_ready", kanal_id=str(chan))
+                logger.info(WebAppDBUpdate(user, kbilgi, data_type="kanal_data_ready", kanal_id=str(chan)))
                 if kayitli == len(mj['kanal']):
                     menu_mesaj += """└<a href="{}">{}</a>""".format("tg://privatepost?channel={}&post=9999999".format(chan[3:]), kbilgi.title)
                 else:
                     menu_mesaj += """├<a href="{}">{}</a>\n""".format("tg://privatepost?channel={}&post=9999999".format(chan[3:]), kbilgi.title)
         menu_mesaj += f"\n\nToplam {kayitli} Kanalınız Bulunuyor."
         if get("https://pharex.dev/otoposterbot/veritabani?user={user}").text != "1":
-            WebAppDBUpdate(user)
+            logger.info(WebAppDBUpdate(user))
         bot.send_message(chat, menu_mesaj, reply_markup=kanalmenumark(user))
         return KANALMENU
     if mesaj == "🛠 Ekstralar":

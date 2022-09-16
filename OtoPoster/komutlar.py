@@ -722,8 +722,7 @@ def kaynakpanel(update, context):
     grafikpng.close()
     
     panelmessage.edit_caption(panel_text, reply_markup=panelkaynakmark(user))
-   
- 
+
 def AyarlarKomutu(update, context):
     user = update.effective_user.id
     chat = update.effective_chat.id

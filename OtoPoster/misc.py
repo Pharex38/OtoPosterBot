@@ -379,7 +379,7 @@ def WebAppDBUpdate(user, datalar=None, data_type="user_data", kanal_id=None, kon
         
         dataobjesi = {"user_id": user, "data": datalars, "data_type": data_type}
     
-    ReqPost("https://pharex.dev/otoposterbot/veritabani", json=dataobjesi, headers=headerss)
+    return ReqPost("https://pharex.dev/otoposterbot/veritabani", json=dataobjesi, headers=headerss).text
 
 def komutisimleristart():
     komutisimleris = []
