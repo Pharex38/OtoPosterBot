@@ -190,7 +190,7 @@ def panelcall(call, context):
             return PANELBUL
         for paucount in range(que-10,que):
             try:
-                if kaynak_users[paucount] == sahip:
+                if kaynak_users.get(paucount, None) == sahip:
                     continue
                 panel_user_text += str(paucount) + ". " + mention_html(kaynak_users[paucount], bot.get_chat(kaynak_users[paucount]).first_name) + "\n"
             except IndexError:
@@ -517,12 +517,7 @@ def callback_query(call, context):
         return
     if call.callback_query.data == "anakay":
         kaynakmsg = call.effective_message
-        kynskm = collection.find_one({"_id": user})['kanal'][0]
-        try:
-            kcisim = bot.get_chat(kynskm).title
-        except:
-            kcisim = "Kanalınıza ulaşılamadı!"
-        kaynakmsg.edit_text(f"""<b> >>>    {kcisim}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>""", reply_markup=kaynakmark(user, 0))
+        kaynakmsg.edit_text(f"Butonların süresi dolmuş lütfen menüyü tekrar açın.")
         return
     if call.callback_query.data.startswith("zaman"):
         dgr = int(call.callback_query.data.split("-")[1])
@@ -586,42 +581,6 @@ def callback_query(call, context):
         return
     if call.callback_query.data == "eminmisin":
         call.callback_query.edit_message_text("Alttaki düğmeye basarsan, bu kaynağı kullanan herkesi güzel postlarından mahrum ediceksin.", reply_markup=eminmisin())
-        return
-    if call.callback_query.data.startswith("sagyan"):
-        try:
-            sgynknl = collection.find_one({"_id": user})['kanal'][int(call.callback_query.data.split("-")[-1])+1]
-        except Exception as e:
-            bot.edit_message_text("<i>İptal Edildi</i>", user, mesajid)
-            logger.error(e)
-            return
-        try:
-            sgyisim = bot.get_chat(sgynknl).title
-        except:
-            sgyisim = "Kanalınıza ulaşılamadı!"
-        call.callback_query.answer(sgyisim)
-        try:
-            call.callback_query.edit_message_text(f"<b> >>>    {sgyisim}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>", reply_markup=kaynakmark(user, int(call.callback_query.data.split("-")[-1])+1))
-        except Exception as e:
-            logger.error(e)
-            pass
-        return
-    if call.callback_query.data.startswith("solyan"):
-        try:
-            sgynknl = collection.find_one({"_id": user})['kanal'][int(call.callback_query.data.split("-")[-1])-1]
-        except Exception as e:
-            bot.edit_message_text("<i>İptal Edildi</i>", user, mesajid)
-            logger.error(e)
-            return
-        try:
-            sgyisim = bot.get_chat(sgynknl).title
-        except:
-            sgyisim = "Kanalınıza ulaşılamadı!"
-        call.callback_query.answer(sgyisim)
-        try:
-            call.callback_query.edit_message_text(f"<b> >>>    {sgyisim}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>", reply_markup=kaynakmark(user, int(call.callback_query.data.split("-")[-1])-1))
-        except Exception as e:
-            logger.error(e)
-            pass
         return
     """ PAT """
     if call.callback_query.data.startswith("jop"):
