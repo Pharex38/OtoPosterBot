@@ -326,7 +326,7 @@ def WebAppDataHandler(update, context):
         indexi = collection.find_one({"_id": wadatadict['user_id']})['kanal'].index(str(wadatadict['kanal_id']))
         bot.send_message(update.effective_user.id, "Kaynak değişiklikleriniz kaydedildi!", reply_markup=webappmark(update.effective_user.id, indexi))
         return
-    elif wadatadict.get('sfs') != None:
+    elif wadatadict.get('sfs', None) != None:
         for webxd in wadatadict['sfs'].keys():
             if wadatadict['sfs'][webxd]:
                 collection.update_one({"_id": int(wadatadict['user_id'])}, {"$push": {"eski": webxd}})
@@ -335,7 +335,7 @@ def WebAppDataHandler(update, context):
         bot.send_message(update.effective_user.id, "Değişiklikleriniz kaydedildi!", reply_markup=kanalmenumark(update.effective_user.id))
         WebAppDBUpdate(int(wadatadict['user_id']))
         return 
-    elif wadatadict.get('icerik') != None:
+    elif wadatadict.get('icerik', None) != None:
         for webxd in wadatadict['icerik'].keys():
             if wadatadict['icerik'][webxd]:
                 collection.update_one({"_id": int(wadatadict['user_id'])}, {"$push": {"icerik": webxd}})
@@ -344,13 +344,19 @@ def WebAppDataHandler(update, context):
         bot.send_message(update.effective_user.id, "Değişiklikleriniz kaydedildi!", reply_markup=kanalmenumark(update.effective_user.id))
         WebAppDBUpdate(int(wadatadict['user_id']))
         return
-    elif wadatadict.get('pin') != None:
+    elif wadatadict.get('pin', None) != None:
         for webxd in wadatadict['pin'].keys():
             if wadatadict['pin'][webxd]:
                 collection.update_one({"_id": int(wadatadict['user_id'])}, {"$push": {"pin": webxd}})
             else:
                 collection.update_one({"_id": int(wadatadict['user_id'])}, {"$pull": {"pin": webxd}})
         bot.send_message(update.effective_user.id, "Değişiklikleriniz kaydedildi!", reply_markup=ekstralarmenumark(update.effective_user.id))
+        WebAppDBUpdate(int(wadatadict['user_id']))
+        return
+    elif wadatadict.get('sil', None) != None:
+        for webxd in wadatadict['sil']:
+            collection.update_one({"_id": int(wadatadict['user_id'])}, {"$pull": {"kanal": webxd}})
+        bot.send_message(update.effective_user.id, "Değişiklikleriniz kaydedildi!", reply_markup=kanalmenumark(update.effective_user.id))
         WebAppDBUpdate(int(wadatadict['user_id']))
         return
     elif wadatadict.get('ozel', None) != None:

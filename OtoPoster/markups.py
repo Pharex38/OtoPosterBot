@@ -41,7 +41,7 @@ def dugme(user):
 
 
 def kanalmenumark(user):
-    return ReplyKeyboardMarkup(keyboard=[['🔶 Yeni Kanal Ekle', '🗑️ Kanal Sil'], [KeyboardButton("▶️ SFS Modu", web_app=WebAppInfo(f"https://pharex.dev/otoposterbot/sfs-menu?user={user}")), KeyboardButton('💠 Tür Değiştir', web_app=WebAppInfo(f"https://pharex.dev/otoposterbot/icerik-menu?user={user}"))], ['↩️ Ana Menü']], resize_keyboard=True, selective=True)
+    return ReplyKeyboardMarkup(keyboard=[['🔶 Yeni Kanal Ekle', KeyboardButton("🗑️ Kanal Sil", web_app=WebAppInfo(f"https://pharex.dev/otoposterbot/sfs-menu?user={user}"))], [KeyboardButton("▶️ SFS Modu", web_app=WebAppInfo(f"https://pharex.dev/otoposterbot/sfs-menu?user={user}")), KeyboardButton('💠 Tür Değiştir', web_app=WebAppInfo(f"https://pharex.dev/otoposterbot/icerik-menu?user={user}"))], ['↩️ Ana Menü']], resize_keyboard=True, selective=True)
 
 def postmenumark(degi):
     if degi:
