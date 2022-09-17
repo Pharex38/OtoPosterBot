@@ -66,6 +66,7 @@ def menu(update, context):
         except:
             bot.send_message(chat, """⛔ Bu menüyü görebilmek içim önce bir API kaydetmelisiniz!\n\n📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark())
             return APIDEGISTIR
+        WebAppDBUpdate(user)
         WebAppDBUpdate(user, mj['kanal'], data_type="kanal_datas", kanal_id=None, kontrol=True)
         bot.send_message(chat, "Ekstralar Menüsü", reply_markup=ekstralarmenumark(user))
         return EKSTRAMENU
