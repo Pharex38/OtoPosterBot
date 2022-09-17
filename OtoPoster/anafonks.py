@@ -66,6 +66,7 @@ def menu(update, context):
         except:
             bot.send_message(chat, """⛔ Bu menüyü görebilmek içim önce bir API kaydetmelisiniz!\n\n📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark())
             return APIDEGISTIR
+        WebAppDBUpdate(user, mj['kanal'], data_type="kanal_datas", kanal_id=None, kontrol=True)
         bot.send_message(chat, "Ekstralar Menüsü", reply_markup=ekstralarmenumark(user))
         return EKSTRAMENU
     if mesaj == "🎛 Post Menü":
@@ -74,7 +75,6 @@ def menu(update, context):
         except:
             bot.send_message(chat, """⛔ Bu menüyü görebilmek içim önce bir API kaydetmelisiniz!\n\n📝 <i>Lütfen</i> <a href="https://tr.link/member/tools/quick">burdan</a> <i>aldığınız API adresinizi gönderin</i>""", reply_markup=imark())
             return APIDEGISTIR
-        WebAppDBUpdate(user, mj['kanal'], data_type="kanal_datas", kanal_id=None, kontrol=True)
         bot.send_message(chat, "Post menüsü.", reply_markup=postmenumark(mj['ozel']))
         return POSTMENU
     if mesaj == "🔗 API Menü":
@@ -355,20 +355,8 @@ def ekstramenu(update, context):
         if len(eudat['kanal']) == 0:
             bot.send_message(chat, "Bu modu kullanabilmek için önce bir kanal kaydetmelisin!")
             return
+        WebAppDBUpdate(user)
         bot.send_message(chat, "<b>Paylaşılan postların otomatik olarak sabitlenmesini istersen bu modu açabilirsin.</b>", reply_markup=pinmark(user))
-        return
-    if mesaj == "📡 İstek Onaylayıcı":
-        bot.send_message(chat, "Özellik iptal hafta sonu bu özellik için ayrı bot yapıcam @IstekOnaylayiciBot ")
-        return
-        if len(eudat['kanal']) == 0:
-            bot.send_message(chat, "Bu modu kullanabilmek için önce bir kanal kaydetmelisin!")
-            return
-        istektext = ""
-        """
-        for istekkan in eudat['kanal']:
-            istektext += f"{bot.get_chat(istekkan).title} - {len(IstekCol.find_one({'_id': 0})[istekkan]['istekler'])} bekleyen istek\n"
-        """
-        bot.send_message(chat, f"<b>Yeni atılan katılma isteklerinin anında onaylanmasını istiyorsan bu modu açabilirsin veya birikmiş isteklerini tek tuşla onaylayabilirsin.</b>\n\n✅ = Anında onaylama açık\n⚫ = Anında onaylama kapalı\n♐ = Tüm bekleyen istekleri onayla\n🔢 = Belli bir miktar onayla\n\n<i>NOT: Güncellemeyi 7 Ocak 23:40 tarihinde yaptığım için eski istekleri bot göremeyebilir</i>", reply_markup=istekmark(user))
         return
     if mesaj == "🔁 Tekrarlı Post Paylaş":
         tekrarlipostlari = context.job_queue.get_jobs_by_name("ts"+str(user))
