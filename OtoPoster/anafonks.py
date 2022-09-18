@@ -296,7 +296,6 @@ def postmenu(update, context):
         return
     if mesaj == "♋️ Özel Kaynak Ayarları":
         kaynakmsg = bot.send_message(user, "<code>Yükleniyor...</code>")
-        kynskm = collection.find_one({"_id": user})['kanal'][0]
         
         for m in OzelCol.find({}):
             if user in m['kanal']:
