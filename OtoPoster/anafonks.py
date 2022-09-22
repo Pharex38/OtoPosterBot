@@ -281,15 +281,6 @@ def postmenu(update, context):
         bot.send_message(user, "Aşağıdaki menüden bir kanal seçin.", reply_markup=webappmark(user, -1))
         kaynakmsg.delete()
         return
-        """
-        kynskm = poudat['kanal'][0]
-        try:
-            kcisim = bot.get_chat(kynskm).title
-        except:
-            kcisim = "Kanalınıza ulaşılamadı!"
-        kaynakmsg.edit_text(f"<b> >>>    {kcisim}\n\nKanalınızda kullanmak istediğiniz kaynak kanalını seçin.</b>", reply_markup=kaynakmark(user, 0))
-        """
-        return
 
     if mesaj == "♋️ Özel Kaynak Oluştur":
         bot.send_message(user, """<b>Özel Kaynak Hakkında Bilmeniz Gerekenler</b>\n\n<i>- Sadece bir tane Özel kaynak kullanabilirsiniz.\n- Başkaları da isterse sizin özel kaynağınızı kullanabilir.\n- Kaynağınız @OtoPosterBotLog'da gözükmeyecek.\n- Postlar, diğer kaynaklara göre daha yavaş atılır.\n- Özel kaynağa kısaltılmamış link atmanız gerekiyor. Kısaltılmış linkli post atarsanız bot linki geçmez direkt olarak kısaltılmış linki tekrar kısaltır.</i>""", reply_markup=ozelmark())

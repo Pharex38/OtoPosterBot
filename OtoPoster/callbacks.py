@@ -380,59 +380,6 @@ def callback_query(call, context):
         except:
             pass
         return 
-    """ PIN """
-    if call.callback_query.data.startswith("pin-"):
-        pinno = int(call.callback_query.data.split("-")[-1])
-        try:
-            pushedpinkan = collection.find_one({"_id": user})['kanal'][pinno]
-        except:
-            call.callback_query.edit_message_text("Butonların kullanım süresi dolmuş lütfen menüden tekrar açın.")
-            return
-        if pushedpinkan in collection.find_one({"_id": user})['pin']:
-            collection.update_one({"_id": user}, {"$pull": {"pin": pushedpinkan}})
-            call.callback_query.answer("Kanalınız için Pin modu kapatıldı.")
-        else:
-            collection.update_one({"_id": user}, {"$push": {"pin": pushedpinkan}})
-            call.callback_query.answer("Kanalınız için Pin modu açıldı.")
-        try:
-            call.callback_query.edit_message_reply_markup(pinmark(user))
-        except:
-            pass
-        return 
-    """ SFS Modu """
-    if call.callback_query.data.startswith("sfs"):
-        sfsno = int(call.callback_query.data.split("-")[-1])
-        try:
-            pushedsfskan = collection.find_one({"_id": user})['kanal'][sfsno]
-        except:
-            call.callback_query.edit_message_text("Butonların kullanım süresi dolmuş lütfen menüden tekrar açın.")
-            return
-        if pushedsfskan in collection.find_one({"_id": user})['eski']:
-            collection.update_one({"_id": user}, {"$pull": {"eski": pushedsfskan}})
-            call.callback_query.answer("Kanalınız için SFS modu kapatıldı.")
-        else:
-            collection.update_one({"_id": user}, {"$push": {"eski": pushedsfskan}})
-            call.callback_query.answer("Kanalınız SFS moduna alındı.")
-        try:
-            call.callback_query.edit_message_reply_markup(sfsmark(user))
-        except:
-            pass
-    """ İcerik """
-    if call.callback_query.data.startswith("icerik"):
-        icerikno = int(call.callback_query.data.split("-")[-2])
-        pushedicerikkan = collection.find_one({"_id": user})['kanal'][icerikno]
-        if pushedicerikkan in collection.find_one({"_id": user})['icerik']:
-            collection.update_one({"_id": user}, {"$pull": {"icerik": pushedicerikkan}})
-        else:
-            collection.update_one({"_id": user}, {"$push": {"icerik": pushedicerikkan}})
-        call.callback_query.answer("Kanalınızın içeriği değiştirildi.")
-        try:
-            if call.callback_query.data.split("-")[-1] == "k":
-                call.callback_query.edit_message_reply_markup(kaynakmark(user, icerikno))
-            else:
-                call.callback_query.edit_message_reply_markup(icerikmark(user))
-        except:
-            pass
     if call.callback_query.data.startswith("ozicerik-"):
         if call.callback_query.data.split("-")[-1] == "arsiv":
             icc = "+18"
@@ -465,14 +412,6 @@ def callback_query(call, context):
     if call.callback_query.data == "iptal":
         bot.edit_message_text("<i>İptal Edildi</i>", user, mesajid)
         return
-    """ Kanal Sil """
-    if call.callback_query.data.startswith("sil"):
-        kul = collection.find_one({"_id": user})
-        s = int(call.callback_query.data.split("-")[1])
-        collection.update_one({"_id": user}, {"$pull": {"kanal": kul['kanal'][s], "eski": kul['kanal'][s], "icerik": kul['kanal'][s]}})
-        bot.edit_message_text("Kanalınız Silindi!", user, mesajid)
-        call.callback_query.answer(call.callback_query.id, "Kanalınız Silindi!")
-        bot.send_message(blog, kansillog.format(user=user, kan=kul['kanal'][s][3:], membersayi=bot.get_chat_member_count(int(kul['kanal'][s]))))
     """ Site Değiştir """
     if call.callback_query.data.startswith("site"):
         ss = str(call.callback_query.data.split("-")[1])
@@ -485,48 +424,6 @@ def callback_query(call, context):
         call.callback_query.answer(call.callback_query.id, "✅ Site Kaydedildi!")
         bot.edit_message_text("Alternatif olarak kullanmak istediğiniz siteyi seçin.", user, mesajid)
         bot.edit_message_reply_markup(chat_id=chat, message_id=mesajid, reply_markup=altsitemarkup("asite"))
-    """ Kaynak """
-    if call.callback_query.data == "ozayar":
-        kaynakmsg = call.effective_message
-        kynskm = collection.find_one({"_id": user})['kanal'][0]
-        
-        for m in OzelCol.find({}):
-            if user in m['kanal']:
-                try:
-                    ozel_kaynak_bilgi = bot.get_chat(m['okaynak'])
-                except:
-                    kaynakmsg.edit_text("Botu kaynak kanalınızdan çıkarttığınız için post atılmayacak.", reply_markup=ozelkaynakmark(user, 0))
-                    return
-                kullanan_sayisi = len(m['kanal'])
-                break
-        refsahip = "yok"
-        for ox in OzelCol.find({}):
-            if user in ox['kanal']:
-                refsahip = ox["_id"]
-                break
-        if refsahip == "yok":
-            collection.update_one({"_id": user}, {"$set": {"ozel": False}})
-            collection.update_one({"_id": user}, {"$pull": {"kaynak": "32"}})
-            kaynakmsg.edit_text("Özel kaynağınız silinmiş!")
-            return
-        ref_link = create_deep_linked_url(context.bot.username, str(refsahip))
-        try:
-            kaynakmsg.edit_text("""<b>Sadece bir tane Özel Kaynak kullanabilirsiniz.</b>\n\n      <i>Özel Kaynağınız:</i><b> <a href="{}">{}</a>\n</b>      <i>Bu Kaynağı Toplam </i><code>{}</code> <i>Kişi Kullanıyor.</i>\n\n<b>Kaynak Referans Linki;</b>\n<code>{}</code>\n<i>Bu link ile botu başlatan herkes otomatik olarak sizin kaynağınıza bağlanacak.</i>""".format(ozel_kaynak_bilgi.invite_link, ozel_kaynak_bilgi.title, kullanan_sayisi, ref_link), reply_markup=ozelkaynakmark(user, 0))
-        except:
-            pass
-        return
-    if call.callback_query.data == "anakay":
-        kaynakmsg = call.effective_message
-        kaynakmsg.edit_text(f"Butonların süresi dolmuş lütfen menüyü tekrar açın.")
-        return
-    if call.callback_query.data.startswith("zaman"):
-        dgr = int(call.callback_query.data.split("-")[1])
-        try:
-            saatalert = KaynakCol.find_one({"sahip": dgr})['zaman']
-        except:
-            saatalert = "Kaynak silinmiş."
-        call.callback_query.answer(show_alert=True, text=saatalert)
-        return
     if call.callback_query.data == "okay":
         bot.edit_message_text("""<b>Özel Kaynak Hakkında Bilmeniz Gerekenler</b>\n\n<i>- Sadece bir tane Özel kaynak kullanabilirsiniz.\n- Başkaları da isterse sizin özel kaynağınızı kullanabilir.\n- Kaynağınız @OtoPosterBotLog'da gözükmeyecek.\n- Postlar, diğer kaynaklara göre daha yavaş atılır.\n- Özel kaynağa kısaltılmamış link atmanız gerekiyor. Kısaltılmış linkli post atarsanız bot linki geçmez direkt olarak kısaltılmış linki tekrar kısaltır.</i>""", chat, mesajid)
         bot.edit_message_reply_markup(chat, mesajid, reply_markup=ozelmark())
