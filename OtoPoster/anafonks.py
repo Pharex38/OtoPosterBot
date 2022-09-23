@@ -724,12 +724,13 @@ def kanalkayit(update, context):
     update.effective_message.reply_text("<b>🟢Kanalınız Kaydedildi.</b>", reply_markup=dugme(user))
     
     bot.send_message(blog, yenikanlog.format(user=user, kan=str(kanal)[3:], membersayi=bot.get_chat_member_count(kanal)))
-    WebAppDBUpdate(user, str(kanal), data_type="kanal_data", kanal_id=str(kanal))
-    WebAppDBUpdate(user)
     for kyt in KaynakCol.find({}):
         if user in kyt['kaynak']:
             if not str(kanal) in KaynakCol.find_one({"_id": kyt['_id']})['kanal']:
                 KaynakCol.update_one({"_id": kyt['_id']}, {"$push": {"kanal": str(kanal)}})
+    WebAppDBUpdate(user, str(kanal), data_type="kanal_data", kanal_id=str(kanal))
+    WebAppDBUpdate(user)
+
     return ConversationHandler.END
 
 def patzamansaat(update, context):
