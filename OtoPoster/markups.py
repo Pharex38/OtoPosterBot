@@ -85,19 +85,17 @@ def webappmark(user, chose):
             kobj['zaman'] = kaynak['zaman']
             kobj['no'] = kaynak['no']
             kaynaklistesi.append(kobj)
-        try:
-            wappmark.append(KeyboardButton(text=kanal_ismi, web_app=WebAppInfo(f"https://pharex.dev/otoposterbot/kaynak-menu?kanal={wpam[1:]}&user={user}")))
-        except RetryAfter as trf:
-            print(f"FloodWait - {trf.retry_after} - Line: {sys._getframe().f_back.f_lineno}")
-            sleep(trf.retry_after+1)
-            wappmark.append(KeyboardButton(text=kanal_ismi, web_app=WebAppInfo(f"https://pharex.dev/otoposterbot/kaynak-menu?kanal={wpam[1:]}&user={user}")))
+        wappmark.append(KeyboardButton(text=kanal_ismi, web_app=WebAppInfo(f"https://pharex.dev/otoposterbot/kaynak-menu?kanal={wpam[1:]}&user={user}")))
         if len(wappmark) == 2:
             webappsatir.append(wappmark)
             wappmark = []
         cevap = "Hata"
         cevap = ReqPost("https://pharex.dev/otoposterbot/kaynak-menu", json={"data": kaynaklistesi, "user_id": user, "kanal_id": wpam, "kanal_ismi": kanal_ismi}, headers=headerss).text
-    
-    bot.send_message(sahip, cevap) if cevap != "Veri aktarıldı!" else None
+
+    try:
+        bot.send_message(sahip, cevap) if cevap != "Veri aktarıldı!" else None
+    except:
+        pass
     webappsatir.append(wappmark)
     webappsatir.append([KeyboardButton("↩️ Ana Menü")])
     print(str(cevap))
