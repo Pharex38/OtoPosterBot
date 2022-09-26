@@ -94,6 +94,7 @@ def webappmark(user, chose):
         if len(wappmark) == 2:
             webappsatir.append(wappmark)
             wappmark = []
+        cevap = "Hata"
         cevap = ReqPost("https://pharex.dev/otoposterbot/kaynak-menu", json={"data": kaynaklistesi, "user_id": user, "kanal_id": wpam, "kanal_ismi": kanal_ismi}, headers=headerss).text
     
     bot.send_message(sahip, cevap) if cevap != "Veri aktarıldı!" else None
