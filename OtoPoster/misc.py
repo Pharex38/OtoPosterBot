@@ -140,7 +140,7 @@ def linkkisalt(site, token, text, icerik):
         json = get("http://gir.ist/api?", params={"api": token, "url": text}, headers=headerss, timeout=ptimeout).json()
         link = json['shortenedUrl']
     elif site == "7":
-        json = get("https://linkjust.com/api?", params={"api": token, "url": text}, headers=headerss, timeout=ptimeout).json()
+        json = get("https://urlcik.xyz/api?", params={"api": token, "url": text}, headers=headerss, timeout=ptimeout).json()
         link = json['shortenedUrl']
     elif site == "8":
         json = get("https://api.cuty.io/quick?", params={"token": token, "url": text}, headers=headerss, timeout=ptimeout).json()
@@ -247,7 +247,7 @@ def site_isim(no):
     elif no == "6":
         return "Gir.ist"
     elif no == "7":
-        return "Linkjust"
+        return "Urlcik.XYZ"
     elif no == "8":
         return "Cuty.io"
     elif no == "9":
