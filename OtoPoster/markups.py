@@ -74,8 +74,10 @@ def webappmark(user, chose):
             continue
         kaynaklistesi = []
         for kaynak in KaynakCol.find({}):
+            if kaynak['no'] in ignorekaynak:
+                continue
             kobj = {'kaynak': False, "isim": "Kaynağa Ulaşılamadı!", "link": "t.me/otoposterbotlog", "zaman": "Henüz ayarlanmamış", "no": "0"}
-            if kaynak['icerik'] == "+18" and wpam not in user_data['icerik'] or kaynak['icerik'] == "arsiv" and wpam in user_data['icerik'] and not kaynak['no'] in ignorekaynak:
+            if kaynak['icerik'] == "+18" and wpam not in user_data['icerik'] or kaynak['icerik'] == "arsiv" and wpam in user_data['icerik']:
                 if user in kaynak['kaynak'] and wpam in kaynak['kanal']:
                     kobj['kaynak'] = True
             else:        
