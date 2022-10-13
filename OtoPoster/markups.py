@@ -75,7 +75,7 @@ def webappmark(user, chose):
         kaynaklistesi = []
         for kaynak in KaynakCol.find({}):
             kobj = {'kaynak': False, "isim": "Kaynağa Ulaşılamadı!", "link": "t.me/otoposterbotlog", "zaman": "Henüz ayarlanmamış", "no": "0"}
-            if kaynak['icerik'] == "+18" and wpam not in user_data['icerik'] or kaynak['icerik'] == "arsiv" and wpam in user_data['icerik']:
+            if kaynak['icerik'] == "+18" and wpam not in user_data['icerik'] or kaynak['icerik'] == "arsiv" and wpam in user_data['icerik'] and not kaynak['no'] in ignorekaynak:
                 if user in kaynak['kaynak'] and wpam in kaynak['kanal']:
                     kobj['kaynak'] = True
             else:        
@@ -94,11 +94,12 @@ def webappmark(user, chose):
 
     try:
         bot.send_message(sahip, cevap) if cevap != "Veri aktarıldı!" else None
+        print(str(cevap))
     except:
         pass
+    
     webappsatir.append(wappmark)
     webappsatir.append([KeyboardButton("↩️ Ana Menü")])
-    print(str(cevap))
     if chose == -1:
         return ReplyKeyboardMarkup(webappsatir, resize_keyboard=True)
     else:

@@ -466,6 +466,8 @@ def callback_query(call, context):
         return
     if call.callback_query.data == "yoket":
         kayna_k = OzelCol.find_one({"_id": user})
+        if kayna_k.get('kanal', None) == None:
+            return
         for xk in kayna_k['kanal']:
             if user != xk:
                 try:
