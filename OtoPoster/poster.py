@@ -231,7 +231,7 @@ def poster_job(context):
             except:
                 pass
             else:
-                if json['message'] == "Invalid API token":
+                if json['message'] == "Invalid API token" or json['message'] == "Bu tokene ait kullanici bulunamadi.":
                     aftertext.append((user, "API adresiniz yanlış!"))
                     ertos["apihata"] += 1
                     continue
