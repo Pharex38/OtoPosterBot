@@ -165,18 +165,30 @@ def AdminCommandHandler(command, callback, *args, **kwargs):
     return CommandHandler(command, callback, filters=Filters.user(sahip))
 
 def apiscraper(apitoken):
+    apitoken = html.escape(apitoken)
+    erro = False
     if "ouo" in apitoken:
         apitoken = apitoken.split("/")
-        apitoken = apitoken[4][:apitoken[4].find("?")]
+        apitoken = apitoken[4][:apitoken[4].find("?s")]
+        if 6 < len(apitoken) < 12:
+            erro = True
     elif "pubiza" in apitoken:
         apitoken = apitoken.split("=")
-        apitoken = apitoken[1][:apitoken[1].find("&url")]
+        apitoken = apitoken[1][:apitoken[1].find("&amp;")]
+        if 27 < len(apitoken) < 37:
+            erro = True
     elif "script" in apitoken:
         apitoken = apitoken.replace(" ", "").replace("\n", "").split("&#x27;")
         apitoken = apitoken[1]
+        if 35 < len(apitoken) < 45:
+            erro = True
+    elif "ay.live" in apitoken:
+        apitoken = apitoken.split("?api=")[1]
+        apitoken = apitoken[:apitoken.find("&amp;")]
+        if 35 < len(apitoken) < 45:
+            erro = True
     
-        
-    return apitoken
+    return apitoken, erro
 
 def bildir(neyi='Boş Bildirim Testi !'):
     for i in adminlist:

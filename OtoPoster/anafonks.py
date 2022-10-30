@@ -649,7 +649,7 @@ def apikayit(update, context):
         token = html.escape(update.effective_message.text)
     except:
         return
-    token = apiscraper(token)
+    token, erro = apiscraper(token)
 
     user = update.effective_message.from_user.id
     chat = update.effective_message.chat.id
@@ -665,8 +665,8 @@ def apikayit(update, context):
     if update.effective_message.text == "❌ İptal":
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
-    if "url=trlink" in token or "script" in token:
-        mso = bot.send_message(chat, "❌ Geçersiz bir API verdiniz! Lütfen doğru bir API adresi verin.")
+    if erro:
+        mso = bot.send_message(chat, "❌ <b>Geçersiz bir API verdiniz!</b> <i>Lütfen API'yi eksiksiz kopyaladığınızdan emin olun.</i>")
         return APIDEGISTIR
     key = {"_id": user, "token": token, "kanal": [], "sablon": "1", "kaynak": [], "site": "1", "altapi": "None", "altsite": "None", "sira": 0, "ozel": False, "pcount": 0, "time": 0, "vakit": 0, "eski": [], "begeni": [], "pin": [], "icerik": []}
     if token in apikara:
