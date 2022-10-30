@@ -190,7 +190,9 @@ def panelcall(call, context):
             return PANELBUL
         for paucount in range(que-10,que):
             try:
-                if kaynak_users.get(paucount, None) == sahip:
+                if type(kaynak_users) != list:
+                    continue
+                if kaynak_users[paucount] == sahip:
                     continue
                 panel_user_text += str(paucount) + ". " + mention_html(kaynak_users[paucount], bot.get_chat(kaynak_users[paucount]).first_name) + "\n"
             except IndexError:
