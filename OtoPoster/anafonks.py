@@ -582,32 +582,35 @@ def cancel(update, context):
 
 def altakayit(update, context):
     amesaj = html.escape(update.effective_message.text)
-    token = apiscraper(amesaj)
+    token, erro = apiscraper(amesaj)
     user = update.effective_message.from_user.id
     chat = update.effective_message.chat.id
     if collection.find_one({"_id": user}) == None:
         bot.send_message(chat, "<b>Önce bir API kaydedin!</b>")
         return
+    if erro:
+        bot.send_message(chat, "❌ <b>Geçersiz bir API verdiniz!</b> <i>Lütfen API'yi eksiksiz kopyaladığınızdan emin olun.</i>")
+        return APIDEGISTIR
     if update.effective_message.text == "❌ İptal" or update.effective_message.text == None:
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
     smesaj = context.user_data['asite']
     sss = context.user_data['sss']
     if sss == "gelismis":
-        amesaj = [{"api": amesaj, "site": smesaj}]
+        token = [{"api": token, "site": smesaj}]
         if "{alink}" in collection.find_one({"_id": user})["sablon"]:
             smesaj = "tpil"
         else:
             smesaj = "sirali"
         sss = 10
     if sss == "ekle":
-        if amesaj in [m["api"] for m in collection.find_one({"_id": user})["altapi"]]:
+        if token in [m["api"] for m in collection.find_one({"_id": user})["altapi"]]:
             bot.send_message(chat, "Bu apiyi zaten kaydetmişsin!", reply_markup=imark())
             return
-        amesaj = {"api": amesaj, "site": smesaj}
-        collection.update_one({"_id": user}, {"$push": {"altapi": amesaj}})
+        token = {"api": token, "site": smesaj}
+        collection.update_one({"_id": user}, {"$push": {"altapi": token}})
     else:
-        collection.update_one({"_id": user}, {"$set": {"altsite": str(smesaj), "altapi": amesaj, "sira": int(sss)}})
+        collection.update_one({"_id": user}, {"$set": {"altsite": str(smesaj), "altapi": token, "sira": int(sss)}})
         seskisablon = collection.find_one({"_id": user})['sablon']
         if int(sss) in [2, 3]:
             collection.update_one({"_id": user}, {"$set": {"sablon": seskisablon.replace("{alink}", "∆∆")}})
