@@ -165,7 +165,7 @@ def AdminCommandHandler(command, callback, *args, **kwargs):
     return CommandHandler(command, callback, filters=Filters.user(sahip))
 
 def apiscraper(apitoken):
-    apitoken = html.escape(apitoken)
+
     erro = False
     if "ouo" in apitoken:
         apitoken = apitoken.split("/")
