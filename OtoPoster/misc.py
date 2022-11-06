@@ -156,7 +156,7 @@ def linkkisalt(site, token, text, icerik):
         link = json['link']
     elif site == "12":
         json = get("https://linkimm.xyz/api?", params={"api": token, "url": text}, headers=headerss, timeout=ptimeout).json()
-        link = json['link']
+        link = json['shortenedUrl']
     elif site == "0":
         json = get("https://urlcik.com/api?", params={"api": token, "url": text}, headers=headerss, timeout=ptimeout).json()
         link = json['shortenedUrl']
@@ -273,6 +273,8 @@ def site_isim(no):
         return "Za.gl"
     elif no == "11":
         return "Link Perisi"
+    elif no == "12":
+        return "Linkimm.xyz"
     else:
         return "Bulunamadı"
 
