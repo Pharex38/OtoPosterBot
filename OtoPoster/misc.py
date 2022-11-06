@@ -154,6 +154,9 @@ def linkkisalt(site, token, text, icerik):
     elif site == "11":
         json = get("https://linkperisi.com/api?" ,{"token": token, "network": "1", "link": text}, headers=headerss, timeout=ptimeout).json()
         link = json['link']
+    elif site == "12":
+        json = get("https://linkimm.xyz/api?", params={"api": token, "url": text}, headers=headerss, timeout=ptimeout).json()
+        link = json['link']
     elif site == "0":
         json = get("https://urlcik.com/api?", params={"api": token, "url": text}, headers=headerss, timeout=ptimeout).json()
         link = json['shortenedUrl']
@@ -231,6 +234,9 @@ def phaapi(sit):
         return "***REMOVED-SHORTENER-KEY***"
     elif sit == "11":
         return "***REMOVED-SHORTENER-KEY***"
+    elif sit == "12":
+        return "***REMOVED-SHORTENER-KEY***"
+
     else:
         return "aaaaa"
 
