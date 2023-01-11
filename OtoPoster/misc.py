@@ -193,6 +193,9 @@ def apiscraper(apitoken):
         apitoken = apitoken[:appos]
         if 45 < len(apitoken) or len(apitoken) < 35:
             erro = True
+    
+    if " " in apitoken or "\n" in apitoken:
+        erro = True
 
     
     return apitoken, erro
