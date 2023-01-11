@@ -173,23 +173,27 @@ def apiscraper(apitoken):
     if "ouo" in apitoken:
         apitoken = apitoken.split("/")
         apitoken = apitoken[4][:apitoken[4].find("?s")]
-        if 6 < len(apitoken) < 12:
+        if 6 > len(apitoken) or len(apitoken) > 12:
             erro = True
     elif "pubiza" in apitoken:
         apitoken = apitoken.split("=")
         apitoken = apitoken[1][:apitoken[1].find("&amp;")]
-        if 27 < len(apitoken) < 37:
+        if 27 > len(apitoken) or len(apitoken) > 37:
             erro = True
     elif "script" in apitoken:
         apitoken = apitoken.replace(" ", "").replace("\n", "").split("&#x27;")
         apitoken = apitoken[1]
-        if 35 < len(apitoken) < 45:
+        if len(apitoken) < 35 or len(apitoken) > 45:
             erro = True
     elif "ay.live" in apitoken:
         apitoken = apitoken.split("?api=")[1]
-        apitoken = apitoken[:apitoken.find("&amp;")]
-        if 35 < len(apitoken) < 45:
+        appos = apitoken.find("&amp;")
+        if appos == -1:
+            appos = apitoken.find("&")
+        apitoken = apitoken[:appos]
+        if 45 < len(apitoken) or len(apitoken) < 35:
             erro = True
+
     
     return apitoken, erro
 

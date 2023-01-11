@@ -669,7 +669,7 @@ def apikayit(update, context):
         bot.send_message(chat, "İptal Edildi.", reply_markup=dugme(user))
         return ConversationHandler.END
     if erro:
-        mso = bot.send_message(chat, "❌ <b>Geçersiz bir API verdiniz!</b> <i>Lütfen API'yi eksiksiz kopyaladığınızdan emin olun.</i>")
+        bot.send_message(chat, "❌ <b>Geçersiz bir API verdiniz!</b> <i>Lütfen API'yi eksiksiz kopyaladığınızdan emin olun.</i>")
         return APIDEGISTIR
     key = {"_id": user, "token": token, "kanal": [], "sablon": "1", "kaynak": [], "site": "1", "altapi": "None", "altsite": "None", "sira": 0, "ozel": False, "pcount": 0, "time": 0, "vakit": 0, "eski": [], "begeni": [], "pin": [], "icerik": []}
     if token in apikara:
