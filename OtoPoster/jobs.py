@@ -278,6 +278,8 @@ def gunluk(context):
     statscount = 1
     astat_text = "<b>Arşiv Kaynakların Toplam Kullanıcı Sayıları:</b>\n"
     for kstat in sorted(KaynakCol.find(), key = lambda i: len(i['kaynak']), reverse=True):
+        if kstat['no'] in ignorekaynak:
+            continue
         if kstat['icerik'] != "arsiv":
             continue
         try:
