@@ -102,7 +102,8 @@ def main() -> None:
         fallbacks=[MessageHandler(Filters.regex('^(↩️ Ana Menü)$') & Filters.update.message, cancel), CommandHandler('start', start, filters=~Filters.update.edited_message)],
         per_message=False,
         name="anaconv",
-        per_chat=True
+        per_chat=True,
+        conversation_timeout="90"
         )
     dispatcher.add_handler(conv_handler)
     """ Müşteri Komutları """

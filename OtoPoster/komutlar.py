@@ -38,7 +38,7 @@ def start(update, context):
 👨🏻‍🔧 Fix & Eklentiler : @berce</b>
  
   📔        <b>@OtoPosterBotLog</b>
-""".format(mention), disable_web_page_preview=True, reply_markup=dugme(user))
+""".format(html.escape(mention)), disable_web_page_preview=True, reply_markup=dugme(user))
     return ConversationHandler.END
 
 def stats(update, context):
