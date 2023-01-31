@@ -147,7 +147,7 @@ def linkkisalt(site, token, text, icerik):
         json['message'] = ""
     elif site == "9":
         json = get("https://shrtfly.com/api?", params={"api": token, "type": 2, "url": text, "format": "json"}, headers=headerss, timeout=ptimeout).json()
-        link = json['shortenedUrl']
+        link = json['shorten_url']
     elif site == "10":
         json = get("https://za.gl/api?", params={"api": token, "url": text}, headers=headerss, timeout=ptimeout).json()
         link = json['shortenedUrl']
@@ -234,7 +234,7 @@ def phaapi(sit):
     elif sit == "7":
         return "***REMOVED-KEY***"
     elif sit == "8":
-        return "***REMOVED-SHORTENER-KEY***"
+        return ""
     elif sit == "9":
         return "***REMOVED-KEY***"
     elif sit == "10":
