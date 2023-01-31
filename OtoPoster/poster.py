@@ -179,15 +179,9 @@ def poster_job(context):
                             sleep(0.15)
                             logger.warning(f"Link kısaltılamadı tekrar deneniyor {linktry}")
                         alink, ajson = linkkisalt(altsite, altapi, mesajb, chatdat['icerik'])
-                    except ReadTimeoutError:
-                        if linktry == 10:
-                            aftertext.append((user, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(altsite)}</code>"))
-                            alink = "-"
-                            ertos["spg"] += 1
-                            continue
                     except Exception as e:
                         if linktry == 10:
-                            aftertext.append((user, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(altsite)}</code>"))
+                            aftertext.append((user, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor.</code> \n\n{site_isim(altsite)}"))
                             alink = "-"
                             errsayim[altsite] = errsayim[altsite]+1
                             if errsayim[altsite] > 150:
@@ -204,12 +198,6 @@ def poster_job(context):
                         sleep(0.15)
                         logger.warning(f"Tekrar deneniyor {linktry}")
                     link, json = linkkisalt(site, token, mesajb, chatdat['icerik'])
-                except ReadTimeoutError:
-                    if linktry == 10:
-                        aftertext.append((user, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(site)}</code>"))
-                        link = "-"
-                        ertos["spg"] += 1
-                        continue
                 except Exception as e:
                     if linktry == 10:
                         aftertext.append((user, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(site)}</code>"))
