@@ -143,7 +143,7 @@ def linkkisalt(site, token, text, icerik):
         link = json['shortenedUrl']
     elif site == "8":
         json = get("https://api.cuty.io/quick?", params={"token": token, "url": text}, headers=headerss, timeout=ptimeout).json()
-        link = json['short_url']
+        link = json['result']['short_url']
         json['message'] = ""
     elif site == "9":
         json = get("https://shrtfly.com/api?", params={"api": token, "type": 2, "url": text, "format": "json"}, headers=headerss, timeout=ptimeout).json()
@@ -234,9 +234,9 @@ def phaapi(sit):
     elif sit == "7":
         return "***REMOVED-KEY***"
     elif sit == "8":
-        return ""
+        return "***REMOVED-SHORTENER-KEY***"
     elif sit == "9":
-        return "***REMOVED-KEY***"
+        return "***REMOVED-SHORTENER-KEY***"
     elif sit == "10":
         return "***REMOVED-SHORTENER-KEY***"
     elif sit == "11":
