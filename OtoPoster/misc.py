@@ -143,11 +143,11 @@ def linkkisalt(site, token, text, icerik):
         link = json['shortenedUrl']
     elif site == "8":
         json = get("https://api.cuty.io/quick?", params={"token": token, "url": text}, headers=headerss, timeout=ptimeout).json()
-        link = json['result']['short_url']
+        link = json['short_url']
         json['message'] = ""
     elif site == "9":
         json = get("https://shrtfly.com/api?", params={"api": token, "type": 2, "url": text, "format": "json"}, headers=headerss, timeout=ptimeout).json()
-        link = json['shorten_url']
+        link = json['result']['shorten_url']
     elif site == "10":
         json = get("https://za.gl/api?", params={"api": token, "url": text}, headers=headerss, timeout=ptimeout).json()
         link = json['shortenedUrl']
@@ -156,9 +156,6 @@ def linkkisalt(site, token, text, icerik):
         link = json['link']
     elif site == "12":
         json = get("https://linkimm.xyz/api?", params={"api": token, "url": text}, headers=headerss, timeout=ptimeout).json()
-        link = json['shortenedUrl']
-    elif site == "0":
-        json = get("https://urlcik.com/api?", params={"api": token, "url": text}, headers=headerss, timeout=ptimeout).json()
         link = json['shortenedUrl']
 
     return link, json

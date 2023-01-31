@@ -248,6 +248,8 @@ def gunluk(context):
     gkaynaklar = KaynakCol.find()
     tarih = datetime.datetime.now(pytz.timezone('Europe/Istanbul'))
     for kstat in sorted(gkaynaklar, key = lambda i: len(i['kaynak']), reverse=True):
+        if kstat['no'] in ignorekaynak:
+            continue
         if kstat['icerik'] != "+18":
             continue
         try:
