@@ -114,6 +114,8 @@ def send_typing_action(func):
 def linkkisalt(site, token, text, icerik):
     json = {"shortenedUrl": "", "message": "", "status": ""}
     link = " "
+    if not text.startswith("http"):
+        text = "http" + text
     if icerik == "arsiv":
         trlinkcat = 3
         pndcat = 7
