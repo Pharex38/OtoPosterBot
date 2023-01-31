@@ -244,6 +244,9 @@ def poster_job(context):
                 bildir(f'Şablon hatası: {user}\n\n{e}')
             if link == "-" or alink == "-":
                 continue
+            if link == "boş" or alink == "boş":
+                FloodControl(bot.send_message, *[user, "Kullandığınız link kısaltma servisi artık kullanılamıyor lütfen en kısa sürede API ve sitenizi değiştirin. Siz değiştirene kadar post paylaşılmayacak!"])
+                continue
             if link == " ":
                 try:
                     bot.send_message(-1001190898326, str(hesap)+"\n\n"+str(json)+"\n\n"+str(ajson), timeout=sendtimeout)

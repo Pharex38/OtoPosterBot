@@ -311,8 +311,7 @@ def gunluk(context):
     last_text = "\n<b>Her gün saat 22:00'da otomatik olarak güncel veriler paylaşılacak. </b>"
     bot.edit_message_text(stat_text+astat_text+last_text, botlog, msg.message_id)
     bot.pin_chat_message(botlog, msg.message_id)
-    
-   
+
 
 def panelcleaner(context):
     try:
