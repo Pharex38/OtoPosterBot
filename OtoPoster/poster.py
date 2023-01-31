@@ -245,7 +245,10 @@ def poster_job(context):
             if link == "-" or alink == "-":
                 continue
             if link == "boş" or alink == "boş":
-                FloodControl(bot.send_message, *[user, "Kullandığınız link kısaltma servisi artık kullanılamıyor lütfen en kısa sürede API ve sitenizi değiştirin. Siz değiştirene kadar post paylaşılmayacak!"])
+                try:
+                    FloodControl(bot.send_message, *[user, "Kullandığınız link kısaltma servisi artık kullanılamıyor lütfen en kısa sürede API ve sitenizi değiştirin. Siz değiştirene kadar post paylaşılmayacak!"])
+                except:
+                    pass
                 continue
             if link == " ":
                 try:
