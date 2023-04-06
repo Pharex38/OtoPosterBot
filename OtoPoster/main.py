@@ -40,7 +40,6 @@ def main() -> None:
     dispatcher.add_handler(AdminCommandHandler('sonuc', sonuclandir))
     dispatcher.add_handler(AdminCommandHandler('joblist', joblist))
     dispatcher.add_handler(AdminCommandHandler('sira', postersira))
-    dispatcher.add_handler(AdminCommandHandler('postsil', cpostsil))
     dispatcher.add_handler(AdminCommandHandler('set', SetKomutu))
     dispatcher.add_handler(AdminCommandHandler('exec', exece))
     dispatcher.add_handler(AdminCommandHandler('eval', evale))
@@ -116,6 +115,7 @@ def main() -> None:
     dispatcher.add_handler(CommandHandler('sil', durdur, Filters.update.message & Filters.chat_type.private))
     """ Kaynak Komutları """
     dispatcher.add_handler(MessageHandler(Filters.regex("^/postsil(.*)") & Filters.update.channel_post, kpostsil))
+    dispatcher.add_handler(CommandHandler('postsil', cpostsil))
     dispatcher.add_handler(CommandHandler('iptal', IptalPoster))
     dispatcher.add_handler(CommandHandler('zaman', zaman, Filters.update.message & Filters.chat_type.private))
     """ Poster """
