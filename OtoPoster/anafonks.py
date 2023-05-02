@@ -158,7 +158,7 @@ def apimenu(update, context):
         bot.send_message(chat, "Yeni API adresinizi girin.", reply_markup=imark())
         return APIDEGISTIR
     if mesaj == "🔗 Site değiştir":
-        bot.send_message(chat, "<i>Kullanmak istediğiniz siteyi seçin</i>", reply_markup=sitemarkup())
+        bot.send_message(chat, "<i>Kullanmak istediğiniz siteyi seçin</i>", reply_markup=altsitemarkup("site"))
         return
     if mesaj == "🤖 Alternatif Link":
         if type(audat["altapi"]) == list:

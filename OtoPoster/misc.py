@@ -3,7 +3,6 @@ from .markups import *
 import logging
 
 
- 
 def deep(u_kod, user):
     kat = collection.find_one({"_id": user})
     key = {"_id": user, "kanal": [], "sablon": "1", "kaynak": ["32"], "site": "1", "altapi": "None", "altsite": "None", "sira": 0, "ozel": True, "time": 0, "vakit": 0, "pcount": 0, "eski": [], "begeni": [], "pin": [], "icerik": []}
@@ -159,6 +158,9 @@ def linkkisalt(site, token, text, icerik):
     elif site == "12":
         json = get("https://linkimm.xyz/api?", params={"api": token, "url": text}, headers=headerss, timeout=ptimeout).json()
         link = json['shortenedUrl']
+    elif site == "13":
+        json = get("https://kiw.app/api?", params={"api": token, "url": text}, headers=headerss, timeout=ptimeout).json()
+        link = json['shortenedUrl']
     elif site == "0":
         link = "boş"
 
@@ -245,7 +247,8 @@ def phaapi(sit):
         return "***REMOVED-SHORTENER-KEY***"
     elif sit == "12":
         return "***REMOVED-SHORTENER-KEY***"
-
+    elif sit == "13":
+        return "***REMOVED-SHORTENER-KEY***"
     else:
         return "aaaaa"
 
@@ -284,6 +287,8 @@ def site_isim(no):
         return "Link Perisi"
     elif no == "12":
         return "Linkimm.xyz"
+    elif no == "13":
+        return "kiw.app"
     else:
         return "Bulunamadı"
 
