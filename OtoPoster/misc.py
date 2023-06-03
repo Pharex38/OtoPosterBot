@@ -161,6 +161,9 @@ def linkkisalt(site, token, text, icerik):
     elif site == "13":
         json = get("https://kiw.app/api?", params={"api": token, "url": text}, headers=headerss, timeout=ptimeout).json()
         link = json['shortenedUrl']
+    elif site == "14":
+        json = get("https://kisaink.de/api?", params={"api": token, "url": text}, headers=headerss, timeout=ptimeout).json()
+        link = json['shortenedUrl']
     elif site == "0":
         link = "boş"
 
@@ -249,6 +252,8 @@ def phaapi(sit):
         return "***REMOVED-SHORTENER-KEY***"
     elif sit == "13":
         return "***REMOVED-SHORTENER-KEY***"
+    elif sit == "14":
+        return "***REMOVED-SHORTENER-KEY***"
     else:
         return "aaaaa"
 
@@ -289,6 +294,8 @@ def site_isim(no):
         return "Linkimm.xyz"
     elif no == "13":
         return "kiw.app"
+    elif no == "14":
+        return "Kisalink.de"
     else:
         return "Bulunamadı"
 
