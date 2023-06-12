@@ -246,7 +246,7 @@ def poster_job(context):
                 continue
             if link == "boş" or alink == "boş":
                 try:
-                    FloodControl(bot.send_message, *[user, "Kullandığınız link kısaltma servisi artık kullanılamıyor lütfen en kısa sürede API ve sitenizi değiştirin. Siz değiştirene kadar post paylaşılmayacak!"])
+                    FloodControl(bot.send_message, *[user, f"Kullandığınız link kısaltma servisi artık kullanılamıyor lütfen en kısa sürede API ve sitenizi değiştirin. Siz değiştirene kadar post paylaşılmayacak!\n\n{site_isim(site) if link == 'boş' else site_isim(altsite)}"])
                 except:
                     pass
                 continue
