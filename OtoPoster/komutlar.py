@@ -319,12 +319,12 @@ def KanalSilKomutu(update, context):
 
 def cpostsil(update, context):
     chat = update.message.chat.id
-    if KaynakCol.find_one({"sahip": chat}) == None or chat != sahip:
+    if KaynakCol.find_one({"sahip": chat}) == None and chat != sahip:
         return
     mesajgovde = update.message.text.split()
-    hedef = "-100"+mesajgovde[1].split("/")[-2] if len(update.message.text.split()) > 1 else None
+    hedef = "-100"+mesajgovde[1].split("/")[-2] ixf len(update.message.text.split()) > 1 else None
     if chat != sahip:
-        if KaynakCol.find_one({"sahip": chat})['_id'] != hedef:
+        if KaynakCol.find_one({"sahip": chat})['_id'] != int(hedef):
             return
     mesid = int(mesajgovde[1].split("/")[-1]) if len(update.message.text.split()) > 1 else None
     duz = False
