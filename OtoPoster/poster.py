@@ -4,7 +4,7 @@ from .jobs import *
 
 
 MEDIA_GROUP_TYPES = {"audio": InputMediaAudio, "document": InputMediaDocument, "photo": InputMediaPhoto, "animation": InputMediaAnimation, "video": InputMediaVideo}
-posterrtext = "{} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz hata sebebiyle kanallarda paylaşılamadı!\n\nAlınan hata: {}\n\nHatalı post: {}"
+posterrtext = "{} kaynağının sahibi siz olduğunuz için bu mesaj sadece size gönderildi. \n\nSon postunuz hata sebebiyle kanallarda paylaşılamadı!\n\nAlınan hata: {}\nHata alınan site: {}\n\nHatalı post: {}"
 
 def poster_job(context):
     vipler = collection.find_one({"_id": 0})['vipuye']
@@ -228,8 +228,8 @@ def poster_job(context):
                     continue
                 elif json['message'] != "" and json['message'] != "Invalid API token" and json['message'] != "Link basariyla kisaltildi.":
                     logger.error(f"{update.effective_message.chat.title} son postu hatalı olduğu için iptal edildi!")
-                    FloodControl(bot.send_message, *[sahip, posterrtext.format(update.effective_message.chat.title, json['message'], update.effective_message.link)])
-                    FloodControl(bot.send_message, *[chatdat['sahip'], posterrtext.format(update.effective_message.chat.title, json['message'], update.effective_message.link)])
+                    FloodControl(bot.send_message, *[sahip, posterrtext.format(update.effective_message.chat.title, json['message'], site, update.effective_message.link)])
+                    FloodControl(bot.send_message, *[chatdat['sahip'], posterrtext.format(update.effective_message.chat.title, json['message'], site, update.effective_message.link)])
 
                     context.job_queue.run_once(deljob, when=2, name="yedekleme", context=update)
                     break
@@ -511,12 +511,12 @@ def ozel_poster_job(context):
                 if ojson['message'] != "" and ojson['message'] != "Invalid API token":
                     logger.error(f"[ÖZEL] {oupdate.effective_message.chat.title} son postu hatalı olduğu için iptal edildi!")
                     try:
-                        bot.send_message(sahip, posterrtext.format(oupdate.effective_message.chat.title, ojson['message'], oupdate.effective_message.link))
-                        bot.send_message(okaynak['_id'], posterrtext.format(oupdate.effective_message.chat.title, ojson['message'], oupdate.effective_message.link))
+                        bot.send_message(sahip, posterrtext.format(oupdate.effective_message.chat.title, ojson['message'], osite, oupdate.effective_message.link))
+                        bot.send_message(okaynak['_id'], posterrtext.format(oupdate.effective_message.chat.title, ojson['message'], osite, oupdate.effective_message.link))
                     except RetryAfter as ortfr:
                         sleep(ortfr.retry_after+1)
-                        bot.send_message(sahip, posterrtext.format(oupdate.effective_message.chat.title, ojson['message'], oupdate.effective_message.link))
-                        bot.send_message(okaynak['_id'], posterrtext.format(oupdate.effective_message.chat.title, ojson['message'], oupdate.effective_message.link))
+                        bot.send_message(sahip, posterrtext.format(oupdate.effective_message.chat.title, ojson['message'], osite, oupdate.effective_message.link))
+                        bot.send_message(okaynak['_id'], posterrtext.format(oupdate.effective_message.chat.title, ojson['message'], osite, oupdate.effective_message.link))
                     break
             if osablon == "1":
                 osablon = f"🔥{oaciklama}\n\n🔱 TIKLA 👉 {olink}\n\n📛 SESİ AÇ 'a tıklamayı unutma"
