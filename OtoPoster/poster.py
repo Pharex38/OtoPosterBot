@@ -214,17 +214,13 @@ def poster_job(context):
                         ertolist.append(str(e)+str(user))
                         continue
             logger.info(f"{kanal} + {link} + {token}")
-            try:
-                json['message']
-            except:
-                pass
-            else:
+            if json.get('message', False):
                 if json['message'] == "Invalid API token" or json['message'] == "Bu tokene ait kullanici bulunamadi.":
                     aftertext.append((user, "API adresiniz yanlış!"))
                     ertos["apihata"] += 1
                     continue
-                elif json['message'] == "You must upgrade your plan so you can use this tool.":
-                    aftertext.append((user, "Kısaltma servisiniz ile ilgili bir sorun oluştu!\n\nHata: <code> You must upgrade your plan so you can use this tool.</code>"))
+                elif json['message'] in ["You must upgrade your plan so you can use this tool.", "Cok hizli link kisaltiyorsunuz."]:
+                    aftertext.append((user, "Kısaltma servisiniz ile ilgili bir sorun oluştu!\n\nHata: <code>{} </code>".format(json['message'])))
                     continue
                 elif json['message'] != "" and json['message'] != "Invalid API token" and json['message'] != "Link basariyla kisaltildi.":
                     logger.error(f"{update.effective_message.chat.title} son postu hatalı olduğu için iptal edildi!")
