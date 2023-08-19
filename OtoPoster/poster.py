@@ -219,7 +219,7 @@ def poster_job(context):
                     aftertext.append((user, "API adresiniz yanlış!"))
                     ertos["apihata"] += 1
                     continue
-                elif json['message'] in ["You must upgrade your plan so you can use this tool.", "Cok hizli link kisaltiyorsunuz."]:
+                elif json['message'] in ["You must upgrade your plan so you can use this tool.", "Cok hizli link kisaltiyorsunuz.", "API kullanimi icin telefon numaranizi dogrulamalisiniz."]:
                     aftertext.append((user, "Kısaltma servisiniz ile ilgili bir sorun oluştu!\n\nHata: <code>{} </code>".format(json['message'])))
                     continue
                 elif json['message'] != "" and json['message'] != "Invalid API token" and json['message'] != "Link basariyla kisaltildi.":
