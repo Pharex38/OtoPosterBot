@@ -46,7 +46,6 @@ def tekrarlipostjob(context):
                 for tskand in tsdict['tskan']:
                     bot.send_message(tskand, tspostdict['text'])
         except Exception as e:
-            logger.exception(e)
             try:
                 bot.send_message(tsdict['tsuser'], f"{tsdict['baslik']} Tekrarli Postunuz gönderilemedi!")
             except:
@@ -320,8 +319,7 @@ def panelcleaner(context):
         pass
 
 def siraclean(context):
-    if len(context.job_queue.get_jobs_by_name("anaposter")) != 20:
-        collection.update_one({"_id": 0}, {"$set": {"sira": 0}})
+    collection.update_one({"_id": 0}, {"$set": {"sira": 0}})
 
 def resetleme(context):
     try:
