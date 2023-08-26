@@ -20,7 +20,7 @@ def main() -> None:
     upjob = updater.job_queue
     """ Repeating Jobs """
     upjob.run_daily(gunluk, time=datetime.datetime.strptime("21-06-30 21:55:00", '%y-%m-%d %H:%M:%S').time(), name="resetleme")
-    upjob.run_repeating(jobyedekleme, interval=300, first=datetime.datetime.strptime("21-06-30 21:43:00", f'%y-%m-%d %{datetime.datetime.now().hour}:%M:%S').time(), name="yedekleme")
+    upjob.run_repeating(jobyedekleme, interval=300, first=datetime.datetime.strptime(f"21-06-30 {datetime.datetime.now().hour}:43:00", '%y-%m-%d %H:%M:%S').time(), name="yedekleme")
     upjob.run_repeating(siraclean, interval=3600, first=10, name="yedekleme")
     """ Misc """
     dispatcher.add_handler(MessageHandler(Filters.chat(-1001584743136), comment))
