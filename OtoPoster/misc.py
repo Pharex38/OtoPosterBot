@@ -161,8 +161,10 @@ def linkkisalt(site, token, text, icerik):
         json = get("https://kiw.app/api?", params={"api": token, "url": text}, headers=headerss, timeout=ptimeout).json()
         link = json['shortenedUrl']
     elif site == "14":
+        link = "boş"
+        """
         json = get("https://kisalink.de/api?", params={"api": token, "url": text}, headers=headerss, timeout=ptimeout).json()
-        link = json['shortenedUrl']
+        link = json['shortenedUrl']"""
     elif site == "0":
         link = "boş"
 
