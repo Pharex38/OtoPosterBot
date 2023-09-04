@@ -222,7 +222,7 @@ def dagme():
     return dagme
 
 def altsitemarkup(asite):
-    asmark = InlineKeyboardMarkup([[InlineKeyboardButton("TRLink", callback_data=f"{asite}-1")], [InlineKeyboardButton("PND.TL", callback_data=f"{asite}-2")], [InlineKeyboardButton("Exe.io", callback_data=f"{asite}-3")], [InlineKeyboardButton("Ouo.io", callback_data=f"{asite}-4")], [InlineKeyboardButton("Pubiza", callback_data=f"{asite}-5")], [InlineKeyboardButton("Gir.ist", callback_data=f"{asite}-6")], [InlineKeyboardButton("Cuty.io", callback_data=f"{asite}-8")], [InlineKeyboardButton("ShrtFly", callback_data=f"{asite}-9")], [InlineKeyboardButton("Za.gl", callback_data=f"{asite}-10")], [InlineKeyboardButton("Link Perisi", callback_data=f"{asite}-11")], [InlineKeyboardButton("kiw.app", callback_data=f"{asite}-13")], [InlineKeyboardButton("❌ İptal ❌", callback_data="iptal")]])
+    asmark = InlineKeyboardMarkup([[InlineKeyboardButton("TRLink", callback_data=f"{asite}-1")], [InlineKeyboardButton("PND.TL", callback_data=f"{asite}-2")], [InlineKeyboardButton("Exe.io", callback_data=f"{asite}-3")], [InlineKeyboardButton("Ouo.io", callback_data=f"{asite}-4")], [InlineKeyboardButton("Pubiza", callback_data=f"{asite}-5")], [InlineKeyboardButton("Cuty.io", callback_data=f"{asite}-8")], [InlineKeyboardButton("ShrtFly", callback_data=f"{asite}-9")], [InlineKeyboardButton("Za.gl", callback_data=f"{asite}-10")], [InlineKeyboardButton("Link Perisi", callback_data=f"{asite}-11")], [InlineKeyboardButton("kiw.app", callback_data=f"{asite}-13")], [InlineKeyboardButton("❌ İptal ❌", callback_data="iptal")]])
     return asmark
 
 def altmarkup(user):
