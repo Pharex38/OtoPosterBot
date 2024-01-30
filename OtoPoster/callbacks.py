@@ -27,9 +27,6 @@ def altcall(call, context):
     mesajid = call.effective_message.message_id
     smesaj = str(call.callback_query.data.split("-")[1])
     context.user_data['asite'] = smesaj
-    if smesaj == "15":
-        bot.send_message(chat, f"Bu site alternatif olarak kullanılamıyor.")
-        return
     call.callback_query.answer(call.callback_query.id, "✅ Site Kaydedildi!")
     bot.edit_message_text("✅ Alternatif site kaydedildi.", user, mesajid)
     bot.send_message(chat, "📝 Alternatif API adresinizi gönderin.", reply_markup=imark())
@@ -421,7 +418,6 @@ def callback_query(call, context):
     if call.callback_query.data.startswith("site"):
         ss = str(call.callback_query.data.split("-")[1])
         collection.update_one({"_id": user}, {"$set": {"site": ss}})
-        
         bot.edit_message_text("Site Kaydedildi!\n\nAPI adresinizi seçtiğiniz siteye göre değiştirmeyi unutmayın.", user, mesajid)
         call.callback_query.answer(call.callback_query.id, "Site Kaydedildi!")
     """ Alternatif """
