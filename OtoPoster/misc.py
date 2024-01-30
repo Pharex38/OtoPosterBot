@@ -155,7 +155,7 @@ def linkkisalt(site, token, text, icerik, linktype="plus", task="1"):
     elif site == "15":
         json = ReqPost("https://linksihirbazi.com.tr/api/short", json={"key": token, "link": text, "type": linktype, "task": task}).json()
         link = json['message']
-        json['status'] == json['success']
+        json['status'] = json['success']
     else:
         link = "boş"
 

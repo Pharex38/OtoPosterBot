@@ -819,6 +819,7 @@ def pat(update, context):
     paltapi = pathesap['altapi']
     paltsite = pathesap['altsite']
     psira = pathesap['sira']
+    ltype = pathesap.get("linktype", "plus")
     palink = " "
     plink = " "
     ptry = 0
@@ -832,11 +833,11 @@ def pat(update, context):
         if not paltapi == "None":
             while ptry < 10 and palink == " ":
                 ptry += 1
-                palink, pjson = linkkisalt(paltsite, paltapi, kplink, "+18")
+                palink, pjson = linkkisalt(paltsite, paltapi, kplink, "+18", linktype=ltype)
                 time.sleep(0.2)
         while ptry < 10 and plink == " ":
             ptry += 1
-            plink, pjson = linkkisalt(psite, ptoken, kplink, "+18")
+            plink, pjson = linkkisalt(psite, ptoken, kplink, "+18", linktype=ltype)
             time.sleep(0.2)
         if plink == " ":
             bot.send_message(chat, "İşlem başarısız oldu lütfen tekrar deneyin.")
