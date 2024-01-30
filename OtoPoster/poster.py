@@ -131,6 +131,7 @@ def poster_job(context):
             link = " "
             alink = " "
             json = {"shortenedUrl": "", "message": "", "status": ""}
+            ltype = hesap.get("linktype", "plus")
             linktry = 0
             if site in collection.find_one({"_id": 0})['site']:
                 errinfo = "(Kısıtlı mod açık)"
@@ -171,6 +172,7 @@ def poster_job(context):
                     token = altapi
                     site = altsite
                     altapi = "None"
+                    
             if not altapi == "None":
                 while linktry < 10 and alink == " ":
                     try:
@@ -178,7 +180,7 @@ def poster_job(context):
                         if linktry > 2:
                             sleep(0.15)
                             logger.warning(f"Link kısaltılamadı tekrar deneniyor {linktry}")
-                        alink, ajson = linkkisalt(altsite, altapi, mesajb, chatdat['icerik'])
+                        alink, ajson = linkkisalt(altsite, altapi, mesajb, chatdat['icerik'], linktype=ltype)
                     except Exception as e:
                         if linktry == 10:
                             aftertext.append((user, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor.</code> \n\n{site_isim(altsite)}"))
@@ -191,13 +193,14 @@ def poster_job(context):
                             ertolist.append(str(e)+str(user))
                             ertos["spg"] += 1
                             continue
+
             while linktry < 10 and link == " ":
                 try:
                     linktry += 1
                     if linktry > 2:
                         sleep(0.15)
                         logger.warning(f"Tekrar deneniyor {linktry}")
-                    link, json = linkkisalt(site, token, mesajb, chatdat['icerik'])
+                    link, json = linkkisalt(site, token, mesajb, chatdat['icerik'], linktype=ltype)
                 except Exception as e:
                     if linktry == 10:
                         aftertext.append((user, f"Son postunuz gönderilemedi;\n\n<code>Kullandığınız link kısaltma servisine ulaşılamıyor. \n\n{site_isim(site)}</code>"))

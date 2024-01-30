@@ -110,11 +110,11 @@ def send_typing_action(func):
 
     return command_func
 
-def linkkisalt(site, token, text, icerik):
+def linkkisalt(site, token, text, icerik, linktype="plus", task="1"):
     json = {"shortenedUrl": "", "message": "", "status": ""}
     link = " "
-    if not text.startswith("http"):
-        text = "http" + text
+    if not text.startswith("https://"):
+        text = "https://" + text
     if icerik == "arsiv":
         trlinkcat = 3
         pndcat = 7
@@ -126,8 +126,6 @@ def linkkisalt(site, token, text, icerik):
     if site == "1":
         json = get(f"https://ay.live/api/?", params={'api': token, 'url': text, 'ct': trlinkcat}, headers=headers, timeout=ptimeout).json()
         link = json['shortenedUrl']
-    elif site == "2":
-        link = "boş"
     elif site == "3":
         json = get(f"https://exe.io/api?", params={'api': token, 'url': text}, headers=headers, timeout=ptimeout).json()
         link = json['shortenedUrl']
@@ -154,18 +152,11 @@ def linkkisalt(site, token, text, icerik):
     elif site == "11":
         json = get("https://linkperisi.com/api?" ,{"token": token, "network": "1", "link": text}, headers=headerss, timeout=ptimeout).json()
         link = json['link']
-    elif site == "12":
-        json = get("https://linkimm.xyz/api?", params={"api": token, "url": text}, headers=headerss, timeout=ptimeout).json()
-        link = json['shortenedUrl']
-    elif site == "13":
-        json = get("https://kiw.app/api?", params={"api": token, "url": text}, headers=headerss, timeout=ptimeout).json()
-        link = json['shortenedUrl']
-    elif site == "14":
-        link = "boş"
-        """
-        json = get("https://kisalink.de/api?", params={"api": token, "url": text}, headers=headerss, timeout=ptimeout).json()
-        link = json['shortenedUrl']"""
-    elif site == "0":
+    elif site == "15":
+        json = ReqPost("https://linksihirbazi.com.tr/api/short", json={"key": token, "link": text, "type": linktype, "task": task}).json()
+        link = json['message']
+        json['status'] == json['success']
+    else:
         link = "boş"
 
     return link, json
@@ -200,7 +191,6 @@ def apiscraper(apitoken):
         apitoken = apitoken[:appos]
         if 45 < len(apitoken) or len(apitoken) < 35:
             erro = True
-    # Link Perisi ekle
     
     if " " in apitoken or "\n" in apitoken:
         erro = True
@@ -255,6 +245,8 @@ def phaapi(sit):
         return "***REMOVED-SHORTENER-KEY***"
     elif sit == "14":
         return "***REMOVED-SHORTENER-KEY***"
+    elif sit == "15":
+        return "***REMOVED-SHORTENER-KEY***"
     else:
         return "aaaaa"
 
@@ -297,6 +289,8 @@ def site_isim(no):
         return "kiw.app"
     elif no == "14":
         return "Kisalink.de"
+    elif no == "15":
+        return "LinkSihirbazı"
     else:
         return "Bulunamadı"
 

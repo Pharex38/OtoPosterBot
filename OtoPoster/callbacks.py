@@ -27,6 +27,9 @@ def altcall(call, context):
     mesajid = call.effective_message.message_id
     smesaj = str(call.callback_query.data.split("-")[1])
     context.user_data['asite'] = smesaj
+    if smesaj == "15":
+        bot.send_message(chat, f"Bu site alternatif olarak kullanılamıyor.")
+        return
     call.callback_query.answer(call.callback_query.id, "✅ Site Kaydedildi!")
     bot.edit_message_text("✅ Alternatif site kaydedildi.", user, mesajid)
     bot.send_message(chat, "📝 Alternatif API adresinizi gönderin.", reply_markup=imark())
@@ -43,7 +46,7 @@ def kaynakkontrolcall(call, context):
     callkd = query.data.split("-")[1]
     query.answer(".")
     if callkd == "evet":
-        query.edit_message_text(f"<b>Aşağıdaki kurallaru onaylıyor musun?</b>\n\n{collection.find_one({'_id': 0})['kurallar']}\n\nBoşu boşuna istek gönderenleri bottan banlarım!", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Okudum, onaylıyorum.", callback_data="kont-devam1")], [InlineKeyboardButton("Vazgeçtim", callback_data="aiptal")]]))
+        query.edit_message_text(f"<b>Aşağıdaki kuralları onaylıyor musun?</b>\n\n{collection.find_one({'_id': 0})['kurallar']}\n\nBoşu boşuna istek gönderenleri bottan banlarım!", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Okudum, onaylıyorum.", callback_data="kont-devam1")], [InlineKeyboardButton("Vazgeçtim", callback_data="aiptal")]]))
     elif callkd == "devam1":
         query.edit_message_text("İçeriğiniz nedir?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("+18", callback_data="kont-devam2-+18")], [InlineKeyboardButton("Arşiv", callback_data="kont-devam2-arsiv")], [InlineKeyboardButton("Vazgeçtim", callback_data="aiptal")]]))
     elif callkd == "devam2":
@@ -418,6 +421,7 @@ def callback_query(call, context):
     if call.callback_query.data.startswith("site"):
         ss = str(call.callback_query.data.split("-")[1])
         collection.update_one({"_id": user}, {"$set": {"site": ss}})
+        
         bot.edit_message_text("Site Kaydedildi!\n\nAPI adresinizi seçtiğiniz siteye göre değiştirmeyi unutmayın.", user, mesajid)
         call.callback_query.answer(call.callback_query.id, "Site Kaydedildi!")
     """ Alternatif """
