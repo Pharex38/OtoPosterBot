@@ -678,8 +678,10 @@ def apikayit(update, context):
     if bnb == None:
         kontrol = get("https://ay.live/api/?api={}&url=www.zort.com&format=text&alias=&ct=2".format(token)).text
         if kontrol == "":
-            bot.send_message(chat, "❌ Geçersiz bir API verdiniz! Lütfen doğru bir API adresi verin.")
-            return APIDEGISTIR
+            kontrol = ReqPost("https://linksihirbazi.com.tr/api/short", json={"key": token, "link": "https://pharex.dev", "type": "plus", "task": 1}).json()
+            if kontrol['success'] == False:
+                bot.send_message(chat, "❌ Geçersiz bir API verdiniz! Lütfen doğru bir API adresi verin.")
+                return APIDEGISTIR
         collection.insert_one(key)
         bot.send_message(chat, "<b>🟢 API kaydedildi!</b>")
         bot.send_message(chat, "<i>📝 Lütfen kanalınızdan bir gönderi iletin.</i>", reply_markup=imark())
