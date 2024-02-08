@@ -169,7 +169,7 @@ def delonejob(context):
 
 def gunluk(context):
     ozel_kaynak_kullanan_sayisi = 0
-    exe_kullanan_sayisi, pubiza_kullanan_sayisi, ouo_kullanan_sayisi, urlably_kullanan_sayisi, trlink_kullanan_sayisi, pnd_kullanan_sayisi, girist, urlcik_kullanan_sayisi = 0, 0, 0, 0, 0, 0, 0, 0
+    exe_kullanan_sayisi, sihirbaz_kullanan_sayisi, ouo_kullanan_sayisi, urlably_kullanan_sayisi, trlink_kullanan_sayisi, pnd_kullanan_sayisi, girist, urlcik_kullanan_sayisi = 0, 0, 0, 0, 0, 0, 0, 0
     msg = bot.send_message(botlog, "<code>Günlük veriler hesaplanıyor...</code>")
     toplam = 0
     kum = []
@@ -186,10 +186,10 @@ def gunluk(context):
             trlink_kullanan_sayisi += 1
         if kullanici['altsite'] == "1":
             trlink_kullanan_sayisi += 1
-        elif kullanici['site'] == "2":
-            pnd_kullanan_sayisi += 1
-        elif kullanici['altsite'] == "2":
-            pnd_kullanan_sayisi += 1
+        elif kullanici['site'] == "15":
+            sihirbaz_kullanan_sayisi += 1
+        elif kullanici['altsite'] == "15":
+            sihirbaz_kullanan_sayisi += 1
         elif kullanici['site'] == "3":
             exe_kullanan_sayisi += 1
         elif kullanici['altsite'] == "3":
@@ -243,7 +243,7 @@ def gunluk(context):
     toplam = toplam / 1000
     toplam = str(round(toplam, 1))+"K" if round(toplam, 1) < 1000 else str(round(toplam / 1000, 2))+"M"
     statscount = 1
-    stat_text = "👥 Toplam Kullanıcı Sayısı: {}\n📢 Toplam Kayıtlı Kanal Sayısı: {}\n🙋 Toplam Kitle: {}\n\n<b>Sitelerin Toplam Kullanıcı Sayıları(Alternatifler dahil);</b>\nTRLink -> {}\nExe.io -> {}\nOuo.io -> {}\nPubiza -> {}\n\n<b>+18 Kaynakların Toplam Kullanıcı Sayıları:</b>\n".format(users, kanals, toplam, trlink_kullanan_sayisi, exe_kullanan_sayisi, ouo_kullanan_sayisi, pubiza_kullanan_sayisi)
+    stat_text = "👥 Toplam Kullanıcı Sayısı: {kullanicisayisi}\n📢 Toplam Kayıtlı Kanal Sayısı: {kanalsayisi}\n🙋 Toplam Kitle: {toplamkitle}\n\n<b>Sitelerin Toplam Kullanıcı Sayıları(Alternatifler dahil);</b>\nTRLink -> {trlink}\nExe.io -> {exe}\nOuo.io -> {ouo}\nPubiza -> {pubi}\nLinkSihirbazi ->{sihirbaz}\n\n<b>+18 Kaynakların Toplam Kullanıcı Sayıları:</b>\n".format(kullanicisayisi=users, kanalsayisi=kanals, toplamkitle=toplam, trlink=trlink_kullanan_sayisi, exe=exe_kullanan_sayisi, ouo=ouo_kullanan_sayisi, pubi=pubiza_kullanan_sayisi, sihirbaz=sihirbaz_kullanan_sayisi)
     gkaynaklar = KaynakCol.find()
     tarih = datetime.datetime.now(pytz.timezone('Europe/Istanbul'))
     for kstat in sorted(gkaynaklar, key = lambda i: len(i['kaynak']), reverse=True):
