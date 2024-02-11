@@ -169,7 +169,7 @@ def delonejob(context):
 
 def gunluk(context):
     ozel_kaynak_kullanan_sayisi = 0
-    exe_kullanan_sayisi, sihirbaz_kullanan_sayisi, ouo_kullanan_sayisi, urlably_kullanan_sayisi, trlink_kullanan_sayisi, pnd_kullanan_sayisi, girist, urlcik_kullanan_sayisi = 0, 0, 0, 0, 0, 0, 0, 0
+    exe_kullanan_sayisi, sihirbaz_kullanan_sayisi, ouo_kullanan_sayisi, urlably_kullanan_sayisi, trlink_kullanan_sayisi, pubiza_kullanan_sayisi, girist, urlcik_kullanan_sayisi = 0, 0, 0, 0, 0, 0, 0, 0
     msg = bot.send_message(botlog, "<code>Günlük veriler hesaplanıyor...</code>")
     toplam = 0
     kum = []
