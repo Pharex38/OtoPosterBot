@@ -364,7 +364,6 @@ def WebAppDataHandler(update, context):
         except ValueError:
             bot.send_message(update.effective_user.id, "Bu kanal silinmiş!", reply_markup=webappmark(update.effective_user.id, -1))
         bot.send_message(update.effective_user.id, "Kaynak değişiklikleriniz kaydedildi!", reply_markup=webappmark(update.effective_user.id, indexi))
-        bot.send_message(update.effective_user.id, "Kanalınızı neden sattığınızı öğrenebilir miyiz?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Artık Oto Poster Kullanmak istemiyorum.", callback_data="anket-benimdegil")], [InlineKeyboardButton("Kanal artık benim değil.", callback_data="anket-benimdegil")]]))
         return
     elif wadatadict.get('sfs', None) != None:
         for webxd in wadatadict['sfs'].keys():
