@@ -22,10 +22,6 @@ import json as jason
 import traceback, sys, html
 from matplotlib import pyplot
 
-try:
-    os.environ['HEROKU']
-except:
-    import Colorer
 
 pid = open("pid.txt", "w")
 pid.write(str(os.getpid()))
@@ -57,7 +53,7 @@ mainsiralimit = maindata['mainsira']
 
 
 reqs = Request(con_pool_size=50, connect_timeout=30, read_timeout=30)
-bot = ExtBot(bottoken, request=reqs, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=20, disable_web_page_preview=True, allow_sending_without_reply=True, tzinfo=pytz.timezone('Turkey')))
+bot = ExtBot(bottoken, request=reqs, defaults=Defaults(parse_mode=ParseMode.HTML, run_async=True, timeout=20, disable_web_page_preview=True, allow_sending_without_reply=True, tzinfo=pytz.timezone('Asia/Istanbul')))
 
 eklenti = 1654723447
 blog = -1001391561285

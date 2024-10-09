@@ -124,7 +124,7 @@ def linkkisalt(site, token, text, icerik, linktype="plus", task="1"):
         pndcat = 6
         pubizacat = "adult"
     if site == "1":
-        json = get(f"https://ay.live/api/?", params={'api': token, 'url': text, 'ct': trlinkcat}, headers=headers, timeout=ptimeout).json()
+        json = get(f"https://ay.live/st/?", params={'api': token, 'url': text, 'ct': trlinkcat}, headers=headers, timeout=ptimeout).json()
         link = json['shortenedUrl']
     elif site == "3":
         json = get(f"https://exe.io/api?", params={'api': token, 'url': text}, headers=headers, timeout=ptimeout).json()
