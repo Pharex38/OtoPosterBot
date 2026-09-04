@@ -12,7 +12,7 @@ Bu bot sizin seçtiğiniz kaynak kanalında paylaşılan postların linklerini o
 ## ❔Senin Kazancın Nedir?
 Kanalınıza atılan yirmi linkten birisi benim API adresim ile kısaltılır.
 
-### ❤️ Geliştirici & Sahip : [@Pharex](https://t.me/Pharex)
-### 👨🏻‍🔧 Fix & Eklentiler : [@berce](https://t.me/berce)
+### ❤️ Geliştirici: [@Pharex](https://t.me/Pharex)
+
  
 ### 📔        [@OtoPosterBotLog](https://t.me/OtoPosterBotLog)
