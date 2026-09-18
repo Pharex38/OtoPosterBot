@@ -10,7 +10,8 @@ opb = 1742595887
 sahip = 1302980840
 
 mpass = os.environ['MONGOPASS']
-mongo = f"os.environ["MONGO_URI"]"
+mongo = os.environ.get("MONGO_URI") or \
+    f"mongodb+srv://{os.environ['MONGOUSER']}:{mpass}@{os.environ['MONGOHOST']}/myFirstDatabase?retryWrites=true&w=majority"
 cluster = MongoClient(mongo, tls=True, tlsAllowInvalidCertificates=True)
 
 db = cluster["OtoPost"]
