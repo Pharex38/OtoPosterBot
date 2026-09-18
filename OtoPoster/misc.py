@@ -1,3 +1,4 @@
+import os
 from . import *
 from .markups import *
 import logging
@@ -216,40 +217,13 @@ def Deb(msg = None):
     print(f"Debug {sys._getframe().f_back.f_lineno}: {msg if msg is not None else ''}")
 
 def phaapi(sit):
-    if sit == "0":
-        return "***REMOVED-SHORTENER-KEY***"
-    elif sit == "1":
-        return "***REMOVED-SHORTENER-KEY***"
-    elif sit == "2":
-        return "***REMOVED-SHORTENER-KEY***"
-    elif sit == "3":
-        return "***REMOVED-SHORTENER-KEY***"
-    elif sit == "4":
-        return "***REMOVED-SHORTENER-KEY***"
-    elif sit == "5":
-        return "***REMOVED-SHORTENER-KEY***"
-    elif sit == "6":
-        return "***REMOVED-SHORTENER-KEY***"
-    elif sit == "7":
-        return "***REMOVED-SHORTENER-KEY***"
-    elif sit == "8":
-        return "***REMOVED-SHORTENER-KEY***"
-    elif sit == "9":
-        return "***REMOVED-SHORTENER-KEY***"
-    elif sit == "10":
-        return "***REMOVED-SHORTENER-KEY***"
-    elif sit == "11":
-        return "***REMOVED-SHORTENER-KEY***"
-    elif sit == "12":
-        return "***REMOVED-SHORTENER-KEY***"
-    elif sit == "13":
-        return "***REMOVED-SHORTENER-KEY***"
-    elif sit == "14":
-        return "***REMOVED-SHORTENER-KEY***"
-    elif sit == "15":
-        return "***REMOVED-SHORTENER-KEY***"
-    else:
-        return "aaaaa"
+    """Kisaltici servisin API anahtarini ortam degiskeninden okur.
+
+    Anahtarlar PHAAPI_0 ... PHAAPI_15 olarak tanimlanir (bkz. .env.example).
+    Tanimli degilse kisaltma yapilmaz, link oldugu gibi birakilir.
+    """
+    return os.environ.get(f"PHAAPI_{sit}", "")
+
 
 def FloodControl(komand, *argos, **kwargos):
     try:
